@@ -1,0 +1,15 @@
+{
+  "name": "researching-os",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && npm install --prefix frontend && cd backend && uv sync",
+    "dev:backend": "cd backend && uv run python main.py",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev": "npx concurrently --kill-others \"npm run dev:backend\" \"npm run dev:frontend\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "ws": "^8.21.0"
+  }
+}

@@ -1,0 +1,19 @@
+[project]
+name = "researching-os-backend"
+version = "0.1.0"
+description = "Multi-agent research engine backend using FastAPI and Gemini API"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "google-generativeai>=0.3.0",
+    "python-dotenv>=1.0.1",
+    "httpx>=0.26.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.4.0",
+]

@@ -1,0 +1,33 @@
+---
+title: "Training language models to follow instructions with human feedback"
+authors:
+  - "Long Ouyang"
+  - "Jeff Wu"
+  - "Xu Jiang"
+  - "Diogo Almeida"
+  - "Carroll L. Wainwright"
+  - "Pamela Mishkin"
+  - "Chong Zhang"
+  - "Sandhini Agarwal"
+  - "Katarina Slama"
+  - "Alex Ray"
+  - "John Schulman"
+  - "Jacob Hilton"
+  - "Fraser Kelton"
+  - "Luke Miller"
+  - "Maddie Simens"
+  - "Amanda Askell"
+  - "Peter Welinder"
+  - "Paul Christiano"
+  - "Jan Leike"
+  - "Ryan Lowe"
+url: "https://arxiv.org/abs/2203.02155"
+published: "2022-03-04"
+citations: "4350"
+source: "arXiv & OpenAlex"
+id: "arxiv:2203.02155"
+tags:
+  - "research-paper"
+  - "research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault."
+---
+[MOCK RESPONSE from Analyst] Based on the research, this is a simulated analysis of your query.

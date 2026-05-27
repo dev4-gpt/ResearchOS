@@ -1,0 +1,60 @@
+# === Environment & Secrets ===
+.env
+.env.*
+!.env.example
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+*.egg
+.eggs/
+.uv/
+uv.lock
+
+# === Node / Frontend ===
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# === Obsidian runtime state (keep config, ignore workspace state) ===
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.obsidian/cache
+
+# === Scratch / temp files ===
+scratch/*.png
+scratch/*.log
+scratch/inspect.js
+scratch/run1_status.js
+scratch/test_research.py
+
+# === Logs ===
+*.log
+logs/
+
+# Scratch directory (local only)
+scratch/
