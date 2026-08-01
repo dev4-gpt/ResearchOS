@@ -157,6 +157,19 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/research/topics")
+def get_curated_topics():
+    """Returns curated high-impact academic research topics for systematic reviews."""
+    try:
+        from services.topic_recommender import TopicRecommenderService
+        recommender = TopicRecommenderService()
+        return {
+            "success": True,
+            "topics": recommender.list_curated_topics()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 def run_agent_pipeline_sync(topic: str, project_id: str, loop: asyncio.AbstractEventLoop):
     """Runs the research pipeline synchronously in a separate thread and pushes logs to async queue."""
     def log_callback(log_data: Dict[str, Any]):
