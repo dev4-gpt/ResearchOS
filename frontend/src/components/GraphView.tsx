@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Network, Loader, X } from 'lucide-react';
+import { apiFetch } from '../api';
 
 interface GraphNode {
   id: string;
@@ -56,7 +57,7 @@ const GraphView: React.FC = () => {
   const fetchGraph = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/vault/graph');
+      const res = await apiFetch('/api/vault/graph');
       if (res.ok) {
         const data: GraphData = await res.json();
         setGraphData(data);
@@ -199,7 +200,7 @@ const GraphView: React.FC = () => {
     const filename = parts[1];
     
     try {
-      const res = await fetch(`/api/vault/read?category=${category}&filename=${filename}`);
+      const res = await apiFetch(`/api/vault/read?category=${category}&filename=${filename}`);
       if (res.ok) {
         const data = await res.json();
         setNodeContent(data);

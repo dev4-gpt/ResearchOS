@@ -1,13 +1,13 @@
 ---
-title: "Literature Review: Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows: Empirical Evidence, Economic Limits, Skill Equalization, and Task Boundary Frontiers"
-topic: "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows: Empirical Evidence, Economic Limits, Skill Equalization, and Task Boundary Frontiers"
+title: "Literature Review: Test Topic"
+topic: "Test Topic"
 status: "draft"
 format: "IEEE/ACM markdown"
 fact_check_score: "100.0"
 verification_status: "passed"
 verification_matrix: "{'verified_citations': [], 'broken_citations': [], 'grounded_metrics': [], 'unverified_metrics': []}"
 tags:
-  - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
+  - "test-topic"
   - "literature-review"
   - "draft"
 ---
