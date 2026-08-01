@@ -65,7 +65,7 @@ const App: React.FC = () => {
     setCurrentView('boardroom'); // Automatically jump to Boardroom to watch the agents debate!
 
     try {
-      const res = await fetch('/api/research/start', {
+      const res = await apiFetch('/api/research/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic: topicStr })
@@ -78,8 +78,9 @@ const App: React.FC = () => {
       const data = await res.json();
       const projId = data.project_id;
 
-      // Connect to SSE stream
-      const eventSource = new EventSource(`/api/research/stream/${projId}`);
+      // Connect to SSE stream (try direct backend URL first for SSE stream robustness)
+      const streamUrl = `http://127.0.0.1:8000/api/research/stream/${projId}`;
+      const eventSource = new EventSource(streamUrl);
 
       eventSource.onmessage = (event) => {
         try {
