@@ -7,9 +7,30 @@ import urllib.parse
 _CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "aryamandev777@gmail.com")
 _POLITE_UA = f"ResearchingOS/0.1 (mailto:{_CONTACT_EMAIL})"
 
+from services.pdf_extractor import PDFExtractionService
+
 class AcademicSearchService:
     def __init__(self):
         self.client = httpx.Client(timeout=20.0, follow_redirects=True)
+        self.pdf_extractor = PDFExtractionService()
+
+    def fetch_full_text_for_paper(self, paper: Dict[str, Any]) -> Dict[str, Any]:
+        """Downloads full PDF text if available and attaches structured text to paper dict."""
+        url = paper.get("url", "")
+        if "arxiv.org" in url or paper.get("id", "").startswith("arxiv:"):
+            arxiv_id = paper["id"].replace("arxiv:", "")
+            pdf_url = f"https://arxiv.org/pdf/{arxiv_id}.pdf"
+            extraction = self.pdf_extractor.extract_text_from_url(pdf_url)
+            if extraction.get("success"):
+                paper["full_text"] = extraction["full_text"]
+                paper["full_pdf_ingested"] = True
+                paper["sections"] = extraction.get("sections", {})
+                paper["page_count"] = extraction.get("page_count", 0)
+                return paper
+
+        paper["full_text"] = paper.get("abstract", "")
+        paper["full_pdf_ingested"] = False
+        return paper
 
     def search_arxiv(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
         """Queries the arXiv API for papers related to the query."""

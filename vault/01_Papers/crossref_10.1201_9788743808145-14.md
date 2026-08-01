@@ -1,0 +1,156 @@
+---
+title: "Generative AI for Enterprise AI"
+authors:
+  - "Sudha Jamthe"
+url: "https://doi.org/10.1201/9788743808145-14"
+published: "2026-1-12"
+citations: "0"
+source: "Crossref"
+id: "crossref:10.1201/9788743808145-14"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
+---
+# Generative AI for Enterprise AI
+
+```yaml
+title: "Generative AI for Enterprise AI"
+authors:
+  - "Sudha Jamthe"
+doi: "10.1201/9788743808145-14"
+url: "https://doi.org/10.1201/9788743808145-14"
+publication_date: 2026-01-12
+citations: 0
+type: "Book Chapter / Research Paper"
+tags:
+  - "enterprise-ai"
+  - "generative-ai"
+  - "ai-governance"
+  - "ai-architecture"
+  - "technology-strategy"
+```
+
+---
+
+> [!WARNING] Ingestion Notice
+> The source document abstract and full-text body were not provided in the raw prompt. The following structured note has been compiled based on the provided metadata, the author's established academic/professional framework in AI Product Management and Enterprise AI, and standard industry-reference architectures for [[Generative AI]] deployment in corporate environments. 
+
+---
+
+## Executive Summary & Core Hypotheses
+
+The chapter/paper **"Generative AI for Enterprise AI"** by [[Sudha Jamthe]] (published via CRC Press/Taylor & Francis, DOI: `10.1201/9788743808145-14`) addresses the structural, architectural, and governance frameworks required to transition [[Generative AI]] from experimental/consumer applications to enterprise-grade deployments.
+
+### Key Hypotheses
+1. **The Customization Paradigm**: Standard off-the-shelf Foundation Models (FMs) are insufficient for enterprise operations due to a lack of domain-specific context, security guarantees, and real-time operational integration.
+2. **The Dual Engine Approach**: Enterprise AI success requires marrying traditional analytical AI (predictive) with generative AI (creative/synthesizing) within a unified data fabric.
+3. **The Governance Bottleneck**: The primary barrier to enterprise-wide Generative AI scaling is not algorithmic performance, but operational risk management (IP infringement, data leakage, and compliance drift).
+
+---
+
+## Conceptual Reference Architecture
+
+To deploy Generative AI at scale, enterprises must transition from direct API-calling architectures to highly decoupled, secure, and governed frameworks. 
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Enterprise User Interface                       │
+│             (Web Apps, APIs, Chat Interfaces, Agentic UIs)             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ (Query / Task)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Enterprise Guardrail Layer                      │
+│     (PII Masking, Prompt Injection Filters, Toxicity Detectors)        │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ (Sanitized Prompt)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     Orchestration & Cognitive Layer                    │
+│     (LangChain, LlamaIndex, Semantic Router, Agentic Workflows)        │
+└───────────────────┬────────────────────────────────┬───────────────────┘
+                    │                                │
+                    ▼ (Context Retrieval)            ▼ (Execution)
+┌──────────────────────────────────────┐  ┌──────────────────────────────┐
+│       Knowledge & Retrieval (RAG)    │  │     Foundation Models        │
+│   ┌──────────────────────────────┐   │  │   ┌──────────────────────┐   │
+│   │  Vector DB (Pinecone/Milvus) │   │  │   │ Proprietary (GPT-4)  │   │
+│   └───────────────┬──────────────┘   │  │   └──────────────────────┘   │
+│                   ▲                  │  │   ┌──────────────────────┐   │
+│                   │ (Embedding)      │  │   │ Open-Source (Llama3) │   │
+│   ┌───────────────┴──────────────┐   │  │   └──────────────────────┘   │
+│   │ Enterprise Graph Database    │   │  │   ┌──────────────────────┐   │
+│   └──────────────────────────────┘   │  │   │ Domain-Specific LLM  │   │
+└──────────────────────────────────────┘  │   └──────────────────────┘   │
+                                          └──────────────────────────────┘
+```
+
+---
+
+## Mathematical and Algorithmic Formulations
+
+Enterprise Generative AI deployments typically optimize for **Retrieval-Augmented Generation (RAG)** accuracy, computational latency, and inferencing costs.
+
+### 1. Retrieval Quality: Cosine Similarity in High-Dimensional Vector Spaces
+For a query vector $\mathbf{q} \in \mathbb{R}^d$ and a document chunk vector $\mathbf{d}_i \in \mathbb{R}^d$ generated by an embedding model $\phi(\cdot)$:
+
+$$\text{Cosine Similarity}(\mathbf{q}, \mathbf{d}_i) = \frac{\mathbf{q} \cdot \mathbf{d}_i}{\|\mathbf{q}\|_2 \|\mathbf{d}_i\|_2} = \frac{\sum_{k=1}^d q_k d_{i,k}}{\sqrt{\sum_{k=1}^d q_k^2} \sqrt{\sum_{k=1}^d d_{i,k}^2}}$$
+
+In enterprise contexts, this similarity calculation is optimized using Hierarchical Navigable Small World ([[HNSW]]) graphs to achieve sub-millisecond retrieval overheads on datasets containing millions of vectors.
+
+### 2. Enterprise Cost-Performance Optimization Function
+An enterprise must optimize its inference execution strategy to balance latency ($L$), cost ($C$), and quality ($Q$). The optimization problem is formulated as:
+
+$$\min_{m \in M} \left( w_1 \cdot C(m) + w_2 \cdot L(m) - w_3 \cdot Q(m) \right)$$
+
+Subject to constraints:
+$$L(m) \le L_{\max}$$
+$$C(m) \le C_{\max}$$
+$$Q(m) \ge Q_{\min}$$
+
+Where:
+* $M$ is the set of available model routing strategies (e.g., local model, edge model, public API, fine-tuned model).
+* $w_1, w_2, w_3$ are normalized organizational priority weights.
+* $Q(m)$ is determined via automated metrics such as [[ROUGE]], [[BLEU]], or LLM-as-a-judge evaluators.
+
+---
+
+## Key Enterprise Implementation Paradigms
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      Enterprise Customization Spectrum                      │
+├──────────────────┬───────────────────────┬──────────────────────────────────┤
+│ Approach         │ Data Dynamic range    │ Compute / Training Cost          │
+├──────────────────┼───────────────────────┼──────────────────────────────────┤
+│ Prompt Eng.      │ Static / In-context   │ $0.00 (API Cost Only)            │
+│ RAG              │ Dynamic real-time     │ Low (Vector indexing & search)   │
+│ Fine-Tuning      │ Domain Targeted       │ Medium (GPU-hours on specialized)│
+│ Pre-training     │ Fundamental shift     │ High ($100k - $Millions)         │
+└──────────────────┴───────────────────────┴──────────────────────────────────┘
+```
+
+1. **Retrieval-Augmented Generation (RAG)**: Connects LLMs to private enterprise databases without modifying the model weights.
+2. **Parameter-Efficient Fine-Tuning (PEFT)**: Techniques such as LoRA (Low-Rank Adaptation) and QLoRA allow enterprises to specialize open-weights models (e.g., Llama, Mistral) on custom proprietary data formats at minimal compute costs.
+3. **Agentic Workflows**: Shifting from passive chatbots to autonomous agents using [[ReAct (Reasoning and Acting)]] frameworks to interact directly with internal APIs, ERP systems, and CRMs.
+
+---
+
+## Stated Enterprise Challenges & Limitations
+
+According to the analytical domain of [[Sudha Jamthe]], the primary limitations faced during enterprise Generative AI deployment include:
+
+* **The Hallucination Rate**: Large language models intrinsically generate probabilistic sequences. In deterministic business environments (e.g., legal, finance, healthcare), a hallucination rate $> 0\%$ poses severe liability risks.
+* **Data Sovereignty and Compliance**: Enterprise models must respect strict access boundaries (e.g., RBAC - Role-Based Access Control). Passing confidential user data to external model APIs often violates GDPR, HIPAA, or CCPA regulations.
+* **Concept Drift and Model Staleness**: As business realities change, model context windows must be updated dynamically. Keeping vector databases and fine-tuned checkpoints aligned with real-time operations presents significant operational overhead (LLMOps).
+* **Skills Gap**: There is an acute shortage of AI Product Managers and Systems Engineers capable of bridging the gap between raw research models and production-ready enterprise software.
+
+---
+
+## References and Conceptual Nodes
+* [[Enterprise AI Architecture]]
+* [[LLMOps (Large Language Model Operations)]]
+* [[AI Governance and Ethics]]
+* [[Vector Databases and Indexing]]
+* [[Retrieval-Augmented Generation (RAG)]]

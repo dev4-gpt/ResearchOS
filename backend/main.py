@@ -14,6 +14,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 load_dotenv()
 
 from services.vault import VaultManager
+from services.fact_checker import FactCheckerService
 from agents.council import CouncilOrchestrator
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
@@ -30,6 +31,7 @@ app.add_middleware(
 # Initialize service classes
 vault_path = os.getenv("VAULT_PATH", "../vault")
 vault_manager = VaultManager(vault_path)
+fact_checker = FactCheckerService(vault_manager)
 orchestrator = CouncilOrchestrator(vault_path)
 
 # In-memory log store for streaming active research runs
@@ -102,6 +104,24 @@ def get_vault_graph():
     try:
         graph = vault_manager.get_knowledge_graph()
         return graph
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vault/fact-check")
+def fact_check_vault_file(category: str, filename: str):
+    """Performs real-time citation and grounding audit on any vault file."""
+    try:
+        data = vault_manager.read_markdown(category, filename)
+        content = data.get("content", "")
+        report = fact_checker.audit_document(content)
+        return {
+            "status": "success",
+            "category": category,
+            "filename": filename,
+            "audit": report
+        }
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="File not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

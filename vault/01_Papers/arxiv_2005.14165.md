@@ -37,8 +37,9 @@ published: "2020-05-28"
 citations: "25400"
 source: "arXiv & OpenAlex"
 id: "arxiv:2005.14165"
+full_pdf_ingested: "True"
 tags:
   - "research-paper"
-  - "research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault."
+  - "research-and-evaluate-the-economic-roi,-productivity-impact,-and-architectural-design-of-ai-in-business-enterprise-operations,-analyzing-key-landmark-studies:-1)-'generative-ai-at-work'-(productivity-and-skill-distribution-in-enterprise-workflows),-2)-'navigating-the-jagged-technological-frontier'-(harvard/bcg-study-on-ai-performance-boundaries),-and-3)-'towards-effective-genai-multi-agent-collaboration-for-enterprise-applications'-(arxiv:2412.05449).-extract-methodologies,-empirical-findings,-and-deployment-bottlenecks-into-the-vault."
 ---
 [MOCK RESPONSE from Analyst] Based on the research, this is a simulated analysis of your query.

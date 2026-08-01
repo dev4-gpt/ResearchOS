@@ -245,8 +245,18 @@ const DocEditor: React.FC = () => {
                 <span style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase' }}>
                   {activeCategory} / {activeFilename}
                 </span>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '700' }}>
-                  {frontmatter.title || activeFilename.replace('.md', '')}
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span>{frontmatter.title || activeFilename.replace('.md', '')}</span>
+                  {frontmatter.full_pdf_ingested && (
+                    <span style={{ fontSize: '10px', background: 'rgba(16,185,129,0.15)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)', padding: '2px 8px', borderRadius: '12px', fontWeight: '600' }}>
+                      Full PDF Ingested
+                    </span>
+                  )}
+                  {frontmatter.fact_check_score !== undefined && (
+                    <span style={{ fontSize: '10px', background: frontmatter.fact_check_score >= 80 ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)', color: frontmatter.fact_check_score >= 80 ? '#10b981' : '#f43f5e', border: '1px solid var(--border-color)', padding: '2px 8px', borderRadius: '12px', fontWeight: '700' }}>
+                      Fact-Check Score: {frontmatter.fact_check_score}%
+                    </span>
+                  )}
                 </h3>
               </div>
               
