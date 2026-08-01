@@ -60,7 +60,7 @@ const SUGGESTIONS = [
   "Self-correcting reasoning loops in mathematical LLMs"
 ];
 
-const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching }) => {
+const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onEnterWorkspace }) => {
   const [topic, setTopic] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {

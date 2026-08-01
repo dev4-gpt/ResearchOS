@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Maximize2, RotateCcw, Monitor, FileText, Users, Eye, Sliders } from 'lucide-react';
+import { Sparkles, Monitor, FileText, Users } from 'lucide-react';
 
 interface Laptop3DWorkspaceProps {
   onEnterWorkspace: () => void;
