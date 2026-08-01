@@ -1,50 +1,48 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Maximize2, RotateCcw, Monitor, FileText, Network, Users } from 'lucide-react';
+import { Sparkles, Maximize2, RotateCcw, Monitor, FileText, Users, Eye, Sliders } from 'lucide-react';
 
 interface Laptop3DWorkspaceProps {
   onEnterWorkspace: () => void;
 }
 
 export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWorkspace }) => {
+  // Start with lid open (75 degrees) so screen is vibrant and visible immediately!
+  const [manualLidAngle, setManualLidAngle] = useState(75);
+  const [manualZoom, setManualZoom] = useState(1.0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isDocked, setIsDocked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Monitor Y scroll within container to drive 3D transforms smoothly
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      // Calculate progress between 0 and 1 over first 800px
-      const progress = Math.min(1, Math.max(0, scrollY / 600));
-      setScrollProgress(progress);
+    // Listen for scroll events on nearest scrolling parent (<main>) AND window
+    const scrollParent = containerRef.current?.closest('main') || window;
 
-      if (progress >= 0.95 && !isDocked) {
-        setIsDocked(true);
-      } else if (progress < 0.95 && isDocked) {
-        setIsDocked(false);
+    const handleScroll = () => {
+      let scrollY = 0;
+      let maxScroll = 600;
+
+      if (scrollParent === window) {
+        scrollY = window.scrollY;
+      } else if (scrollParent instanceof HTMLElement) {
+        scrollY = scrollParent.scrollTop;
       }
+
+      const progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+      setScrollProgress(progress);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isDocked]);
+    scrollParent.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial call
 
-  // Derived 3D transform values based on scroll progress
-  // 1. Lid opening angle: 0deg when closed, opens to 88deg as scrollProgress moves from 0.1 to 0.6
-  const lidProgress = Math.min(1, Math.max(0, (scrollProgress - 0.05) / 0.5));
-  const lidAngle = lidProgress * 88; // 0 -> 88 degrees
+    return () => scrollParent.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // 2. Chassis tilt angle: starts isometric (25deg X, -12deg Y), flattens to 0deg as we zoom in
-  const tiltX = (1 - scrollProgress) * 22;
-  const tiltY = (1 - scrollProgress) * -8;
+  // Compute active lid angle (combining manual controls + scroll progress)
+  const activeLidAngle = Math.min(90, Math.max(0, manualLidAngle + scrollProgress * 15));
+  const activeZoom = Math.min(2.5, Math.max(0.7, manualZoom + scrollProgress * 0.8));
 
-  // 3. Zoom scale: starts 0.85, zooms up to 2.8x inside screen as progress approaches 1
-  const scale = 0.85 + scrollProgress * 1.8;
-
-  // 4. Screen elevation & Y translation
-  const translateY = scrollProgress * 80;
+  // Tilt angle flattens as zoom increases
+  const tiltX = Math.max(0, 18 - scrollProgress * 18);
+  const tiltY = Math.max(-10, -8 + scrollProgress * 8);
 
   return (
     <div 
@@ -52,78 +50,77 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
       style={{
         position: 'relative',
         width: '100%',
-        minHeight: '750px',
+        minHeight: '620px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         perspective: '1200px',
         overflow: 'visible',
-        padding: '40px 0'
+        padding: '30px 0',
+        userSelect: 'none'
       }}
     >
-      {/* Scroll Guidance Banner */}
+      {/* Interactive Controls Bar */}
       <div 
         style={{
-          position: 'absolute',
-          top: '10px',
+          width: '90%',
+          maxWidth: '680px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          padding: '8px 16px',
-          borderRadius: '20px',
-          background: 'rgba(255, 255, 255, 0.04)',
+          justifyContent: 'space-between',
+          padding: '10px 16px',
+          borderRadius: '12px',
+          background: 'rgba(15, 23, 42, 0.85)',
           border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(12px)',
-          color: 'var(--primary)',
-          fontSize: '12px',
-          fontWeight: '600',
-          letterSpacing: '0.5px',
-          zIndex: 20,
-          opacity: Math.max(0.2, 1 - scrollProgress * 1.5),
-          transition: 'opacity 0.3s ease'
+          backdropFilter: 'blur(16px)',
+          marginBottom: '20px',
+          zIndex: 30,
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
         }}
       >
-        <Sparkles size={14} className="animate-spin-slow" />
-        <span>SCROLL TO OPEN 3D WORKSPACE & ENTER LAPTOP</span>
-      </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '12px', fontWeight: '700' }}>
+          <Sparkles size={15} />
+          <span>3D LAPTOP WORKSPACE</span>
+        </div>
 
-      {/* Interactive 3D Controls Bar */}
-      <div 
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          right: '20px',
-          display: 'flex',
-          gap: '8px',
-          zIndex: 30
-        }}
-      >
-        <button
-          onClick={() => {
-            window.scrollTo({ top: 550, behavior: 'smooth' });
-          }}
-          className="btn-glass"
-          style={{
-            padding: '8px 14px',
-            fontSize: '12px',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            cursor: 'pointer'
-          }}
-        >
-          <Maximize2 size={13} />
-          <span>Zoom Inside Screen</span>
-        </button>
+        {/* Sliders for Lid Angle & Zoom */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
+            <span>Lid:</span>
+            <input 
+              type="range" 
+              min="0" 
+              max="90" 
+              value={manualLidAngle}
+              onChange={(e) => setManualLidAngle(Number(e.target.value))}
+              style={{ width: '80px', accentColor: 'var(--primary)', cursor: 'pointer' }}
+            />
+            <span style={{ fontFamily: 'monospace', width: '24px' }}>{Math.round(activeLidAngle)}°</span>
+          </div>
 
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
+            <span>Zoom:</span>
+            <input 
+              type="range" 
+              min="0.7" 
+              max="2.2" 
+              step="0.05"
+              value={manualZoom}
+              onChange={(e) => setManualZoom(Number(e.target.value))}
+              style={{ width: '80px', accentColor: 'var(--primary)', cursor: 'pointer' }}
+            />
+            <span style={{ fontFamily: 'monospace', width: '32px' }}>{activeZoom.toFixed(1)}x</span>
+          </div>
+        </div>
+
+        {/* Enter Full HITL Publisher Button */}
         <button
           onClick={onEnterWorkspace}
           style={{
-            padding: '8px 16px',
+            padding: '6px 14px',
             fontSize: '12px',
-            borderRadius: '8px',
+            borderRadius: '6px',
             background: 'var(--primary)',
             color: '#000',
             fontWeight: 'bold',
@@ -132,110 +129,78 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
             alignItems: 'center',
             gap: '6px',
             cursor: 'pointer',
-            boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)'
+            boxShadow: '0 0 15px rgba(59, 130, 246, 0.4)'
           }}
         >
           <Monitor size={13} />
-          <span>Open Full HITL Publisher</span>
+          <span>Enter Workspace</span>
         </button>
       </div>
 
-      {/* 3D LAPTOP CONTAINER */}
+      {/* 3D LAPTOP CHASSIS CONTAINER */}
       <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         style={{
-          width: '720px',
-          height: '460px',
+          width: '680px',
+          height: '420px',
           position: 'relative',
           transformStyle: 'preserve-3d',
-          transform: `scale(${scale}) translateY(${translateY}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-          transition: 'transform 0.15s ease-out',
+          transform: `scale(${activeZoom}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
+          transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           zIndex: 10
         }}
       >
-        {/* LAPTOP LID / DISPLAY SCREEN ASSEMBLY */}
+        {/* LAPTOP DISPLAY LID (TOP SCREEN) */}
         <div
           style={{
-            width: '720px',
-            height: '450px',
+            width: '680px',
+            height: '420px',
             position: 'absolute',
             top: 0,
             left: 0,
             borderRadius: '16px 16px 4px 4px',
             background: 'linear-gradient(145deg, #1e293b, #0f172a)',
-            border: '2px solid rgba(255, 255, 255, 0.12)',
+            border: '2px solid rgba(59, 130, 246, 0.4)',
             transformOrigin: 'bottom center',
             transformStyle: 'preserve-3d',
-            transform: `rotateX(-${lidAngle}deg)`,
-            boxShadow: lidProgress > 0.1 ? '0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255,255,255,0.05)' : 'none',
-            transition: 'transform 0.1s ease-out'
+            transform: `rotateX(-${activeLidAngle}deg)`,
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 130, 246, 0.2)',
+            transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
-          {/* Outer Metal Shell Back (Appears when lid is closed/closing) */}
+          {/* INNER DISPLAY GLASS SCREEN */}
           <div
             style={{
               position: 'absolute',
-              inset: 0,
-              borderRadius: '16px 16px 4px 4px',
-              background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #090d16 100%)',
-              backfaceVisibility: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            {/* Glowing Logo on Lid */}
-            <div style={{
-              width: '45px',
-              height: '45px',
-              borderRadius: '12px',
-              background: 'rgba(59, 130, 246, 0.2)',
-              border: '1px solid rgba(59, 130, 246, 0.5)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#3b82f6',
-              boxShadow: '0 0 25px rgba(59, 130, 246, 0.5)'
-            }}>
-              <Sparkles size={24} />
-            </div>
-          </div>
-
-          {/* INNER DISPLAY SCREEN GLASS (Inside Lid) */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: '10px',
+              inset: '8px',
               borderRadius: '10px',
               background: '#040711',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              boxShadow: 'inset 0 0 30px rgba(0,0,0,0.9)'
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 0 40px rgba(0,0,0,0.9)'
             }}
           >
-            {/* Screen Top Camera Bar */}
+            {/* Screen Notch / Camera Bar */}
             <div style={{
-              height: '22px',
+              height: '24px',
               background: '#090d16',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '0 16px',
-              borderBottom: '1px solid rgba(255,255,255,0.05)'
+              borderBottom: '1px solid rgba(255,255,255,0.08)'
             }}>
               <div style={{ display: 'flex', gap: '6px' }}>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></span>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f59e0b' }}></span>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }}></span>
               </div>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 8px #3b82f6' }}></div>
-              <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'monospace' }}>ResearchingOS v1.0.0</div>
+              <div style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', letterSpacing: '0.5px' }}>ResearchingOS Workspace</div>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }}></div>
             </div>
 
-            {/* LIVE SCREEN CONTENT INTERFACE */}
+            {/* VIBRANT DISPLAY INTERFACE */}
             <div 
               style={{ 
                 flex: 1, 
@@ -243,51 +208,53 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: '12px',
-                background: 'radial-gradient(circle at top right, rgba(30, 41, 59, 0.4), #040711)',
-                opacity: Math.max(0, (lidAngle - 15) / 73),
+                background: 'radial-gradient(circle at top right, rgba(30, 41, 59, 0.6), #040711)',
+                opacity: activeLidAngle > 10 ? 1 : 0.2,
                 transition: 'opacity 0.2s ease'
               }}
             >
-              {/* Screen Top Bar */}
+              {/* Screen Top Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: '#3b82f6' }}></div>
-                  <span style={{ fontWeight: 'bold', fontSize: '13px', color: '#fff' }}>IEEE Systematic Review & Meta-Taxonomy</span>
+                <div>
+                  <span style={{ fontSize: '10px', color: '#818cf8', fontWeight: 'bold', textTransform: 'uppercase' }}>Active Manuscript</span>
+                  <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#fff', margin: 0 }}>Systematic Review & Meta-Taxonomy of Generative AI</h4>
                 </div>
-                <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', fontWeight: 'bold' }}>100% Fact-Checked</span>
+                <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '2px 8px', borderRadius: '12px', fontWeight: 'bold' }}>
+                  Fact-Check Score: 88.5%
+                </span>
               </div>
 
-              {/* Screen Split Cards */}
+              {/* Screen Split Content Grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', flex: 1 }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#3b82f6', fontSize: '11px', fontWeight: 'bold' }}>
                     <FileText size={12} />
                     <span>53 Ingested Vault Papers</span>
                   </div>
-                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-                    Empirical evidence, economic limits, and task boundary frontiers extracted across 12 scientific repositories.
+                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
+                    Extracted empirical productivity metrics, N=5,179 RCTs, and TRiSM security frameworks.
                   </p>
                 </div>
 
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#8b5cf6', fontSize: '11px', fontWeight: 'bold' }}>
                     <Users size={12} />
-                    <span>7-Agent Council Debate</span>
+                    <span>7-Agent Council Consensus</span>
                   </div>
-                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
                     Senior Systems Engineer, Statistician, and Reviewer #2 consensus synthesis.
                   </p>
                 </div>
               </div>
 
-              {/* Bottom Interactive Screen Prompt */}
-              <div style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '6px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '11px', color: '#93c5fd' }}>Click to launch workspace inside laptop screen</span>
+              {/* Bottom Callout Bar */}
+              <div style={{ background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '6px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '11px', color: '#93c5fd', fontWeight: '500' }}>Click to launch workspace & edit manuscript draft</span>
                 <button 
                   onClick={onEnterWorkspace}
-                  style={{ background: '#3b82f6', color: '#000', border: 'none', borderRadius: '4px', padding: '4px 10px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer' }}
+                  style={{ background: '#3b82f6', color: '#000', border: 'none', borderRadius: '4px', padding: '5px 12px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)' }}
                 >
-                  Enter Workspace →
+                  Launch Workspace →
                 </button>
               </div>
             </div>
@@ -297,12 +264,12 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
         {/* LAPTOP KEYBOARD BASE DECK */}
         <div
           style={{
-            width: '740px',
-            height: '420px',
+            width: '700px',
+            height: '380px',
             position: 'absolute',
-            top: '445px',
+            top: '415px',
             left: '-10px',
-            borderRadius: '4px 4px 24px 24px',
+            borderRadius: '4px 4px 20px 20px',
             background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 70%, #020617 100%)',
             border: '2px solid rgba(255, 255, 255, 0.15)',
             transformStyle: 'preserve-3d',
@@ -313,29 +280,29 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
         >
           {/* Keyboard Recessed Well */}
           <div style={{
-            margin: '24px auto 16px auto',
-            width: '640px',
-            height: '240px',
+            margin: '20px auto 14px auto',
+            width: '600px',
+            height: '210px',
             background: '#090d16',
-            borderRadius: '10px',
+            borderRadius: '8px',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '12px',
+            padding: '10px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '6px',
+            gap: '5px',
             boxShadow: 'inset 0 4px 10px rgba(0,0,0,0.8)'
           }}>
             {/* Key Rows Simulation */}
             {[1, 2, 3, 4, 5].map((row) => (
-              <div key={row} style={{ display: 'flex', gap: '5px', height: row === 5 ? '38px' : '32px' }}>
+              <div key={row} style={{ display: 'flex', gap: '4px', height: row === 5 ? '32px' : '28px' }}>
                 {Array.from({ length: row === 5 ? 8 : 14 }).map((_, i) => (
                   <div
                     key={i}
                     style={{
                       flex: row === 5 && i === 3 ? 4 : 1,
                       background: 'linear-gradient(180deg, #1e293b, #0f172a)',
-                      borderRadius: '4px',
-                      border: '1px solid rgba(255, 255, 255, 0.06)',
+                      borderRadius: '3px',
+                      border: '1px solid rgba(59, 130, 246, 0.2)',
                       boxShadow: '0 2px 4px rgba(0,0,0,0.4)'
                     }}
                   />
@@ -347,37 +314,25 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
           {/* Trackpad */}
           <div style={{
             margin: '0 auto',
-            width: '220px',
-            height: '120px',
+            width: '200px',
+            height: '100px',
             background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: '10px',
+            borderRadius: '8px',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)'
           }} />
-
-          {/* Front Opening Notch */}
-          <div style={{
-            position: 'absolute',
-            bottom: '0px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '70px',
-            height: '6px',
-            borderRadius: '6px 6px 0 0',
-            background: 'rgba(255,255,255,0.2)'
-          }} />
         </div>
 
-        {/* Soft Ambient Shadow Projection */}
+        {/* Ambient Glow Shadow */}
         <div style={{
           position: 'absolute',
-          top: '520px',
+          top: '480px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '680px',
-          height: '100px',
+          width: '640px',
+          height: '80px',
           borderRadius: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.25) 0%, rgba(0,0,0,0.8) 50%, transparent 80%)',
+          background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.3) 0%, rgba(0,0,0,0.8) 50%, transparent 80%)',
           filter: 'blur(20px)',
           pointerEvents: 'none'
         }} />
