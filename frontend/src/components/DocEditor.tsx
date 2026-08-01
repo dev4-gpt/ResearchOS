@@ -287,6 +287,52 @@ const DocEditor: React.FC = () => {
                   </button>
                 </div>
 
+                {/* Export IEEEtran LaTeX & BibTeX Buttons */}
+                {activeCategory === 'drafts' && (
+                  <button
+                    onClick={async () => {
+                      try {
+                        const res = await fetch(`/api/vault/export-latex?filename=${activeFilename}`);
+                        if (res.ok) {
+                          const data = await res.json();
+                          const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = data.tex_filename || 'manuscript_IEEEtran.tex';
+                          a.click();
+
+                          // Also download BibTeX
+                          const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
+                          const bibUrl = URL.createObjectURL(bibBlob);
+                          const bibA = document.createElement('a');
+                          bibA.href = bibUrl;
+                          bibA.download = 'references.bib';
+                          bibA.click();
+                        }
+                      } catch (e) {
+                        console.error('Failed to export LaTeX:', e);
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(99,102,241,0.15)',
+                      color: '#818cf8',
+                      border: '1px solid rgba(99,102,241,0.3)',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <FileText size={14} />
+                    <span>Export IEEEtran LaTeX & BibTeX</span>
+                  </button>
+                )}
+
                 {/* Save Action */}
                 <button
                   onClick={handleSave}

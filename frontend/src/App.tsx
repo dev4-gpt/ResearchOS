@@ -218,6 +218,7 @@ const App: React.FC = () => {
           <Dashboard 
             startResearch={startResearch} 
             isResearching={isResearching} 
+            onEnterWorkspace={() => setCurrentView('editor')}
           />
         )}
         {currentView === 'boardroom' && (

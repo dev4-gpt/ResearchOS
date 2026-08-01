@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Search, Sparkles, BookOpen } from 'lucide-react';
+import Laptop3DWorkspace from './Laptop3DWorkspace';
 
 interface DashboardProps {
   startResearch: (topic: string) => void;
   isResearching: boolean;
+  onEnterWorkspace?: () => void;
 }
 
 const AGENT_TEAM = [
@@ -108,35 +110,51 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching }) =
               type="submit" 
               disabled={isResearching || !topic.trim()}
               className="btn-pill"
-              style={{ padding: '8px 20px', fontSize: '13px', border: 'none' }}
+              style={{
+                padding: '8px 18px',
+                fontSize: '13px',
+                marginRight: '6px',
+                fontWeight: '600',
+                background: isResearching || !topic.trim() ? 'var(--bg-glass)' : 'var(--primary)',
+                color: isResearching || !topic.trim() ? 'var(--text-muted)' : '#000',
+                border: 'none',
+                borderRadius: '20px',
+                cursor: isResearching || !topic.trim() ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'all 0.2s ease',
+              }}
             >
-              <span>{isResearching ? 'Council In Session...' : 'Initiate Council'}</span>
-              <div className="btn-icon-wrapper">
-                <Sparkles size={12} strokeWidth={2} />
-              </div>
+              <Sparkles size={14} />
+              <span>{isResearching ? 'Council Deliberating...' : 'Launch Council'}</span>
             </button>
           </div>
         </form>
 
-        {/* Suggestion Chips */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px', alignItems: 'center' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Suggestions:</span>
+        {/* Quick Topic Chips */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
+          <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>Explore Topics:</span>
           {SUGGESTIONS.map((s, idx) => (
             <button
               key={idx}
-              disabled={isResearching}
+              type="button"
               onClick={() => setTopic(s)}
               style={{
-                background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)', padding: '6px 14px', borderRadius: '9999px', fontSize: '11px', cursor: 'pointer',
-                transition: 'var(--transition-fast)', fontFamily: 'var(--font-sans)', fontWeight: '500'
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '12px',
+                padding: '4px 10px',
+                fontSize: '11px',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
               }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-                e.currentTarget.style.borderColor = 'rgba(129,140,248,0.3)';
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--primary)';
                 e.currentTarget.style.color = '#fff';
               }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
+              onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-color)';
                 e.currentTarget.style.color = 'var(--text-secondary)';
               }}
@@ -145,6 +163,11 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching }) =
             </button>
           ))}
         </div>
+      </section>
+
+      {/* 3D SCROLL-DRIVEN LAPTOP WORKSPACE EXPERIENCE */}
+      <section className="glass glow-primary animate-entrance" style={{ borderRadius: '16px', overflow: 'visible' }}>
+        <Laptop3DWorkspace onEnterWorkspace={onEnterWorkspace || (() => {})} />
       </section>
 
       {/* Agents Roster */}

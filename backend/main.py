@@ -125,6 +125,38 @@ def fact_check_vault_file(category: str, filename: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/vault/export-latex")
+def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_generative_ai_i.md"):
+    """Generates compilable IEEEtran LaTeX and BibTeX from a vault manuscript draft."""
+    try:
+        from services.latex_exporter import LaTeXExporterService
+        exporter = LaTeXExporterService(vault_manager)
+        
+        draft = vault_manager.read_markdown("drafts", filename)
+        title = draft["frontmatter"].get("title", "Systematic Review Manuscript")
+        authors = draft["frontmatter"].get("authors", ["Dr. Senior Principal Researcher", "ResearchingOS Council"])
+        content = draft["content"]
+        
+        abstract_match = content.split("## Executive Abstract\n\n")
+        abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Review of Enterprise Generative AI."
+        
+        tex_code = exporter.markdown_to_ieeetran(title, authors, abstract, content)
+        
+        paper_files = vault_manager.list_files("papers")
+        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
+        bib_code = exporter.generate_bibtex(papers_data)
+        
+        return {
+            "success": True,
+            "filename": filename,
+            "tex_filename": filename.replace(".md", "_IEEEtran.tex"),
+            "bib_filename": "references.bib",
+            "tex_code": tex_code,
+            "bib_code": bib_code
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 def run_agent_pipeline_sync(topic: str, project_id: str, loop: asyncio.AbstractEventLoop):
     """Runs the research pipeline synchronously in a separate thread and pushes logs to async queue."""
     def log_callback(log_data: Dict[str, Any]):
