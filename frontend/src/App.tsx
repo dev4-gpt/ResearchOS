@@ -13,6 +13,8 @@ import Boardroom from './components/Boardroom';
 import GraphView from './components/GraphView';
 import DocEditor from './components/DocEditor';
 
+import { apiFetch } from './api';
+
 export interface AgentLog {
   projectId: string;
   timestamp: number;
@@ -40,7 +42,7 @@ const App: React.FC = () => {
 
   const fetchHealth = async () => {
     try {
-      const res = await fetch('/api/health');
+      const res = await apiFetch('/api/health');
       if (res.ok) {
         const data = await res.json();
         setApiHealth(data);

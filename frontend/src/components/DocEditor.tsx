@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit } from 'lucide-react';
+import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw } from 'lucide-react';
+import { apiFetch } from '../api';
 
 interface VaultFile {
   filename: string;
@@ -35,7 +36,7 @@ const DocEditor: React.FC = () => {
   const fetchFilesList = async () => {
     setIsLoadingList(true);
     try {
-      const res = await fetch('/api/vault/files');
+      const res = await apiFetch('/api/vault/files');
       if (res.ok) {
         const data = await res.json();
         setFiles(data);
@@ -46,9 +47,12 @@ const DocEditor: React.FC = () => {
         } else if (data.debates && data.debates.length > 0) {
           loadFile('debates', data.debates[0].filename);
         }
+      } else {
+        setFiles(null);
       }
     } catch (e) {
       console.error('Failed to fetch files list:', e);
+      setFiles(null);
     } finally {
       setIsLoadingList(false);
     }
@@ -58,7 +62,7 @@ const DocEditor: React.FC = () => {
     setIsLoadingFile(true);
     setSaveStatus('idle');
     try {
-      const res = await fetch(`/api/vault/read?category=${category}&filename=${filename}`);
+      const res = await apiFetch(`/api/vault/read?category=${category}&filename=${filename}`);
       if (res.ok) {
         const data = await res.json();
         setContent(data.content);
@@ -78,7 +82,7 @@ const DocEditor: React.FC = () => {
     setSaveStatus('saving');
     
     try {
-      const res = await fetch('/api/vault/write', {
+      const res = await apiFetch('/api/vault/write', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -147,8 +151,28 @@ const DocEditor: React.FC = () => {
               Loading explorer...
             </div>
           ) : !files ? (
-            <div style={{ padding: '20px', textAlign: 'center', color: 'var(--danger)', fontSize: '12px' }}>
-              Failed to connect to Vault.
+            <div style={{ padding: '20px 10px', textAlign: 'center', color: 'var(--danger)', fontSize: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+              <AlertCircle size={20} />
+              <span>Failed to connect to Vault.</span>
+              <button
+                onClick={fetchFilesList}
+                style={{
+                  background: 'rgba(59, 130, 246, 0.15)',
+                  border: '1px solid rgba(59, 130, 246, 0.4)',
+                  color: '#93c5fd',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '11px',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <RefreshCw size={12} />
+                <span>Retry Connection</span>
+              </button>
             </div>
           ) : (
             <>
