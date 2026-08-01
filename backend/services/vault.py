@@ -5,9 +5,12 @@ from typing import Dict, List, Any, Optional
 class VaultManager:
     def __init__(self, vault_path: str = "../vault"):
         # Resolve path relative to script root if it is default or relative
-        if not vault_path or vault_path == "../vault":
+        if not vault_path or vault_path == "../vault" or vault_path == "vault":
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             self.vault_path = os.path.join(base_dir, "vault")
+        elif not os.path.isabs(vault_path):
+            base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+            self.vault_path = os.path.abspath(os.path.join(base_dir, vault_path))
         else:
             self.vault_path = os.path.abspath(vault_path)
             
