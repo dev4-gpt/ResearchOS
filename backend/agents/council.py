@@ -93,18 +93,31 @@ AGENT_PERSONAS = {
     }
 }
 
+from services.search import AcademicSearchService
+from services.pdf_extractor import PDFExtractionService
+from services.fact_checker import FactCheckerService
+from services.vault import VaultManager
+from harness.continual_memory import ContinualMemoryManager, TrajectoryTelemetry
+from harness.rlm_orchestrator import RLMContextPartitioning
+from harness.autonomous_loop import AutonomousHarnessController
+
 class CouncilOrchestrator:
     def __init__(self, vault_path: str = "../vault"):
         self.vault = VaultManager(vault_path)
         self.search_service = AcademicSearchService()
         self.fact_checker = FactCheckerService(self.vault)
+        self.pdf_extractor = PDFExtractionService(self.vault)
+        self.continual_memory = ContinualMemoryManager()
+        self.rlm = RLMContextPartitioning()
+        self.harness_controller = AutonomousHarnessController()
+        
         self.api_key = os.getenv("GEMINI_API_KEY")
         self.is_dry_run = not bool(self.api_key)
         
         if not self.is_dry_run:
             genai.configure(api_key=self.api_key)  # type: ignore[attr-defined]
             
-        print(f"CouncilOrchestrator initialized. Dry Run Mode: {self.is_dry_run}")
+        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Dry Run Mode: {self.is_dry_run}")
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke Gemini API with appropriate model and instructions."""
@@ -127,7 +140,9 @@ class CouncilOrchestrator:
         candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash"]
         candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
 
-        instruction = system_instruction or agent_cfg["instruction"]
+        base_instruction = system_instruction or agent_cfg["instruction"]
+        durable_refinement = self.continual_memory.get_agent_refinements(agent_key)
+        instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
         
         import random
         max_retries = 3
@@ -186,6 +201,8 @@ class CouncilOrchestrator:
         6. FactCheck: Linter validates citation links & metric grounding.
         """
         project_id = f"project_{int(time.time())}"
+        start_time = time.time()
+        self.harness_controller.register_task(project_id, topic)
         
         def send_log(stage: str, agent: str, message: str, data: Any = None):
             log_callback({
@@ -529,8 +546,27 @@ class CouncilOrchestrator:
             draft_frontmatter
         )
         
-        send_log("Drafting", "Senior Research Writer & Publisher", f"Final academic draft completed and written to '04_Drafts/{draft_filename}'!")
-        
+        # Record Prime Agent Harness Continual Memory Telemetry & Complete Task
+        try:
+            matrix = fact_audit.get("details", {})
+            score_val = float(fact_audit.get("fact_check_score", 100.0))
+            telemetry = TrajectoryTelemetry(
+                project_id=project_id,
+                topic=topic,
+                fact_check_score=score_val,
+                verified_citations=len(matrix.get("verified_citations", [])),
+                broken_citations=len(matrix.get("broken_citations", [])),
+                grounded_metrics=len(matrix.get("grounded_metrics", [])),
+                unverified_metrics=len(matrix.get("unverified_metrics", [])),
+                duration_seconds=round(time.time() - start_time, 2),
+                timestamp=time.time()
+            )
+            harness_result = self.continual_memory.record_telemetry(telemetry)
+            self.harness_controller.complete_task(project_id)
+            send_log("Harness", "Prime Agent Harness", f"Continual memory updated (Avg Fact-Check Score: {harness_result['average_score']}%). Telemetry recorded.", harness_result)
+        except Exception as e:
+            print(f"Harness telemetry warning: {e}")
+
         send_log("Completion", "System", "Research pipeline completed successfully!", {
             "success": True,
             "vaultFiles": {

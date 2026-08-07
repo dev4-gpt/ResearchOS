@@ -28,7 +28,11 @@ def make_orchestrator(tmp_path):
     # Guarantee no API key leaks in from the real environment
     os.environ.pop("GEMINI_API_KEY", None)
     from agents.council import CouncilOrchestrator
-    return CouncilOrchestrator(str(tmp_path))
+    orch = CouncilOrchestrator(str(tmp_path))
+    if "GEMINI_API_KEY" not in os.environ:
+        orch.api_key = None
+        orch.is_dry_run = True
+    return orch
 
 
 # ---------------------------------------------------------------------------
