@@ -170,6 +170,19 @@ def get_curated_topics():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/harness/state")
+def get_harness_state():
+    """Returns the Prime Agent harness durable memory state and trajectory telemetry."""
+    try:
+        from harness.continual_memory import ContinualMemoryManager
+        memory = ContinualMemoryManager()
+        return {
+            "success": True,
+            "state": memory.state
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 def run_agent_pipeline_sync(topic: str, project_id: str, loop: asyncio.AbstractEventLoop):
     """Runs the research pipeline synchronously in a separate thread and pushes logs to async queue."""
     def log_callback(log_data: Dict[str, Any]):
