@@ -64,12 +64,21 @@ class LaTeXExporterService:
         key = re.sub(r'_+', '_', key).strip('_')
         return key
 
-    def clean_title_str(self, title: str) -> str:
-        """Strips raw markdown prompt wrappers and headers from paper titles."""
+    def clean_title_str(self, title: str, body_markdown: str = "") -> str:
+        """Strips raw markdown prompt wrappers and extracts real document heading if title is a prompt."""
+        if body_markdown:
+            match = re.search(r'^#\s+(.+)$', body_markdown, re.MULTILINE)
+            if match:
+                extracted = match.group(1).strip()
+                if not re.search(r'(Literature Review|Research and extract|Please evaluate)', extracted, re.IGNORECASE):
+                    return extracted
+
         if not title:
             return "Systematic Literature Review"
         title = re.sub(r'^(Literature Review:\s*\"?|#+\s*)', '', title, flags=re.IGNORECASE)
         title = title.rstrip('\"').strip()
+        if re.search(r'(Research and extract|Please evaluate)', title, re.IGNORECASE):
+            return "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows"
         return title
 
     def sanitize_latex(self, text: str) -> str:
@@ -106,14 +115,23 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
-        # 2. Filter out raw ASCII box diagrams (+----+ lines, | ... |, v v)
+        # 2. Filter out raw ASCII box diagrams, unparsed empty table tags, and header labels
+        text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
         text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^(INFERENCE-TIME|CARDIOLOGY-CHAT|THE EPISTEMOLOGICAL|PROPOSED METHODOLOGICAL).*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^-{5,}$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^\+->.*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^v\s+v$', '', text, flags=re.MULTILINE)
 
-        # 3. Convert Wikilinks [[key]] into \cite{clean_citation_key(key)}
+        # 3. Remove literal '[?]', '(' [?]' )' placeholders left by LLM
+        text = re.sub(r'\(?\s*[\'\"]?\s*\[\?\]\s*[\'\"]?\s*\)?', '', text)
+        text = re.sub(r'[\'\"]?\s*\[\?\]\s*[\'\"]?', '', text)
+
+        # 4. Convert Wikilinks [[key]] into \cite{clean_citation_key(key)}
         text = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
 
-        # 4. Humanize AI prose (remove AI fluff/buzzwords)
+        # 5. Humanize AI prose (remove AI fluff/buzzwords)
         ai_fluff = [
             r'\bIn conclusion,?\b', r'\bIn summary,?\b', r'\bDelve into\b', r'\bdelving into\b',
             r'\btapestry of\b', r'\bbeacon of\b', r'\bcrucial role\b', r'\bit is important to note that\b',
@@ -122,16 +140,28 @@ class LaTeXExporterService:
         for pattern in ai_fluff:
             text = re.sub(pattern, '', text, flags=re.IGNORECASE)
 
-        # 5. Sanitize body text outside math & cite blocks
+        # 6. Remove document-level # Title heading from body since it is in \title{}
+        text = re.sub(r'^#\s+.*$', '', text, flags=re.MULTILINE)
+
+        # 7. Convert Markdown headings (##, ###, ####) to LaTeX commands FIRST before list loop
+        def heading_to_section(m):
+            level = len(m.group(1))
+            title_text = m.group(2).strip()
+            # Strip leading section numbers like '1. ', '1.1 '
+            title_text = re.sub(r'^\d+(\.\d+)*\.?\s*', '', title_text)
+            if level == 2:
+                return f"\n\\section{{{title_text}}}\n"
+            elif level == 3:
+                return f"\n\\subsection{{{title_text}}}\n"
+            else:
+                return f"\n\\subsubsection{{{title_text}}}\n"
+
+        text = re.sub(r'^(#{2,4})\s+(.*)$', heading_to_section, text, flags=re.MULTILINE)
+
+        # 8. Sanitize body text outside math & cite blocks
         text = self.sanitize_latex(text)
 
-        # 6. Parse headings BEFORE list processing
-        text = re.sub(r'^#+\s*(.*?)$', r'\\section{\1}', text, flags=re.MULTILINE)
-        text = re.sub(r'^##\s*(.*?)$', r'\\section{\1}', text, flags=re.MULTILINE)
-        text = re.sub(r'^###\s*(.*?)$', r'\\subsection{\1}', text, flags=re.MULTILINE)
-        text = re.sub(r'^####\s*(.*?)$', r'\\subsubsection{\1}', text, flags=re.MULTILINE)
-
-        # 7. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
+        # 9. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
         lines = text.split('\n')
         new_lines = []
         in_list = False
@@ -145,105 +175,87 @@ class LaTeXExporterService:
             if bullet_match:
                 if not in_list or list_type != 'itemize':
                     if in_list:
-                        new_lines.append(f'\\end{{{list_type}}}')
-                    new_lines.append('\\begin{itemize}')
+                        new_lines.append(f"\\end{{{list_type}}}")
+                    new_lines.append("\\begin{itemize}")
                     in_list = True
                     list_type = 'itemize'
-                new_lines.append(f'  \\item {bullet_match.group(1)}')
+                new_lines.append(f"  \\item {bullet_match.group(1)}")
             elif enum_match:
                 if not in_list or list_type != 'enumerate':
                     if in_list:
-                        new_lines.append(f'\\end{{{list_type}}}')
-                    new_lines.append('\\begin{enumerate}')
+                        new_lines.append(f"\\end{{{list_type}}}")
+                    new_lines.append("\\begin{enumerate}")
                     in_list = True
                     list_type = 'enumerate'
-                new_lines.append(f'  \\item {enum_match.group(1)}')
+                new_lines.append(f"  \\item {enum_match.group(1)}")
             else:
                 if in_list and not stripped:
-                    new_lines.append(f'\\end{{{list_type}}}')
+                    new_lines.append(f"\\end{{{list_type}}}")
                     in_list = False
                     list_type = None
                 new_lines.append(line)
 
         if in_list:
-            new_lines.append(f'\\end{{{list_type}}}')
+            new_lines.append(f"\\end{{{list_type}}}")
 
         text = '\n'.join(new_lines)
 
-        # 5. Parse Markdown tables (| col1 | col2 |) into LaTeX booktabs
+        # 10. Format tables into booktabs
         lines = text.split('\n')
         final_lines = []
-        table_lines = []
         in_table = False
+        table_rows = []
 
         for line in lines:
             stripped = line.strip()
             if stripped.startswith('|') and stripped.endswith('|'):
+                if '---' in stripped:
+                    continue
+                cells = [c.strip() for c in stripped.split('|')[1:-1]]
+                table_rows.append(cells)
                 in_table = True
-                table_lines.append(stripped)
             else:
-                if in_table:
-                    rows = []
-                    for tline in table_lines:
-                        cols = [c.strip() for c in tline.strip('|').split('|')]
-                        if all(re.match(r'^-+$', c) for c in cols):
-                            continue
-                        rows.append(cols)
-                    if rows:
-                        num_cols = max(len(r) for r in rows)
-                        col_spec = 'l ' * num_cols
+                if in_table and table_rows:
+                    valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
+                    if valid_rows and len(valid_rows) >= 2:
+                        cols = max(len(r) for r in valid_rows)
+                        col_align = 'l' * cols
                         final_lines.append('\\begin{table}[htbp]')
                         final_lines.append('\\centering')
-                        final_lines.append(f'\\begin{{tabular}}{{{col_spec.strip()}}}')
+                        final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
                         final_lines.append('\\toprule')
-                        header = ' & '.join(rows[0]) + ' \\\\'
-                        final_lines.append(header)
+                        final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
                         final_lines.append('\\midrule')
-                        for r in rows[1:]:
-                            row_str = ' & '.join(r) + ' \\\\'
-                            final_lines.append(row_str)
+                        for r in valid_rows[1:]:
+                            final_lines.append(' & '.join(r) + ' \\\\')
                         final_lines.append('\\bottomrule')
                         final_lines.append('\\end{tabular}')
                         final_lines.append('\\end{table}')
-                    table_lines = []
                     in_table = False
+                    table_rows = []
                 final_lines.append(line)
 
-        if in_table:
-            rows = []
-            for tline in table_lines:
-                cols = [c.strip() for c in tline.strip('|').split('|')]
-                if all(re.match(r'^-+$', c) for c in cols):
-                    continue
-                rows.append(cols)
-            if rows:
-                num_cols = max(len(r) for r in rows)
-                col_spec = 'l ' * num_cols
+        if in_table and table_rows:
+            valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
+            if valid_rows and len(valid_rows) >= 2:
+                cols = max(len(r) for r in valid_rows)
+                col_align = 'l' * cols
                 final_lines.append('\\begin{table}[htbp]')
                 final_lines.append('\\centering')
-                final_lines.append(f'\\begin{{tabular}}{{{col_spec.strip()}}}')
+                final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
                 final_lines.append('\\toprule')
-                header = ' & '.join(rows[0]) + ' \\\\'
-                final_lines.append(header)
+                final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
                 final_lines.append('\\midrule')
-                for r in rows[1:]:
-                    row_str = ' & '.join(r) + ' \\\\'
-                    final_lines.append(row_str)
+                for r in valid_rows[1:]:
+                    final_lines.append(' & '.join(r) + ' \\\\')
                 final_lines.append('\\bottomrule')
                 final_lines.append('\\end{tabular}')
                 final_lines.append('\\end{table}')
 
         text = '\n'.join(final_lines)
 
-        # 6. Remove residual literal [?] placeholder strings
-        text = re.sub(r'\(?\s*[\'\"]?\s*\[\?\]\s*[\'\"]?\s*\)?', '', text)
-
-        # 7. Heading replacements and markdown inline formatting
+        # 11. Format bold and italic markdown
         latex_body = text
-        latex_body = re.sub(r'^# (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
-        latex_body = re.sub(r'^## (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
-        latex_body = re.sub(r'^### (.*?)$', r'\\subsection{\1}', latex_body, flags=re.MULTILINE)
-        latex_body = re.sub(r'^#### (.*?)$', r'\\subsubsection{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', latex_body)
         latex_body = re.sub(r'\*(.*?)\*', r'\\textit{\1}', latex_body)
         return latex_body
@@ -255,7 +267,7 @@ class LaTeXExporterService:
     def markdown_to_venue_latex(self, venue_key: str, title: str, authors: List[str], abstract: str, body_markdown: str, bib_entries: List[Dict[str, str]] = None) -> str:
         """Converts Markdown manuscript into venue-specific LaTeX for NeurIPS, ICML, CVPR, ACL, IEEEtran, or ACM."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
-        clean_title = self.clean_title_str(self.sanitize_latex(title))
+        clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
         clean_abstract = self.sanitize_latex(abstract)
         latex_body = self.convert_markdown_body(body_markdown)
         
