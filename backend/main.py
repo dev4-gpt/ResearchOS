@@ -178,8 +178,17 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
         bib_code = exporter.generate_bibtex(papers_data)
 
+        # Ensure exports directory exists in vault
+        exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
+        os.makedirs(exports_dir, exist_ok=True)
+
         if venue == "ALL":
             bundle = exporter.export_multi_venue_bundle(title, authors, abstract, content)
+            for v_key, v_code in bundle.items():
+                with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{v_key}.tex"), "w", encoding="utf-8") as f:
+                    f.write(v_code)
+            with open(os.path.join(exports_dir, "references.bib"), "w", encoding="utf-8") as f:
+                f.write(bib_code)
             return {
                 "success": True,
                 "filename": filename,
@@ -189,6 +198,13 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
             }
 
         tex_code = exporter.markdown_to_venue_latex(venue or "NeurIPS", title, authors, abstract, content)
+        
+        # Save vault copy
+        with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.tex"), "w", encoding="utf-8") as f:
+            f.write(tex_code)
+        with open(os.path.join(exports_dir, "references.bib"), "w", encoding="utf-8") as f:
+            f.write(bib_code)
+
         return {
             "success": True,
             "filename": filename,
@@ -227,6 +243,13 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             raise HTTPException(status_code=500, detail="PDF compilation failed or pdflatex encountered an error.")
 
         pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
+
+        # Save vault copy
+        exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
+        os.makedirs(exports_dir, exist_ok=True)
+        with open(os.path.join(exports_dir, pdf_filename), "wb") as f:
+            f.write(pdf_bytes)
+
         return Response(
             content=pdf_bytes,
             media_type="application/pdf",
