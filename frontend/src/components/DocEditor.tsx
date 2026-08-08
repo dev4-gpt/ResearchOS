@@ -137,10 +137,10 @@ const DocEditor: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', height: '100%', gap: '16px', overflow: 'hidden' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', height: 'calc(100vh - 24px)', minHeight: '0', gap: '16px', overflow: 'hidden' }}>
       
       {/* Sidebar: File Explorer */}
-      <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden' }}>
+      <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', minHeight: '0' }}>
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '15px', fontWeight: '700', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
           <FolderOpen size={16} />
           <span>Obsidian Vault Files</span>
@@ -251,7 +251,7 @@ const DocEditor: React.FC = () => {
       </div>
 
       {/* Editor Panel */}
-      <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden' }}>
+      <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', minHeight: '0' }}>
         {isLoadingFile ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
             <span className="pulse-loading" style={{ fontSize: '13px' }}>Reading markdown file from Obsidian Vault...</span>
@@ -510,10 +510,10 @@ const DocEditor: React.FC = () => {
             </div>
 
             {/* Split layout: Editor Text vs Preview/Frontmatter */}
-            <div style={{ display: 'grid', gridTemplateColumns: editMode === 'edit' ? '1fr 300px' : '1fr', gap: '16px', overflow: 'hidden', height: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: editMode === 'edit' ? '1fr 300px' : '1fr', gap: '16px', overflow: 'hidden', height: '100%', minHeight: '0' }}>
               
               {/* Primary Content Editor / Preview Pane */}
-              <div style={{ height: '100%', overflow: 'hidden' }}>
+              <div style={{ height: '100%', minHeight: '0', overflow: 'hidden' }}>
                 {editMode === 'edit' ? (
                   <textarea
                     value={content}

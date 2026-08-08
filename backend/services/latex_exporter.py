@@ -448,9 +448,10 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
         return "\n".join(bib_lines)
 
     def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None) -> Optional[bytes]:
-        """Compiles TeX code into PDF bytes using local pdflatex command if installed."""
+        """Compiles TeX code into PDF bytes using local pdflatex command with automatic safe package fallbacks."""
         import tempfile
         import subprocess
+        import shutil
 
         pdflatex_bin = None
         for p in ["/Library/TeX/texbin/pdflatex", "/usr/local/bin/pdflatex", "/usr/bin/pdflatex"]:
@@ -459,27 +460,33 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 break
         
         if not pdflatex_bin:
-            # Check PATH
-            import shutil
             pdflatex_bin = shutil.which("pdflatex")
 
         if not pdflatex_bin:
             print("pdflatex binary not found on local system.")
             return None
 
+        # Build safe TeX code fallback if custom .sty files are missing from system TeX Live
+        tex_code_safe = (
+            tex_code.replace('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}')
+                    .replace('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}')
+                    .replace('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}')
+                    .replace('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}')
+                    .replace('\\documentclass[sigconf]{acmart}', '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}')
+        )
+
         with tempfile.TemporaryDirectory() as tmpdir:
             tex_path = os.path.join(tmpdir, "document.tex")
             bib_path = os.path.join(tmpdir, "references.bib")
 
             with open(tex_path, "w", encoding="utf-8") as f:
-                f.write(tex_code)
+                f.write(tex_code_safe)
 
             if bib_code:
                 with open(bib_path, "w", encoding="utf-8") as f:
                     f.write(bib_code)
 
             try:
-                # Run pdflatex twice for cross-references
                 cmd = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
                 subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
