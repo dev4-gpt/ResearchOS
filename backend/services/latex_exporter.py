@@ -300,3 +300,50 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 """
             bib_lines.append(entry)
         return "\n".join(bib_lines)
+
+    def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None) -> Optional[bytes]:
+        """Compiles TeX code into PDF bytes using local pdflatex command if installed."""
+        import tempfile
+        import subprocess
+
+        pdflatex_bin = None
+        for p in ["/Library/TeX/texbin/pdflatex", "/usr/local/bin/pdflatex", "/usr/bin/pdflatex"]:
+            if os.path.exists(p) and os.access(p, os.X_OK):
+                pdflatex_bin = p
+                break
+        
+        if not pdflatex_bin:
+            # Check PATH
+            import shutil
+            pdflatex_bin = shutil.which("pdflatex")
+
+        if not pdflatex_bin:
+            print("pdflatex binary not found on local system.")
+            return None
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tex_path = os.path.join(tmpdir, "document.tex")
+            bib_path = os.path.join(tmpdir, "references.bib")
+
+            with open(tex_path, "w", encoding="utf-8") as f:
+                f.write(tex_code)
+
+            if bib_code:
+                with open(bib_path, "w", encoding="utf-8") as f:
+                    f.write(bib_code)
+
+            try:
+                # Run pdflatex twice for cross-references
+                cmd = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
+                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+
+                pdf_path = os.path.join(tmpdir, "document.pdf")
+                if os.path.exists(pdf_path):
+                    with open(pdf_path, "rb") as f:
+                        return f.read()
+            except Exception as e:
+                print(f"Error compiling PDF with pdflatex: {e}")
+
+        return None
+

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw } from 'lucide-react';
+import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download } from 'lucide-react';
 import { apiFetch } from '../api';
 
 interface VaultFile {
@@ -438,6 +438,41 @@ const DocEditor: React.FC = () => {
                     >
                       <Save size={14} />
                       <span>Copy LaTeX</span>
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
+                        try {
+                          const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
+                          const pdfUrl = `http://127.0.0.1:8000/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`;
+                          const a = document.createElement('a');
+                          a.href = pdfUrl;
+                          a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                        } catch (e) {
+                          console.error('Failed to download PDF:', e);
+                          alert('Failed to trigger PDF download.');
+                        }
+                      }}
+                      style={{
+                        background: 'rgba(239,68,68,0.15)',
+                        color: '#f87171',
+                        border: '1px solid rgba(239,68,68,0.4)',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <Download size={14} />
+                      <span>Download PDF</span>
                     </button>
                   </div>
                 )}
