@@ -170,7 +170,10 @@ const App: React.FC = () => {
               }}
             >
               <Network size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
-              <span className="sidebar-text">Knowledge Graph</span>
+              <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                <span>Knowledge Graph</span>
+                <span style={{ fontSize: '9px', background: 'rgba(16,185,129,0.15)', color: '#10b981', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>Active</span>
+              </span>
             </button>
 
             <button 
@@ -183,7 +186,10 @@ const App: React.FC = () => {
               }}
             >
               <FileText size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
-              <span className="sidebar-text">HITL Publisher</span>
+              <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                <span>HITL Publisher</span>
+                <span style={{ fontSize: '9px', background: 'rgba(59,130,246,0.15)', color: '#60a5fa', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>50+ Files</span>
+              </span>
             </button>
           </nav>
         </div>
