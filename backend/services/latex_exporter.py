@@ -90,6 +90,12 @@ class LaTeXExporterService:
         authors_list = authors or ["ResearchingOS Council", "Penn State AI Collaborator"]
         authors_str = ", ".join(authors_list)
 
+        neurips_authors = " \\And ".join([a + "\\\\ Penn State AI Laboratory" for a in authors_list])
+        icml_authors = " ".join(["\\icmlauthor{" + a + "}{psu}" for a in authors_list])
+        cvpr_authors = " \\and ".join(authors_list)
+        acl_authors = " \\\\ ".join(authors_list)
+        ieee_authors = " \\and ".join(["\\IEEEauthorblockN{" + a + "}" for a in authors_list])
+
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
@@ -97,7 +103,7 @@ class LaTeXExporterService:
 \\title{{{clean_title}}}
 
 \\author{{
-  {" \\And ".join([f"{a}\\\\ Penn State AI Laboratory" for a in authors_list])}
+  {neurips_authors}
 }}
 
 \\begin{{document}}
@@ -135,7 +141,7 @@ class LaTeXExporterService:
 \\icmltitle{{{clean_title}}}
 
 \\begin{{icmlauthorlist}}
-{" ".join([f"\\icmlauthor{{{a}}}{{psu}}" for a in authors_list])}
+{icml_authors}
 \\end{{icmlauthorlist}}
 
 \\icmlaffiliation{{psu}}{{Department of Computer Science & Artificial Intelligence, The Pennsylvania State University}}
@@ -165,7 +171,7 @@ class LaTeXExporterService:
 \\title{{{clean_title}}}
 
 \\author{{
-{" \\and ".join(authors_list)}\\\\
+{cvpr_authors}\\\\
 The Pennsylvania State University\\\\
 {{\\tt\\small {{research, ai}}@psu.edu}}
 }}
@@ -192,7 +198,7 @@ The Pennsylvania State University\\\\
 \\title{{{clean_title}}}
 
 \\author{{
-{" \\\\ ".join(authors_list)}\\\\
+{acl_authors}\\\\
 The Pennsylvania State University\\\\
 \\texttt{{research@psu.edu}}
 }}
@@ -237,7 +243,6 @@ The Pennsylvania State University\\\\
 \\end{{document}}
 """
         else: # IEEEtran
-            authors_formatted = " \\and ".join([f"\\IEEEauthorblockN{{{a}}}" for a in authors_list])
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
@@ -246,7 +251,7 @@ The Pennsylvania State University\\\\
 \\title{{{clean_title}}}
 
 \\author{{
-{authors_formatted}\\\\
+{ieee_authors}\\\\
 \\IEEEauthorblockA{{\\\\Department of Computer Science \\& AI, The Pennsylvania State University\\\\
 Email: research@psu.edu}}
 }}

@@ -223,7 +223,7 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
     from fastapi.responses import Response
     from services.latex_exporter import LaTeXExporterService
     try:
-        draft = vault_manager.get_file("drafts", filename)
+        draft = vault_manager.read_markdown("drafts", filename)
         if not draft:
             raise HTTPException(status_code=404, detail="Manuscript draft not found")
 
