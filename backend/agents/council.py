@@ -112,71 +112,116 @@ class CouncilOrchestrator:
         self.harness_controller = AutonomousHarnessController()
         
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.is_dry_run = not bool(self.api_key)
+        self.nim_api_key = os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY")
+        self.is_dry_run = not bool(self.api_key or self.nim_api_key)
         
-        if not self.is_dry_run:
+        if self.api_key:
             genai.configure(api_key=self.api_key)  # type: ignore[attr-defined]
             
-        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Dry Run Mode: {self.is_dry_run}")
+        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Gemini: {bool(self.api_key)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
+
+    def _call_nvidia_nim(self, prompt: str, system_instruction: str) -> Optional[str]:
+        """Calls NVIDIA NIM API endpoint (e.g., meta/llama-3.3-70b-instruct or deepseek-ai/deepseek-r1)."""
+        if not self.nim_api_key:
+            return None
+        try:
+            import httpx
+            nim_model = os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.3-70b-instruct")
+            headers = {
+                "Authorization": f"Bearer {self.nim_api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": nim_model,
+                "messages": [
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.2,
+                "max_tokens": 4096
+            }
+            response = httpx.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=60.0
+            )
+            if response.status_code == 200:
+                data = response.json()
+                return data["choices"][0]["message"]["content"]
+            else:
+                print(f"NVIDIA NIM API Error ({response.status_code}): {response.text}")
+        except Exception as e:
+            print(f"NVIDIA NIM API Call Exception: {e}")
+        return None
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
-        """Helper to invoke Gemini API with appropriate model and instructions."""
+        """Helper to invoke LLM providers (Gemini API with fallback to NVIDIA NIM API)."""
         if self.is_dry_run:
-            # Simulate slight lag
             time.sleep(0.5)
             return f"[MOCK RESPONSE from {agent_key}] Based on the research, this is a simulated analysis of your query."
 
         agent_cfg = AGENT_PERSONAS[agent_key]
-        primary_model = agent_cfg["model"]
-        env_model_pro = os.getenv("GEMINI_PRO_MODEL")
-        env_model_flash = os.getenv("GEMINI_FLASH_MODEL")
-        
-        if "pro" in primary_model and env_model_pro:
-            primary_model = env_model_pro
-        elif "flash" in primary_model and env_model_flash:
-            primary_model = env_model_flash
-
-        # Cascade through available flash/pro models
-        candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash"]
-        candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
-
         base_instruction = system_instruction or agent_cfg["instruction"]
         durable_refinement = self.continual_memory.get_agent_refinements(agent_key)
         instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
-        
-        import random
-        max_retries = 3
-        base_delay = 4.0
-        
-        last_exception = None
-        for m_name in candidate_models:
-            for attempt in range(max_retries):
-                try:
-                    model = genai.GenerativeModel(  # type: ignore[attr-defined]
-                        model_name=m_name,
-                        system_instruction=instruction
-                    )
-                    response = model.generate_content(prompt)
-                    if response and response.text:
-                        return str(response.text)
-                except Exception as e:
-                    last_exception = e
-                    error_msg = str(e)
-                    is_daily_quota = "PerDay" in error_msg or "daily" in error_msg.lower()
-                    is_rate_limit = "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower()
-                    
-                    if is_daily_quota:
-                        # Daily quota exceeded for this model, immediately try next model in candidate_models
-                        print(f"Model {m_name} daily quota reached. Cascading to next candidate model...")
+
+        # Try NVIDIA NIM API if preferred or configured
+        if self.nim_api_key and os.getenv("PREFER_NVIDIA_NIM", "false").lower() == "true":
+            nim_resp = self._call_nvidia_nim(prompt, instruction)
+            if nim_resp:
+                return nim_resp
+
+        # Call Gemini API with candidate model cascade
+        if self.api_key:
+            primary_model = agent_cfg["model"]
+            env_model_pro = os.getenv("GEMINI_PRO_MODEL")
+            env_model_flash = os.getenv("GEMINI_FLASH_MODEL")
+            
+            if "pro" in primary_model and env_model_pro:
+                primary_model = env_model_pro
+            elif "flash" in primary_model and env_model_flash:
+                primary_model = env_model_flash
+
+            candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash"]
+            candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
+            
+            import random
+            max_retries = 3
+            base_delay = 4.0
+            
+            for m_name in candidate_models:
+                for attempt in range(max_retries):
+                    try:
+                        model = genai.GenerativeModel(  # type: ignore[attr-defined]
+                            model_name=m_name,
+                            system_instruction=instruction
+                        )
+                        response = model.generate_content(prompt)
+                        if response and response.text:
+                            return str(response.text)
+                    except Exception as e:
+                        error_msg = str(e)
+                        is_daily_quota = "PerDay" in error_msg or "daily" in error_msg.lower()
+                        is_rate_limit = "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower()
+                        
+                        if is_daily_quota:
+                            print(f"Model {m_name} daily quota reached. Cascading...")
+                            break
+
+                        if is_rate_limit and attempt < max_retries - 1:
+                            sleep_time = min(30.0, (1.5 ** attempt) * base_delay + random.uniform(0.5, 1.5))
+                            print(f"Gemini API rate limited (429) for {agent_key} ({m_name}). Retrying in {sleep_time:.1f}s...")
+                            time.sleep(sleep_time)
+                            continue
                         break
 
-                    if is_rate_limit and attempt < max_retries - 1:
-                        sleep_time = min(30.0, (1.5 ** attempt) * base_delay + random.uniform(0.5, 1.5))
-                        print(f"Gemini API rate limited (429) for {agent_key} ({m_name}). Retrying in {sleep_time:.1f}s... (Attempt {attempt + 1}/{max_retries})")
-                        time.sleep(sleep_time)
-                        continue
-                    
-                    break
+        # Fallback to NVIDIA NIM if Gemini failed or quota exceeded
+        if self.nim_api_key:
+            print(f"Gemini unavailable. Fallback to NVIDIA NIM API for {agent_key}...")
+            nim_resp = self._call_nvidia_nim(prompt, instruction)
+            if nim_resp:
+                return nim_resp
 
         print(f"⚠️ Free-tier API quota reached for {agent_key}. Applying structured research fallback.")
         return (

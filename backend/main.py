@@ -49,11 +49,14 @@ class SaveFileRequest(BaseModel):
 
 @app.get("/api/health")
 def health_check():
+    gemini_key = bool(os.getenv("GEMINI_API_KEY"))
+    nim_key = bool(os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY"))
     return {
         "status": "healthy",
-        "gemini_api_configured": bool(os.getenv("GEMINI_API_KEY")),
+        "gemini_api_configured": gemini_key,
+        "nvidia_nim_configured": nim_key,
         "vault_path": vault_manager.vault_path,
-        "is_dry_run": not bool(os.getenv("GEMINI_API_KEY"))
+        "is_dry_run": not (gemini_key or nim_key)
     }
 
 @app.get("/api/vault/files")
