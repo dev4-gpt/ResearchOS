@@ -58,15 +58,43 @@ class LaTeXExporterService:
         self.vault_manager = vault_manager
 
     def sanitize_latex(self, text: str) -> str:
-        """Preserves math blocks $$...$$ and $...$ while cleaning special LaTeX characters."""
+        """Preserves math blocks $$...$$ and $...$ while cleaning special LaTeX and Unicode characters."""
+        if not text:
+            return ""
+        # Replace non-ASCII quote and punctuation characters first
+        char_map = {
+            '“': '"', '”': '"', '’': "'", '‘': "'", '–': '-', '—': '--', '…': '...',
+            '┌': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+',
+            '═': '=', '║': '|', '▲': '^', '▼': 'v', '◆': '*', '●': '*', '★': '*', '✓': '[V]', '✗': '[X]',
+            '🚀': '', '🎉': '', '📦': '', '🛡️': '', '🏛️': '', '📊': '', '💡': '', '🏆': '', '⚡': '', '🌐': ''
+        }
+        for char, repl in char_map.items():
+            text = text.replace(char, repl)
+
         parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$)', text)
         for i in range(0, len(parts), 2):
             parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '\\#').replace('_', '\\_')
         return "".join(parts)
 
     def convert_markdown_body(self, body_markdown: str) -> str:
-        """Converts Markdown headings, bold, italics, and wikilinks to LaTeX commands."""
-        latex_body = body_markdown
+        """Converts Markdown headings, bold, italics, code blocks, and wikilinks to LaTeX commands."""
+        text = body_markdown
+        
+        # Replace code blocks with verbatim environments
+        def replace_code_block(match):
+            code_content = match.group(1)
+            # Remove any residual box drawing characters inside code blocks
+            char_map = {'┌': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+'}
+            for char, repl in char_map.items():
+                code_content = code_content.replace(char, repl)
+            return f"\\begin{{verbatim}}\n{code_content}\n\\end{{verbatim}}"
+
+        text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
+
+        # Sanitize body text outside math blocks
+        text = self.sanitize_latex(text)
+
+        latex_body = text
         latex_body = re.sub(r'^# (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^## (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^### (.*?)$', r'\\subsection{\1}', latex_body, flags=re.MULTILINE)
