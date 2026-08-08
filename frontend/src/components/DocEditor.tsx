@@ -353,15 +353,21 @@ const DocEditor: React.FC = () => {
                                 const a = document.createElement('a');
                                 a.href = url;
                                 a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
+                                document.body.appendChild(a);
                                 a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
                               });
-                            } else {
+                            } else if (data.tex_code) {
                               const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
                               const url = URL.createObjectURL(blob);
                               const a = document.createElement('a');
                               a.href = url;
                               a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
+                              document.body.appendChild(a);
                               a.click();
+                              document.body.removeChild(a);
+                              URL.revokeObjectURL(url);
                             }
 
                             if (data.bib_code) {
@@ -370,11 +376,17 @@ const DocEditor: React.FC = () => {
                               const bibA = document.createElement('a');
                               bibA.href = bibUrl;
                               bibA.download = 'references.bib';
+                              document.body.appendChild(bibA);
                               bibA.click();
+                              document.body.removeChild(bibA);
+                              URL.revokeObjectURL(bibUrl);
                             }
+                          } else {
+                            alert(`Export failed with status: ${res.status}`);
                           }
                         } catch (e) {
                           console.error('Failed to export venue LaTeX:', e);
+                          alert('Failed to export LaTeX. Check browser console.');
                         }
                       }}
                       style={{
@@ -393,6 +405,39 @@ const DocEditor: React.FC = () => {
                     >
                       <FileText size={14} />
                       <span>Export {selectedVenue === 'ALL' ? 'Multi-Path Bundle' : selectedVenue + ' LaTeX'}</span>
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
+                        try {
+                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                          if (res.ok) {
+                            const data = await res.json();
+                            const codeToCopy = data.tex_code || (data.bundle ? data.bundle[selectedVenue] || Object.values(data.bundle)[0] : '');
+                            await navigator.clipboard.writeText(codeToCopy as string);
+                            alert(`Copied ${selectedVenue} LaTeX code to clipboard! You can paste directly into Overleaf.`);
+                          }
+                        } catch (e) {
+                          console.error('Failed to copy LaTeX:', e);
+                        }
+                      }}
+                      style={{
+                        background: 'rgba(168,85,247,0.15)',
+                        color: '#c084fc',
+                        border: '1px solid rgba(168,85,247,0.4)',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <Save size={14} />
+                      <span>Copy LaTeX</span>
                     </button>
                   </div>
                 )}

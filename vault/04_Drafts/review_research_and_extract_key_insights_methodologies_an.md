@@ -1,10 +1,10 @@
 ---
-title: "Literature Review: "Research and extract key insights, methodologies, and findings from two papers: 1) 'Self-Consistency Improves Chain of Thought Reasoning' (https://arxiv.org/abs/2203.11171) and 2) 'LLM-as-a-Judge' (https://arxiv.org/pdf/2411.15594). Please evaluate their approaches and store the most important concepts and summaries in the knowledge vault.""
-topic: ""Research and extract key insights, methodologies, and findings from two papers: 1) 'Self-Consistency Improves Chain of Thought Reasoning' (https://arxiv.org/abs/2203.11171) and 2) 'LLM-as-a-Judge' (https://arxiv.org/pdf/2411.15594). Please evaluate their approaches and store the most important concepts and summaries in the knowledge vault.""
+title: "Literature Review: "Research and extract key insights, methodologies, and findings from two papers: 1) 'Self-Consistency Improves Chain of Thought Reasoning' (https://arxiv.org/abs/2203.11171) and 2) 'LLM-as-a-Judge' (https://arxiv.org/pdf/2411.15594). Please evaluate their approaches and store the most important concepts and summaries in the knowledge vault."
+topic: "Research and extract key insights, methodologies, and findings from two papers: 1) 'Self-Consistency Improves Chain of Thought Reasoning' (https://arxiv.org/abs/2203.11171) and 2) 'LLM-as-a-Judge' (https://arxiv.org/pdf/2411.15594). Please evaluate their approaches and store the most important concepts and summaries in the knowledge vault."
 status: "draft"
 format: "IEEE/ACM markdown"
 tags:
-  - ""research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault.""
+  - "research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault."
   - "literature-review"
   - "draft"
 ---
