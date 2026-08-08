@@ -32,6 +32,15 @@ const CATEGORY_META: Record<string, { color: string; label: string }> = {
   drafts: { color: '#f43f5e', label: 'Manuscript Drafts' }   // Rose
 };
 
+function hashStringToFloat(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return (Math.abs(hash) % 1000) / 1000;
+}
+
 const GraphView: React.FC = () => {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,16 +71,20 @@ const GraphView: React.FC = () => {
         const data: GraphData = await res.json();
         setGraphData(data);
         
-        // Initialize node positions randomly around center
+        // Initialize node positions deterministically based on node id hash
         const width = 600;
         const height = 400;
-        const initializedNodes = data.nodes.map(n => ({
-          ...n,
-          x: width / 2 + (Math.random() - 0.5) * 150,
-          y: height / 2 + (Math.random() - 0.5) * 150,
-          vx: 0,
-          vy: 0
-        }));
+        const initializedNodes = data.nodes.map(n => {
+          const hX = hashStringToFloat(n.id);
+          const hY = hashStringToFloat(n.id + '_y');
+          return {
+            ...n,
+            x: width / 2 + (hX - 0.5) * 300,
+            y: height / 2 + (hY - 0.5) * 200,
+            vx: 0,
+            vy: 0
+          };
+        });
         setNodes(initializedNodes);
       }
     } catch (e) {
