@@ -157,6 +157,47 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/vault/export-venue-latex")
+def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
+    """Exports manuscript in specific venue format (NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM) or multi-path bundle."""
+    try:
+        doc_data = vault_manager.read_markdown("drafts", filename)
+        content = doc_data.get("content", "")
+        frontmatter = doc_data.get("frontmatter", {})
+        title = frontmatter.get("title", filename.replace(".md", ""))
+        authors = frontmatter.get("authors", ["Penn State AI Collaborator", "ResearchingOS Council"])
+        
+        abstract_match = content.split("## Executive Abstract\n\n")
+        abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
+        
+        exporter = LaTeXExporterService(vault_manager)
+        paper_files = vault_manager.list_files("papers")
+        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
+        bib_code = exporter.generate_bibtex(papers_data)
+
+        if venue == "ALL":
+            bundle = exporter.export_multi_venue_bundle(title, authors, abstract, content)
+            return {
+                "success": True,
+                "filename": filename,
+                "venue": "ALL",
+                "bundle": bundle,
+                "bib_code": bib_code
+            }
+
+        tex_code = exporter.markdown_to_venue_latex(venue or "NeurIPS", title, authors, abstract, content)
+        return {
+            "success": True,
+            "filename": filename,
+            "venue": venue,
+            "tex_filename": f"{filename.replace('.md', '')}_{venue}.tex",
+            "bib_filename": "references.bib",
+            "tex_code": tex_code,
+            "bib_code": bib_code
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/research/topics")
 def get_curated_topics():
     """Returns curated high-impact academic research topics for systematic reviews."""

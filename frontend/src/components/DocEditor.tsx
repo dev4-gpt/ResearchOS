@@ -28,6 +28,7 @@ const DocEditor: React.FC = () => {
   const [frontmatter, setFrontmatter] = useState<any>({});
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [editMode, setEditMode] = useState<'edit' | 'preview'>('edit');
+  const [selectedVenue, setSelectedVenue] = useState<string>('NeurIPS');
 
   useEffect(() => {
     fetchFilesList();
@@ -311,50 +312,89 @@ const DocEditor: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Export IEEEtran LaTeX & BibTeX Buttons */}
+                {/* Multi-Venue Format & LaTeX Exporter Controls */}
                 {activeCategory === 'drafts' && (
-                  <button
-                    onClick={async () => {
-                      try {
-                        const res = await fetch(`/api/vault/export-latex?filename=${activeFilename}`);
-                        if (res.ok) {
-                          const data = await res.json();
-                          const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
-                          const url = URL.createObjectURL(blob);
-                          const a = document.createElement('a');
-                          a.href = url;
-                          a.download = data.tex_filename || 'manuscript_IEEEtran.tex';
-                          a.click();
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <select
+                      value={selectedVenue}
+                      onChange={(e) => setSelectedVenue(e.target.value)}
+                      style={{
+                        background: 'rgba(15,23,42,0.8)',
+                        color: '#93c5fd',
+                        border: '1px solid rgba(59,130,246,0.3)',
+                        borderRadius: '6px',
+                        padding: '5px 8px',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        outline: 'none',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <option value="NeurIPS">NeurIPS (9-Page Single-Col)</option>
+                      <option value="ICML">ICML (8-Page Two-Col)</option>
+                      <option value="CVPR">CVPR (8-Page Two-Col)</option>
+                      <option value="ACL">ACL / ARR (8-Page Two-Col)</option>
+                      <option value="IEEEtran">IEEEtran (10-25 Page Journal)</option>
+                      <option value="ACM">ACM (CSUR / SIGKDD)</option>
+                      <option value="ALL">📦 Export All Venues (Multi-Path)</option>
+                    </select>
 
-                          // Also download BibTeX
-                          const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
-                          const bibUrl = URL.createObjectURL(bibBlob);
-                          const bibA = document.createElement('a');
-                          bibA.href = bibUrl;
-                          bibA.download = 'references.bib';
-                          bibA.click();
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
+                        try {
+                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                          if (res.ok) {
+                            const data = await res.json();
+                            if (selectedVenue === 'ALL' && data.bundle) {
+                              Object.entries(data.bundle).forEach(([vKey, code]) => {
+                                const blob = new Blob([code as string], { type: 'text/x-tex' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
+                                a.click();
+                              });
+                            } else {
+                              const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
+                              a.click();
+                            }
+
+                            if (data.bib_code) {
+                              const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
+                              const bibUrl = URL.createObjectURL(bibBlob);
+                              const bibA = document.createElement('a');
+                              bibA.href = bibUrl;
+                              bibA.download = 'references.bib';
+                              bibA.click();
+                            }
+                          }
+                        } catch (e) {
+                          console.error('Failed to export venue LaTeX:', e);
                         }
-                      } catch (e) {
-                        console.error('Failed to export LaTeX:', e);
-                      }
-                    }}
-                    style={{
-                      background: 'rgba(99,102,241,0.15)',
-                      color: '#818cf8',
-                      border: '1px solid rgba(99,102,241,0.3)',
-                      padding: '6px 12px',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <FileText size={14} />
-                    <span>Export IEEEtran LaTeX & BibTeX</span>
-                  </button>
+                      }}
+                      style={{
+                        background: 'rgba(59,130,246,0.15)',
+                        color: '#93c5fd',
+                        border: '1px solid rgba(59,130,246,0.4)',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <FileText size={14} />
+                      <span>Export {selectedVenue === 'ALL' ? 'Multi-Path Bundle' : selectedVenue + ' LaTeX'}</span>
+                    </button>
+                  </div>
                 )}
 
                 {/* Save Action */}
