@@ -234,9 +234,10 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
 
-        papers = vault_manager.list_files("papers")
+        paper_files = vault_manager.list_files("papers")
+        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
         exporter = LaTeXExporterService(vault_manager)
-        bib_code = exporter.generate_bibtex(papers)
+        bib_code = exporter.generate_bibtex(papers_data)
         tex_code = exporter.markdown_to_venue_latex(venue or "IEEEtran", title, authors, abstract, content)
 
         pdf_bytes = exporter.compile_pdflatex(tex_code, bib_code)

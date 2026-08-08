@@ -57,8 +57,23 @@ class LaTeXExporterService:
     def __init__(self, vault_manager: Any = None):
         self.vault_manager = vault_manager
 
+    def clean_citation_key(self, key: str) -> str:
+        """Cleans and normalizes citation keys into simple alphanumeric/underscore strings for BibTeX matching."""
+        key = key.replace(".md", "")
+        key = re.sub(r'[^a-zA-Z0-9_]', '_', key)
+        key = re.sub(r'_+', '_', key).strip('_')
+        return key
+
+    def clean_title_str(self, title: str) -> str:
+        """Strips raw markdown prompt wrappers and headers from paper titles."""
+        if not title:
+            return "Systematic Literature Review"
+        title = re.sub(r'^(Literature Review:\s*\"?|#+\s*)', '', title, flags=re.IGNORECASE)
+        title = title.rstrip('\"').strip()
+        return title
+
     def sanitize_latex(self, text: str) -> str:
-        """Preserves math blocks $$...$$ and $...$ while cleaning special LaTeX and Unicode characters."""
+        """Preserves math blocks $$...$$, $...$, and \\cite{...} tags while cleaning special LaTeX and Unicode characters."""
         if not text:
             return ""
         # Replace non-ASCII quote and punctuation characters first
@@ -71,9 +86,10 @@ class LaTeXExporterService:
         for char, repl in char_map.items():
             text = text.replace(char, repl)
 
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$)', text)
+        # Preserve math blocks $$...$$ and $...$ AND \\cite{...} tags so underscores inside cite keys are NOT escaped
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
-            parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '\\#').replace('_', '\\_')
+            parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '').replace('_', '\\_')
         return "".join(parts)
 
     def convert_markdown_body(self, body_markdown: str) -> str:
@@ -90,7 +106,14 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
-        # 2. Humanize AI prose (remove AI fluff/buzzwords)
+        # 2. Filter out raw ASCII box diagrams (+----+ lines, | ... |, v v)
+        text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
+        text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
+
+        # 3. Convert Wikilinks [[key]] into \cite{clean_citation_key(key)}
+        text = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
+
+        # 4. Humanize AI prose (remove AI fluff/buzzwords)
         ai_fluff = [
             r'\bIn conclusion,?\b', r'\bIn summary,?\b', r'\bDelve into\b', r'\bdelving into\b',
             r'\btapestry of\b', r'\bbeacon of\b', r'\bcrucial role\b', r'\bit is important to note that\b',
@@ -99,10 +122,16 @@ class LaTeXExporterService:
         for pattern in ai_fluff:
             text = re.sub(pattern, '', text, flags=re.IGNORECASE)
 
-        # 3. Sanitize body text outside math blocks
+        # 5. Sanitize body text outside math & cite blocks
         text = self.sanitize_latex(text)
 
-        # 4. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
+        # 6. Parse headings BEFORE list processing
+        text = re.sub(r'^#+\s*(.*?)$', r'\\section{\1}', text, flags=re.MULTILINE)
+        text = re.sub(r'^##\s*(.*?)$', r'\\section{\1}', text, flags=re.MULTILINE)
+        text = re.sub(r'^###\s*(.*?)$', r'\\subsection{\1}', text, flags=re.MULTILINE)
+        text = re.sub(r'^####\s*(.*?)$', r'\\subsubsection{\1}', text, flags=re.MULTILINE)
+
+        # 7. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
         lines = text.split('\n')
         new_lines = []
         in_list = False
@@ -206,13 +235,15 @@ class LaTeXExporterService:
 
         text = '\n'.join(final_lines)
 
-        # 6. Heading replacements
+        # 6. Remove residual literal [?] placeholder strings
+        text = re.sub(r'\(?\s*[\'\"]?\s*\[\?\]\s*[\'\"]?\s*\)?', '', text)
+
+        # 7. Heading replacements and markdown inline formatting
         latex_body = text
         latex_body = re.sub(r'^# (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^## (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^### (.*?)$', r'\\subsection{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^#### (.*?)$', r'\\subsubsection{\1}', latex_body, flags=re.MULTILINE)
-        latex_body = re.sub(r'\[\[([^\]]+)\]\]', r'\\cite{\1}', latex_body)
         latex_body = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', latex_body)
         latex_body = re.sub(r'\*(.*?)\*', r'\\textit{\1}', latex_body)
         return latex_body
@@ -224,7 +255,7 @@ class LaTeXExporterService:
     def markdown_to_venue_latex(self, venue_key: str, title: str, authors: List[str], abstract: str, body_markdown: str, bib_entries: List[Dict[str, str]] = None) -> str:
         """Converts Markdown manuscript into venue-specific LaTeX for NeurIPS, ICML, CVPR, ACL, IEEEtran, or ACM."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
-        clean_title = self.sanitize_latex(title)
+        clean_title = self.clean_title_str(self.sanitize_latex(title))
         clean_abstract = self.sanitize_latex(abstract)
         latex_body = self.convert_markdown_body(body_markdown)
         
@@ -427,7 +458,7 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
         """Generates a complete BibTeX references file from ingested vault papers."""
         bib_lines = []
         for p in papers:
-            paper_id = p.get("filename", "").replace(".md", "").replace(":", "_").replace(".", "_")
+            paper_id = self.clean_citation_key(p.get("filename", ""))
             title = p.get("frontmatter", {}).get("title", "Untitled Paper")
             authors_list = p.get("frontmatter", {}).get("authors", ["Unknown Author"])
             if isinstance(authors_list, str):
