@@ -77,13 +77,12 @@ class LaTeXExporterService:
         return "".join(parts)
 
     def convert_markdown_body(self, body_markdown: str) -> str:
-        """Converts Markdown headings, bold, italics, code blocks, and wikilinks to LaTeX commands."""
+        """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown
         
-        # Replace code blocks with verbatim environments
+        # 1. Replace code blocks with verbatim environments
         def replace_code_block(match):
             code_content = match.group(1)
-            # Remove any residual box drawing characters inside code blocks
             char_map = {'┌': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+'}
             for char, repl in char_map.items():
                 code_content = code_content.replace(char, repl)
@@ -91,9 +90,123 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
-        # Sanitize body text outside math blocks
+        # 2. Humanize AI prose (remove AI fluff/buzzwords)
+        ai_fluff = [
+            r'\bIn conclusion,?\b', r'\bIn summary,?\b', r'\bDelve into\b', r'\bdelving into\b',
+            r'\btapestry of\b', r'\bbeacon of\b', r'\bcrucial role\b', r'\bit is important to note that\b',
+            r'\bgame-changer\b', r'\bmasterclass\b', r'\blandscape of\b', r'\bdeep dive\b'
+        ]
+        for pattern in ai_fluff:
+            text = re.sub(pattern, '', text, flags=re.IGNORECASE)
+
+        # 3. Sanitize body text outside math blocks
         text = self.sanitize_latex(text)
 
+        # 4. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
+        lines = text.split('\n')
+        new_lines = []
+        in_list = False
+        list_type = None
+
+        for line in lines:
+            stripped = line.strip()
+            bullet_match = re.match(r'^[*\-\+]\s+(.*)', stripped)
+            enum_match = re.match(r'^\d+\.\s+(.*)', stripped)
+
+            if bullet_match:
+                if not in_list or list_type != 'itemize':
+                    if in_list:
+                        new_lines.append(f'\\end{{{list_type}}}')
+                    new_lines.append('\\begin{itemize}')
+                    in_list = True
+                    list_type = 'itemize'
+                new_lines.append(f'  \\item {bullet_match.group(1)}')
+            elif enum_match:
+                if not in_list or list_type != 'enumerate':
+                    if in_list:
+                        new_lines.append(f'\\end{{{list_type}}}')
+                    new_lines.append('\\begin{enumerate}')
+                    in_list = True
+                    list_type = 'enumerate'
+                new_lines.append(f'  \\item {enum_match.group(1)}')
+            else:
+                if in_list and not stripped:
+                    new_lines.append(f'\\end{{{list_type}}}')
+                    in_list = False
+                    list_type = None
+                new_lines.append(line)
+
+        if in_list:
+            new_lines.append(f'\\end{{{list_type}}}')
+
+        text = '\n'.join(new_lines)
+
+        # 5. Parse Markdown tables (| col1 | col2 |) into LaTeX booktabs
+        lines = text.split('\n')
+        final_lines = []
+        table_lines = []
+        in_table = False
+
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith('|') and stripped.endswith('|'):
+                in_table = True
+                table_lines.append(stripped)
+            else:
+                if in_table:
+                    rows = []
+                    for tline in table_lines:
+                        cols = [c.strip() for c in tline.strip('|').split('|')]
+                        if all(re.match(r'^-+$', c) for c in cols):
+                            continue
+                        rows.append(cols)
+                    if rows:
+                        num_cols = max(len(r) for r in rows)
+                        col_spec = 'l ' * num_cols
+                        final_lines.append('\\begin{table}[htbp]')
+                        final_lines.append('\\centering')
+                        final_lines.append(f'\\begin{{tabular}}{{{col_spec.strip()}}}')
+                        final_lines.append('\\toprule')
+                        header = ' & '.join(rows[0]) + ' \\\\'
+                        final_lines.append(header)
+                        final_lines.append('\\midrule')
+                        for r in rows[1:]:
+                            row_str = ' & '.join(r) + ' \\\\'
+                            final_lines.append(row_str)
+                        final_lines.append('\\bottomrule')
+                        final_lines.append('\\end{tabular}')
+                        final_lines.append('\\end{table}')
+                    table_lines = []
+                    in_table = False
+                final_lines.append(line)
+
+        if in_table:
+            rows = []
+            for tline in table_lines:
+                cols = [c.strip() for c in tline.strip('|').split('|')]
+                if all(re.match(r'^-+$', c) for c in cols):
+                    continue
+                rows.append(cols)
+            if rows:
+                num_cols = max(len(r) for r in rows)
+                col_spec = 'l ' * num_cols
+                final_lines.append('\\begin{table}[htbp]')
+                final_lines.append('\\centering')
+                final_lines.append(f'\\begin{{tabular}}{{{col_spec.strip()}}}')
+                final_lines.append('\\toprule')
+                header = ' & '.join(rows[0]) + ' \\\\'
+                final_lines.append(header)
+                final_lines.append('\\midrule')
+                for r in rows[1:]:
+                    row_str = ' & '.join(r) + ' \\\\'
+                    final_lines.append(row_str)
+                final_lines.append('\\bottomrule')
+                final_lines.append('\\end{tabular}')
+                final_lines.append('\\end{table}')
+
+        text = '\n'.join(final_lines)
+
+        # 6. Heading replacements
         latex_body = text
         latex_body = re.sub(r'^# (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)
         latex_body = re.sub(r'^## (.*?)$', r'\\section{\1}', latex_body, flags=re.MULTILINE)

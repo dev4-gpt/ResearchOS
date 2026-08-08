@@ -21,7 +21,7 @@ def main():
         msg = log_data.get("message", "")
         print(f"[{stage}] [{agent}]: {msg}")
 
-    result = orchestrator.run_research(topic, log_callback, max_papers=20)
+    result = orchestrator.run_research(topic, log_callback, max_papers=25)
     print("\n✅ Research Pipeline Completed Successfully!")
     print(f"Project ID: {result.get('project_id')}")
     print(f"Ingested Papers Count: {result.get('papers_count')}")

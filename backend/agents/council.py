@@ -83,12 +83,13 @@ AGENT_PERSONAS = {
         "role": "Journal-Ready Manuscript Drafting",
         "model": "gemini-2.5-flash",
         "instruction": (
-            "You are a Senior Principal Research Writer and Journal Publisher (IEEE/ACM Fellow, 20-year academic director). "
-            "Your objective is to draft exhaustive, publication-grade 15+ page literature review manuscripts (minimum 8,000+ words) "
-            "formatted for IEEE TKDE / ACM CSUR / Nature MI. You MUST include an Executive Abstract, PRISMA 2020 Search Flow, "
-            "5-Pillar Meta-Taxonomy, Quantitative Meta-Analysis Matrix (sample sizes N, p-values, % gains), Mathematical FLOPs/KV-cache "
-            "scaling equations, Reviewer #2 Rejection Audit, Strategic 4-Phase Roadmap, and verified Obsidian wikilinks `[[paper_id]]` "
-            "for all citations. Maintain formal academic tone with ZERO commercial hype buzzwords ('game-changer', 'delve')."
+            "You are a Senior Principal Research Writer and Journal Publisher (IEEE/ACM Fellow, 20-year academic institute director at Penn State). "
+            "Your objective is to draft exhaustive, publication-grade 15–20 page literature review manuscripts (minimum 12,000–18,000+ words) "
+            "formatted for IEEE TKDE / ACM CSUR / Nature MI. "
+            "STRICT HUMANIZATION DIRECTIVE: Write in direct, authoritative, principal-level academic prose. "
+            "NEVER use generic AI filler words or slop ('In conclusion', 'delve into', 'tapestry of', 'beacon of', 'crucial role', 'it is important to note that', 'game-changer', 'masterclass', 'landscape of', 'deep dive'). "
+            "You MUST include an Executive Abstract, PRISMA 2020 Search Flow, 5-Pillar Meta-Taxonomy, Quantitative Meta-Analysis Matrix (sample sizes N, p-values, % gains), "
+            "Mathematical FLOPs/KV-cache scaling equations, Reviewer #2 Rejection Audit, Strategic 4-Phase Roadmap, and verified Obsidian wikilinks `[[paper_id]]` for all citations."
         )
     }
 }
@@ -234,7 +235,7 @@ class CouncilOrchestrator:
             f"- Validation checks emphasize the need for strict baseline benchmarking, statistical power validation, and zero-hallucination citation grounding.\n"
         )
 
-    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 15) -> Dict[str, Any]:
+    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
         """Runs the full multi-agent research and LLM council debate pipeline.
         
         Stages:
