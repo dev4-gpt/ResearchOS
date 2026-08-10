@@ -222,7 +222,7 @@ const App: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main style={{ padding: '12px 12px 12px 6px', height: '100%', overflow: 'auto' }}>
+      <main style={{ padding: '12px', height: '100%', minHeight: 0, minWidth: 0, width: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {currentView === 'dashboard' && (
           <Dashboard 
             startResearch={startResearch} 

@@ -268,7 +268,7 @@ const GraphView: React.FC = () => {
   );
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: selectedNode ? '1fr 360px' : '1fr', height: '100%', gap: '16px', overflow: 'hidden' }}>
+    <div className="responsive-graph-layout" style={{ height: '100%', minHeight: 0, gap: '16px' }}>
       
       {/* Main Graph Panel */}
       <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', position: 'relative' }}>
