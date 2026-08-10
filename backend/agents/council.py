@@ -550,8 +550,12 @@ class CouncilOrchestrator:
         send_log("Synthesis", "CEO / Institute Chairman", "Debate synthesized and outlines written to '03_Debates/'. Spawning Research Writer...")
         
         # --- STAGE 5: ACADEMIC DRAFTING (Writer) ---
-        send_log("Drafting", "Senior Research Writer & Publisher", f"Drafting formal journal-ready literature review for '{topic}'...")
-        
+        send_log("Literature", "Senior Scout Researcher", f"Querying arXiv, OpenAlex, and CrossRef for top 20 landmark research papers on '{topic}'...")
+        scout_prompt = (
+            f"Identify 20 seminal and recent high-impact research papers for the topic: '{topic}'. "
+            f"Provide a structured JSON list with fields: id, title, authors, doi, venue, year, abstract, key_contributions."
+        )
+        scout_results = self.search_service.search_literature(topic, max_results=20)
         writer_prompt = (
             f"You are drafting a peer-review grade literature review paper on the topic: '{topic}'.\n\n"
             f"Here is the Chairman's debate synthesis, consensus, and structural outline:\n\n{synthesis_content}\n\n"

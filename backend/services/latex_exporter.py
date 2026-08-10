@@ -104,15 +104,15 @@ class LaTeXExporterService:
 
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
-        text = body_markdown
+        text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
         
-        # 1. Replace code blocks with verbatim environments
+        # 1. Replace code blocks with verbatim environments (scaled small to avoid margin overflow)
         def replace_code_block(match):
             code_content = match.group(1)
-            char_map = {'┌': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+'}
+            char_map = {'┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+', '═': '=', '║': '|'}
             for char, repl in char_map.items():
                 code_content = code_content.replace(char, repl)
-            return f"\\begin{{verbatim}}\n{code_content}\n\\end{{verbatim}}"
+            return f"\n\\begin{{small}}\n\\begin{{verbatim}}\n{code_content}\n\\end{{verbatim}}\n\\end{{small}}\n"
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
@@ -126,11 +126,13 @@ class LaTeXExporterService:
         text = re.sub(r'^v\s+v$', '', text, flags=re.MULTILINE)
 
         # 3. Remove literal '[?]', '(' [?]' )' placeholders left by LLM
-        text = re.sub(r'\(?\s*[\'\"]?\s*\[\?\]\s*[\'\"]?\s*\)?', '', text)
-        text = re.sub(r'[\'\"]?\s*\[\?\]\s*[\'\"]?', '', text)
+        text = re.sub(r'\(?\s*[\'\"‘“]?\s*\[\?\]\s*[\'\"’”]?\s*\)?', '', text)
+        text = re.sub(r'[\'\"‘“\s]*\[\?\][\'\"’\”\s]*', ' ', text)
 
-        # 4. Convert Wikilinks [[key]] into \cite{clean_citation_key(key)}
+        # 4. Strip backticks around wikilinks and convert Wikilinks [[key]] into \cite{clean_citation_key(key)} AND normalize existing \cite{key}
+        text = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', text)
         text = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
+        text = re.sub(r'\\cite\{([^}]+)\}', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
 
         # 5. Humanize AI prose (remove AI fluff/buzzwords)
         ai_fluff = [
@@ -471,10 +473,14 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
     def generate_bibtex(self, papers: List[Dict[str, Any]]) -> str:
         """Generates a complete BibTeX references file from ingested vault papers."""
         bib_lines = []
-        for p in papers:
-            paper_id = self.clean_citation_key(p.get("filename", ""))
-            title = p.get("frontmatter", {}).get("title", "Untitled Paper")
-            authors_list = p.get("frontmatter", {}).get("authors", ["Unknown Author"])
+        for idx, p in enumerate(papers):
+            raw_key = p.get("id") or p.get("filename") or p.get("frontmatter", {}).get("id") or p.get("frontmatter", {}).get("title") or f"ref_{idx+1}"
+            paper_id = self.clean_citation_key(str(raw_key))
+            if not paper_id:
+                paper_id = f"ref_{idx+1}"
+
+            title = p.get("frontmatter", {}).get("title") or p.get("title") or "Untitled Paper"
+            authors_list = p.get("frontmatter", {}).get("authors") or p.get("authors") or ["Unknown Author"]
             if isinstance(authors_list, str):
                 authors_list = [authors_list]
             authors = " and ".join(authors_list)
@@ -532,9 +538,24 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                     f.write(bib_code)
 
             try:
-                cmd = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
-                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
-                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                cmd_pdf = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
+                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+
+                # Run bibtex if references.bib exists to resolve \cite{} keys to numeric [1], [2], [3]
+                if bib_code:
+                    bibtex_bin = None
+                    for b_path in ["/Library/TeX/texbin/bibtex", "/usr/local/bin/bibtex", "/usr/bin/bibtex"]:
+                        if os.path.exists(b_path) and os.access(b_path, os.X_OK):
+                            bibtex_bin = b_path
+                            break
+                    if not bibtex_bin:
+                        bibtex_bin = shutil.which("bibtex")
+
+                    if bibtex_bin:
+                        subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+
+                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
                 if os.path.exists(pdf_path):

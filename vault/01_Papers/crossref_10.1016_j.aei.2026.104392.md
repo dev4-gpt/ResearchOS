@@ -1,13 +1,16 @@
 ---
-title: "Leveraging Generative AI for Enterprise Work: Integrating Information Adoption and Task–Technology Fit Model"
+title: "Socio-technical assessment of generative AI integration in architecture, engineering, and construction (AEC) workflows: An empirical study using O*NET occupational taxonomy"
 authors:
-  - "Heetae Yang"
-  - "Hwansoo Lee"
-url: "https://doi.org/10.2139/ssrn.6065919"
-published: "2026-1-12"
-citations: "0"
+  - "Ruoxin Xiong"
+  - "Yael Netser"
+  - "Pingbo Tang"
+  - "Beibei Li"
+  - "Joonsun Hwang"
+url: "https://doi.org/10.1016/j.aei.2026.104392"
+published: "2026-1-28"
+citations: "2"
 source: "Crossref"
-id: "crossref:10.2139/ssrn.6065919"
+id: "crossref:10.1016/j.aei.2026.104392"
 full_pdf_ingested: "False"
 tags:
   - "research-paper"

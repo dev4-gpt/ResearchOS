@@ -1,13 +1,13 @@
 ---
-title: "Leveraging Generative AI for Enterprise Work: Integrating Information Adoption and Task–Technology Fit Model"
+title: "Towards an AI Task Tensor: A Taxonomy for Organizing Work in the Age of Generative AI"
 authors:
-  - "Heetae Yang"
-  - "Hwansoo Lee"
-url: "https://doi.org/10.2139/ssrn.6065919"
-published: "2026-1-12"
-citations: "0"
+  - "Anil Doshi"
+  - "Alastair Moore"
+url: "https://doi.org/10.2139/ssrn.5134721"
+published: "2025-4-9"
+citations: "2"
 source: "Crossref"
-id: "crossref:10.2139/ssrn.6065919"
+id: "crossref:10.2139/ssrn.5134721"
 full_pdf_ingested: "False"
 tags:
   - "research-paper"
