@@ -137,7 +137,7 @@ const DocEditor: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', height: 'calc(100vh - 24px)', minHeight: '0', gap: '16px', overflow: 'hidden' }}>
+    <div className="responsive-doc-layout">
       
       {/* Sidebar: File Explorer */}
       <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', minHeight: '0' }}>
@@ -510,7 +510,7 @@ const DocEditor: React.FC = () => {
             </div>
 
             {/* Split layout: Editor Text vs Preview/Frontmatter */}
-            <div style={{ display: 'grid', gridTemplateColumns: editMode === 'edit' ? '1fr 300px' : '1fr', gap: '16px', overflow: 'hidden', height: '100%', minHeight: '0' }}>
+            <div className={editMode === 'edit' ? "responsive-doc-split" : ""} style={{ gap: '16px', overflow: 'hidden', height: '100%', minHeight: '0' }}>
               
               {/* Primary Content Editor / Preview Pane */}
               <div style={{ height: '100%', minHeight: '0', overflow: 'hidden' }}>
