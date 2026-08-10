@@ -571,6 +571,54 @@ const DocEditor: React.FC = () => {
                       />
                     </div>
                   </div>
+
+                  {/* Automated Peer Reviewer Audit Card (Sakana AI Rubric) */}
+                  {frontmatter.peer_review && (
+                    <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#8b5cf6', letterSpacing: '0.5px' }}>
+                          Peer Review Audit
+                        </span>
+                        <span style={{
+                          fontSize: '10px', fontWeight: '800', padding: '2px 8px', borderRadius: '12px',
+                          background: frontmatter.peer_review.overall_decision === 'ACCEPT' ? 'rgba(16,185,129,0.2)' : frontmatter.peer_review.overall_decision === 'WEAK ACCEPT' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
+                          color: frontmatter.peer_review.overall_decision === 'ACCEPT' ? '#10b981' : frontmatter.peer_review.overall_decision === 'WEAK ACCEPT' ? '#f59e0b' : '#ef4444',
+                          border: '1px solid var(--border-color)'
+                        }}>
+                          {frontmatter.peer_review.overall_decision}
+                        </span>
+                      </div>
+
+                      {/* Score bars */}
+                      {frontmatter.peer_review.scores && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                          {Object.entries(frontmatter.peer_review.scores).map(([sKey, sVal]: [string, any]) => (
+                            <div key={sKey} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-secondary)', textTransform: 'capitalize' }}>
+                                <span>{sKey.replace('_', ' ')}</span>
+                                <span style={{ fontWeight: '700', color: '#fff' }}>{sVal}/10</span>
+                              </div>
+                              <div style={{ height: '4px', width: '100%', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+                                <div style={{ height: '100%', width: `${(Number(sVal) / 10) * 100}%`, background: Number(sVal) >= 8 ? '#10b981' : '#f59e0b', borderRadius: '2px' }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Key Strengths */}
+                      {frontmatter.peer_review.key_strengths && frontmatter.peer_review.key_strengths.length > 0 && (
+                        <div style={{ fontSize: '11px' }}>
+                          <span style={{ fontWeight: '600', color: '#10b981' }}>Key Strengths:</span>
+                          <ul style={{ paddingLeft: '14px', margin: '4px 0 0 0', color: 'var(--text-secondary)' }}>
+                            {frontmatter.peer_review.key_strengths.map((str: string, idx: number) => (
+                              <li key={idx}>{str}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
