@@ -265,266 +265,271 @@ const DocEditor: React.FC = () => {
         ) : (
           <>
             {/* Editor Action Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '16px' }}>
-              <div>
-                <span style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase' }}>
-                  {activeCategory} / {activeFilename}
-                </span>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span>{frontmatter.title || activeFilename.replace('.md', '')}</span>
-                  {frontmatter.full_pdf_ingested && (
-                    <span style={{ fontSize: '10px', background: 'rgba(16,185,129,0.15)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)', padding: '2px 8px', borderRadius: '12px', fontWeight: '600' }}>
-                      Full PDF Ingested
-                    </span>
-                  )}
-                  {frontmatter.fact_check_score !== undefined && (
-                    <span style={{ fontSize: '10px', background: frontmatter.fact_check_score >= 80 ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)', color: frontmatter.fact_check_score >= 80 ? '#10b981' : '#f43f5e', border: '1px solid var(--border-color)', padding: '2px 8px', borderRadius: '12px', fontWeight: '700' }}>
-                      Fact-Check Score: {frontmatter.fact_check_score}%
-                    </span>
-                  )}
-                </h3>
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '14px', marginBottom: '16px' }}>
               
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                {/* View toggles */}
-                <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '2px' }}>
-                  <button
-                    onClick={() => setEditMode('edit')}
-                    style={{
-                      background: editMode === 'edit' ? 'var(--primary-glow)' : 'transparent',
-                      color: editMode === 'edit' ? 'var(--primary)' : 'var(--text-secondary)',
-                      border: 'none', padding: '4px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px'
-                    }}
-                  >
-                    <FileEdit size={12} />
-                    <span>Markdown Source</span>
-                  </button>
-                  <button
-                    onClick={() => setEditMode('preview')}
-                    style={{
-                      background: editMode === 'preview' ? 'var(--primary-glow)' : 'transparent',
-                      color: editMode === 'preview' ? 'var(--primary)' : 'var(--text-secondary)',
-                      border: 'none', padding: '4px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px'
-                    }}
-                  >
-                    <Eye size={12} />
-                    <span>Formatted Preview</span>
-                  </button>
+              {/* Top Row: Title, Badges, View Toggle & Save */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <span style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    {activeCategory} / {activeFilename}
+                  </span>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '2px' }}>
+                    <span>{frontmatter.title || activeFilename.replace('.md', '')}</span>
+                    {frontmatter.full_pdf_ingested && (
+                      <span style={{ fontSize: '10px', background: 'rgba(16,185,129,0.15)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)', padding: '2px 8px', borderRadius: '12px', fontWeight: '600' }}>
+                        Full PDF Ingested
+                      </span>
+                    )}
+                    {frontmatter.fact_check_score !== undefined && (
+                      <span style={{ fontSize: '10px', background: frontmatter.fact_check_score >= 80 ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)', color: frontmatter.fact_check_score >= 80 ? '#10b981' : '#f43f5e', border: '1px solid var(--border-color)', padding: '2px 8px', borderRadius: '12px', fontWeight: '700' }}>
+                        Fact-Check: {frontmatter.fact_check_score}%
+                      </span>
+                    )}
+                  </h3>
                 </div>
-
-                {/* Multi-Venue Format & LaTeX Exporter Controls */}
-                {activeCategory === 'drafts' && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <select
-                      value={selectedVenue}
-                      onChange={(e) => setSelectedVenue(e.target.value)}
+                
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  {/* View toggles */}
+                  <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '2px' }}>
+                    <button
+                      onClick={() => setEditMode('edit')}
                       style={{
-                        background: 'rgba(15,23,42,0.8)',
-                        color: '#93c5fd',
-                        border: '1px solid rgba(59,130,246,0.3)',
-                        borderRadius: '6px',
-                        padding: '5px 8px',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        outline: 'none',
-                        cursor: 'pointer'
+                        background: editMode === 'edit' ? 'var(--primary-glow)' : 'transparent',
+                        color: editMode === 'edit' ? 'var(--primary)' : 'var(--text-secondary)',
+                        border: 'none', padding: '4px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px'
                       }}
                     >
-                      <option value="NeurIPS">NeurIPS (9-Page Single-Col)</option>
-                      <option value="ICML">ICML (8-Page Two-Col)</option>
-                      <option value="CVPR">CVPR (8-Page Two-Col)</option>
-                      <option value="ACL">ACL / ARR (8-Page Two-Col)</option>
-                      <option value="IEEEtran">IEEEtran (10-25 Page Journal)</option>
-                      <option value="ACM">ACM (CSUR / SIGKDD)</option>
-                      <option value="ALL">📦 Export All Venues (Multi-Path)</option>
-                    </select>
-
+                      <FileEdit size={12} />
+                      <span>Source</span>
+                    </button>
                     <button
-                      onClick={async () => {
-                        if (!activeFilename) return;
-                        try {
-                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
-                          if (res.ok) {
-                            const data = await res.json();
-                            if (selectedVenue === 'ALL' && data.bundle) {
-                              Object.entries(data.bundle).forEach(([vKey, code]) => {
-                                const blob = new Blob([code as string], { type: 'text/x-tex' });
-                                const url = URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                                URL.revokeObjectURL(url);
-                              });
-                            } else if (data.tex_code) {
-                              const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
+                      onClick={() => setEditMode('preview')}
+                      style={{
+                        background: editMode === 'preview' ? 'var(--primary-glow)' : 'transparent',
+                        color: editMode === 'preview' ? 'var(--primary)' : 'var(--text-secondary)',
+                        border: 'none', padding: '4px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px'
+                      }}
+                    >
+                      <Eye size={12} />
+                      <span>Preview</span>
+                    </button>
+                  </div>
+
+                  {/* Save Action */}
+                  <button
+                    onClick={handleSave}
+                    disabled={saveStatus === 'saving'}
+                    style={{
+                      backgroundColor: saveStatus === 'saved' ? 'var(--success)' : 'var(--primary)',
+                      border: 'none', color: '#fff', padding: '6px 14px', borderRadius: '6px', cursor: 'pointer', fontWeight: '600', fontSize: '12px',
+                      display: 'flex', alignItems: 'center', gap: '6px', transition: 'var(--transition-fast)'
+                    }}
+                  >
+                    {saveStatus === 'saving' ? (
+                      <span>Saving...</span>
+                    ) : saveStatus === 'saved' ? (
+                      <>
+                        <Check size={14} />
+                        <span>Saved to Obsidian</span>
+                      </>
+                    ) : saveStatus === 'error' ? (
+                      <>
+                        <AlertCircle size={14} />
+                        <span>Error Saving</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save size={14} />
+                        <span>Save to Vault</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Sub Toolbar: Venue Selector & Export Action Buttons */}
+              {activeCategory === 'drafts' && (
+                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600', marginRight: '4px' }}>Publication Venue:</span>
+                  <select
+                    value={selectedVenue}
+                    onChange={(e) => setSelectedVenue(e.target.value)}
+                    style={{
+                      background: 'rgba(15,23,42,0.8)',
+                      color: '#93c5fd',
+                      border: '1px solid rgba(59,130,246,0.3)',
+                      borderRadius: '6px',
+                      padding: '5px 8px',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      outline: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="NeurIPS">NeurIPS (9-Page Single-Col)</option>
+                    <option value="ICML">ICML (8-Page Two-Col)</option>
+                    <option value="CVPR">CVPR (8-Page Two-Col)</option>
+                    <option value="ACL">ACL / ARR (8-Page Two-Col)</option>
+                    <option value="IEEEtran">IEEEtran (10-25 Page Journal)</option>
+                    <option value="ACM">ACM (CSUR / SIGKDD)</option>
+                    <option value="ALL">📦 Export All Venues (Multi-Path)</option>
+                  </select>
+
+                  <button
+                    onClick={async () => {
+                      if (!activeFilename) return;
+                      try {
+                        const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                        if (res.ok) {
+                          const data = await res.json();
+                          if (selectedVenue === 'ALL' && data.bundle) {
+                            Object.entries(data.bundle).forEach(([vKey, code]) => {
+                              const blob = new Blob([code as string], { type: 'text/x-tex' });
                               const url = URL.createObjectURL(blob);
                               const a = document.createElement('a');
                               a.href = url;
-                              a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
+                              a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
                               document.body.appendChild(a);
                               a.click();
                               document.body.removeChild(a);
                               URL.revokeObjectURL(url);
-                            }
-
-                            if (data.bib_code) {
-                              const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
-                              const bibUrl = URL.createObjectURL(bibBlob);
-                              const bibA = document.createElement('a');
-                              bibA.href = bibUrl;
-                              bibA.download = 'references.bib';
-                              document.body.appendChild(bibA);
-                              bibA.click();
-                              document.body.removeChild(bibA);
-                              URL.revokeObjectURL(bibUrl);
-                            }
-                          } else {
-                            alert(`Export failed with status: ${res.status}`);
+                            });
+                          } else if (data.tex_code) {
+                            const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
                           }
-                        } catch (e) {
-                          console.error('Failed to export venue LaTeX:', e);
-                          alert('Failed to export LaTeX. Check browser console.');
-                        }
-                      }}
-                      style={{
-                        background: 'rgba(59,130,246,0.15)',
-                        color: '#93c5fd',
-                        border: '1px solid rgba(59,130,246,0.4)',
-                        padding: '6px 12px',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <FileText size={14} />
-                      <span>Export {selectedVenue === 'ALL' ? 'Multi-Path Bundle' : selectedVenue + ' LaTeX'}</span>
-                    </button>
 
-                    <button
-                      onClick={async () => {
-                        if (!activeFilename) return;
-                        try {
-                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
-                          if (res.ok) {
-                            const data = await res.json();
-                            const codeToCopy = data.tex_code || (data.bundle ? data.bundle[selectedVenue] || Object.values(data.bundle)[0] : '');
-                            await navigator.clipboard.writeText(codeToCopy as string);
-                            alert(`Copied ${selectedVenue} LaTeX code to clipboard! You can paste directly into Overleaf.`);
+                          if (data.bib_code) {
+                            const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
+                            const bibUrl = URL.createObjectURL(bibBlob);
+                            const bibA = document.createElement('a');
+                            bibA.href = bibUrl;
+                            bibA.download = 'references.bib';
+                            document.body.appendChild(bibA);
+                            bibA.click();
+                            document.body.removeChild(bibA);
+                            URL.revokeObjectURL(bibUrl);
                           }
-                        } catch (e) {
-                          console.error('Failed to copy LaTeX:', e);
+                        } else {
+                          alert(`Export failed with status: ${res.status}`);
                         }
-                      }}
-                      style={{
-                        background: 'rgba(168,85,247,0.15)',
-                        color: '#c084fc',
-                        border: '1px solid rgba(168,85,247,0.4)',
-                        padding: '6px 12px',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <Save size={14} />
-                      <span>Copy LaTeX</span>
-                    </button>
+                      } catch (e) {
+                        console.error('Failed to export venue LaTeX:', e);
+                        alert('Failed to export LaTeX. Check browser console.');
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(59,130,246,0.15)',
+                      color: '#93c5fd',
+                      border: '1px solid rgba(59,130,246,0.4)',
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <FileText size={14} />
+                    <span>Export {selectedVenue === 'ALL' ? 'Multi-Path Bundle' : selectedVenue + ' LaTeX'}</span>
+                  </button>
 
-                    <button
-                      onClick={async () => {
-                        if (!activeFilename) return;
-                        try {
-                          const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
-                          const pdfUrl = `http://127.0.0.1:8000/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`;
-                          const a = document.createElement('a');
-                          a.href = pdfUrl;
-                          a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
-                        } catch (e) {
-                          console.error('Failed to download PDF:', e);
-                          alert('Failed to trigger PDF download.');
+                  <button
+                    onClick={async () => {
+                      if (!activeFilename) return;
+                      try {
+                        const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                        if (res.ok) {
+                          const data = await res.json();
+                          const codeToCopy = data.tex_code || (data.bundle ? data.bundle[selectedVenue] || Object.values(data.bundle)[0] : '');
+                          await navigator.clipboard.writeText(codeToCopy as string);
+                          alert(`Copied ${selectedVenue} LaTeX code to clipboard! You can paste directly into Overleaf.`);
                         }
-                      }}
-                      style={{
-                        background: 'rgba(239,68,68,0.15)',
-                        color: '#f87171',
-                        border: '1px solid rgba(239,68,68,0.4)',
-                        padding: '6px 12px',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <Download size={14} />
-                      <span>Download PDF</span>
-                    </button>
-                  </div>
-                )}
+                      } catch (e) {
+                        console.error('Failed to copy LaTeX:', e);
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(168,85,247,0.15)',
+                      color: '#c084fc',
+                      border: '1px solid rgba(168,85,247,0.4)',
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Save size={14} />
+                    <span>Copy LaTeX</span>
+                  </button>
 
-                {/* Save Action */}
-                <button
-                  onClick={handleSave}
-                  disabled={saveStatus === 'saving'}
-                  style={{
-                    backgroundColor: saveStatus === 'saved' ? 'var(--success)' : 'var(--primary)',
-                    border: 'none', color: '#fff', padding: '6px 14px', borderRadius: '6px', cursor: 'pointer', fontWeight: '600', fontSize: '12px',
-                    display: 'flex', alignItems: 'center', gap: '6px', transition: 'var(--transition-fast)'
-                  }}
-                >
-                  {saveStatus === 'saving' ? (
-                    <span>Saving...</span>
-                  ) : saveStatus === 'saved' ? (
-                    <>
-                      <Check size={14} />
-                      <span>Saved to Obsidian</span>
-                    </>
-                  ) : saveStatus === 'error' ? (
-                    <>
-                      <AlertCircle size={14} />
-                      <span>Error Saving</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save size={14} />
-                      <span>Save to Vault</span>
-                    </>
-                  )}
-                </button>
-              </div>
+                  <button
+                    onClick={async () => {
+                      if (!activeFilename) return;
+                      try {
+                        const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
+                        const pdfUrl = `http://127.0.0.1:8000/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`;
+                        const a = document.createElement('a');
+                        a.href = pdfUrl;
+                        a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                      } catch (e) {
+                        console.error('Failed to download PDF:', e);
+                        alert('Failed to trigger PDF download.');
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(239,68,68,0.15)',
+                      color: '#f87171',
+                      border: '1px solid rgba(239,68,68,0.4)',
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Download size={14} />
+                    <span>Download PDF</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Split layout: Editor Text vs Preview/Frontmatter */}
-            <div className={editMode === 'edit' ? "responsive-doc-split" : ""} style={{ gap: '16px', overflow: 'hidden', height: '100%', minHeight: '0' }}>
+            <div className={editMode === 'edit' ? "responsive-doc-split" : ""} style={{ gap: '16px', overflowY: 'auto', height: '100%', minHeight: '0', flex: 1 }}>
               
               {/* Primary Content Editor / Preview Pane */}
-              <div style={{ height: '100%', minHeight: '0', overflow: 'hidden' }}>
+              <div style={{ height: '100%', minHeight: '350px', overflowY: 'auto' }}>
                 {editMode === 'edit' ? (
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     style={{
-                      width: '100%', height: '100%', background: 'rgba(0,0,0,0.15)', color: 'var(--text-primary)', border: '1px solid var(--border-color)',
-                      borderRadius: '8px', padding: '16px', fontFamily: 'var(--font-mono)', fontSize: '13px', resize: 'none', outline: 'none', lineHeight: '1.6'
+                      width: '100%', minHeight: '450px', height: '100%', background: 'rgba(0,0,0,0.15)', color: 'var(--text-primary)', border: '1px solid var(--border-color)',
+                      borderRadius: '8px', padding: '16px', fontFamily: 'var(--font-mono)', fontSize: '13px', resize: 'vertical', outline: 'none', lineHeight: '1.6', overflowY: 'auto'
                     }}
                   />
                 ) : (
-                  <div style={{ height: '100%', overflowY: 'auto', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '24px' }}>
+                  <div style={{ minHeight: '450px', height: '100%', overflowY: 'auto', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '24px' }}>
                     {renderMarkdown(content)}
                   </div>
                 )}
