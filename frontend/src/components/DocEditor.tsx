@@ -537,27 +537,47 @@ const DocEditor: React.FC = () => {
                     Metadata properties (YAML)
                   </h4>
                   
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     {Object.entries(frontmatter).map(([key, val]) => {
-                      if (key === 'tags') return null; // Handle tags separately
+                      // Skip complex objects and custom handled keys
+                      if (['tags', 'verification_matrix', 'peer_review', 'verification_matrix_details'].includes(key)) return null;
+
+                      const isLongText = key === 'topic' || key === 'title';
+
                       return (
                         <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{key}</span>
-                          <input
-                            type="text"
-                            value={String(val)}
-                            onChange={(e) => setFrontmatter((prev: any) => ({ ...prev, [key]: e.target.value }))}
-                            style={{
-                              background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff', fontSize: '12px', padding: '6px 8px', outline: 'none'
-                            }}
-                          />
+                          <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'capitalize', fontWeight: '600' }}>
+                            {key.replace('_', ' ')}
+                          </span>
+                          {isLongText ? (
+                            <textarea
+                              rows={3}
+                              value={String(val || '')}
+                              onChange={(e) => setFrontmatter((prev: any) => ({ ...prev, [key]: e.target.value }))}
+                              style={{
+                                background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px',
+                                color: '#fff', fontSize: '12px', padding: '8px', outline: 'none', resize: 'vertical',
+                                fontFamily: 'var(--font-sans)', lineHeight: '1.4', width: '100%'
+                              }}
+                            />
+                          ) : (
+                            <input
+                              type="text"
+                              value={String(val || '')}
+                              onChange={(e) => setFrontmatter((prev: any) => ({ ...prev, [key]: e.target.value }))}
+                              style={{
+                                background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px',
+                                color: '#fff', fontSize: '12px', padding: '6px 8px', outline: 'none', width: '100%'
+                              }}
+                            />
+                          )}
                         </div>
                       );
                     })}
 
                     {/* Simple frontmatter tag creator */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Tags (comma separated)</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>Tags (comma separated)</span>
                       <input
                         type="text"
                         value={Array.isArray(frontmatter.tags) ? frontmatter.tags.join(', ') : ''}
@@ -566,7 +586,7 @@ const DocEditor: React.FC = () => {
                           setFrontmatter((prev: any) => ({ ...prev, tags: tagList }));
                         }}
                         style={{
-                          background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff', fontSize: '12px', padding: '6px 8px', outline: 'none'
+                          background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff', fontSize: '12px', padding: '6px 8px', outline: 'none', width: '100%'
                         }}
                       />
                     </div>
