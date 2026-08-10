@@ -156,7 +156,7 @@ class CouncilOrchestrator:
                 "https://integrate.api.nvidia.com/v1/chat/completions",
                 headers=headers,
                 json=payload,
-                timeout=60.0
+                timeout=120.0
             )
             if response.status_code == 200:
                 data = response.json()

@@ -47,8 +47,8 @@ VENUE_SPECS = {
         "name": "ACM Computing Surveys / SIGKDD",
         "format": "Two-column ACM article format",
         "page_limit": "12 - 20+ pages",
-        "doc_class": "\\documentclass[sigconf]{acmart}",
-        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
+        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
+        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
         "template_style": "acm"
     }
 }
@@ -88,8 +88,9 @@ class LaTeXExporterService:
         # Replace non-ASCII quote and punctuation characters first
         char_map = {
             '“': '"', '”': '"', '’': "'", '‘': "'", '–': '-', '—': '--', '…': '...',
-            '┌': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+',
-            '═': '=', '║': '|', '▲': '^', '▼': 'v', '◆': '*', '●': '*', '★': '*', '✓': '[V]', '✗': '[X]',
+            '┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+',
+            '═': '=', '║': '|', '▲': '^', '▼': 'v', '◄': '<', '►': '>', '◆': '*', '●': '*', '★': '*', '✓': '[V]', '✗': '[X]',
+            '░': ' ', '▒': ' ', '▓': ' ', '█': '#',
             '🚀': '', '🎉': '', '📦': '', '🛡️': '', '🏛️': '', '📊': '', '💡': '', '🏆': '', '⚡': '', '🌐': ''
         }
         for char, repl in char_map.items():
@@ -404,24 +405,25 @@ The Pennsylvania State University\\\\
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
+\\begin{{document}}
+
 \\title{{{clean_title}}}
 
-\\author{{{authors_list[0]}}}
-\\affiliation{{
-  \\institution{{The Pennsylvania State University}}
-  \\country{{USA}}
+\\author{{
+  {acl_authors}\\\\
+  The Pennsylvania State University\\\\
+  \\texttt{{research@psu.edu}}
 }}
-\\email{{research@psu.edu}}
+
+\\maketitle
 
 \\begin{{abstract}}
 {clean_abstract}
 \\end{{abstract}}
 
-\\maketitle
-
 {latex_body}
 
-\\bibliographystyle{{ACM-Reference-Format}}
+\\bibliographystyle{{plainnat}}
 \\bibliography{{references}}
 
 \\end{{document}}
