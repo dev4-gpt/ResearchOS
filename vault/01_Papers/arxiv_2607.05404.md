@@ -15,22 +15,10 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "The Jagged Global Economy: Frontier AI Unevenly Exposes National Economies"
-authors: [Arul Murugan, Tomás Aguirre, Abhishek Nagaraj, Rishi Bommasani]
-date: 2026-06-08
-arxiv_id: "2607.05404v1"
-url: "http://arxiv.org/abs/2607.05404v1"
-citations: 0
-tags: [artificial-intelligence, economics, global-labor, labor-exposure, remittances]
----
-
 # The Jagged Global Economy: Frontier AI Unevenly Exposes National Economies
 
 ## Executive Summary
 This paper introduces a **National AI Exposure** metric designed to evaluate how frontier Artificial Intelligence ([[Frontier AI]]) unevenly impacts labor markets across the globe. By linking international employment statistics across 141 countries with occupation-level exposure scores, the authors show that high-income nations and white-collar-dominant economies face significantly greater direct exposure than low-income and agriculture-dependent nations. Additionally, the paper identifies a pervasive **gender gap** in AI exposure and reveals a novel **indirect exposure** mechanism driven by cross-country [[Remittance]] dependencies (e.g., Tajikistan's exposure via Russia, and Central American exposure via the United States).
-
----
 
 ## 1. Core Concepts & Definitions
 
@@ -38,8 +26,6 @@ This paper introduces a **National AI Exposure** metric designed to evaluate how
 *   **Jagged Capabilities**: The phenomenon where AI capabilities vary significantly across highly specific tasks within the same occupation (as defined in [[Dell'Acqua et al., 2026]]).
 *   **Direct Exposure**: Exposure driven purely by the domestic composition of a country's labor market.
 *   **Indirect Exposure (Remittance-Accounted)**: Exposure resulting from economic reliance on foreign workers sending remittances from highly exposed nations back to their home countries.
-
----
 
 ## 2. Mathematical Formulation
 
@@ -52,8 +38,6 @@ Where:
 *   $\theta_{c,o}$ is the proportion of total employment allocated to occupation $o$ in country $c$ (i.e., $\frac{\text{Employment}_{c,o}}{\text{Total Employment}_c}$), or wage-weighted equivalents where available.
 *   $E_o$ is the technological exposure score of occupation $o$ derived from [[Gmyrek et al., 2026]] / [[Eloundou et al., 2024]], representing the share of tasks within occupation $o$ that can be accelerated/saved by current frontier AI capabilities.
 
----
-
 ## 3. Methodology & Data Sources
 
 ### 3.1 Occupational Employment Data
@@ -64,8 +48,6 @@ Where:
 
 ### 3.2 Occupational Exposure Metrics
 *   Based on methodology from [[Eloundou et al., 2024]] and [[Gmyrek et al., 2026]], which leverages human and GPT-4 annotations to evaluate task-level impact (criteria: saving at least 50% of the time spent on a task while preserving quality).
-
----
 
 ## 4. Empirical Results & Quantitative Benchmarks
 
@@ -106,8 +88,6 @@ Several nations with low domestic direct exposure have high economic vulnerabili
 
 *   **Tajikistan**: Direct exposure is below average, but **37% of Tajikistan’s GDP** is derived from Russian remittances. Because Russia's labor market is highly exposed, Tajikistan’s remittance-adjusted exposure shifts to above-average.
 *   **Central America (Honduras, Guatemala, El Salvador)**: Remittances account for **25% of domestic GDP**, with more than **80%** of these remittances originating from the United States. High AI exposure in the US labor market implicitly exposes these source nations to severe economic shocks.
-
----
 
 ## 5. Limitations Acknowledged by the Authors
 

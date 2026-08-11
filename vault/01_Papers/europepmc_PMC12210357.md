@@ -24,35 +24,6 @@ tags:
   - "research-paper"
   - "test-topic"
 ---
----
-title: "Application of ChatGPT as a content generation tool in continuing medical education: acne as a test topic."
-authors:
-  - Naldi L
-  - Bettoli V
-  - Santoro E
-  - Valetto MR
-  - Bolzon A
-  - Cassalia F
-  - Cazzaniga S
-  - Cima S
-  - Danese A
-  - Emendi S
-  - Ponzano M
-  - Scarpa N
-  - Dri P
-date: 2025
-source: "europepmc.org"
-url: "https://europepmc.org/article/PMC/PMC12210357"
-abstract: "" # Abstract was empty in the provided text
-citations: 0
-tags:
-  - "ChatGPT"
-  - "Continuing Medical Education"
-  - "Acne"
-  - "Content Generation"
-  - "Artificial Intelligence"
----
-
 # [[Application of ChatGPT as a content generation tool in continuing medical education: acne as a test topic.]]
 
 ## Overview

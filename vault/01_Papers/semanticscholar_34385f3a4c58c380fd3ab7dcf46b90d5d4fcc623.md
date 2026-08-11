@@ -15,16 +15,6 @@ tags:
   - "research-paper"
   - "test-topic"
 ---
----
-title: "Identifying Health-Related Topics on Twitter - An Exploration of Tobacco-Related Tweets as a Test Topic"
-authors: ["Kyle W. Prier", "Matthew S. Smith", "C. Giraud-Carrier", "C. Hanson"]
-date: "2011-03-29"
-source: "https://www.semanticscholar.org/paper/34385f3a4c58c380fd3ab7dcf46b90d5d4fcc623"
-citations: 150
-paper_id: "34385f3a4c58c380fd3ab7dcf46b90d5d4fcc623"
-tags: ["Twitter", "Public Health", "Topic Modeling", "Social Media Analysis", "Tobacco"]
----
-
 ## Introduction
 
 This paper explores the feasibility of identifying [[health-related topics]] on [[Twitter]], using [[tobacco-related tweets]] as a specific test case. The primary objective is to demonstrate the potential of [[Twitter data]] for [[public health surveillance]] and [[intervention planning]].

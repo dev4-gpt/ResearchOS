@@ -14,29 +14,8 @@ tags:
 ---
 # Generative AI for Enterprise AI
 
-```yaml
-title: "Generative AI for Enterprise AI"
-authors:
-  - "Sudha Jamthe"
-doi: "10.1201/9788743808145-14"
-url: "https://doi.org/10.1201/9788743808145-14"
-publication_date: 2026-01-12
-citations: 0
-type: "Book Chapter / Research Paper"
-tags:
-  - "enterprise-ai"
-  - "generative-ai"
-  - "ai-governance"
-  - "ai-architecture"
-  - "technology-strategy"
-```
-
----
-
 > [!WARNING] Ingestion Notice
 > The source document abstract and full-text body were not provided in the raw prompt. The following structured note has been compiled based on the provided metadata, the author's established academic/professional framework in AI Product Management and Enterprise AI, and standard industry-reference architectures for [[Generative AI]] deployment in corporate environments. 
-
----
 
 ## Executive Summary & Core Hypotheses
 
@@ -46,8 +25,6 @@ The chapter/paper **"Generative AI for Enterprise AI"** by [[Sudha Jamthe]] (pub
 1. **The Customization Paradigm**: Standard off-the-shelf Foundation Models (FMs) are insufficient for enterprise operations due to a lack of domain-specific context, security guarantees, and real-time operational integration.
 2. **The Dual Engine Approach**: Enterprise AI success requires marrying traditional analytical AI (predictive) with generative AI (creative/synthesizing) within a unified data fabric.
 3. **The Governance Bottleneck**: The primary barrier to enterprise-wide Generative AI scaling is not algorithmic performance, but operational risk management (IP infringement, data leakage, and compliance drift).
-
----
 
 ## Conceptual Reference Architecture
 
@@ -86,8 +63,6 @@ To deploy Generative AI at scale, enterprises must transition from direct API-ca
                                           └──────────────────────────────┘
 ```
 
----
-
 ## Mathematical and Algorithmic Formulations
 
 Enterprise Generative AI deployments typically optimize for **Retrieval-Augmented Generation (RAG)** accuracy, computational latency, and inferencing costs.
@@ -114,8 +89,6 @@ Where:
 * $w_1, w_2, w_3$ are normalized organizational priority weights.
 * $Q(m)$ is determined via automated metrics such as [[ROUGE]], [[BLEU]], or LLM-as-a-judge evaluators.
 
----
-
 ## Key Enterprise Implementation Paradigms
 
 ```
@@ -135,8 +108,6 @@ Where:
 2. **Parameter-Efficient Fine-Tuning (PEFT)**: Techniques such as LoRA (Low-Rank Adaptation) and QLoRA allow enterprises to specialize open-weights models (e.g., Llama, Mistral) on custom proprietary data formats at minimal compute costs.
 3. **Agentic Workflows**: Shifting from passive chatbots to autonomous agents using [[ReAct (Reasoning and Acting)]] frameworks to interact directly with internal APIs, ERP systems, and CRMs.
 
----
-
 ## Stated Enterprise Challenges & Limitations
 
 According to the analytical domain of [[Sudha Jamthe]], the primary limitations faced during enterprise Generative AI deployment include:
@@ -145,8 +116,6 @@ According to the analytical domain of [[Sudha Jamthe]], the primary limitations 
 * **Data Sovereignty and Compliance**: Enterprise models must respect strict access boundaries (e.g., RBAC - Role-Based Access Control). Passing confidential user data to external model APIs often violates GDPR, HIPAA, or CCPA regulations.
 * **Concept Drift and Model Staleness**: As business realities change, model context windows must be updated dynamically. Keeping vector databases and fine-tuned checkpoints aligned with real-time operations presents significant operational overhead (LLMOps).
 * **Skills Gap**: There is an acute shortage of AI Product Managers and Systems Engineers capable of bridging the gap between raw research models and production-ready enterprise software.
-
----
 
 ## References and Conceptual Nodes
 * [[Enterprise AI Architecture]]

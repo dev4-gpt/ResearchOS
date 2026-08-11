@@ -12,22 +12,11 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "Navigating the Jagged Technological Frontier: Organizational Strategies for AI Integration in Knowledge Work"
-authors: [Jonathan H. Westover]
-doi: "https://doi.org/10.70175/hclreview.2020.34.3.1"
-date: 2026-05-23
-citations: 0
-tags: [artificial-intelligence, knowledge-work, organizational-strategy, human-ai-collaboration, empirical-study]
----
-
 # Navigating the Jagged Technological Frontier: Organizational Strategies for AI Integration in Knowledge Work
 
 ## Executive Summary
 
 This paper investigates the non-uniform impact of artificial intelligence on knowledge work, framing the boundary of AI capabilities as a **"jagged frontier"** ([[Jagged Technological Frontier]]). Based on field experimental data from $N = 758$ consultants at the [[Boston Consulting Group]] (BCG), the study demonstrates that while AI assistance significantly enhances productivity and speed for tasks inside the frontier, it degrades performance and induces overreliance for complex tasks operating outside this frontier. The paper synthesizes these empirical findings to propose strategic organizational frameworks for AI integration.
-
----
 
 ## Core Theoretical Concept: The Jagged Technological Frontier
 
@@ -43,8 +32,6 @@ The central thesis of this research is that AI does not act as a uniform elevato
 [Within-Frontier]  [Beyond-Frontier]
  (Performance +)    (Performance -)
 ```
-
----
 
 ## Quantitative Benchmarks and Experimental Results
 
@@ -66,8 +53,6 @@ For complex tasks situated beyond the technological frontier, AI assistance intr
 | **Task Completion Rate** | $+12.2\%$ | N/A |
 | **Speed/Velocity** | $+25.1\%$ (Faster) | N/A |
 | **Solution Correctness** | Qualitative Increase | $-19.0\%$ (Less Likely) |
-
----
 
 ## Organizational Integration Strategies
 
@@ -91,15 +76,11 @@ To navigate the risks of the jagged frontier, the paper outlines three critical 
 2. **Building Human Judgment Capabilities:** Training must shift from basic tool usage to building critical evaluation and verification skills, mitigating [[Overreliance]] and hallucination risks.
 3. **Workflow Redesign:** Workflows should be re-engineered to leverage AI for its uneven strengths (e.g., rapid drafting, brainstorming) while safeguarding steps that require contextual human expertise and high-stakes decision-making.
 
----
-
 ## Stated Limitations of the Study
 
 * **Context-Specificity:** The quantitative metrics ($N=758$) are derived from a specific professional services firm ([[Boston Consulting Group]]), which may limit direct generalizability to other knowledge-work domains with different task structures.
 * **Frontier Dynamics:** The "jagged frontier" is highly dynamic; capabilities that are "beyond-frontier" at the time of study may rapidly shift "within-frontier" as underlying models undergo iterative updates, requiring continuous organizational re-evaluation.
 * **Mitigation Quantification:** While the paper proposes organizational frameworks (evaluation, judgment, redesign), it does not provide quantitative effectiveness metrics for these specific mitigation strategies.
-
----
 
 ## Related Concepts & Internal Links
 * [[Jagged Technological Frontier]]

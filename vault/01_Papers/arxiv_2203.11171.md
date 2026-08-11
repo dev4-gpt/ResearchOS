@@ -16,32 +16,18 @@ source: "arXiv"
 id: "arxiv:2203.11171"
 tags:
   - "research-paper"
-  - ""research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault.""
+  - "research-and-extract-key-insights,-methodologies,-and-findings-from-two-papers:-1)-'self-consistency-improves-chain-of-thought-reasoning'-(https://arxiv.org/abs/2203.11171)-and-2)-'llm-as-a-judge'-(https://arxiv.org/pdf/2411.15594).-please-evaluate-their-approaches-and-store-the-most-important-concepts-and-summaries-in-the-knowledge-vault."
 ---
----
-title: "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
-authors: [Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed Chi, Sharan Narang, Aakanksha Chowdhery, Denny Zhou]
-date: 2022-03-21
-url: "http://arxiv.org/abs/2203.11171v4"
-citations: 0
-category: Research Paper
-tags: [nlp, large-language-models, decoding-strategies, chain-of-thought, reasoning]
----
-
 # Self-Consistency Improves Chain of Thought Reasoning in Language Models
 
 ## Quick Summary
 This paper introduces **Self-Consistency**, a novel decoding strategy that replaces traditional greedy decoding in [[Chain-of-Thought Prompting]] (CoT). By sampling a diverse set of reasoning paths instead of a single deterministic path, and then selecting the most consistent final answer (marginalizing over the reasoning paths), the authors significantly boost LLM performance on complex arithmetic and commonsense reasoning tasks.
-
----
 
 ## Core Hypotheses & Claims
 
 1. **The Multiplicity of Reasoning Paths**: For any complex reasoning problem, there are typically multiple different, valid ways of thinking that lead to the same unique correct answer.
 2. **Greedy Decoding Limitation**: Naive greedy decoding in [[Chain-of-Thought Prompting]] is suboptimal because it commits to a single local path, which might contain a minor error even if the overall reasoning capability of the model is high.
 3. **Consistency Implies Correctness**: If multiple independently sampled reasoning paths converge on the same final answer, that answer is highly likely to be correct.
-
----
 
 ## Methodology & Algorithm
 
@@ -60,8 +46,6 @@ Prompt + Query ───┼─── Reasoning Path 3 ───> Answer A ──
    $$\text{argmax}_{a} \sum_{i=1}^{N} \mathbb{I}(a_i = a)$$
    *(Note: This marginalizes out the reasoning paths $r_i$ to find the most consistent final answer $a$.)*
 
----
-
 ## Experimental Design & Quantitative Results
 
 The authors evaluated the self-consistency method against baseline chain-of-thought prompting (with greedy decoding) across five popular benchmarks:
@@ -76,15 +60,11 @@ The authors evaluated the self-consistency method against baseline chain-of-thou
 | **[[StrategyQA]]** | Multi-step commonsense reasoning | **+6.4%** |
 | **[[ARC-Challenge]]** | Science question-answering | **+3.9%** |
 
----
-
 ## Limitations (Acknowledged & Inferred)
 
 * **Computational Cost**: Sampling $N$ different reasoning paths requires $N$ times more computational resources (FLOPs, latency, token generation cost) compared to standard greedy decoding.
 * **Closed-Ended Answer Dependency**: The strategy relies on being able to group outputs into identical final answers (e.g., a specific number or multiple-choice letter). It is more challenging to apply directly to open-ended, subjective generation tasks where "exact match" grouping is not feasible.
 * **Calibration on Hard Tasks**: If the model is highly confident but consistently wrong across most reasoning paths (systematic bias/hallucination), self-consistency will reinforce the incorrect consensus answer.
-
----
 
 ## Related Concepts & Internal Links
 * [[Chain-of-Thought Prompting]]

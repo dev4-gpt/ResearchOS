@@ -17,14 +17,6 @@ tags:
 # Who expands the human creative frontier with generative AI: Hive minds or masterminds?
 
 ## Metadata
-- **Title**: Who expands the human creative frontier with generative AI: Hive minds or masterminds?
-- **Authors**: Zhou EB, Lee D, Gu B.
-- **Publication Year**: 2025
-- **Journal/Source**: Proceedings of the National Academy of Sciences (PNAS) / PMC12407059
-- **Keywords**: [[GenerativeAI]], [[HumanCreativity]], [[CollectiveIntelligence]], [[RecombinantInnovation]], [[CLIPEmbeddings]], [[SocialNetworks]]
-- **DOI/URL**: [PMC12407059](https://europepmc.org/article/PMC/PMC12407059)
-
----
 
 ## Executive Summary & Core Hypotheses
 
@@ -36,8 +28,6 @@ The paper investigates how [[GenerativeAI]] (GenAI) alters the dynamics of human
 *   **Hypothesis 1 (H1 - Democratization vs. Homogenization)**: GenAI lowers the barrier to entry, allowing the *Hive Mind* to produce high-quality outputs, but collective social learning leads to semantic clustering and a homogenization of ideas.
 *   **Hypothesis 2 (H2 - Frontier Expansion)**: The expansion of the absolute *creative frontier* (producing highly novel, outlying concepts) is driven primarily by *Masterminds* who engage in divergent, individualistic exploration.
 *   **Hypothesis 3 (H3 - Recombinant Exploitation)**: *Hive Minds* excel at *exploitative* innovation (refining and optimizing within existing boundaries), while *Masterminds* excel at *explorative* innovation (pushing boundaries outward).
-
----
 
 ## Conceptual & Mathematical Formulations
 
@@ -65,8 +55,6 @@ To measure how much an individual utilizes collective intelligence (the "Hive Mi
 $$SL_i = \max_{j \in \mathcal{P}_{t-1}} \text{CosineSimilarity}(\mathbf{v}_{u, t}, \mathbf{v}_{j, t-\tau})$$
 where $\mathcal{P}_{t-1}$ is the set of public prompts/images visible to the user within a temporal window $\tau$. A high $SL_i$ value denotes prompt copying or direct modification (recombinant exploitation).
 
----
-
 ## Methodology & Experimental Setup
 
 ### Dataset & Empirical Setting
@@ -91,8 +79,6 @@ The authors analyze a large-scale, high-frequency panel dataset collected from *
 | | $\text{IterationNo}_{it}$ | Sequential run index of the prompt within a single user session. |
 | | $\text{Time\_FE}$ | Time-fixed effects (day, hour) to capture systemic shifts. |
 
----
-
 ## Econometric Specifications
 
 To estimate the causal impact of collective search vs. individual search on creative outcomes, the authors run panel fixed-effects regressions:
@@ -107,8 +93,6 @@ Where:
 *   $\alpha_u$ represents **User Fixed Effects** (to control for time-invariant individual capabilities).
 *   $\gamma_t$ represents **Time Fixed Effects** (to control for platform-wide trend shifts).
 *   $\mathbf{X}_{it}$ is a vector of time-varying control variables.
-
----
 
 ## Quantitative Results & Findings
 
@@ -128,16 +112,12 @@ Where:
 [Individual Search / Masterminds] -> High Novelty/Outliers -> Frontier Expansion (Divergence)
 ```
 
----
-
 ## Limitations Acknowledged by the Authors
 
 1.  **Platform Specificity**: The study is conducted entirely on Midjourney. While highly representative of text-to-image workflows, the dynamics of collaborative search might differ in other domains (e.g., text generation, code development, or musical synthesis).
 2.  **Proxy for Quality**: Image quality and aesthetic value are proxied by platform-specific engagement metrics (likes, forks). While these represent social validation, they may not perfectly capture artistic or commercial quality.
 3.  **Representation Bias**: The semantic space is mapped via [[CLIP]] embeddings. Any bias, blind spots, or structural limitations inherent to CLIP's projection of images and text will carry over to the measurement of "novelty" and "frontier expansion."
 4.  **Short-term Horizon**: The study tracks evolution over months. Long-term cultural shifts or the emergence of entirely new artistic genres mediated by AI require longer longitudinal tracking.
-
----
 
 ## Related Concepts & Semantic Map
 *   [[GenerativeAI]]

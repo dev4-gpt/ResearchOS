@@ -24,11 +24,8 @@ tags:
 Generative AI (GenAI) is reshaping enterprise architecture work in agile software organizations, yet evidence on its effects remains scattered. We report a systematic literature review (SLR), following established SLR protocols of Kitchenham and PRISMA, of 1,697 records, yielding 33 studies across enterprise, solution, domain, business, and IT architect roles. GenAI most consistently supports (i) design ideation and trade-off exploration; (ii) rapid creation and refinement of artifacts (e.g., code, models, documentation); and (iii) architectural decision support and knowledge retrieval. Reported risks include opacity and bias, contextually incorrect outputs leading to rework, privacy and compliance concerns, and social loafing. We also identify emerging skills and competencies, including prompt engineering, model evaluation, and professional oversight, and organizational enablers around readiness and adaptive governance. The review contributes with (1) a mapping of GenAI use cases and risks in agile architecting, (2) implications for capability building and governance, and (3) an initial research agenda on human-AI collaboration in architecture. Overall, the findings inform responsible adoption of GenAI that accelerates digital transformation while safeguarding architectural integrity.
 
 ## Methodological Insights & System Architectures
-- Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
-- Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
 ## Key Quantitative Findings & Benchmarks
-- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.
 
 ## Content Snippet
 Impact and Implications of Generative AI for

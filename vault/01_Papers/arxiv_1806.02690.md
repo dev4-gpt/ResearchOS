@@ -15,9 +15,7 @@ tags:
   - "test-topic"
 ---
 ```obsidian
----
-title: "Guest Editorial: Special Topic on Data-enabled Theoretical Chemistry"
-authors: ["Matthias Rupp", "O. Anatole von Lilienfeld", "Kieron Burke"]
+
 publication_date: "2018-06-07"
 doi: "10.1063/1.5043213"
 arxiv_id: "1806.02690v2"
@@ -25,9 +23,6 @@ journal: "The Journal of Chemical Physics"
 volume: "148"
 issue: "24"
 page: "241401"
-citations: 0 # As per provided metadata
-tags: ["Editorial", "Theoretical Chemistry", "Machine Learning", "Cheminformatics", "Materials Informatics"]
----
 
 # Guest Editorial: Special Topic on Data-enabled Theoretical Chemistry
 

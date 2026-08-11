@@ -13,18 +13,9 @@ tags:
   - "test-topic"
 ---
 ```markdown
----
-title: "Repository: mojoaxel/awesome-regression-testing"
-authors: ["mojoaxel"]
+
 publication_date: "2017-06-28"
 source_url: "https://github.com/mojoaxel/awesome-regression-testing"
-citations: 2406 # Interpreted as GitHub Stars for a repository
-abstract: "GitHub Repository: 🕶️ A curated list of resources around the topic: visual regression testing (Stars: 2406, Language: )"
-tags:
-  - VisualRegressionTesting
-  - CuratedList
-  - GitHubRepository
----
 
 ## Overview
 

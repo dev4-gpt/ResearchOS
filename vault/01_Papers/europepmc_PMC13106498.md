@@ -14,26 +14,6 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "Editorial: Advancing vocal biomarkers and voice AI in healthcare: multidisciplinary focus on responsible and effective development and use."
-authors: Bélisle-Pipon JC, Toghranegar J, Powell ME
-publication_date: 2026
-url: "https://europepmc.org/article/PMC/PMC13106498"
-citations: 0
-paper_id: Bélisle-Pipon2026Editorial
-type: Editorial
-keywords:
-  - Vocal Biomarkers
-  - Voice AI
-  - Healthcare
-  - Responsible Development
-  - Effective Use
-  - Multidisciplinary
-methodology: N/A
-sample_size: N/A
-p_values: N/A
----
-
 This document summarizes the content of the editorial titled "Editorial: Advancing vocal biomarkers and voice AI in healthcare: multidisciplinary focus on responsible and effective development and use." by Bélisle-Pipon JC, Toghranegar J, and Powell ME.
 
 ### Overview

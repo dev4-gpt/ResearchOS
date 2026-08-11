@@ -16,20 +16,16 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: "Viewpoints on Factors for Successful Employment for Adults with Autism Spectrum Disorder"
-authors: "Melissa Scott, Marita Falkmer, Sonya Girdler, Torbjörn Falkmer"
+
 publication_date: "2015-10-13"
 source_url: "https://doi.org/10.1371/journal.pone.0139281"
 doi: "10.1371/journal.pone.0139281"
 paper_id: "Scott2015Viewpoints"
-abstract: "This article explores the key factors for successful employment from the viewpoints of adults with autism spectrum disorder (ASD) and employers. Two groups of individuals participated in this study, 40 adults with ASD and 35 employers. Q method was used to understand and contrast the viewpoints of the two groups. Data were analysed using by-person varimax rotation factor analysis. Results showed that although both groups appear committed to the employment process, the difference in their understanding regarding the type of workplace support required, job expectations and productivity requirements continues to hinder successful employment. These results highlight the need to facilitate communication between employees and employers to ensure a clear understanding of the needs of both groups are met. The use of an ASD-specific workplace tool may assist in facilitating the necessary communication between these two groups."
+
 methodology: "Q method, by-person varimax rotation factor analysis"
 sample_sizes_N:
-  - "Adults with ASD: 40"
-  - "Employers: 35"
+
 p_values: "Not reported in provided text"
----
 
 # [[Scott2015Viewpoints]]
 

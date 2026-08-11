@@ -116,16 +116,21 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
-        # 2. Filter out raw ASCII box diagrams, unparsed empty table tags, and header labels
+        # 2. Filter out raw ASCII box diagrams, unparsed YAML frontmatter, raw audit logs, and metadata noise
         text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
         text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^(INFERENCE-TIME|CARDIOLOGY-CHAT|THE EPISTEMOLOGICAL|PROPOSED METHODOLOGICAL).*$', '', text, flags=re.MULTILINE)
-        text = re.sub(r'^-{5,}$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^-{3,}$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^\+->.*$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^v\s+v$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^>\s*---[\s\S]*?---\s*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^(title:|authors:|date:|source:|url:|abstract:|citations:|category:|tags:|type:|publication_date:|source_url:|keywords:|methodology:|sample_size:|p_values:).*$', '', text, flags=re.MULTILINE | re.IGNORECASE)
+        text = re.sub(r'^(Lead Analyst Structured Analysis|Agent Role:|Audit Status:).*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^(Metadata|Epistemic Claims|Executive Summary|Core Claims).*$', '', text, flags=re.MULTILINE | re.IGNORECASE)
+        text = re.sub(r'\bContent Snippet\.\.\.\b', '', text)
 
-        # 3. Remove literal '[?]', '(' [?]' )' placeholders left by LLM
+        # 3. Remove literal '[?]' and unparsed bracket artifacts
         text = re.sub(r'\(?\s*[\'\"‘“]?\s*\[\?\]\s*[\'\"’”]?\s*\)?', '', text)
         text = re.sub(r'[\'\"‘“\s]*\[\?\][\'\"’\”\s]*', ' ', text)
 

@@ -15,19 +15,14 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: Industrial robot application and total factor productivity of manufacturing enterprises
-authors: Minghui Zhao, Zhenhua Wang, Shuangshuang Liu
+
 publication_date: 2025-09-24
 doi: 10.1371/journal.pone.0331378
-url: https://doi.org/10.1371/journal.pone.0331378
-citations: 0
-abstract: In the context of intensifying global competitiveness and rapid technological advancement, industrial robots have emerged as a pivotal component in the integration of digital technology, exerting a vital influence on the transformation and enhancement of the manufacturing industry. The question of whether this transformative shift can significantly enhance total factor productivity (TFP) and accelerate the transformation of the manufacturing industry has attracted substantial academic attention. This study employs micro-panel data drawn from Chinese A-share listed manufacturing enterprises from 2007 to 2022 to examine the implications of industrial robot application on TFP and the underlying mechanisms. The results of our study indicate that industrial robots have a positive influence on TFP, and this effect persists over time. The results of the mechanism tests indicate that industrial robot application facilitates an increase in human capital, confirming their “talent aggregation effect”. Moreover, the application of industrial robots enhances enterprises’ innovative capabilities, thereby validating their “innovation effect”. Further examination of heterogeneity indicates that the enhancing impact of applying industrial robots on TFP is more pronounced among enterprises with high labor productivity, those that are state-owned, and enterprises operating in high-tech sectors. This research contributes to the understanding of the impact of industrial robot application on TFP, which is of considerable practical significance for emerging economies seeking to transform traditional enterprise factors, accelerate new technology integration, and steer the digital transformation of manufacturing.
+
 methodology: micro-panel data analysis, mechanism tests, heterogeneity analysis
 sample_size: Chinese A-share listed manufacturing enterprises (specific N not provided)
 sample_period: 2007-2022
 p_values: null
----
 
 # [[Industrial robot application and total factor productivity of manufacturing enterprises]]
 

@@ -12,18 +12,6 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "Managerial AI Skill Stacking: A New Professional skillset for the AI-Driven Workplace"
-authors: "Nigel Daly"
-publication_date: "2025-06-03"
-url: "https://doi.org/10.2139/ssrn.5277762"
-abstract: "Managerial AI Skill Stacking: A New Professional skillset for the AI-Driven Workplace"
-paper_id: "Daly2025Managerial"
-methodology: "No methodology details can be extracted as the full text content was not provided."
-sample_size: "Not applicable, as no methodology or experimental data is available from the provided text."
-p_values: "Not applicable, as no statistical analyses are available from the provided text."
----
-
 # [[Daly2025Managerial]] - Managerial AI Skill Stacking: A New Professional skillset for the AI-Driven Workplace
 
 ## 1. [[Claims and Hypotheses]]

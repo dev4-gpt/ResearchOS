@@ -12,40 +12,51 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
-# Mind the Boundary: Stabilizing Gemini Enterprise A2A via a Cloud Run Hub Across Projects and Accounts
+```yml
 
-**Authors**: Takao Morita
-**Published**: 2026-01-26 | **Citations**: 0 | **Source**: arXiv
-**URL**: http://arxiv.org/abs/2602.17675v1
+publication_date: 2026-01-26
 
-## Executive Summary & Abstract
-Enterprise conversational UIs increasingly need to orchestrate heterogeneous backend agents and tools across project and account boundaries in a secure and reproducible way. Starting from Gemini Enterprise Agent-to-Agent (A2A) invocation, we implement an A2A Hub orchestrator on Cloud Run that routes queries to four paths: a public A2A agent deployed in a different project, an IAM-protected Cloud Run A2A agent in a different account, a retrieval-augmented generation path combining Discovery Engine and Vertex AI Search with direct retrieval of source text from Google Cloud Storage, and a general question answering path via Vertex AI. We show that practical interoperability is governed not only by protocol compliance but also by Gemini Enterprise UI constraints and boundary-dependent authentication. Real UI requests arrive as text-only inputs and include empty accepted output mode lists, so mixing structured data into JSON-RPC responses can trigger UI errors. To address this, we enforce a text-only compatibility mode on the JSON-RPC endpoint while separating structured outputs and debugging signals into a REST tool API. On a four-query benchmark spanning expense policy, project management assistance, general knowledge, and incident response deadline extraction, we confirm deterministic routing and stable UI responses. For the retrieval path, granting storage object read permissions enables evidence-backed extraction of the fifteen minute deadline. All experiments are reproducible using the repository snapshot tagged a2a-hub-gemini-ui-stable-paper.
+sample_size: 4 (number of queries in the benchmark)
+p_value: Not reported
+methodology:
 
-## Methodological Insights & System Architectures
-- Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
-- Examines empirical performance metrics, baseline comparisons, and statistical significance.
+algorithms:
 
-## Key Quantitative Findings & Benchmarks
-- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.
+system_architecture:
 
-## Content Snippet
-Mind the Boundary: Stabilizing Gemini Enterprise A2A via a Cloud
-Run Hub Across Projects and Accounts
-Takao Morita (Takao Morita)
-Independent Researcher
-Abstract
-Enterprise conversational UIs increasingly need to orchestrate heterogeneous backend agents
-and tools across project and account boundaries in a secure and reproducible way. Starting from
-Gemini Enterprise’s Agent-to-Agent (A2A) invocation, we implement an A2A Hub (orchestrator)
-on Cloud Run that routes queries to: (i) a public A2A agent deployed in a different project, (ii)
-an IAM-protected Cloud Run A2A agent in a different account, (iii) a RAG path combining
-Discovery Engine / Vertex AI Search with direct retrieval of source text from Google Cloud
-Storage (GCS), and (iv) a general QA path via Vertex AI. We show that practical interoperability
-is governed not only by protocol compliance but also by Gemini Enterprise UI constraints and
-boundary-dependent authentication. Real UI requests arrive in params.message.parts[].text and
-include acceptedOutputModes=[], so mixing structured data into JSON-RPC responses can
-trigger UI errors. To address this, we enforce a text-only compatibility mode on the JSON-RPC
-endpoint while separating structured outputs and debugging signals into a REST tool API.
-On a four-query benchmark spanning expense policy, PM assistance, general knowledge, and
-incident-response deadline extraction, we confirm deterministic routing and stable UI responses;
-for the RAG path, granting storage.objects
+experimental_results:
+
+datasets:
+
+quantitative_benchmarks:
+
+limitations:
+
+```
+
+## Introduction
+The paper discusses the implementation of an A2A Hub (orchestrator) on Cloud Run to route queries to different downstream agents and tool paths, ensuring cross-boundary agent interoperability and UI stability. The authors identify practical issues with Gemini Enterprise UI and A2A implementations, including UI compatibility, authentication design, and permission design.
+
+## Methodology
+The authors use the A2A protocol, Cloud Run, JSON-RPC, and REST tool API to implement the A2A Hub. They employ deterministic routing, input normalization, and a Hub-based approach to improve UI stability and error containment.
+
+## System Architecture
+The system comprises the Gemini Enterprise UI, the A2A Hub, and multiple downstream agents and tool paths. The A2A Hub normalizes input, performs routing, and forwards requests to the appropriate downstream path.
+
+## Experimental Results
+The authors evaluate the proposed Hub using a four-query benchmark, covering expense policy, project management assistance, general knowledge, and incident response deadline extraction. They confirm deterministic routing, UI compatibility, and cross-boundary connectivity.
+
+## Limitations
+The authors acknowledge limitations, including UI compatibility issues due to mixing structured data with text, authentication design across project and account boundaries, and permission design for Retrieval-Augmented Generation (RAG).
+
+## Conclusion
+The paper presents a Hub-based approach to stabilize Gemini Enterprise A2A across projects and accounts, ensuring UI stability and error containment. The authors demonstrate the effectiveness of their approach using a four-query benchmark and discuss limitations and future work.
+
+### References
+[[A2A Protocol]]: The A2A protocol specifies a loosely coupled mechanism for agent-to-agent communication.
+[[Cloud Run]]: A fully managed platform for containerized web applications and APIs.
+[[JSON-RPC]]: A lightweight remote procedure call protocol.
+[[REST Tool API]]: A RESTful API for debugging and inspection.
+[[Retrieval-Augmented Generation (RAG)]]: A technique that combines retrieval and generation models for improved performance.
+[[Vertex AI Search]]: A managed service for building, deploying, and managing machine learning models.
+[[Discovery Engine]]: A managed service for building, deploying, and managing machine learning models.

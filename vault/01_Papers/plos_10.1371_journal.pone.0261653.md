@@ -15,17 +15,12 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```obsidian
----
-title: "Students’ values, professional socialization and the mental gap of corporate social responsibility perceptions"
-authors: ["Nikša Alfirević", "Vojko Potočan", "Zlatko Nedelko"]
-source: "https://doi.org/10.1371/journal.pone.0261653"
+
 publication_date: "2021-12-22"
-citations: 0
-abstract: "This paper examines how values and professional socialization in business schools impact the formulation of students’ contextualized view of social responsibility. We propose the empirical concept of a mental gap between the existing and the wished-for level of a business school’s corporate social responsibility and estimate it empirically by using a sample of business school students from Central and South East Europe. Results show that students wish their business schools to reduce their current orientation toward economic outcomes and focus on environmental and social responsibilities. We interpret those empirical results in terms of the students’ wish to balance achieving economic prosperity and enjoyment of life with the prosocial outcomes of their education. New student generations’ perception of corporate social responsibility is not shaped by the professional socialization patterns but rather by the own perceptions, which can be influenced by experiential approaches to academic teaching and learning. Based on these empirical results, implications for academic practice and future research are explored."
+
 methodology: "The study proposed and empirically estimated the concept of a [[mental gap]] concerning [[corporate social responsibility]] (CSR) perceptions among business school students. Data was collected from a sample of students."
 sample_size: "The exact number (N) of participants is not specified in the provided text. The sample consisted of business school students from Central and South East Europe."
 p_values: "Formal p-values are not explicitly stated in the provided text."
----
 
 ## Claims and Hypotheses
 

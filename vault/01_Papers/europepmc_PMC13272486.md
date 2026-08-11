@@ -12,22 +12,6 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
-```yaml
-id: PMC13272486
-title: "Compressed professionalization in informal economies: a socio-technical analysis of youth-led artificial intelligence adoption in the Democratic Republic of the Congo."
-authors:
-  - Kyubwa DB
-publication_date: 2026
-source_url: "https://europepmc.org/article/PMC/PMC13272486"
-citations: 0
-tags:
-  - AI_Adoption
-  - Informal_Economies
-  - Socio_Technical_Analysis
-  - Youth_Professionalization
-  - Democratic_Republic_of_Congo
-```
-
 ## Abstract
 No abstract content was provided for analysis.
 

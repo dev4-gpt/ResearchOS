@@ -23,8 +23,6 @@ tags:
 * **Citations:** 0 (As of initial release)
 * **Core Concepts:** [[Extended Mind Thesis]], [[Cognitive Offloading]], [[Foundational Knowledge]], [[Epistemic Agency]], [[Large Language Models]], [[Semantic Atrophy]], [[Scaffolding Theory]]
 
----
-
 ## 1. Epistemic Claims & Hypotheses
 
 The authors present a critical defense of internal, biological semantic memory structures in the era of pervasive artificial intelligence, specifically targeting the uncritical adoption of [[Large Language Models]] (LLMs) as cognitive prosthetics.
@@ -33,8 +31,6 @@ The authors present a critical defense of internal, biological semantic memory s
 1. **The Hollowing Hypothesis ($\mathcal{H}_{hollow}$):** Excessive reliance on external generative AI systems for semantic processing without retaining a robust, internally represented biological knowledge base (foundational knowledge) leads to a "hollowing out" of the cognitive agent. The agent retains executive control over querying but loses the semantic architecture necessary to evaluate, contextualize, or synthesise information.
 2. **The Coupling Failure Hypothesis ($\mathcal{H}_{coupling}$):** Unlike classic cognitive extensions (e.g., Otto's notebook in Clark & Chalmers' [[Extended Mind Thesis]]), LLMs fail the criteria of *epistemic reliability* and *transparent coupling*, making total offloading of semantic memory cognitively destabilizing.
 3. **The Indispensability of Foundation ($\mathcal{H}_{indisp}$):** Foundational knowledge is not merely a redundant database; it constitutes the internal *interpretive schema* required to convert raw model outputs (information) into functional, agentic understanding (knowledge).
-
----
 
 ## 2. Theoretical Framework & Systems Architecture
 
@@ -45,13 +41,10 @@ The paper revisits and critiques the classical **Extended Mind Thesis (EMT)** fo
 ```
 [Classic EMT (Otto's Notebook)]
    Internal Mind (Beliefs) <=======> External Notebook (Static, Endorsed Facts)
-                                     - High Reliability
-                                     - No Generative Hallucinations
 
 [AI-Extended Mind (LLM User)]
    Biological Core (Hollowed) <======?> LLM (Dynamic, Probabilistic Generator)
-                                        - Latent Hallucination Risk
-                                        - No Prior Personal Endorsement
+
 ```
 
 | Criterion | Classic EMT (Notebook / Smartphone) | LLM-Extended Mind |
@@ -72,8 +65,6 @@ The paper conceptualizes the cognitive system of an AI-dependent agent as an asy
 If $S_{internal} \to \emptyset$ (semantic hollowing), the epistemic interface fails, resulting in a feedback loop of **semantic degradation**:
 
 $$\lim_{S_{internal} \to \emptyset} \text{Agentic Autonomy} = 0$$
-
----
 
 ## 3. Mathematical / Formal Representation of Cognitive Offloading
 
@@ -98,8 +89,6 @@ Where:
 1. **The Paradox of Ignorance:** When internal foundational knowledge $S_{internal} \to 0$, the verification cost $C_{verify} \to \infty$. The agent cannot verify the output, forcing them to accept $P_{gen}$ blindly (blind trust), minimizing objective epistemic utility $E_u$.
 2. **Cognitive Atrophy Dynamic:** If an agent seeks to minimize immediate cognitive effort ($C_{verify} + C_{generation}$), the path of least resistance is to offload memory. Over time, lack of retrieval practice causes decay of internal schema $S_{internal}$, leading to a systemic cognitive lock-in on unverified external models.
 
----
-
 ## 4. Key Arguments: Why Foundational Knowledge is Indispensable
 
 ### A. The Prompting/Querying Bottleneck
@@ -116,8 +105,6 @@ Proponents of AI integration suggest that human agents no longer need to store f
 * **Argument:** Epistemic agents must be responsible for their beliefs.
 * **Mechanism:** If an agent relies on an LLM to generate both the premises and the conclusions of their reasoning, the agent is no longer the author of their beliefs. They become an "epistemic passenger," delegating their agency to a commercial, proprietary black-box algorithm.
 
----
-
 ## 5. Stated Limitations & Boundary Conditions
 
 The authors note several boundaries to their philosophical and cognitive critique:
@@ -126,8 +113,6 @@ The authors note several boundaries to their philosophical and cognitive critiqu
 2. **Co-evolution of Interfaces:** The critique assumes current natural-language dialogue paradigms. Future neuro-technological interfaces (e.g., high-bandwidth brain-computer interfaces) might challenge the traditional distinction between internal and external semantic memory, though the threat of cognitive hollowing would remain if the internal synthesis engines are bypassed.
 3. **Empirical Verification Challenges:** Measuring the precise rate of "semantic atrophy" in real-world populations over multi-decade timelines remains an open empirical challenge for cognitive psychology.
 
----
-
 ## 6. Pedagogical & Practical Implications
 
 The paper concludes with strong recommendations for educational policy and professional development in the age of AI:
@@ -135,8 +120,6 @@ The paper concludes with strong recommendations for educational policy and profe
 * **In Defense of Memorization:** Against modern pedagogical trends that deprioritize factual recall, the authors argue that structured memorization and core fact retention are essential for building the initial $S_{internal}$ scaffolding.
 * **Evaluative Literacy:** Education must shift from teaching how to *generate* content to how to *evaluate, critique, and synthesize* AI-generated content. This "evaluative literacy" is impossible to develop without deep foundational knowledge.
 * **Strategic Cognitive Friction:** Designing systems and educational curricula that introduce intentional "cognitive friction"—forcing users to recall, write, and compute manually—to prevent the unconscious atrophy of biological neural networks.
-
----
 
 ## 7. Related Literature & Conceptual Mapping
 

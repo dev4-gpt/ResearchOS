@@ -14,23 +14,10 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "Economic policy uncertainty and common prosperity within the enterprise: Evidence from the Chinese market"
-authors: [Linjing Yang, Xiaoke Tan, Guifang Tan]
-date: 2024-10-21
-doi: "10.1371/journal.pone.0309370"
-citations: 0
-category: Empirical Corporate Finance
-target_market: China (Shanghai & Shenzhen Stock Exchanges)
-study_period: 2011–2020
----
-
 # Economic Policy Uncertainty and Common Prosperity Within the Enterprise
 
 ## Executive Summary
 This study investigates the relationship between [[Economic Policy Uncertainty]] (EPU) and [[Common Prosperity]] within enterprises. Using a sample of non-financial listed companies on the Shanghai and Shenzhen stock exchanges spanning 2011 to 2020, the paper demonstrates that EPU exerts a significant negative effect on intra-enterprise common prosperity. This adverse relationship is heterogeneous across ownership structures, life-cycle stages, innovation levels, and external financing/support conditions. Furthermore, the paper identifies [[Corporate Social Responsibility]] (CSR) and [[Total Factor Productivity]] (TFP) as critical buffering mechanisms that mitigate these negative effects.
-
----
 
 ## Theoretical Framework & Core Hypotheses
 
@@ -49,8 +36,6 @@ Based on the research findings, the core theoretical mechanisms can be formalize
                                  │  - High TFP     │
                                  └─────────────────┘
 ```
-
----
 
 ## Empirical Methodology
 
@@ -81,8 +66,6 @@ $$\text{CommonProsperity}_{i,t} = \alpha_0 + \beta_1 \text{EPU}_{t} + \beta_2 \t
 
 *Where $\text{Moderator}_{i,t} \in \{CSR_{i,t}, TFP_{i,t}\}$*. A positive coefficient on the interaction term ($\beta_3 > 0$) confirms a mitigating effect.
 
----
-
 ## Empirical Results & Heterogeneity
 
 The paper confirms several distinct patterns regarding where and how EPU degrades common prosperity:
@@ -106,8 +89,6 @@ The adverse effects of EPU are significantly **weakened** if the firm exhibits:
 As the baseline level of intra-enterprise common prosperity **increases**:
 *   The negative impact of EPU **gradually diminishes**.
 *   The positive buffering effects of TFP and CSR **become more evident**.
-
----
 
 ## Limitations & Scope Constraints
 *   **Geographic Focus:** The study is strictly limited to the **Chinese market** (Shanghai and Shenzhen Stock Exchanges), which exhibits unique institutional settings (e.g., state-owned enterprise dynamics, government-driven common prosperity initiatives) that may limit generalizability to market economies with different regulatory regimes.

@@ -1,6 +1,7 @@
 ---
 title: "Challenges and applications of Generative AI in Business"
 authors:
+  - "["
 url: "https://doi.org/10.52783/eel.v15i4.3642"
 published: "2025-9-2"
 citations: "0"
@@ -12,18 +13,15 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```obsidian
----
-title: "Challenges and applications of Generative AI in Business"
-authors: []
+
 publication_date: 2025-09-02
 source_url: "https://doi.org/10.52783/eel.v15i4.3642"
-citations: 0
+
 paper_id: "Challenges_and_applications_of_Generative_AI_in_Business_3642"
-abstract: "N/A - Abstract not provided in the input text."
+
 methodology: "N/A - Full text content not provided for analysis."
 sample_sizes_N: "N/A - Full text content not provided for analysis."
 p_values: "N/A - Full text content not provided for analysis."
----
 
 # Abstract
 
@@ -79,5 +77,4 @@ N/A - No conclusion could be extracted as the full text content was not provided
 
 # References
 
-- [[Challenges_and_applications_of_Generative_AI_in_Business_3642]] (DOI: https://doi.org/10.52783/eel.v15i4.3642)
 ```

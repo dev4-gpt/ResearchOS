@@ -16,25 +16,11 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: "Thinking Like A Lawyer In The Age Of Generative AI: Cognitive Limits On AI Adoption Among Lawyers"
-authors:
-  - Daniel Schwarcz
-  - Debarati Das
-  - Dongyeop Kang
-  - Brett H. McDonnell
+
 publication_date: 2025-05-20
 source_url: "https://doi.org/10.2139/ssrn.5260645"
-citations: 0
+
 paper_id: Schwarcz2025ThinkingLikeALawyer
-tags:
-  - AI_Adoption
-  - Legal_Profession
-  - Cognitive_Limits
-  - Human_AI_Interaction
-  - Generative_AI
-  - Legal_Reasoning
----
 
 ## Abstract Summary
 

@@ -13,25 +13,6 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "Generative AI Integration Patterns for Enterprise Workflow Automation: A Practitioner Framework"
-authors:
-  - Gnana Nishitha Chowdary Aluri
-  - Venkatesh Manohar
-publication_date: 2026-06-20
-source_url: "https://doi.org/10.63282/3050-922x.ijeret-v6i3p121"
-citations: 0
-tags:
-  - GenerativeAI
-  - EnterpriseAutomation
-  - WorkflowAutomation
-  - LLM
-  - RAG
-  - AIIntegration
-  - PractitionerFramework
-  - AIArchitecture
----
-
 ## Paper Abstract
 
 This paper addresses the gap in understanding how [[Generative AI]] (GenAI) technologies can be effectively integrated into existing enterprise business process infrastructures at production scale. While acknowledging the transformative potential of [[LLMs]], [[Retrieval-Augmented Generation|RAG]], multimodal AI systems, and autonomous agent architectures for knowledge-intensive tasks, the authors highlight significant enterprise challenges including scalability, governance, security, explainability, compliance, integration complexity, and reliability.

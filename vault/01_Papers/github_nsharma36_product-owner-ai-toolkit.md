@@ -13,23 +13,8 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: "Repository: nsharma36/product-owner-ai-toolkit"
-authors: ["nsharma36"]
-url: "https://github.com/nsharma36/product-owner-ai-toolkit"
+
 date_published: "2026-07-07"
-citations: 0
-abstract: "GitHub Repository: Enterprise AI toolkit for Product Owners and Business Analysts using Generative AI, Agentic workflows, RAG, and enterprise integrations to accelerate software delivery."
-tags:
-  - AI
-  - GenerativeAI
-  - AgenticWorkflows
-  - RAG
-  - EnterpriseIntegration
-  - ProductOwner
-  - BusinessAnalyst
-  - SoftwareDelivery
----
 
 # [[product-owner-ai-toolkit]] - An Enterprise AI Toolkit
 

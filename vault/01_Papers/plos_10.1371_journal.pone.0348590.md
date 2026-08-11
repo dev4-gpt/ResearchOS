@@ -17,35 +17,15 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: "Data-driven differentiation analysis of urban high-tech industries: Research on bibliometrics and large language models"
-authors:
-  - Hua Song
-  - Jun Zeng
-  - Yang Zheng
-  - Han Huang
-  - Hongyu Wang
+
 publication_date: 2026-05-14
 doi: "https://doi.org/10.1371/journal.pone.0348590"
-citations: 0
-tags:
-  - Bibliometrics
-  - LLM
-  - UrbanInnovation
-  - HighTechIndustry
-  - RegionalInnovationSystems
-  - DataAnalysis
-  - China
+
 methodology:
-  - Bibliometric Analysis
-  - Co-word Network Modeling
-  - Collaboration Network Mapping
-  - LLM-assisted Semantic Interpretation
+
 sample_sizes:
-  - Publications: >39,000 from Web of Science (WOS)
-  - Patent Records: ~10,000 from national patent database
+
 p_values: Not explicitly stated
----
 
 # Data-driven differentiation analysis of urban high-tech industries: Research on bibliometrics and large language models
 
@@ -123,5 +103,5 @@ Overall, the framework provides a reproducible and scalable approach for examini
 ## [[Stated Limitations]]
 
 The provided text does not explicitly state any limitations of the study. It clarifies the role of [[LLM-assisted Interpretation]] as supportive rather than substitutive for quantitative analysis, which defines its scope but is not presented as a limitation of the overall framework itself.
----
+
 ```

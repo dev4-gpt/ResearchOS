@@ -14,19 +14,14 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: "GraphRAG and Knowledge Grounding for Agentic Systems in SAP Environments"
-authors:
-  - "Campbell M"
-  - "Michaels H"
+
 publication_date: 2026
 source_url: "https://doi.org/10.14293/pr2199.004145.v1"
-citations: 0
+
 claims_hypotheses: []
 methodologies: []
 sample_sizes: []
 p_values: []
----
 
 # [[GraphRAG and Knowledge Grounding for Agentic Systems in SAP Environments]]
 

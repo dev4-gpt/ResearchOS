@@ -14,15 +14,12 @@ tags:
   - "test-topic"
 ---
 ```obsidian
----
-title: A supervised topic embedding model and its application
-authors: Weiran Xu, Koji Eguchi
+
 year: 2022
 publication_date: 2022-11-04
 doi: 10.1371/journal.pone.0277104
 journal: PLOS ONE
 keywords: [topic embedding, supervised learning, regression, natural language processing, text analysis]
----
 
 # A supervised topic embedding model and its application
 

@@ -13,21 +13,9 @@ tags:
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
 ```markdown
----
-title: Building an intelligent brain platform for small and medium-sized enterprises using ChatGLM and Multi-Agent Systems
-authors: Daohong Yuan
+
 publication_date: 2026-03-27
 source_url: https://doi.org/10.1371/journal.pone.0340964
-citations: 0
-tags:
-  - LLM
-  - ChatGLM
-  - MultiAgentSystems
-  - KnowledgeGraph
-  - SME
-  - EnterpriseAI
-  - SemanticAdaptability
----
 
 # Building an intelligent brain platform for small and medium-sized enterprises using ChatGLM and Multi-Agent Systems
 

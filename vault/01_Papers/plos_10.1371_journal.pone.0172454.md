@@ -14,30 +14,10 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
----
-title: "What can we learn about beat perception by comparing brain signals and stimulus envelopes?"
-authors:
-  - Molly J. Henry
-  - Björn Herrmann
-  - Jessica A. Grahn
-year: 2017
-doi: "10.1371/journal.pone.0172454"
-url: "https://doi.org/10.1371/journal.pone.0172454"
-category: Cognitive Neuroscience
-tags:
-  - beat-perception
-  - neural-entrainment
-  - frequency-tagging
-  - EEG
-  - auditory-processing
----
-
 # What can we learn about beat perception by comparing brain signals and stimulus envelopes?
 
 ## Executive Summary
 This paper critically evaluates the [[Frequency-Tagging]] approach used in [[Neural Entrainment]] research to study [[Beat Perception]]. The common paradigm compares frequency-domain representations of acoustic rhythm stimuli directly to the frequency-domain representations of electroencephalography ([[EEG]]) responses. This paper demonstrates a fundamental **dissociation** between the frequency-domain representation of a stimulus and actual behavioral beat perception. Acoustic manipulations of tone features (e.g., duration, ramp envelope) drastically alter or reverse the stimulus frequency-domain profile without affecting beat perception. Conversely, different onset patterns with identical frequency-domain profiles yield different beat perceptions. The authors advise caution when directly comparing stimulus envelopes and brain signals in the frequency domain, recommending a shift toward behavioral-EEG paradigms.
-
----
 
 ## Core Hypotheses & Theoretical Formalization
 
@@ -67,8 +47,6 @@ $$\Delta O \implies \Delta P(S)$$
 Rhythms with identical frequency-domain representations can elicit distinct beat perceptions, demonstrating a one-to-many or many-to-one mapping:
 $$\exists S_1, S_2 \quad \text{s.t.} \quad F(S_1) = F(S_2) \land P(S_1) \neq P(S_2)$$
 
----
-
 ## Methodological Analysis
 
 ### The "Frequency-Tagging" Paradigm Under Critique
@@ -94,16 +72,12 @@ The authors counter this assumption by introducing two methodological manipulati
 2. **Structural Manipulations**:
    * Altering the metrical complexity of onset patterns (simple vs. complex metrical structures) to decouple the physical spectral composition from the subjective beat perception.
 
----
-
 ## Key Findings & Empirical Results
 
 * **Acoustic Reversals**: Manipulating tone duration and onset/offset ramp durations completely reversed the relative amplitudes at beat-related frequencies in the stimulus spectrum ($F(S)$).
 * **Perceptual Constancy**: Despite these drastic spectral changes in the stimulus, human beat perception ($P(S)$) remained unchanged.
 * **Metrical Dominance**: Beat perception was shown to depend strictly on the pattern of onsets (simple vs. complex metrical structure) rather than the spectral amplitude at beat-related frequencies.
 * **Spectral Equivalence / Perceptual Divergence**: The study confirmed that rhythms with numerically identical frequency-domain representations ($F(S_1) = F(S_2)$) can produce significantly different beat perception profiles ($P(S_1) \neq P(S_2)$) based on their onset arrangements.
-
----
 
 ## Critical Limitations & Methodological Recommendations
 
