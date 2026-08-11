@@ -1,5 +1,7 @@
 # Research OS Component: AI Venue Formatting & O-1A Alignment Hub
 
+> **Evidence-system boundary:** O-1A and EB-1A are distinct immigration classifications. This document is an evidence-collection and portfolio-tracking specification, not legal advice or an eligibility determination. Regulatory mappings must be reviewed against the current USCIS Policy Manual by qualified counsel.
+
 This document integrates submission rules for elite AI venues with actionable **O-1A Visa Alignment Strategies**, **Model Context Protocol (MCP)** architectures, and **Developer Ecosystem Tools** to automate a high-impact research pipeline at Penn State.
 
 ---

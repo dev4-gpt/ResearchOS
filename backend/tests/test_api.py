@@ -85,7 +85,7 @@ class TestVaultFilesEndpoint:
         # by its own `except Exception` handler and re-raised as a 500.
         # The test documents the *actual* behavior; the intent was 400.
         response = api_client.get("/api/vault/files", params={"category": "invalid_cat"})
-        assert response.status_code in (400, 500)
+        assert response.status_code == 400
 
     def test_filter_by_each_valid_category_returns_200(self, api_client):
         for cat in ("papers", "concepts", "debates", "drafts"):

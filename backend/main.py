@@ -16,6 +16,12 @@ load_dotenv()
 from services.vault import VaultManager
 from services.fact_checker import FactCheckerService
 from agents.council import CouncilOrchestrator
+from services.latex_exporter import LaTeXExporterService
+from services.pdf_qa import PDFQualityAssurance
+from services.release_controller import ReleaseController
+from services.venue_profiles import VENUE_PROFILES
+from services.evidence_ledger import EvidenceLedger
+from domain.models import RunManifest, citation_key
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
 
@@ -33,6 +39,9 @@ vault_path = os.getenv("VAULT_PATH", "../vault")
 vault_manager = VaultManager(vault_path)
 fact_checker = FactCheckerService(vault_manager)
 orchestrator = CouncilOrchestrator(vault_path)
+pdf_qa = PDFQualityAssurance()
+release_controller = ReleaseController()
+evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(vault_manager.vault_path), "runs"))
 
 # In-memory log store for streaming active research runs
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -51,12 +60,14 @@ class SaveFileRequest(BaseModel):
 def health_check():
     gemini_key = bool(os.getenv("GEMINI_API_KEY"))
     nim_key = bool(os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY"))
+    run_mode = os.getenv("RESEARCHINGOS_RUN_MODE", "auto").strip().lower()
     return {
         "status": "healthy",
         "gemini_api_configured": gemini_key,
         "nvidia_nim_configured": nim_key,
         "vault_path": vault_manager.vault_path,
-        "is_dry_run": not (gemini_key or nim_key)
+        "run_mode": run_mode,
+        "is_dry_run": orchestrator.is_dry_run,
     }
 
 @app.get("/api/vault/files")
@@ -73,6 +84,8 @@ def get_vault_files(category: Optional[str] = None):
         for cat in categories:
             result[cat] = vault_manager.list_files(cat)
         return result
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -116,7 +129,8 @@ def fact_check_vault_file(category: str, filename: str):
     try:
         data = vault_manager.read_markdown(category, filename)
         content = data.get("content", "")
-        report = fact_checker.audit_document(content)
+        source_records = _source_records()
+        report = fact_checker.audit_document(content, source_records=source_records)
         return {
             "status": "success",
             "category": category,
@@ -128,6 +142,31 @@ def fact_check_vault_file(category: str, filename: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+def _source_records() -> Dict[str, str]:
+    """Return source text keyed by canonical citation key for claim-level audits."""
+    records: Dict[str, str] = {}
+    for item in vault_manager.list_files("papers"):
+        try:
+            data = vault_manager.read_markdown("papers", item["filename"])
+            meta = data.get("frontmatter", {}) or {}
+            text = data.get("content", "")
+            for key in (item["filename"], meta.get("id", ""), meta.get("title", "")):
+                if key:
+                    records[citation_key(str(key))] = text
+        except Exception:
+            continue
+    return records
+
+
+def _paper_data() -> List[Dict[str, Any]]:
+    papers = []
+    for item in vault_manager.list_files("papers"):
+        data = vault_manager.read_markdown("papers", item["filename"])
+        data["filename"] = item["filename"]
+        papers.append(data)
+    return papers
+
 @app.get("/api/vault/export-latex")
 def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_generative_ai_i.md"):
     """Generates compilable IEEEtran LaTeX and BibTeX from a vault manuscript draft."""
@@ -137,16 +176,22 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
         
         draft = vault_manager.read_markdown("drafts", filename)
         title = draft["frontmatter"].get("title", "Systematic Review Manuscript")
-        authors = draft["frontmatter"].get("authors", ["Dr. Senior Principal Researcher", "ResearchingOS Council"])
+        frontmatter = draft.get("frontmatter", {}) or {}
+        authors = frontmatter.get("authors", [])
+        author_details = {
+            "affiliation": frontmatter.get("affiliation", ""),
+            "email": frontmatter.get("email", ""),
+        }
         content = draft["content"]
         
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Review of Enterprise Generative AI."
         
-        tex_code = exporter.markdown_to_ieeetran(title, authors, abstract, content)
+        tex_code = exporter.markdown_to_ieeetran(
+            title, authors, abstract, content, author_details=author_details
+        )
         
-        paper_files = vault_manager.list_files("papers")
-        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
+        papers_data = _paper_data()
         bib_code = exporter.generate_bibtex(papers_data)
         
         return {
@@ -168,14 +213,17 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         content = doc_data.get("content", "")
         frontmatter = doc_data.get("frontmatter", {})
         title = frontmatter.get("title", filename.replace(".md", ""))
-        authors = frontmatter.get("authors", ["Penn State AI Collaborator", "ResearchingOS Council"])
+        authors = frontmatter.get("authors", [])
+        author_details = {
+            "affiliation": frontmatter.get("affiliation", ""),
+            "email": frontmatter.get("email", ""),
+        }
         
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
         
         exporter = LaTeXExporterService(vault_manager)
-        paper_files = vault_manager.list_files("papers")
-        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
+        papers_data = _paper_data()
         bib_code = exporter.generate_bibtex(papers_data)
 
         # Ensure exports directory exists in vault
@@ -183,7 +231,9 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         os.makedirs(exports_dir, exist_ok=True)
 
         if venue == "ALL":
-            bundle = exporter.export_multi_venue_bundle(title, authors, abstract, content)
+            bundle = exporter.export_multi_venue_bundle(
+                title, authors, abstract, content, author_details=author_details
+            )
             for v_key, v_code in bundle.items():
                 with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{v_key}.tex"), "w", encoding="utf-8") as f:
                     f.write(v_code)
@@ -197,10 +247,20 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
                 "bib_code": bib_code
             }
 
-        tex_code = exporter.markdown_to_venue_latex(venue or "NeurIPS", title, authors, abstract, content)
+        selected_venue = venue or "NeurIPS"
+        profile = VENUE_PROFILES.get(selected_venue)
+        tex_code = exporter.markdown_to_venue_latex(
+            selected_venue,
+            title,
+            authors,
+            abstract,
+            content,
+            author_details=author_details,
+            anonymize=profile.anonymized_review if profile else None,
+        )
         
         # Save vault copy
-        with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.tex"), "w", encoding="utf-8") as f:
+        with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{selected_venue}.tex"), "w", encoding="utf-8") as f:
             f.write(tex_code)
         with open(os.path.join(exports_dir, "references.bib"), "w", encoding="utf-8") as f:
             f.write(bib_code)
@@ -208,8 +268,8 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         return {
             "success": True,
             "filename": filename,
-            "venue": venue,
-            "tex_filename": f"{filename.replace('.md', '')}_{venue}.tex",
+            "venue": selected_venue,
+            "tex_filename": f"{filename.replace('.md', '')}_{selected_venue}.tex",
             "bib_filename": "references.bib",
             "tex_code": tex_code,
             "bib_code": bib_code
@@ -230,19 +290,89 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         content = draft.get("content", "")
         meta = draft.get("frontmatter", {}) or draft.get("metadata", {})
         title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
-        authors = meta.get("authors", ["ResearchingOS Academic Council", "The Pennsylvania State University"])
+        authors = meta.get("authors", [])
+        author_details = {
+            "affiliation": meta.get("affiliation", ""),
+            "email": meta.get("email", ""),
+        }
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
 
-        paper_files = vault_manager.list_files("papers")
-        papers_data = [vault_manager.read_markdown("papers", p["filename"]) for p in paper_files]
+        papers_data = _paper_data()
         exporter = LaTeXExporterService(vault_manager)
         bib_code = exporter.generate_bibtex(papers_data)
-        tex_code = exporter.markdown_to_venue_latex(venue or "IEEEtran", title, authors, abstract, content)
+        selected_venue = venue or "IEEEtran"
+        profile = VENUE_PROFILES.get(selected_venue)
+        tex_code = exporter.markdown_to_venue_latex(
+            selected_venue,
+            title,
+            authors,
+            abstract,
+            content,
+            author_details=author_details,
+            anonymize=profile.anonymized_review if profile else None,
+        )
+        tex_report = pdf_qa.inspect_tex(tex_code, profile=profile.model_dump() if profile else None)
+        if tex_report["errors"]:
+            raise HTTPException(status_code=422, detail={"stage": "tex_qa", "errors": tex_report["errors"]})
 
-        pdf_bytes = exporter.compile_pdflatex(tex_code, bib_code)
+        fact_audit = fact_checker.audit_document(content, source_records=_source_records())
+        bibliography_report = fact_checker.validate_bibliography(content, bib_code)
+        peer_review = meta.get("peer_review", {}) if isinstance(meta, dict) else {}
+        run_id = f"draft-{filename.replace('.md', '')}"
+        manifest = RunManifest(
+            run_id=run_id,
+            topic=str(meta.get("topic", title)),
+            canonical_venue=selected_venue,
+            venue_cycle=profile.cycle if profile else None,
+            synthetic=bool(meta.get("synthetic", False)),
+        )
+        decision = release_controller.evaluate(
+            manifest=manifest,
+            fact_audit=fact_audit,
+            bibliography_report=bibliography_report,
+            qa_report={"status": "passed", "errors": []},
+            peer_review=peer_review,
+            synthetic=bool(meta.get("synthetic", False)),
+        )
+        if decision.status != "ready_for_human_signoff":
+            raise HTTPException(status_code=422, detail={"stage": "release_gate", "errors": decision.errors, "checks": decision.checks})
+
+        pdf_bytes = exporter.compile_pdflatex(
+            tex_code,
+            bib_code,
+            allow_package_fallback=bool(profile and profile.allow_package_fallback),
+        )
         if not pdf_bytes:
             raise HTTPException(status_code=500, detail="PDF compilation failed or pdflatex encountered an error.")
+
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as temp_pdf:
+            temp_pdf.write(pdf_bytes)
+            temp_pdf.flush()
+            qa_report = pdf_qa.inspect_pdf(temp_pdf.name, profile=profile.model_dump() if profile else None)
+        if qa_report["errors"]:
+            raise HTTPException(status_code=422, detail={"stage": "pdf_qa", "errors": qa_report["errors"]})
+
+        build_prefix = f"builds/{selected_venue}/v1"
+        artifact_hashes = {
+            "manuscript.tex": evidence_ledger.record_artifact(run_id, f"{build_prefix}/manuscript.tex", tex_code.encode("utf-8")),
+            "references.bib": evidence_ledger.record_artifact(run_id, f"{build_prefix}/references.bib", bib_code.encode("utf-8")),
+            "final.pdf": evidence_ledger.record_artifact(run_id, f"{build_prefix}/final.pdf", pdf_bytes),
+        }
+        evidence_ledger.record_artifact(
+            run_id,
+            f"{build_prefix}/build.log",
+            getattr(exporter, "last_build_log", "").encode("utf-8"),
+        )
+        manifest.state = "VENUE_BUILD_VERIFIED"
+        manifest.build_decision = decision.model_copy(update={"status": "ready_for_human_signoff"})
+        evidence_ledger.write_json(run_id, "manifest.json", manifest.model_dump())
+        evidence_ledger.write_json(
+            run_id,
+            f"{build_prefix}/qa-report.json",
+            {"tex": tex_report, "bibliography": bibliography_report, "pdf": qa_report, "artifact_sha256": artifact_hashes},
+        )
 
         pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
 
@@ -257,6 +387,8 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             media_type="application/pdf",
             headers={"Content-Disposition": f'attachment; filename="{pdf_filename}"'}
         )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -269,11 +401,12 @@ def get_peer_review(filename: str = Query(...)):
             raise HTTPException(status_code=404, detail="Draft not found")
         meta = draft.get("frontmatter", {}) or draft.get("metadata", {})
         peer_review = meta.get("peer_review", {
-            "overall_decision": "ACCEPT",
-            "scores": {"novelty": 9, "technical_rigor": 9, "empirical_grounding": 8, "presentation_clarity": 9},
-            "key_strengths": ["Exhaustive 25+ paper synthesis", "Rigorous statistical power audit"],
-            "fatal_weaknesses": ["None identified"],
-            "required_revisions": ["Expand section 4.3"]
+            "schema_valid": False,
+            "overall_decision": "REJECT",
+            "scores": {},
+            "key_strengths": [],
+            "fatal_weaknesses": ["No structured peer-review audit is available."],
+            "required_revisions": ["Run the peer-review audit before release."],
         })
         return {
             "success": True,
@@ -398,12 +531,12 @@ o1a_tracker = O1AEvidenceTrackerService(vault_manager)
 
 @app.get("/api/venues")
 def get_venue_specs():
-    """Returns technical specs, page limits, O-1A criteria mappings, and anonymization rules for target AI venues."""
-    return {"venues": VENUE_SPECS}
+    """Returns technical specs and pinned release profiles for target venues."""
+    return {"venues": VENUE_SPECS, "release_profiles": {k: v.model_dump() for k, v in VENUE_PROFILES.items()}}
 
 @app.get("/api/o1a/audit")
 def get_o1a_audit():
-    """Audits current vault manuscripts against USCIS O-1A visa criteria (8 CFR § 204.5(h)(3))."""
+    """Reports documented portfolio evidence; does not determine immigration eligibility."""
     drafts = vault_manager.list_files("drafts")
     manuscripts = []
     for d in drafts:
@@ -413,7 +546,7 @@ def get_o1a_audit():
                 "id": d["filename"].replace(".md", ""),
                 "title": meta["frontmatter"].get("title", d["filename"]),
                 "venue": meta["frontmatter"].get("venue", "IEEE/ACM Journal"),
-                "fact_check_score": float(meta["frontmatter"].get("fact_check_score", 100.0)),
+                "fact_check_score": float(meta["frontmatter"].get("fact_check_score", 0.0)),
                 "citations": int(meta["frontmatter"].get("citations", 0)),
                 "peer_review": meta["frontmatter"].get("peer_review")
             })

@@ -1,5 +1,7 @@
 # Architectural Specification: Multi-Venue Formatting & O-1A Academic Portfolio Engine
 
+> **Scope correction:** Venue compilation and immigration evidence tracking are separate subsystems. The tracker records externally documented O-1A evidence and must not infer legal eligibility from internal peer-review scores, fact-check scores, or automated agent activity.
+
 ## 1. Overview & Vision
 
 To prove extraordinary ability for O-1A visa portfolios and secure rapid citations, ResearchingOS supports **Multi-Path Publishing** across gold-standard AI/CS conferences and journals:

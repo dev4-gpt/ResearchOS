@@ -2,6 +2,8 @@ import re
 import os
 from typing import Dict, Any, List, Optional
 
+from domain.models import citation_key
+
 VENUE_SPECS = {
     "NeurIPS": {
         "name": "Neural Information Processing Systems (NeurIPS)",
@@ -10,9 +12,7 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass{article}",
         "packages": "\\usepackage[final]{neurips_2026}\n\\usepackage[utf8]{inputenc}\n\\usepackage[T1]{fontenc}\n\\usepackage{url}\n\\usepackage{booktabs}\n\\usepackage{amsfonts}\n\\usepackage{nicefrac}\n\\usepackage{microtype}\n\\usepackage{xcolor}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}\n\\usepackage{hyperref}",
         "template_style": "neurips",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles]",
-        "acceptance_rate": "Sub-15% Oral / Sub-25% Poster",
-        "anonymization_rule": "Double-Blind (Mask author names, Penn State affiliation, grant IDs)"
+        "anonymization_rule": "Double-Blind (mask author names, affiliations, grant IDs, and identifying links)"
     },
     "ICML": {
         "name": "International Conference on Machine Learning (ICML)",
@@ -21,9 +21,7 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass{article}",
         "packages": "\\usepackage{icml2026}\n\\usepackage{times}\n\\usepackage{graphicx}\n\\usepackage{subfigure}\n\\usepackage{natbib}\n\\usepackage{algorithm}\n\\usepackage{algorithmic}\n\\usepackage{hyperref}\n\\usepackage{amsmath,amssymb}",
         "template_style": "icml",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(v) [Original Scientific Contributions of Major Significance]",
-        "acceptance_rate": "Sub-20% Competitive Selection",
-        "anonymization_rule": "Double-Blind (Third-person self-citations)"
+        "anonymization_rule": "Double-Blind (use third-person self-citations where required)"
     },
     "CVPR": {
         "name": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
@@ -32,9 +30,7 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
         "packages": "\\usepackage{cvpr}\n\\usepackage{times}\n\\usepackage{epsfig}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
         "template_style": "cvpr",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(iii) [Published Material About Alien / Media Traction]",
-        "acceptance_rate": "Sub-23% Peer-Reviewed Selection",
-        "anonymization_rule": "Strict Anonymization (Strip camera EXIF & sensor metadata)"
+        "anonymization_rule": "Double-Blind (strip identifying metadata and links)"
     },
     "ACL": {
         "name": "Association for Computational Linguistics (ACL / ARR)",
@@ -43,9 +39,7 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass[11pt,a4paper]{article}",
         "packages": "\\usepackage[review]{acl}\n\\usepackage{times}\n\\usepackage{latexsym}\n\\usepackage[T1]{fontenc}\n\\usepackage[utf8]{inputenc}\n\\usepackage{microtype}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}",
         "template_style": "acl",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(iv) [Judging the Work of Others / ARR Program Committee]",
-        "acceptance_rate": "Sub-22% Peer-Reviewed Selection",
-        "anonymization_rule": "ACL Rolling Review (Mask model weights & prompt templates)"
+        "anonymization_rule": "Double-Blind (mask identifying model, prompt, and repository details)"
     },
     "IEEEtran": {
         "name": "IEEE Transactions (IEEE TKDE / TPAMI)",
@@ -54,9 +48,7 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}",
         "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
         "template_style": "ieeetran",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles in Major Journals]",
-        "acceptance_rate": "Peer-Reviewed High-Impact Factor Journal",
-        "anonymization_rule": "Single-Blind / Open Review Option"
+        "anonymization_rule": "Use the selected journal's author and disclosure rules"
     },
     "ACM": {
         "name": "ACM Computing Surveys / SIGKDD",
@@ -65,26 +57,22 @@ VENUE_SPECS = {
         "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
         "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
         "template_style": "acm",
-        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles in Premier Professional Publications]",
-        "acceptance_rate": "Peer-Reviewed Premier Survey Journal",
-        "anonymization_rule": "Single-Blind / Camera-Ready Option"
+        "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
     }
 }
 
 class LaTeXExporterService:
     def __init__(self, vault_manager: Any = None):
         self.vault_manager = vault_manager
+        self.last_build_log = ""
 
     def clean_citation_key(self, key: str) -> str:
         """Cleans and normalizes citation keys into simple alphanumeric/underscore strings for BibTeX matching."""
-        key = key.replace(".md", "")
-        key = re.sub(r'[^a-zA-Z0-9_]', '_', key)
-        key = re.sub(r'_+', '_', key).strip('_')
-        return key
+        return citation_key(key)
 
     def clean_title_str(self, title: str, body_markdown: str = "") -> str:
         """Strips raw markdown prompt wrappers and extracts real document heading if title is a prompt."""
-        if body_markdown:
+        if body_markdown and (not title or re.search(r'(Research and extract|Please evaluate)', title, re.IGNORECASE)):
             match = re.search(r'^#\s+(.+)$', body_markdown, re.MULTILINE)
             if match:
                 extracted = match.group(1).strip()
@@ -168,23 +156,21 @@ class LaTeXExporterService:
         for pattern in ai_fluff:
             text = re.sub(pattern, '', text, flags=re.IGNORECASE)
 
-        # 6. Remove document-level # Title heading from body since it is in \title{}
-        text = re.sub(r'^#\s+.*$', '', text, flags=re.MULTILINE)
-
-        # 7. Convert Markdown headings (##, ###, ####) to LaTeX commands FIRST before list loop
+        # 6. Convert Markdown headings to LaTeX commands FIRST before list loop
         def heading_to_section(m):
             level = len(m.group(1))
             title_text = m.group(2).strip()
             # Strip leading section numbers like '1. ', '1.1 '
-            title_text = re.sub(r'^\d+(\.\d+)*\.?\s*', '', title_text)
-            if level == 2:
+            if level > 1:
+                title_text = re.sub(r'^\d+(\.\d+)*\.?\s*', '', title_text)
+            if level in (1, 2):
                 return f"\n\\section{{{title_text}}}\n"
             elif level == 3:
                 return f"\n\\subsection{{{title_text}}}\n"
             else:
                 return f"\n\\subsubsection{{{title_text}}}\n"
 
-        text = re.sub(r'^(#{2,4})\s+(.*)$', heading_to_section, text, flags=re.MULTILINE)
+        text = re.sub(r'^(#{1,4})\s+(.*)$', heading_to_section, text, flags=re.MULTILINE)
 
         # 8. Sanitize body text outside math & cite blocks
         text = self.sanitize_latex(text)
@@ -288,25 +274,62 @@ class LaTeXExporterService:
         latex_body = re.sub(r'\*(.*?)\*', r'\\textit{\1}', latex_body)
         return latex_body
 
-    def markdown_to_ieeetran(self, title: str, authors: List[str], abstract: str, body_markdown: str, bib_entries: List[Dict[str, str]] = None) -> str:
+    def markdown_to_ieeetran(
+        self,
+        title: str,
+        authors: List[str],
+        abstract: str,
+        body_markdown: str,
+        bib_entries: List[Dict[str, str]] = None,
+        author_details: Optional[Dict[str, str]] = None,
+    ) -> str:
         """Legacy IEEEtran converter wrapper."""
-        return self.markdown_to_venue_latex("IEEEtran", title, authors, abstract, body_markdown, bib_entries)
+        return self.markdown_to_venue_latex(
+            "IEEEtran", title, authors, abstract, body_markdown, bib_entries,
+            author_details=author_details, anonymize=False,
+        )
 
-    def markdown_to_venue_latex(self, venue_key: str, title: str, authors: List[str], abstract: str, body_markdown: str, bib_entries: List[Dict[str, str]] = None) -> str:
+    def markdown_to_venue_latex(
+        self,
+        venue_key: str,
+        title: str,
+        authors: List[str],
+        abstract: str,
+        body_markdown: str,
+        bib_entries: List[Dict[str, str]] = None,
+        author_details: Optional[Dict[str, str]] = None,
+        anonymize: Optional[bool] = None,
+    ) -> str:
         """Converts Markdown manuscript into venue-specific LaTeX for NeurIPS, ICML, CVPR, ACL, IEEEtran, or ACM."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
         clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
         clean_abstract = self.sanitize_latex(abstract)
-        latex_body = self.convert_markdown_body(body_markdown)
+        body_for_export = body_markdown
+        first_heading = re.match(r'^#\s+(.+)$', body_for_export.strip(), re.MULTILINE)
+        if first_heading and self.clean_title_str(first_heading.group(1), "") == clean_title:
+            body_for_export = body_for_export.replace(first_heading.group(0), "", 1)
+        latex_body = self.convert_markdown_body(body_for_export)
         
-        authors_list = authors or ["ResearchingOS Council", "Penn State AI Collaborator"]
-        authors_str = ", ".join(authors_list)
-
-        neurips_authors = " \\And ".join([a + "\\\\ Penn State AI Laboratory" for a in authors_list])
-        icml_authors = " ".join(["\\icmlauthor{" + a + "}{psu}" for a in authors_list])
+        details = author_details or {}
+        anonymized_venues = {"NeurIPS", "ICML", "CVPR", "ACL"}
+        is_anonymous = anonymize if anonymize is not None else venue_key in anonymized_venues
+        authors_list = ["Anonymous Authors"] if is_anonymous else (authors or ["Unspecified Authors"])
+        affiliation = "" if is_anonymous else self.sanitize_latex(str(details.get("affiliation", "")))
+        email = "" if is_anonymous else self.sanitize_latex(str(details.get("email", "")))
+        neurips_authors = " \\And ".join(
+            a + (f"\\\\ {affiliation}" if affiliation else "") for a in authors_list
+        )
+        icml_marker = "anon" if is_anonymous else "affil"
+        icml_authors = " ".join(["\\icmlauthor{" + a + "}{" + icml_marker + "}" for a in authors_list])
+        icml_affiliation = f"\\icmlaffiliation{{affil}}{{{affiliation}}}" if affiliation else ""
         cvpr_authors = " \\and ".join(authors_list)
         acl_authors = " \\\\ ".join(authors_list)
         ieee_authors = " \\and ".join(["\\IEEEauthorblockN{" + a + "}" for a in authors_list])
+        contact_line = f"\\texttt{{{email}}}" if email else ""
+        ieee_affiliation = affiliation
+        if email:
+            ieee_affiliation = f"{affiliation}\\\\Email: {email}" if affiliation else f"Email: {email}"
+        ieee_block = f"\\IEEEauthorblockA{{{ieee_affiliation}}}" if ieee_affiliation else ""
 
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
@@ -333,10 +356,10 @@ class LaTeXExporterService:
 
 \\section*{{NeurIPS Paper Checklist}}
 \\begin{{enumerate}}
-  \\item Claims: Yes, all quantitative performance claims are grounded in empirical evaluations.
-  \\item Limitations: Yes, limitations are explicitly stated in Section 6.
-  \\item Theory & Proofs: Yes, mathematical formulations for FLOPs scaling laws are detailed in Section 5.
-  \\item Reproducibility: Yes, code artifacts and prompt traces are open-sourced in the repository.
+  \\item Claims and evidence: verify against the run evidence ledger before submission.
+  \\item Limitations: complete and verify the required limitations section.
+  \\item Theory and proofs: mark this item according to the manuscript's actual contents.
+  \\item Reproducibility: verify the build manifest and artifact availability.
 \\end{{enumerate}}
 
 \\end{{document}}
@@ -356,7 +379,7 @@ class LaTeXExporterService:
 {icml_authors}
 \\end{{icmlauthorlist}}
 
-\\icmlaffiliation{{psu}}{{Department of Computer Science & Artificial Intelligence, The Pennsylvania State University}}
+{icml_affiliation}
 
 \\icmlkeywords{{Machine Learning, Deep Learning, AI Systems, Empirical Evaluation}}
 
@@ -384,8 +407,8 @@ class LaTeXExporterService:
 
 \\author{{
 {cvpr_authors}\\\\
-The Pennsylvania State University\\\\
-{{\\tt\\small {{research, ai}}@psu.edu}}
+{affiliation}\\\\
+{contact_line}
 }}
 
 \\maketitle
@@ -411,8 +434,8 @@ The Pennsylvania State University\\\\
 
 \\author{{
 {acl_authors}\\\\
-The Pennsylvania State University\\\\
-\\texttt{{research@psu.edu}}
+{affiliation}\\\\
+{contact_line}
 }}
 
 \\begin{{document}}
@@ -438,8 +461,8 @@ The Pennsylvania State University\\\\
 
 \\author{{
   {acl_authors}\\\\
-  The Pennsylvania State University\\\\
-  \\texttt{{research@psu.edu}}
+  {affiliation}\\\\
+  {contact_line}
 }}
 
 \\maketitle
@@ -465,8 +488,7 @@ The Pennsylvania State University\\\\
 
 \\author{{
 {ieee_authors}\\\\
-\\IEEEauthorblockA{{\\\\Department of Computer Science \\& AI, The Pennsylvania State University\\\\
-Email: research@psu.edu}}
+{ieee_block}
 }}
 
 \\maketitle
@@ -488,28 +510,38 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 """
         return doc_code
 
-    def export_multi_venue_bundle(self, title: str, authors: List[str], abstract: str, body_markdown: str) -> Dict[str, str]:
+    def export_multi_venue_bundle(
+        self,
+        title: str,
+        authors: List[str],
+        abstract: str,
+        body_markdown: str,
+        author_details: Optional[Dict[str, str]] = None,
+    ) -> Dict[str, str]:
         """Generates LaTeX formatted documents for ALL premier target venues simultaneously (Multi-Path Publishing)."""
         bundle = {}
         for key in VENUE_SPECS.keys():
-            bundle[key] = self.markdown_to_venue_latex(key, title, authors, abstract, body_markdown)
+            bundle[key] = self.markdown_to_venue_latex(
+                key, title, authors, abstract, body_markdown, author_details=author_details
+            )
         return bundle
 
     def generate_bibtex(self, papers: List[Dict[str, Any]]) -> str:
         """Generates a complete BibTeX references file from ingested vault papers."""
         bib_lines = []
         for idx, p in enumerate(papers):
-            raw_key = p.get("id") or p.get("filename") or p.get("frontmatter", {}).get("id") or p.get("frontmatter", {}).get("title") or f"ref_{idx+1}"
+            frontmatter = p.get("frontmatter", {}) or p.get("metadata", {}) or {}
+            raw_key = p.get("id") or p.get("filename") or frontmatter.get("id") or frontmatter.get("title") or f"ref_{idx+1}"
             paper_id = self.clean_citation_key(str(raw_key))
             if not paper_id:
                 paper_id = f"ref_{idx+1}"
 
-            title = p.get("frontmatter", {}).get("title") or p.get("title") or "Untitled Paper"
+            title = frontmatter.get("title") or p.get("title") or "Untitled Paper"
             title = str(title).replace('[', '').replace(']', '').replace('"', '').strip()
             if not title or "Lead Analyst" in title or "TEST" in title:
                 title = f"Empirical Investigation into Enterprise Generative AI Workflows (Study {idx+1})"
 
-            authors_list = p.get("frontmatter", {}).get("authors") or p.get("authors") or ["Unknown Author"]
+            authors_list = frontmatter.get("authors") or p.get("authors") or ["Unknown Author"]
             if isinstance(authors_list, str):
                 authors_list = [authors_list]
             
@@ -522,8 +554,8 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 clean_authors = ["Senior Research Team"]
 
             authors = " and ".join(clean_authors)
-            url = p.get("frontmatter", {}).get("url", "")
-            year = str(p.get("frontmatter", {}).get("published", "2024"))[:4]
+            url = frontmatter.get("url", "")
+            year = str(frontmatter.get("published", "2024"))[:4]
 
             entry = f"""@article{{{paper_id},
   title={{{title}}},
@@ -536,7 +568,8 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             bib_lines.append(entry)
         return "\n".join(bib_lines)
 
-    def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None) -> Optional[bytes]:
+    def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None,
+                         allow_package_fallback: bool = False) -> Optional[bytes]:
         """Compiles TeX code into PDF bytes using local pdflatex command with automatic safe package fallbacks."""
         import tempfile
         import subprocess
@@ -555,14 +588,15 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             print("pdflatex binary not found on local system.")
             return None
 
-        # Build safe TeX code fallback if custom .sty files are missing from system TeX Live
-        tex_code_safe = (
-            tex_code.replace('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}')
-                    .replace('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}')
-                    .replace('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}')
-                    .replace('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}')
-                    .replace('\\documentclass[sigconf]{acmart}', '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}')
-        )
+        tex_code_safe = tex_code
+        if allow_package_fallback:
+            tex_code_safe = (
+                tex_code.replace('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}')
+                        .replace('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}')
+                        .replace('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}')
+                        .replace('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}')
+                        .replace('\\documentclass[sigconf]{acmart}', '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}')
+            )
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tex_path = os.path.join(tmpdir, "document.tex")
@@ -577,7 +611,11 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 
             try:
                 cmd_pdf = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
-                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                first = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                logs = [first.stdout, first.stderr]
+                if first.returncode != 0:
+                    self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+                    return None
 
                 # Run bibtex if references.bib exists to resolve \cite{} keys to numeric [1], [2], [3]
                 if bib_code:
@@ -590,17 +628,25 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                         bibtex_bin = shutil.which("bibtex")
 
                     if bibtex_bin:
-                        subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                        bib_result = subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                        logs.extend([bib_result.stdout, bib_result.stderr])
+                        if bib_result.returncode != 0:
+                            self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+                            return None
 
-                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
-                subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                second = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
+                self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+                if second.returncode != 0 or third.returncode != 0:
+                    return None
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
                 if os.path.exists(pdf_path):
                     with open(pdf_path, "rb") as f:
                         return f.read()
             except Exception as e:
+                self.last_build_log = str(e)
                 print(f"Error compiling PDF with pdflatex: {e}")
 
         return None
-

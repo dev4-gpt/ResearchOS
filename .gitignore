@@ -56,5 +56,8 @@ scratch/test_research.py
 *.log
 logs/
 
+# === Evidence-first run ledger ===
+runs/
+
 # Scratch directory (local only)
 scratch/

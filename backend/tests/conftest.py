@@ -31,6 +31,8 @@ def api_client(tmp_path, monkeypatch):
     """
     # Remove the API key so the app boots in dry-run mode
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.delenv("NVIDIA_NIM_API_KEY", raising=False)
+    monkeypatch.delenv("NVIDIA_API_KEY", raising=False)
     monkeypatch.setenv("VAULT_PATH", str(tmp_path))
 
     # The FastAPI app creates its global VaultManager and CouncilOrchestrator at

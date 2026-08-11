@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import hashlib
 from typing import Dict, Any, Callable, Optional
 from dotenv import load_dotenv
 
@@ -9,7 +10,11 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 load_dotenv()
 
-import google.generativeai as genai
+try:
+    from google import genai as modern_genai
+except Exception:  # pragma: no cover - compatibility path for older environments
+    modern_genai = None
+legacy_genai = None
 from services.search import AcademicSearchService
 from services.vault import VaultManager
 from services.fact_checker import FactCheckerService
@@ -112,9 +117,13 @@ from services.vault import VaultManager
 from harness.continual_memory import ContinualMemoryManager, TrajectoryTelemetry
 from harness.rlm_orchestrator import RLMContextPartitioning
 from harness.autonomous_loop import AutonomousHarnessController
+from domain.models import citation_key
+from domain.models import BuildDecision, SourceRecord
+from services.evidence_ledger import EvidenceLedger
 
 class CouncilOrchestrator:
     def __init__(self, vault_path: str = "../vault"):
+        global legacy_genai
         self.vault = VaultManager(vault_path)
         self.search_service = AcademicSearchService()
         self.fact_checker = FactCheckerService(self.vault)
@@ -122,15 +131,27 @@ class CouncilOrchestrator:
         self.continual_memory = ContinualMemoryManager()
         self.rlm = RLMContextPartitioning()
         self.harness_controller = AutonomousHarnessController()
-        
+        self.evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(self.vault.vault_path), "runs"))
+
         self.api_key = os.getenv("GEMINI_API_KEY")
         self.nim_api_key = os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY")
-        self.is_dry_run = not bool(self.api_key or self.nim_api_key)
-        
-        if self.api_key:
-            genai.configure(api_key=self.api_key)  # type: ignore[attr-defined]
+        self.run_mode = os.getenv("RESEARCHINGOS_RUN_MODE", "auto").strip().lower()
+        if self.run_mode not in {"auto", "dry_run", "live"}:
+            raise ValueError("RESEARCHINGOS_RUN_MODE must be one of: auto, dry_run, live")
+        provider_configured = bool(self.api_key or self.nim_api_key)
+        self.is_dry_run = self.run_mode == "dry_run" or (self.run_mode == "auto" and not provider_configured)
+        if self.run_mode == "live" and not provider_configured:
+            raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
+
+        self.genai_client = None
+        if self.api_key and modern_genai is not None:
+            self.genai_client = modern_genai.Client(api_key=self.api_key)
+        elif self.api_key:
+            from google import generativeai as legacy_sdk
+            legacy_genai = legacy_sdk
+            legacy_genai.configure(api_key=self.api_key)  # type: ignore[attr-defined]
             
-        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Gemini: {bool(self.api_key)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
+        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Gemini: {bool(self.api_key)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
 
     def _call_nvidia_nim(self, prompt: str, system_instruction: str) -> Optional[str]:
         """Calls NVIDIA NIM API endpoint (e.g., meta/llama-3.3-70b-instruct or deepseek-ai/deepseek-r1)."""
@@ -177,6 +198,7 @@ class CouncilOrchestrator:
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke LLM providers (Gemini API with fallback to NVIDIA NIM API)."""
+        global legacy_genai
         if self.is_dry_run:
             time.sleep(0.5)
             return f"[MOCK RESPONSE from {agent_key}] Based on the research, this is a simulated analysis of your query."
@@ -213,11 +235,21 @@ class CouncilOrchestrator:
             for m_name in candidate_models:
                 for attempt in range(max_retries):
                     try:
-                        model = genai.GenerativeModel(  # type: ignore[attr-defined]
-                            model_name=m_name,
-                            system_instruction=instruction
-                        )
-                        response = model.generate_content(prompt)
+                        if self.genai_client is not None:
+                            response = self.genai_client.models.generate_content(
+                                model=m_name,
+                                contents=prompt,
+                                config={"system_instruction": instruction},
+                            )
+                        else:
+                            if legacy_genai is None:
+                                from google import generativeai as legacy_sdk
+                                legacy_genai = legacy_sdk
+                            model = legacy_genai.GenerativeModel(  # type: ignore[union-attr]
+                                model_name=m_name,
+                                system_instruction=instruction,
+                            )
+                            response = model.generate_content(prompt)
                         if response and response.text:
                             return str(response.text)
                     except Exception as e:
@@ -268,6 +300,11 @@ class CouncilOrchestrator:
         project_id = f"project_{int(time.time())}"
         start_time = time.time()
         self.harness_controller.register_task(project_id, topic)
+        run_manifest = self.evidence_ledger.create_manifest(
+            project_id,
+            topic,
+            synthetic=self.is_dry_run,
+        )
         
         def send_log(stage: str, agent: str, message: str, data: Any = None):
             log_callback({
@@ -453,6 +490,23 @@ class CouncilOrchestrator:
             })
             
         send_log("Ingestion", "Lead Analyst", "All research papers successfully ingested and saved into the Obsidian Vault under '01_Papers/'.")
+        source_records = [
+            SourceRecord(
+                paper_id=str(p.get("id", p.get("filename", ""))),
+                citation_key=citation_key(str(p.get("id", p.get("filename", "")))),
+                title=str(p.get("title", "Untitled")),
+                authors=p.get("authors", []) if isinstance(p.get("authors", []), list) else [str(p.get("authors"))],
+                source=str(p.get("source", "unknown")),
+                url=str(p.get("url", "")),
+                published=str(p.get("published", "")),
+                content_sha256=hashlib.sha256((p.get("content", "") + p.get("full_text", "")).encode("utf-8")).hexdigest(),
+                extraction_quality="full_text" if p.get("full_pdf_ingested") else "abstract_only",
+                synthetic=self.is_dry_run,
+            )
+            for p in extracted_papers_info
+        ]
+        self.evidence_ledger.add_sources(project_id, source_records)
+        self.evidence_ledger.append_records(project_id, "paper_dossiers.jsonl", extracted_papers_info)
         
         # --- STAGE 2: CRITIQUE (Engineer, Statistician, Reviewer #2) ---
         send_log("Critique", "System", "Spawning parallel auditing council (Systems Engineer, Statistician, Reviewer #2)...")
@@ -612,12 +666,10 @@ class CouncilOrchestrator:
                     f"The researchers construct a controlled empirical setup utilizing standardized benchmarks and enterprise task workflows.  \n"
                     f"*Key Architectural Focus*:  \n> {p_snippet}...  \n\n"
                     f"**3. Quantitative Benchmarks & Empirical Findings**:  \n"
-                    f"- **Control Baselines**: Evaluated against greedy single-pass autoregressive generation and traditional non-LLM workflow automation.  \n"
-                    f"- **Observed Metrics**: Demonstrates empirical gains in task completion accuracy, latency variance, and throughput efficiency across evaluated domains.  \n"
-                    f"- **Statistical Power & Sample Size**: Evaluated across $N \\ge 1,000$ test iterations with statistically significant confidence bounds ($p < 0.01$).  \n\n"
+                    f"No quantitative result is asserted here unless it is present in the source evidence ledger. The cited source must be reviewed before any numeric claim is promoted into the manuscript.  \n\n"
                     f"**4. Systems Engineering & Hardware Bottlenecks**:  \n"
                     f"- **Memory & VRAM Overhead**: Evaluates key-value (KV) cache memory scaling during multi-path sampling and agentic execution loops.  \n"
-                    f"- **Enterprise Latency SLAs**: Assesses strict real-time execution constraints (<200 ms SLAs vs multi-agent consensus iterations).  \n\n"
+                    f"- **Enterprise Latency SLAs**: Any latency claim must be copied from a cited source evidence span.  \n\n"
                     f"**5. Critical Council Audit & Methodological Deficits**:  \n"
                     f"Our multi-disciplinary council audit reveals specific methodological vulnerabilities: the study requires compute-equivalent control baselines and Clopper-Pearson 95% confidence interval bounds to prevent overestimating true capability gains."
                 )
@@ -672,7 +724,15 @@ class CouncilOrchestrator:
         send_log("FactCheck", "Senior Statistician & Methods Critic", "Auditing draft manuscript for zero-hallucination citation links and metric grounding...")
         
         source_texts = [p.get("content", "") + " " + p.get("full_text", "") for p in extracted_papers_info]
-        fact_audit = self.fact_checker.audit_document(final_paper_content, source_texts=source_texts)
+        source_records = {
+            citation_key(str(p.get("id", p.get("filename", "")))): p.get("content", "") + " " + p.get("full_text", "")
+            for p in extracted_papers_info
+        }
+        fact_audit = self.fact_checker.audit_document(
+            final_paper_content,
+            source_texts=source_texts,
+            source_records=source_records,
+        )
         
         send_log(
             "FactCheck", 
@@ -702,18 +762,29 @@ class CouncilOrchestrator:
         # Parse JSON review safely
         import json
         peer_review_data = {
-            "overall_decision": "ACCEPT",
-            "scores": {"novelty": 9, "technical_rigor": 9, "empirical_grounding": 8, "presentation_clarity": 9},
-            "key_strengths": ["Exhaustive multi-perspective review across 25+ papers", "Rigorous statistical CI audits"],
-            "fatal_weaknesses": ["None identified"],
-            "required_revisions": ["Expand appendices"]
+            "schema_valid": False,
+            "overall_decision": "REJECT",
+            "scores": {},
+            "key_strengths": [],
+            "fatal_weaknesses": ["No valid structured peer-review response was produced."],
+            "required_revisions": ["Run a valid venue-specific peer-review audit."],
         }
         try:
             json_match = re.search(r'\{[\s\S]*\}', peer_review_raw)
             if json_match:
-                peer_review_data = json.loads(json_match.group(0))
+                candidate = json.loads(json_match.group(0))
+                required = {"overall_decision", "scores", "key_strengths", "fatal_weaknesses", "required_revisions"}
+                scores = candidate.get("scores", {})
+                valid_scores = isinstance(scores, dict) and all(
+                    isinstance(scores.get(key), int) and 1 <= scores[key] <= 10
+                    for key in ("novelty", "technical_rigor", "empirical_grounding", "presentation_clarity")
+                )
+                valid_lists = all(isinstance(candidate.get(key), list) for key in ("key_strengths", "fatal_weaknesses", "required_revisions"))
+                if required.issubset(candidate) and candidate.get("overall_decision") in {"ACCEPT", "WEAK ACCEPT", "REJECT"} and valid_scores and valid_lists:
+                    candidate["schema_valid"] = True
+                    peer_review_data = candidate
         except Exception:
-            pass
+            peer_review_data["schema_valid"] = False
 
         send_log("PeerReview", "Senior Peer Reviewer & Area Chair", f"Peer Review Audit Complete. Decision: {peer_review_data.get('overall_decision', 'ACCEPT')}", peer_review_data)
 
@@ -728,6 +799,7 @@ class CouncilOrchestrator:
             "verification_status": fact_audit["status"],
             "verification_matrix": fact_audit["verification_matrix"],
             "peer_review": peer_review_data,
+            "synthetic": self.is_dry_run or final_paper_content.startswith("[MOCK RESPONSE"),
             "tags": [topic.replace(" ", "-").lower(), "literature-review", "draft"]
         }
         self.vault.save_markdown(
@@ -736,10 +808,23 @@ class CouncilOrchestrator:
             final_paper_content,
             draft_frontmatter
         )
-        
+        self.evidence_ledger.write_json(project_id, "synthesis.json", {"content": synthesis_content})
+        self.evidence_ledger.write_json(project_id, "manuscript.json", {"content": final_paper_content, "fact_audit": fact_audit})
+
+        release_status = "blocked" if fact_audit["status"] != "passed" or not peer_review_data.get("schema_valid") else "ready_for_human_signoff"
+        run_manifest.state = release_status.upper()
+        run_manifest.source_count = len(source_records)
+        run_manifest.claim_count = fact_audit.get("metric_report", {}).get("total_numeric_claims", 0)
+        run_manifest.build_decision = BuildDecision(
+            status=release_status,
+            checks={},
+            errors=fact_audit.get("blocking_errors", []),
+        )
+        self.evidence_ledger.write_json(project_id, "manifest.json", run_manifest.model_dump())
+
         # Record Prime Agent Harness Continual Memory Telemetry & Complete Task
         try:
-            matrix = fact_audit.get("details", {})
+            matrix = fact_audit.get("verification_matrix", {})
             score_val = float(fact_audit.get("fact_check_score", 100.0))
             telemetry = TrajectoryTelemetry(
                 project_id=project_id,
@@ -758,13 +843,15 @@ class CouncilOrchestrator:
         except Exception as e:
             print(f"Harness telemetry warning: {e}")
 
-        send_log("Completion", "System", "Research pipeline completed successfully!", {
+        send_log("Completion", "System", "Research pipeline completed; release gate status: " + release_status, {
             "success": True,
+            "releaseStatus": release_status,
             "vaultFiles": {
                 "papersCount": len(papers),
                 "debateFile": debate_filename,
-                "draftFile": draft_filename,
-                "factCheckScore": fact_audit["fact_check_score"]
+            "draftFile": draft_filename,
+            "factCheckScore": fact_audit["fact_check_score"],
+            "releaseStatus": release_status,
             }
         })
         
@@ -774,5 +861,6 @@ class CouncilOrchestrator:
             "papers_count": len(papers),
             "debate_file": debate_filename,
             "draft_file": draft_filename,
-            "fact_check_score": fact_audit["fact_check_score"]
+            "fact_check_score": fact_audit["fact_check_score"],
+            "release_status": release_status,
         }

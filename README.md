@@ -13,7 +13,8 @@ Topic → Scout → Analyst → [ Engineer | Statistician | Reviewer #2 ] → Bo
 - **Live streaming** — Server-Sent Events push every log line to the frontend in real time
 - **Obsidian vault** — all paper notes, debate transcripts, and draft reviews written as wiki-linked Markdown
 - **Knowledge graph** — auto-built from `[[WikiLink]]` references across the vault
-- **Dry-run mode** — works without a Gemini API key (mock responses, real search structure)
+- **Evidence-first release gates** — claims, citations, provenance, venue constraints, peer review, and PDF QA are verified before a camera-ready PDF can be downloaded
+- **Dry-run mode** — works without a Gemini API key (mock responses, real search structure); synthetic output is never releaseable
 
 ## Project structure
 
@@ -68,6 +69,7 @@ npm run dev
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
 | `GEMINI_API_KEY` | No | — | Enables live LLM calls; omit for dry-run |
+| `RESEARCHINGOS_RUN_MODE` | No | `auto` | `auto`, `dry_run`, or `live`; synthetic runs can never be released |
 | `GEMINI_FLASH_MODEL` | No | `gemini-2.0-flash` | Override flash model for all agents |
 | `GEMINI_PRO_MODEL` | No | `gemini-2.0-pro-exp` | Override pro model for chairman/writer |
 | `VAULT_PATH` | No | `../vault` | Absolute or backend-relative path to vault |
@@ -76,6 +78,22 @@ npm run dev
 | `CONTACT_EMAIL` | No | — | Added to API User-Agent for polite-pool routing |
 
 See `.env.example` for a full template.
+
+## Evidence-first publication compiler
+
+Each research run writes a durable ledger under `runs/{run_id}/` containing the manifest, source provenance, claims, synthesis, manuscript, and venue build artifacts. The release controller blocks camera-ready output for unsupported claims, missing or duplicate citation keys, invalid peer-review JSON, synthetic content, failed compilation, venue violations, PDF artifacts, or missing reproducibility metadata.
+
+The human sign-off screen is intended for authorship, ethics, originality, interpretation, conflicts of interest, and final submission metadata. It is not a substitute for those decisions, and ResearchingOS does not determine immigration eligibility. O-1A and EB-1A evidence are tracked as separate profiles for attorney review.
+
+Useful verification commands:
+
+```bash
+cd backend
+.venv/bin/pytest tests -q
+.venv/bin/python ../scripts/security_scan.py
+```
+
+Rotate any credentials reported by the security scan before using live providers. Keep `.env` local and out of version control.
 
 ## API overview
 
