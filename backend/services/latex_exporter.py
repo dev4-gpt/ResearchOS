@@ -114,10 +114,10 @@ class LaTeXExporterService:
         for char, repl in char_map.items():
             text = text.replace(char, repl)
 
-        # Preserve math blocks $$...$$ and $...$ AND \\cite{...} tags so underscores inside cite keys are NOT escaped
+        # Preserve math blocks $$...$$, $...$, and \cite{...} tags so underscores inside cite keys are NOT escaped
         parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
-            parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '').replace('_', '\\_')
+            parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
         return "".join(parts)
 
     def convert_markdown_body(self, body_markdown: str) -> str:
