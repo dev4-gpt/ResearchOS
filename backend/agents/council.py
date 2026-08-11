@@ -251,22 +251,21 @@ class CouncilOrchestrator:
                             continue
                         break
 
-        # Fallback to NVIDIA NIM for Writer manuscript drafting
-        if self.nim_api_key and agent_key == "Writer":
-            print(f"Calling NVIDIA NIM API for {agent_key} manuscript generation...")
+        # Fallback to NVIDIA NIM for all agents (not just Writer) when Gemini quota is exhausted
+        if self.nim_api_key:
+            print(f"Gemini quota exhausted for {agent_key}. Falling back to NVIDIA NIM...")
             nim_resp = self._call_nvidia_nim(prompt, instruction)
             if nim_resp:
                 return nim_resp
 
-        print(f"⚠️ Free-tier API quota reached for {agent_key}. Applying structured research fallback.")
+        print(f"⚠️ Both Gemini and NVIDIA NIM unavailable for {agent_key}. Using structured placeholder.")
         return (
             f"# {agent_cfg['name']} Structured Analysis\n\n"
             f"**Agent Role**: {agent_cfg['role']}\n"
-            f"**Audit Status**: Synthesized under high-density academic analysis rules.\n\n"
-            f"## Key Technical Insights & Findings\n"
-            f"- Empirical analysis confirms significant performance and workflow efficiency gains across evaluated domains.\n"
-            f"- Methodology audit identifies critical trade-offs between parameter scaling, compute requirements, and deployment limits.\n"
-            f"- Validation checks emphasize the need for strict baseline benchmarking, statistical power validation, and zero-hallucination citation grounding.\n"
+            f"**Audit Status**: API quota reached — structured placeholder inserted.\n\n"
+            f"## Note\n"
+            f"- Both Gemini and NVIDIA NIM APIs were unavailable for this agent call.\n"
+            f"- Re-run with valid API keys to get real analysis from this agent.\n"
         )
 
     def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
