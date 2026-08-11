@@ -12,7 +12,8 @@
   "learned_heuristics": [
     "Always verify DOI targets before adding inline wikilinks.",
     "Ground all percentage gains against raw ingested paper text.",
-    "Ensure minimum 15 pages for full systematic literature review manuscripts."
+    "Ensure minimum 15 pages for full systematic literature review manuscripts.",
+    "Run project_1786416201: Fact-check score (46.3%) dropped. Strict verification required for Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows: Empirical Evidence, Economic Limits, Skill Equalization, and Task Boundary Frontiers."
   ],
   "trajectory_history": [
     {
@@ -25,8 +26,19 @@
       "unverified_metrics": 0,
       "duration_seconds": 58.26,
       "timestamp": 1786173646.184822
+    },
+    {
+      "project_id": "project_1786416201",
+      "topic": "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows: Empirical Evidence, Economic Limits, Skill Equalization, and Task Boundary Frontiers",
+      "fact_check_score": 46.3,
+      "verified_citations": 0,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 679.26,
+      "timestamp": 1786416880.925601
     }
   ],
-  "total_runs": 1,
-  "average_fact_check_score": 100.0
+  "total_runs": 2,
+  "average_fact_check_score": 73.15
 }
