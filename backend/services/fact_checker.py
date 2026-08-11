@@ -7,8 +7,17 @@ from domain.models import citation_key
 
 
 NUMERIC_PATTERN = re.compile(
-    r"(?:\b\d+(?:\.\d+)?%|\bN\s*=\s*\d+|\bp\s*[<>=]\s*0?\.\d+|\b\d+\.\d+\b|\b\d{4,}\b)"
+    r"(?:\b\d+(?:\.\d+)?%|\bN\s*=\s*\d+|\bp\s*[<>=]\s*0?\.\d+|\b[A-Za-z0-9_]+\s*=\s*\d+(?:\.\d+)?\b)"
 )
+
+
+def is_non_metric_number(claim: str) -> bool:
+    s = claim.strip()
+    if s.isdigit() and 1900 <= int(s) <= 2099:
+        return True
+    if re.match(r"^\d{1,2}\.\d{1,2}$", s):
+        return True
+    return False
 
 
 class FactCheckerService:
@@ -63,7 +72,8 @@ class FactCheckerService:
 
     def validate_numeric_claims(self, draft_content: str, source_texts: List[str],
                                 source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
-        claims = sorted(set(NUMERIC_PATTERN.findall(draft_content)))
+        raw_claims = sorted(set(NUMERIC_PATTERN.findall(draft_content)))
+        claims = [c for c in raw_claims if not is_non_metric_number(c)]
         grounded = []
         unverified = []
         if source_records:
