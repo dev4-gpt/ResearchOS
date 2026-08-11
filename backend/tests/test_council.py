@@ -58,8 +58,8 @@ class TestCouncilOrchestratorInit:
 
     def test_is_dry_run_false_when_key_present(self, tmp_path, monkeypatch):
         monkeypatch.setenv("GEMINI_API_KEY", "fake-key-for-init-test")
-        # Patch genai.configure to avoid real API setup
-        with patch("google.generativeai.configure"):
+        # Patch modern google.genai.Client to avoid real API setup
+        with patch("google.genai.Client"):
             from agents.council import CouncilOrchestrator
             orch = CouncilOrchestrator(str(tmp_path))
         assert orch.is_dry_run is False
@@ -93,9 +93,9 @@ class TestCallGeminiDryRun:
     def test_dry_run_does_not_call_genai(self, tmp_path, monkeypatch):
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
         orch = make_orchestrator(tmp_path)
-        with patch("google.generativeai.GenerativeModel") as mock_model:
+        with patch("google.genai.Client") as mock_client:
             orch._call_gemini("Engineer", "prompt")
-            mock_model.assert_not_called()
+            mock_client.assert_not_called()
 
 
 # ---------------------------------------------------------------------------

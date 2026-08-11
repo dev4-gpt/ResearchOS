@@ -10,11 +10,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 load_dotenv()
 
-try:
-    from google import genai as modern_genai
-except Exception:  # pragma: no cover - compatibility path for older environments
-    modern_genai = None
-legacy_genai = None
+from google import genai as modern_genai
 from services.search import AcademicSearchService
 from services.vault import VaultManager
 from services.fact_checker import FactCheckerService
@@ -144,12 +140,8 @@ class CouncilOrchestrator:
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
         self.genai_client = None
-        if self.api_key and modern_genai is not None:
+        if self.api_key:
             self.genai_client = modern_genai.Client(api_key=self.api_key)
-        elif self.api_key:
-            from google import generativeai as legacy_sdk
-            legacy_genai = legacy_sdk
-            legacy_genai.configure(api_key=self.api_key)  # type: ignore[attr-defined]
             
         print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Gemini: {bool(self.api_key)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
 
@@ -198,7 +190,6 @@ class CouncilOrchestrator:
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke LLM providers (Gemini API with fallback to NVIDIA NIM API)."""
-        global legacy_genai
         if self.is_dry_run:
             time.sleep(0.5)
             return f"[MOCK RESPONSE from {agent_key}] Based on the research, this is a simulated analysis of your query."
@@ -235,21 +226,13 @@ class CouncilOrchestrator:
             for m_name in candidate_models:
                 for attempt in range(max_retries):
                     try:
-                        if self.genai_client is not None:
-                            response = self.genai_client.models.generate_content(
-                                model=m_name,
-                                contents=prompt,
-                                config={"system_instruction": instruction},
-                            )
-                        else:
-                            if legacy_genai is None:
-                                from google import generativeai as legacy_sdk
-                                legacy_genai = legacy_sdk
-                            model = legacy_genai.GenerativeModel(  # type: ignore[union-attr]
-                                model_name=m_name,
-                                system_instruction=instruction,
-                            )
-                            response = model.generate_content(prompt)
+                        if self.genai_client is None:
+                            raise RuntimeError("Gemini client not initialised. Check GEMINI_API_KEY.")
+                        response = self.genai_client.models.generate_content(
+                            model=m_name,
+                            contents=prompt,
+                            config={"system_instruction": instruction},
+                        )
                         if response and response.text:
                             return str(response.text)
                     except Exception as e:
