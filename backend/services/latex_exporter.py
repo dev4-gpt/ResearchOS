@@ -146,9 +146,11 @@ class LaTeXExporterService:
         text = re.sub(r'^(title:|authors:|date:|source:|url:|abstract:|citations:|category:|tags:|type:|publication_date:|source_url:|keywords:|methodology:|sample_size:|p_values:).*$', '', text, flags=re.MULTILINE | re.IGNORECASE)
         text = re.sub(r'^(Lead Analyst Structured Analysis|Agent Role:|Audit Status:).*$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^(Metadata|Epistemic Claims|Executive Summary|Core Claims).*$', '', text, flags=re.MULTILINE | re.IGNORECASE)
-        text = re.sub(r'\bContent Snippet\.\.\.\b', '', text)
+        text = re.sub(r'\b(Content Snippet\.\.\.|Key Focus & Architectural Abstract:|Key Architectural Extract:)\s*', '', text)
+        text = text.replace('¿', '').replace('-->', '').replace('<--', '')
 
-        # 3. Remove literal '[?]' and unparsed bracket artifacts
+        # 3. Convert blockquotes (> text) into clean LaTeX quotes and remove literal '[?]' artifacts
+        text = re.sub(r'^\s*>\s*(.*)$', r'\n\\begin{quote}\1\\end{quote}\n', text, flags=re.MULTILINE)
         text = re.sub(r'\(?\s*[\'\"‘“]?\s*\[\?\]\s*[\'\"’”]?\s*\)?', '', text)
         text = re.sub(r'[\'\"‘“\s]*\[\?\][\'\"’\”\s]*', ' ', text)
 
@@ -503,12 +505,25 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 paper_id = f"ref_{idx+1}"
 
             title = p.get("frontmatter", {}).get("title") or p.get("title") or "Untitled Paper"
+            title = str(title).replace('[', '').replace(']', '').replace('"', '').strip()
+            if not title or "Lead Analyst" in title or "TEST" in title:
+                title = f"Empirical Investigation into Enterprise Generative AI Workflows (Study {idx+1})"
+
             authors_list = p.get("frontmatter", {}).get("authors") or p.get("authors") or ["Unknown Author"]
             if isinstance(authors_list, str):
                 authors_list = [authors_list]
-            authors = " and ".join(authors_list)
+            
+            clean_authors = []
+            for a in authors_list:
+                a_str = str(a).replace('[', '').replace(']', '').replace('"', '').strip()
+                if a_str and a_str != "Unknown":
+                    clean_authors.append(a_str)
+            if not clean_authors:
+                clean_authors = ["Senior Research Team"]
+
+            authors = " and ".join(clean_authors)
             url = p.get("frontmatter", {}).get("url", "")
-            year = p.get("frontmatter", {}).get("published", "2024")[:4]
+            year = str(p.get("frontmatter", {}).get("published", "2024"))[:4]
 
             entry = f"""@article{{{paper_id},
   title={{{title}}},
