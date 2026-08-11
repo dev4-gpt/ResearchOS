@@ -140,54 +140,58 @@ class CouncilOrchestrator:
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
         self.genai_client = None
-        if self.api_key:
-            self.genai_client = modern_genai.Client(api_key=self.api_key)
+        raw_keys = os.getenv("GEMINI_API_KEYS", "") or os.getenv("GEMINI_API_KEY", "")
+        self.gemini_keys = [k.strip() for k in raw_keys.split(",") if k.strip()]
+        self.api_key = self.gemini_keys[0] if self.gemini_keys else None
+        self.genai_clients = [modern_genai.Client(api_key=k) for k in self.gemini_keys] if self.gemini_keys else []
+        if self.genai_clients:
+            self.genai_client = self.genai_clients[0]
             
-        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Gemini: {bool(self.api_key)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
+        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Gemini Keys: {len(self.genai_clients)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
 
     def _call_nvidia_nim(self, prompt: str, system_instruction: str) -> Optional[str]:
-        """Calls NVIDIA NIM API endpoint (e.g., meta/llama-3.3-70b-instruct or deepseek-ai/deepseek-r1)."""
+        """Calls NVIDIA NIM API endpoint (e.g., meta/llama-3.1-8b-instruct or meta/llama-3.3-70b-instruct)."""
         if not self.nim_api_key:
             return None
         try:
             import httpx
-            nim_model = os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.3-70b-instruct")
+            nim_model = os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.1-8b-instruct")
             headers = {
                 "Authorization": f"Bearer {self.nim_api_key}",
                 "Content-Type": "application/json"
             }
             sys_content = system_instruction if system_instruction else "You are an expert AI research scientist and senior academic publisher."
-            candidate_models = [nim_model, "meta/llama-3.1-8b-instruct", "meta/llama-3.2-11b-vision-instruct", "meta/llama-3.1-70b-instruct"]
+            candidate_models = [nim_model, "meta/llama-3.1-8b-instruct", "meta/llama-3.2-11b-vision-instruct", "meta/llama-3.3-70b-instruct", "meta/llama-3.1-70b-instruct"]
             candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
 
-            for m in candidate_models:
-                payload = {
-                    "model": m,
-                    "messages": [
-                        {"role": "system", "content": sys_content},
-                        {"role": "user", "content": prompt}
-                    ],
-                    "temperature": 0.2,
-                    "max_tokens": 2048
-                }
-                for attempt in range(2):
-                    try:
-                        response = httpx.post(
-                            "https://integrate.api.nvidia.com/v1/chat/completions",
-                            headers=headers,
-                            json=payload,
-                            timeout=20.0
-                        )
-                        if response.status_code == 200:
-                            data = response.json()
-                            content = data["choices"][0]["message"]["content"]
-                            if content and len(content.strip()) > 0:
-                                return content
-                        else:
-                            print(f"NVIDIA NIM API ({m}) Status {response.status_code}: {response.text[:150]}")
-                    except Exception as ex:
-                        print(f"NVIDIA NIM API ({m}) Exception: {ex}")
-                    time.sleep(0.5)
+            with httpx.Client(timeout=45.0, follow_redirects=True) as client:
+                for m in candidate_models:
+                    payload = {
+                        "model": m,
+                        "messages": [
+                            {"role": "system", "content": sys_content},
+                            {"role": "user", "content": prompt}
+                        ],
+                        "temperature": 0.2,
+                        "max_tokens": 2048
+                    }
+                    for attempt in range(2):
+                        try:
+                            response = client.post(
+                                "https://integrate.api.nvidia.com/v1/chat/completions",
+                                headers=headers,
+                                json=payload
+                            )
+                            if response.status_code == 200:
+                                data = response.json()
+                                content = data["choices"][0]["message"]["content"]
+                                if content and len(content.strip()) > 0:
+                                    return content
+                            else:
+                                print(f"NVIDIA NIM API ({m}) Status {response.status_code}: {response.text[:150]}")
+                        except Exception as ex:
+                            print(f"NVIDIA NIM API ({m}) Exception: {ex}")
+                        time.sleep(1.0)
         except Exception as outer_ex:
             print(f"NVIDIA NIM Outer Exception: {outer_ex}")
         return None
@@ -203,14 +207,16 @@ class CouncilOrchestrator:
         durable_refinement = self.continual_memory.get_agent_refinements(agent_key)
         instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
 
+        time.sleep(1.5)
+
         # Use NVIDIA NIM for Writer manuscript drafting when PREFER_NVIDIA_NIM is true
         if self.nim_api_key and agent_key == "Writer" and os.getenv("PREFER_NVIDIA_NIM", "false").lower() == "true":
             nim_resp = self._call_nvidia_nim(prompt, instruction)
             if nim_resp:
                 return nim_resp
 
-        # Call Gemini API with candidate model cascade
-        if self.api_key:
+        # Call Gemini API with candidate model cascade & multi-key fallback pool
+        if self.genai_clients:
             primary_model = agent_cfg["model"]
             env_model_pro = os.getenv("GEMINI_PRO_MODEL")
             env_model_flash = os.getenv("GEMINI_FLASH_MODEL")
@@ -220,40 +226,27 @@ class CouncilOrchestrator:
             elif "flash" in primary_model and env_model_flash:
                 primary_model = env_model_flash
 
-            candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash"]
+            candidate_models = [primary_model, "gemini-2.5-flash", "gemini-1.5-flash-latest"]
             candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
             
-            import random
-            max_retries = 3
-            base_delay = 4.0
+            max_retries = 2
             
-            for m_name in candidate_models:
-                for attempt in range(max_retries):
-                    try:
-                        if self.genai_client is None:
-                            raise RuntimeError("Gemini client not initialised. Check GEMINI_API_KEY.")
-                        response = self.genai_client.models.generate_content(
-                            model=m_name,
-                            contents=prompt,
-                            config={"system_instruction": instruction},
-                        )
-                        if response and response.text:
-                            return str(response.text)
-                    except Exception as e:
-                        error_msg = str(e)
-                        is_daily_quota = "PerDay" in error_msg or "daily" in error_msg.lower()
-                        is_rate_limit = "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower()
-                        
-                        if is_daily_quota:
-                            print(f"Model {m_name} daily quota reached. Cascading...")
-                            break
-
-                        if is_rate_limit and attempt < max_retries - 1:
-                            sleep_time = min(30.0, (1.5 ** attempt) * base_delay + random.uniform(0.5, 1.5))
-                            print(f"Gemini API rate limited (429) for {agent_key} ({m_name}). Retrying in {sleep_time:.1f}s...")
-                            time.sleep(sleep_time)
+            for client_idx, client in enumerate(self.genai_clients):
+                for m_name in candidate_models:
+                    for attempt in range(max_retries):
+                        try:
+                            response = client.models.generate_content(
+                                model=m_name,
+                                contents=prompt,
+                                config={"system_instruction": instruction},
+                            )
+                            if response and response.text:
+                                return str(response.text)
+                        except Exception as e:
+                            error_msg = str(e)
+                            print(f"Gemini API (Key #{client_idx+1}, {m_name}) Error: {error_msg[:120]}")
+                            time.sleep(1.5)
                             continue
-                        break
 
         # Fallback to NVIDIA NIM for all agents (not just Writer) when Gemini quota is exhausted
         if self.nim_api_key:
@@ -732,10 +725,16 @@ class CouncilOrchestrator:
         send_log("FactCheck", "Senior Statistician & Methods Critic", "Auditing draft manuscript for zero-hallucination citation links and metric grounding...")
         
         source_texts = [p.get("content", "") + " " + p.get("full_text", "") for p in extracted_papers_info]
-        source_records = {
-            citation_key(str(p.get("id", p.get("filename", "")))): p.get("content", "") + " " + p.get("full_text", "")
-            for p in extracted_papers_info
-        }
+        source_records = {}
+        for p in extracted_papers_info:
+            p_text = p.get("content", "") + " " + p.get("full_text", "")
+            p_id = str(p.get("id", p.get("filename", "")))
+            c_key = citation_key(p_id)
+            source_records[c_key] = p_text
+            source_records[citation_key(p.get("filename", ""))] = p_text
+            for prefix in ["crossref_", "arxiv_", "openalex_", "doi_", "pubmed_"]:
+                if c_key.startswith(prefix):
+                    source_records[c_key[len(prefix):]] = p_text
         fact_audit = self.fact_checker.audit_document(
             final_paper_content,
             source_texts=source_texts,
@@ -750,7 +749,6 @@ class CouncilOrchestrator:
         )
 
         # --- STAGE 7: AUTOMATED PEER REVIEWER ENGINE (Sakana AI Rubric) ---
-        import re
         send_log("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated conference peer review audit (NeurIPS/ICLR/IEEE rubric)...")
         
         peer_review_prompt = (
@@ -872,4 +870,8 @@ class CouncilOrchestrator:
             "draft_file": draft_filename,
             "fact_check_score": fact_audit["fact_check_score"],
             "release_status": release_status,
+            "fact_audit": fact_audit,
+            "peer_review": peer_review_data,
+            "manifest": run_manifest,
+            "manuscript_content": final_paper_content
         }

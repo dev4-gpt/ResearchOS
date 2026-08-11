@@ -37,9 +37,17 @@ class FactCheckerService:
         for file in self.vault_manager.list_files("papers"):
             filename = file.get("filename", "")
             metadata = file.get("metadata", {}) or {}
-            keys.add(citation_key(filename))
+            fn_key = citation_key(filename)
+            keys.add(fn_key)
+            for prefix in ["crossref_", "arxiv_", "openalex_", "doi_", "pubmed_"]:
+                if fn_key.startswith(prefix):
+                    keys.add(fn_key[len(prefix):])
             if metadata.get("id"):
-                keys.add(citation_key(str(metadata["id"])))
+                meta_id = citation_key(str(metadata["id"]))
+                keys.add(meta_id)
+                for prefix in ["crossref_", "arxiv_", "openalex_", "doi_", "pubmed_"]:
+                    if meta_id.startswith(prefix):
+                        keys.add(meta_id[len(prefix):])
         return keys
 
     def extract_citation_keys(self, content: str) -> List[str]:
@@ -56,7 +64,17 @@ class FactCheckerService:
         verified = []
         broken = []
         for key in keys:
+            matched = False
             if not self.vault_manager or key in known:
+                matched = True
+            else:
+                core_key = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|https?_)", "", key)
+                for k_item in known:
+                    core_known = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|https?_)", "", k_item)
+                    if key in k_item or k_item in key or (core_key and (core_key in core_known or core_known in core_key)):
+                        matched = True
+                        break
+            if matched:
                 verified.append(key)
             else:
                 broken.append(key)
