@@ -47,7 +47,7 @@ class ReleaseController:
                 errors.append("No PDF QA report was provided.")
 
         review = peer_review or {}
-        checks["peer_review_valid"] = bool(review.get("schema_valid")) and review.get("overall_decision") in {"ACCEPT", "WEAK ACCEPT"}
+        checks["peer_review_valid"] = bool(review.get("schema_valid")) and review.get("overall_decision") in {"STRONG ACCEPT", "ACCEPT", "WEAK ACCEPT"}
         if not checks["peer_review_valid"]:
             errors.append("Peer-review audit is missing, invalid, or non-accepting.")
 

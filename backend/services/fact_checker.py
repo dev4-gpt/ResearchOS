@@ -68,9 +68,9 @@ class FactCheckerService:
             if not self.vault_manager or key in known:
                 matched = True
             else:
-                core_key = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|https?_)", "", key)
+                core_key = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|europepmc_|pmc_|pmid_|dbsnp_|https?_)", "", key)
                 for k_item in known:
-                    core_known = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|https?_)", "", k_item)
+                    core_known = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|europepmc_|pmc_|pmid_|dbsnp_|https?_)", "", k_item)
                     if key in k_item or k_item in key or (core_key and (core_key in core_known or core_known in core_key)):
                         matched = True
                         break

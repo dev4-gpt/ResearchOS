@@ -226,7 +226,7 @@ class CouncilOrchestrator:
             elif "flash" in primary_model and env_model_flash:
                 primary_model = env_model_flash
 
-            candidate_models = [primary_model, "gemini-2.5-flash", "gemini-1.5-flash-latest"]
+            candidate_models = [primary_model, "gemini-2.5-flash"]
             candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
             
             max_retries = 2
@@ -612,20 +612,35 @@ class CouncilOrchestrator:
         # Limit prompt context length so NVIDIA NIM API processes prompt in <10 seconds
         summaries_snippet = summaries_text[:4000] if len(summaries_text) > 4000 else summaries_text
         writer_prompt = (
-            f"You are drafting a peer-review grade literature review paper on the topic: '{topic}'.\n\n"
+            f"You are drafting a world-class, peer-review grade literature review paper targeting NeurIPS / ICLR / IEEE TKDE on: '{topic}'.\n"
+            f"Your objective is to produce a manuscript so mathematically grounded, empirically detailed, and deeply structured that it achieves an absolute 'ACCEPT' or 'STRONG ACCEPT' from Senior Area Chairs.\n\n"
             f"Here is the Chairman's debate synthesis, consensus, and structural outline:\n\n{synthesis_content[:2000]}\n\n"
             f"Here are the summaries of the source papers we are citing:\n\n{summaries_snippet}\n\n"
-            f"Write a formal academic literature review paper. The language must be extremely academic, formal, and authoritative. "
+            f"Write a formal academic literature review paper in Markdown format. The language must be extremely academic, formal, and authoritative.\n"
             f"Include the following sections:\n"
-            f"- Title\n"
-            f"- Abstract (summarize findings, significance, and peer consensus)\n"
-            f"- Introduction (introduce topic and highlight the research gaps identified by the council)\n"
-            f"- Literature Review & Taxonomy (synthesize findings from the source papers, using inline backlinks like [[arxiv_XXXX]] or [[openalex_YYYY]] as citations)\n"
-            f"- Methodological & Technical Critique (incorporate the critiques of the Systems Engineer and Statistician)\n"
-            f"- Open Challenges & Rejection Objections (incorporate Reviewer #2's insights on what the field is missing)\n"
-            f"- Conclusion (final thoughts on future directions)\n\n"
-            f"Make sure every paper in our corpus is cited using its exact note link (e.g. [[arxiv_2305_18290]] or [[openalex_W438290]]). "
-            f"Do not write placeholders. Draft the paper in full."
+            f"# Systematic Review & Meta-Taxonomy of {topic}\n"
+            f"**Authors**: Penn State AI Collaborator, ResearchingOS Council  \n"
+            f"**Affiliation**: Department of Computer Science & AI, The Pennsylvania State University  \n"
+            f"**Venue**: IEEE Transactions on Knowledge and Data Engineering / NeurIPS / ICLR\n\n"
+            f"## Abstract\n"
+            f"Summarize findings, multi-agent debate consensus, PRISMA search methodology, and technical breakthroughs.\n\n"
+            f"## 1. Executive Summary & PRISMA 2020 Protocol\n"
+            f"Establish domain context, problem-method-experiment paradigm, and systematic search criteria.\n\n"
+            f"## 2. Theoretical Foundations & Mathematical Formulations\n"
+            f"Formulate key loss functions, contrastive vs generative decoding equations, and compute scaling laws.\n\n"
+            f"## 3. Systematic Meta-Taxonomy Framework\n"
+            f"Break down the field into 5 core pillars of research.\n\n"
+            f"## 4. Quantitative Synthesis of Ingested Studies\n"
+            f"Synthesize the source papers using exact inline backlinks (e.g. [[arxiv_2305_18290]] or [[crossref_2026_findings_acl_1933]]). Highlight empirical metrics, dataset baselines, and architectural innovations.\n\n"
+            f"## 5. Systems Engineering & Hardware Bottlenecks\n"
+            f"Analyze KV cache memory footprints, FLOPs efficiency, GPU VRAM scaling, and inference throughput SLAs.\n\n"
+            f"## 6. Statistical Audit & Methodological Deficits\n"
+            f"Expose missing compute-equivalent baselines, uncalibrated LLM judge biases, and confidence interval requirements.\n\n"
+            f"## 7. Methodological Mandates & Strategic Roadmap\n"
+            f"Propose 4 mandatory empirical standards and a 4-phase strategic industry roadmap.\n\n"
+            f"## 8. Conclusion & References\n"
+            f"Synthesize future research directions and provide complete reference listings.\n\n"
+            f"Ensure every ingested paper is cited with its note link (e.g. [[arxiv_2305_18290]]). Do not use generic placeholders. Draft the paper in full."
         )
         
         final_paper_content = self._call_gemini("Writer", writer_prompt)
@@ -787,7 +802,7 @@ class CouncilOrchestrator:
                     for key in ("novelty", "technical_rigor", "empirical_grounding", "presentation_clarity")
                 )
                 valid_lists = all(isinstance(candidate.get(key), list) for key in ("key_strengths", "fatal_weaknesses", "required_revisions"))
-                if required.issubset(candidate) and candidate.get("overall_decision") in {"ACCEPT", "WEAK ACCEPT", "REJECT"} and valid_scores and valid_lists:
+                if required.issubset(candidate) and candidate.get("overall_decision") in {"STRONG ACCEPT", "ACCEPT", "WEAK ACCEPT", "REJECT"} and valid_scores and valid_lists:
                     candidate["schema_valid"] = True
                     peer_review_data = candidate
         except Exception:
@@ -818,7 +833,7 @@ class CouncilOrchestrator:
         self.evidence_ledger.write_json(project_id, "synthesis.json", {"content": synthesis_content})
         self.evidence_ledger.write_json(project_id, "manuscript.json", {"content": final_paper_content, "fact_audit": fact_audit})
 
-        release_status = "blocked" if fact_audit["status"] != "passed" or not peer_review_data.get("schema_valid") else "ready_for_human_signoff"
+        release_status = "blocked" if fact_audit["status"] != "passed" or not peer_review_data.get("schema_valid") or peer_review_data.get("overall_decision") == "REJECT" else "ready_for_human_signoff"
         run_manifest.state = release_status.upper()
         run_manifest.source_count = len(source_records)
         run_manifest.claim_count = fact_audit.get("metric_report", {}).get("total_numeric_claims", 0)
