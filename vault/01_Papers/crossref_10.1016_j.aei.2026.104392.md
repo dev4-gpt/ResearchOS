@@ -16,12 +16,21 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
-# Lead Analyst Structured Analysis
+# Socio-technical assessment of generative AI integration in architecture, engineering, and construction (AEC) workflows: An empirical study using O*NET occupational taxonomy
 
-**Agent Role**: Methodology Extraction & Full-Text Ingestion
-**Audit Status**: Synthesized under high-density academic analysis rules.
+**Authors**: Ruoxin Xiong, Yael Netser, Pingbo Tang, Beibei Li, Joonsun Hwang
+**Published**: 2026-1-28 | **Citations**: 2 | **Source**: Crossref
+**URL**: https://doi.org/10.1016/j.aei.2026.104392
 
-## Key Technical Insights & Findings
-- Empirical analysis confirms significant performance and workflow efficiency gains across evaluated domains.
-- Methodology audit identifies critical trade-offs between parameter scaling, compute requirements, and deployment limits.
-- Validation checks emphasize the need for strict baseline benchmarking, statistical power validation, and zero-hallucination citation grounding.
+## Executive Summary & Abstract
+
+
+## Methodological Insights & System Architectures
+- Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
+- Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+## Key Quantitative Findings & Benchmarks
+- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.
+
+## Content Snippet
+

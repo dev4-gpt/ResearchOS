@@ -256,8 +256,19 @@
       "unverified_metrics": 0,
       "duration_seconds": 15.21,
       "timestamp": 1786083718.25856
+    },
+    {
+      "project_id": "project_1786381892",
+      "topic": "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows: Empirical Evidence, Economic Limits, Skill Equalization, and Task Boundary Frontiers",
+      "fact_check_score": 100.0,
+      "verified_citations": 0,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 5748.77,
+      "timestamp": 1786387641.072414
     }
   ],
-  "total_runs": 22,
+  "total_runs": 23,
   "average_fact_check_score": 100.0
 }
