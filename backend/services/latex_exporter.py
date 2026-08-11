@@ -9,7 +9,10 @@ VENUE_SPECS = {
         "page_limit": "9 pages (main content) + checklist & refs",
         "doc_class": "\\documentclass{article}",
         "packages": "\\usepackage[final]{neurips_2026}\n\\usepackage[utf8]{inputenc}\n\\usepackage[T1]{fontenc}\n\\usepackage{url}\n\\usepackage{booktabs}\n\\usepackage{amsfonts}\n\\usepackage{nicefrac}\n\\usepackage{microtype}\n\\usepackage{xcolor}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}\n\\usepackage{hyperref}",
-        "template_style": "neurips"
+        "template_style": "neurips",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles]",
+        "acceptance_rate": "Sub-15% Oral / Sub-25% Poster",
+        "anonymization_rule": "Double-Blind (Mask author names, Penn State affiliation, grant IDs)"
     },
     "ICML": {
         "name": "International Conference on Machine Learning (ICML)",
@@ -17,7 +20,10 @@ VENUE_SPECS = {
         "page_limit": "8 pages (main body) + unlimited refs/appendices",
         "doc_class": "\\documentclass{article}",
         "packages": "\\usepackage{icml2026}\n\\usepackage{times}\n\\usepackage{graphicx}\n\\usepackage{subfigure}\n\\usepackage{natbib}\n\\usepackage{algorithm}\n\\usepackage{algorithmic}\n\\usepackage{hyperref}\n\\usepackage{amsmath,amssymb}",
-        "template_style": "icml"
+        "template_style": "icml",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(v) [Original Scientific Contributions of Major Significance]",
+        "acceptance_rate": "Sub-20% Competitive Selection",
+        "anonymization_rule": "Double-Blind (Third-person self-citations)"
     },
     "CVPR": {
         "name": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
@@ -25,7 +31,10 @@ VENUE_SPECS = {
         "page_limit": "8 pages (main content) + refs",
         "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
         "packages": "\\usepackage{cvpr}\n\\usepackage{times}\n\\usepackage{epsfig}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
-        "template_style": "cvpr"
+        "template_style": "cvpr",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(iii) [Published Material About Alien / Media Traction]",
+        "acceptance_rate": "Sub-23% Peer-Reviewed Selection",
+        "anonymization_rule": "Strict Anonymization (Strip camera EXIF & sensor metadata)"
     },
     "ACL": {
         "name": "Association for Computational Linguistics (ACL / ARR)",
@@ -33,7 +42,10 @@ VENUE_SPECS = {
         "page_limit": "8 pages (long paper) + refs",
         "doc_class": "\\documentclass[11pt,a4paper]{article}",
         "packages": "\\usepackage[review]{acl}\n\\usepackage{times}\n\\usepackage{latexsym}\n\\usepackage[T1]{fontenc}\n\\usepackage[utf8]{inputenc}\n\\usepackage{microtype}\n\\usepackage{graphicx}\n\\usepackage{amsmath,amssymb}",
-        "template_style": "acl"
+        "template_style": "acl",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(iv) [Judging the Work of Others / ARR Program Committee]",
+        "acceptance_rate": "Sub-22% Peer-Reviewed Selection",
+        "anonymization_rule": "ACL Rolling Review (Mask model weights & prompt templates)"
     },
     "IEEEtran": {
         "name": "IEEE Transactions (IEEE TKDE / TPAMI)",
@@ -41,7 +53,10 @@ VENUE_SPECS = {
         "page_limit": "10 - 25+ pages (journal literature review)",
         "doc_class": "\\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}",
         "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
-        "template_style": "ieeetran"
+        "template_style": "ieeetran",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles in Major Journals]",
+        "acceptance_rate": "Peer-Reviewed High-Impact Factor Journal",
+        "anonymization_rule": "Single-Blind / Open Review Option"
     },
     "ACM": {
         "name": "ACM Computing Surveys / SIGKDD",
@@ -49,7 +64,10 @@ VENUE_SPECS = {
         "page_limit": "12 - 20+ pages",
         "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
         "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
-        "template_style": "acm"
+        "template_style": "acm",
+        "o1a_criteria": "8 CFR § 204.5(h)(3)(vi) [Scholarly Articles in Premier Professional Publications]",
+        "acceptance_rate": "Peer-Reviewed Premier Survey Journal",
+        "anonymization_rule": "Single-Blind / Camera-Ready Option"
     }
 }
 

@@ -391,6 +391,38 @@ async def stream_research_logs(project_id: str):
                 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+from services.o1a_tracker import O1AEvidenceTrackerService
+from services.latex_exporter import VENUE_SPECS
+
+o1a_tracker = O1AEvidenceTrackerService(vault_manager)
+
+@app.get("/api/venues")
+def get_venue_specs():
+    """Returns technical specs, page limits, O-1A criteria mappings, and anonymization rules for target AI venues."""
+    return {"venues": VENUE_SPECS}
+
+@app.get("/api/o1a/audit")
+def get_o1a_audit():
+    """Audits current vault manuscripts against USCIS O-1A visa criteria (8 CFR § 204.5(h)(3))."""
+    drafts = vault_manager.list_files("drafts")
+    manuscripts = []
+    for d in drafts:
+        meta = vault_manager.read_markdown("drafts", d["filename"])
+        if meta and meta.get("frontmatter"):
+            manuscripts.append({
+                "id": d["filename"].replace(".md", ""),
+                "title": meta["frontmatter"].get("title", d["filename"]),
+                "venue": meta["frontmatter"].get("venue", "IEEE/ACM Journal"),
+                "fact_check_score": float(meta["frontmatter"].get("fact_check_score", 100.0)),
+                "citations": int(meta["frontmatter"].get("citations", 0)),
+                "peer_review": meta["frontmatter"].get("peer_review")
+            })
+
+    audit_result = o1a_tracker.audit_o1a_readiness(manuscripts)
+    dossier_md = o1a_tracker.generate_legal_dossier_markdown(manuscripts)
+    audit_result["legal_dossier_markdown"] = dossier_md
+    return audit_result
+
 if __name__ == "__main__":
     import uvicorn
     # Read configuration from environment loaded via python-dotenv
