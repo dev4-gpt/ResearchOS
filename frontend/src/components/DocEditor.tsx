@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, ChevronDown, ChevronUp, User, Settings, Zap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, User } from 'lucide-react';
 import { apiFetch } from '../api';
 
 interface VaultFile {
@@ -39,8 +39,6 @@ const DocEditor: React.FC = () => {
   const [venueRecommendations, setVenueRecommendations] = useState<any[] | null>(null);
   const [venueAdvisorLoading, setVenueAdvisorLoading] = useState(false);
   const [venueAdvisorError, setVenueAdvisorError] = useState<string | null>(null);
-  const [profilePanelOpen, setProfilePanelOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState<any>(null);
   const [profileGoal, setProfileGoal] = useState('balanced');
   const [profileTimeline, setProfileTimeline] = useState('normal');
   const [profileCitations, setProfileCitations] = useState(0);
@@ -71,8 +69,7 @@ const DocEditor: React.FC = () => {
     fetchFilesList();
     // Load user profile
     apiFetch('/api/user/profile').then(r => r.json()).then(d => {
-      if (d.success) {
-        setUserProfile(d.profile);
+      if (d.success && d.profile) {
         setProfileGoal(d.profile.submission_goals || 'balanced');
         setProfileTimeline(d.profile.target_timeline || 'normal');
         setProfileCitations(d.profile.min_citations || 0);
@@ -269,7 +266,7 @@ const DocEditor: React.FC = () => {
           ) : (
             <>
               {/* Draft Reviews Section */}
-              {files.drafts.length > 0 && (
+              {files?.drafts && files.drafts.length > 0 && (
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Manuscript Drafts</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -292,7 +289,7 @@ const DocEditor: React.FC = () => {
               )}
 
               {/* Debates Section */}
-              {files.debates.length > 0 && (
+              {files?.debates && files.debates.length > 0 && (
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#8b5cf6', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Debate Summaries</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -315,7 +312,7 @@ const DocEditor: React.FC = () => {
               )}
 
               {/* Ingested Papers Section */}
-              {files.papers.length > 0 && (
+              {files?.papers && files.papers.length > 0 && (
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#10b981', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Paper Summaries</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
