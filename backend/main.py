@@ -416,21 +416,39 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             {"tex": tex_report, "bibliography": bibliography_report, "pdf": qa_report, "artifact_sha256": artifact_hashes},
         )
 
-        pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
+        papers_data = _paper_data()
 
-        # Save vault copy
+        pdf_bytes = exporter.compile_pdf(
+            venue_key=venue,
+            title=title,
+            authors=authors,
+            abstract=abstract,
+            body_markdown=content,
+            papers_data=papers_data,
+            author_details=author_details
+        )
+
         exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
         os.makedirs(exports_dir, exist_ok=True)
-        with open(os.path.join(exports_dir, pdf_filename), "wb") as f:
+        pdf_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.pdf")
+        with open(pdf_path, "wb") as f:
             f.write(pdf_bytes)
 
-        return Response(
-            content=pdf_bytes,
-            media_type="application/pdf",
-            headers={"Content-Disposition": f'attachment; filename="{pdf_filename}"'}
-        )
-    except HTTPException:
-        raise
+        # 2. Run Checkmate audit
+        report = verifier.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+
+        # 3. Save audit metrics into document frontmatter
+        meta["checkmate_score"] = str(report.get("score", "0.0"))
+        meta["checkmate_status"] = "PASSED" if report.get("checkmate_passed") else "NEEDS_REMEDIATION"
+        meta["checkmate_matrix"] = str(report.get("checks", {}))
+        vault_manager.save_markdown("drafts", filename, content, meta)
+
+        return {
+            "status": "success",
+            "filename": filename,
+            "venue": venue,
+            "checkmate": report
+        }
     except Exception as e:
         import traceback
         tb = traceback.format_exc()

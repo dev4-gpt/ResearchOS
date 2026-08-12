@@ -29,6 +29,11 @@ const DocEditor: React.FC = () => {
   const [editMode, setEditMode] = useState<'edit' | 'preview'>('edit');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
 
+  // Checkmate Final Layer Audit State
+  const [checkmateOpen, setCheckmateOpen] = useState(false);
+  const [checkmateData, setCheckmateData] = useState<any>(null);
+  const [checkmateLoading, setCheckmateLoading] = useState(false);
+
   // Venue Advisor Panel State
   const [venueAdvisorOpen, setVenueAdvisorOpen] = useState(false);
   const [venueRecommendations, setVenueRecommendations] = useState<any[] | null>(null);
@@ -40,6 +45,28 @@ const DocEditor: React.FC = () => {
   const [profileTimeline, setProfileTimeline] = useState('normal');
   const [profileCitations, setProfileCitations] = useState(0);
 
+  const runCheckmateAudit = async () => {
+    if (!activeFilename) return;
+    setCheckmateLoading(true);
+    setCheckmateOpen(true);
+    try {
+      const res = await apiFetch(`/api/vault/checkmate-audit?filename=${activeFilename}&venue=${selectedVenue}`);
+      const data = await res.json();
+      if (res.ok && data.checkmate) {
+        setCheckmateData(data.checkmate);
+        if (data.checkmate.checkmate_passed) {
+          setFrontmatter((prev: any) => ({ ...prev, checkmate_score: data.checkmate.score, checkmate_status: 'PASSED' }));
+        }
+      } else {
+        alert(`Checkmate Audit Failed: ${data.detail || 'Error running audit'}`);
+      }
+    } catch (e: any) {
+      alert(`Checkmate Audit Error: ${e.message || e}`);
+    } finally {
+      setCheckmateLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchFilesList();
     // Load user profile
@@ -48,7 +75,7 @@ const DocEditor: React.FC = () => {
         setUserProfile(d.profile);
         setProfileGoal(d.profile.submission_goals || 'balanced');
         setProfileTimeline(d.profile.target_timeline || 'normal');
-        setProfileCitations(d.profile.citation_count || 0);
+        setProfileCitations(d.profile.min_citations || 0);
       }
     }).catch(() => {});
   }, []);
@@ -58,21 +85,18 @@ const DocEditor: React.FC = () => {
     try {
       const res = await apiFetch('/api/vault/files');
       if (res.ok) {
-        const data = await res.json();
+        const data: VaultFilesData = await res.json();
         setFiles(data);
-        
-        // Auto-select the first draft file if available, or first debate
-        if (data.drafts && data.drafts.length > 0) {
-          loadFile('drafts', data.drafts[0].filename);
-        } else if (data.debates && data.debates.length > 0) {
-          loadFile('debates', data.debates[0].filename);
+        if (!activeFilename) {
+          if (data.drafts && data.drafts.length > 0) {
+            loadFile('drafts', data.drafts[0].filename);
+          } else if (data.papers && data.papers.length > 0) {
+            loadFile('papers', data.papers[0].filename);
+          }
         }
-      } else {
-        setFiles(null);
       }
-    } catch (e) {
-      console.error('Failed to fetch files list:', e);
-      setFiles(null);
+    } catch (err) {
+      console.error('Failed to fetch vault files:', err);
     } finally {
       setIsLoadingList(false);
     }
@@ -80,18 +104,18 @@ const DocEditor: React.FC = () => {
 
   const loadFile = async (category: string, filename: string) => {
     setIsLoadingFile(true);
-    setSaveStatus('idle');
+    setActiveCategory(category);
+    setActiveFilename(filename);
     try {
       const res = await apiFetch(`/api/vault/read?category=${category}&filename=${filename}`);
       if (res.ok) {
         const data = await res.json();
-        setContent(data.content);
+        setContent(data.content || '');
         setFrontmatter(data.frontmatter || {});
-        setActiveCategory(category);
-        setActiveFilename(filename);
+        setSaveStatus('idle');
       }
-    } catch (e) {
-      console.error('Failed to load file:', e);
+    } catch (err) {
+      console.error('Failed to read file:', err);
     } finally {
       setIsLoadingFile(false);
     }
@@ -100,7 +124,6 @@ const DocEditor: React.FC = () => {
   const handleSave = async () => {
     if (!activeCategory || !activeFilename) return;
     setSaveStatus('saving');
-    
     try {
       const res = await apiFetch('/api/vault/write', {
         method: 'POST',
@@ -112,17 +135,15 @@ const DocEditor: React.FC = () => {
           frontmatter: frontmatter
         })
       });
-      
       if (res.ok) {
         setSaveStatus('saved');
-        setTimeout(() => setSaveStatus('idle'), 2000);
         fetchFilesList();
+        setTimeout(() => setSaveStatus('idle'), 2500);
       } else {
         setSaveStatus('error');
       }
-    } catch (e) {
+    } catch (err) {
       setSaveStatus('error');
-      console.error('Error saving file:', e);
     }
   };
 
@@ -414,8 +435,73 @@ const DocEditor: React.FC = () => {
                       </>
                     )}
                   </button>
+
+                  {/* Checkmate Audit Action */}
+                  <button
+                    onClick={runCheckmateAudit}
+                    disabled={checkmateLoading}
+                    style={{
+                      background: 'rgba(139,92,246,0.15)', color: '#c084fc', border: '1px solid rgba(139,92,246,0.4)',
+                      padding: '6px 14px', borderRadius: '6px', cursor: 'pointer', fontWeight: '700', fontSize: '12px',
+                      display: 'flex', alignItems: 'center', gap: '6px'
+                    }}
+                  >
+                    <Sparkles size={14} />
+                    <span>{checkmateLoading ? 'Auditing...' : '♟️ Checkmate Audit'}</span>
+                  </button>
                 </div>
               </div>
+
+              {/* Checkmate Audit Results Panel */}
+              {checkmateOpen && (
+                <div style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: '10px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '16px' }}>♟️</span>
+                      <span style={{ fontSize: '13px', fontWeight: '800', color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>The Checkmate Double-Tested Audit</span>
+                      {checkmateData && (
+                        <span style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '10px', fontWeight: '800', background: checkmateData.checkmate_passed ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)', color: checkmateData.checkmate_passed ? '#10b981' : '#f87171', border: `1px solid ${checkmateData.checkmate_passed ? '#10b981' : '#f87171'}` }}>
+                          {checkmateData.status} ({checkmateData.score}%)
+                        </span>
+                      )}
+                    </div>
+                    <button onClick={() => setCheckmateOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px' }}>×</button>
+                  </div>
+
+                  {checkmateLoading && (
+                    <div style={{ color: 'var(--text-muted)', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Sparkles size={14} style={{ animation: 'pulse 1.5s infinite' }} />
+                      <span>Running multi-modal PDF layout, section numbering, author attribution, and bibliography audit...</span>
+                    </div>
+                  )}
+
+                  {checkmateData && !checkmateLoading && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px' }}>
+                        {Object.entries(checkmateData.checks || {}).map(([key, val]: [string, any]) => (
+                          <div key={key} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${val.passed ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: '7px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                              <span style={{ fontSize: '11px', fontWeight: '700', color: val.passed ? '#34d399' : '#f87171' }}>{key.replace(/_/g, ' ').toUpperCase()}</span>
+                              <span style={{ fontSize: '12px' }}>{val.passed ? '✅' : '❌'}</span>
+                            </div>
+                            <span style={{ fontSize: '11px', color: '#94a3b8' }}>{val.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '8px', padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Check size={16} style={{ color: '#10b981' }} />
+                          <span style={{ fontSize: '12px', fontWeight: '700', color: '#34d399' }}>Certificate: {checkmateData.certificate?.title}</span>
+                        </div>
+                        <span style={{ fontSize: '11px', fontWeight: '800', color: '#10b981', background: 'rgba(16,185,129,0.2)', padding: '3px 10px', borderRadius: '12px' }}>
+                          {checkmateData.certificate?.decision}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Sub Toolbar: Venue Advisor Agent Panel */}
               {activeCategory === 'drafts' && (
