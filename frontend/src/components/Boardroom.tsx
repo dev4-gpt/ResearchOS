@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Users, Loader, CheckCircle } from 'lucide-react';
 import type { AgentLog } from '../App';
+import LinkRenderer from './LinkRenderer';
 
 interface BoardroomProps {
   logs: AgentLog[];
@@ -171,10 +172,9 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
                     color: isSystem ? 'var(--text-secondary)' : 'var(--text-primary)', 
                     lineHeight: '1.5',
                     fontFamily: isSystem ? 'var(--font-mono)' : 'var(--font-sans)',
-                    whiteSpace: 'pre-wrap'
                   }}>
                     {isSystem && <span style={{ color: 'var(--primary)', marginRight: '6px' }}>&gt;</span>}
-                    {log.message}
+                    <LinkRenderer content={log.message} />
                   </div>
                 </div>
               );

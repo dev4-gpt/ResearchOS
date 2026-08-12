@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, User } from 'lucide-react';
 import { apiFetch } from '../api';
+import LinkRenderer from './LinkRenderer';
 
 interface VaultFile {
   filename: string;
@@ -195,34 +196,6 @@ const DocEditor: React.FC = () => {
   };
 
   const O1A_STARS = (val: number) => '★'.repeat(val) + '☆'.repeat(5 - val);
-
-  // Simple Markdown Parser for Preview Pane
-  const renderMarkdown = (mdText: string) => {
-    let html = mdText;
-    
-    // Escape HTML tags to prevent XSS
-    html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    
-    // Headers
-    html = html.replace(/^# (.*?)$/gm, '<h1 style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; margin: 18px 0 10px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">$1</h1>');
-    html = html.replace(/^## (.*?)$/gm, '<h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin: 16px 0 8px 0;">$1</h2>');
-    html = html.replace(/^### (.*?)$/gm, '<h3 style="font-family: var(--font-heading); font-size: 15px; font-weight: 600; margin: 12px 0 6px 0;">$1</h3>');
-    
-    // Bold & Italics
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
-    // WikiLinks: [[LinkName]] -> styled span
-    html = html.replace(/\[\[(.*?)\]\]/g, '<span style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: 500;">$1</span>');
-    
-    // Bullet Lists
-    html = html.replace(/^- (.*?)$/gm, '<li style="margin-left: 20px; list-style-type: square; margin-bottom: 4px;">$1</li>');
-    
-    // Line breaks
-    html = html.replace(/\n/g, '<br />');
-
-    return <div dangerouslySetInnerHTML={{ __html: html }} style={{ fontSize: '13px', lineHeight: '1.6' }} />;
-  };
 
   return (
     <div className="responsive-doc-layout">
@@ -800,7 +773,19 @@ const DocEditor: React.FC = () => {
                   />
                 ) : (
                   <div style={{ minHeight: '450px', height: '100%', overflowY: 'auto', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '24px' }}>
-                    {renderMarkdown(content)}
+                    <LinkRenderer
+                      content={content}
+                      onNavigateWikilink={(targetFilename) => {
+                        if (!files) return;
+                        for (const cat of ['drafts', 'debates', 'papers', 'concepts'] as const) {
+                          const found = files[cat]?.find(f => f.filename === targetFilename || f.filename === `${targetFilename}.md`);
+                          if (found) {
+                            loadFile(cat, found.filename);
+                            break;
+                          }
+                        }
+                      }}
+                    />
                   </div>
                 )}
               </div>

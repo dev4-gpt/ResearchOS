@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Network, Loader, X } from 'lucide-react';
 import { apiFetch } from '../api';
+import LinkRenderer from './LinkRenderer';
 
 interface GraphNode {
   id: string;
@@ -460,8 +461,8 @@ const GraphView: React.FC = () => {
                 </div>
 
                 {/* Main Content Body */}
-                <div style={{ fontSize: '12px', color: 'var(--text-primary)', lineHeight: '1.6', borderTop: '1px solid var(--border-color)', paddingTop: '12px', whiteSpace: 'pre-wrap' }}>
-                  {nodeContent.content}
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', lineHeight: '1.6', borderTop: '1px solid var(--border-color)', paddingTop: '12px' }}>
+                  <LinkRenderer content={nodeContent.content} />
                 </div>
               </div>
             ) : (

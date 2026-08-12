@@ -212,6 +212,20 @@ const App: React.FC = () => {
             </span>
           </div>
 
+          <a
+            href="https://github.com/donnemartin/system-design-primer"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 8px', borderRadius: '6px',
+              background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.3)',
+              color: '#34d399', fontSize: '11px', fontWeight: '700', textDecoration: 'none', marginTop: '4px'
+            }}
+          >
+            <HelpCircle size={14} style={{ flexShrink: 0 }} />
+            <span>System Design Primer ↗</span>
+          </a>
+
           {errorMsg && (
             <div style={{ display: 'flex', gap: '6px', color: 'var(--danger)', marginTop: '8px', fontSize: '10px', lineHeight: '1.2' }}>
               <AlertCircle size={12} style={{ flexShrink: 0 }} />
