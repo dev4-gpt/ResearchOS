@@ -313,10 +313,8 @@ class LaTeXExporterService:
         clean_abstract = self.sanitize_latex(extracted_abstract)
         
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
-        body_for_export = re.sub(r'##\s*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+##|\Z)', '', body_markdown, flags=re.IGNORECASE)
-        first_heading = re.match(r'^#\s+(.+)$', body_for_export.strip(), re.MULTILINE)
-        if first_heading and self.clean_title_str(first_heading.group(1), "") == clean_title:
-            body_for_export = body_for_export.replace(first_heading.group(0), "", 1)
+        body_for_export = re.sub(r'##\s*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+##|\n+#|\Z)', '', body_markdown, flags=re.IGNORECASE)
+        body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
             
         latex_body = self.convert_markdown_body(body_for_export)
         

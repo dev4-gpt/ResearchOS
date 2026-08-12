@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import asyncio
 import threading
@@ -234,7 +235,8 @@ def checkmate_audit(
         latex_service = LaTeXExporterService(vault_manager)
         title = frontmatter.get("title", "Enterprise Adoption of Multi-Agent AI Systems")
         authors = frontmatter.get("authors", ["Aryaman Dev"])
-        abstract = body.split("## Executive Abstract\n\n")[1].split("\n\n## ")[0] if "## Executive Abstract\n\n" in body else "Executive Abstract"
+        abstract_match = re.search(r'#+\s*(?:\d+[\.\s]*)?(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', body, re.IGNORECASE)
+        abstract = abstract_match.group(1).strip() if abstract_match else "Executive Abstract"
         
         papers_data = _paper_data()
         bib_code = latex_service.generate_bibtex(papers_data, manuscript_content=body)
@@ -400,8 +402,8 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             "affiliation": meta.get("affiliation", ""),
             "email": meta.get("email", ""),
         }
-        abstract_match = content.split("## Executive Abstract\n\n")
-        abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
+        abstract_match = re.search(r'#+\s*(?:\d+[\.\s]*)?(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', content, re.IGNORECASE)
+        abstract = abstract_match.group(1).strip() if abstract_match else "Systematic Literature Review."
 
         papers_data = _paper_data()
         exporter = LaTeXExporterService(vault_manager)

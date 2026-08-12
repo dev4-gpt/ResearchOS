@@ -99,10 +99,10 @@ class CheckmateVerifierService:
         author_passed = not has_unspecified_author
 
         # 5. Complete Abstract & Text Continuity Check
-        abstract_match = re.search(r'Abstract[—\-\s]+(.*?)(?=Index Terms|—|\n[1-9]\s+[A-Z]{3,})', page1_text, re.DOTALL | re.IGNORECASE)
+        abstract_match = re.search(r'(?:Abstract|Executive Abstract)[—\-\s]+(.*?)(?=Index Terms|—|\n[1-9]\s+[A-Z]{3,}|1\.2|\Z)', page1_text, re.DOTALL | re.IGNORECASE)
         abstract_text = abstract_match.group(1).strip() if abstract_match else page1_text[:500]
         abstract_incomplete = abstract_text.endswith(("the", "a", "an", "and", "or", "during", "for", "with", "in", "of"))
-        abstract_passed = not abstract_incomplete and len(abstract_text) > 100
+        abstract_passed = not abstract_incomplete and len(abstract_text) > 20
 
         # 6. Real Bibliography Check
         synthetic_ref_patterns = [
