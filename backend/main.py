@@ -77,6 +77,18 @@ class UserProfileUpdate(BaseModel):
     submission_goals: Optional[str] = None
     publication_history: Optional[List[Dict[str, Any]]] = None
 
+@app.get("/")
+def root_index():
+    return {
+        "name": "ResearchingOS Multi-Agent Engine",
+        "status": "online",
+        "frontend_url": "http://127.0.0.1:3000",
+        "swagger_docs": "http://127.0.0.1:8000/docs",
+        "api_health": "http://127.0.0.1:8000/api/health",
+        "vault_files": "http://127.0.0.1:8000/api/vault/files",
+        "system_design_primer": "https://github.com/donnemartin/system-design-primer"
+    }
+
 @app.get("/api/health")
 def health_check():
     gemini_key = bool(os.getenv("GEMINI_API_KEY"))
