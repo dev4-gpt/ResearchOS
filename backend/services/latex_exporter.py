@@ -304,16 +304,17 @@ class LaTeXExporterService:
         """Converts Markdown manuscript into venue-specific LaTeX document."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
         clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
+        
         # Extract clean abstract from body_markdown if abstract parameter is default/placeholder
         extracted_abstract = abstract
-        abstract_match = re.search(r'##\s*(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+##|\Z)', body_markdown, re.IGNORECASE)
-        if abstract_match and (not abstract or abstract == "Systematic Literature Review." or len(abstract.strip()) < 30):
+        abstract_match = re.search(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', body_markdown, re.IGNORECASE)
+        if abstract_match:
             extracted_abstract = abstract_match.group(1).strip()
 
         clean_abstract = self.sanitize_latex(extracted_abstract)
         
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
-        body_for_export = re.sub(r'##\s*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+##|\n+#|\Z)', '', body_markdown, flags=re.IGNORECASE)
+        body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+#|\Z)', '', body_markdown, flags=re.IGNORECASE)
         body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
             
         latex_body = self.convert_markdown_body(body_for_export)
