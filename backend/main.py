@@ -23,6 +23,7 @@ from services.venue_profiles import VENUE_PROFILES
 from services.evidence_ledger import EvidenceLedger
 from services.user_profile import UserProfileService
 from agents.venue_advisor import VenueAdvisorAgent
+from services.checkmate_verifier import CheckmateVerifierService
 from domain.models import RunManifest, citation_key
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
@@ -46,6 +47,7 @@ release_controller = ReleaseController()
 evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(vault_manager.vault_path), "runs"))
 user_profile_service = UserProfileService(vault_manager.vault_path)
 venue_advisor_agent = VenueAdvisorAgent(vault_manager.vault_path)
+checkmate_verifier = CheckmateVerifierService(vault_manager)
 
 # In-memory log store for streaming active research runs
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -206,6 +208,66 @@ def _paper_data() -> List[Dict[str, Any]]:
         data["filename"] = item["filename"]
         papers.append(data)
     return papers
+
+@app.get("/api/vault/checkmate-audit")
+def checkmate_audit(
+    filename: str = Query("review_enterprise_adoption_of_multi_agent_ai_systems_infr.md", description="Manuscript filename in drafts"),
+    venue: str = Query("IEEEtran", description="Target academic venue")
+):
+    """Executes The Checkmate Layer multi-modal PDF audit and auto-persists certificate scores."""
+    try:
+        clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
+        file_path = os.path.join(vault_manager.vault_path, "04_Drafts", clean_filename)
+        
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail=f"Manuscript draft '{clean_filename}' not found in Vault drafts.")
+
+        parsed = vault_manager.read_markdown("drafts", clean_filename)
+        frontmatter = parsed.get("frontmatter", {}) or {}
+        body = parsed.get("content", "")
+
+        # Export/compile PDF to verify camera-ready compilation
+        from services.latex_exporter import LaTeXExporterService
+        latex_service = LaTeXExporterService(vault_manager)
+        title = frontmatter.get("title", "Enterprise Adoption of Multi-Agent AI Systems")
+        authors = frontmatter.get("authors", ["Aryaman Dev"])
+        abstract = body.split("## Executive Abstract\n\n")[1].split("\n\n## ")[0] if "## Executive Abstract\n\n" in body else "Executive Abstract"
+        
+        papers_data = _paper_data()
+        bib_code = latex_service.generate_bibtex(papers_data, manuscript_content=body)
+        tex_code = latex_service.markdown_to_venue_latex(venue, title, authors, abstract, body)
+        pdf_name = f"{clean_filename.replace('.md', '')}_{venue}.pdf"
+        pdf_path = os.path.join(vault_manager.vault_path, "04_Drafts", pdf_name)
+        
+        # Compile PDF if missing
+        if not os.path.exists(pdf_path):
+            pdf_bytes = latex_service.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+            if pdf_bytes:
+                with open(pdf_path, "wb") as f:
+                    f.write(pdf_bytes)
+
+        # Execute 7-point Checkmate audit
+        audit_res = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=body, venue_key=venue)
+
+        # Update frontmatter metadata
+        if audit_res.get("checkmate_passed"):
+            frontmatter["checkmate_score"] = str(audit_res.get("score", 100.0))
+            frontmatter["checkmate_status"] = "PASSED"
+            frontmatter["checkmate_date"] = audit_res.get("certificate", {}).get("timestamp", "")
+            vault_manager.save_markdown("drafts", clean_filename, body, frontmatter=frontmatter)
+
+        return {
+            "success": True,
+            "filename": clean_filename,
+            "venue": venue,
+            "checkmate": audit_res
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/vault/export-latex")
 def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_generative_ai_i.md"):
