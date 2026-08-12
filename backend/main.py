@@ -146,12 +146,19 @@ def get_vault_graph():
 
 @app.get("/api/vault/fact-check")
 def fact_check_vault_file(category: str, filename: str):
-    """Performs real-time citation and grounding audit on any vault file."""
+    """Performs real-time citation and grounding audit on any vault file and updates frontmatter."""
     try:
         data = vault_manager.read_markdown(category, filename)
         content = data.get("content", "")
+        frontmatter = data.get("frontmatter", {}) or {}
         source_records = _source_records()
         report = fact_checker.audit_document(content, source_records=source_records)
+
+        frontmatter["fact_check_score"] = str(report.get("fact_check_score", "0.0"))
+        frontmatter["verification_status"] = str(report.get("status", "needs_review"))
+        frontmatter["verification_matrix"] = str(report.get("verification_matrix", {}))
+        vault_manager.save_markdown(category, filename, content, frontmatter)
+
         return {
             "status": "success",
             "category": category,

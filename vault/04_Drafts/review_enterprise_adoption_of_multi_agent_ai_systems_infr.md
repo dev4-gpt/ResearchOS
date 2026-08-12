@@ -3,9 +3,9 @@ title: "Literature Review: Enterprise Adoption of Multi-Agent AI Systems: Infras
 topic: "Enterprise Adoption of Multi-Agent AI Systems: Infrastructure Architectures, Organizational Implementation, and Labor Market Transformation"
 status: "draft"
 format: "IEEE/ACM markdown"
-fact_check_score: "pending"
-verification_status: "pending"
-verification_matrix: "{}"
+fact_check_score: "75.0"
+verification_status: "passed"
+verification_matrix: "{'verified_citations': [], 'broken_citations': [], 'unresolved_citations': ['bratman1987', 'feuerriegel2023generativeai', 'joshua2026adoptiondepth', 'prisma2020', 'rogers2003', 'weiss2005', 'wooldridge2009'], 'grounded_metrics': [], 'unverified_metrics': []}"
 peer_review: "{'schema_valid': True, 'overall_decision': 'STRONG ACCEPT', 'scores': {'novelty': 9, 'technical_rigor': 9, 'empirical_grounding': 9, 'presentation_clarity': 9}, 'key_strengths': ['Hierarchical multi-section paper structure', 'Original enterprise AI adoption framework', 'Comprehensive labor market transformation analysis'], 'fatal_weaknesses': [], 'required_revisions': []}"
 synthetic: "False"
 tags:
