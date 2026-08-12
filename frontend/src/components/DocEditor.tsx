@@ -539,10 +539,17 @@ const DocEditor: React.FC = () => {
                           if (res.ok) {
                             const data = await res.json();
                             const code = data.tex_code || (data.bundle ? Object.values(data.bundle)[0] : '');
-                            await navigator.clipboard.writeText(code as string);
-                            alert(`Copied ${selectedVenue} LaTeX to clipboard! Paste into Overleaf.`);
+                            if (code) {
+                              await navigator.clipboard.writeText(code as string);
+                              alert(`Copied ${selectedVenue} LaTeX to clipboard! Paste into Overleaf.`);
+                            } else {
+                              alert('No LaTeX generated.');
+                            }
+                          } else {
+                            const err = await res.json().catch(() => ({}));
+                            alert(`Failed to copy LaTeX: ${err.detail || 'Server error'}`);
                           }
-                        } catch (e) { console.error(e); }
+                        } catch (e: any) { alert(`Error copying LaTeX: ${e.message || e}`); }
                       }}
                       style={{ background: 'rgba(168,85,247,0.15)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
                     >
@@ -555,11 +562,24 @@ const DocEditor: React.FC = () => {
                       onClick={async () => {
                         if (!activeFilename) return;
                         const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
-                        const pdfUrl = `http://127.0.0.1:8000/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`;
-                        const a = document.createElement('a');
-                        a.href = pdfUrl;
-                        a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
-                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                        try {
+                          const res = await apiFetch(`/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`);
+                          if (res.ok) {
+                            const blob = await res.blob();
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
+                            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                          } else {
+                            const err = await res.json().catch(() => ({}));
+                            const msg = typeof err.detail === 'object' ? JSON.stringify(err.detail) : (err.detail || 'PDF generation failed');
+                            alert(`PDF Compilation Error: ${msg}`);
+                          }
+                        } catch (e: any) {
+                          alert(`Failed to download PDF: ${e.message || e}`);
+                        }
                       }}
                       style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', border: '1px solid rgba(239,68,68,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
                     >
@@ -595,65 +615,84 @@ const DocEditor: React.FC = () => {
 
                       {venueRecommendations && !venueAdvisorLoading && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          {venueRecommendations.map((rec: any, idx: number) => (
-                            <div key={rec.venue_key}
-                              onClick={() => { setSelectedVenue(rec.venue_key); }}
-                              style={{
-                                display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'start', gap: '12px',
-                                padding: '12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.15s',
-                                background: selectedVenue === rec.venue_key ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.02)',
-                                border: `1px solid ${selectedVenue === rec.venue_key ? 'rgba(139,92,246,0.5)' : 'var(--border-color)'}`,
-                              }}
-                            >
-                              {/* Rank badge */}
-                              <div style={{
-                                width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                background: idx === 0 ? 'rgba(250,204,21,0.2)' : idx === 1 ? 'rgba(156,163,175,0.2)' : 'rgba(180,83,9,0.2)',
-                                color: idx === 0 ? '#fbbf24' : idx === 1 ? '#9ca3af' : '#b45309',
-                                fontSize: '13px', fontWeight: '800', flexShrink: 0
-                              }}>#{idx + 1}</div>
+                          {venueRecommendations.map((rec: any, idx: number) => {
+                            const diffKey = rec.difficulty || 'Moderate';
+                            const diffColor = DIFFICULTY_COLOR[diffKey] || '#94a3b8';
+                            const o1aNum = typeof rec.o1a_value === 'number' ? Math.max(0, Math.min(5, rec.o1a_value)) : 3;
+                            
+                            let rationaleStr = '';
+                            if (typeof rec.ai_rationale === 'string') {
+                              rationaleStr = rec.ai_rationale;
+                            } else if (rec.ai_rationale && typeof rec.ai_rationale === 'object') {
+                              rationaleStr = rec.ai_rationale.rationale || rec.ai_rationale.strategic_tip || JSON.stringify(rec.ai_rationale);
+                            } else if (rec.o1a_rationale) {
+                              rationaleStr = String(rec.o1a_rationale);
+                            }
 
-                              {/* Venue info */}
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                                  <span style={{ fontSize: '13px', fontWeight: '700', color: '#e2e8f0' }}>{rec.venue_key}</span>
-                                  <span style={{ fontSize: '10px', padding: '1px 7px', borderRadius: '10px', fontWeight: '700',
-                                    background: `${DIFFICULTY_COLOR[rec.difficulty]}22`, color: DIFFICULTY_COLOR[rec.difficulty],
-                                    border: `1px solid ${DIFFICULTY_COLOR[rec.difficulty]}44` }}>
-                                    {rec.difficulty}
-                                  </span>
-                                  <span style={{ fontSize: '10px', color: '#94a3b8' }}>{rec.type}</span>
-                                  <span style={{ fontSize: '10px', color: '#94a3b8' }}>Accept: {Math.round(rec.acceptance_rate * 100)}%</span>
-                                </div>
-                                <div style={{ fontSize: '11px', color: '#f59e0b', letterSpacing: '1px' }}>
-                                  {O1A_STARS(rec.o1a_value)} O-1A
-                                </div>
-                                {rec.ai_rationale && (
-                                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>
-                                    {rec.ai_rationale}
-                                  </p>
-                                )}
-                              </div>
+                            const scoreNum = typeof rec.overall_score === 'number' ? rec.overall_score : 0;
+                            const acceptPct = typeof rec.acceptance_rate === 'number' ? Math.round(rec.acceptance_rate * 100) : 0;
+                            const venueName = rec.venue_key || rec.full_name || 'Venue';
 
-                              {/* Score + Select button */}
-                              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
-                                <span style={{ fontSize: '18px', fontWeight: '800',
-                                  color: rec.overall_score >= 8 ? '#10b981' : rec.overall_score >= 6 ? '#f59e0b' : '#94a3b8'
-                                }}>{rec.overall_score.toFixed(1)}</span>
-                                <span style={{ fontSize: '9px', color: 'var(--text-muted)' }}>/ 10.0</span>
-                                {selectedVenue === rec.venue_key ? (
-                                  <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                                    <Check size={10} /> Selected
-                                  </span>
-                                ) : (
-                                  <button onClick={() => setSelectedVenue(rec.venue_key)}
-                                    style={{ fontSize: '10px', background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', padding: '3px 8px', borderRadius: '5px', cursor: 'pointer', fontWeight: '600' }}>
-                                    Select
-                                  </button>
-                                )}
+                            return (
+                              <div key={venueName || idx}
+                                onClick={() => { setSelectedVenue(venueName); }}
+                                style={{
+                                  display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'start', gap: '12px',
+                                  padding: '12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.15s',
+                                  background: selectedVenue === venueName ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.02)',
+                                  border: `1px solid ${selectedVenue === venueName ? 'rgba(139,92,246,0.5)' : 'var(--border-color)'}`,
+                                }}
+                              >
+                                {/* Rank badge */}
+                                <div style={{
+                                  width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  background: idx === 0 ? 'rgba(250,204,21,0.2)' : idx === 1 ? 'rgba(156,163,175,0.2)' : 'rgba(180,83,9,0.2)',
+                                  color: idx === 0 ? '#fbbf24' : idx === 1 ? '#9ca3af' : '#b45309',
+                                  fontSize: '13px', fontWeight: '800', flexShrink: 0
+                                }}>#{idx + 1}</div>
+
+                                {/* Venue info */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#e2e8f0' }}>{venueName}</span>
+                                    <span style={{ fontSize: '10px', padding: '1px 7px', borderRadius: '10px', fontWeight: '700',
+                                      background: `${diffColor}22`, color: diffColor,
+                                      border: `1px solid ${diffColor}44` }}>
+                                      {diffKey}
+                                    </span>
+                                    <span style={{ fontSize: '10px', color: '#94a3b8' }}>{rec.type || ''}</span>
+                                    <span style={{ fontSize: '10px', color: '#94a3b8' }}>Accept: {acceptPct}%</span>
+                                  </div>
+                                  <div style={{ fontSize: '11px', color: '#f59e0b', letterSpacing: '1px' }}>
+                                    {O1A_STARS(o1aNum)} O-1A
+                                  </div>
+                                  {rationaleStr ? (
+                                    <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>
+                                      {rationaleStr}
+                                    </p>
+                                  ) : null}
+                                </div>
+
+                                {/* Score + Select button */}
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+                                  <span style={{ fontSize: '18px', fontWeight: '800',
+                                    color: scoreNum >= 8 ? '#10b981' : scoreNum >= 6 ? '#f59e0b' : '#94a3b8'
+                                  }}>{scoreNum.toFixed(1)}</span>
+                                  <span style={{ fontSize: '9px', color: 'var(--text-muted)' }}>/ 10.0</span>
+                                  {selectedVenue === venueName ? (
+                                    <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                      <Check size={10} /> Selected
+                                    </span>
+                                  ) : (
+                                    <button onClick={(e) => { e.stopPropagation(); setSelectedVenue(venueName); }}
+                                      style={{ fontSize: '10px', background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', padding: '3px 8px', borderRadius: '5px', cursor: 'pointer', fontWeight: '600' }}>
+                                      Select
+                                    </button>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       )}
                     </div>
