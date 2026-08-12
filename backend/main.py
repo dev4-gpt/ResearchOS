@@ -491,15 +491,13 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         )
 
         papers_data = _paper_data()
+        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
+        tex_code = exporter.markdown_to_venue_latex(venue, title, authors, abstract, content, author_details=author_details)
 
-        pdf_bytes = exporter.compile_pdf(
-            venue_key=venue,
-            title=title,
-            authors=authors,
-            abstract=abstract,
-            body_markdown=content,
-            papers_data=papers_data,
-            author_details=author_details
+        pdf_bytes = exporter.compile_pdflatex(
+            tex_code,
+            bib_code=bib_code,
+            allow_package_fallback=True
         )
 
         exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
@@ -509,20 +507,19 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             f.write(pdf_bytes)
 
         # 2. Run Checkmate audit
-        report = verifier.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+        report = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
 
         # 3. Save audit metrics into document frontmatter
-        meta["checkmate_score"] = str(report.get("score", "0.0"))
-        meta["checkmate_status"] = "PASSED" if report.get("checkmate_passed") else "NEEDS_REMEDIATION"
-        meta["checkmate_matrix"] = str(report.get("checks", {}))
-        vault_manager.save_markdown("drafts", filename, content, meta)
+        if report.get("checkmate_passed"):
+            meta["checkmate_score"] = str(report.get("score", 100.0))
+            meta["checkmate_status"] = "PASSED"
+            meta["checkmate_date"] = report.get("certificate", {}).get("timestamp", "")
+            vault_manager.save_markdown("drafts", filename, content, frontmatter=meta)
 
-        return {
-            "status": "success",
-            "filename": filename,
-            "venue": venue,
-            "checkmate": report
+        headers = {
+            "Content-Disposition": f'attachment; filename="{filename.replace(".md", "")}_{venue}.pdf"'
         }
+        return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
