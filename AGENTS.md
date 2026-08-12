@@ -41,6 +41,14 @@ ResearchingOS orchestrates a 7-agent council of specialized personas to ensure r
 1. **Zero Invented Citations**: All inline citations must be wrapped in Obsidian wikilinks `[[paper_id]]` matching exact filenames in `vault/01_Papers/`.
 2. **Fact-Checker Audit**: Every drafted manuscript must pass the `FactCheckerService` linter, verifying citation target existence and grounding numeric claims ($N=...$, $\%$, $p < 0.001$) against source paper text.
 3. **IEEE/ACM LaTeX Formatting**: Export compilable two-column IEEEtran LaTeX (`.tex`) and BibTeX (`.bib`) files using `LaTeXExporterService`.
+4. **Camera-Ready LaTeX Audit Skill (`camera-ready-latex-auditor`)**:
+   - Enforces single-numbered section titles (no `1 1 Executive Abstract` counter duplication).
+   - Extracts full executive abstract into `\begin{abstract}` and strips body duplication.
+   - Filters out hardcoded markdown References sections prior to appending LaTeX `\bibliography{references}`.
+   - Verifies 4-page camera-ready layout constraints with zero orphan page spillover.
+5. **System Error Ledger Connector (`ErrorLedgerService`)**:
+   - Persists all build errors to `vault/system_error_ledger.json` and `vault/SYSTEM_ERROR_PREVENTION_MANUAL.md`.
+   - Intercepts and self-heals build failures automatically.
 
 ---
 
