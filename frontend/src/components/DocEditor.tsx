@@ -590,8 +590,8 @@ const DocEditor: React.FC = () => {
 
                   {/* Venue Advisor Results Panel */}
                   {venueAdvisorOpen && (
-                    <div style={{ background: 'rgba(139,92,246,0.04)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: '10px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'rgba(139,92,246,0.04)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: '10px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '450px', overflow: 'hidden' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <Target size={14} style={{ color: '#c084fc' }} />
                           <span style={{ fontSize: '12px', fontWeight: '700', color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>AI Venue Recommendations</span>
@@ -614,7 +614,7 @@ const DocEditor: React.FC = () => {
                       )}
 
                       {venueRecommendations && !venueAdvisorLoading && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '380px', overflowY: 'auto', paddingRight: '6px' }}>
                           {venueRecommendations.map((rec: any, idx: number) => {
                             const diffKey = rec.difficulty || 'Moderate';
                             const diffColor = DIFFICULTY_COLOR[diffKey] || '#94a3b8';
