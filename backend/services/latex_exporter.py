@@ -163,9 +163,9 @@ class LaTeXExporterService:
         def heading_to_section(m):
             level = len(m.group(1))
             title_text = m.group(2).strip()
-            # Strip leading section numbers like '1. ', '1.1 '
-            if level > 1:
-                title_text = re.sub(r'^\d+(\.\d+)*\.?\s*', '', title_text)
+            # Strip leading section numbers like '1 ', '1.1 ', '2.2.1 '
+            title_text = re.sub(r'^(\d+[\.\s]*)+', '', title_text).strip()
+            
             if level in (1, 2):
                 return f"\n\\section{{{title_text}}}\n"
             elif level == 3:
