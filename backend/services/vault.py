@@ -116,6 +116,12 @@ class VaultManager:
                         frontmatter[key] = []
                         current_key = key
                     else:
+                        if val.startswith("{") and val.endswith("}"):
+                            import ast
+                            try:
+                                val = ast.literal_eval(val)
+                            except Exception:
+                                pass
                         frontmatter[key] = val
                         current_key = None
                         

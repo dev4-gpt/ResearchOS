@@ -11,6 +11,9 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "httpx>=0.26.0",
     "pypdf>=4.0.0",
+    "langgraph>=1.2.11",
+    "dspy-ai>=3.3.0",
+    "openai>=1.50.0",
 ]
 
 [tool.uv]

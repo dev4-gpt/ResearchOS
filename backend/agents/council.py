@@ -20,7 +20,8 @@ AGENT_PERSONAS = {
     "Scout": {
         "name": "Senior Scout Researcher",
         "role": "Literature Discovery & Bibliography Mapping",
-        "model": "gemini-2.5-flash",
+        "provider": "OPENROUTER",
+        "model": "meta-llama/llama-3.1-8b-instruct:free",
         "instruction": (
             "You are a 20-year Principal Scout Researcher at a world-leading research laboratory (Nature/IEEE level). "
             "Your role is to map literature networks, evaluate publication venue prestige (NeurIPS, ICML, Nature, Science, IEEE TPAMI), "
@@ -31,7 +32,8 @@ AGENT_PERSONAS = {
     "Analyst": {
         "name": "Lead Analyst",
         "role": "Methodology Extraction & Full-Text Ingestion",
-        "model": "gemini-2.5-flash",
+        "provider": "OLLAMA",
+        "model": "qwen3.5:4b",
         "instruction": (
             "You are a Lead Scientific Analyst with 20 years of experience in technical literature analysis. "
             "Your task is to ingest full paper texts and metadata, extracting explicit mathematical equations, "
@@ -42,7 +44,8 @@ AGENT_PERSONAS = {
     "Engineer": {
         "name": "Senior Systems Engineer",
         "role": "Algorithmic & Technical Implementation Audit",
-        "model": "gemini-2.5-flash",
+        "provider": "GROQ",
+        "model": "llama-3.1-70b-versatile",
         "instruction": (
             "You are a Principal Systems & Compute Architect. You scrutinize claims down to algorithmic complexity, "
             "FLOPs scaling laws, GPU memory footprint (VRAM limits, KV-cache growth), quantization degradation, and "
@@ -52,7 +55,8 @@ AGENT_PERSONAS = {
     "Statistician": {
         "name": "Senior Statistician & Methods Critic",
         "role": "Quantitative Rigor & Validation Audit",
-        "model": "gemini-2.5-flash",
+        "provider": "GROQ",
+        "model": "llama-3.1-70b-versatile",
         "instruction": (
             "You are a Senior Fellow in Biostatistics and Empirical Validation. You audit statistical power, sample sizes, "
             "p-values, confidence intervals, baseline comparability, data leakage, and selection bias. "
@@ -62,7 +66,8 @@ AGENT_PERSONAS = {
     "Reviewer2": {
         "name": "Reviewer #2 / Academic Editor",
         "role": "Hostile Peer Review & Rejection Risk Assessor",
-        "model": "gemini-2.5-flash",
+        "provider": "NIM",
+        "model": "meta/llama-3.1-8b-instruct",
         "instruction": (
             "You are an elite, highly rigorous Area Chair and Senior Journal Reviewer. "
             "Your job is to identify every logical fallacy, unbacked assumption, lack of novelty against prior art, "
@@ -72,6 +77,7 @@ AGENT_PERSONAS = {
     "Chairman": {
         "name": "CEO / Institute Chairman",
         "role": "Debate Moderator & Consensus Synthesizer",
+        "provider": "GEMINI",
         "model": "gemini-2.5-flash",
         "instruction": (
             "You are the Director of the Research Institute. You moderate the council debates between Engineer, Statistician, and Reviewer #2. "
@@ -82,7 +88,8 @@ AGENT_PERSONAS = {
     "Writer": {
         "name": "Senior Research Writer & Publisher",
         "role": "Journal-Ready Manuscript Drafting",
-        "model": "gemini-2.5-flash",
+        "provider": "OLLAMA",
+        "model": "qwen3.5:4b",
         "instruction": (
             "You are a Senior Principal Research Writer and Journal Publisher (IEEE/ACM Fellow, 20-year academic institute director at Penn State). "
             "Your objective is to draft exhaustive, publication-grade 15–20 page literature review manuscripts (minimum 12,000–18,000+ words) "
@@ -96,7 +103,8 @@ AGENT_PERSONAS = {
     "PeerReviewer": {
         "name": "Senior Peer Reviewer & Area Chair",
         "role": "Conference Peer Review Audit & Rubric Scoring",
-        "model": "gemini-2.5-flash",
+        "provider": "OPENROUTER",
+        "model": "google/gemma-2-9b-it:free",
         "instruction": (
             "You are an official Senior Conference Area Chair and Peer Reviewer for NeurIPS, ICLR, CVPR, and IEEE Transactions. "
             "Your objective is to audit manuscript drafts against formal publication rubrics and output a rigorous evaluation. "
@@ -108,6 +116,7 @@ AGENT_PERSONAS = {
 
 from services.search import AcademicSearchService
 from services.pdf_extractor import PDFExtractionService
+from agents.drafting_graph import run_drafting_cycle
 from services.fact_checker import FactCheckerService
 from services.vault import VaultManager
 from harness.continual_memory import ContinualMemoryManager, TrajectoryTelemetry
@@ -139,65 +148,12 @@ class CouncilOrchestrator:
         if self.run_mode == "live" and not provider_configured:
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
-        self.genai_client = None
-        raw_keys = os.getenv("GEMINI_API_KEYS", "") or os.getenv("GEMINI_API_KEY", "")
-        self.gemini_keys = [k.strip() for k in raw_keys.split(",") if k.strip()]
-        self.api_key = self.gemini_keys[0] if self.gemini_keys else None
-        self.genai_clients = [modern_genai.Client(api_key=k) for k in self.gemini_keys] if self.gemini_keys else []
-        if self.genai_clients:
-            self.genai_client = self.genai_clients[0]
-            
-        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Gemini Keys: {len(self.genai_clients)}, NVIDIA NIM: {bool(self.nim_api_key)}, Dry Run: {self.is_dry_run}")
-
-    def _call_nvidia_nim(self, prompt: str, system_instruction: str) -> Optional[str]:
-        """Calls NVIDIA NIM API endpoint (e.g., meta/llama-3.1-8b-instruct or meta/llama-3.3-70b-instruct)."""
-        if not self.nim_api_key:
-            return None
-        try:
-            import httpx
-            nim_model = os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.1-8b-instruct")
-            headers = {
-                "Authorization": f"Bearer {self.nim_api_key}",
-                "Content-Type": "application/json"
-            }
-            sys_content = system_instruction if system_instruction else "You are an expert AI research scientist and senior academic publisher."
-            candidate_models = [nim_model, "meta/llama-3.1-8b-instruct", "meta/llama-3.2-11b-vision-instruct", "meta/llama-3.3-70b-instruct", "meta/llama-3.1-70b-instruct"]
-            candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
-
-            with httpx.Client(timeout=45.0, follow_redirects=True) as client:
-                for m in candidate_models:
-                    payload = {
-                        "model": m,
-                        "messages": [
-                            {"role": "system", "content": sys_content},
-                            {"role": "user", "content": prompt}
-                        ],
-                        "temperature": 0.2,
-                        "max_tokens": 2048
-                    }
-                    for attempt in range(2):
-                        try:
-                            response = client.post(
-                                "https://integrate.api.nvidia.com/v1/chat/completions",
-                                headers=headers,
-                                json=payload
-                            )
-                            if response.status_code == 200:
-                                data = response.json()
-                                content = data["choices"][0]["message"]["content"]
-                                if content and len(content.strip()) > 0:
-                                    return content
-                            else:
-                                print(f"NVIDIA NIM API ({m}) Status {response.status_code}: {response.text[:150]}")
-                        except Exception as ex:
-                            print(f"NVIDIA NIM API ({m}) Exception: {ex}")
-                        time.sleep(1.0)
-        except Exception as outer_ex:
-            print(f"NVIDIA NIM Outer Exception: {outer_ex}")
-        return None
+        from services.llm_router import llm_router
+        self.llm_router = llm_router
+        print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Provider: {self.llm_router.active_provider}, Dry Run: {self.is_dry_run}")
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
-        """Helper to invoke LLM providers (Gemini API with fallback to NVIDIA NIM API)."""
+        """Helper to invoke LLM providers via LLMRouter."""
         if self.is_dry_run:
             time.sleep(0.5)
             return f"[MOCK RESPONSE from {agent_key}] Based on the research, this is a simulated analysis of your query."
@@ -208,62 +164,25 @@ class CouncilOrchestrator:
         instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
 
         time.sleep(1.5)
-
-        # Use NVIDIA NIM for Writer manuscript drafting when PREFER_NVIDIA_NIM is true
-        if self.nim_api_key and agent_key == "Writer" and os.getenv("PREFER_NVIDIA_NIM", "false").lower() == "true":
-            nim_resp = self._call_nvidia_nim(prompt, instruction)
-            if nim_resp:
-                return nim_resp
-
-        # Call Gemini API with candidate model cascade & multi-key fallback pool
-        if self.genai_clients:
-            primary_model = agent_cfg["model"]
-            env_model_pro = os.getenv("GEMINI_PRO_MODEL")
-            env_model_flash = os.getenv("GEMINI_FLASH_MODEL")
+        
+        provider = agent_cfg.get("provider", self.llm_router.active_provider)
+        primary_model = agent_cfg.get("model")
+        
+        # Make the LLM call via the centralized router
+        response_text = self.llm_router.generate_content(prompt, instruction, provider=provider, model=primary_model)
+        
+        if not response_text or response_text.startswith("[Error]"):
+            print(f"⚠️ API unavailable or error for {agent_key}. Error: {response_text}. Using structured placeholder.")
+            return (
+                f"# {agent_cfg['name']} Structured Analysis\n\n"
+                f"**Agent Role**: {agent_cfg['role']}\n"
+                f"**Audit Status**: API failure or quota reached — structured placeholder inserted.\n\n"
+                f"## Note\n"
+                f"- The active provider ({self.llm_router.active_provider}) failed to generate content.\n"
+                f"- Re-run or switch providers via .env to get real analysis.\n"
+            )
             
-            if "pro" in primary_model and env_model_pro:
-                primary_model = env_model_pro
-            elif "flash" in primary_model and env_model_flash:
-                primary_model = env_model_flash
-
-            candidate_models = [primary_model, "gemini-2.5-flash"]
-            candidate_models = list(dict.fromkeys([m for m in candidate_models if m]))
-            
-            max_retries = 2
-            
-            for client_idx, client in enumerate(self.genai_clients):
-                for m_name in candidate_models:
-                    for attempt in range(max_retries):
-                        try:
-                            response = client.models.generate_content(
-                                model=m_name,
-                                contents=prompt,
-                                config={"system_instruction": instruction},
-                            )
-                            if response and response.text:
-                                return str(response.text)
-                        except Exception as e:
-                            error_msg = str(e)
-                            print(f"Gemini API (Key #{client_idx+1}, {m_name}) Error: {error_msg[:120]}")
-                            time.sleep(1.5)
-                            continue
-
-        # Fallback to NVIDIA NIM for all agents (not just Writer) when Gemini quota is exhausted
-        if self.nim_api_key:
-            print(f"Gemini quota exhausted for {agent_key}. Falling back to NVIDIA NIM...")
-            nim_resp = self._call_nvidia_nim(prompt, instruction)
-            if nim_resp:
-                return nim_resp
-
-        print(f"⚠️ Both Gemini and NVIDIA NIM unavailable for {agent_key}. Using structured placeholder.")
-        return (
-            f"# {agent_cfg['name']} Structured Analysis\n\n"
-            f"**Agent Role**: {agent_cfg['role']}\n"
-            f"**Audit Status**: API quota reached — structured placeholder inserted.\n\n"
-            f"## Note\n"
-            f"- Both Gemini and NVIDIA NIM APIs were unavailable for this agent call.\n"
-            f"- Re-run with valid API keys to get real analysis from this agent.\n"
-        )
+        return response_text
 
     def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
         """Runs the full multi-agent research and LLM council debate pipeline.
@@ -497,7 +416,7 @@ class CouncilOrchestrator:
         
         # Gather concise summaries for critique prompt to avoid token explosion & timeouts
         summaries_text = "\n\n---\n\n".join([
-            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\nAbstract Snippet:\n{p.get('abstract', p.get('content', ''))[:350]}" 
+            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\nAbstract & Key Content:\n{p.get('abstract', p.get('content', ''))[:1500]}" 
             for p in extracted_papers_info
         ])
         
@@ -607,134 +526,18 @@ class CouncilOrchestrator:
         
         send_log("Synthesis", "CEO / Institute Chairman", "Debate synthesized and outlines written to '03_Debates/'. Spawning Research Writer...")
         
-        # --- STAGE 5: ACADEMIC DRAFTING (Writer) ---
-        send_log("Drafting", "Senior Research Writer & Publisher", f"Synthesizing 25 ingested papers and drafting formal journal-ready literature review for '{topic}'...")
-        # Limit prompt context length so NVIDIA NIM API processes prompt in <10 seconds
-        summaries_snippet = summaries_text[:4000] if len(summaries_text) > 4000 else summaries_text
-        writer_prompt = (
-            f"You are drafting a world-class, peer-review grade literature review paper targeting NeurIPS / ICLR / IEEE TKDE on: '{topic}'.\n"
-            f"Your objective is to produce a manuscript so mathematically grounded, empirically detailed, and deeply structured that it achieves an absolute 'ACCEPT' or 'STRONG ACCEPT' from Senior Area Chairs.\n\n"
-            f"Here is the Chairman's debate synthesis, consensus, and structural outline:\n\n{synthesis_content[:2000]}\n\n"
-            f"Here are the summaries of the source papers we are citing:\n\n{summaries_snippet}\n\n"
-            f"Write a formal academic literature review paper in Markdown format. The language must be extremely academic, formal, and authoritative.\n"
-            f"Include the following sections:\n"
-            f"# Systematic Review & Meta-Taxonomy of {topic}\n"
-            f"**Authors**: Penn State AI Collaborator, ResearchingOS Council  \n"
-            f"**Affiliation**: Department of Computer Science & AI, The Pennsylvania State University  \n"
-            f"**Venue**: IEEE Transactions on Knowledge and Data Engineering / NeurIPS / ICLR\n\n"
-            f"## Abstract\n"
-            f"Summarize findings, multi-agent debate consensus, PRISMA search methodology, and technical breakthroughs.\n\n"
-            f"## 1. Executive Summary & PRISMA 2020 Protocol\n"
-            f"Establish domain context, problem-method-experiment paradigm, and systematic search criteria.\n\n"
-            f"## 2. Theoretical Foundations & Mathematical Formulations\n"
-            f"Formulate key loss functions, contrastive vs generative decoding equations, and compute scaling laws.\n\n"
-            f"## 3. Systematic Meta-Taxonomy Framework\n"
-            f"Break down the field into 5 core pillars of research.\n\n"
-            f"## 4. Quantitative Synthesis of Ingested Studies\n"
-            f"Synthesize the source papers using exact inline backlinks (e.g. [[arxiv_2305_18290]] or [[crossref_2026_findings_acl_1933]]). Highlight empirical metrics, dataset baselines, and architectural innovations.\n\n"
-            f"## 5. Systems Engineering & Hardware Bottlenecks\n"
-            f"Analyze KV cache memory footprints, FLOPs efficiency, GPU VRAM scaling, and inference throughput SLAs.\n\n"
-            f"## 6. Statistical Audit & Methodological Deficits\n"
-            f"Expose missing compute-equivalent baselines, uncalibrated LLM judge biases, and confidence interval requirements.\n\n"
-            f"## 7. Methodological Mandates & Strategic Roadmap\n"
-            f"Propose 4 mandatory empirical standards and a 4-phase strategic industry roadmap.\n\n"
-            f"## 8. Conclusion & References\n"
-            f"Synthesize future research directions and provide complete reference listings.\n\n"
-            f"Ensure every ingested paper is cited with its note link (e.g. [[arxiv_2305_18290]]). Do not use generic placeholders. Draft the paper in full."
+        # --- STAGE 5: ACADEMIC DRAFTING (Writer + Red-Team + Peer Review Cycle) ---
+        send_log("Drafting", "System", f"Initiating LangGraph drafting cycle with DSPy for '{topic}'...")
+        
+        cycle_result = run_drafting_cycle(
+            topic=topic,
+            synthesis_content=synthesis_content,
+            summaries_text=summaries_text,
+            log_callback=send_log,
+            max_iterations=2
         )
-        
-        final_paper_content = self._call_gemini("Writer", writer_prompt)
-        
-        # Ensure final paper content is a comprehensive systematic review for the topic
-        if not final_paper_content or "Structured Analysis" in final_paper_content or len(final_paper_content) < 3000:
-            paper_sections = []
-            for idx, p in enumerate(extracted_papers_info[:25]):
-                p_title = p.get("title", f"Paper {idx+1}")
-                p_auth = ", ".join(p.get("authors", ["Senior Research Team"])) if isinstance(p.get("authors"), list) else str(p.get("authors", "Senior Research Team"))
-                p_pub = str(p.get("published", "2024"))[:4]
-                p_src = p.get("source", "Academic Repository")
-                p_id = p.get("id", f"paper_{idx+1}")
-                p_snippet = p.get("abstract", "")[:450] or f"Presents empirical findings on multimodal representation learning, contrastive alignment, and generative architecture scaling for {topic}."
-
-                # Generate domain-specific technical focus points based on title and abstract keywords
-                lower_text = (p_title + " " + p_snippet).lower()
-                if "contrastive" in lower_text or "clip" in lower_text:
-                    arch_focus = "Contrastive embedding space alignment and cross-modal feature projection loss landscapes."
-                    sys_focus = "Contrastive batch size scaling, memory footprint of large negative sample queues, and matrix multiplication throughput."
-                    critique_focus = "Requires ablation of negative sampling strategy and evaluation on out-of-distribution zero-shot benchmarks."
-                elif "generative" in lower_text or "diffusion" in lower_text or "vae" in lower_text:
-                    arch_focus = "Autoregressive / diffusion-based image-text token generation and cross-attention fusion mechanisms."
-                    sys_focus = "Visual token sequence length overhead, key-value (KV) cache memory scaling during multi-turn decoding, and latency SLAs."
-                    critique_focus = "Requires perplexity baseline comparisons, human evaluation inter-rater reliability (Kappa) scores, and hallucination rate audits."
-                elif "attack" in lower_text or "adversarial" in lower_text or "robust" in lower_text:
-                    arch_focus = "Adversarial perturbation transferability and robust feature alignment under input noise."
-                    sys_focus = "Gradient calculation compute overhead during adversarial training iterations and gradient checkpointing requirements."
-                    critique_focus = "Demands evaluations across certified defense baselines and attack radius bounds."
-                else:
-                    arch_focus = "Parameter-efficient fine-tuning (PEFT), cross-modal attention routing, and domain adaptation."
-                    sys_focus = "Adapter memory overhead, GPU FLOPs efficiency during fine-tuning, and model quantization degradation."
-                    critique_focus = "Demands compute-equivalent control baselines and Clopper-Pearson 95% confidence interval bounds."
-
-                sec = (
-                    f"### 4.{idx+1} Deep Audit: [[{p_id}]] — {p_title} ({p_pub})\n\n"
-                    f"**Bibliographic Mapping**: Authors: {p_auth} | Source: {p_src} | Reference ID: `[[{p_id}]]`  \n\n"
-                    f"**1. Core Architectural & Algorithmic Contribution**:  \n"
-                    f"The study *{p_title}* investigates {arch_focus} specifically addressing key challenges in '{topic}'. The authors present a formal formulation evaluating performance dynamics, representation stability, and task capability boundaries.  \n\n"
-                    f"**2. Methodological Design & Experimental Setup**:  \n"
-                    f"The authors establish a structured experimental framework evaluating multimodal alignment across standardized datasets.  \n"
-                    f"*Abstract & Key Technical Excerpt*:  \n> {p_snippet}...  \n\n"
-                    f"**3. Systems Engineering & Hardware Bottlenecks**:  \n"
-                    f"- **Compute & Memory Impact**: {sys_focus}  \n"
-                    f"- **Inference SLA & Throughput**: Evaluates resource utilization during real-time deployment and token generation loops.  \n\n"
-                    f"**4. Critical Council Audit & Methodological Deficits**:  \n"
-                    f"Our multi-disciplinary council audit highlights specific areas for improvement: {critique_focus}"
-                )
-                paper_sections.append(sec)
-
-            body_sections = "\n\n---\n\n".join(paper_sections)
-            paper_citations = "\n".join([f"- [[{p['id']}]] **{p['title']}** ({str(p.get('published', '2024'))[:4]})" for p in extracted_papers_info[:25]])
-
-            final_paper_content = (
-                f"# Systematic Review & Meta-Taxonomy of {topic}\n\n"
-                f"**Authors**: Penn State AI Collaborator, ResearchingOS Council  \n"
-                f"**Affiliation**: Department of Computer Science & AI, The Pennsylvania State University  \n"
-                f"**Venue**: IEEE Transactions on Knowledge and Data Engineering / ACM Computing Surveys\n\n"
-                f"## Abstract\n\n"
-                f"As large language models (LLMs) transition from static, single-pass generation toward dynamic multi-agent workflows and automated evaluation, enterprise operations face severe engineering bottlenecks and validation deficits. This systematic review provides a multi-disciplinary audit synthesizing {len(extracted_papers_info)} landmark studies across multi-path decoding, automated judge frameworks, labor market skill distribution, and enterprise task delegation for '{topic}'. We deconstruct compute-equivalent baselines, expose epistemological circularity in automated evaluators, and execute statistical power audits across deployed enterprise workflows. Finally, we propose formal methodological mandates for compute-equivalent benchmarking, psychometric calibration, and inter-rater agreement testing.\n\n"
-                f"---\n\n"
-                f"## 1. Executive Summary & PRISMA 2020 Search Protocol\n\n"
-                f"### 1.1 Background and Domain Context (Problem-Method-Experiment Paradigm)\n"
-                f"Over the past three years, large language models have evolved from isolated conversational interfaces into foundational engines for enterprise workflow automation. Modern enterprise AI deployments increasingly rely on complex orchestration patterns, including multi-path decoding (Self-Consistency, Tree of Thoughts), automated model evaluation (LLM-as-a-Judge), specialized domain agents, and automated code generation pipelines.\n\n"
-                f"### 1.2 PRISMA 2020 Systematic Methodology\n"
-                f"To establish a rigorous, evidence-based foundation, we conducted a systematic literature review following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA 2020) guidelines across arXiv, OpenAlex, PubMed, and CrossRef.\n\n"
-                f"---\n\n"
-                f"## 2. Theoretical Foundations & Inference-Time Compute Scaling\n\n"
-                f"### 2.1 The Convergence of Parameter Scale and Inference-Time Compute\n"
-                f"State-of-the-art AI development has shifted toward optimizing *inference-time compute*. By allocating additional computational budget during decoding—through parallel sampling, iterative reasoning, or multi-agent debate—models navigate complex search spaces to resolve multi-step reasoning problems.\n\n"
-                f"---\n\n"
-                f"## 3. Systematic 5-Pillar Meta-Taxonomy Framework\n\n"
-                f"We organize the ingested studies into a 5-pillar meta-taxonomy: (1) Inference-Time Compute Scaling, (2) Automated LLM-as-a-Judge Evaluation, (3) Enterprise Task Boundary Frontiers, (4) Labor Market Skill Equalization, and (5) Governed Multi-Agent Orchestration.\n\n"
-                f"---\n\n"
-                f"## 4. Quantitative Synthesis of Ingested Landmark Studies\n\n"
-                f"{body_sections}\n\n"
-                f"---\n\n"
-                f"## 5. Systems Engineering & Hardware Bottlenecks\n\n"
-                f"Operating multi-path sampling or multi-agent debate loops in production environments imposes severe hardware constraints. Storing key-value (KV) caches for $N$ concurrent decoding threads rapidly consumes GPU memory.\n\n"
-                f"---\n\n"
-                f"## 6. Quantitative Statistical Audit & Methodological Vulnerabilities\n\n"
-                f"Our systematic statistical audit across the ingested literature exposes critical validation deficits, including missing compute-equivalent control baselines and uncalibrated LLM evaluator biases.\n\n"
-                f"---\n\n"
-                f"## 7. Methodological Mandates for Future AI Evaluation\n\n"
-                f"We mandate four standards for future empirical research: (1) Compute-Equivalent Control Baselines, (2) Binomial Confidence Interval Reporting, (3) Length-Controlled and Position-Swapped Calibration, and (4) Multi-Rater Reliability (Kappa) Benchmarks.\n\n"
-                f"---\n\n"
-                f"## 8. Strategic 4-Phase Industry Roadmap\n\n"
-                f"We outline a 4-phase strategic roadmap: (1) Infrastructure & Caching, (2) Psychometric Judge Calibration, (3) Governed Multi-Agent Routers, and (4) Offline Path Distillation.\n\n"
-                f"---\n\n"
-                f"## 9. Conclusion & References\n\n"
-                f"The transition toward inference-time compute scaling, automated model evaluation, and governed multi-agent coordination marks an important milestone in artificial intelligence.\n\n"
-                f"### Complete Ingested References\n\n"
-                f"{paper_citations}\n"
-            )
+        final_paper_content = cycle_result["draft"]
+        peer_review_data = cycle_result["peer_review"]
         
         # --- STAGE 6: FACT CHECK & AUDIT LINTER ---
         send_log("FactCheck", "Senior Statistician & Methods Critic", "Auditing draft manuscript for zero-hallucination citation links and metric grounding...")
@@ -763,52 +566,7 @@ class CouncilOrchestrator:
             fact_audit
         )
 
-        # --- STAGE 7: AUTOMATED PEER REVIEWER ENGINE (Sakana AI Rubric) ---
-        send_log("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated conference peer review audit (NeurIPS/ICLR/IEEE rubric)...")
-        
-        peer_review_prompt = (
-            f"You are an official Senior Conference Area Chair evaluating the submitted manuscript on: '{topic}'.\n\n"
-            f"Manuscript Draft Text:\n\n{final_paper_content[:12000]}\n\n"
-            f"Evaluate the manuscript rigorously against top-tier conference standards (NeurIPS / ICLR / IEEE TKDE).\n"
-            f"Output your audit as a clean JSON object containing:\n"
-            f"overall_decision (ACCEPT, WEAK ACCEPT, or REJECT),\n"
-            f"scores (novelty, technical_rigor, empirical_grounding, presentation_clarity as integers 1-10),\n"
-            f"key_strengths (list of strings),\n"
-            f"fatal_weaknesses (list of strings),\n"
-            f"required_revisions (list of strings).\n"
-            f"Return ONLY valid JSON."
-        )
-        
-        peer_review_raw = self._call_gemini("PeerReviewer", peer_review_prompt)
-        
-        # Parse JSON review safely
-        import json
-        peer_review_data = {
-            "schema_valid": False,
-            "overall_decision": "REJECT",
-            "scores": {},
-            "key_strengths": [],
-            "fatal_weaknesses": ["No valid structured peer-review response was produced."],
-            "required_revisions": ["Run a valid venue-specific peer-review audit."],
-        }
-        try:
-            json_match = re.search(r'\{[\s\S]*\}', peer_review_raw)
-            if json_match:
-                candidate = json.loads(json_match.group(0))
-                required = {"overall_decision", "scores", "key_strengths", "fatal_weaknesses", "required_revisions"}
-                scores = candidate.get("scores", {})
-                valid_scores = isinstance(scores, dict) and all(
-                    isinstance(scores.get(key), int) and 1 <= scores[key] <= 10
-                    for key in ("novelty", "technical_rigor", "empirical_grounding", "presentation_clarity")
-                )
-                valid_lists = all(isinstance(candidate.get(key), list) for key in ("key_strengths", "fatal_weaknesses", "required_revisions"))
-                if required.issubset(candidate) and candidate.get("overall_decision") in {"STRONG ACCEPT", "ACCEPT", "WEAK ACCEPT", "REJECT"} and valid_scores and valid_lists:
-                    candidate["schema_valid"] = True
-                    peer_review_data = candidate
-        except Exception:
-            peer_review_data["schema_valid"] = False
-
-        send_log("PeerReview", "Senior Peer Reviewer & Area Chair", f"Peer Review Audit Complete. Decision: {peer_review_data.get('overall_decision', 'ACCEPT')}", peer_review_data)
+        # STAGE 7 (Peer Review) is now integrated into the LangGraph cyclic loop.
 
         # Save final paper draft to 04_Drafts in Vault with Fact Check & Peer Review Metadata
         draft_filename = f"review_{safe_topic_slug}.md"

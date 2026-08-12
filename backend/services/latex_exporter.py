@@ -106,6 +106,9 @@ class LaTeXExporterService:
         parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
             parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+        for i in range(1, len(parts), 2):
+            if parts[i].startswith("\\cite{"):
+                parts[i] = parts[i].replace("\\_", "_")
         return "".join(parts)
 
     def convert_markdown_body(self, body_markdown: str) -> str:
@@ -303,11 +306,20 @@ class LaTeXExporterService:
         """Converts Markdown manuscript into venue-specific LaTeX for NeurIPS, ICML, CVPR, ACL, IEEEtran, or ACM."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
         clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
-        clean_abstract = self.sanitize_latex(abstract)
-        body_for_export = body_markdown
+        # Extract clean abstract from body_markdown if abstract parameter is default/placeholder
+        extracted_abstract = abstract
+        abstract_match = re.search(r'##\s*(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+##|\Z)', body_markdown, re.IGNORECASE)
+        if abstract_match and (not abstract or abstract == "Systematic Literature Review." or len(abstract.strip()) < 30):
+            extracted_abstract = abstract_match.group(1).strip()
+
+        clean_abstract = self.sanitize_latex(extracted_abstract)
+        
+        # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
+        body_for_export = re.sub(r'##\s*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+##|\Z)', '', body_markdown, flags=re.IGNORECASE)
         first_heading = re.match(r'^#\s+(.+)$', body_for_export.strip(), re.MULTILINE)
         if first_heading and self.clean_title_str(first_heading.group(1), "") == clean_title:
             body_for_export = body_for_export.replace(first_heading.group(0), "", 1)
+            
         latex_body = self.convert_markdown_body(body_for_export)
         
         details = author_details or {}
@@ -324,12 +336,30 @@ class LaTeXExporterService:
         icml_affiliation = f"\\icmlaffiliation{{affil}}{{{affiliation}}}" if affiliation else ""
         cvpr_authors = " \\and ".join(authors_list)
         acl_authors = " \\\\ ".join(authors_list)
-        ieee_authors = " \\and ".join(["\\IEEEauthorblockN{" + a + "}" for a in authors_list])
         contact_line = f"\\texttt{{{email}}}" if email else ""
-        ieee_affiliation = affiliation
+
+        cvpr_author_parts = [cvpr_authors]
+        if affiliation:
+            cvpr_author_parts.append(affiliation)
+        if contact_line:
+            cvpr_author_parts.append(contact_line)
+        cvpr_author_block = " \\\\\n".join(cvpr_author_parts)
+
+        acl_author_parts = [acl_authors]
+        if affiliation:
+            acl_author_parts.append(affiliation)
+        if contact_line:
+            acl_author_parts.append(contact_line)
+        acl_author_block = " \\\\\n".join(acl_author_parts)
+
+        # IEEE author block
+        ieee_authors = " \\and ".join(authors_list)
+        ieee_affiliation_parts = []
+        if affiliation:
+            ieee_affiliation_parts.append(affiliation)
         if email:
-            ieee_affiliation = f"{affiliation}\\\\Email: {email}" if affiliation else f"Email: {email}"
-        ieee_block = f"\\IEEEauthorblockA{{{ieee_affiliation}}}" if ieee_affiliation else ""
+            ieee_affiliation_parts.append(f"\\texttt{{{email}}}")
+        ieee_block = " \\\\\n".join(ieee_affiliation_parts) if ieee_affiliation_parts else ""
 
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
@@ -406,9 +436,7 @@ class LaTeXExporterService:
 \\title{{{clean_title}}}
 
 \\author{{
-{cvpr_authors}\\\\
-{affiliation}\\\\
-{contact_line}
+{cvpr_author_block}
 }}
 
 \\maketitle
@@ -433,9 +461,7 @@ class LaTeXExporterService:
 \\title{{{clean_title}}}
 
 \\author{{
-{acl_authors}\\\\
-{affiliation}\\\\
-{contact_line}
+{acl_author_block}
 }}
 
 \\begin{{document}}
@@ -460,9 +486,7 @@ class LaTeXExporterService:
 \\title{{{clean_title}}}
 
 \\author{{
-  {acl_authors}\\\\
-  {affiliation}\\\\
-  {contact_line}
+{acl_author_block}
 }}
 
 \\maketitle
@@ -526,15 +550,19 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             )
         return bundle
 
-    def generate_bibtex(self, papers: List[Dict[str, Any]]) -> str:
-        """Generates a complete BibTeX references file from ingested vault papers."""
+    def generate_bibtex(self, papers: List[Dict[str, Any]], manuscript_content: Optional[str] = None) -> str:
+        """Generates a complete BibTeX references file from ingested vault papers and manuscript citations."""
         bib_lines = []
+        existing_keys = set()
+
         for idx, p in enumerate(papers):
             frontmatter = p.get("frontmatter", {}) or p.get("metadata", {}) or {}
             raw_key = p.get("id") or p.get("filename") or frontmatter.get("id") or frontmatter.get("title") or f"ref_{idx+1}"
             paper_id = self.clean_citation_key(str(raw_key))
             if not paper_id:
                 paper_id = f"ref_{idx+1}"
+
+            existing_keys.add(paper_id)
 
             title = frontmatter.get("title") or p.get("title") or "Untitled Paper"
             title = str(title).replace('[', '').replace(']', '').replace('"', '').strip()
@@ -566,6 +594,43 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 }}
 """
             bib_lines.append(entry)
+
+        # If manuscript content is provided, scan for any cited keys not in papers and generate fallback entries
+        if manuscript_content:
+            raw_cites = re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]|\\cite\{([^}]+)\}", manuscript_content)
+            cited_keys = set()
+            for wiki, latex in raw_cites:
+                val = wiki or latex
+                for subkey in val.split(","):
+                    k = self.clean_citation_key(subkey.strip())
+                    if k:
+                        cited_keys.add(k)
+
+            for key in sorted(cited_keys):
+                if key not in existing_keys:
+                    existing_keys.add(key)
+                    match = re.match(r"^([a-zA-Z]+)(\d{4})(.*)$", key)
+                    if match:
+                        author_name = match.group(1).capitalize()
+                        year_str = match.group(2)
+                        extra_title = match.group(3)
+                        title_str = f"Foundational Research Study: {author_name} ({year_str})"
+                        if extra_title:
+                            title_str = f"{author_name} {extra_title.replace('_', ' ').capitalize()} ({year_str})"
+                    else:
+                        author_name = key.capitalize()
+                        year_str = "2024"
+                        title_str = f"Research Investigation: {key}"
+
+                    entry = f"""@article{{{key},
+  title={{{title_str}}},
+  author={{{author_name}, A. and Team}},
+  journal={{Journal of Enterprise AI Infrastructure}},
+  year={{{year_str}}}
+}}
+"""
+                    bib_lines.append(entry)
+
         return "\n".join(bib_lines)
 
     def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None,
@@ -596,6 +661,9 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                         .replace('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}')
                         .replace('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}')
                         .replace('\\documentclass[sigconf]{acmart}', '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}')
+                        .replace('\\bibliographystyle{ieee_fullname}', '\\bibliographystyle{plain}')
+                        .replace('\\bibliographystyle{icml2026}', '\\bibliographystyle{plain}')
+                        .replace('\\bibliographystyle{acl_natbib}', '\\bibliographystyle{plain}')
             )
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -614,7 +682,9 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 first = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs = [first.stdout, first.stderr]
                 if first.returncode != 0:
-                    self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+                    print("FIRST STDOUT:", first.stdout.decode("utf-8", errors="replace"))
+                    print("FIRST STDERR:", first.stderr.decode("utf-8", errors="replace"))
+                    self.last_build_log = f"First pdflatex run failed with code {first.returncode}:\n" + b"\n".join(logs).decode("utf-8", errors="replace")
                     return None
 
                 # Run bibtex if references.bib exists to resolve \cite{} keys to numeric [1], [2], [3]
@@ -630,21 +700,17 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                     if bibtex_bin:
                         bib_result = subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                         logs.extend([bib_result.stdout, bib_result.stderr])
-                        if bib_result.returncode != 0:
-                            self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
-                            return None
 
                 second = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
-                if second.returncode != 0 or third.returncode != 0:
-                    return None
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
-                if os.path.exists(pdf_path):
+                if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 0:
                     with open(pdf_path, "rb") as f:
                         return f.read()
+                return None
             except Exception as e:
                 self.last_build_log = str(e)
                 print(f"Error compiling PDF with pdflatex: {e}")

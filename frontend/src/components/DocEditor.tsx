@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, ChevronDown, ChevronUp, User, Settings, Zap } from 'lucide-react';
 import { apiFetch } from '../api';
 
 interface VaultFile {
@@ -23,15 +23,34 @@ const DocEditor: React.FC = () => {
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
   
-  // Editor States
   const [content, setContent] = useState('');
   const [frontmatter, setFrontmatter] = useState<any>({});
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [editMode, setEditMode] = useState<'edit' | 'preview'>('edit');
-  const [selectedVenue, setSelectedVenue] = useState<string>('NeurIPS');
+  const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
+
+  // Venue Advisor Panel State
+  const [venueAdvisorOpen, setVenueAdvisorOpen] = useState(false);
+  const [venueRecommendations, setVenueRecommendations] = useState<any[] | null>(null);
+  const [venueAdvisorLoading, setVenueAdvisorLoading] = useState(false);
+  const [venueAdvisorError, setVenueAdvisorError] = useState<string | null>(null);
+  const [profilePanelOpen, setProfilePanelOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [profileGoal, setProfileGoal] = useState('balanced');
+  const [profileTimeline, setProfileTimeline] = useState('normal');
+  const [profileCitations, setProfileCitations] = useState(0);
 
   useEffect(() => {
     fetchFilesList();
+    // Load user profile
+    apiFetch('/api/user/profile').then(r => r.json()).then(d => {
+      if (d.success) {
+        setUserProfile(d.profile);
+        setProfileGoal(d.profile.submission_goals || 'balanced');
+        setProfileTimeline(d.profile.target_timeline || 'normal');
+        setProfileCitations(d.profile.citation_count || 0);
+      }
+    }).catch(() => {});
   }, []);
 
   const fetchFilesList = async () => {
@@ -97,7 +116,6 @@ const DocEditor: React.FC = () => {
       if (res.ok) {
         setSaveStatus('saved');
         setTimeout(() => setSaveStatus('idle'), 2000);
-        // Refresh previews in sidebar
         fetchFilesList();
       } else {
         setSaveStatus('error');
@@ -107,6 +125,58 @@ const DocEditor: React.FC = () => {
       console.error('Error saving file:', e);
     }
   };
+
+  const handleGetVenueRecommendation = async () => {
+    setVenueAdvisorLoading(true);
+    setVenueAdvisorError(null);
+    setVenueAdvisorOpen(true);
+    try {
+      // Save profile first if changes pending
+      await apiFetch('/api/user/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          submission_goals: profileGoal,
+          target_timeline: profileTimeline,
+          citation_count: profileCitations,
+        })
+      });
+
+      const title = frontmatter.title || activeFilename?.replace('.md', '') || 'Untitled';
+      const abstract = content.split('\n').slice(0, 30).join(' ').substring(0, 500);
+      const keywords = frontmatter.keywords || frontmatter.tags || [];
+
+      const res = await apiFetch('/api/venues/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          abstract,
+          topic_keywords: Array.isArray(keywords) ? keywords : [],
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVenueRecommendations(data.ranked_venues || []);
+      } else {
+        const err = await res.json();
+        setVenueAdvisorError(err.detail || 'Recommendation failed');
+      }
+    } catch (e: any) {
+      setVenueAdvisorError(e.message || 'Network error');
+    } finally {
+      setVenueAdvisorLoading(false);
+    }
+  };
+
+  const DIFFICULTY_COLOR: Record<string, string> = {
+    'Easy': '#10b981',
+    'Moderate': '#f59e0b',
+    'Hard': '#f97316',
+    'Very Hard': '#ef4444',
+  };
+
+  const O1A_STARS = (val: number) => '★'.repeat(val) + '☆'.repeat(5 - val);
 
   // Simple Markdown Parser for Preview Pane
   const renderMarkdown = (mdText: string) => {
@@ -347,169 +417,247 @@ const DocEditor: React.FC = () => {
                 </div>
               </div>
 
-              {/* Sub Toolbar: Venue Selector & Export Action Buttons */}
+              {/* Sub Toolbar: Venue Advisor Agent Panel */}
               {activeCategory === 'drafts' && (
-                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600', marginRight: '4px' }}>Publication Venue:</span>
-                  <select
-                    value={selectedVenue}
-                    onChange={(e) => setSelectedVenue(e.target.value)}
-                    style={{
-                      background: 'rgba(15,23,42,0.8)',
-                      color: '#93c5fd',
-                      border: '1px solid rgba(59,130,246,0.3)',
-                      borderRadius: '6px',
-                      padding: '5px 8px',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      outline: 'none',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <option value="NeurIPS">NeurIPS (9-Page Single-Col)</option>
-                    <option value="ICML">ICML (8-Page Two-Col)</option>
-                    <option value="CVPR">CVPR (8-Page Two-Col)</option>
-                    <option value="ACL">ACL / ARR (8-Page Two-Col)</option>
-                    <option value="IEEEtran">IEEEtran (10-25 Page Journal)</option>
-                    <option value="ACM">ACM (CSUR / SIGKDD)</option>
-                    <option value="ALL">📦 Export All Venues (Multi-Path)</option>
-                  </select>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  
+                  {/* Profile Quick-Config Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
+                    <User size={12} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>Profile:</span>
+                    
+                    <select value={profileGoal} onChange={e => setProfileGoal(e.target.value)}
+                      style={{ background: 'rgba(15,23,42,0.8)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.3)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', fontWeight: '600', outline: 'none', cursor: 'pointer' }}>
+                      <option value="top_conference">🏆 Top Conference Only</option>
+                      <option value="balanced">⚖️ Balanced Strategy</option>
+                      <option value="safe_accept">✅ Safe Accept First</option>
+                      <option value="journal_impact">📚 Journal Impact</option>
+                    </select>
 
-                  <button
-                    onClick={async () => {
-                      if (!activeFilename) return;
-                      try {
-                        const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
-                        if (res.ok) {
-                          const data = await res.json();
-                          if (selectedVenue === 'ALL' && data.bundle) {
-                            Object.entries(data.bundle).forEach(([vKey, code]) => {
-                              const blob = new Blob([code as string], { type: 'text/x-tex' });
+                    <select value={profileTimeline} onChange={e => setProfileTimeline(e.target.value)}
+                      style={{ background: 'rgba(15,23,42,0.8)', color: '#67e8f9', border: '1px solid rgba(6,182,212,0.3)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', fontWeight: '600', outline: 'none', cursor: 'pointer' }}>
+                      <option value="urgent">⚡ Urgent (weeks)</option>
+                      <option value="normal">📅 Normal (months)</option>
+                      <option value="journal">📖 Journal cycle (6-12mo)</option>
+                    </select>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Citations:</span>
+                      <input type="number" value={profileCitations} onChange={e => setProfileCitations(Number(e.target.value))}
+                        style={{ background: 'rgba(15,23,42,0.8)', color: '#fff', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', width: '72px', outline: 'none' }} />
+                    </div>
+
+                    {/* Manual Venue Dropdown */}
+                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick select:</span>
+                      <select value={selectedVenue} onChange={e => setSelectedVenue(e.target.value)}
+                        style={{ background: 'rgba(15,23,42,0.8)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', fontWeight: '600', outline: 'none', cursor: 'pointer' }}>
+                        <option value="NeurIPS">NeurIPS</option>
+                        <option value="ICML">ICML</option>
+                        <option value="CVPR">CVPR</option>
+                        <option value="ACL">ACL / ARR</option>
+                        <option value="IEEEtran">IEEEtran Journal</option>
+                        <option value="ACM">ACM CSUR</option>
+                        <option value="ALL">📦 All Venues</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    {/* AI Venue Recommendation Button */}
+                    <button
+                      onClick={handleGetVenueRecommendation}
+                      disabled={venueAdvisorLoading}
+                      style={{
+                        background: venueAdvisorLoading ? 'rgba(139,92,246,0.08)' : 'rgba(139,92,246,0.18)',
+                        color: '#c084fc',
+                        border: '1px solid rgba(139,92,246,0.5)',
+                        padding: '6px 14px',
+                        borderRadius: '7px',
+                        cursor: venueAdvisorLoading ? 'wait' : 'pointer',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <Sparkles size={13} />
+                      <span>{venueAdvisorLoading ? 'Analyzing...' : 'AI Venue Advisor'}</span>
+                    </button>
+
+                    {/* Export LaTeX */}
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
+                        try {
+                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                          if (res.ok) {
+                            const data = await res.json();
+                            if (selectedVenue === 'ALL' && data.bundle) {
+                              Object.entries(data.bundle).forEach(([vKey, code]) => {
+                                const blob = new Blob([code as string], { type: 'text/x-tex' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url; a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
+                                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                              });
+                            } else if (data.tex_code) {
+                              const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
                               const url = URL.createObjectURL(blob);
                               const a = document.createElement('a');
-                              a.href = url;
-                              a.download = `${activeFilename.replace('.md', '')}_${vKey}.tex`;
-                              document.body.appendChild(a);
-                              a.click();
-                              document.body.removeChild(a);
+                              a.href = url; a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
+                              document.body.appendChild(a); a.click(); document.body.removeChild(a);
                               URL.revokeObjectURL(url);
-                            });
-                          } else if (data.tex_code) {
-                            const blob = new Blob([data.tex_code], { type: 'text/x-tex' });
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = data.tex_filename || `${activeFilename.replace('.md', '')}_${selectedVenue}.tex`;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            URL.revokeObjectURL(url);
+                            }
+                            if (data.bib_code) {
+                              const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
+                              const bibUrl = URL.createObjectURL(bibBlob);
+                              const bibA = document.createElement('a');
+                              bibA.href = bibUrl; bibA.download = 'references.bib';
+                              document.body.appendChild(bibA); bibA.click(); document.body.removeChild(bibA);
+                              URL.revokeObjectURL(bibUrl);
+                            }
                           }
+                        } catch (e) { alert('Export failed'); }
+                      }}
+                      style={{ background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      <FileText size={13} />
+                      <span>Export {selectedVenue === 'ALL' ? 'All LaTeX' : `${selectedVenue} LaTeX`}</span>
+                    </button>
 
-                          if (data.bib_code) {
-                            const bibBlob = new Blob([data.bib_code], { type: 'text/plain' });
-                            const bibUrl = URL.createObjectURL(bibBlob);
-                            const bibA = document.createElement('a');
-                            bibA.href = bibUrl;
-                            bibA.download = 'references.bib';
-                            document.body.appendChild(bibA);
-                            bibA.click();
-                            document.body.removeChild(bibA);
-                            URL.revokeObjectURL(bibUrl);
+                    {/* Copy LaTeX */}
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
+                        try {
+                          const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
+                          if (res.ok) {
+                            const data = await res.json();
+                            const code = data.tex_code || (data.bundle ? Object.values(data.bundle)[0] : '');
+                            await navigator.clipboard.writeText(code as string);
+                            alert(`Copied ${selectedVenue} LaTeX to clipboard! Paste into Overleaf.`);
                           }
-                        } else {
-                          alert(`Export failed with status: ${res.status}`);
-                        }
-                      } catch (e) {
-                        console.error('Failed to export venue LaTeX:', e);
-                        alert('Failed to export LaTeX. Check browser console.');
-                      }
-                    }}
-                    style={{
-                      background: 'rgba(59,130,246,0.15)',
-                      color: '#93c5fd',
-                      border: '1px solid rgba(59,130,246,0.4)',
-                      padding: '5px 10px',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <FileText size={14} />
-                    <span>Export {selectedVenue === 'ALL' ? 'Multi-Path Bundle' : selectedVenue + ' LaTeX'}</span>
-                  </button>
+                        } catch (e) { console.error(e); }
+                      }}
+                      style={{ background: 'rgba(168,85,247,0.15)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      <Save size={13} />
+                      <span>Copy LaTeX</span>
+                    </button>
 
-                  <button
-                    onClick={async () => {
-                      if (!activeFilename) return;
-                      try {
-                        const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
-                        if (res.ok) {
-                          const data = await res.json();
-                          const codeToCopy = data.tex_code || (data.bundle ? data.bundle[selectedVenue] || Object.values(data.bundle)[0] : '');
-                          await navigator.clipboard.writeText(codeToCopy as string);
-                          alert(`Copied ${selectedVenue} LaTeX code to clipboard! You can paste directly into Overleaf.`);
-                        }
-                      } catch (e) {
-                        console.error('Failed to copy LaTeX:', e);
-                      }
-                    }}
-                    style={{
-                      background: 'rgba(168,85,247,0.15)',
-                      color: '#c084fc',
-                      border: '1px solid rgba(168,85,247,0.4)',
-                      padding: '5px 10px',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <Save size={14} />
-                    <span>Copy LaTeX</span>
-                  </button>
-
-                  <button
-                    onClick={async () => {
-                      if (!activeFilename) return;
-                      try {
+                    {/* Download PDF */}
+                    <button
+                      onClick={async () => {
+                        if (!activeFilename) return;
                         const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
                         const pdfUrl = `http://127.0.0.1:8000/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`;
                         const a = document.createElement('a');
                         a.href = pdfUrl;
                         a.download = `${activeFilename.replace('.md', '')}_${venue}.pdf`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                      } catch (e) {
-                        console.error('Failed to download PDF:', e);
-                        alert('Failed to trigger PDF download.');
-                      }
-                    }}
-                    style={{
-                      background: 'rgba(239,68,68,0.15)',
-                      color: '#f87171',
-                      border: '1px solid rgba(239,68,68,0.4)',
-                      padding: '5px 10px',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <Download size={14} />
-                    <span>Download PDF</span>
-                  </button>
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                      }}
+                      style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', border: '1px solid rgba(239,68,68,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      <Download size={13} />
+                      <span>Download PDF</span>
+                    </button>
+                  </div>
+
+                  {/* Venue Advisor Results Panel */}
+                  {venueAdvisorOpen && (
+                    <div style={{ background: 'rgba(139,92,246,0.04)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: '10px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Target size={14} style={{ color: '#c084fc' }} />
+                          <span style={{ fontSize: '12px', fontWeight: '700', color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>AI Venue Recommendations</span>
+                        </div>
+                        <button onClick={() => setVenueAdvisorOpen(false)}
+                          style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
+                      </div>
+
+                      {venueAdvisorLoading && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', color: 'var(--text-muted)', fontSize: '12px' }}>
+                          <Sparkles size={14} style={{ animation: 'pulse 1.5s infinite' }} />
+                          <span>Analyzing paper content, user profile, and O-1A criteria...</span>
+                        </div>
+                      )}
+
+                      {venueAdvisorError && (
+                        <div style={{ color: '#f87171', fontSize: '12px', padding: '8px 12px', background: 'rgba(239,68,68,0.1)', borderRadius: '6px', border: '1px solid rgba(239,68,68,0.3)' }}>
+                          {venueAdvisorError}
+                        </div>
+                      )}
+
+                      {venueRecommendations && !venueAdvisorLoading && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {venueRecommendations.map((rec: any, idx: number) => (
+                            <div key={rec.venue_key}
+                              onClick={() => { setSelectedVenue(rec.venue_key); }}
+                              style={{
+                                display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'start', gap: '12px',
+                                padding: '12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.15s',
+                                background: selectedVenue === rec.venue_key ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.02)',
+                                border: `1px solid ${selectedVenue === rec.venue_key ? 'rgba(139,92,246,0.5)' : 'var(--border-color)'}`,
+                              }}
+                            >
+                              {/* Rank badge */}
+                              <div style={{
+                                width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                background: idx === 0 ? 'rgba(250,204,21,0.2)' : idx === 1 ? 'rgba(156,163,175,0.2)' : 'rgba(180,83,9,0.2)',
+                                color: idx === 0 ? '#fbbf24' : idx === 1 ? '#9ca3af' : '#b45309',
+                                fontSize: '13px', fontWeight: '800', flexShrink: 0
+                              }}>#{idx + 1}</div>
+
+                              {/* Venue info */}
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                  <span style={{ fontSize: '13px', fontWeight: '700', color: '#e2e8f0' }}>{rec.venue_key}</span>
+                                  <span style={{ fontSize: '10px', padding: '1px 7px', borderRadius: '10px', fontWeight: '700',
+                                    background: `${DIFFICULTY_COLOR[rec.difficulty]}22`, color: DIFFICULTY_COLOR[rec.difficulty],
+                                    border: `1px solid ${DIFFICULTY_COLOR[rec.difficulty]}44` }}>
+                                    {rec.difficulty}
+                                  </span>
+                                  <span style={{ fontSize: '10px', color: '#94a3b8' }}>{rec.type}</span>
+                                  <span style={{ fontSize: '10px', color: '#94a3b8' }}>Accept: {Math.round(rec.acceptance_rate * 100)}%</span>
+                                </div>
+                                <div style={{ fontSize: '11px', color: '#f59e0b', letterSpacing: '1px' }}>
+                                  {O1A_STARS(rec.o1a_value)} O-1A
+                                </div>
+                                {rec.ai_rationale && (
+                                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>
+                                    {rec.ai_rationale}
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* Score + Select button */}
+                              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+                                <span style={{ fontSize: '18px', fontWeight: '800',
+                                  color: rec.overall_score >= 8 ? '#10b981' : rec.overall_score >= 6 ? '#f59e0b' : '#94a3b8'
+                                }}>{rec.overall_score.toFixed(1)}</span>
+                                <span style={{ fontSize: '9px', color: 'var(--text-muted)' }}>/ 10.0</span>
+                                {selectedVenue === rec.venue_key ? (
+                                  <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                    <Check size={10} /> Selected
+                                  </span>
+                                ) : (
+                                  <button onClick={() => setSelectedVenue(rec.venue_key)}
+                                    style={{ fontSize: '10px', background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', padding: '3px 8px', borderRadius: '5px', cursor: 'pointer', fontWeight: '600' }}>
+                                    Select
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

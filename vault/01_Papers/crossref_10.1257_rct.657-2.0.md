@@ -1,0 +1,36 @@
+---
+title: "Impact Evaluation of Nadie es Perfecto,  a Program to Improve Parenting Skills in Chile"
+authors:
+  - "Emanuela Galasso"
+  - "Paula Bedregal"
+  - "Pedro Carneiro"
+  - "Miguel Angel Cordero Vega"
+  - "Italo Lopez Garcia"
+url: "https://doi.org/10.1257/rct.657-2.0"
+published: "2024-11-19"
+citations: "0"
+source: "Crossref"
+id: "crossref:10.1257/rct.657-2.0"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "title:-"multimodal-alignment-in-vision-language-models:-a-comparative-analysis-of-contrastive-vs.-generative-training-paradigms"-target-venues:-cvpr-2026-workshop-/-ieee-tpami-core-research-question:-does-contrastive-alignment-(clip/siglip)-or-autoregressive-generative-alignment-(lmms/chameleon/llama-vision)-provide-superior-out-of-distribution-transferability-and-lower-hallucination-rates?-why-it's-high-impact:-resolves-the-central-architectural-debate-in-modern-multimodal-ai.-corpus-target:-25-papers"
+---
+# Impact Evaluation of Nadie es Perfecto,  a Program to Improve Parenting Skills in Chile
+
+**Authors**: Emanuela Galasso, Paula Bedregal, Pedro Carneiro, Miguel Angel Cordero Vega, Italo Lopez Garcia
+**Published**: 2024-11-19 | **Citations**: 0 | **Source**: Crossref
+**URL**: https://doi.org/10.1257/rct.657-2.0
+
+## Executive Summary & Abstract
+
+
+## Methodological Insights & System Architectures
+- Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
+- Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+## Key Quantitative Findings & Benchmarks
+- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.
+
+## Content Snippet
+

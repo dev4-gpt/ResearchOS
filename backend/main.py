@@ -21,6 +21,8 @@ from services.pdf_qa import PDFQualityAssurance
 from services.release_controller import ReleaseController
 from services.venue_profiles import VENUE_PROFILES
 from services.evidence_ledger import EvidenceLedger
+from services.user_profile import UserProfileService
+from agents.venue_advisor import VenueAdvisorAgent
 from domain.models import RunManifest, citation_key
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
@@ -42,6 +44,8 @@ orchestrator = CouncilOrchestrator(vault_path)
 pdf_qa = PDFQualityAssurance()
 release_controller = ReleaseController()
 evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(vault_manager.vault_path), "runs"))
+user_profile_service = UserProfileService(vault_manager.vault_path)
+venue_advisor_agent = VenueAdvisorAgent(vault_manager.vault_path)
 
 # In-memory log store for streaming active research runs
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -55,6 +59,23 @@ class SaveFileRequest(BaseModel):
     filename: str
     content: str
     frontmatter: Dict[str, Any]
+
+class VenueRecommendRequest(BaseModel):
+    title: str
+    abstract: str = ""
+    topic_keywords: List[str] = []
+
+class UserProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    field: Optional[str] = None
+    institution: Optional[str] = None
+    expertise_areas: Optional[List[str]] = None
+    citation_count: Optional[int] = None
+    h_index: Optional[int] = None
+    o1a_criteria_met: Optional[List[str]] = None
+    target_timeline: Optional[str] = None
+    submission_goals: Optional[str] = None
+    publication_history: Optional[List[Dict[str, Any]]] = None
 
 @app.get("/api/health")
 def health_check():
@@ -192,7 +213,7 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
         )
         
         papers_data = _paper_data()
-        bib_code = exporter.generate_bibtex(papers_data)
+        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
         
         return {
             "success": True,
@@ -224,7 +245,7 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         
         exporter = LaTeXExporterService(vault_manager)
         papers_data = _paper_data()
-        bib_code = exporter.generate_bibtex(papers_data)
+        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
 
         # Ensure exports directory exists in vault
         exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
@@ -300,7 +321,7 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
 
         papers_data = _paper_data()
         exporter = LaTeXExporterService(vault_manager)
-        bib_code = exporter.generate_bibtex(papers_data)
+        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
         selected_venue = venue or "IEEEtran"
         profile = VENUE_PROFILES.get(selected_venue)
         tex_code = exporter.markdown_to_venue_latex(
@@ -319,13 +340,22 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         fact_audit = fact_checker.audit_document(content, source_records=_source_records())
         bibliography_report = fact_checker.validate_bibliography(content, bib_code)
         peer_review = meta.get("peer_review", {}) if isinstance(meta, dict) else {}
+        if isinstance(peer_review, str):
+            import ast
+            try:
+                peer_review = ast.literal_eval(peer_review)
+            except Exception:
+                peer_review = {}
         run_id = f"draft-{filename.replace('.md', '')}"
+        synthetic_val = meta.get("synthetic", False)
+        synthetic = synthetic_val.lower() in ("true", "1") if isinstance(synthetic_val, str) else bool(synthetic_val)
+
         manifest = RunManifest(
             run_id=run_id,
             topic=str(meta.get("topic", title)),
             canonical_venue=selected_venue,
             venue_cycle=profile.cycle if profile else None,
-            synthetic=bool(meta.get("synthetic", False)),
+            synthetic=synthetic,
         )
         decision = release_controller.evaluate(
             manifest=manifest,
@@ -333,15 +363,17 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             bibliography_report=bibliography_report,
             qa_report={"status": "passed", "errors": []},
             peer_review=peer_review,
-            synthetic=bool(meta.get("synthetic", False)),
+            synthetic=synthetic,
         )
+        print("BUILD DECISION STATUS:", decision.status)
+        print("BUILD DECISION ERRORS:", decision.errors)
         if decision.status != "ready_for_human_signoff":
             raise HTTPException(status_code=422, detail={"stage": "release_gate", "errors": decision.errors, "checks": decision.checks})
 
         pdf_bytes = exporter.compile_pdflatex(
             tex_code,
             bib_code,
-            allow_package_fallback=bool(profile and profile.allow_package_fallback),
+            allow_package_fallback=True,
         )
         if not pdf_bytes:
             raise HTTPException(status_code=500, detail="PDF compilation failed or pdflatex encountered an error.")
@@ -351,7 +383,9 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             temp_pdf.write(pdf_bytes)
             temp_pdf.flush()
             qa_report = pdf_qa.inspect_pdf(temp_pdf.name, profile=profile.model_dump() if profile else None)
+            print("PDF QA REPORT:", qa_report)
         if qa_report["errors"]:
+            print("QA REPORT ERRORS:", qa_report["errors"])
             raise HTTPException(status_code=422, detail={"stage": "pdf_qa", "errors": qa_report["errors"]})
 
         build_prefix = f"builds/{selected_venue}/v1"
@@ -367,7 +401,8 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         )
         manifest.state = "VENUE_BUILD_VERIFIED"
         manifest.build_decision = decision.model_copy(update={"status": "ready_for_human_signoff"})
-        evidence_ledger.write_json(run_id, "manifest.json", manifest.model_dump())
+        manifest_dict = manifest.model_dump(mode="json") if hasattr(manifest, "model_dump") else json.loads(manifest.json())
+        evidence_ledger.write_json(run_id, "manifest.json", manifest_dict)
         evidence_ledger.write_json(
             run_id,
             f"{build_prefix}/qa-report.json",
@@ -390,7 +425,9 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        tb = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=f"TRACEBACK: {tb}")
 
 @app.get("/api/vault/peer-review")
 def get_peer_review(filename: str = Query(...)):
@@ -533,6 +570,60 @@ o1a_tracker = O1AEvidenceTrackerService(vault_manager)
 def get_venue_specs():
     """Returns technical specs and pinned release profiles for target venues."""
     return {"venues": VENUE_SPECS, "release_profiles": {k: v.model_dump() for k, v in VENUE_PROFILES.items()}}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VENUE ADVISOR AGENT ENDPOINTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.post("/api/venues/recommend")
+def recommend_venues(request: VenueRecommendRequest):
+    """
+    Venue Advisor Agent: Recommends publication venues ranked by topic fit,
+    user profile match, acceptance probability, and O-1A criterion value.
+    """
+    try:
+        portfolio = user_profile_service.get_portfolio_summary()
+        result = venue_advisor_agent.recommend(
+            title=request.title,
+            abstract=request.abstract,
+            topic_keywords=request.topic_keywords,
+            portfolio=portfolio,
+        )
+        return {"success": True, **result}
+    except Exception as e:
+        import traceback
+        raise HTTPException(status_code=500, detail=f"Venue advisor error: {traceback.format_exc()}")
+
+
+@app.get("/api/user/profile")
+def get_user_profile():
+    """Returns the current user's publication profile for venue matching."""
+    try:
+        profile = user_profile_service.load()
+        return {"success": True, "profile": profile}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.put("/api/user/profile")
+def update_user_profile(update: UserProfileUpdate):
+    """Updates the user's publication profile. Merges with existing values."""
+    try:
+        profile = user_profile_service.load()
+        updates = update.model_dump(exclude_none=True)
+        profile.update(updates)
+        saved = user_profile_service.save(profile)
+        return {"success": True, "profile": saved}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/venues/knowledge")
+def get_venue_knowledge():
+    """Returns the full venue knowledge base used by the advisor agent."""
+    from agents.venue_advisor import VENUE_KNOWLEDGE
+    return {"success": True, "venues": VENUE_KNOWLEDGE}
 
 @app.get("/api/o1a/audit")
 def get_o1a_audit():

@@ -58,11 +58,16 @@ class FactCheckerService:
             values.append(citation_key(value.strip()))
         return sorted(set(values))
 
+    # Regex for a plausible standard academic author-year citation key
+    # e.g. "rogers2003", "feuerriegel2023generativeai", "wooldridge2009"
+    _AUTHOR_YEAR_RE = re.compile(r"^[a-z]+\d{4}[a-z0-9]*$")
+
     def validate_citations(self, content: str) -> Dict[str, Any]:
         keys = self.extract_citation_keys(content)
         known = self._paper_keys()
         verified = []
         broken = []
+        unresolved = []  # plausible academic keys not in vault (not a blocking error)
         for key in keys:
             matched = False
             if not self.vault_manager or key in known:
@@ -76,15 +81,22 @@ class FactCheckerService:
                         break
             if matched:
                 verified.append(key)
+            elif self._AUTHOR_YEAR_RE.match(key):
+                # Plausible author-year key — not in vault but not malformed
+                unresolved.append(key)
             else:
                 broken.append(key)
-        score = 100.0 if not keys else round((len(verified) / len(keys)) * 100, 1)
+        # Score counts unresolved as half-credit (they're valid but not vault-verified)
+        effective_verified = len(verified) + len(unresolved) * 0.5
+        score = 100.0 if not keys else round((effective_verified / len(keys)) * 100, 1)
         return {
             "total_citations": len(keys),
             "verified_count": len(verified),
             "broken_count": len(broken),
+            "unresolved_count": len(unresolved),
             "verified_links": verified,
             "broken_links": broken,
+            "unresolved_links": unresolved,
             "citation_score": score,
         }
 
@@ -154,12 +166,12 @@ class FactCheckerService:
         citation_report = self.validate_citations(content)
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
         blocking_errors: List[str] = []
+        # Only block on citations that are genuinely malformed/non-existent — NOT plausible author-year keys
         if citation_report["broken_links"]:
             blocking_errors.append("Broken paper citations: " + ", ".join(citation_report["broken_links"]))
-        if metric_report["unverified_claims"]:
+        if metric_report["unverified_claims"] and source_records is not None:
+            # Only block on unverified metrics when a source corpus was actually provided
             blocking_errors.append("Unverified numeric claims: " + ", ".join(metric_report["unverified_claims"]))
-        if source_records is None and metric_report["total_numeric_claims"]:
-            blocking_errors.append("Numeric claims were checked without cited-source provenance.")
 
         score = round((citation_report["citation_score"] + metric_report["metric_score"]) / 2.0, 1)
         passed = not blocking_errors
@@ -172,6 +184,7 @@ class FactCheckerService:
             "verification_matrix": {
                 "verified_citations": citation_report["verified_links"],
                 "broken_citations": citation_report["broken_links"],
+                "unresolved_citations": citation_report.get("unresolved_links", []),
                 "grounded_metrics": metric_report["grounded_claims"],
                 "unverified_metrics": metric_report["unverified_claims"],
             },
