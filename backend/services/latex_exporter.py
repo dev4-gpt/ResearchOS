@@ -125,7 +125,8 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
-        # 2. Filter out raw ASCII box diagrams, unparsed YAML frontmatter, raw audit logs, and metadata noise
+        # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, and metadata noise
+        text = re.sub(r'#{1,4}\s*(\d+[\.\s]*)?References[\s\S]*$', '', text, flags=re.IGNORECASE)
         text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
         text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
