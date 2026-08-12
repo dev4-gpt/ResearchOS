@@ -49,6 +49,9 @@ user_profile_service = UserProfileService(vault_manager.vault_path)
 venue_advisor_agent = VenueAdvisorAgent(vault_manager.vault_path)
 checkmate_verifier = CheckmateVerifierService(vault_manager)
 
+from services.error_ledger import ErrorLedgerService
+error_ledger_service = ErrorLedgerService()
+
 # In-memory log store for streaming active research runs
 # key: project_id, value: asyncio.Queue containing log dicts
 log_queues: Dict[str, asyncio.Queue] = {}
@@ -742,6 +745,14 @@ def get_o1a_audit():
     dossier_md = o1a_tracker.generate_legal_dossier_markdown(manuscripts)
     audit_result["legal_dossier_markdown"] = dossier_md
     return audit_result
+
+@app.get("/api/vault/system-error-ledger")
+def get_system_error_ledger():
+    """Returns the persistent System Error Ledger and quality prevention rules."""
+    return {
+        "success": True,
+        "ledger": error_ledger_service.get_ledger_summary()
+    }
 
 if __name__ == "__main__":
     import uvicorn
