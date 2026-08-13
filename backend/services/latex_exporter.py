@@ -785,11 +785,6 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 cmd_pdf = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
                 first = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs = [first.stdout, first.stderr]
-                if first.returncode != 0:
-                    print("FIRST STDOUT:", first.stdout.decode("utf-8", errors="replace"))
-                    print("FIRST STDERR:", first.stderr.decode("utf-8", errors="replace"))
-                    self.last_build_log = f"First pdflatex run failed with code {first.returncode}:\n" + b"\n".join(logs).decode("utf-8", errors="replace")
-                    return None
 
                 # Run bibtex if references.bib exists to resolve \cite{} keys to numeric [1], [2], [3]
                 if bib_code:
@@ -811,9 +806,12 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
-                if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 0:
+                if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 100:
                     with open(pdf_path, "rb") as f:
                         return f.read()
+
+                print("FIRST STDOUT:", first.stdout.decode("utf-8", errors="replace"))
+                print("FIRST STDERR:", first.stderr.decode("utf-8", errors="replace"))
                 return None
             except Exception as e:
                 self.last_build_log = str(e)
