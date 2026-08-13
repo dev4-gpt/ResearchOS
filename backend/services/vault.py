@@ -212,6 +212,9 @@ class VaultManager:
         # Regex to find [[WikiLink]] or [[WikiLink|Custom Label]]
         wikilink_re = re.compile(r"\[\[(.*?)\]\]")
         
+        # Set for O(1) edge existence checks
+        edge_set = set()
+
         for f in all_files:
             source_id = f["id"]
             links = wikilink_re.findall(f["content"])
@@ -243,9 +246,9 @@ class VaultManager:
                             
                 # If target node exists, add a directed edge
                 if target_id and target_id != source_id:
-                    # Avoid duplicate edges
-                    edge_exists = any(e["source"] == source_id and e["target"] == target_id for e in edges)
-                    if not edge_exists:
+                    edge_key = (source_id, target_id)
+                    if edge_key not in edge_set:
+                        edge_set.add(edge_key)
                         edges.append({
                             "source": source_id,
                             "target": target_id,

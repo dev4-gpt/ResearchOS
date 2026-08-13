@@ -59,13 +59,13 @@ where $Y = F(K, L, T)$ represents total software production, $K$ is infrastructu
 
 To prevent syntax invalidity during patch synthesis, modern self-healing pipelines employ **constraint-guided Abstract Syntax Tree (AST) mutations**. Rather than treating source code as unstructured text sequences, the agent operates directly over grammar production rules. Given an input syntax tree $T_{orig}$ and an execution trace error state $E_{trace}$, the mutation generator selects a node $n \in T_{orig}$ and applies a context-free grammar rewrite rule $r: n \to n'$. 
 
-Formal verification engines (such as Z3 theorem provers or static type checkers) evaluate candidate mutations against invariant constraints $C_{inv}$ prior to dynamic test execution:
-$$ \text{Verify}(n', C_{inv}) = \begin{cases} \text{Pass}, & \text{if } C_{inv} \text{ holds for all execution paths} \\ \text{Reject}, & \text{otherwise} \end{cases} $$
+Formal verification engines (such as Z3 theorem provers or static type checkers) evaluate candidate mutations against invariant constraints $C_{\text{inv}}$ prior to dynamic test execution:
+$$ \text{Verify}(n', C_{\text{inv}}) = \begin{cases} \text{Pass}, & \text{if } C_{\text{inv}} \text{ holds on all paths} \\ \text{Reject}, & \text{otherwise} \end{cases} $$
 By filtering syntactically or logically invalid candidates upstream, constraint-guided AST mutation reduces execution sandbox invocations by up to 74\%, preventing expensive container instantiation loops \cite{Bratman1987}.
 
 ---
 
-## 3 PRISMA Literature Search & Taxonomy
+## 3 PRISMA LITERATURE SEARCH & TAXONOMY
 
 Adhering to PRISMA 2020 guidelines \cite{PRISMA2020}, this review conducted a systematic literature search across IEEE Xplore, ACM Digital Library, arXiv, and NBER repositories (2020–2026). Inclusion criteria required peer-reviewed or authoritative preprint status evaluating multi-agent code generation, self-healing runtime systems, or automated program repair (APR).
 
@@ -73,7 +73,7 @@ The identification stage retrieved 1,420 candidate records across target digital
 
 ---
 
-## 4 State-of-the-Art Methods & Comparative Evaluation
+## 4 STATE-OF-THE-ART METHODS & COMPARATIVE EVALUATION
 
 Autonomous code synthesis methodologies can be classified according to orchestration topology and feedback granularity.
 
@@ -92,7 +92,7 @@ The efficacy of self-healing software agents depends directly on feedback granul
 
 ---
 
-## 5 Original Framework: The SHACS Architecture
+## 5 ORIGINAL FRAMEWORK: THE SHACS ARCHITECTURE
 
 To address identified research gaps in multi-file regression cascading, we introduce the **Self-Healing Agentic Code Synthesis (SHACS)** framework.
 
@@ -109,15 +109,15 @@ SHACS enforces a strict privilege boundary between proposal and execution. Code 
 
 ---
 
-## 6 Quantitative Analysis & Empirical Evidence
+## 6 QUANTITATIVE ANALYSIS & EMPIRICAL EVIDENCE
 
 Meta-analysis across published empirical benchmarks reveals significant performance gains from self-healing feedback loops.
 
 ### 6.1 Econometric Productivity Formulations
 
 Empirical evaluation of developer throughput gains follows the econometric formulation:
-$$ \Delta \text{SoftwareOutput}_t = \beta_0 + \beta_1 \text{SHACS}_{\text{adoption}, t} + \beta_2 \text{TaskComplexity}_t + \mathbf{X}_t\boldsymbol{\gamma} + \epsilon_t $$
-where $\Delta \text{SoftwareOutput}_t$ represents validated pull request velocity, $\text{SHACS}_{\text{adoption}, t}$ measures integration depth, and $\mathbf{X}_t$ denotes control variables (repo size, language, baseline test coverage).
+$$ \Delta Y_t = \beta_0 + \beta_1 S_t + \beta_2 C_t + \mathbf{X}_t\boldsymbol{\gamma} + \epsilon_t $$
+where $\Delta Y_t$ represents validated pull request velocity, $S_t$ measures SHACS integration depth, $C_t$ is task complexity, and $\mathbf{X}_t$ denotes control variables (repo size, language, baseline test coverage).
 
 ### 6.2 Benchmark Meta-Analysis: SWE-Bench and HumanEval
 

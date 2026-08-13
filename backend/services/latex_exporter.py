@@ -46,7 +46,7 @@ VENUE_SPECS = {
         "format": "Two-column journal format",
         "page_limit": "10 - 25+ pages (journal literature review)",
         "doc_class": "\\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}",
-        "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
+        "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{balance}\n\\usepackage{hyperref}",
         "template_style": "ieeetran",
         "anonymization_rule": "Use the selected journal's author and disclosure rules"
     },
@@ -105,7 +105,9 @@ class LaTeXExporterService:
         # Preserve math blocks $$...$$, $...$, and \cite{...} tags so underscores inside cite keys are NOT escaped
         parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
-            parts[i] = parts[i].replace('&', '\\&').replace('%', '\\%').replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            parts[i] = parts[i].replace('&', '\\&').replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            # Replace % with \% ONLY if it is not already preceded by a backslash
+            parts[i] = re.sub(r'(?<!\\)%', r'\\%', parts[i])
         for i in range(1, len(parts), 2):
             if parts[i].startswith("\\cite{"):
                 parts[i] = parts[i].replace("\\_", "_")
@@ -283,6 +285,15 @@ class LaTeXExporterService:
             line = m.group(0)
             return re.sub(r'(\$(?:[^$]|\$\$)+?\$)', r'\\mbox{\1}', line)
         latex_body = re.sub(r'^\s*\\item\s+.*\$.*$', protect_item_math, latex_body, flags=re.MULTILINE)
+
+        # 13. FIX: Auto-wrap display math $$...$$ with \begin{equation}\begin{aligned}...\end{aligned}\end{equation}
+        def wrap_display_math(m):
+            eq_content = m.group(1).strip()
+            # If already contains \begin{equation} or \begin{aligned}, preserve as-is
+            if '\\begin{' in eq_content:
+                return f"\n\\begin{{equation}}\n{eq_content}\n\\end{{equation}}\n"
+            return f"\n\\begin{{equation}}\n\\begin{{aligned}}\n{eq_content}\n\\end{{aligned}}\n\\end{{equation}}\n"
+        latex_body = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', wrap_display_math, latex_body)
 
         return latex_body
 
@@ -553,6 +564,7 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 {latex_body}
 
 \\par\\vspace{{0.5em}}
+\\balance
 \\bibliographystyle{{IEEEtran}}
 \\bibliography{{references}}
 

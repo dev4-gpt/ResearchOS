@@ -758,6 +758,12 @@ def get_system_error_ledger():
         "ledger": error_ledger_service.get_ledger_summary()
     }
 
+@app.get("/api/harness/status")
+def get_prime_harness_status():
+    """Returns operational telemetry for Prime Agent Harness infrastructure."""
+    from harness.prime_harness import prime_agent_harness
+    return {"success": True, **prime_agent_harness.get_harness_status()}
+
 if __name__ == "__main__":
     import uvicorn
     # Read configuration from environment loaded via python-dotenv

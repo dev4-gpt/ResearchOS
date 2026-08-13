@@ -3,7 +3,7 @@ import { Search, Sparkles, BookOpen } from 'lucide-react';
 import Laptop3DWorkspace from './Laptop3DWorkspace';
 
 interface DashboardProps {
-  startResearch: (topic: string) => void;
+  startResearch: (topic: string, venue: string, length: string) => void;
   isResearching: boolean;
   onEnterWorkspace?: () => void;
 }
@@ -62,11 +62,13 @@ const SUGGESTIONS = [
 
 const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onEnterWorkspace }) => {
   const [topic, setTopic] = useState('');
+  const [targetVenue, setTargetVenue] = useState('IEEEtran');
+  const [targetLength, setTargetLength] = useState('short_camera_ready');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (topic.trim()) {
-      startResearch(topic.trim());
+      startResearch(topic.trim(), targetVenue, targetLength);
     }
   };
 
@@ -129,6 +131,37 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
               <Sparkles size={14} />
               <span>{isResearching ? 'Council Deliberating...' : 'Launch Council'}</span>
             </button>
+          {/* Venue & Target Length Selectors */}
+          <div style={{ display: 'flex', gap: '12px', marginTop: '14px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Venue Target:</span>
+              <select 
+                value={targetVenue} 
+                onChange={(e) => setTargetVenue(e.target.value)}
+                disabled={isResearching}
+                style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
+              >
+                <option value="IEEEtran" style={{ background: '#111', color: '#fff' }}>IEEEtran (Transactions / Short)</option>
+                <option value="NeurIPS" style={{ background: '#111', color: '#fff' }}>NeurIPS (Conference 9p)</option>
+                <option value="ICML" style={{ background: '#111', color: '#fff' }}>ICML (Conference 8p)</option>
+                <option value="CVPR" style={{ background: '#111', color: '#fff' }}>CVPR (Conference 8p)</option>
+                <option value="ACL" style={{ background: '#111', color: '#fff' }}>ACL / ARR (Short/Long)</option>
+                <option value="ACM" style={{ background: '#111', color: '#fff' }}>ACM Computing Surveys</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Manuscript Length:</span>
+              <select 
+                value={targetLength} 
+                onChange={(e) => setTargetLength(e.target.value)}
+                disabled={isResearching}
+                style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
+              >
+                <option value="short_camera_ready" style={{ background: '#111', color: '#fff' }}>📄 Short Camera-Ready (4 Pages)</option>
+                <option value="full_journal" style={{ background: '#111', color: '#fff' }}>📑 Full Journal / Survey (12 Pages)</option>
+              </select>
+            </div>
           </div>
         </form>
 

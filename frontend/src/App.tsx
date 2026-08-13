@@ -56,7 +56,7 @@ const App: React.FC = () => {
   };
 
   // Launch research query
-  const startResearch = async (topicStr: string) => {
+  const startResearch = async (topicStr: string, venueStr: string = 'IEEEtran', lengthStr: string = 'short_camera_ready') => {
     if (!topicStr.trim()) return;
     setErrorMsg(null);
     setIsResearching(true);
@@ -68,7 +68,11 @@ const App: React.FC = () => {
       const res = await apiFetch('/api/research/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: topicStr })
+        body: JSON.stringify({ 
+          topic: topicStr,
+          target_venue: venueStr,
+          target_length: lengthStr
+        })
       });
 
       if (!res.ok) {
