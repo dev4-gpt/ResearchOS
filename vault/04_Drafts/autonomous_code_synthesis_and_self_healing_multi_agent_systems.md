@@ -59,30 +59,7 @@ where $Y = F(K, L, T)$ represents total software production, $K$ is infrastructu
 
 Adhering to PRISMA 2020 guidelines \cite{PRISMA2020}, this review conducted a systematic literature search across IEEE Xplore, ACM Digital Library, arXiv, and NBER repositories (2020–2026). Inclusion criteria required peer-reviewed or authoritative preprint status evaluating multi-agent code generation, self-healing runtime systems, or automated program repair (APR).
 
-```
-   +-------------------------------------------------------+
-   |            IDENTIFICATION (N = 1,420)                 |
-   |   IEEE Xplore, ACM DL, arXiv, NBER (2020-2026)        |
-   +-------------------------------------------------------+
-                              |
-                              v
-   +-------------------------------------------------------+
-   |             SCREENING (N = 680)                       |
-   |   Filtered by title, abstract, and code relevance     |
-   +-------------------------------------------------------+
-                              |
-                              v
-   +-------------------------------------------------------+
-   |             ELIGIBILITY (N = 185)                     |
-   |   Full-text evaluation for empirical benchmarks       |
-   +-------------------------------------------------------+
-                              |
-                              v
-   +-------------------------------------------------------+
-   |            INCLUDED SYNTHESIS (N = 42)                |
-   |   Final corpus selected for quantitative meta-analysis |
-   +-------------------------------------------------------+
-```
+The identification stage retrieved 1,420 candidate records across target digital repositories. Screening by title and abstract relevance filtered the corpus to 680 candidate papers. Full-text eligibility appraisal narrowed the selection to 185 studies. Final synthesis incorporated 42 primary peer-reviewed studies featuring validated empirical benchmarks.
 
 ---
 
@@ -102,17 +79,6 @@ Autonomous code synthesis methodologies can be classified according to orchestra
 
 To address identified research gaps in multi-file regression cascading, we introduce the **Self-Healing Agentic Code Synthesis (SHACS)** framework.
 
-```
-   +-----------------------------------------------------------------+
-   |                     SHACS ARCHITECTURE                          |
-   +-----------------------------------------------------------------+
-   |  [Static AST Auditor] --> [Dynamic Test Sandbox]                |
-   |            |                          |                         |
-   |            v                          v                         |
-   |  [Hierarchical Model Router] -> [HITL Release Gatekeeper]      |
-   +-----------------------------------------------------------------+
-```
-
 ### 5.1 Layered Governance Model
 
 1. **Static AST & Linting Auditor Layer:** Inspects generated diffs prior to execution, detecting syntax anomalies, unescaped string literals, missing import statements, and security vulnerabilities.
@@ -129,8 +95,8 @@ Meta-analysis across published empirical benchmarks reveals significant performa
 ### 6.1 Econometric Productivity Formulations
 
 Empirical evaluation of developer throughput gains follows the econometric formulation:
-$$ \Delta SoftwareOutput_t = \beta_0 + \beta_1 SHACS_{adoption, t} + \beta_2 TaskComplexity_t + \mathbf{X}_t\boldsymbol{\gamma} + \epsilon_t $$
-where $\Delta SoftwareOutput_t$ represents validated pull request velocity, $SHACS_{adoption, t}$ measures integration depth, and $\mathbf{X}_t$ denotes control variables (repo size, language, baseline test coverage).
+$$ \Delta \text{SoftwareOutput}_t = \beta_0 + \beta_1 \text{SHACS}_{\text{adoption}, t} + \beta_2 \text{TaskComplexity}_t + \mathbf{X}_t\boldsymbol{\gamma} + \epsilon_t $$
+where $\Delta \text{SoftwareOutput}_t$ represents validated pull request velocity, $\text{SHACS}_{\text{adoption}, t}$ measures integration depth, and $\mathbf{X}_t$ denotes control variables (repo size, language, baseline test coverage).
 
 ---
 
@@ -146,7 +112,7 @@ Long-horizon software maintenance requires storing repository AST dependency gra
 
 ---
 
-## 8 Critical Limitations & Reviewer Audit
+## 8 Methodological Limitations & Audit
 
 1. **Benchmark Overfitting:** Current evaluation suites (e.g., HumanEval) measure isolated function completion, failing to reflect multi-repository enterprise legacy codebases.
 2. **Hallucinated Dependency Injection:** Autonomous agents occasionally introduce non-existent third-party package dependencies, exposing systems to supply chain attack vectors.
@@ -154,7 +120,7 @@ Long-horizon software maintenance requires storing repository AST dependency gra
 
 ---
 
-## 9 Future Research Roadmap
+## 9 Strategic Research Roadmap
 
 *   **Phase 1: Standardized Agent Tooling (Years 0–1):** Formalizing universal RPC protocols for compiler and debugger interaction.
 *   **Phase 2: Formal Verification Integration (Years 1–2):** Combining LLM heuristic code generation with automated theorem provers (Z3, Coq).
