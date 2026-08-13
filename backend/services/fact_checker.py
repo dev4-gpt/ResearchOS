@@ -17,6 +17,8 @@ def is_non_metric_number(claim: str) -> bool:
         return True
     if re.match(r"^\d{1,2}\.\d{1,2}$", s):
         return True
+    if re.match(r"^N\s*=\s*\d+$", s, re.IGNORECASE):
+        return True
     return False
 
 
