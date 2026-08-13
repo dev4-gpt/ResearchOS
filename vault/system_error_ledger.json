@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-13 10:19:43",
+  "last_updated": "2026-08-13 15:28:59",
   "stats": {
-    "total_errors_recorded": 8,
-    "resolved_count": 8,
-    "active_prevention_rules": 8
+    "total_errors_recorded": 12,
+    "resolved_count": 12,
+    "active_prevention_rules": 12
   },
   "history": [
     {
@@ -103,6 +103,54 @@
       "resolution": "Added regex conversion re.sub(r'\\*\\*(.*?)\\*\\*', r'\\\\textbf{\\1}', clean_abstract)",
       "prevention_rule": "R8: R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-009",
+      "timestamp": "2026-08-13 13:45:00",
+      "component": "LaTeX Exporter / Math Sanitizer",
+      "stage": "pdflatex_compilation",
+      "error_type": "LaTeX Math Environment Error",
+      "summary": "pdflatex compilation failed with ! LaTeX Error: \begin{equation} ended by \\end{document}",
+      "root_cause": "Truncated math equation on line 100 and double equation wrapping in wrap_display_math",
+      "resolution": "Repaired equation line and updated wrap_display_math to check for existing \begin{ environments",
+      "prevention_rule": "R9: Check for existing \begin{ environments in wrap_display_math and ensure all equations in manuscripts are fully closed",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-010",
+      "timestamp": "2026-08-13 14:15:00",
+      "component": "Bibliography Generator",
+      "stage": "checkmate_audit",
+      "error_type": "Synthetic Placeholder Violation",
+      "summary": "Checkmate audit failed real_bibliography check (score 85.7%) due to synthetic placeholder strings in references",
+      "root_cause": "generate_bibtex generated Foundational Research Study: ... and Journal of Enterprise AI Infrastructure fallbacks for unmapped keys",
+      "resolution": "Mapped all keys in KNOWN_CITATIONS and purged synthetic fallback strings in generate_bibtex",
+      "prevention_rule": "R10: All cited keys must map to real paper metadata in vault/01_Papers/ or KNOWN_CITATIONS; synthetic fallback titles are forbidden",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-011",
+      "timestamp": "2026-08-13 15:15:00",
+      "component": "LaTeX Exporter / pdflatex Pipeline",
+      "stage": "export_venue_pdf",
+      "error_type": "Premature Abort on Pass 1 Warning",
+      "summary": "Download PDF button returned PDF compilation error alert even when document.pdf was successfully created",
+      "root_cause": "compile_pdflatex checked if first.returncode != 0 and returned None prematurely before bibtex and pass 2/3 ran",
+      "resolution": "Removed premature pass 1 exit code check; compile_pdflatex now completes all passes and returns compiled PDF bytes if document.pdf exists",
+      "prevention_rule": "R11: Always complete multi-pass pdflatex + bibtex compilation and return non-empty document.pdf bytes if generated",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-012",
+      "timestamp": "2026-08-13 15:20:00",
+      "component": "Backend API / Main Routes",
+      "stage": "error_handling",
+      "error_type": "HTTP 500 Swallowing HTTPException",
+      "summary": "export_venue_pdf wrapped HTTPException(422) inside a generic except Exception as e: block, converting validation errors into HTTP 500 crashes",
+      "root_cause": "Lack of explicit except HTTPException: re-raise block before generic catch-all exception handler",
+      "resolution": "Added except HTTPException: raise explicitly to all FastAPI endpoints",
+      "prevention_rule": "R12: Explicitly re-raise HTTPException before generic catch-all handlers to preserve HTTP 422/404 status codes and error details",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -113,6 +161,10 @@
     "R5": "Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions",
     "R6": "R6: Provide safe \\providecommand fallback definitions for venue-specific custom macros in all LaTeX templates",
     "R7": "R7: Always place \\begin{document} immediately after preamble packages and before \\title and \\maketitle",
-    "R8": "R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit"
+    "R8": "R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit",
+    "R9": "R9: Check for existing \begin{ environments in wrap_display_math and ensure all equations in manuscripts are fully closed",
+    "R10": "R10: All cited keys must map to real paper metadata in vault/01_Papers/ or KNOWN_CITATIONS; synthetic fallback titles are forbidden",
+    "R11": "R11: Always complete multi-pass pdflatex + bibtex compilation and return non-empty document.pdf bytes if generated",
+    "R12": "R12: Explicitly re-raise HTTPException before generic catch-all handlers to preserve HTTP 422/404 status codes and error details"
   }
 }
