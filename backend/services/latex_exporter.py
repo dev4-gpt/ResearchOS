@@ -397,23 +397,18 @@ class LaTeXExporterService:
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
+\\providecommand{{\\icmltitle}}[1]{{\\title{{#1}}}}
+\\providecommand{{\\icmlsetsymbol}}[2]{{}}
+\\providecommand{{\\icmlauthorlist}}[1]{{\\author{{#1}}}}
+\\providecommand{{\\icmlauthor}}[2]{{#1}}
+\\providecommand{{\\icmlaffiliation}}[2]{{}}
+\\providecommand{{\\icmlkeywords}}[1]{{}}
+
 \\begin{{document}}
 
-\\twocolumn[
-\\icmltitle{{{clean_title}}}
-
-\\icmlsetsymbol{{equal}}{{*}}
-
-\\begin{{icmlauthorlist}}
-{icml_authors}
-\\end{{icmlauthorlist}}
-
-{icml_affiliation}
-
-\\icmlkeywords{{Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review}}
-
-\\vskip 0.3in
-]
+\\title{{{clean_title}}}
+\\author{{{authors_list[0]}}}
+\\maketitle
 
 \\begin{{abstract}}
 {clean_abstract}
@@ -421,7 +416,7 @@ class LaTeXExporterService:
 
 {latex_body}
 
-\\bibliographystyle{{icml2024}}
+\\bibliographystyle{{plain}}
 \\bibliography{{references}}
 
 \\end{{document}}
@@ -447,7 +442,7 @@ class LaTeXExporterService:
 {latex_body}
 
 {{\\small
-\\bibliographystyle{{ieee_fullname}}
+\\bibliographystyle{{plain}}
 \\bibliography{{references}}
 }}
 
@@ -457,6 +452,8 @@ class LaTeXExporterService:
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
+\\begin{{document}}
+
 \\title{{{clean_title}}}
 
 \\author{{
@@ -465,15 +462,14 @@ class LaTeXExporterService:
 
 \\maketitle
 
-\\begin{{document}}
 \\begin{{abstract}}
 {clean_abstract}
 \\end{{abstract}}
 
 {latex_body}
 
+\\bibliographystyle{{plain}}
 \\bibliography{{references}}
-\\bibliographystyle{{acl_natbib}}
 
 \\end{{document}}
 """
@@ -481,24 +477,26 @@ class LaTeXExporterService:
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
+\\providecommand{{\\affiliation}}[1]{{}}
+\\providecommand{{\\institution}}[1]{{}}
+\\providecommand{{\\country}}[1]{{}}
+\\providecommand{{\\email}}[1]{{}}
+
+\\begin{{document}}
+
 \\title{{{clean_title}}}
 
 \\author{{{authors_list[0]}}}
-\\affiliation{{
-  \\institution{{{affiliation or "Academic Research Repository"}}}
-  \\country{{USA}}
-}}
-\\email{{{email or "author@research.org"}}}
+
+\\maketitle
 
 \\begin{{abstract}}
 {clean_abstract}
 \\end{{abstract}}
 
-\\maketitle
-
 {latex_body}
 
-\\bibliographystyle{{ACM-Reference-Format}}
+\\bibliographystyle{{plain}}
 \\bibliography{{references}}
 
 \\end{{document}}
