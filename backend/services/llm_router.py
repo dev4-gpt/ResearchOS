@@ -45,7 +45,7 @@ class LLMRouter:
             return dspy.LM(model=f"openai/{m}", api_key=self.groq_api_key, api_base="https://api.groq.com/openai/v1", max_tokens=4096)
             
         elif prov == "OPENROUTER" and self.openrouter_api_key:
-            m = model or "meta-llama/llama-3.1-8b-instruct:free"
+            m = model or "meta-llama/llama-3.1-8b-instruct"
             return dspy.LM(model=f"openai/{m}", api_key=self.openrouter_api_key, api_base="https://openrouter.ai/api/v1", max_tokens=4096)
             
         else: # Default GEMINI
@@ -76,7 +76,7 @@ class LLMRouter:
                 
             elif prov == "OPENROUTER":
                 if not self.openrouter_client: return "[Error] OPENROUTER_API_KEY not set."
-                m = model or "meta-llama/llama-3.1-8b-instruct:free"
+                m = model or "meta-llama/llama-3.1-8b-instruct"
                 response = self.openrouter_client.chat.completions.create(model=m, messages=messages, temperature=0.2, max_tokens=2048)
                 return response.choices[0].message.content
                 

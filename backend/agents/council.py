@@ -21,7 +21,7 @@ AGENT_PERSONAS = {
         "name": "Senior Scout Researcher",
         "role": "Literature Discovery & Bibliography Mapping",
         "provider": "OPENROUTER",
-        "model": "meta-llama/llama-3.1-8b-instruct:free",
+        "model": "meta-llama/llama-3.1-8b-instruct",
         "instruction": (
             "You are a 20-year Principal Scout Researcher at a world-leading research laboratory (Nature/IEEE level). "
             "Your role is to map literature networks, evaluate publication venue prestige (NeurIPS, ICML, Nature, Science, IEEE TPAMI), "
@@ -45,7 +45,7 @@ AGENT_PERSONAS = {
         "name": "Senior Systems Engineer",
         "role": "Algorithmic & Technical Implementation Audit",
         "provider": "GROQ",
-        "model": "llama-3.1-70b-versatile",
+        "model": "llama-3.1-8b-instant",
         "instruction": (
             "You are a Principal Systems & Compute Architect. You scrutinize claims down to algorithmic complexity, "
             "FLOPs scaling laws, GPU memory footprint (VRAM limits, KV-cache growth), quantization degradation, and "
@@ -56,7 +56,7 @@ AGENT_PERSONAS = {
         "name": "Senior Statistician & Methods Critic",
         "role": "Quantitative Rigor & Validation Audit",
         "provider": "GROQ",
-        "model": "llama-3.1-70b-versatile",
+        "model": "llama-3.1-8b-instant",
         "instruction": (
             "You are a Senior Fellow in Biostatistics and Empirical Validation. You audit statistical power, sample sizes, "
             "p-values, confidence intervals, baseline comparability, data leakage, and selection bias. "
