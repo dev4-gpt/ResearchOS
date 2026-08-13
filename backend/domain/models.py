@@ -63,6 +63,8 @@ class VenueProfile(BaseModel):
     document_class: str = ""
     page_scope: str = "main_body"
     page_limit: Optional[int] = None
+    short_page_limit: int = 4
+    long_page_limit: int = 12
     anonymized_review: bool = False
     required_sections: List[str] = Field(default_factory=list)
     required_tokens: List[str] = Field(default_factory=list)
@@ -83,6 +85,7 @@ class RunManifest(BaseModel):
     topic: str
     canonical_venue: Optional[str] = None
     venue_cycle: Optional[str] = None
+    target_length: str = "short_camera_ready"
     created_at: str = Field(default_factory=utc_now)
     synthetic: bool = False
     state: str = "DRAFT"

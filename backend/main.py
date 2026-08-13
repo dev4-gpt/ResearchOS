@@ -59,6 +59,8 @@ log_queues: Dict[str, asyncio.Queue] = {}
 
 class ResearchRequest(BaseModel):
     topic: str
+    target_venue: Optional[str] = "IEEEtran"
+    target_length: Optional[str] = "short_camera_ready"  # "short_camera_ready" (4p) | "full_journal" (12p)
 
 class SaveFileRequest(BaseModel):
     category: str

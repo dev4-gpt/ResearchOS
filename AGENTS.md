@@ -49,6 +49,13 @@ ResearchingOS orchestrates a 7-agent council of specialized personas to ensure r
 5. **System Error Ledger Connector (`ErrorLedgerService`)**:
    - Persists all build errors to `vault/system_error_ledger.json` and `vault/SYSTEM_ERROR_PREVENTION_MANUAL.md`.
    - Intercepts and self-heals build failures automatically.
+6. **Pre-Return 4-Layer Connectivity Mandatory Audit**:
+   - Before completing any turn or declaring system readiness, ALWAYS verify all 4 connectivity layers:
+     - Layer 1: Frontend Server (`http://127.0.0.1:3000/`)
+     - Layer 2: Backend Health API (`http://127.0.0.1:8000/api/health`)
+     - Layer 3: Vault Storage API (`http://127.0.0.1:8000/api/vault/files`)
+     - Layer 4: HITL Publisher Endpoints (`http://127.0.0.1:8000/api/vault/files?category=drafts`)
+   - NEVER end a turn while any of the 4 connectivity layers return HTTP 500 or connection failures.
 
 53: ---
 54: 

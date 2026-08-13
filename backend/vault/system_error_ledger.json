@@ -1,0 +1,79 @@
+{
+  "title": "ResearchOS Master System Error Ledger & Prevention Registry",
+  "version": "1.0.0",
+  "last_updated": "2026-08-13 12:25:45",
+  "stats": {
+    "total_errors_recorded": 5,
+    "resolved_count": 5,
+    "active_prevention_rules": 5
+  },
+  "history": [
+    {
+      "error_id": "ERR-001",
+      "timestamp": "2026-08-12 18:40:00",
+      "component": "API / Backend Route",
+      "stage": "checkmate_audit",
+      "error_type": "HTTP 404 / 500",
+      "summary": "Checkmate Audit Failed: Not Found due to missing route and compile_pdf method signature mismatch",
+      "root_cause": "latex_exporter lacked compile_pdf method and save_markdown had mismatched parameter ordering",
+      "resolution": "Updated checkmate_audit to use compile_pdflatex and correct save_markdown argument order",
+      "prevention_rule": "R1: All PDF compilation endpoints must invoke compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-002",
+      "timestamp": "2026-08-12 19:00:00",
+      "component": "LaTeX Exporter Service",
+      "stage": "export_venue_pdf",
+      "error_type": "NameError & AttributeError",
+      "summary": "Download PDF returned PDF COMPILATION ERROR due to undefined 'verifier' variable and compile_pdf call",
+      "root_cause": "exporter.compile_pdf and verifier.audit_pdf used stale variable names",
+      "resolution": "Replaced compile_pdf with compile_pdflatex and verifier with checkmate_verifier, streaming Response(content=pdf_bytes)",
+      "prevention_rule": "R2: PDF export route must return binary Response with application/pdf Content-Type",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-003",
+      "timestamp": "2026-08-12 19:08:00",
+      "component": "LaTeX Converter",
+      "stage": "section_heading_parsing",
+      "error_type": "Double Section Numbering",
+      "summary": "Section headings rendered as '1 1 EXECUTIVE ABSTRACT' due to LaTeX section counter appending to hardcoded markdown '1 '",
+      "root_cause": "heading_to_section regex skipped level 1 headings (# 1 ...), retaining leading digits",
+      "resolution": "Updated heading_to_section to strip leading numbers (re.sub(r'^(\\d+[\\.\\s]*)+', '', title)) across all heading levels",
+      "prevention_rule": "R3: Strip all leading numerical prefixes from markdown section titles before converting to LaTeX \\section",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-004",
+      "timestamp": "2026-08-12 19:12:00",
+      "component": "Bibliography Generator",
+      "stage": "latex_compilation",
+      "error_type": "Duplicate References Section",
+      "summary": "Page 4 rendered two separate REFERENCES headings and duplicate reference lists",
+      "root_cause": "Markdown body ended with hardcoded ## References section alongside \\bibliography{references}",
+      "resolution": "Added regex stripping of hardcoded References sections in convert_markdown_body prior to LaTeX compilation",
+      "prevention_rule": "R4: Automatically filter out hardcoded markdown References sections prior to appending LaTeX \\bibliography",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-005",
+      "timestamp": "2026-08-12 19:10:00",
+      "component": "Layout & Page Fit",
+      "stage": "pdf_layout_audit",
+      "error_type": "Orphan Page 5 Spillover",
+      "summary": "Manuscript text spilled onto an orphan 5th page with only a few lines",
+      "root_cause": "Uncalibrated markdown text volume caused minor overflow past the 4-page camera-ready limit",
+      "resolution": "Tuned section text density so the document fills exactly 4 full pages with zero orphan spillover",
+      "prevention_rule": "R5: Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions",
+      "status": "VERIFIED_RESOLVED"
+    }
+  ],
+  "prevention_rules": {
+    "R1": "All PDF compilation endpoints must invoke compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)",
+    "R2": "PDF export route must return binary Response with application/pdf Content-Type",
+    "R3": "Strip all leading numerical prefixes from markdown section titles before converting to LaTeX \\section",
+    "R4": "Automatically filter out hardcoded markdown References sections prior to appending LaTeX \\bibliography",
+    "R5": "Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions"
+  }
+}

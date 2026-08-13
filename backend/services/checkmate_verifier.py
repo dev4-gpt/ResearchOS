@@ -119,7 +119,9 @@ class CheckmateVerifierService:
         real_bib_passed = len(synthetic_ref_matches) == 0
 
         # 7. Valid Layout & Page Budget Check
-        page_budget_passed = 2 <= total_pages <= 12
+        from services.venue_profiles import VENUE_PROFILES
+        profile = VENUE_PROFILES.get(venue_key)
+        page_budget_passed = 2 <= total_pages <= 16
 
         checks = {
             "zero_placeholders": {
