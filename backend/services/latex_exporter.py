@@ -276,6 +276,14 @@ class LaTeXExporterService:
         latex_body = text
         latex_body = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', latex_body)
         latex_body = re.sub(r'\*(.*?)\*', r'\\textit{\1}', latex_body)
+
+        # 12. FIX: Protect inline $math$ inside \item lines with \mbox{}
+        # Prevents pdflatex line-breaking individual math symbols onto separate lines
+        def protect_item_math(m):
+            line = m.group(0)
+            return re.sub(r'(\$(?:[^$]|\$\$)+?\$)', r'\\mbox{\1}', line)
+        latex_body = re.sub(r'^\s*\\item\s+.*\$.*$', protect_item_math, latex_body, flags=re.MULTILINE)
+
         return latex_body
 
     def markdown_to_ieeetran(
@@ -427,6 +435,9 @@ class LaTeXExporterService:
         elif venue_key == "CVPR":
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
+% orphan_spill_compression: tighten vertical spacing to prevent 3-line page spills
+\\setlength{{\\parskip}}{{0pt}}
+\\setlength{{\\parsep}}{{0pt}}
 
 \\begin{{document}}
 
@@ -455,6 +466,9 @@ class LaTeXExporterService:
         elif venue_key in ("ACL", "ARR"):
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
+% orphan_spill_compression: tighten vertical spacing to prevent 3-line page spills
+\\setlength{{\\parskip}}{{0pt}}
+\\setlength{{\\parsep}}{{0pt}}
 
 \\begin{{document}}
 
@@ -510,6 +524,12 @@ class LaTeXExporterService:
         else: # IEEEtran
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
+
+% Vertical compression: prevent 3-line orphan spill pages
+\\setlength{{\\parskip}}{{0pt plus 0.5pt}}
+\\setlength{{\\parsep}}{{0pt}}
+\\setlength{{\\topsep}}{{2pt plus 1pt minus 1pt}}
+\\setlength{{\\itemsep}}{{1pt plus 0.5pt}}
 
 \\begin{{document}}
 
@@ -691,7 +711,11 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 """
                     bib_lines.append(entry)
 
-        return "\n".join(bib_lines)
+        # FIX: sanitize stray whitespace before commas and periods in BibTeX strings
+        bib_text = "\n".join(bib_lines)
+        bib_text = re.sub(r' +,', ',', bib_text)
+        bib_text = re.sub(r' +\.', '.', bib_text)
+        return bib_text
 
     def compile_pdflatex(self, tex_code: str, bib_code: Optional[str] = None,
                          allow_package_fallback: bool = False) -> Optional[bytes]:

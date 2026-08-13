@@ -50,9 +50,21 @@ ResearchingOS orchestrates a 7-agent council of specialized personas to ensure r
    - Persists all build errors to `vault/system_error_ledger.json` and `vault/SYSTEM_ERROR_PREVENTION_MANUAL.md`.
    - Intercepts and self-heals build failures automatically.
 
----
-
-## Directory & Vault Structure
+53: ---
+54: 
+55: ## Master Venue Length & Formatting Reference
+56: 
+57: All manuscript generation, layout budgeting, and exporter logic MUST adhere to [venue_formatting_and_length_specifications.md](file:///Users/aryamandev/Library/Mobile%20Documents/com~apple~CloudDocs/Projects%202/ResearchingOS/vault/00_System/venue_formatting_and_length_specifications.md):
+58: - **`IEEEtran`**: Exactly 4 pages (Short/Camera-Ready) or 10–14 pages (Journal). 100% column density on p.4; zero orphan spills on p.5.
+59: - **`NeurIPS`**: 9 pages maximum main content. References & checklist after p.9. Double-Blind.
+60: - **`ICML`**: 8 pages maximum main content. References & appendices after p.8. Double-Blind.
+61: - **`CVPR`**: 8 pages maximum main content. References after p.8. Double-Blind.
+62: - **`ACL/ARR`**: 8 pages (Long) / 4 pages (Short). Unlimited refs & ethics statement. Double-Blind.
+63: - **`ACM`**: 10–12 pages (Surveys) / 9 pages (Conf). Avoid <15 line orphan final pages.
+64: 
+65: ---
+66: 
+67: ## Directory & Vault Structure
 
 ```
 ResearchingOS/
