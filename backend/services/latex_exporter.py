@@ -327,16 +327,29 @@ class LaTeXExporterService:
         
         # Extract clean abstract from body_markdown if abstract parameter is default/placeholder
         extracted_abstract = abstract
-        abstract_match = re.search(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', body_markdown, re.IGNORECASE)
+        abstract_match = re.search(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+([\s\S]*?)(?=\n+#{1,2}\s+|\Z)', body_markdown, re.IGNORECASE)
         if abstract_match:
             extracted_abstract = abstract_match.group(1).strip()
+
+        # Sanitize prompt instructions and debate transcripts from abstract
+        extracted_abstract = re.sub(r'Addressing\s+.*?within\s+the\s+context\s+of\s+\*\*.*?\*\*\s+requires\s+a\s+systematic\s+analysis.*?\n+', '', extracted_abstract, flags=re.IGNORECASE | re.DOTALL)
+        extracted_abstract = re.sub(r'Write\s+an\s+Executive\s+Abstract.*?\n+', '', extracted_abstract, flags=re.IGNORECASE)
+        extracted_abstract = re.sub(r'Good\s+morning,?\s+esteemed\s+council\s+members.*$', '', extracted_abstract, flags=re.IGNORECASE | re.DOTALL)
+        extracted_abstract = re.sub(r'#+\s*.*$', '', extracted_abstract, flags=re.MULTILINE)
+        extracted_abstract = extracted_abstract.strip()
+
+        # Truncate at last complete sentence if terminated mid-sentence
+        if extracted_abstract and not extracted_abstract.endswith(('.', '!', '?')):
+            last_period = max(extracted_abstract.rfind('.'), extracted_abstract.rfind('!'), extracted_abstract.rfind('?'))
+            if last_period > 100:
+                extracted_abstract = extracted_abstract[:last_period+1]
 
         clean_abstract = self.sanitize_latex(extracted_abstract)
         clean_abstract = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', clean_abstract)
         clean_abstract = re.sub(r'\*(.*?)\*', r'\\textit{\1}', clean_abstract)
         
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
-        body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+#|\Z)', '', body_markdown, flags=re.IGNORECASE)
+        body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+[\s\S]*?(?=\n+#{1,2}\s+|\Z)', '', body_markdown, flags=re.IGNORECASE)
         body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
             
         latex_body = self.convert_markdown_body(body_for_export)

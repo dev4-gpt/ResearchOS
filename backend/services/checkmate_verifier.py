@@ -64,10 +64,10 @@ class CheckmateVerifierService:
 
         # 2. Clean Section Numbering Check (detect '1 1 EXECUTIVE', '4 4 STATE', '10 5 ORIGINAL')
         double_num_patterns = [
-            r'\b(\d+)\s+\1\s+[A-Z]{3,}',
-            r'1\s+1\s+EXECUTIVE',
-            r'4\s+4\s+STATE',
-            r'10\s+5\s+ORIGINAL'
+            r'\b(\d+)[ \t]+\1[ \t]+[A-Z]{3,}',
+            r'1[ \t]+1[ \t]+EXECUTIVE',
+            r'4[ \t]+4[ \t]+STATE',
+            r'10[ \t]+5[ \t]+ORIGINAL'
         ]
         double_num_matches = []
         for pat in double_num_patterns:
@@ -99,7 +99,7 @@ class CheckmateVerifierService:
         author_passed = not has_unspecified_author
 
         # 5. Complete Abstract & Text Continuity Check
-        abstract_match = re.search(r'(?:Abstract|Executive Abstract)[—\-\s]+(.*?)(?=Index Terms|—|\n[1-9]\s+[A-Z]{3,}|1\.2|\Z)', page1_text, re.DOTALL | re.IGNORECASE)
+        abstract_match = re.search(r'Abstract[—\-\s]+(.*?)(?=Index\s+Terms|\n[1-9]\s+[A-Z]{3,}|\n\d+\s+[A-Z]|\Z)', page1_text, re.DOTALL | re.IGNORECASE)
         abstract_text = abstract_match.group(1).strip() if abstract_match else page1_text[:500]
         abstract_incomplete = abstract_text.endswith(("the", "a", "an", "and", "or", "during", "for", "with", "in", "of"))
         abstract_passed = not abstract_incomplete and len(abstract_text) > 20
