@@ -312,6 +312,8 @@ class LaTeXExporterService:
             extracted_abstract = abstract_match.group(1).strip()
 
         clean_abstract = self.sanitize_latex(extracted_abstract)
+        clean_abstract = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', clean_abstract)
+        clean_abstract = re.sub(r'\*(.*?)\*', r'\\textit{\1}', clean_abstract)
         
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
         body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract\n+[\s\S]*?(?=\n+#|\Z)', '', body_markdown, flags=re.IGNORECASE)
@@ -416,6 +418,7 @@ class LaTeXExporterService:
 
 {latex_body}
 
+\\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
 \\bibliography{{references}}
 
@@ -442,6 +445,7 @@ class LaTeXExporterService:
 {latex_body}
 
 {{\\small
+\\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
 \\bibliography{{references}}
 }}
@@ -468,6 +472,7 @@ class LaTeXExporterService:
 
 {latex_body}
 
+\\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
 \\bibliography{{references}}
 
@@ -496,6 +501,7 @@ class LaTeXExporterService:
 
 {latex_body}
 
+\\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
 \\bibliography{{references}}
 
@@ -526,6 +532,7 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
 
 {latex_body}
 
+\\par\\vspace{{0.5em}}
 \\bibliographystyle{{IEEEtran}}
 \\bibliography{{references}}
 
