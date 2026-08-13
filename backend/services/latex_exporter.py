@@ -105,8 +105,9 @@ class LaTeXExporterService:
         # Preserve math blocks $$...$$, $...$, and \cite{...} tags so underscores inside cite keys are NOT escaped
         parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
-            parts[i] = parts[i].replace('&', '\\&').replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
-            # Replace % with \% ONLY if it is not already preceded by a backslash
+            parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            # Replace & and % with \& and \% ONLY if they are not already preceded by a backslash
+            parts[i] = re.sub(r'(?<!\\)&', r'\\&', parts[i])
             parts[i] = re.sub(r'(?<!\\)%', r'\\%', parts[i])
         for i in range(1, len(parts), 2):
             if parts[i].startswith("\\cite{"):
@@ -289,9 +290,9 @@ class LaTeXExporterService:
         # 13. FIX: Auto-wrap display math $$...$$ with \begin{equation}\begin{aligned}...\end{aligned}\end{equation}
         def wrap_display_math(m):
             eq_content = m.group(1).strip()
-            # If already contains \begin{equation} or \begin{aligned}, preserve as-is
+            # If already contains \begin{equation}, \begin{aligned}, or \begin{cases}, preserve as-is without extra wrapping
             if '\\begin{' in eq_content:
-                return f"\n\\begin{{equation}}\n{eq_content}\n\\end{{equation}}\n"
+                return f"\n{eq_content}\n"
             return f"\n\\begin{{equation}}\n\\begin{{aligned}}\n{eq_content}\n\\end{{aligned}}\n\\end{{equation}}\n"
         latex_body = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', wrap_display_math, latex_body)
 
