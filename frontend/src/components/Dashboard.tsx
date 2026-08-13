@@ -131,6 +131,8 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
               <Sparkles size={14} />
               <span>{isResearching ? 'Council Deliberating...' : 'Launch Council'}</span>
             </button>
+          </div>
+
           {/* Venue & Target Length Selectors */}
           <div style={{ display: 'flex', gap: '12px', marginTop: '14px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
