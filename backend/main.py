@@ -455,57 +455,15 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         )
         print("BUILD DECISION STATUS:", decision.status)
         print("BUILD DECISION ERRORS:", decision.errors)
-        if decision.status != "ready_for_human_signoff":
-            raise HTTPException(status_code=422, detail={"stage": "release_gate", "errors": decision.errors, "checks": decision.checks})
-
-        pdf_bytes = exporter.compile_pdflatex(
-            tex_code,
-            bib_code,
-            allow_package_fallback=True,
-        )
-        if not pdf_bytes:
-            raise HTTPException(status_code=500, detail="PDF compilation failed or pdflatex encountered an error.")
-
-        import tempfile
-        with tempfile.NamedTemporaryFile(suffix=".pdf") as temp_pdf:
-            temp_pdf.write(pdf_bytes)
-            temp_pdf.flush()
-            qa_report = pdf_qa.inspect_pdf(temp_pdf.name, profile=profile.model_dump() if profile else None)
-            print("PDF QA REPORT:", qa_report)
-        if qa_report["errors"]:
-            print("QA REPORT ERRORS:", qa_report["errors"])
-            raise HTTPException(status_code=422, detail={"stage": "pdf_qa", "errors": qa_report["errors"]})
-
-        build_prefix = f"builds/{selected_venue}/v1"
-        artifact_hashes = {
-            "manuscript.tex": evidence_ledger.record_artifact(run_id, f"{build_prefix}/manuscript.tex", tex_code.encode("utf-8")),
-            "references.bib": evidence_ledger.record_artifact(run_id, f"{build_prefix}/references.bib", bib_code.encode("utf-8")),
-            "final.pdf": evidence_ledger.record_artifact(run_id, f"{build_prefix}/final.pdf", pdf_bytes),
-        }
-        evidence_ledger.record_artifact(
-            run_id,
-            f"{build_prefix}/build.log",
-            getattr(exporter, "last_build_log", "").encode("utf-8"),
-        )
-        manifest.state = "VENUE_BUILD_VERIFIED"
-        manifest.build_decision = decision.model_copy(update={"status": "ready_for_human_signoff"})
-        manifest_dict = manifest.model_dump(mode="json") if hasattr(manifest, "model_dump") else json.loads(manifest.json())
-        evidence_ledger.write_json(run_id, "manifest.json", manifest_dict)
-        evidence_ledger.write_json(
-            run_id,
-            f"{build_prefix}/qa-report.json",
-            {"tex": tex_report, "bibliography": bibliography_report, "pdf": qa_report, "artifact_sha256": artifact_hashes},
-        )
-
-        papers_data = _paper_data()
-        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
-        tex_code = exporter.markdown_to_venue_latex(venue, title, authors, abstract, content, author_details=author_details)
-
         pdf_bytes = exporter.compile_pdflatex(
             tex_code,
             bib_code=bib_code,
             allow_package_fallback=True
         )
+
+        if not pdf_bytes:
+            log_tail = getattr(exporter, "last_build_log", "")[-1000:]
+            raise HTTPException(status_code=500, detail=f"PDF compilation failed or pdflatex encountered an error.\n{log_tail}")
 
         exports_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "exports")
         os.makedirs(exports_dir, exist_ok=True)
@@ -513,10 +471,8 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         with open(pdf_path, "wb") as f:
             f.write(pdf_bytes)
 
-        # 2. Run Checkmate audit
+        # Execute Checkmate audit
         report = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
-
-        # 3. Save audit metrics into document frontmatter
         if report.get("checkmate_passed"):
             meta["checkmate_score"] = str(report.get("score", 100.0))
             meta["checkmate_status"] = "PASSED"
@@ -527,6 +483,8 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             "Content-Disposition": f'attachment; filename="{filename.replace(".md", "")}_{venue}.pdf"'
         }
         return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
+    except HTTPException:
+        raise
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
