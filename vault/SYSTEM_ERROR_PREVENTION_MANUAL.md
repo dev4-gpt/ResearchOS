@@ -1,9 +1,9 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-13 00:47:20
-**Total Tracked Incidents:** 5
-**Resolved & Verified:** 5
-**Active Prevention Rules:** 5
+**Last Updated:** 2026-08-13 10:19:43
+**Total Tracked Incidents:** 8
+**Resolved & Verified:** 8
+**Active Prevention Rules:** 8
 
 ---
 
@@ -14,6 +14,9 @@
 - **[R3]**: Strip all leading numerical prefixes from markdown section titles before converting to LaTeX \section
 - **[R4]**: Automatically filter out hardcoded markdown References sections prior to appending LaTeX \bibliography
 - **[R5]**: Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions
+- **[R6]**: R6: Provide safe \providecommand fallback definitions for venue-specific custom macros in all LaTeX templates
+- **[R7]**: R7: Always place \begin{document} immediately after preamble packages and before \title and \maketitle
+- **[R8]**: R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \textbf and \textit
 
 ---
 
@@ -62,4 +65,31 @@
 - **Root Cause:** Uncalibrated markdown text volume caused minor overflow past the 4-page camera-ready limit
 - **Resolution:** Tuned section text density so the document fills exactly 4 full pages with zero orphan spillover
 - **Prevention Rule:** `R5: Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-006] pdflatex failed on ICML template fallback due to undefined \icmltitle macro
+- **Timestamp:** `2026-08-13 10:19:43`
+- **Component:** `LaTeX Exporter / ICML` (pdflatex_compilation)
+- **Error Type:** `Undefined Macro Error`
+- **Root Cause:** ICML template used custom style macros that were undefined when geometry package fallback was triggered
+- **Resolution:** Added preamble \providecommand fallback macros for \icmltitle, \icmlauthor, \icmlaffiliation, and \icmlkeywords
+- **Prevention Rule:** `R6: R6: Provide safe \providecommand fallback definitions for venue-specific custom macros in all LaTeX templates`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-007] pdflatex failed on ACL template with '! LaTeX Error: Missing \begin{document}'
+- **Timestamp:** `2026-08-13 10:19:43`
+- **Component:** `LaTeX Exporter / ACL` (template_assembly)
+- **Error Type:** `Document Boundary Error`
+- **Root Cause:** ACL template placed \title, \author, and \maketitle prior to \begin{document}
+- **Resolution:** Re-ordered ACL template to place \begin{document} before \title, \author, and \maketitle
+- **Prevention Rule:** `R7: R7: Always place \begin{document} immediately after preamble packages and before \title and \maketitle`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-008] Abstract rendered literal ** double asterisks around keywords
+- **Timestamp:** `2026-08-13 10:19:43`
+- **Component:** `LaTeX Exporter / Abstract Sanitizer` (abstract_rendering)
+- **Error Type:** `Raw Markdown Asterisk Leakage`
+- **Root Cause:** sanitize_latex escaped special characters but did not convert markdown bold **text** to LaTeX \textbf{text}
+- **Resolution:** Added regex conversion re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', clean_abstract)
+- **Prevention Rule:** `R8: R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \textbf and \textit`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-13 00:47:20",
+  "last_updated": "2026-08-13 10:19:43",
   "stats": {
-    "total_errors_recorded": 5,
-    "resolved_count": 5,
-    "active_prevention_rules": 5
+    "total_errors_recorded": 8,
+    "resolved_count": 8,
+    "active_prevention_rules": 8
   },
   "history": [
     {
@@ -67,6 +67,42 @@
       "resolution": "Tuned section text density so the document fills exactly 4 full pages with zero orphan spillover",
       "prevention_rule": "R5: Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-006",
+      "timestamp": "2026-08-13 10:19:43",
+      "component": "LaTeX Exporter / ICML",
+      "stage": "pdflatex_compilation",
+      "error_type": "Undefined Macro Error",
+      "summary": "pdflatex failed on ICML template fallback due to undefined \\icmltitle macro",
+      "root_cause": "ICML template used custom style macros that were undefined when geometry package fallback was triggered",
+      "resolution": "Added preamble \\providecommand fallback macros for \\icmltitle, \\icmlauthor, \\icmlaffiliation, and \\icmlkeywords",
+      "prevention_rule": "R6: R6: Provide safe \\providecommand fallback definitions for venue-specific custom macros in all LaTeX templates",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-007",
+      "timestamp": "2026-08-13 10:19:43",
+      "component": "LaTeX Exporter / ACL",
+      "stage": "template_assembly",
+      "error_type": "Document Boundary Error",
+      "summary": "pdflatex failed on ACL template with '! LaTeX Error: Missing \\begin{document}'",
+      "root_cause": "ACL template placed \\title, \\author, and \\maketitle prior to \\begin{document}",
+      "resolution": "Re-ordered ACL template to place \\begin{document} before \\title, \\author, and \\maketitle",
+      "prevention_rule": "R7: R7: Always place \\begin{document} immediately after preamble packages and before \\title and \\maketitle",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-008",
+      "timestamp": "2026-08-13 10:19:43",
+      "component": "LaTeX Exporter / Abstract Sanitizer",
+      "stage": "abstract_rendering",
+      "error_type": "Raw Markdown Asterisk Leakage",
+      "summary": "Abstract rendered literal ** double asterisks around keywords",
+      "root_cause": "sanitize_latex escaped special characters but did not convert markdown bold **text** to LaTeX \\textbf{text}",
+      "resolution": "Added regex conversion re.sub(r'\\*\\*(.*?)\\*\\*', r'\\\\textbf{\\1}', clean_abstract)",
+      "prevention_rule": "R8: R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -74,6 +110,9 @@
     "R2": "PDF export route must return binary Response with application/pdf Content-Type",
     "R3": "Strip all leading numerical prefixes from markdown section titles before converting to LaTeX \\section",
     "R4": "Automatically filter out hardcoded markdown References sections prior to appending LaTeX \\bibliography",
-    "R5": "Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions"
+    "R5": "Enforce strict 4-page layout auditing for camera-ready IEEEtran submissions",
+    "R6": "R6: Provide safe \\providecommand fallback definitions for venue-specific custom macros in all LaTeX templates",
+    "R7": "R7: Always place \\begin{document} immediately after preamble packages and before \\title and \\maketitle",
+    "R8": "R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit"
   }
 }
