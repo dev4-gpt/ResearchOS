@@ -179,8 +179,10 @@ class LaTeXExporterService:
         def heading_to_section(m):
             level = len(m.group(1))
             title_text = m.group(2).strip()
-            # Strip leading section numbers like '1 ', '1.1 ', '2.2.1 '
+            # Strip leading/trailing bold asterisks and section numbers like '**1. ', '1 ', '1.1 '
+            title_text = re.sub(r'^[\*\s]+|[\*\s]+$', '', title_text).strip()
             title_text = re.sub(r'^(\d+[\.\s]*)+', '', title_text).strip()
+            title_text = re.sub(r'^[\*\s]+|[\*\s]+$', '', title_text).strip()
             
             if level in (1, 2):
                 return f"\n\\section{{{title_text}}}\n"
@@ -290,10 +292,27 @@ class LaTeXExporterService:
 
         text = '\n'.join(final_lines)
 
-        # 11. Format bold and italic markdown
-        latex_body = text
-        latex_body = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', latex_body)
-        latex_body = re.sub(r'\*(.*?)\*', r'\\textit{\1}', latex_body)
+        # 11. Format bold and italic markdown (balance unclosed ** and * per line to prevent runaway pdflatex arguments)
+        lines_list = text.split('\n')
+        fixed_lines = []
+        for line in lines_list:
+            if line.startswith('\\section') or line.startswith('\\subsection') or line.startswith('\\subsubsection'):
+                # Ensure section lines never contain unclosed bold/italic tags
+                line = line.replace('**', '').replace('*', '')
+            else:
+                if line.count('**') % 2 != 0:
+                    line += '**'
+                if line.count('*') % 2 != 0:
+                    line += '*'
+            fixed_lines.append(line)
+        latex_body = '\n'.join(fixed_lines)
+        latex_body = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', latex_body)
+        latex_body = re.sub(r'\*([^\n]+?)\*', r'\\textit{\1}', latex_body)
+        
+        # Clean any accidental \textbf{\section{...}} occurrences
+        latex_body = re.sub(r'\\textbf\{(\\section\{[^}]+\})\}', r'\1', latex_body)
+        latex_body = re.sub(r'\\textbf\{(\\subsection\{[^}]+\})\}', r'\1', latex_body)
+        latex_body = re.sub(r'\\textbf\{(\\subsubsection\{[^}]+\})\}', r'\1', latex_body)
 
         # 12. FIX: Protect inline $math$ inside \item lines with \mbox{}
         # Prevents pdflatex line-breaking individual math symbols onto separate lines
@@ -362,8 +381,8 @@ class LaTeXExporterService:
         clean_abstract = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', extracted_abstract)
         clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", clean_abstract)
         clean_abstract = self.sanitize_latex(clean_abstract)
-        clean_abstract = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', clean_abstract)
-        clean_abstract = re.sub(r'\*(.*?)\*', r'\\textit{\1}', clean_abstract)
+        clean_abstract = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', clean_abstract)
+        clean_abstract = re.sub(r'\*([^\n]+?)\*', r'\\textit{\1}', clean_abstract)
         
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
         body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+[\s\S]*?(?=\n+#{1,2}\s+|\Z)', '', body_markdown, flags=re.IGNORECASE)
