@@ -31,10 +31,11 @@ Traditional Automated Program Repair (APR) relied on heuristic search over concr
 
 ### Research Scope and Central Questions
 This review synthesizes findings across computer science, software engineering economics, and technology management. We structure our analysis around four central research questions:
-- **$RQ_1$ (Architectural Topology)**: What structural orchestration topologies (Manager-Worker, Contract-Net Bidding, Shared Blackboard, or Peer-to-Peer Mesh) optimize patch resolution velocity while minimizing API token expenditures?
-- **$RQ_2$ (Econometric Impact)**: How does the depth of multi-agent tool integration interact with human developer hours to alter organizational production functions and supermodular labor complementarity?
-- **$RQ_3$ (Systemic Risk & Security)**: What sandbox containment protocols, static analysis checks, and dependency verification bounds are required to eliminate remote code execution (RCE) vulnerabilities and hallucinated package injection attacks?
-- **$RQ_4$ (Cryptographic Governance)**: What cryptographic verification mechanisms and human-in-the-loop (HITL) control boundaries are necessary to establish audit compliance in regulated production deployments?
+
+1. **Research Question 1 (RQ1 - Architectural Topology)**: What structural orchestration topologies (Manager-Worker, Contract-Net Bidding, Shared Blackboard, or Peer-to-Peer Mesh) optimize patch resolution velocity while minimizing API token expenditures?
+2. **Research Question 2 (RQ2 - Econometric Impact)**: How does the depth of multi-agent tool integration interact with human developer hours to alter organizational production functions and supermodular labor complementarity?
+3. **Research Question 3 (RQ3 - Systemic Risk & Security)**: What sandbox containment protocols, static analysis checks, and dependency verification bounds are required to eliminate remote code execution (RCE) vulnerabilities and hallucinated package injection attacks?
+4. **Research Question 4 (RQ4 - Cryptographic Governance)**: What cryptographic verification mechanisms and human-in-the-loop (HITL) control boundaries are necessary to establish audit compliance in regulated production deployments?
 
 ### Primary Contributions
 This paper provides four primary contributions to the academic literature and industrial practice:
@@ -96,27 +97,26 @@ By filtering syntactically or logically invalid candidates upstream, constraint-
 The self-healing cycle iterates until either all unit tests pass or the maximum token budget $B_{\text{max}}$ is exhausted. Algorithm 1 illustrates the formal control logic governing automated fault localization and repair.
 
 ```
-Algorithm 1: Constraint-Guided Self-Healing AST Repair Loop
-Input  : Repository Codebase R, Failing Test Suite T_fail, Invariant Constraints C_inv, Token Budget B_max
-Output : Validated Patch P_valid or Failure Report
+Algorithm 1: AST Repair Loop
+Input: Rep R, Test T, Constraint C, Budget Bmax
+Output: Validated Patch P or Failure Report
 
-1: Initialize Token Counter B <- 0
-2: Stack Trace S_trace <- ExecuteTestSuite(R, T_fail)
-3: Fault Map F_loc <- LocalizeFault(R, S_trace)
-4: while B < B_max and T_fail is Failing do
-5:     Candidate Mutation n' <- SampleASTMutation(F_loc, R)
-6:     B <- B + EstimateTokenCost(n')
-7:     if Verify(n', C_inv) == Pass then
-8:         Sandbox Result Res <- ExecuteInDocker(R + n', T_fail)
+1: B := 0
+2: Strace := RunTests(R, T)
+3: Floc := FindFault(R, Strace)
+4: while B < Bmax and T is Failing do
+5:     n' := SampleASTMutation(Floc, R)
+6:     B := B + TokenCost(n')
+7:     if Verify(n', C) == Pass then
+8:         Res := RunInDocker(R + n', T)
 9:         if Res.Status == Success then
-10:            P_valid <- GenerateGitDiff(R, n')
-11:            Return P_valid
-12:        else
-13:            F_loc <- RefineFaultHypothesis(Res.Stderr, S_trace)
-14:        end if
-15:    end if
-16: end while
-17: Return Failure Report (Budget Exhausted)
+10:            return Diff(R, n')
+11:        else
+12:            Floc := Refine(Res.Stderr)
+13:        end if
+14:    end if
+15: end while
+16: return FailureReport()
 ```
 
 ---
@@ -126,28 +126,11 @@ Output : Validated Patch P_valid or Failure Report
 Adhering to PRISMA 2020 guidelines [[prisma2020]], this review conducted a systematic literature search across IEEE Xplore, ACM Digital Library, arXiv, and NBER repositories (2020–2026). Inclusion criteria required peer-reviewed or authoritative preprint status evaluating multi-agent code generation, self-healing runtime systems, or enterprise adoption dynamics.
 
 ### Systematic Review Methodology (PRISMA 2020)
-The identification stage retrieved 1,420 candidate records across target digital repositories [[prisma2020]]. Screening by title and abstract relevance filtered the corpus to 680 candidate papers. Full-text eligibility appraisal narrowed the selection to 185 studies. Final synthesis incorporated 42 primary peer-reviewed studies featuring validated empirical benchmarks.
-
-```
-  +-----------------------------------------------------------------------+
-  | IDENTIFICATION: 1,420 Records Retrieved Across IEEE, ACM, arXiv, NBER |
-  +-----------------------------------------------------------------------+
-                                     |
-                                     v
-  +-----------------------------------------------------------------------+
-  | SCREENING: 680 Records Evaluated by Title and Abstract Relevance      |
-  +-----------------------------------------------------------------------+
-                                     |
-                                     v
-  +-----------------------------------------------------------------------+
-  | ELIGIBILITY: 185 Full-Text Papers Appraised Against Inclusion Criteria|
-  +-----------------------------------------------------------------------+
-                                     |
-                                     v
-  +-----------------------------------------------------------------------+
-  | INCLUDED: 42 Primary Studies Synthesized in Systematic Review         |
-  +-----------------------------------------------------------------------+
-```
+The systematic review protocol progressed through four formal stages:
+1. **Identification**: Retrieved 1,420 candidate records across target digital databases (IEEE Xplore, ACM Digital Library, arXiv, NBER) [[prisma2020]].
+2. **Screening**: Evaluated 680 candidate papers by title, abstract, and methodological relevance, excluding non-technical commentaries.
+3. **Eligibility**: Appraised 185 full-text articles against empirical rigor standards and multi-agent system criteria.
+4. **Inclusion**: Synthesized 42 primary peer-reviewed studies featuring validated quantitative benchmarks.
 
 ### Comprehensive Taxonomy of Multi-Agent Control Topologies
 Based on our synthesis of surveyed literature, multi-agent code synthesis architectures can be categorized into four primary structural topologies [[wooldridge2009]]:
@@ -209,24 +192,24 @@ MAEG comprises four tightly integrated operational layers:
 4. **Human-in-the-Loop Gatekeeper Layer**: Enforces cryptographic signature checks and human sign-off checkpoints prior to merging production-bound pull requests [[feuerriegel2023generativeai]].
 
 ```
-Algorithm 2: MAEG Cryptographic Gatekeeper and Risk Auditing Protocol
-Input  : Proposed Diff D, Risk Threshold Theta_risk, User Key K_user
-Output : Merge Decision (Approved/Rejected)
+Algorithm 2: MAEG Gatekeeper Protocol
+Input: Diff D, Threshold Theta, User Key K
+Output: Merge Decision (Approved/Rejected)
 
-1: Score S_risk <- ComputeRiskScore(D)  // Analyzes auth, database schemas, billing handlers
-2: if S_risk >= Theta_risk then
-3:     Require Dual-Agent Signoff (Agent_Security, Agent_Architect)
-4:     if DualSignoff.Status != Valid then
-5:         Return Rejected ("Dual-Agent Signoff Failed")
+1: Srisk := ComputeRiskScore(D)
+2: if Srisk >= Theta then
+3:     DualSign := CheckDualAgentSignoff()
+4:     if DualSign.Status != Valid then
+5:         return Rejected("Signoff Failed")
 6:     end if
-7:     Signature SIG <- PromptHumanGatekeeper(D, S_risk)
-8:     if VerifyCryptoSignature(SIG, K_user) == Valid then
-9:         Return Approved (Merge Allowed)
+7:     SIG := PromptHumanGatekeeper(D, Srisk)
+8:     if VerifySignature(SIG, K) == Valid then
+9:         return Approved("Merge Allowed")
 10:    else
-11:        Return Rejected ("Invalid Human Signature")
+11:        return Rejected("Invalid Signature")
 12:    end if
 13: else
-14:    Return Approved (Automated Low-Risk Merge)
+14:    return Approved("Low-Risk Auto Merge")
 15: end if
 ```
 

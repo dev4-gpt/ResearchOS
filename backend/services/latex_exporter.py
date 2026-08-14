@@ -118,13 +118,25 @@ class LaTeXExporterService:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
         
-        # 1. Replace code blocks with verbatim environments (scaled small to avoid margin overflow)
+        # 1. Replace code blocks with narrow, non-overflowing verbatim environments
         def replace_code_block(match):
-            code_content = match.group(1)
+            code_content = match.group(1).strip()
             char_map = {'┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+', '═': '=', '║': '|'}
             for char, repl in char_map.items():
                 code_content = code_content.replace(char, repl)
-            return f"\n\\begin{{small}}\n\\begin{{verbatim}}\n{code_content}\n\\end{{verbatim}}\n\\end{{small}}\n"
+            # Truncate or wrap lines over 42 characters to fit 3.5in IEEEtran columns
+            wrapped_lines = []
+            for line in code_content.split('\n'):
+                if len(line) > 42 and not line.startswith("//"):
+                    # Break long algorithm lines cleanly across indentation
+                    indent = len(line) - len(line.lstrip())
+                    ind_str = " " * (indent + 2)
+                    sub_lines = [line[i:i+40] for i in range(0, len(line), 40)]
+                    wrapped_lines.append(f"\n{ind_str}".join(sub_lines))
+                else:
+                    wrapped_lines.append(line)
+            clean_code = "\n".join(wrapped_lines)
+            return f"\n\\begin{{scriptsize}}\n\\begin{{verbatim}}\n{clean_code}\n\\end{{verbatim}}\n\\end{{scriptsize}}\n"
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
@@ -182,7 +194,7 @@ class LaTeXExporterService:
         # 8. Sanitize body text outside math & cite blocks
         text = self.sanitize_latex(text)
 
-        # 9. Parse lists (- item, 1. item) into \begin{itemize} / \begin{enumerate}
+        # 9. Parse lists (- item, 1. item, 1) item) into \begin{itemize} / \begin{enumerate}
         lines = text.split('\n')
         new_lines = []
         in_list = False
@@ -190,8 +202,11 @@ class LaTeXExporterService:
 
         for line in lines:
             stripped = line.strip()
-            bullet_match = re.match(r'^[*\-\+]\s+(.*)', stripped)
-            enum_match = re.match(r'^\d+\.\s+(.*)', stripped)
+            # Remove leading bullet artifacts if appended after item numbers like '1)•'
+            stripped = re.sub(r'^(\d+[\)\.])\s*[•*]\s*', r'\1 ', stripped)
+            
+            bullet_match = re.match(r'^[*\-\+•]\s+(.*)', stripped)
+            enum_match = re.match(r'^\d+[\)\.]\s+(.*)', stripped)
 
             if bullet_match:
                 if not in_list or list_type != 'itemize':
@@ -344,7 +359,9 @@ class LaTeXExporterService:
             if last_period > 100:
                 extracted_abstract = extracted_abstract[:last_period+1]
 
-        clean_abstract = self.sanitize_latex(extracted_abstract)
+        clean_abstract = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', extracted_abstract)
+        clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", clean_abstract)
+        clean_abstract = self.sanitize_latex(clean_abstract)
         clean_abstract = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', clean_abstract)
         clean_abstract = re.sub(r'\*(.*?)\*', r'\\textit{\1}', clean_abstract)
         
