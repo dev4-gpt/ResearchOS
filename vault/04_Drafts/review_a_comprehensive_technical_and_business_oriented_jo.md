@@ -5,16 +5,6 @@ status: "draft"
 format: "IEEE/ACM markdown"
 fact_check_score: "100.0"
 verification_status: "passed"
-verification_matrix: "{\'verified_citations\': [\'openalex_w7125699492\', \'wooldridge2009\', \'rogers2003\', \'feuerriegel2023generativeai\', \'joshua2026adoptiondepth\', \'bratman1987\', \'prisma2020\', \'openalex_w4366817968\', \'openalex_w4414281281\', \'arxiv_2302.10809\', \'crossref_10.56975_ijcrt.v14i1.297627\'], \'broken_citations\': [], \'unresolved_citations\': [], \'grounded_metrics\': [], \'unverified_metrics\': []}"
-peer_review: "{\'schema_valid\': True, \'overall_decision\': \'STRONG ACCEPT\', \'scores\': {\'novelty\': 10, \'technical_rigor\': 10, \'empirical_grounding\': 10, \'presentation_clarity\': 10}, \'key_strengths\': [\'Exhaustive 10-12 page journal synthesis\', \'Formal econometric productivity models\', \'Cryptographic HITL governance protocols\'], \'fatal_weaknesses\': [], \'required_revisions\': []}"
-synthetic: "False"
-tags:
-  - "enterprise-generative-ai-adoption"
-  - "multi-agent-systems"
-  - "econometric-modeling"
-  - "systemic-governance"
-  - "literature-review"
-  - "journal-publication"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-14"
@@ -22,7 +12,7 @@ checkmate_date: "2026-08-14"
 
 ## Executive Abstract & Introduction
 
-The enterprise adoption of Generative Artificial Intelligence (AI) and Multi-Agent Systems (MAS) architectures marks a fundamental structural transition in organizational computing [[openalex_w4366817968]]. This paradigm shift moves enterprise software engineering away from static, single-prompt AI code completion tools toward dynamic, networked multi-agent orchestration capable of automated debugging, static analysis, architectural fault localization, and continuous runtime remediation [[feuerriegel2023generativeai]]. This paper presents an exhaustive, interdisciplinary literature review examining enterprise AI integration across three foundational technical and managerial pillars: (1) System Architecture & Multi-Agent Orchestration, evaluating Retrieval-Augmented Generation (RAG) against domain fine-tuning and analyzing latency-cost trade-offs in sandboxed execution environments [[crossref_10.56975_ijcrt.v14i1.297627]]; (2) Econometric & Productivity Modeling, establishing Cobb-Douglas production functions and supermodular labor complementarity to quantify return on investment (ROI); and (3) Systemic Risk & Governance Frameworks, proposing cryptographically audited human-in-the-loop (HITL) guardrails for hallucination mitigation and regulatory compliance [[openalex_w7125699492]].
+The enterprise adoption of Generative Artificial Intelligence (AI) and Multi-Agent Systems (MAS) architectures marks a fundamental structural transition in organizational computing [[openalex_w4366817968]]. This paradigm shift moves enterprise software engineering away from static, single-prompt AI code completion tools toward dynamic, networked multi-agent orchestration capable of automated debugging, static analysis, architectural fault localization, and continuous runtime remediation [[feuerriegel2023generativeai]]. This paper presents a concise, interdisciplinary literature review examining enterprise AI integration across three foundational technical and managerial pillars: (1) System Architecture & Multi-Agent Orchestration, evaluating Retrieval-Augmented Generation (RAG) against domain fine-tuning and analyzing latency-cost trade-offs in sandboxed execution environments [[crossref_10.56975_ijcrt.v14i1.297627]]; (2) Econometric & Productivity Modeling, establishing Cobb-Douglas production functions and supermodular labor complementarity to quantify return on investment (ROI); and (3) Systemic Risk & Governance Frameworks, proposing cryptographically audited human-in-the-loop (HITL) guardrails for hallucination mitigation and regulatory compliance [[openalex_w7125699492]].
 
 ### Operational Context & Research Motivation
 While initial commercial AI coding assistants (such as GitHub Copilot and Cursor) demonstrate efficacy for localized function generation, complex enterprise software engineering demands autonomous problem decomposition, inter-module dependency resolution, cross-file symbol tracking, and continuous self-healing verification loops [[joshua2026adoptiondepth]]. In production environments, un-monitored autonomous code generation faces substantial operational risks: non-deterministic code hallucination, cascading inter-file regression bugs, context window saturation, and security vulnerability injection [[wooldridge2009]]. To overcome these vulnerabilities, recent computer science and management research has pivoted toward Self-Healing Multi-Agent Systems (SHMAS) [[openalex_w4414281281]]. In these topologies, specialized AI agents collaborate across isolated sandboxed execution loops—parsing compiler error telemetry, mutating Abstract Syntax Tree (AST) structures, executing automated test suites, and committing verified code patches without human manual intervention.
@@ -218,9 +208,10 @@ MAEG enforces a strict privilege boundary between proposal and execution. Code p
 
 ### Hierarchical Model Routing Mechanics
 To optimize inference costs, MAEG implements a 3-tier hierarchical routing model:
-- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $\approx \$0.00 / 1M tokens$.
-- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $\approx \$0.20 / 1M tokens$.
-- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $\approx \$15.00 / 1M tokens$.
+
+- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $\approx \$0.00 / 1\text{M tokens}$.
+- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $\approx \$0.20 / 1\text{M tokens}$.
+- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $\approx \$15.00 / 1\text{M tokens}$.
 
 By applying Tier 1 and Tier 2 filters upstream, MAEG reduces total API token expenditures by 78.4% without degrading patch resolution success rates on SWE-bench benchmarks.
 
@@ -285,6 +276,6 @@ Beyond the phased roadmap, three concrete industrial targets warrant immediate r
 
 ## Conclusion & Practical Guidance for Enterprise Leaders
 
-This paper has presented an exhaustive, interdisciplinary examination of Enterprise Adoption of Generative AI and Multi-Agent Systems [[feuerriegel2023generativeai]]. By combining formal AST validation, sandboxed execution feedback, and hierarchical model routing, the proposed MAEG framework provides a resilient foundation for next-generation automated software engineering. The econometric meta-analysis confirms a statistically significant $\Delta\text{SoftwareOutput}$ uplift under autonomous repair regimes, with marked Pass@1 improvements across HumanEval and SWE-bench subsets attributable directly to multi-pass self-healing feedback loops [[joshua2026adoptiondepth]].
+This paper has presented a concise, interdisciplinary examination of Enterprise Adoption of Generative AI and Multi-Agent Systems [[feuerriegel2023generativeai]]. By combining formal AST validation, sandboxed execution feedback, and hierarchical model routing, the proposed MAEG framework provides a resilient foundation for next-generation automated software engineering. The econometric meta-analysis confirms a statistically significant $\Delta\text{SoftwareOutput}$ uplift under autonomous repair regimes, with marked Pass@1 improvements across HumanEval and SWE-bench subsets attributable directly to multi-pass self-healing feedback loops [[joshua2026adoptiondepth]].
 
 Critically, these gains do not eliminate the need for human engineering expertise—they concentrate it at higher architectural abstraction layers where architectural foresight, security reasoning, and domain semantics remain irreplaceable human contributions [[rogers2003]]. As enterprises adopt autonomous code agents at scale, rigorous systems engineering, cryptographically audited HITL checkpoints, LSP-integrated AST-aware patching, and continuous regression guardrails will remain the essential pillars of reliable, production-grade automated software deployment.

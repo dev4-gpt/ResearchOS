@@ -1,9 +1,7 @@
 ---
-title: "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption (Short/Camera-Ready Edition)"
+title: "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption"
 topic: "Enterprise Adoption of Generative AI and Multi-Agent Systems"
 status: "draft"
-version: "short_camera_ready"
-target_pages: "4-6 pages"
 format: "IEEE/ACM markdown"
 fact_check_score: "100.0"
 verification_status: "passed"
@@ -210,9 +208,10 @@ MAEG enforces a strict privilege boundary between proposal and execution. Code p
 
 ### Hierarchical Model Routing Mechanics
 To optimize inference costs, MAEG implements a 3-tier hierarchical routing model:
-- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $\approx \$0.00 / 1M tokens$.
-- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $\approx \$0.20 / 1M tokens$.
-- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $\approx \$15.00 / 1M tokens$.
+
+- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $\approx \$0.00 / 1\text{M tokens}$.
+- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $\approx \$0.20 / 1\text{M tokens}$.
+- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $\approx \$15.00 / 1\text{M tokens}$.
 
 By applying Tier 1 and Tier 2 filters upstream, MAEG reduces total API token expenditures by 78.4% without degrading patch resolution success rates on SWE-bench benchmarks.
 
@@ -277,6 +276,6 @@ Beyond the phased roadmap, three concrete industrial targets warrant immediate r
 
 ## Conclusion & Practical Guidance for Enterprise Leaders
 
-This paper has presented an exhaustive, interdisciplinary examination of Enterprise Adoption of Generative AI and Multi-Agent Systems [[feuerriegel2023generativeai]]. By combining formal AST validation, sandboxed execution feedback, and hierarchical model routing, the proposed MAEG framework provides a resilient foundation for next-generation automated software engineering. The econometric meta-analysis confirms a statistically significant $\Delta\text{SoftwareOutput}$ uplift under autonomous repair regimes, with marked Pass@1 improvements across HumanEval and SWE-bench subsets attributable directly to multi-pass self-healing feedback loops [[joshua2026adoptiondepth]].
+This paper has presented a concise, interdisciplinary examination of Enterprise Adoption of Generative AI and Multi-Agent Systems [[feuerriegel2023generativeai]]. By combining formal AST validation, sandboxed execution feedback, and hierarchical model routing, the proposed MAEG framework provides a resilient foundation for next-generation automated software engineering. The econometric meta-analysis confirms a statistically significant $\Delta\text{SoftwareOutput}$ uplift under autonomous repair regimes, with marked Pass@1 improvements across HumanEval and SWE-bench subsets attributable directly to multi-pass self-healing feedback loops [[joshua2026adoptiondepth]].
 
 Critically, these gains do not eliminate the need for human engineering expertise—they concentrate it at higher architectural abstraction layers where architectural foresight, security reasoning, and domain semantics remain irreplaceable human contributions [[rogers2003]]. As enterprises adopt autonomous code agents at scale, rigorous systems engineering, cryptographically audited HITL checkpoints, LSP-integrated AST-aware patching, and continuous regression guardrails will remain the essential pillars of reliable, production-grade automated software deployment.
