@@ -213,9 +213,9 @@ MAEG enforces a strict privilege boundary between proposal and execution. Code p
 ### Hierarchical Model Routing Mechanics
 To optimize inference costs, MAEG implements a 3-tier hierarchical routing model:
 
-- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $\approx \$0.00 / 1\text{{M tokens}}$.
-- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $\approx \$0.20 / 1\text{{M tokens}}$.
-- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $\approx \$15.00 / 1\text{{M tokens}}$.
+- **Tier 1 (Local 3B-8B Models)**: Performs initial AST linting, formatting, docstring generation, and basic syntax fix generation. Operational cost: $pprox \$0.00$ per 1M tokens.
+- **Tier 2 (Mid-Tier Open Models - 70B)**: Performs localized function repair, unit test generation, and single-file bug fixes. Operational cost: $pprox \$0.20$ per 1M tokens.
+- **Tier 3 (Frontier Closed Models - GPT-4o / Claude 3.5)**: Reserved exclusively for multi-file root-cause fault localization, cross-module dependency re-architecting, and security audit verification. Operational cost: $pprox \$15.00$ per 1M tokens.
 
 By applying Tier 1 and Tier 2 filters upstream, MAEG reduces total API token expenditures by 78.4% without degrading patch resolution success rates on SWE-bench benchmarks.
 

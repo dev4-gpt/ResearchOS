@@ -103,7 +103,8 @@ class LaTeXExporterService:
             text = text.replace(char, repl)
 
         # Preserve math blocks $$...$$, $...$, and \cite{...} tags so underscores inside cite keys are NOT escaped
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|\$.*?\$|\\cite\{[^}]+\})', text)
+        # Use (?<!\\)\$(?:\\\$|[^\$])+?\$ to correctly handle inline math containing escaped \$ symbols
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$|\\cite\{[^}]+\})', text)
         for i in range(0, len(parts), 2):
             parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
             # Replace & and % with \& and \% ONLY if they are not already preceded by a backslash
@@ -202,7 +203,7 @@ class LaTeXExporterService:
         in_list = False
         list_type = None
 
-        for line in lines:
+        for i, line in enumerate(lines):
             stripped = line.strip()
             # Remove leading bullet artifacts if appended after item numbers like '1)•'
             stripped = re.sub(r'^(\d+[\)\.])\s*[•*]\s*', r'\1 ', stripped)
@@ -228,10 +229,25 @@ class LaTeXExporterService:
                 new_lines.append(f"  \\item {enum_match.group(1)}")
             else:
                 if in_list and not stripped:
-                    new_lines.append(f"\\end{{{list_type}}}")
-                    in_list = False
-                    list_type = None
-                new_lines.append(line)
+                    # Look ahead to see if the next non-empty line continues the list
+                    next_is_list = False
+                    for j in range(i + 1, len(lines)):
+                        next_stripped = lines[j].strip()
+                        if next_stripped:
+                            if re.match(r'^[*\-\+•]\s+.*', next_stripped) or re.match(r'^\d+[\)\.]\s+.*', next_stripped):
+                                next_is_list = True
+                            break
+                    if not next_is_list:
+                        new_lines.append(f"\\end{{{list_type}}}")
+                        in_list = False
+                        list_type = None
+                        new_lines.append(line)
+                else:
+                    if in_list:
+                        new_lines.append(f"\\end{{{list_type}}}")
+                        in_list = False
+                        list_type = None
+                    new_lines.append(line)
 
         if in_list:
             new_lines.append(f"\\end{{{list_type}}}")
@@ -302,12 +318,14 @@ class LaTeXExporterService:
             else:
                 if line.count('**') % 2 != 0:
                     line += '**'
-                if line.count('*') % 2 != 0:
+                # Count single asterisks excluding ** pairs
+                single_asterisks = len(re.findall(r'(?<!\*)\*(?!\*)', line))
+                if single_asterisks % 2 != 0:
                     line += '*'
             fixed_lines.append(line)
         latex_body = '\n'.join(fixed_lines)
         latex_body = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', latex_body)
-        latex_body = re.sub(r'\*([^\n]+?)\*', r'\\textit{\1}', latex_body)
+        latex_body = re.sub(r'(?<!\*)\*([^\*\n]+?)\*(?!\*)', r'\\textit{\1}', latex_body)
         
         # Clean any accidental \textbf{\section{...}} occurrences
         latex_body = re.sub(r'\\textbf\{(\\section\{[^}]+\})\}', r'\1', latex_body)
@@ -318,7 +336,7 @@ class LaTeXExporterService:
         # Prevents pdflatex line-breaking individual math symbols onto separate lines
         def protect_item_math(m):
             line = m.group(0)
-            return re.sub(r'(\$(?:[^$]|\$\$)+?\$)', r'\\mbox{\1}', line)
+            return re.sub(r'((?<!\\)\$(?:\\\$|[^\$])+?\$)', r'\\mbox{\1}', line)
         latex_body = re.sub(r'^\s*\\item\s+.*\$.*$', protect_item_math, latex_body, flags=re.MULTILINE)
 
         # 13. FIX: Auto-wrap display math $$...$$ with \begin{equation}\begin{aligned}...\end{aligned}\end{equation}
