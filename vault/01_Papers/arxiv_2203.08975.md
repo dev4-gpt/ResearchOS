@@ -12,7 +12,7 @@ id: "arxiv:2203.08975"
 full_pdf_ingested: "True"
 tags:
   - "research-paper"
-  - "enterprise-adoption-of-multi-agent-ai-systems:-infrastructure-architectures,-organizational-implementation,-and-labor-market-transformation"
+  - "autonomous-code-synthesis-and-self-healing-multi-agent-systems:-architectural-topologies,-empirical-benchmarks,-and-systemic-governance"
 ---
 # A Survey of Multi-Agent Deep Reinforcement Learning with Communication
 

@@ -58,7 +58,9 @@
     "Run project_1786463196: Fact-check score (50.0%) dropped. Strict verification required for a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a .",
     "Run project_1786463540: Fact-check score (55.5%) dropped. Strict verification required for \"Multimodal Alignment in Vision-Language Models: A Comparative Analysis of Contrastive vs. Generative Training Paradigms\".",
     "Run project_1786472312: Fact-check score (75.0%) dropped. Strict verification required for Title: \"Multimodal Alignment in Vision-Language Models: A Comparative Analysis of Contrastive vs. Generative Training Paradigms\" Target Venues: CVPR 2026 Workshop / IEEE TPAMI Core Research Question: Does contrastive alignment (CLIP/SigLIP) or autoregressive generative alignment (LMMs/Chameleon/Llama-Vision) provide superior out-of-distribution transferability and lower hallucination rates? Why it's High Impact: Resolves the central architectural debate in modern multimodal AI. Corpus Target: 25 Papers.",
-    "Run project_1786547759: Fact-check score (0.0%) dropped. Strict verification required for Enterprise Adoption of Multi-Agent AI Systems: Infrastructure Architectures, Organizational Implementation, and Labor Market Transformation."
+    "Run project_1786547759: Fact-check score (0.0%) dropped. Strict verification required for Enterprise Adoption of Multi-Agent AI Systems: Infrastructure Architectures, Organizational Implementation, and Labor Market Transformation.",
+    "Run project_1786607230: Fact-check score (75.0%) dropped. Strict verification required for Autonomous Code Synthesis and Self-Healing Multi-Agent Systems: Architectural Topologies, Empirical Benchmarks, and Systemic Governance.",
+    "Run project_1786718932: Fact-check score (50.0%) dropped. Strict verification required for Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption."
   ],
   "trajectory_history": [
     {
@@ -852,8 +854,41 @@
       "unverified_metrics": 1,
       "duration_seconds": 563.35,
       "timestamp": 1786548322.6249
+    },
+    {
+      "project_id": "project_1786607230",
+      "topic": "Autonomous Code Synthesis and Self-Healing Multi-Agent Systems: Architectural Topologies, Empirical Benchmarks, and Systemic Governance",
+      "fact_check_score": 75.0,
+      "verified_citations": 1,
+      "broken_citations": 1,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 860.98,
+      "timestamp": 1786608091.796298
+    },
+    {
+      "project_id": "project_1786615646",
+      "topic": "A comprehensive, technical, and business-oriented journal review analyzing enterprise generative AI integration across three key pillars: (1) System Architecture & Multi-Agent Orchestration (RAG vs. fine-tuning, latency-cost optimization, vector storage, sandboxed tool execution), (2) Econometric & Productivity Modeling (Cobb-Douglas production functions, supermodular labor complementarity, ROI cost-latency tradeoffs), and (3) Systemic Risk & Governance Frameworks (data privacy, hallucination auditing, cryptographic human-in-the-loop guardrails). Incorporates quantitative benchmark meta-analyses, formal mathematical equations, and actionable enterprise deployment roadmaps.\"",
+      "fact_check_score": 100.0,
+      "verified_citations": 0,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 199.18,
+      "timestamp": 1786615845.8776472
+    },
+    {
+      "project_id": "project_1786718932",
+      "topic": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "fact_check_score": 50.0,
+      "verified_citations": 0,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 4,
+      "duration_seconds": 512.51,
+      "timestamp": 1786719445.2435358
     }
   ],
-  "total_runs": 72,
-  "average_fact_check_score": 71.84
+  "total_runs": 75,
+  "average_fact_check_score": 71.97
 }
