@@ -257,8 +257,8 @@ const App: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main style={{ padding: '12px', height: '100%', minHeight: 0, minWidth: 0, width: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      {/* Main Content Area with Mediumist Kinetic Smooth Scrolling */}
+      <main className="smooth-scroll-container" style={{ padding: '12px', height: '100%', minHeight: 0, minWidth: 0, width: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {currentView === 'dashboard' && (
           <Dashboard
             startResearch={startResearch}

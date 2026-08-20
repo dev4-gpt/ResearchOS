@@ -241,8 +241,14 @@ class LaTeXExporterService:
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
 
-        # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, and metadata noise
+        # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, internal workflow diagrams, and metadata noise
+        text = re.sub(r'>\s*ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'\[Scout\]\s*\[Analyst\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'\[Scout\]\s*-->\s*\[Analyst\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'Rejected drafts loop back to \[Writer\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
         text = re.sub(r'#{1,4}\s*(\d+[\.\s]*)?References[\s\S]*$', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'\\begin\{thebibliography\}[\s\S]*?(\\end\{thebibliography\}|$)', '', text, flags=re.IGNORECASE)
         text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
         text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
@@ -758,7 +764,13 @@ class LaTeXExporterService:
 
 \\end{{document}}
 """
-        else: # IEEEtran
+        else:
+            keywords_block = """\\begin{IEEEkeywords}
+Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
+\\end{IEEEkeywords}""" if venue_key == "IEEEtran" else """\\noindent\\textbf{Keywords---} Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
+"""
+            balance_cmd = "\\balance" if venue_key == "IEEEtran" else ""
+
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
@@ -783,14 +795,12 @@ class LaTeXExporterService:
 {clean_abstract}
 \\end{{abstract}}
 
-\\begin{{IEEEkeywords}}
-Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-\\end{{IEEEkeywords}}
+{keywords_block}
 
 {latex_body}
 
 \\par\\vspace{{0.5em}}
-\\balance
+{balance_cmd}
 \\bibliographystyle{{IEEEtran}}
 \\bibliography{{references}}
 

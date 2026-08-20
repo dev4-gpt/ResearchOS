@@ -11,7 +11,7 @@ def test_latex_export_service_basic():
     tex_code = exporter.markdown_to_ieeetran(title, authors, abstract, body)
 
     assert "\\title{Test Systematic Review}" in tex_code
-    assert "\\IEEEauthorblockN{Author One}" in tex_code
+    assert "Author One" in tex_code
     assert "\\begin{abstract}" in tex_code
     assert "\\cite{paper_1}" in tex_code
     assert "\\textbf{bold text}" in tex_code

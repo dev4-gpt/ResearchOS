@@ -13,43 +13,43 @@ const AGENT_TEAM = [
     name: 'Senior Scout Researcher',
     role: 'Literature Discovery',
     desc: 'Crawls databases (arXiv, OpenAlex), filters by impact and citation indexes, and maps the bibliography.',
-    color: '#3b82f6', // Blue
+    badgeClass: 'minimalist-badge-blue',
   },
   {
     name: 'Lead Analyst',
     role: 'Extraction & Ingestion',
     desc: 'Parses details and abstracts, extracts exact claims, results, and parameters into structured markdown summaries.',
-    color: '#10b981', // Emerald
+    badgeClass: 'minimalist-badge-green',
   },
   {
     name: 'Senior Systems Engineer',
     role: 'Technical & Scaling Audit',
     desc: 'Audits algorithmic designs, mathematical equations, computational parameters, and deployment viability.',
-    color: '#6366f1', // Indigo
+    badgeClass: 'minimalist-badge-blue',
   },
   {
     name: 'Senior Statistician',
     role: 'Methodological Rigor Critic',
     desc: 'Evaluates statistical significance, control sets, sample sizes, baselines, and mathematical proofs.',
-    color: '#f59e0b', // Amber
+    badgeClass: 'minimalist-badge-amber',
   },
   {
     name: 'Reviewer #2',
     role: 'Peer Review Objections',
     desc: 'Skeptical academic evaluator. Identifies gaps, conflicts with prior art, and highlights rejection risks.',
-    color: '#f43f5e', // Rose
+    badgeClass: 'minimalist-badge-red',
   },
   {
     name: 'CEO / Chairman',
     role: 'Consensus Moderator',
     desc: 'Coordinates the council debate, evaluates points of consensus/tension, and drafts the research outline.',
-    color: '#8b5cf6', // Violet
+    badgeClass: 'minimalist-badge-amber',
   },
   {
     name: 'Senior Research Writer',
     role: 'Journal Publisher',
     desc: 'Drafts the final manuscript in formal academic style (Nature, IEEE, ACM) with inline citation markdown.',
-    color: '#ec4899', // Pink
+    badgeClass: 'minimalist-badge-green',
   }
 ];
 
@@ -73,75 +73,87 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
   };
 
   return (
-    <div style={{ paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '28px', paddingBottom: '24px' }}>
+    <div style={{ paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '24px' }}>
 
-      {/* Hero Welcome Deck */}
-      <section className="hero-section glass glow-primary animate-entrance">
-        {/* Background gradient orb */}
-        <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '220px', height: '220px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(129,140,248,0.25) 0%, rgba(129,140,248,0) 70%)', filter: 'blur(35px)', pointerEvents: 'none' }}></div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '600', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: 'var(--font-heading)' }}>
-          <Sparkles size={14} strokeWidth={1.5} />
-          <span>Multi-Agent Research Lab</span>
+      {/* Minimalist Hero Bento Header */}
+      <section className="minimalist-card animate-entrance">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="minimalist-badge-amber">Multi-Agent Engine</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>V1.0.0 Pro</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <kbd className="kbd-shortcut">↵ Enter</kbd>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Launch</span>
+          </div>
         </div>
 
-        <h2 className="hero-title">
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '8px' }}>
           Accelerate your academic publishing pipeline.
         </h2>
 
-        <p style={{ color: 'var(--text-secondary)', fontSize: '15px', maxWidth: '680px', lineHeight: '1.6', fontWeight: '400' }}>
-          ResearchingOS runs a full academic debate council to vet scientific literature, construct a structured Obsidian knowledge graph (LLM Wiki), and format professional peer-review grade manuscript drafts.
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', maxWidth: '680px', lineHeight: '1.6', fontWeight: '400', marginBottom: '20px' }}>
+          ResearchingOS runs a 7-agent debate council to vet scientific literature, construct a structured Obsidian knowledge graph (LLM Wiki), and format publication-ready IEEE/ACM LaTeX manuscripts.
         </p>
 
-        {/* Input Query form */}
-        <form onSubmit={handleSubmit} style={{ marginTop: '12px' }}>
-          <div className="search-input-container">
-            <Search size={18} strokeWidth={1.5} style={{ color: 'var(--text-secondary)', marginLeft: '16px', flexShrink: 0 }} />
+        {/* Minimalist Input Form */}
+        <form onSubmit={handleSubmit}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(10, 12, 18, 0.9)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              gap: '10px'
+            }}
+          >
+            <Search size={16} strokeWidth={1.5} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
             <input
               type="text"
-              placeholder="Enter a research question or topic (e.g. DPO vs RLHF in sparse environments)..."
+              placeholder="Enter a research topic or paper title..."
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               disabled={isResearching}
               style={{
-                background: 'transparent', border: 'none', color: '#fff', fontSize: '14px', width: '100%', outline: 'none',
+                background: 'transparent', border: 'none', color: '#ffffff', fontSize: '13px', width: '100%', outline: 'none',
                 fontFamily: 'var(--font-sans)',
               }}
             />
             <button
               type="submit"
               disabled={isResearching || !topic.trim()}
-              className="btn-pill"
               style={{
-                padding: '8px 18px',
-                fontSize: '13px',
-                marginRight: '6px',
-                fontWeight: '600',
-                background: isResearching || !topic.trim() ? 'var(--bg-glass)' : 'var(--primary)',
-                color: isResearching || !topic.trim() ? 'var(--text-muted)' : '#000',
+                padding: '7px 16px',
+                fontSize: '12px',
+                fontWeight: '700',
+                background: isResearching || !topic.trim() ? 'rgba(255,255,255,0.06)' : '#ffffff',
+                color: isResearching || !topic.trim() ? 'var(--text-muted)' : '#0b0c10',
                 border: 'none',
-                borderRadius: '20px',
+                borderRadius: '6px',
                 cursor: isResearching || !topic.trim() ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                transition: 'all 0.2s ease',
+                fontFamily: 'var(--font-heading)',
+                transition: 'all 0.15s ease'
               }}
             >
-              <Sparkles size={14} />
-              <span>{isResearching ? 'Council Deliberating...' : 'Launch Council'}</span>
+              <Sparkles size={13} />
+              <span>{isResearching ? 'Deliberating...' : 'Launch Council'}</span>
             </button>
           </div>
 
           {/* Venue & Target Length Selectors */}
-          <div style={{ display: 'flex', gap: '12px', marginTop: '14px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Venue Target:</span>
+          <div style={{ display: 'flex', gap: '12px', marginTop: '12px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.04)', padding: '5px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>Venue:</span>
               <select
                 value={targetVenue}
                 onChange={(e) => setTargetVenue(e.target.value)}
                 disabled={isResearching}
-                style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
+                style={{ background: 'transparent', color: '#ffffff', border: 'none', outline: 'none', fontSize: '11px', cursor: 'pointer', fontWeight: '600' }}
               >
                 <option value="IEEEtran" style={{ background: '#111', color: '#fff' }}>IEEEtran (Transactions / Short)</option>
                 <option value="NeurIPS" style={{ background: '#111', color: '#fff' }}>NeurIPS (Conference 9p)</option>
@@ -152,24 +164,24 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
               </select>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Manuscript Length:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.04)', padding: '5px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>Length:</span>
               <select
                 value={targetLength}
                 onChange={(e) => setTargetLength(e.target.value)}
                 disabled={isResearching}
-                style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
+                style={{ background: 'transparent', color: '#ffffff', border: 'none', outline: 'none', fontSize: '11px', cursor: 'pointer', fontWeight: '600' }}
               >
-                <option value="short_camera_ready" style={{ background: '#111', color: '#fff' }}>📄 Short Camera-Ready (4 Pages)</option>
-                <option value="full_journal" style={{ background: '#111', color: '#fff' }}>📑 Full Journal / Survey (12 Pages)</option>
+                <option value="short_camera_ready" style={{ background: '#111', color: '#fff' }}>Short Camera-Ready (4 Pages)</option>
+                <option value="full_journal" style={{ background: '#111', color: '#fff' }}>Full Journal / Survey (12 Pages)</option>
               </select>
             </div>
           </div>
         </form>
 
         {/* Quick Topic Chips */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
-          <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>Explore Topics:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '14px' }}>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>Quick Topics:</span>
           {SUGGESTIONS.map((s, idx) => (
             <button
               key={idx}
@@ -177,21 +189,13 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
               onClick={() => setTopic(s)}
               style={{
                 background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '12px',
-                padding: '4px 10px',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '6px',
+                padding: '3px 8px',
                 fontSize: '11px',
                 color: 'var(--text-secondary)',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--primary)';
-                e.currentTarget.style.color = '#fff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-color)';
-                e.currentTarget.style.color = 'var(--text-secondary)';
+                transition: 'all 0.15s ease'
               }}
             >
               {s}
@@ -200,82 +204,58 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
         </div>
       </section>
 
-      {/* 3D SCROLL-DRIVEN LAPTOP WORKSPACE EXPERIENCE */}
-      <section className="glass glow-primary animate-entrance" style={{ borderRadius: '16px', overflow: 'visible' }}>
+      {/* 3D SCROLL-DRIVEN SPATIAL STUDIO WORKSPACE */}
+      <section className="animate-entrance" style={{ borderRadius: '12px', overflow: 'visible' }}>
         <Laptop3DWorkspace onEnterWorkspace={onEnterWorkspace || (() => {})} />
       </section>
 
-      {/* Agents Roster */}
+      {/* Minimalist Agents Roster Bento Grid */}
       <section className="animate-entrance" style={{ animationDelay: '0.1s' }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: '800', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '10px', letterSpacing: '-0.3px' }}>
-          <BookOpen size={18} strokeWidth={1.5} color="var(--primary)" />
-          <span>Research Institute Staff</span>
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.01em', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <BookOpen size={16} strokeWidth={1.5} color="var(--primary)" />
+            <span>Council Roster</span>
+          </h3>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>7 Persona Agents Active</span>
+        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: '12px' }}>
           {AGENT_TEAM.map((agent, index) => (
-            <div key={index} className="double-bezel-outer tilt-3d" style={{ height: '100%' }}>
-              <div className="double-bezel-inner">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: agent.color, boxShadow: `0 0 10px ${agent.color}` }}></div>
-                  <h4 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>{agent.name}</h4>
-                </div>
-                <div style={{ fontSize: '10px', color: agent.color, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                  {agent.role}
-                </div>
-                <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  {agent.desc}
-                </p>
+            <div key={index} className="minimalist-card">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <h4 style={{ fontSize: '13px', fontWeight: '700', color: '#ffffff', fontFamily: 'var(--font-heading)' }}>{agent.name}</h4>
+                <span className={agent.badgeClass}>{agent.role}</span>
               </div>
+              <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                {agent.desc}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Pipeline Lifecycle Timeline */}
-      <section className="glass animate-entrance" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px', animationDelay: '0.2s' }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '800', letterSpacing: '-0.2px' }}>Research Pipeline Lifecycle</h3>
+      {/* Minimalist Pipeline Lifecycle */}
+      <section className="minimalist-card animate-entrance" style={{ animationDelay: '0.2s' }}>
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: '700', color: '#ffffff', marginBottom: '16px', letterSpacing: '-0.01em' }}>
+          Pipeline Execution Stages
+        </h3>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'var(--primary-glow)', color: 'var(--primary)', border: '1px solid rgba(129,140,248,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>1</div>
-              <span style={{ fontSize: '13px', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>Discovery</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '16px' }}>
+          {[
+            { num: '01', title: 'Discovery', desc: 'Scout searches academic repositories & filters by Reciprocal Rank Fusion.' },
+            { num: '02', title: 'Vault Extraction', desc: 'Analyst extracts core claims into structured Obsidian markdown notes.' },
+            { num: '03', title: 'Council Audit', desc: 'Systems Engineer, Statistician, Reviewer #2 write parallel audits.' },
+            { num: '04', title: 'CEO Synthesis', desc: 'Chairman moderates boardroom debate & synthesizes final outline.' },
+            { num: '05', title: 'Journal Drafting', desc: 'Writer formats 15+ page IEEE/ACM LaTeX manuscript bundle.' }
+          ].map((stage) => (
+            <div key={stage.num} style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--primary)', fontWeight: '700' }}>{stage.num}</span>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: '#ffffff', fontFamily: 'var(--font-heading)' }}>{stage.title}</span>
+              </div>
+              <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.45' }}>{stage.desc}</p>
             </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Scout searches academic databases and aggregates core paper metadata.</p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(52,211,153,0.1)', color: 'var(--success)', border: '1px solid rgba(52,211,153,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>2</div>
-              <span style={{ fontSize: '13px', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>Vault Extraction</span>
-            </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Analyst extracts claims and datasets, generating markdown files in the local vault.</p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(251,113,133,0.1)', color: 'var(--danger)', border: '1px solid rgba(251,113,133,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>3</div>
-              <span style={{ fontSize: '13px', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>Council Audit</span>
-            </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Systems Engineer, Statistician, and Reviewer #2 write parallel math/technical audits.</p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(251,191,36,0.1)', color: 'var(--warning)', border: '1px solid rgba(251,191,36,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>4</div>
-              <span style={{ fontSize: '13px', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>CEO Synthesis</span>
-            </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>The Chairman moderates the debate, analyzes conflicts, and writes the review outline.</p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(236,72,153,0.1)', color: '#ec4899', border: '1px solid rgba(236,72,153,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>5</div>
-              <span style={{ fontSize: '13px', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>Journal Drafting</span>
-            </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>The Writer formats the final document into a high-level academic paper ready for HITL review.</p>
-          </div>
+          ))}
         </div>
       </section>
 

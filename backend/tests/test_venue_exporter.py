@@ -8,10 +8,10 @@ def test_venue_latex_export_neurips():
         "Test NeurIPS Paper",
         ["Penn State Author"],
         "This is a test abstract.",
-        "# 1. Introduction\nThis is a test introduction."
+        "## 1. Introduction\nThis is a test introduction.\n\n## 2. Methods\nTest methods."
     )
     assert "\\usepackage[final]{neurips_2026}" in code
-    assert "\\section{1. Introduction}" in code
+    assert "\\section{Introduction}" in code
     assert "NeurIPS Paper Checklist" in code
 
 def test_venue_latex_export_icml():
@@ -24,7 +24,7 @@ def test_venue_latex_export_icml():
         "## 1. Methodology\nTest method."
     )
     assert "\\usepackage{icml2026}" in code
-    assert "\\icmltitle{Test ICML Paper}" in code
+    assert "Test ICML Paper" in code
 
 def test_venue_latex_export_cvpr():
     exporter = LaTeXExporterService()

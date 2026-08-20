@@ -243,7 +243,7 @@ class PublisherReadinessService:
             except Exception:
                 continue
         for filename in selected:
-            content = all_documents[filename]
+            content = self.checkmate.auto_remediate_markdown(all_documents[filename])
             meta = all_docs_meta[filename]
             title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
             authors = meta.get("authors", ["Aryaman Dev"])

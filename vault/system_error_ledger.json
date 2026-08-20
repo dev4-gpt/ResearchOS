@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-13 15:28:59",
+  "last_updated": "2026-08-19 18:50:26",
   "stats": {
-    "total_errors_recorded": 12,
-    "resolved_count": 12,
-    "active_prevention_rules": 12
+    "total_errors_recorded": 24,
+    "resolved_count": 24,
+    "active_prevention_rules": 24
   },
   "history": [
     {
@@ -151,6 +151,164 @@
       "resolution": "Added except HTTPException: raise explicitly to all FastAPI endpoints",
       "prevention_rule": "R12: Explicitly re-raise HTTPException before generic catch-all handlers to preserve HTTP 422/404 status codes and error details",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-013",
+      "timestamp": "2026-08-19 16:58:37",
+      "component": "Section Hierarchy / Outline Generator",
+      "stage": "manuscript_generation",
+      "error_type": "Malformed Section Hierarchy / Counter Pollution",
+      "summary": "17 analytical subsections placed as ### under ## Conclusion, polluting LaTeX section numbering (rendering 11.1 to 11.17 on final page)",
+      "root_cause": "Outline generator appended analytical domain topics after ## Conclusion heading",
+      "resolution": "Promoted analytical subsections into top-level ## sections preceding ## Conclusion and added auto-remediation rule",
+      "prevention_rule": "R13: R6: All analytical technical subsections must precede ## Conclusion; auto-promote any post-Conclusion ### headings into top-level ## sections before LaTeX compilation",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-014",
+      "timestamp": "2026-08-19 16:58:37",
+      "component": "Citation Linter / Wikilink Resolution",
+      "stage": "bibtex_resolution",
+      "error_type": "Missing Reference / Unresolved Placeholder [?]",
+      "summary": "Truncated wikilink key [[woold rendered as \\cite{woold}, producing an un-resolved [?] citation placeholder in PDF output",
+      "root_cause": "Incomplete LLM draft generation truncated wikilink keys mid-word",
+      "resolution": "Repaired key to [[wooldridge2009]] and enhanced auto_remediate_markdown to lint and complete partial wikilinks",
+      "prevention_rule": "R14: R7: Intercept truncated wikilinks [[key and match them against authoritative Vault paper keys before LaTeX generation",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-015",
+      "timestamp": "2026-08-19 16:58:37",
+      "component": "LaTeX Converter / TeX Parser",
+      "stage": "pdflatex_compilation",
+      "error_type": "Runaway Argument / Fatal Compilation Error",
+      "summary": "Unclosed braces in TeX math like {\text{max}$, {\text{max}$, {\text{eng}$, and \frac{...}{... missing closing } caused pdflatex to abort",
+      "root_cause": "Python .format() or string operations stripped closing braces in LaTeX macro parameters",
+      "resolution": "Fixed math syntax in manuscript draft and added brace balance validation to auto_remediate_markdown",
+      "prevention_rule": "R15: R8: Parse TeX math expressions ($...$ and 90691...90691) for brace depth balance and auto-close missing } braces before math delimiters",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-016",
+      "timestamp": "2026-08-19 16:58:37",
+      "component": "Markdown Sanitizer / PDF Typesetter",
+      "stage": "pdf_rendering",
+      "error_type": "Visual Layout Artifact / Stray Comma & Dangling Fragment",
+      "summary": "Stray leading comma \", enterprise adoption...\" on Page 10 and orphaned trailing phrase \" pricing structures.\" floating on a line alone",
+      "root_cause": "Incomplete line replacement left stray trailing tokens on empty markdown lines",
+      "resolution": "Stripped leading stray commas on prose lines and purged dangling fragment lines",
+      "prevention_rule": "R16: R9: Strip leading stray punctuation on prose lines and eliminate orphaned single-word trailing fragments",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-017",
+      "timestamp": "2026-08-19 16:58:37",
+      "component": "Frontend UI DocEditor / Backend Sync",
+      "stage": "user_pdf_export",
+      "error_type": "Stale PDF Generation / Un-saved UI State Disconnect",
+      "summary": "Editing title or content in the UI editor and clicking Download PDF or Export LaTeX downloaded stale PDFs from disk because UI edits were not auto-saved first",
+      "root_cause": "Export buttons triggered GET endpoints against disk files without persisting active UI state",
+      "resolution": "Updated DocEditor.tsx to automatically invoke await handleSave() before any export, download, or audit action",
+      "prevention_rule": "R17: R10: Always persist active frontend editor state to the Vault before invoking PDF compilation or LaTeX export endpoints",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-018",
+      "timestamp": "2026-08-19 17:19:15",
+      "component": "LaTeX Exporter & Math Typesetting",
+      "stage": "pdf_rendering",
+      "error_type": "Column Overflow / Formula Line Truncation",
+      "summary": "Wide single-line display math formulas (e.g. ln PR_{i,t} = ... and Sig_{agent} = ...) exceeded two-column page width and were truncated at right margin",
+      "root_cause": "Single-line display math lacking multi-line alignment blocks (\begin{aligned}) overflowed column boundaries in IEEEtran/ACM 2-column layouts",
+      "resolution": "Updated markdown drafts with explicit \begin{aligned} multi-line splits and added auto_split_display_math rule to auto_remediate_markdown",
+      "prevention_rule": "R18: R18: Automatically split wide single-line display math formulas (>50 characters) into \begin{aligned} multi-line blocks with linebreaks",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-019",
+      "timestamp": "2026-08-19 18:08:41",
+      "component": "PDF Quality Assurance & Venue Auditor",
+      "timestamp": "2026-08-19 18:05:00",
+      "component": "LaTeX Exporter / arXiv Geometry Package",
+      "stage": "latex_compilation",
+      "error_type": "ArXiv Package Fallback Compilation Error",
+      "summary": "arXiv export failed due to geometry package conflict in article template fallback",
+      "root_cause": "arXiv template stripped geometry package during package fallback pass",
+      "resolution": "Updated latex_exporter.py to include \\usepackage[margin=0.75in]{geometry} in safe article preamble fallback",
+      "prevention_rule": "R19: Allow publication-grade \\usepackage[margin=0.75in]{geometry} package in article builds and evaluate page limits against venue long_page_limit",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-020",
+      "timestamp": "2026-08-19 18:28:00",
+      "component": "Checkmate Verifier / Phrase Deduplicator",
+      "stage": "auto_remediation",
+      "error_type": "Duplicated Section Header Phrase Leakage",
+      "summary": "Page 12 rendered duplicated phrase \"In summaryIn summary\" in section summary paragraphs",
+      "root_cause": "Draft generation script appended \"In summary\" to sentences that already began with \"In summary\"",
+      "resolution": "Added regex phrase deduplication (re.sub(r'\\b(In summary|Summary|Conclusion|Abstract|References)\\s*\\1\\b', r'\\1', text)) to auto_remediate_markdown",
+      "prevention_rule": "R20: Automatically scrub duplicated section phrases (\\b(In summary|Summary|Conclusion)\\s*\\1\\b) in auto_remediate_markdown prior to compilation",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-021",
+      "timestamp": "2026-08-19 18:50:26",
+      "component": "LaTeX Exporter / AI Fluff Sanitizer",
+      "stage": "latex_conversion",
+      "error_type": "RegEx Substring Truncation & Stray Comma Leakage",
+      "summary": "Section 15.1 rendered stray leading comma \", enterprise adoption of Generative AI...\" in PDF output",
+      "root_cause": "latex_exporter.py contained r\"\\bIn summary,?\\b\" in ai_fluff list, which stripped \"In summary,\" and left behind a stray leading comma",
+      "resolution": "Removed In summary, and In conclusion, regex patterns from ai_fluff list in latex_exporter.py so prose sentences remain grammatically intact",
+      "prevention_rule": "R21: Do not use regex pattern replacements on transitional phrases that leave orphaned commas at sentence boundaries",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-022",
+      "timestamp": "2026-08-20 00:30:00",
+      "component": "Vault Storage / Manuscript Generator",
+      "stage": "draft_generation",
+      "error_type": "Content Duplication Across Manuscript Drafts",
+      "summary": "Draft papers in vault/04_Drafts/ shared identical body text under different title headers",
+      "root_cause": "A previous portfolio expansion script used Paper 1's text as a placeholder body when creating frontmatter for Papers 2-5",
+      "resolution": "Generated 8 genuinely 100%-distinct manuscripts covering distinct domains, algorithms, and econometrics; implemented audit_pairwise_vault_dissimilarity in CheckmateVerifierService to enforce <35% Jaccard overlap",
+      "prevention_rule": "R22: All manuscript generation and expansion tasks must enforce pairwise Jaccard vocabulary dissimilarity (< 35% overlap) across all Vault draft files before saving",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-023",
+      "timestamp": "2026-08-20 01:38:00",
+      "component": "LaTeX Exporter / Math Escape Sanitizer",
+      "stage": "latex_conversion",
+      "error_type": "ASCII Backspace Escape String Corruption",
+      "summary": "PDF rendered 'eginaligned' instead of '\\begin{aligned}' on display math equation blocks",
+      "root_cause": "Non-raw Python string literals interpreted \\b in \\begin{aligned} as ASCII backspace \\x08, stripping the backslash and leaving eginaligned in memory",
+      "resolution": "Enforced raw multiline string literals r\"\"\"...\"\"\" across all draft generation scripts and added backslash command repair rules in latex_exporter.py and checkmate_verifier.py",
+      "prevention_rule": "R23: Enforce raw string literals r\"\"\"...\"\"\" for all LaTeX math content and apply backslash command repair rules in auto_remediate_markdown prior to compilation",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-024",
+      "timestamp": "2026-08-20 01:54:00",
+      "component": "LaTeX Exporter / Column Margin Auditor",
+      "stage": "pdf_layout_audit",
+      "error_type": "Overfull \\hbox Two-Column Margin Overflow",
+      "summary": "Unwrapped mbox elements, unescaped prose dollar signs, and standalone \\begin{aligned} blocks produced up to 500pt column margin overflows in two-column venues",
+      "root_cause": "mbox wrapping around item inline math prevented TeX line-breaking; unescaped $ in prose text opened unclosed math mode; standalone \\begin{aligned} outside equation environments triggered amsmath math mode errors",
+      "resolution": "Removed mbox wrapping around item math; auto-escaped prose dollar signs; enforced wrapping of all \\begin{aligned} blocks inside \\begin{equation} environments; multi-line split wide equations across 64 venue/manuscript combinations",
+      "prevention_rule": "R24: All \\begin{aligned} display math blocks must be wrapped inside \\begin{equation} environments and wide formulas (>50 chars) split across multi-line breaks to enforce zero Overfull \\hbox column overflows",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-025",
+      "timestamp": "2026-08-20 03:54:00",
+      "component": "LaTeX Exporter / Citation & Abstract Sanitizer",
+      "stage": "pdf_checkmate_audit",
+      "error_type": "Multi-Key Citation Concatenation & Abstract Header Extraction Failure",
+      "summary": "Checkmate audit flagged NEEDS_REMEDIATION (85.7%) due to literal [?] citation artifacts and missing abstract text",
+      "root_cause": "clean_citation_key merged multi-key citations (\\cite{a,b}) into a single invalid key a_b, rendering [?]; abstract extraction failed when # Executive Abstract heading was missing or matched literally",
+      "resolution": "Updated clean_cite_block to process multi-key citations individually; added first-paragraph fallback abstract extraction; enforced # Executive Abstract headings across all portfolio drafts",
+      "prevention_rule": "R25: Multi-key citations \\cite{a,b} must be split and cleaned individually and all manuscript exports must feature a dedicated, non-empty Executive Abstract",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -162,9 +320,22 @@
     "R6": "R6: Provide safe \\providecommand fallback definitions for venue-specific custom macros in all LaTeX templates",
     "R7": "R7: Always place \\begin{document} immediately after preamble packages and before \\title and \\maketitle",
     "R8": "R8: Automatically convert Markdown bold (**text**) and italic (*text*) syntax into LaTeX \\textbf and \\textit",
-    "R9": "R9: Check for existing \begin{ environments in wrap_display_math and ensure all equations in manuscripts are fully closed",
+    "R9": "R9: Check for existing \\begin{ environments in wrap_display_math and ensure all equations in manuscripts are fully closed",
     "R10": "R10: All cited keys must map to real paper metadata in vault/01_Papers/ or KNOWN_CITATIONS; synthetic fallback titles are forbidden",
     "R11": "R11: Always complete multi-pass pdflatex + bibtex compilation and return non-empty document.pdf bytes if generated",
-    "R12": "R12: Explicitly re-raise HTTPException before generic catch-all handlers to preserve HTTP 422/404 status codes and error details"
+    "R12": "R12: Explicitly re-raise HTTPException before generic catch-all handlers to preserve HTTP 422/404 status codes and error details",
+    "R13": "R6: All analytical technical subsections must precede ## Conclusion; auto-promote any post-Conclusion ### headings into top-level ## sections before LaTeX compilation",
+    "R14": "R7: Intercept truncated wikilinks [[key and match them against authoritative Vault paper keys before LaTeX generation",
+    "R15": "R8: Parse TeX math expressions ($...$ and $$...$$) for brace depth balance and auto-close missing } braces before math delimiters",
+    "R16": "R9: Strip leading stray punctuation on prose lines and eliminate orphaned single-word trailing fragments",
+    "R17": "R10: Always persist active frontend editor state to the Vault before invoking PDF compilation or LaTeX export endpoints",
+    "R18": "R18: Automatically split wide single-line display math formulas (>50 characters) into \\begin{aligned} multi-line blocks with linebreaks",
+    "R19": "R19: Allow publication-grade \\usepackage[margin=0.75in]{geometry} package in article builds and evaluate page limits against venue long_page_limit",
+    "R20": "R20: Automatically scrub duplicated section phrases (\\b(In summary|Summary|Conclusion)\\s*\\1\\b) in auto_remediate_markdown prior to compilation",
+    "R21": "R21: Do not use regex pattern replacements on transitional phrases that leave orphaned commas at sentence boundaries",
+    "R22": "R22: All manuscript generation and expansion tasks must enforce pairwise Jaccard vocabulary dissimilarity (< 35% overlap) across all Vault draft files before saving",
+    "R23": "R23: Enforce raw string literals r\"\"\"...\"\"\" for all LaTeX math content and apply backslash command repair rules in auto_remediate_markdown prior to compilation",
+    "R24": "R24: All \\begin{aligned} display math blocks must be wrapped inside \\begin{equation} environments and wide formulas (>50 chars) split across multi-line breaks to enforce zero Overfull \\hbox column overflows",
+    "R25": "R25: Multi-key citations \\cite{a,b} must be split and cleaned individually and all manuscript exports must feature a dedicated, non-empty Executive Abstract"
   }
 }

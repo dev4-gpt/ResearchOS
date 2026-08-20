@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Monitor, FileText, Users } from 'lucide-react';
+import { Layers, Cpu, ShieldCheck, FileCheck, ArrowRight, ChevronRight, Activity } from 'lucide-react';
 
 interface Laptop3DWorkspaceProps {
   onEnterWorkspace: () => void;
 }
 
 export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWorkspace }) => {
-  // Start with lid open (75 degrees) so screen is vibrant and visible immediately!
-  const [manualLidAngle, setManualLidAngle] = useState(75);
-  const [manualZoom, setManualZoom] = useState(1.0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeStage, setActiveStage] = useState<'all' | 'ingest' | 'council' | 'publisher'>('all');
+  const [spatialTilt, setSpatialTilt] = useState(10);
+  const zoomLevel = 1.0;
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Listen for scroll events on nearest scrolling parent (<main>) AND window
-    const scrollParent = containerRef.current?.closest('main') || window;
+    const scrollParent = containerRef.current?.closest('.smooth-scroll-container') || containerRef.current?.closest('main') || window;
 
     const handleScroll = () => {
       let scrollY = 0;
@@ -31,18 +30,15 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
     };
 
     scrollParent.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial call
+    handleScroll();
 
     return () => scrollParent.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Compute active lid angle (combining manual controls + scroll progress)
-  const activeLidAngle = Math.min(90, Math.max(0, manualLidAngle + scrollProgress * 15));
-  const activeZoom = Math.min(2.5, Math.max(0.7, manualZoom + scrollProgress * 0.8));
-
-  // Tilt angle flattens as zoom increases
-  const tiltX = Math.max(0, 18 - scrollProgress * 18);
-  const tiltY = Math.max(-10, -8 + scrollProgress * 8);
+  // Compute dynamic 3D perspective shifts based on scroll & slider state
+  const computedRotateX = Math.max(0, spatialTilt - scrollProgress * 8);
+  const computedRotateY = Math.max(-4, -3 + scrollProgress * 3);
+  const computedScale = Math.min(1.12, Math.max(0.92, zoomLevel + scrollProgress * 0.08));
 
   return (
     <div
@@ -54,288 +50,274 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        perspective: '1200px',
-        overflow: 'visible',
-        padding: '30px 0',
-        userSelect: 'none'
+        justifyContent: 'flex-start',
+        padding: '0',
+        background: '#0b0c10',
+        borderRadius: '12px',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: '0 12px 36px rgba(0, 0, 0, 0.45)',
+        overflow: 'hidden'
       }}
     >
-      {/* Interactive Controls Bar */}
-      <div
-        style={{
-          width: '90%',
-          maxWidth: '680px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '10px 16px',
-          borderRadius: '12px',
-          background: 'rgba(15, 23, 42, 0.85)',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(16px)',
-          marginBottom: '20px',
-          zIndex: 30,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '12px', fontWeight: '700' }}>
-          <Sparkles size={15} />
-          <span>3D LAPTOP WORKSPACE</span>
+      {/* Faux-OS macOS Window Chrome Top Bar */}
+      <div className="faux-mac-bar" style={{ width: '100%', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="mac-dot mac-dot-red" />
+          <span className="mac-dot mac-dot-yellow" />
+          <span className="mac-dot mac-dot-green" />
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginLeft: '8px' }}>
+            ResearchingOS Studio — Spatial Deck
+          </span>
         </div>
 
-        {/* Sliders for Lid Angle & Zoom */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
-            <span>Lid:</span>
-            <input
-              type="range"
-              min="0"
-              max="90"
-              value={manualLidAngle}
-              onChange={(e) => setManualLidAngle(Number(e.target.value))}
-              style={{ width: '80px', accentColor: 'var(--primary)', cursor: 'pointer' }}
-            />
-            <span style={{ fontFamily: 'monospace', width: '24px' }}>{Math.round(activeLidAngle)}°</span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
-            <span>Zoom:</span>
-            <input
-              type="range"
-              min="0.7"
-              max="2.2"
-              step="0.05"
-              value={manualZoom}
-              onChange={(e) => setManualZoom(Number(e.target.value))}
-              style={{ width: '80px', accentColor: 'var(--primary)', cursor: 'pointer' }}
-            />
-            <span style={{ fontFamily: 'monospace', width: '32px' }}>{activeZoom.toFixed(1)}x</span>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <kbd className="kbd-shortcut">⌘K</kbd>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Workspace</span>
         </div>
-
-        {/* Enter Full HITL Publisher Button */}
-        <button
-          onClick={onEnterWorkspace}
-          style={{
-            padding: '6px 14px',
-            fontSize: '12px',
-            borderRadius: '6px',
-            background: 'var(--primary)',
-            color: '#000',
-            fontWeight: 'bold',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            cursor: 'pointer',
-            boxShadow: '0 0 15px rgba(59, 130, 246, 0.4)'
-          }}
-        >
-          <Monitor size={13} />
-          <span>Enter Workspace</span>
-        </button>
       </div>
 
-      {/* 3D LAPTOP CHASSIS CONTAINER */}
-      <div
-        style={{
-          width: '680px',
-          height: '420px',
-          position: 'relative',
-          transformStyle: 'preserve-3d',
-          transform: `scale(${activeZoom}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-          transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-          zIndex: 10
-        }}
-      >
-        {/* LAPTOP DISPLAY LID (TOP SCREEN) */}
+      {/* Internal Studio Workspace Area */}
+      <div style={{ width: '100%', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* Minimalist Top Studio Toolbar */}
         <div
           style={{
-            width: '680px',
-            height: '420px',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            borderRadius: '16px 16px 4px 4px',
-            background: 'linear-gradient(145deg, #1e293b, #0f172a)',
-            border: '2px solid rgba(59, 130, 246, 0.4)',
-            transformOrigin: 'bottom center',
-            transformStyle: 'preserve-3d',
-            transform: `rotateX(-${activeLidAngle}deg)`,
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 130, 246, 0.2)',
-            transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-          }}
-        >
-          {/* INNER DISPLAY GLASS SCREEN */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: '8px',
-              borderRadius: '10px',
-              background: '#040711',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              boxShadow: 'inset 0 0 40px rgba(0,0,0,0.9)'
-            }}
-          >
-            {/* Screen Notch / Camera Bar */}
-            <div style={{
-              height: '24px',
-              background: '#090d16',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0 16px',
-              borderBottom: '1px solid rgba(255,255,255,0.08)'
-            }}>
-              <div style={{ display: 'flex', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></span>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f59e0b' }}></span>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }}></span>
-              </div>
-              <div style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', letterSpacing: '0.5px' }}>ResearchingOS Workspace</div>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }}></div>
-            </div>
-
-            {/* VIBRANT DISPLAY INTERFACE */}
-            <div
-              style={{
-                flex: 1,
-                padding: '16px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-                background: 'radial-gradient(circle at top right, rgba(30, 41, 59, 0.6), #040711)',
-                opacity: activeLidAngle > 10 ? 1 : 0.2,
-                transition: 'opacity 0.2s ease'
-              }}
-            >
-              {/* Screen Top Header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <span style={{ fontSize: '10px', color: '#818cf8', fontWeight: 'bold', textTransform: 'uppercase' }}>Active Manuscript</span>
-                  <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#fff', margin: 0 }}>Systematic Review & Meta-Taxonomy of Generative AI</h4>
-                </div>
-                <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '2px 8px', borderRadius: '12px', fontWeight: 'bold' }}>
-                  Fact-Check Score: 88.5%
-                </span>
-              </div>
-
-              {/* Screen Split Content Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', flex: 1 }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#3b82f6', fontSize: '11px', fontWeight: 'bold' }}>
-                    <FileText size={12} />
-                    <span>53 Ingested Vault Papers</span>
-                  </div>
-                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
-                    Extracted empirical productivity metrics, N=5,179 RCTs, and TRiSM security frameworks.
-                  </p>
-                </div>
-
-                <div style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#8b5cf6', fontSize: '11px', fontWeight: 'bold' }}>
-                    <Users size={12} />
-                    <span>7-Agent Council Consensus</span>
-                  </div>
-                  <p style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
-                    Senior Systems Engineer, Statistician, and Reviewer #2 consensus synthesis.
-                  </p>
-                </div>
-              </div>
-
-              {/* Bottom Callout Bar */}
-              <div style={{ background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '6px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '11px', color: '#93c5fd', fontWeight: '500' }}>Click to launch workspace & edit manuscript draft</span>
-                <button
-                  onClick={onEnterWorkspace}
-                  style={{ background: '#3b82f6', color: '#000', border: 'none', borderRadius: '4px', padding: '5px 12px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)' }}
-                >
-                  Launch Workspace →
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* LAPTOP KEYBOARD BASE DECK */}
-        <div
-          style={{
-            width: '700px',
-            height: '380px',
-            position: 'absolute',
-            top: '415px',
-            left: '-10px',
-            borderRadius: '4px 4px 20px 20px',
-            background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 70%, #020617 100%)',
-            border: '2px solid rgba(255, 255, 255, 0.15)',
-            transformStyle: 'preserve-3d',
-            transform: 'rotateX(90deg)',
-            transformOrigin: 'top center',
-            boxShadow: '0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(59, 130, 246, 0.15)'
-          }}
-        >
-          {/* Keyboard Recessed Well */}
-          <div style={{
-            margin: '20px auto 14px auto',
-            width: '600px',
-            height: '210px',
-            background: '#090d16',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '10px',
+            width: '100%',
+            maxWidth: '880px',
             display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-            boxShadow: 'inset 0 4px 10px rgba(0,0,0,0.8)'
-          }}>
-            {/* Key Rows Simulation */}
-            {[1, 2, 3, 4, 5].map((row) => (
-              <div key={row} style={{ display: 'flex', gap: '4px', height: row === 5 ? '32px' : '28px' }}>
-                {Array.from({ length: row === 5 ? 8 : 14 }).map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      flex: row === 5 && i === 3 ? 4 : 1,
-                      background: 'linear-gradient(180deg, #1e293b, #0f172a)',
-                      borderRadius: '3px',
-                      border: '1px solid rgba(59, 130, 246, 0.2)',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.4)'
-                    }}
-                  />
-                ))}
-              </div>
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            padding: '10px 16px',
+            borderRadius: '8px',
+            background: 'rgba(18, 20, 28, 0.85)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            marginBottom: '20px',
+            zIndex: 20
+          }}
+        >
+          {/* Title Tag */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="minimalist-badge-amber">Spatial Deck</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontFamily: 'var(--font-heading)', fontWeight: '600' }}>
+              Multi-Agent Executive Control
+            </span>
+          </div>
+
+          {/* Stage Filter Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {[
+              { id: 'all', label: 'Overview' },
+              { id: 'ingest', label: 'Ingestion' },
+              { id: 'council', label: 'Council' },
+              { id: 'publisher', label: 'Publisher' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveStage(tab.id as any)}
+                style={{
+                  padding: '4px 10px',
+                  fontSize: '11px',
+                  fontWeight: '600',
+                  borderRadius: '6px',
+                  fontFamily: 'var(--font-heading)',
+                  border: activeStage === tab.id ? '1px solid rgba(255, 255, 255, 0.16)' : '1px solid transparent',
+                  background: activeStage === tab.id ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                  color: activeStage === tab.id ? '#ffffff' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                {tab.label}
+              </button>
             ))}
           </div>
 
-          {/* Trackpad */}
-          <div style={{
-            margin: '0 auto',
-            width: '200px',
-            height: '100px',
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)'
-          }} />
+          {/* Controls & CTA */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)' }}>
+              <span>Tilt:</span>
+              <input
+                type="range"
+                min="0"
+                max="20"
+                value={spatialTilt}
+                onChange={(e) => setSpatialTilt(Number(e.target.value))}
+                style={{ width: '60px', accentColor: '#f59e0b', cursor: 'pointer' }}
+              />
+              <span style={{ fontFamily: 'var(--font-mono)', width: '20px' }}>{Math.round(computedRotateX)}°</span>
+            </div>
+
+            <button
+              onClick={onEnterWorkspace}
+              style={{
+                padding: '6px 14px',
+                fontSize: '11px',
+                fontWeight: '700',
+                borderRadius: '6px',
+                background: '#111111',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-heading)'
+              }}
+            >
+              <span>Enter Studio</span>
+              <ChevronRight size={13} />
+            </button>
+          </div>
         </div>
 
-        {/* Ambient Glow Shadow */}
-        <div style={{
-          position: 'absolute',
-          top: '480px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '640px',
-          height: '80px',
-          borderRadius: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.3) 0%, rgba(0,0,0,0.8) 50%, transparent 80%)',
-          filter: 'blur(20px)',
-          pointerEvents: 'none'
-        }} />
+        {/* 3D SPATIAL STUDIO DECK STAGE */}
+        <div
+          className="spatial-canvas-viewport"
+          style={{
+            width: '100%',
+            maxWidth: '880px',
+            transform: `scale(${computedScale}) rotateX(${computedRotateX}deg) rotateY(${computedRotateY}deg)`,
+            transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            zIndex: 10
+          }}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '14px',
+              position: 'relative'
+            }}
+          >
+            {/* Bento Card 1: Ingestion & Paper Corpus */}
+            {(activeStage === 'all' || activeStage === 'ingest') && (
+              <div className="minimalist-card">
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', gap: '12px' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px' }}>
+                        <Cpu size={15} color="#86efac" />
+                        <span>Ingestion Pipeline</span>
+                      </div>
+                      <span className="minimalist-badge-green">25 Notes</span>
+                    </div>
+                    <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#ffffff', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>
+                      Scout & Analyst Ingestion
+                    </h4>
+                    <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.55' }}>
+                      Reciprocal Rank Fusion scoring across 12 primary scientific repositories with frontmatter metadata.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '10px' }}>
+                    <Activity size={12} color="#86efac" />
+                    <span>Full PDF Ingestion Verified</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Bento Card 2: 7-Agent Council Boardroom */}
+            {(activeStage === 'all' || activeStage === 'council') && (
+              <div className="minimalist-card">
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', gap: '12px' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px' }}>
+                        <Layers size={15} color="#93c5fd" />
+                        <span>7-Agent Council</span>
+                      </div>
+                      <span className="minimalist-badge-blue">Strong Accept</span>
+                    </div>
+                    <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#ffffff', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>
+                      Boardroom Synthesis
+                    </h4>
+                    <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.55' }}>
+                      Systems Engineer, Statistician, Reviewer #2, and Chairman evaluate proofs and control baselines.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '10px' }}>
+                    <ShieldCheck size={12} color="#93c5fd" />
+                    <span>Hostile Peer Review Complete</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Bento Card 3: 5 Fail-Closed Release Gates */}
+            {(activeStage === 'all' || activeStage === 'publisher') && (
+              <div className="minimalist-card">
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', gap: '12px' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px' }}>
+                        <FileCheck size={15} color="#fde047" />
+                        <span>Release Matrix</span>
+                      </div>
+                      <span className="minimalist-badge-amber">40 Venues Ready</span>
+                    </div>
+                    <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#ffffff', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>
+                      5 Fail-Closed Gates
+                    </h4>
+                    <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.55' }}>
+                      Collection Originality (0.0% overlap), Substantive Value (100.0 score), Checkmate visual layout.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '10px' }}>
+                    <ShieldCheck size={12} color="#fde047" />
+                    <span>IEEEtran, NeurIPS, CVPR, ACM Ready</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Minimalist Studio Action Footer Bar */}
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '12px 18px',
+              borderRadius: '8px',
+              background: 'rgba(18, 20, 28, 0.85)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '16px'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#86efac' }} />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>
+                Full 4-layer connectivity active
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <kbd className="kbd-shortcut">↵ Enter</kbd>
+              <button
+                onClick={onEnterWorkspace}
+                style={{
+                  padding: '7px 16px',
+                  fontSize: '12px',
+                  borderRadius: '6px',
+                  background: '#ffffff',
+                  color: '#0b0c10',
+                  fontWeight: '700',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-heading)'
+                }}
+              >
+                <span>Launch Publisher Studio</span>
+                <ArrowRight size={13} />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

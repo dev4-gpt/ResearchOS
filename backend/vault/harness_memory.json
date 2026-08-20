@@ -887,8 +887,19 @@
       "unverified_metrics": 4,
       "duration_seconds": 512.51,
       "timestamp": 1786719445.2435358
+    },
+    {
+      "project_id": "project_1787209307",
+      "topic": "enterprise-genai-roi",
+      "fact_check_score": 100.0,
+      "verified_citations": 4,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 241.63,
+      "timestamp": 1787209549.2372348
     }
   ],
-  "total_runs": 75,
-  "average_fact_check_score": 71.97
+  "total_runs": 76,
+  "average_fact_check_score": 72.34
 }

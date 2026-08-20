@@ -1,0 +1,707 @@
+{
+  "compiled_count": 48,
+  "draft_count": 5,
+  "generated_at": "2026-08-20T19:18:35.220736+00:00",
+  "ready_count": 40,
+  "results": [
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "arXiv"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.tex",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "MDPI"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEEtran.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEEtran.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_NeurIPS.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_NeurIPS.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ICML.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ICML.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_CVPR.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_CVPR.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACL.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACL.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACM.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACM.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEE_Access.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEE_Access.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_SpringerOpen.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_SpringerOpen.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_DOAJ.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_DOAJ.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_arXiv.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_arXiv.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "arXiv"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_Femington.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_Femington.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_architectural_dynamics_long_12_page.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_MDPI.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_MDPI.tex",
+      "title": "Architectural Dynamics, Econometric Modeling, and Risk Governance of Enterprise Generative AI Adoption",
+      "venue": "MDPI"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "arXiv"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Microservice Meshes: Hardware Security Modules, Ephemeral Sandboxes, and Ed25519 Audits",
+      "venue": "MDPI"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEEtran.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEEtran.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": null,
+      "blocking_reasons": [
+        "COMPILE_FAILED"
+      ],
+      "compiled": false,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": null,
+      "publish_ready": false,
+      "tex_path": null,
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_CVPR.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_CVPR.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACL.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACL.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACM.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACM.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEE_Access.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEE_Access.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_SpringerOpen.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_SpringerOpen.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_DOAJ.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_DOAJ.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_arXiv.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_arXiv.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "arXiv"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_Femington.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_Femington.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_enterprise_genai_roi.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_MDPI.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_MDPI.tex",
+      "title": "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption",
+      "venue": "MDPI"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEEtran.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEEtran.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_NeurIPS.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_NeurIPS.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ICML.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ICML.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_CVPR.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_CVPR.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACL.pdf",
+      "publish_ready": false,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACL.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACM.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACM.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEE_Access.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEE_Access.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_SpringerOpen.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_SpringerOpen.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_DOAJ.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_DOAJ.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_arXiv.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_arXiv.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "arXiv"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_Femington.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_Femington.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib",
+      "blocking_reasons": [],
+      "compiled": true,
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_MDPI.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_MDPI.tex",
+      "title": "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite",
+      "venue": "MDPI"
+    }
+  ],
+  "total_tests": 60,
+  "venues": [
+    "IEEEtran",
+    "NeurIPS",
+    "ICML",
+    "CVPR",
+    "ACL",
+    "ACM",
+    "IEEE_Access",
+    "SpringerOpen",
+    "DOAJ",
+    "arXiv",
+    "Femington",
+    "MDPI"
+  ]
+}

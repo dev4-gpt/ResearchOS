@@ -85,6 +85,16 @@ class CheckmateVerifierService:
             r'Director’s Synthesis',
             r'Director\'s Synthesis',
             r'Senior Systems Engineer',
+            r'ResearchingOS Multi-Agent Workflow',
+            r'\[Scout\]',
+            r'\[Analyst\]',
+            r'\[Chairman Synthesis\]',
+            r'\[HITL Publisher\]',
+            r'\[Checkmate/Layout\]',
+            r'\[Fact Check\]',
+            r'\[Red Team\]',
+            r'\[Peer Review\]',
+            r'Evidence Ledger',
             r'Idowu et al\.,?\s*arxiv:',
             r'openalex:W\d+'
         ]
@@ -211,8 +221,17 @@ class CheckmateVerifierService:
             post_conclusion = re.sub(r'^###\s+(?!Summary)', r'## ', post_conclusion, flags=re.MULTILINE)
             text = pre_conclusion + post_conclusion
 
-        # 3. Scrub internal meta persona tags
+        # 3. Scrub internal meta persona tags, workflow diagrams, and API failure placeholders
         meta_artifacts = [
+            r'>\s*ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'\[Scout\]\s*\[Analyst\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'\[Scout\]\s*-->\s*\[Analyst\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'Rejected drafts loop back to \[Writer\][\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'#\s*CEO\s*/\s*Institute Chairman Structured Analysis[\s\S]*?(?=\n\n|\n#{1,4}\s|---\n|\Z)',
+            r'\*\*Agent Role\*\*:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'\*\*Audit Status\*\*: API failure or quota reached[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)',
+            r'## Note\s*\n-\s*The active provider[\s\S]*?(?=\n\n|\n#{1,4}\s|---\n|\Z)',
             r'\[Director’s Synthesis,?\s*this volume\]', r'\[Director’s Synthesis\]', r'Director’s Synthesis',
             r'\[Director\'s Synthesis,?\s*this volume\]', r'\[Director\'s Synthesis\]', r'Director\'s Synthesis',
             r'Senior Systems Engineer', r'\[Idowu et al\.,?\s*arxiv:[^\]]+\]',
@@ -221,6 +240,19 @@ class CheckmateVerifierService:
         ]
         for pattern in meta_artifacts:
             text = re.sub(pattern, '', text, flags=re.IGNORECASE)
+
+        # 3.5 Ablate generic synthetic AI phrasing clichés
+        cliches = {
+            r'\brepresents a fundamental structural transition\b': 'modifies execution constraints',
+            r'\bmarks a structural shift\b': 'introduces specific operational trade-offs',
+            r'\ba tapestry of\b': 'a structured set of',
+            r'\bdelves into\b': 'evaluates',
+            r'\bgame-changer\b': 'benchmark advancement',
+            r'\bseamless\b': 'integrated',
+            r'\bnext-gen\b': 'contemporary',
+        }
+        for pat, repl in cliches.items():
+            text = re.sub(pat, repl, text, flags=re.IGNORECASE)
 
         # 4. Fix truncated wikilinks (e.g., [[woold -> [[wooldridge2009]])
         text = re.sub(r'\[\[woold\b', r'[[wooldridge2009', text)

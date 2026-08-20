@@ -9,7 +9,7 @@ id: "europepmc:PMC12755232"
 full_pdf_ingested: "False"
 tags:
   - "research-paper"
-  - "enterprise-adoption-of-multi-agent-ai-systems:-infrastructure-architectures,-organizational-implementation,-and-labor-market-transformation"
+  - "enterprise-genai-roi"
 ---
 # Full GSA 2025 Abstract Book PDF
 
