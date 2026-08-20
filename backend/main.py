@@ -224,6 +224,16 @@ def _paper_data() -> List[Dict[str, Any]]:
         papers.append(data)
     return papers
 
+
+def _fact_check_draft(content: str) -> Dict[str, Any]:
+    """Run the same source-backed claim gate used by Publisher Readiness."""
+    records = _source_records()
+    return fact_checker.audit_document(
+        content,
+        source_texts=list(records.values()),
+        source_records=records,
+    )
+
 @app.get("/api/vault/checkmate-audit")
 def checkmate_audit(
     filename: str = Query("review_enterprise_adoption_of_multi_agent_ai_systems_infr.md", description="Manuscript filename in drafts"),
@@ -240,6 +250,7 @@ def checkmate_audit(
         parsed = vault_manager.read_markdown("drafts", clean_filename)
         frontmatter = parsed.get("frontmatter", {}) or {}
         body = parsed.get("content", "")
+        evidence_report = _fact_check_draft(body)
 
         # Export/compile PDF to verify camera-ready compilation
         from services.latex_exporter import LaTeXExporterService
@@ -265,7 +276,14 @@ def checkmate_audit(
 
 
         # Execute 7-point Checkmate audit
-        audit_res = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=body, venue_key=venue)
+        audit_res = checkmate_verifier.audit_pdf(
+            pdf_path,
+            manuscript_markdown=body,
+            venue_key=venue,
+            tex_source=tex_code,
+            package_fallback_used=latex_service.last_compile_used_package_fallback,
+            evidence_report=evidence_report,
+        )
 
         # Update frontmatter metadata
         if audit_res.get("checkmate_passed"):
@@ -300,6 +318,7 @@ def get_preview_tiles(
         clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
         parsed = vault_manager.read_markdown("drafts", clean_filename)
         body = parsed.get("content", "")
+        evidence_report = _fact_check_draft(body)
         frontmatter = parsed.get("frontmatter", {}) or {}
         title = frontmatter.get("title", clean_filename.replace(".md", ""))
         authors = frontmatter.get("authors") or ["Aryaman Singh Dev"]
@@ -322,7 +341,15 @@ def get_preview_tiles(
             f.write(pdf_bytes)
 
         tile_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "preview_tiles")
-        audit_data = auditor.audit_full_manuscript(pdf_path, body, venue_key=venue, tile_output_dir=tile_dir)
+        audit_data = auditor.audit_full_manuscript(
+            pdf_path,
+            body,
+            venue_key=venue,
+            tile_output_dir=tile_dir,
+            tex_source=tex_code,
+            package_fallback_used=exporter.last_compile_used_package_fallback,
+            evidence_report=evidence_report,
+        )
 
         return {
             "success": True,
@@ -655,7 +682,14 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             f.write(pdf_bytes)
 
         # Execute Checkmate audit
-        report = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+        report = checkmate_verifier.audit_pdf(
+            pdf_path,
+            manuscript_markdown=content,
+            venue_key=venue,
+            tex_source=tex_code,
+            package_fallback_used=exporter.last_compile_used_package_fallback,
+            evidence_report=_fact_check_draft(content),
+        )
         if report.get("checkmate_passed"):
             meta["checkmate_score"] = str(report.get("score", 100.0))
             meta["checkmate_status"] = "PASSED"

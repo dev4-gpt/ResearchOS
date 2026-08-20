@@ -18,7 +18,10 @@ class CheckmateVerifierService:
         self,
         pdf_path: str,
         manuscript_markdown: str = "",
-        venue_key: str = "IEEEtran"
+        venue_key: str = "IEEEtran",
+        tex_source: str = "",
+        package_fallback_used: bool = False,
+        evidence_report: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """Performs a comprehensive publication audit of a compiled PDF document."""
         if not os.path.exists(pdf_path):
@@ -132,9 +135,15 @@ class CheckmateVerifierService:
         real_bib_passed = len(synthetic_ref_matches) == 0
 
         # 7. Valid Layout & Page Budget Check
-        from services.venue_profiles import VENUE_PROFILES
-        profile = VENUE_PROFILES.get(venue_key)
-        page_budget_passed = 2 <= total_pages <= 16
+        from services.venue_contract import audit_venue_contract
+        venue_report = audit_venue_contract(
+            venue_key=venue_key,
+            tex_source=tex_source,
+            pdf_text=full_pdf_text,
+            manuscript_markdown=manuscript_markdown,
+            total_pages=total_pages,
+            package_fallback_used=package_fallback_used,
+        )
 
         checks = {
             "zero_placeholders": {
@@ -168,9 +177,9 @@ class CheckmateVerifierService:
                 "detail": "100% verified real academic publications" if real_bib_passed else "Detected synthetic placeholder reference titles"
             },
             "valid_layout": {
-                "passed": page_budget_passed,
-                "score": 100 if page_budget_passed else 0,
-                "detail": f"Valid {total_pages}-page camera-ready layout" if page_budget_passed else f"Page count ({total_pages}) out of bounds"
+                "passed": venue_report["page_passed"],
+                "score": 100 if venue_report["page_passed"] else 0,
+                "detail": f"Valid {total_pages}-page camera-ready layout" if venue_report["page_passed"] else venue_report["detail"]
             },
             "workflow_fidelity": {
                 "passed": workflow_report["passed"],
@@ -178,6 +187,18 @@ class CheckmateVerifierService:
                 "detail": workflow_report["detail"],
                 "missing_stages": workflow_report["missing_stages"],
                 "stale_linear_claim": workflow_report["stale_linear_claim"],
+            },
+            "venue_contract": {
+                "passed": venue_report["passed"],
+                "score": 100 if venue_report["passed"] else 0,
+                "detail": venue_report["detail"],
+                **venue_report,
+            },
+            "evidence_grounding": {
+                "passed": evidence_report is not None and evidence_report.get("status") == "passed",
+                "score": 100 if evidence_report is not None and evidence_report.get("status") == "passed" else (evidence_report or {}).get("fact_check_score", 0),
+                "detail": "Evidence and citation grounding passed" if evidence_report is not None and evidence_report.get("status") == "passed" else "; ".join((evidence_report or {}).get("blocking_errors", [])) or "Evidence audit was not run",
+                "report": evidence_report or {"status": "NOT_RUN"},
             }
         }
 
@@ -188,6 +209,9 @@ class CheckmateVerifierService:
             and zero_placeholders_passed
             and clean_numbering_passed
             and workflow_report["passed"]
+            and venue_report["passed"]
+            and evidence_report is not None
+            and evidence_report.get("status") == "passed"
         )
 
         return {
@@ -318,11 +342,17 @@ class CheckmateVerifierService:
         venues: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """
-        Automated Backtesting Tool: Compiles and audits manuscript drafts across target academic venues.
-        Saves zero-defect PDF outputs to Vault exports and updates frontmatter metadata.
+        Run the canonical publisher matrix so Backtest and HITL Publisher cannot
+        disagree about originality, evidence, venue policy, or visual readiness.
         """
         if not self.vault_manager:
             raise ValueError("VaultManager instance is required for backtesting.")
+
+        from services.publisher_readiness import PublisherReadinessService
+        return PublisherReadinessService(self.vault_manager).run(
+            target_filename=target_filename,
+            venues=venues,
+        )
 
         from services.latex_exporter import LaTeXExporterService
         exporter = LaTeXExporterService(self.vault_manager)

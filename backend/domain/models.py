@@ -70,6 +70,7 @@ class VenueProfile(BaseModel):
     required_tokens: List[str] = Field(default_factory=list)
     forbidden_tokens: List[str] = Field(default_factory=list)
     allow_package_fallback: bool = False
+    is_index_only: bool = False
 
 
 class BuildDecision(BaseModel):

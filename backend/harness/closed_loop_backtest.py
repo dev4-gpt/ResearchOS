@@ -2,6 +2,8 @@ import os, re
 from typing import Dict, Any, List
 from services.latex_exporter import LaTeXExporterService
 from services.visual_auditor import VisualLayoutAuditorService
+from services.fact_checker import FactCheckerService
+from services.publisher_readiness import PublisherReadinessService
 
 class ClosedLoopBacktestHarness:
     """Autonomous Self-Healing DAG Graph Harness for ResearchingOS PDF Quality Control."""
@@ -10,6 +12,8 @@ class ClosedLoopBacktestHarness:
         self.vault_manager = vault_manager
         self.latex_exporter = LaTeXExporterService(vault_manager)
         self.visual_auditor = VisualLayoutAuditorService(vault_manager)
+        self.fact_checker = FactCheckerService(vault_manager)
+        self.publisher_readiness = PublisherReadinessService(vault_manager)
 
     def run_closed_loop(self, filename: str, venue_key: str = "IEEEtran", max_iters: int = 3) -> Dict[str, Any]:
         """Executes the closed-loop self-healing DAG graph until 100.0 Checkmate Score is achieved."""
@@ -29,6 +33,30 @@ class ClosedLoopBacktestHarness:
         current_markdown = content
         iteration_history = []
 
+        # Backtest must include research-quality gates, not only PDF geometry.
+        all_documents = {}
+        for draft in self.vault_manager.list_files("drafts"):
+            try:
+                all_documents[draft["filename"]] = self.vault_manager.read_markdown("drafts", draft["filename"]).get("content", "")
+            except Exception:
+                continue
+        originality = self.publisher_readiness.audit_collection_originality(all_documents)
+        value_report = self.publisher_readiness.audit_substantive_value(current_markdown)
+        source_records = {}
+        source_texts = []
+        for paper in papers_data:
+            paper_text = paper.get("content", "")
+            source_texts.append(paper_text)
+            metadata = paper.get("frontmatter", {}) or paper.get("metadata", {}) or {}
+            for key in (paper.get("filename", ""), metadata.get("id", ""), metadata.get("title", "")):
+                if key:
+                    source_records[str(key)] = paper_text
+        evidence_report = self.fact_checker.audit_document(
+            current_markdown,
+            source_texts=source_texts,
+            source_records=source_records,
+        )
+
         for iteration in range(1, max_iters + 1):
             # Step 1: Re-compile LaTeX PDF
             bib_code = self.latex_exporter.generate_bibtex(papers_data, manuscript_content=current_markdown)
@@ -46,15 +74,34 @@ class ClosedLoopBacktestHarness:
                 f.write(pdf_bytes)
 
             tile_dir = os.path.join(self.vault_manager.vault_path, "04_Drafts", "preview_tiles")
-            audit_res = self.visual_auditor.audit_full_manuscript(pdf_path, current_markdown, venue_key=venue_key, tile_output_dir=tile_dir)
+            audit_res = self.visual_auditor.audit_full_manuscript(
+                pdf_path,
+                current_markdown,
+                venue_key=venue_key,
+                tile_output_dir=tile_dir,
+                tex_source=tex_code,
+                package_fallback_used=self.latex_exporter.last_compile_used_package_fallback,
+                evidence_report=evidence_report,
+            )
             score = audit_res.get("score", 0.0)
-            passed = audit_res.get("checkmate_passed", False)
+            originality_passed = originality.get("per_file", {}).get(clean_filename, {}).get("passed", True)
+            passed = (
+                audit_res.get("checkmate_passed", False)
+                and originality_passed
+                and value_report.get("substantive_value_passed", False)
+                and evidence_report.get("status") == "passed"
+            )
 
             iteration_history.append({
                 "iteration": iteration,
                 "score": score,
                 "passed": passed,
-                "total_pages": audit_res.get("total_pages", 0)
+                "total_pages": audit_res.get("total_pages", 0),
+                "research_quality": {
+                    "originality_passed": originality_passed,
+                    "substantive_value_passed": value_report.get("substantive_value_passed", False),
+                    "evidence_status": evidence_report.get("status"),
+                }
             })
 
             # Convergence check

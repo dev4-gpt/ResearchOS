@@ -7,6 +7,7 @@ from typing import Dict, Any, Optional, Tuple
 from services.latex_exporter import LaTeXExporterService
 from services.checkmate_verifier import CheckmateVerifierService
 from services.error_ledger import ErrorLedgerService
+from services.fact_checker import FactCheckerService
 
 
 class CheckmateInterceptor:
@@ -20,6 +21,7 @@ class CheckmateInterceptor:
         self.vault_manager = vault_manager
         self.latex_exporter = LaTeXExporterService(vault_manager)
         self.verifier = CheckmateVerifierService(vault_manager)
+        self.fact_checker = FactCheckerService(vault_manager)
         self.error_ledger = error_ledger or ErrorLedgerService()
 
     def sanitize_and_normalize_markdown(self, markdown_content: str) -> str:
@@ -50,6 +52,21 @@ class CheckmateInterceptor:
             data["filename"] = item["filename"]
             papers_data.append(data)
 
+        source_records = {}
+        source_texts = []
+        for paper in papers_data:
+            paper_text = paper.get("content", "")
+            source_texts.append(paper_text)
+            metadata = paper.get("frontmatter", {}) or paper.get("metadata", {}) or {}
+            for key in (paper.get("filename", ""), metadata.get("id", ""), metadata.get("title", "")):
+                if key:
+                    source_records[str(key)] = paper_text
+        evidence_report = self.fact_checker.audit_document(
+            normalized_markdown,
+            source_texts=source_texts,
+            source_records=source_records,
+        )
+
         bib_code = self.latex_exporter.generate_bibtex(papers_data, manuscript_content=normalized_markdown)
         tex_code = self.latex_exporter.markdown_to_venue_latex(
             venue_key, title, authors, abstract, normalized_markdown, author_details=author_details
@@ -79,7 +96,14 @@ class CheckmateInterceptor:
             with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp_pdf:
                 tmp_pdf.write(pdf_bytes)
                 tmp_pdf.flush()
-                audit_report = self.verifier.audit_pdf(tmp_pdf.name, manuscript_markdown=normalized_markdown, venue_key=venue_key)
+                audit_report = self.verifier.audit_pdf(
+                    tmp_pdf.name,
+                    manuscript_markdown=normalized_markdown,
+                    venue_key=venue_key,
+                    tex_source=tex_code,
+                    package_fallback_used=self.latex_exporter.last_compile_used_package_fallback,
+                    evidence_report=evidence_report,
+                )
                 try:
                     os.remove(tmp_pdf.name)
                 except Exception:

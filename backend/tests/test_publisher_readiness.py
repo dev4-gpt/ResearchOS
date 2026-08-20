@@ -1,4 +1,5 @@
 from services.publisher_readiness import PublisherReadinessService
+from services.fact_checker import FactCheckerService
 
 
 def _service():
@@ -55,3 +56,24 @@ def test_value_gate_blocks_short_or_unsubstantiated_text():
     assert value["substantive_value_passed"] is False
     assert value["checks"]["minimum_substance"]["passed"] is False
     assert value["checks"]["explicit_contribution"]["passed"] is False
+
+
+def test_fact_checker_blocks_numeric_claim_without_source_support():
+    report = FactCheckerService().audit_document(
+        "# Abstract\nOur study improves accuracy by 74% (p < 0.001) [[source2024]].",
+        source_records={"source2024": "A source that does not report the claimed metric."},
+    )
+
+    assert report["status"] == "needs_review"
+    assert report["metric_report"]["unverified_count"] >= 1
+    assert report["blocking_errors"]
+
+
+def test_fact_checker_catches_unsupported_scale_claims():
+    report = FactCheckerService().audit_document(
+        "The benchmark covers 500 enterprise codebases and 18 months of telemetry [[source2024]].",
+        source_records={"source2024": "The source describes a conceptual framework only."},
+    )
+
+    assert "500 enterprise codebases" in report["metric_report"]["unverified_claims"]
+    assert "18 months" in report["metric_report"]["unverified_claims"]

@@ -54,8 +54,8 @@ VENUE_SPECS = {
         "name": "ACM Computing Surveys / SIGKDD",
         "format": "Two-column ACM article format",
         "page_limit": "12 - 20+ pages",
-        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
-        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
+        "doc_class": "\\documentclass[manuscript,review]{acmart}",
+        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}",
         "template_style": "acm",
         "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
     },
@@ -119,6 +119,8 @@ class LaTeXExporterService:
     def __init__(self, vault_manager: Any = None):
         self.vault_manager = vault_manager
         self.last_build_log = ""
+        self.last_compile_used_package_fallback = False
+        self.last_compile_fallback_replacements: List[str] = []
 
     @staticmethod
     def validate_latex_source(tex_code: str) -> List[str]:
@@ -739,10 +741,8 @@ class LaTeXExporterService:
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
 
-\\providecommand{{\\affiliation}}[1]{{}}
-\\providecommand{{\\institution}}[1]{{}}
-\\providecommand{{\\country}}[1]{{}}
-\\providecommand{{\\email}}[1]{{}}
+\\setcopyright{{none}}
+\\settopmatter{{printacmref=false}}
 
 \\begin{{document}}
 
@@ -992,18 +992,31 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             print("pdflatex binary not found on local system.")
             return None
 
+        self.last_compile_used_package_fallback = False
+        self.last_compile_fallback_replacements = []
         tex_code_safe = tex_code
         if allow_package_fallback:
-            tex_code_safe = (
-                tex_code.replace('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}')
-                        .replace('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}')
-                        .replace('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}')
-                        .replace('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}')
-                        .replace('\\documentclass[sigconf]{acmart}', '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}')
-                        .replace('\\bibliographystyle{ieee_fullname}', '\\bibliographystyle{plain}')
-                        .replace('\\bibliographystyle{icml2026}', '\\bibliographystyle{plain}')
-                        .replace('\\bibliographystyle{acl_natbib}', '\\bibliographystyle{plain}')
-            )
+            replacements = [
+                ('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}', 'neurips_2026'),
+                ('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}', 'icml2026'),
+                ('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}', 'cvpr'),
+                ('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}', 'acl'),
+                ('\\bibliographystyle{ieee_fullname}', '\\bibliographystyle{plain}', 'ieee_fullname'),
+                ('\\bibliographystyle{icml2026}', '\\bibliographystyle{plain}', 'icml2026 bibliography'),
+                ('\\bibliographystyle{acl_natbib}', '\\bibliographystyle{plain}', 'acl_natbib'),
+            ]
+            for old, new, marker in replacements:
+                if old in tex_code_safe:
+                    tex_code_safe = tex_code_safe.replace(old, new)
+                    self.last_compile_fallback_replacements.append(marker)
+            acmart_match = re.search(r"\\documentclass\[[^]]*\]\{acmart\}", tex_code_safe)
+            if acmart_match:
+                tex_code_safe = tex_code_safe.replace(
+                    acmart_match.group(0),
+                    '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}',
+                )
+                self.last_compile_fallback_replacements.append('acmart')
+            self.last_compile_used_package_fallback = bool(self.last_compile_fallback_replacements)
 
         validation_errors = self.validate_latex_source(tex_code_safe)
         if validation_errors:

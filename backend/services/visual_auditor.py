@@ -80,9 +80,25 @@ class VisualLayoutAuditorService:
             "detail": "0 margin overflows detected" if len(margin_overflows) == 0 else f"{len(margin_overflows)} margin overflows detected"
         }
 
-    def audit_full_manuscript(self, pdf_path: str, manuscript_markdown: str, venue_key: str = "IEEEtran", tile_output_dir: Optional[str] = None) -> Dict[str, Any]:
+    def audit_full_manuscript(
+        self,
+        pdf_path: str,
+        manuscript_markdown: str,
+        venue_key: str = "IEEEtran",
+        tile_output_dir: Optional[str] = None,
+        tex_source: str = "",
+        package_fallback_used: bool = False,
+        evidence_report: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Runs unified Visual Geometry + Checkmate 7-Point Audit and generates preview PNG tiles."""
-        checkmate_res = self.checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=manuscript_markdown, venue_key=venue_key)
+        checkmate_res = self.checkmate_verifier.audit_pdf(
+            pdf_path,
+            manuscript_markdown=manuscript_markdown,
+            venue_key=venue_key,
+            tex_source=tex_source,
+            package_fallback_used=package_fallback_used,
+            evidence_report=evidence_report,
+        )
         layout_res = self.audit_layout_geometry(pdf_path, venue_key=venue_key)
 
         tile_records = []

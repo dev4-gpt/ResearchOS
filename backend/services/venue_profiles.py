@@ -48,7 +48,7 @@ VENUE_PROFILES = {
     ),
     "DOAJ": VenueProfile(
         venue="DOAJ", cycle="open_access", document_class="article", page_limit=12, short_page_limit=4, long_page_limit=14,
-        required_sections=["Abstract"], official_template_url="https://doaj.org/",
+        required_sections=["Abstract"], official_template_url="https://doaj.org/", is_index_only=True,
     ),
     "arXiv": VenueProfile(
         venue="arXiv", cycle="preprint", document_class="article", page_limit=14, short_page_limit=4, long_page_limit=16,

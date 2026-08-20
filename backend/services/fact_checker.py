@@ -7,7 +7,14 @@ from domain.models import citation_key
 
 
 NUMERIC_PATTERN = re.compile(
-    r"(?:\b\d+(?:\.\d+)?%|\bN\s*=\s*\d+|\bp\s*[<>=]\s*0?\.\d+|\b[A-Za-z0-9_]+\s*=\s*\d+(?:\.\d+)?\b)"
+    r"(?:"
+    r"\b\d+(?:\.\d+)?%"
+    r"|\bN\s*=\s*\d+"
+    r"|\bp\s*[<>=]\s*0?\.\d+"
+    r"|\b[A-Za-z0-9_]+\s*=\s*\d+(?:\.\d+)?\b"
+    r"|\b\d+(?:\.\d+)?\s*(?:ms|s|x|million|billion)\b"
+    r"|\b\d+(?:\.\d+)?\s+(?:[A-Za-z-]+\s+){0,2}(?:agents?|codebases?|organizations?|engineers?|issues?|repositories?|samples?|instances?|months?|tasks?|projects?)\b"
+    r")"
 )
 
 
@@ -57,7 +64,7 @@ class FactCheckerService:
         values = []
         for wiki, latex in raw:
             value = wiki or latex
-            values.append(citation_key(value.strip()))
+            values.extend(citation_key(part.strip()) for part in value.split(",") if part.strip())
         return sorted(set(values))
 
     # Regex for a plausible standard academic author-year citation key

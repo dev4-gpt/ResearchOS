@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Iterable, List, Optional, Set
 
 from services.checkmate_verifier import CheckmateVerifierService
+from services.fact_checker import FactCheckerService
 from services.latex_exporter import LaTeXExporterService
 from services.venue_profiles import VENUE_PROFILES
 
@@ -40,6 +41,7 @@ class PublisherReadinessService:
     def __init__(self, vault_manager: Any):
         self.vault_manager = vault_manager
         self.checkmate = CheckmateVerifierService(vault_manager)
+        self.fact_checker = FactCheckerService(vault_manager)
         self.exporter = LaTeXExporterService(vault_manager)
 
     @staticmethod
@@ -239,15 +241,31 @@ class PublisherReadinessService:
         source_papers: List[Dict[str, Any]] = []
         for paper in self.vault_manager.list_files("papers"):
             try:
-                source_papers.append(self.vault_manager.read_markdown("papers", paper["filename"]))
+                source = self.vault_manager.read_markdown("papers", paper["filename"])
+                source["filename"] = paper["filename"]
+                source_papers.append(source)
             except Exception:
                 continue
+        source_records: Dict[str, str] = {}
+        source_texts: List[str] = []
+        for paper in source_papers:
+            paper_text = paper.get("content", "")
+            source_texts.append(paper_text)
+            metadata = paper.get("frontmatter", {}) or paper.get("metadata", {}) or {}
+            for key in (paper.get("filename", ""), metadata.get("id", ""), metadata.get("title", "")):
+                if key:
+                    source_records[str(key)] = paper_text
         for filename in selected:
             content = self.checkmate.auto_remediate_markdown(all_documents[filename])
             meta = all_docs_meta[filename]
             title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
             authors = meta.get("authors", ["Aryaman Dev"])
             value_report = value_reports[filename]
+            evidence_report = self.fact_checker.audit_document(
+                content,
+                source_texts=source_texts,
+                source_records=source_records,
+            )
             originality_report = originality["per_file"].get(filename, {"passed": True, "status": "PASS", "max_five_gram_overlap_pct": 0.0})
             venue_results: Dict[str, Any] = {}
 
@@ -263,7 +281,11 @@ class PublisherReadinessService:
                         author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", "")},
                         anonymize=VENUE_PROFILES[venue].anonymized_review,
                     )
-                    pdf_bytes = self.exporter.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+                    pdf_bytes = self.exporter.compile_pdflatex(
+                        tex_code,
+                        bib_code=bib_code,
+                        allow_package_fallback=True,
+                    )
                     if not pdf_bytes:
                         raise RuntimeError("LaTeX compilation returned no PDF bytes")
                     pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
@@ -273,7 +295,14 @@ class PublisherReadinessService:
                     tex_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.tex")
                     with open(tex_path, "w", encoding="utf-8") as handle:
                         handle.write(tex_code)
-                    audit = self.checkmate.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+                    audit = self.checkmate.audit_pdf(
+                        pdf_path,
+                        manuscript_markdown=content,
+                        venue_key=venue,
+                        tex_source=tex_code,
+                        package_fallback_used=self.exporter.last_compile_used_package_fallback,
+                        evidence_report=evidence_report,
+                    )
                     # Reuse the same geometry auditor as Backtest Lab. Preview tiles
                     # remain an explicit visual-inspection action, but every release
                     # candidate still gets an automated overflow/column audit here.
@@ -281,7 +310,16 @@ class PublisherReadinessService:
                     layout = VisualLayoutAuditorService(self.vault_manager).audit_layout_geometry(pdf_path, venue_key=venue)
                     layout_passed = bool(layout.get("passed", False))
                     venue_passed = bool(audit.get("checkmate_passed", False))
-                    publish_ready = venue_passed and layout_passed and value_report["substantive_value_passed"] and originality_report["passed"]
+                    template_passed = bool(audit.get("checks", {}).get("venue_contract", {}).get("passed", False))
+                    evidence_passed = evidence_report.get("status") == "passed"
+                    publish_ready = (
+                        venue_passed
+                        and layout_passed
+                        and template_passed
+                        and evidence_passed
+                        and value_report["substantive_value_passed"]
+                        and originality_report["passed"]
+                    )
                     reasons = []
                     if not originality_report["passed"]:
                         reasons.append(originality_report["status"])
@@ -289,6 +327,10 @@ class PublisherReadinessService:
                         reasons.append("SUBSTANTIVE_VALUE_REVIEW")
                     if not venue_passed:
                         reasons.append("CHECKMATE_REMEDIATION")
+                    if not template_passed:
+                        reasons.append("VENUE_TEMPLATE_REMEDIATION")
+                    if not evidence_passed:
+                        reasons.append("UNVERIFIED_EVIDENCE_OR_CITATIONS")
                     item_result.update({
                         "compiled": True,
                         "checkmate_passed": venue_passed,
@@ -301,6 +343,7 @@ class PublisherReadinessService:
                         "publish_ready": publish_ready,
                         "blocking_reasons": reasons,
                         "checks": audit.get("checks", {}),
+                        "evidence_report": evidence_report,
                     })
                 except Exception as error:
                     item_result["blocking_reasons"] = ["COMPILE_FAILED"]
@@ -313,6 +356,8 @@ class PublisherReadinessService:
                 readiness = "READY_FOR_HUMAN_REVIEW"
             elif not originality_report["passed"]:
                 readiness = "BLOCKED_DUPLICATE_CONTENT"
+            elif evidence_report.get("status") != "passed":
+                readiness = "BLOCKED_UNVERIFIED_EVIDENCE"
             elif not value_report["substantive_value_passed"]:
                 readiness = "BLOCKED_SUBSTANTIVE_VALUE"
             else:
@@ -332,6 +377,7 @@ class PublisherReadinessService:
                 "readiness": readiness,
                 "originality": originality_report,
                 "value": value_report,
+                "evidence": evidence_report,
                 "venue_results": venue_results,
                 "ready_venues": ready_venues,
             })
@@ -346,7 +392,12 @@ class PublisherReadinessService:
             "results": [
                 {
                     key: result.get(key)
-                    for key in ("filename", "title", "venue", "compiled", "publish_ready", "blocking_reasons", "pdf_path", "tex_path", "bib_path")
+                    for key in (
+                        "filename", "title", "venue", "compiled", "publish_ready",
+                        "blocking_reasons", "checkmate_passed", "checkmate_score",
+                        "layout_passed", "checks", "evidence_report",
+                        "pdf_path", "tex_path", "bib_path",
+                    )
                 }
                 for result in results
             ],
