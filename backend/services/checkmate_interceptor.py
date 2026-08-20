@@ -11,7 +11,7 @@ from services.error_ledger import ErrorLedgerService
 
 class CheckmateInterceptor:
     """Self-Healing Zero-Defect Interceptor Connector.
-    
+
     Pre-normalizes manuscript text, intercepts LaTeX compilation errors,
     applies targeted self-healing rules, and logs incidents to ErrorLedgerService.
     """
@@ -25,10 +25,10 @@ class CheckmateInterceptor:
     def sanitize_and_normalize_markdown(self, markdown_content: str) -> str:
         """Pre-compilation normalization connector to guarantee clean LaTeX sectioning."""
         text = markdown_content
-        
+
         # 1. Strip hardcoded markdown References section at the bottom (handled by BibTeX)
         text = re.sub(r'#{1,4}\s*(\d+[\.\s]*)?References[\s\S]*$', '', text, flags=re.IGNORECASE)
-        
+
         # 2. Fix unescaped underscores in text outside math blocks
         # 3. Clean section headings (ensure clean levels)
         return text.strip()

@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Terminal, 
-  Users, 
-  Network, 
-  FileText, 
-  Activity, 
+import {
+  Terminal,
+  Users,
+  Network,
+  FileText,
+  Activity,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  FlaskConical
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Boardroom from './components/Boardroom';
 import GraphView from './components/GraphView';
 import DocEditor from './components/DocEditor';
+import BacktestLab from './components/BacktestLab';
 
 import { apiFetch } from './api';
 
@@ -24,7 +26,7 @@ export interface AgentLog {
   data?: any;
 }
 
-export type ViewType = 'dashboard' | 'boardroom' | 'graph' | 'editor';
+export type ViewType = 'dashboard' | 'boardroom' | 'graph' | 'editor' | 'backtest';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
@@ -68,7 +70,7 @@ const App: React.FC = () => {
       const res = await apiFetch('/api/research/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           topic: topicStr,
           target_venue: venueStr,
           target_length: lengthStr
@@ -133,7 +135,7 @@ const App: React.FC = () => {
 
           {/* Navigation Links */}
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <button 
+            <button
               onClick={() => setCurrentView('dashboard')}
               className="sidebar-nav-btn"
               style={{
@@ -146,7 +148,7 @@ const App: React.FC = () => {
               <span className="sidebar-text">Control Deck</span>
             </button>
 
-            <button 
+            <button
               onClick={() => setCurrentView('boardroom')}
               className="sidebar-nav-btn"
               style={{
@@ -164,7 +166,7 @@ const App: React.FC = () => {
               </span>
             </button>
 
-            <button 
+            <button
               onClick={() => setCurrentView('graph')}
               className="sidebar-nav-btn"
               style={{
@@ -180,7 +182,7 @@ const App: React.FC = () => {
               </span>
             </button>
 
-            <button 
+            <button
               onClick={() => setCurrentView('editor')}
               className="sidebar-nav-btn"
               style={{
@@ -193,6 +195,22 @@ const App: React.FC = () => {
               <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
                 <span>HITL Publisher</span>
                 <span style={{ fontSize: '9px', background: 'rgba(59,130,246,0.15)', color: '#60a5fa', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>50+ Files</span>
+              </span>
+            </button>
+
+            <button
+              onClick={() => setCurrentView('backtest')}
+              className="sidebar-nav-btn"
+              style={{
+                backgroundColor: currentView === 'backtest' ? 'var(--primary-glow)' : 'transparent',
+                color: currentView === 'backtest' ? 'var(--primary)' : 'var(--text-secondary)',
+                fontWeight: currentView === 'backtest' ? '600' : '400',
+              }}
+            >
+              <FlaskConical size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+              <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                <span>Backtest Lab</span>
+                <span style={{ fontSize: '9px', background: 'rgba(45,212,191,0.15)', color: '#2dd4bf', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>Loop</span>
               </span>
             </button>
           </nav>
@@ -242,15 +260,15 @@ const App: React.FC = () => {
       {/* Main Content Area */}
       <main style={{ padding: '12px', height: '100%', minHeight: 0, minWidth: 0, width: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {currentView === 'dashboard' && (
-          <Dashboard 
-            startResearch={startResearch} 
-            isResearching={isResearching} 
+          <Dashboard
+            startResearch={startResearch}
+            isResearching={isResearching}
             onEnterWorkspace={() => setCurrentView('editor')}
           />
         )}
         {currentView === 'boardroom' && (
-          <Boardroom 
-            logs={logs} 
+          <Boardroom
+            logs={logs}
             isResearching={isResearching}
             activeTopic={activeTopic}
           />
@@ -260,6 +278,9 @@ const App: React.FC = () => {
         )}
         {currentView === 'editor' && (
           <DocEditor />
+        )}
+        {currentView === 'backtest' && (
+          <BacktestLab />
         )}
       </main>
     </div>

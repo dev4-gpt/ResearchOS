@@ -71,7 +71,7 @@ const GraphView: React.FC = () => {
       if (res.ok) {
         const data: GraphData = await res.json();
         setGraphData(data);
-        
+
         // Initialize node positions deterministically based on node id hash
         const width = 600;
         const height = 400;
@@ -103,13 +103,13 @@ const GraphView: React.FC = () => {
     const height = 500;
     const centerX = width / 2;
     const centerY = height / 2;
-    
+
     const runSimulation = () => {
       // Create a copy of nodes to mutate velocities and coordinates
       const nextNodes = nodes.map(n => ({ ...n }));
-      
+
       const nodeMap = new Map(nextNodes.map(n => [n.id, n]));
-      
+
       // Constants for forces
       const repulsionConstant = 600;
       const attractionConstant = 0.04;
@@ -121,17 +121,17 @@ const GraphView: React.FC = () => {
         const nodeA = nextNodes[i];
         for (let j = i + 1; j < nextNodes.length; j++) {
           const nodeB = nextNodes[j];
-          
+
           const dx = (nodeB.x || 0) - (nodeA.x || 0);
           const dy = (nodeB.y || 0) - (nodeA.y || 0);
           const distanceSq = dx * dx + dy * dy || 1;
           const distance = Math.sqrt(distanceSq);
-          
+
           if (distance < 250) {
             const force = repulsionConstant / distanceSq;
             const fx = (dx / distance) * force;
             const fy = (dy / distance) * force;
-            
+
             if (nodeA !== draggedNode) {
               nodeA.vx = (nodeA.vx || 0) - fx;
               nodeA.vy = (nodeA.vy || 0) - fy;
@@ -148,16 +148,16 @@ const GraphView: React.FC = () => {
       graphData.edges.forEach(edge => {
         const sourceNode = nodeMap.get(edge.source);
         const targetNode = nodeMap.get(edge.target);
-        
+
         if (sourceNode && targetNode) {
           const dx = (targetNode.x || 0) - (sourceNode.x || 0);
           const dy = (targetNode.y || 0) - (sourceNode.y || 0);
           const distance = Math.sqrt(dx * dx + dy * dy) || 1;
-          
+
           const force = (distance - 80) * attractionConstant;
           const fx = (dx / distance) * force;
           const fy = (dy / distance) * force;
-          
+
           if (sourceNode !== draggedNode) {
             sourceNode.vx = (sourceNode.vx || 0) + fx;
             sourceNode.vy = (sourceNode.vy || 0) + fy;
@@ -172,13 +172,13 @@ const GraphView: React.FC = () => {
       // 3. Gravity pulling towards center & update positions
       nextNodes.forEach(node => {
         if (node === draggedNode) return;
-        
+
         // Pull to center
         const dx = centerX - (node.x || 0);
         const dy = centerY - (node.y || 0);
         node.vx = (node.vx || 0) + dx * centerForceConstant;
         node.vy = (node.vy || 0) + dy * centerForceConstant;
-        
+
         // Damp and apply velocity
         node.vx *= damping;
         node.vy *= damping;
@@ -205,14 +205,14 @@ const GraphView: React.FC = () => {
     setSelectedNode(node);
     setIsLoadingContent(true);
     setNodeContent(null);
-    
+
     // Parse category and filename from node ID (e.g. 'papers/arxiv_2305_18290.md')
     const parts = node.id.split('/');
     if (parts.length < 2) return;
-    
+
     const category = parts[0];
     const filename = parts[1];
-    
+
     try {
       const res = await apiFetch(`/api/vault/read?category=${category}&filename=${filename}`);
       if (res.ok) {
@@ -240,10 +240,10 @@ const GraphView: React.FC = () => {
     const svgHeight = 500;
     const scaleX = svgWidth / rect.width;
     const scaleY = svgHeight / rect.height;
-    
+
     const mouseX = (e.clientX - rect.left) * scaleX;
     const mouseY = (e.clientY - rect.top) * scaleY;
-    
+
     setNodes(prev => prev.map(n => {
       if (n.id === draggedNode.id) {
         return {
@@ -263,17 +263,17 @@ const GraphView: React.FC = () => {
   };
 
   // Filter nodes by search term
-  const filteredNodes = nodes.filter(n => 
+  const filteredNodes = nodes.filter(n =>
     n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     n.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="responsive-graph-layout" style={{ height: '100%', minHeight: 0, gap: '16px' }}>
-      
+
       {/* Main Graph Panel */}
       <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', position: 'relative' }}>
-        
+
         {/* Graph Header Controls */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', zIndex: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -281,8 +281,8 @@ const GraphView: React.FC = () => {
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '15px', fontWeight: '700' }}>Obsidian Knowledge Graph</h3>
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Search nodes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -290,7 +290,7 @@ const GraphView: React.FC = () => {
                 background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff', fontSize: '12px', padding: '6px 12px', width: '180px', outline: 'none'
               }}
             />
-            <button 
+            <button
               onClick={fetchGraph}
               style={{
                 background: 'var(--primary-glow)', border: 'none', color: 'var(--primary)', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', fontWeight: '600'
@@ -313,7 +313,7 @@ const GraphView: React.FC = () => {
         </div>
 
         {/* The SVG Canvas */}
-        <div 
+        <div
           style={{ width: '100%', height: '100%', overflow: 'hidden', cursor: draggedNode ? 'grabbing' : 'default' }}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -329,10 +329,10 @@ const GraphView: React.FC = () => {
               <span style={{ fontSize: '13px' }}>Graph is empty. Run a query on the Control Deck to generate notes.</span>
             </div>
           ) : (
-            <svg 
+            <svg
               ref={svgRef}
-              viewBox="0 0 800 500" 
-              width="100%" 
+              viewBox="0 0 800 500"
+              width="100%"
               height="100%"
               style={{ display: 'block' }}
             >
@@ -350,7 +350,7 @@ const GraphView: React.FC = () => {
                 const target = nodeMap.get(edge.target);
                 if (!source || !target) return null;
                 return (
-                  <line 
+                  <line
                     key={idx}
                     x1={source.x}
                     y1={source.y}
@@ -368,10 +368,10 @@ const GraphView: React.FC = () => {
                 const meta = CATEGORY_META[node.category] || { color: '#ffffff' };
                 const isSelected = selectedNode?.id === node.id;
                 const isHovered = hoveredNode?.id === node.id;
-                
+
                 return (
-                  <g 
-                    key={node.id} 
+                  <g
+                    key={node.id}
                     transform={`translate(${node.x || 0}, ${node.y || 0})`}
                     style={{ cursor: 'pointer' }}
                     onClick={() => handleNodeClick(node)}
@@ -381,24 +381,24 @@ const GraphView: React.FC = () => {
                   >
                     {/* Glowing outer ring on hover/select */}
                     {(isSelected || isHovered) && (
-                      <circle 
-                        r="14" 
-                        fill="none" 
-                        stroke={meta.color} 
-                        strokeWidth="2" 
+                      <circle
+                        r="14"
+                        fill="none"
+                        stroke={meta.color}
+                        strokeWidth="2"
                         strokeOpacity="0.4"
                         style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}
                       />
                     )}
-                    
+
                     {/* Inner Node Circle */}
-                    <circle 
-                      r="8" 
-                      fill={meta.color} 
-                      stroke="rgba(255,255,255,0.8)" 
-                      strokeWidth={isSelected ? '2' : '1'} 
+                    <circle
+                      r="8"
+                      fill={meta.color}
+                      stroke="rgba(255,255,255,0.8)"
+                      strokeWidth={isSelected ? '2' : '1'}
                     />
-                    
+
                     {/* Node Text Label */}
                     <text
                       y="-12"
@@ -421,13 +421,13 @@ const GraphView: React.FC = () => {
       {/* Slide-out Sidebar details of selected node */}
       {selectedNode && (
         <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden' }}>
-          
+
           {/* Drawer Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '12px' }}>
             <span style={{ fontSize: '10px', color: CATEGORY_META[selectedNode.category]?.color, fontWeight: '700', textTransform: 'uppercase' }}>
               {CATEGORY_META[selectedNode.category]?.label}
             </span>
-            <button 
+            <button
               onClick={() => setSelectedNode(null)}
               style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
             >
@@ -445,7 +445,7 @@ const GraphView: React.FC = () => {
             ) : nodeContent ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <h4 style={{ fontSize: '16px', fontWeight: 'bold', lineHeight: '1.3' }}>{selectedNode.title}</h4>
-                
+
                 {/* YAML Meta fields */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '11px' }}>
                   {Object.entries(nodeContent.frontmatter).map(([key, val]) => {
@@ -471,7 +471,7 @@ const GraphView: React.FC = () => {
           </div>
         </div>
       )}
-      
+
     </div>
   );
 };

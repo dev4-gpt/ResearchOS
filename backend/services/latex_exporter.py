@@ -58,6 +58,60 @@ VENUE_SPECS = {
         "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
         "template_style": "acm",
         "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
+    },
+    "IEEE_Access": {
+        "name": "IEEE Access (Multidisciplinary Open Access)",
+        "format": "Two-column IEEE Open Access format",
+        "page_limit": "12 pages max (rapid 10-week cycle)",
+        "doc_class": "\\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}",
+        "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{balance}\n\\usepackage{hyperref}",
+        "template_style": "ieeetran",
+        "anonymization_rule": "Single-blind or attributed author submissions"
+    },
+    "SpringerOpen": {
+        "name": "SpringerOpen (Springer Nature Open Access)",
+        "format": "Single/Two-column Springer Nature layout",
+        "page_limit": "14 pages max",
+        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
+        "packages": "\\usepackage[margin=0.75in]{geometry}\n\\usepackage{microtype}\n\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
+        "template_style": "acm",
+        "anonymization_rule": "Attributed author submissions under CC BY"
+    },
+    "Femington": {
+        "name": "Femington Academic Press (IJISDS / IJAMBI / IJCRMS)",
+        "format": "Two-column specialized open-access format",
+        "page_limit": "12 pages",
+        "doc_class": "\\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}",
+        "packages": "\\usepackage{cite}\n\\usepackage{amsmath,amssymb,amsfonts}\n\\usepackage{algorithmic}\n\\usepackage{graphicx}\n\\usepackage{textcomp}\n\\usepackage{xcolor}\n\\usepackage{booktabs}\n\\usepackage{hyperref}",
+        "template_style": "ieeetran",
+        "anonymization_rule": "Attributed author submissions with COPE ethics signoff"
+    },
+    "MDPI": {
+        "name": "MDPI Open Access (Applied Sciences / Sensors)",
+        "format": "Two-column MDPI layout",
+        "page_limit": "12 pages (rapid 2-4 week cycle)",
+        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
+        "packages": "\\usepackage[margin=0.75in]{geometry}\n\\usepackage{microtype}\n\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
+        "template_style": "acm",
+        "anonymization_rule": "Attributed author submissions"
+    },
+    "DOAJ": {
+        "name": "DOAJ (Directory of Open Access Journals - Verified Seal)",
+        "format": "Verified Open Access standard layout",
+        "page_limit": "12 pages",
+        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
+        "packages": "\\usepackage[margin=0.75in]{geometry}\n\\usepackage{microtype}\n\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
+        "template_style": "acm",
+        "anonymization_rule": "Attributed or single-blind depending on society rules"
+    },
+    "arXiv": {
+        "name": "arXiv (cs.SE / cs.AI Open Access Preprint)",
+        "format": "Two-column computer science preprint layout",
+        "page_limit": "12 - 14 pages",
+        "doc_class": "\\documentclass[10pt,twocolumn,letterpaper]{article}",
+        "packages": "\\usepackage[margin=0.75in]{geometry}\n\\usepackage{microtype}\n\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}",
+        "template_style": "acm",
+        "anonymization_rule": "Attributed open-access preprint"
     }
 }
 
@@ -65,6 +119,34 @@ class LaTeXExporterService:
     def __init__(self, vault_manager: Any = None):
         self.vault_manager = vault_manager
         self.last_build_log = ""
+
+    @staticmethod
+    def validate_latex_source(tex_code: str) -> List[str]:
+        """Fail closed on malformed math before pdflatex can emit a misleading PDF."""
+        errors: List[str] = []
+        environment_stack: List[str] = []
+        tracked_environments = {"equation", "equation*", "aligned", "cases", "split", "gathered"}
+        for match in re.finditer(r"\\(begin|end)\{([^}]+)\}", tex_code):
+            action, environment = match.groups()
+            if environment not in tracked_environments:
+                continue
+            if action == "begin":
+                environment_stack.append(environment)
+            elif not environment_stack or environment_stack.pop() != environment:
+                errors.append(f"Unbalanced LaTeX environment: {environment}")
+        if environment_stack:
+            errors.append(f"Unclosed LaTeX environment: {environment_stack[-1]}")
+
+        if re.search(r"\\resizebox\{[^}]+\}\{[^}]+\}\{\$\\displaystyle\s*\\begin\{equation\}", tex_code):
+            errors.append("Nested equation environment inside resizebox")
+
+        for cases_body in re.findall(r"\\begin\{cases\}([\s\S]*?)\\end\{cases\}", tex_code):
+            # A cases row must use a LaTeX double slash. A single slash silently
+            # turns the next row into malformed math while still producing a PDF.
+            if re.search(r"(?<!\\)\\\s+\S", cases_body):
+                errors.append("Malformed cases row break")
+
+        return errors
 
     def clean_citation_key(self, key: str) -> str:
         """Cleans and normalizes citation keys into simple alphanumeric/underscore strings for BibTeX matching."""
@@ -118,28 +200,46 @@ class LaTeXExporterService:
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
-        
-        # 1. Replace code blocks with narrow, non-overflowing verbatim environments
+        text = text.replace('\x08egin', '\\begin').replace('\x08end', '\\end')
+        text = text.replace('\text{', '\\text{').replace('\text', '\\text')
+        text = text.replace('\\\\begin{aligned}', '\\begin{aligned}').replace('\\\\end{aligned}', '\\end{aligned}')
+        text = text.replace('egin{aligned}', '\\begin{aligned}').replace('end{aligned}', '\\end{aligned}')
+        text = text.replace('eginaligned', '\\begin{aligned}')
+        text = re.sub(r'(?<!\\)\b(egin|end)\{(aligned|cases|equation|matrix|bmatrix|vmatrix)\}', r'\\\1{\2}', text)
+
+
+
+
+        # 1. Replace code blocks with narrow, non-overflowing verbatim environments or clean quote blocks for ASCII diagrams
         def replace_code_block(match):
             code_content = match.group(1).strip()
             char_map = {'┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+', '═': '=', '║': '|'}
             for char, repl in char_map.items():
                 code_content = code_content.replace(char, repl)
+
+            # Cleanly handle ASCII box art or pseudocode dividers
+            if '+---' in code_content or '======' in code_content or '| [Scout' in code_content:
+                lines = []
+                for line in code_content.split('\n'):
+                    if re.match(r'^\s*[\+\|=-]{5,}\s*$', line):
+                        continue
+                    lines.append(line)
+                clean_diagram_text = "\n".join(lines).strip()
+                return f"\n\\begin{{quote}}\n\\small\\texttt{{{self.sanitize_latex(clean_diagram_text)}}}\n\\end{{quote}}\n"
+
             # Truncate or wrap lines over 42 characters to fit 3.5in IEEEtran columns
             wrapped_lines = []
             for line in code_content.split('\n'):
                 if len(line) > 42 and not line.startswith("//"):
-                    # Break long algorithm lines cleanly across indentation
-                    indent = len(line) - len(line.lstrip())
-                    ind_str = " " * (indent + 2)
                     sub_lines = [line[i:i+40] for i in range(0, len(line), 40)]
-                    wrapped_lines.append(f"\n{ind_str}".join(sub_lines))
+                    wrapped_lines.append("\n".join(sub_lines))
                 else:
                     wrapped_lines.append(line)
             clean_code = "\n".join(wrapped_lines)
             return f"\n\\begin{{scriptsize}}\n\\begin{{verbatim}}\n{clean_code}\n\\end{{verbatim}}\n\\end{{scriptsize}}\n"
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
+
 
         # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, and metadata noise
         text = re.sub(r'#{1,4}\s*(\d+[\.\s]*)?References[\s\S]*$', '', text, flags=re.IGNORECASE)
@@ -164,12 +264,17 @@ class LaTeXExporterService:
 
         # 4. Strip backticks around wikilinks and convert Wikilinks [[key]] into \cite{clean_citation_key(key)} AND normalize existing \cite{key}
         text = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', text)
-        text = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
-        text = re.sub(r'\\cite\{([^}]+)\}', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", text)
+        def clean_cite_block(m):
+            keys = m.group(1).split(',')
+            return "\\cite{" + ",".join(self.clean_citation_key(k.strip()) for k in keys if k.strip()) + "}"
+        text = re.sub(r'\[\[([^\]]+)\]\]', clean_cite_block, text)
+        text = re.sub(r'\\cite\{([^}]+)\}', clean_cite_block, text)
+
+
 
         # 5. Humanize AI prose (remove AI fluff/buzzwords)
         ai_fluff = [
-            r'\bIn conclusion,?\b', r'\bIn summary,?\b', r'\bDelve into\b', r'\bdelving into\b',
+            r'\bDelve into\b', r'\bdelving into\b',
             r'\btapestry of\b', r'\bbeacon of\b', r'\bcrucial role\b', r'\bit is important to note that\b',
             r'\bgame-changer\b', r'\bmasterclass\b', r'\blandscape of\b', r'\bdeep dive\b'
         ]
@@ -184,7 +289,7 @@ class LaTeXExporterService:
             title_text = re.sub(r'^[\*\s]+|[\*\s]+$', '', title_text).strip()
             title_text = re.sub(r'^(\d+[\.\s]*)+', '', title_text).strip()
             title_text = re.sub(r'^[\*\s]+|[\*\s]+$', '', title_text).strip()
-            
+
             if level in (1, 2):
                 return f"\n\\section{{{title_text}}}\n"
             elif level == 3:
@@ -207,7 +312,7 @@ class LaTeXExporterService:
             stripped = line.strip()
             # Remove leading bullet artifacts if appended after item numbers like '1)•'
             stripped = re.sub(r'^(\d+[\)\.])\s*[•*]\s*', r'\1 ', stripped)
-            
+
             bullet_match = re.match(r'^[*\-\+•]\s+(.*)', stripped)
             enum_match = re.match(r'^\d+[\)\.]\s+(.*)', stripped)
 
@@ -308,8 +413,22 @@ class LaTeXExporterService:
 
         text = '\n'.join(final_lines)
 
-        # 11. Format bold and italic markdown (balance unclosed ** and * per line to prevent runaway pdflatex arguments)
-        lines_list = text.split('\n')
+        # 11. Format bold and italic markdown (balance unclosed ** and * per line to prevent runaway pdflatex arguments).
+        # Protect inline/display math first: a legitimate exponent such as k^*
+        # must never be interpreted as Markdown emphasis.
+        math_tokens = {}
+
+        def hold_math(match):
+            token = f"@@RESEARCHINGOS_MATH_{len(math_tokens)}@@"
+            math_tokens[token] = match.group(0)
+            return token
+
+        protected_text = re.sub(
+            r'\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$',
+            hold_math,
+            text,
+        )
+        lines_list = protected_text.split('\n')
         fixed_lines = []
         for line in lines_list:
             if line.startswith('\\section') or line.startswith('\\subsection') or line.startswith('\\subsubsection'):
@@ -326,29 +445,53 @@ class LaTeXExporterService:
         latex_body = '\n'.join(fixed_lines)
         latex_body = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', latex_body)
         latex_body = re.sub(r'(?<!\*)\*([^\*\n]+?)\*(?!\*)', r'\\textit{\1}', latex_body)
-        
+
+        for token, math in math_tokens.items():
+            latex_body = latex_body.replace(token, math)
+
         # Clean any accidental \textbf{\section{...}} occurrences
         latex_body = re.sub(r'\\textbf\{(\\section\{[^}]+\})\}', r'\1', latex_body)
         latex_body = re.sub(r'\\textbf\{(\\subsection\{[^}]+\})\}', r'\1', latex_body)
         latex_body = re.sub(r'\\textbf\{(\\subsubsection\{[^}]+\})\}', r'\1', latex_body)
 
-        # 12. FIX: Protect inline $math$ inside \item lines with \mbox{}
-        # Prevents pdflatex line-breaking individual math symbols onto separate lines
-        def protect_item_math(m):
-            line = m.group(0)
-            return re.sub(r'((?<!\\)\$(?:\\\$|[^\$])+?\$)', r'\\mbox{\1}', line)
-        latex_body = re.sub(r'^\s*\\item\s+.*\$.*$', protect_item_math, latex_body, flags=re.MULTILINE)
+        # 12. Clean any accidental stray \b before \begin
+        latex_body = re.sub(r'\\b\s*(\\begin\{)', r'\1', latex_body)
 
-        # 13. FIX: Auto-wrap display math $$...$$ with \begin{equation}\begin{aligned}...\end{aligned}\end{equation}
+
+        # 13. Auto-wrap display math and constrain it to the active column.
+        # \resizebox preserves equation numbering while preventing long formulas
+        # from crossing into the neighboring column in two-column venues.
         def wrap_display_math(m):
             eq_content = m.group(1).strip()
-            # If already contains \begin{equation}, \begin{aligned}, or \begin{cases}, preserve as-is without extra wrapping
-            if '\\begin{' in eq_content:
+            # Preserve LaTeX row breaks (\\) inside aligned/cases environments.
+            # Collapsing them to a single slash corrupts cases and multiline math.
+            eq_content = eq_content.replace('\t', ' ')
+            eq_content = re.sub(r'\\b\s*(\\begin\{)', r'\1', eq_content)
+            if '\\begin{equation}' in eq_content:
                 return f"\n{eq_content}\n"
-            return f"\n\\begin{{equation}}\n\\begin{{aligned}}\n{eq_content}\n\\end{{aligned}}\n\\end{{equation}}\n"
+            if '\\begin{aligned}' not in eq_content:
+                if len(eq_content) > 110 and '\\land' in eq_content:
+                    eq_content = re.sub(
+                        r'\s+\\land\s+',
+                        lambda _: ' \\\\\n&\\land ',
+                        eq_content,
+                    )
+                eq_content = f"\\begin{{aligned}}\n{eq_content}\n\\end{{aligned}}"
+            return (
+                "\n\\begin{equation}\n"
+                "\\resizebox{\\columnwidth}{!}{$\\displaystyle\n"
+                f"{eq_content}\n"
+                "$}\n\\end{equation}\n"
+            )
+
         latex_body = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', wrap_display_math, latex_body)
 
+        # 14. Do not run a second aligned/equation wrapper pass here. Display
+        # math was normalized above; wrapping it again would create nested
+        # equation environments inside \resizebox and corrupt compilation.
+
         return latex_body
+
 
     def markdown_to_ieeetran(
         self,
@@ -376,12 +519,17 @@ class LaTeXExporterService:
         """Converts Markdown manuscript into venue-specific LaTeX document."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
         clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
-        
+
         # Extract clean abstract from body_markdown if abstract parameter is default/placeholder
         extracted_abstract = abstract
         abstract_match = re.search(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+([\s\S]*?)(?=\n+#{1,2}\s+|\Z)', body_markdown, re.IGNORECASE)
         if abstract_match:
             extracted_abstract = abstract_match.group(1).strip()
+        elif not abstract or abstract in ("Executive Abstract", "Abstract"):
+            paragraphs = [p.strip() for p in re.split(r'\n\s*\n', body_markdown) if p.strip() and not p.strip().startswith(('#', '```', '---', '+', '|', '==='))]
+            if paragraphs:
+                extracted_abstract = paragraphs[0]
+
 
         # Sanitize prompt instructions and debate transcripts from abstract
         extracted_abstract = re.sub(r'Addressing\s+.*?within\s+the\s+context\s+of\s+\*\*.*?\*\*\s+requires\s+a\s+systematic\s+analysis.*?\n+', '', extracted_abstract, flags=re.IGNORECASE | re.DOTALL)
@@ -397,25 +545,34 @@ class LaTeXExporterService:
                 extracted_abstract = extracted_abstract[:last_period+1]
 
         clean_abstract = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', extracted_abstract)
-        clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f"\\cite{{{self.clean_citation_key(m.group(1))}}}", clean_abstract)
+        def clean_cite_block(m):
+            keys = m.group(1).split(',')
+            return "\\cite{" + ",".join(self.clean_citation_key(k.strip()) for k in keys if k.strip()) + "}"
+
+        clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', clean_cite_block, clean_abstract)
+        clean_abstract = re.sub(r'\\cite\{([^}]+)\}', clean_cite_block, clean_abstract)
         clean_abstract = self.sanitize_latex(clean_abstract)
+        clean_abstract = re.sub(r'^(?:#+\s*)?(?:Executive\s+)?Abstract[:\s—\-]*', '', clean_abstract, flags=re.IGNORECASE).strip()
         clean_abstract = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', clean_abstract)
         clean_abstract = re.sub(r'\*([^\n]+?)\*', r'\\textit{\1}', clean_abstract)
-        
+
+
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
         body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+[\s\S]*?(?=\n+#{1,2}\s+|\Z)', '', body_markdown, flags=re.IGNORECASE)
         body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
-            
+
         latex_body = self.convert_markdown_body(body_for_export)
-        
+
         details = author_details or {}
         anonymized_venues = {"NeurIPS", "ICML", "CVPR", "ACL"}
         is_anonymous = anonymize if anonymize is not None else venue_key in anonymized_venues
-        
+
         clean_provided_authors = [a for a in (authors or []) if a and "Unspecified" not in a and "Unknown" not in a]
-        authors_list = ["Anonymous Authors"] if is_anonymous else (clean_provided_authors or ["Aryaman Dev"])
-        affiliation = "" if is_anonymous else self.sanitize_latex(str(details.get("affiliation", "")))
-        email = "" if is_anonymous else self.sanitize_latex(str(details.get("email", "")))
+        authors_list = ["Anonymous Authors"] if is_anonymous else (clean_provided_authors or ["Aryaman Singh Dev"])
+        affiliation = "" if is_anonymous else self.sanitize_latex(str(details.get("affiliation") or "Pennsylvania State University"))
+        email = "" if is_anonymous else self.sanitize_latex(str(details.get("email") or "asd5520@psu.edu"))
+
+
         neurips_authors = " \\And ".join(
             a + (f"\\\\ {affiliation}" if affiliation else "") for a in authors_list
         )
@@ -452,6 +609,7 @@ class LaTeXExporterService:
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
+\\setlength{{\\emergencystretch}}{{3em}}
 
 \\title{{{clean_title}}}
 
@@ -730,7 +888,7 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             authors_list = frontmatter.get("authors") or p.get("authors") or ["Mahmoud Kiasari", "Hamed H. Aly"]
             if isinstance(authors_list, str):
                 authors_list = [authors_list]
-            
+
             clean_authors = []
             for a in authors_list:
                 a_str = str(a).replace('[', '').replace(']', '').replace('"', '').strip()
@@ -816,7 +974,7 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             if os.path.exists(p) and os.access(p, os.X_OK):
                 pdflatex_bin = p
                 break
-        
+
         if not pdflatex_bin:
             pdflatex_bin = shutil.which("pdflatex")
 
@@ -836,6 +994,11 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                         .replace('\\bibliographystyle{icml2026}', '\\bibliographystyle{plain}')
                         .replace('\\bibliographystyle{acl_natbib}', '\\bibliographystyle{plain}')
             )
+
+        validation_errors = self.validate_latex_source(tex_code_safe)
+        if validation_errors:
+            self.last_build_log = "LaTeX preflight failed: " + "; ".join(validation_errors)
+            return None
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tex_path = os.path.join(tmpdir, "document.tex")
@@ -871,6 +1034,10 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+
+                if "Overfull \\hbox" in self.last_build_log:
+                    self.last_build_log = "LaTeX overflow detected: " + self.last_build_log
+                    return None
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
                 if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 100:

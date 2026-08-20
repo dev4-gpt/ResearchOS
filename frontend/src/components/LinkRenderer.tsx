@@ -18,7 +18,7 @@ export const LinkRenderer: React.FC<LinkRendererProps> = ({
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
-    
+
     // Check if a wikilink button was clicked
     const wikilinkBtn = target.closest('[data-wikilink]') as HTMLElement;
     if (wikilinkBtn) {

@@ -42,7 +42,7 @@ class O1AEvidenceTrackerService:
         """Reports documented portfolio evidence without making an eligibility finding."""
         total_papers = len(manuscripts)
         total_citations = sum(p.get("citations", 0) for p in manuscripts)
-        
+
         criteria_status = {
             "scholarly_articles": {
                 "met": False,
@@ -85,7 +85,7 @@ class O1AEvidenceTrackerService:
     def generate_legal_dossier_markdown(self, manuscripts: List[Dict[str, Any]]) -> str:
         """Generates an O-1A evidence inventory, not a legal petition or eligibility finding."""
         audit = self.audit_o1a_readiness(manuscripts)
-        
+
         md_lines = [
             "# O-1A Evidence Inventory",
             "**Petitioner**: Not configured",

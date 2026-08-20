@@ -30,4 +30,28 @@ VENUE_PROFILES = {
         venue="ACM", cycle="journal", document_class="acmart", page_limit=10, short_page_limit=4, long_page_limit=12,
         required_sections=["Abstract"],
     ),
+    "IEEE_Access": VenueProfile(
+        venue="IEEE_Access", cycle="open_access", document_class="IEEEtran", page_limit=12, short_page_limit=4, long_page_limit=14,
+        required_sections=["Abstract"], official_template_url="https://ieeeaccess.ieee.org/submitting-an-article/",
+    ),
+    "SpringerOpen": VenueProfile(
+        venue="SpringerOpen", cycle="open_access", document_class="article", page_limit=14, short_page_limit=6, long_page_limit=16,
+        required_sections=["Abstract"], official_template_url="https://www.springeropen.com/getpublished",
+    ),
+    "Femington": VenueProfile(
+        venue="Femington", cycle="open_access", document_class="IEEEtran", page_limit=12, short_page_limit=4, long_page_limit=12,
+        required_sections=["Abstract"], official_template_url="https://femington.org/journals",
+    ),
+    "MDPI": VenueProfile(
+        venue="MDPI", cycle="open_access", document_class="article", page_limit=12, short_page_limit=4, long_page_limit=14,
+        required_sections=["Abstract"], official_template_url="https://www.mdpi.com/authors/references",
+    ),
+    "DOAJ": VenueProfile(
+        venue="DOAJ", cycle="open_access", document_class="article", page_limit=12, short_page_limit=4, long_page_limit=14,
+        required_sections=["Abstract"], official_template_url="https://doaj.org/",
+    ),
+    "arXiv": VenueProfile(
+        venue="arXiv", cycle="preprint", document_class="article", page_limit=14, short_page_limit=4, long_page_limit=16,
+        required_sections=["Abstract"], official_template_url="https://arxiv.org/help/prep",
+    ),
 }

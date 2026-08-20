@@ -74,21 +74,21 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
 
   return (
     <div style={{ paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '28px', paddingBottom: '24px' }}>
-      
+
       {/* Hero Welcome Deck */}
       <section className="hero-section glass glow-primary animate-entrance">
         {/* Background gradient orb */}
         <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '220px', height: '220px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(129,140,248,0.25) 0%, rgba(129,140,248,0) 70%)', filter: 'blur(35px)', pointerEvents: 'none' }}></div>
-        
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '600', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: 'var(--font-heading)' }}>
           <Sparkles size={14} strokeWidth={1.5} />
           <span>Multi-Agent Research Lab</span>
         </div>
-        
+
         <h2 className="hero-title">
           Accelerate your academic publishing pipeline.
         </h2>
-        
+
         <p style={{ color: 'var(--text-secondary)', fontSize: '15px', maxWidth: '680px', lineHeight: '1.6', fontWeight: '400' }}>
           ResearchingOS runs a full academic debate council to vet scientific literature, construct a structured Obsidian knowledge graph (LLM Wiki), and format professional peer-review grade manuscript drafts.
         </p>
@@ -97,8 +97,8 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
         <form onSubmit={handleSubmit} style={{ marginTop: '12px' }}>
           <div className="search-input-container">
             <Search size={18} strokeWidth={1.5} style={{ color: 'var(--text-secondary)', marginLeft: '16px', flexShrink: 0 }} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Enter a research question or topic (e.g. DPO vs RLHF in sparse environments)..."
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
@@ -108,8 +108,8 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
                 fontFamily: 'var(--font-sans)',
               }}
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isResearching || !topic.trim()}
               className="btn-pill"
               style={{
@@ -137,8 +137,8 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
           <div style={{ display: 'flex', gap: '12px', marginTop: '14px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Venue Target:</span>
-              <select 
-                value={targetVenue} 
+              <select
+                value={targetVenue}
                 onChange={(e) => setTargetVenue(e.target.value)}
                 disabled={isResearching}
                 style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
@@ -154,8 +154,8 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>Manuscript Length:</span>
-              <select 
-                value={targetLength} 
+              <select
+                value={targetLength}
                 onChange={(e) => setTargetLength(e.target.value)}
                 disabled={isResearching}
                 style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: '600' }}
@@ -211,7 +211,7 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
           <BookOpen size={18} strokeWidth={1.5} color="var(--primary)" />
           <span>Research Institute Staff</span>
         </h3>
-        
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {AGENT_TEAM.map((agent, index) => (
             <div key={index} className="double-bezel-outer tilt-3d" style={{ height: '100%' }}>
@@ -235,7 +235,7 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
       {/* Pipeline Lifecycle Timeline */}
       <section className="glass animate-entrance" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px', animationDelay: '0.2s' }}>
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: '800', letterSpacing: '-0.2px' }}>Research Pipeline Lifecycle</h3>
-        
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -244,7 +244,7 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Scout searches academic databases and aggregates core paper metadata.</p>
           </div>
-          
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ background: 'rgba(52,211,153,0.1)', color: 'var(--success)', border: '1px solid rgba(52,211,153,0.2)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', fontSize: '12px', fontWeight: '800', justifyContent: 'center' }}>2</div>
@@ -278,7 +278,7 @@ const Dashboard: React.FC<DashboardProps> = ({ startResearch, isResearching, onE
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 };

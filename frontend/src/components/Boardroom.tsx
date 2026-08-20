@@ -41,7 +41,7 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
 
   return (
     <div style={{ display: 'grid', gridTemplateRows: 'auto 175px 1fr', height: '100%', gap: '16px', overflow: 'hidden' }}>
-      
+
       {/* Top Banner */}
       <div className="glass" style={{ padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
@@ -75,9 +75,9 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
           if (agentName === 'System') return null;
           const isCurrentSpeaker = activeAgent === agentName;
           return (
-            <div 
+            <div
               key={agentName}
-              className="double-bezel-outer tilt-3d" 
+              className="double-bezel-outer tilt-3d"
               style={{
                 flex: '0 0 190px', scrollSnapAlign: 'start',
                 border: isCurrentSpeaker ? `1px solid ${meta.color}` : '1px solid var(--border-color)',
@@ -87,8 +87,8 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
               <div className="double-bezel-inner" style={{ padding: '14px', gap: '4px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
                   {/* Status Dot */}
-                  <div 
-                    className={isCurrentSpeaker ? 'agent-active-glow' : ''} 
+                  <div
+                    className={isCurrentSpeaker ? 'agent-active-glow' : ''}
                     style={{
                       width: '6px', height: '6px', borderRadius: '50%',
                       backgroundColor: isCurrentSpeaker ? 'var(--primary)' : isResearching ? 'var(--text-muted)' : 'var(--success)',
@@ -126,7 +126,7 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
           <Users size={16} strokeWidth={1.5} />
           <span>Council Communication Log</span>
         </h3>
-        
+
         <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', padding: '12px 6px', height: '100%' }}>
           {logs.length === 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)', gap: '8px' }}>
@@ -138,10 +138,10 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
             logs.map((log, index) => {
               const meta = AGENT_META[log.agent] || { color: '#ffffff', short: 'Agent', bg: 'rgba(255,255,255,0.05)' };
               const isSystem = log.agent === 'System';
-              
+
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   style={{
                     display: 'flex', flexDirection: 'column', gap: '6px',
                     alignSelf: isSystem ? 'center' : 'flex-start',
@@ -167,9 +167,9 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
                   )}
 
                   {/* Message Bubble */}
-                  <div style={{ 
-                    fontSize: '13px', 
-                    color: isSystem ? 'var(--text-secondary)' : 'var(--text-primary)', 
+                  <div style={{
+                    fontSize: '13px',
+                    color: isSystem ? 'var(--text-secondary)' : 'var(--text-primary)',
                     lineHeight: '1.5',
                     fontFamily: isSystem ? 'var(--font-mono)' : 'var(--font-sans)',
                   }}>
@@ -191,7 +191,7 @@ const Boardroom: React.FC<BoardroomProps> = ({ logs, isResearching, activeTopic 
           <div ref={logEndRef} />
         </div>
       </div>
-      
+
     </div>
   );
 };

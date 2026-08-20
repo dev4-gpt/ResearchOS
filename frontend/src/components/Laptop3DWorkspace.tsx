@@ -45,7 +45,7 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
   const tiltY = Math.max(-10, -8 + scrollProgress * 8);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       style={{
         position: 'relative',
@@ -62,7 +62,7 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
       }}
     >
       {/* Interactive Controls Bar */}
-      <div 
+      <div
         style={{
           width: '90%',
           maxWidth: '680px',
@@ -88,10 +88,10 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
             <span>Lid:</span>
-            <input 
-              type="range" 
-              min="0" 
-              max="90" 
+            <input
+              type="range"
+              min="0"
+              max="90"
               value={manualLidAngle}
               onChange={(e) => setManualLidAngle(Number(e.target.value))}
               style={{ width: '80px', accentColor: 'var(--primary)', cursor: 'pointer' }}
@@ -101,10 +101,10 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
             <span>Zoom:</span>
-            <input 
-              type="range" 
-              min="0.7" 
-              max="2.2" 
+            <input
+              type="range"
+              min="0.7"
+              max="2.2"
               step="0.05"
               value={manualZoom}
               onChange={(e) => setManualZoom(Number(e.target.value))}
@@ -201,12 +201,12 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
             </div>
 
             {/* VIBRANT DISPLAY INTERFACE */}
-            <div 
-              style={{ 
-                flex: 1, 
-                padding: '16px', 
-                display: 'flex', 
-                flexDirection: 'column', 
+            <div
+              style={{
+                flex: 1,
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
                 gap: '12px',
                 background: 'radial-gradient(circle at top right, rgba(30, 41, 59, 0.6), #040711)',
                 opacity: activeLidAngle > 10 ? 1 : 0.2,
@@ -250,7 +250,7 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
               {/* Bottom Callout Bar */}
               <div style={{ background: 'rgba(59, 130, 246, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '6px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '11px', color: '#93c5fd', fontWeight: '500' }}>Click to launch workspace & edit manuscript draft</span>
-                <button 
+                <button
                   onClick={onEnterWorkspace}
                   style={{ background: '#3b82f6', color: '#000', border: 'none', borderRadius: '4px', padding: '5px 12px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)' }}
                 >

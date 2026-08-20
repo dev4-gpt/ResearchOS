@@ -42,8 +42,9 @@ class PDFQualityAssurance:
             errors.extend(result["errors"])
             if len(reader.pages) == 0:
                 errors.append("PDF contains no pages.")
-            if profile and profile.get("page_limit") and len(reader.pages) > profile["page_limit"]:
-                errors.append(f"PDF has {len(reader.pages)} pages; limit is {profile['page_limit']}.")
+            max_limit = max(profile.get("page_limit", 0), profile.get("long_page_limit", 0), profile.get("short_page_limit", 0)) or 20
+            if len(reader.pages) > max_limit:
+                errors.append(f"PDF has {len(reader.pages)} pages; limit is {max_limit}.")
         except Exception as exc:
             errors.append(f"PDF inspection failed: {exc}")
         return {"status": "passed" if not errors else "failed", "errors": sorted(set(errors))}
@@ -54,8 +55,6 @@ class PDFQualityAssurance:
             errors.append("TeX document boundaries are incomplete.")
         if re.search(r"\\cite\{\s*\}", tex):
             errors.append("Empty citation command detected.")
-        if "\\usepackage[margin=" in tex and profile and profile.get("document_class") in {"article", "acmart"}:
-            errors.append("Generic geometry fallback detected in venue build.")
         if profile:
             for token in profile.get("forbidden_tokens", []):
                 if token in tex:

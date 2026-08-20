@@ -42,17 +42,17 @@ class AcademicSearchService:
             if response.status_code != 200:
                 print(f"arXiv API returned status {response.status_code}")
                 return []
-                
+
             # Parse XML response
             root = ET.fromstring(response.content)
-            
+
             # XML namespaces
             ns = {
                 'atom': 'http://www.w3.org/2005/Atom',
                 'opensearch': 'http://a9.com/-/spec/opensearch/1.1/',
                 'arxiv': 'http://arxiv.org/schemas/atom'
             }
-            
+
             papers = []
             for entry in root.findall('atom:entry', ns):
                 title_elem = entry.find('atom:title', ns)
@@ -98,7 +98,7 @@ class AcademicSearchService:
         sanitized_ids = [idx for idx in sanitized_ids if idx]
         if not sanitized_ids:
             return []
-        
+
         ids_str = ",".join(sanitized_ids)
         url = f"https://export.arxiv.org/api/query?id_list={ids_str}"
 
@@ -107,17 +107,17 @@ class AcademicSearchService:
             if response.status_code != 200:
                 print(f"arXiv API returned status {response.status_code}")
                 return []
-                
+
             # Parse XML response
             root = ET.fromstring(response.content)
-            
+
             # XML namespaces
             ns = {
                 'atom': 'http://www.w3.org/2005/Atom',
                 'opensearch': 'http://a9.com/-/spec/opensearch/1.1/',
                 'arxiv': 'http://arxiv.org/schemas/atom'
             }
-            
+
             papers = []
             for entry in root.findall('atom:entry', ns):
                 title_elem = entry.find('atom:title', ns)
@@ -163,25 +163,25 @@ class AcademicSearchService:
             "User-Agent": _POLITE_UA
         }
         url = f"https://api.openalex.org/works?search={encoded_query}&per-page={limit}"
-        
+
         try:
             response = self.client.get(url, headers=headers)
             if response.status_code != 200:
                 print(f"OpenAlex API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for work in data.get("results", []):
                 title = work.get("title", "Untitled")
                 doi = work.get("doi", "")
                 url_link = work.get("id", doi or "")
-                
+
                 # Retrieve citations count
                 citations = work.get("cited_by_count", 0)
                 published = work.get("publication_date", "")
-                
+
                 # Extract abstract (OpenAlex uses inverted index for abstracts to comply with copyright)
                 abstract_inverted = work.get("abstract_inverted_index", {})
                 abstract = ""
@@ -193,13 +193,13 @@ class AcademicSearchService:
                             words_pos.append((pos, word))
                     words_pos.sort()
                     abstract = " ".join([word for _, word in words_pos])
-                
+
                 authors = []
                 for authorship in work.get("authorships", []):
                     author = authorship.get("author", {})
                     if author.get("display_name"):
                         authors.append(author.get("display_name"))
-                
+
                 # Standardize paper representation
                 papers.append({
                     "id": f"openalex:{work.get('id').split('/')[-1]}" if work.get('id') else url_link,
@@ -220,31 +220,31 @@ class AcademicSearchService:
         """Queries the Semantic Scholar API for research works, including citation metadata."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://api.semanticscholar.org/graph/v1/paper/search?query={encoded_query}&limit={limit}&fields=title,authors,abstract,url,citationCount,publicationDate"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"Semantic Scholar API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for work in data.get("data", []):
                 title = work.get("title", "Untitled")
                 paper_id = work.get("paperId", "")
                 url_link = work.get("url") or f"https://www.semanticscholar.org/paper/{paper_id}" if paper_id else ""
-                
+
                 # Retrieve citations count
                 citations = work.get("citationCount", 0) or 0
                 published = work.get("publicationDate", "") or ""
                 abstract = work.get("abstract", "") or ""
-                
+
                 authors = []
                 for author in work.get("authors", []):
                     if author.get("name"):
                         authors.append(author["name"])
-                
+
                 # Standardize paper representation
                 papers.append({
                     "id": f"semanticscholar:{paper_id}" if paper_id else url_link,
@@ -265,23 +265,23 @@ class AcademicSearchService:
         """Queries the EuropePMC API for research works, including citation metadata."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query={encoded_query}&format=json&pageSize={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"EuropePMC API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             results = data.get("resultList", {}).get("result", [])
             for work in results:
                 title = work.get("title", "Untitled")
                 pmcid = work.get("pmcid", "")
                 pmid = work.get("id", "")
                 doi = work.get("doi", "")
-                
+
                 url_link = ""
                 if pmcid:
                     url_link = f"https://europepmc.org/article/PMC/{pmcid}"
@@ -289,19 +289,19 @@ class AcademicSearchService:
                     url_link = f"https://doi.org/{doi}"
                 elif pmid:
                     url_link = f"https://europepmc.org/article/MED/{pmid}"
-                
+
                 citations = work.get("citedByCount", 0) or 0
                 published = work.get("pubYear", "") or ""
                 abstract = work.get("abstractText", "") or ""
-                
+
                 # Parse author string if list isn't provided
                 authors = []
                 author_string = work.get("authorString", "")
                 if author_string:
                     authors = [a.strip() for a in author_string.split(",") if a.strip()]
-                
+
                 paper_id = pmcid or pmid or doi or title.replace(" ", "_")
-                
+
                 # Standardize paper representation
                 papers.append({
                     "id": f"europepmc:{paper_id}",
@@ -325,38 +325,38 @@ class AcademicSearchService:
             "User-Agent": _POLITE_UA
         }
         url = f"https://api.crossref.org/works?query={encoded_query}&rows={limit}"
-        
+
         try:
             response = self.client.get(url, headers=headers, timeout=5.0)
             if response.status_code != 200:
                 print(f"Crossref API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for item in data.get("message", {}).get("items", []):
                 title = item.get("title", ["Untitled"])[0] if item.get("title") else "Untitled"
                 doi = item.get("DOI", "")
                 url_link = item.get("URL", f"https://doi.org/{doi}" if doi else "")
-                
+
                 citations = item.get("is-referenced-by-count", 0) or 0
-                
+
                 published = ""
                 created = item.get("created", {})
                 if created.get("date-parts"):
                     published = "-".join(map(str, created["date-parts"][0]))
-                
+
                 abstract = item.get("abstract", "") or ""
                 import re
                 abstract = re.sub(r'<[^>]+>', '', abstract).strip()
-                
+
                 authors = []
                 for author in item.get("author", []):
                     name = f"{author.get('given', '')} {author.get('family', '')}".strip()
                     if name:
                         authors.append(name)
-                
+
                 papers.append({
                     "id": f"crossref:{doi}" if doi else url_link,
                     "title": title,
@@ -376,37 +376,37 @@ class AcademicSearchService:
         """Queries the DOAJ REST API for open access articles."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://doaj.org/api/v2/search/articles/{encoded_query}?pageSize={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"DOAJ API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for result in data.get("results", []):
                 bib = result.get("bibjson", {})
                 title = bib.get("title", "Untitled")
-                
+
                 url_link = ""
                 for link in bib.get("link", []):
                     if link.get("url"):
                         url_link = link["url"]
                         break
-                        
+
                 published = bib.get("year", "")
                 abstract = bib.get("abstract", "") or ""
-                
+
                 authors = []
                 for author in bib.get("author", []):
                     if author.get("name"):
                         authors.append(author["name"])
-                        
+
                 citations = 0
                 paper_id = result.get("id", title.replace(" ", "_"))
-                
+
                 papers.append({
                     "id": f"doaj:{paper_id}",
                     "title": title,
@@ -426,27 +426,27 @@ class AcademicSearchService:
         """Queries the PLOS Solr API for research articles."""
         encoded_query = urllib.parse.quote(query)
         url = f"http://api.plos.org/search?q={encoded_query}&wt=json&fl=id,title,author,abstract,publication_date&rows={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"PLOS API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for doc in data.get("response", {}).get("docs", []):
                 title = doc.get("title", "Untitled")
                 doi = doc.get("id", "")
                 url_link = f"https://doi.org/{doi}" if doi else ""
-                
+
                 abstract_list = doc.get("abstract", [])
                 abstract = abstract_list[0] if abstract_list else ""
-                
+
                 published = doc.get("publication_date", "")[:10]
                 authors = doc.get("author", [])
-                
+
                 papers.append({
                     "id": f"plos:{doi}" if doi else url_link,
                     "title": title,
@@ -466,27 +466,27 @@ class AcademicSearchService:
         """Queries the HAL French Open Science Archive search API."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://api.hal.science/search/?q={encoded_query}&fl=docid,title_s,abstract_s,authFullName_s,uri_s,producedDateY_i&wt=json&rows={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"HAL API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             for doc in data.get("response", {}).get("docs", []):
                 title_list = doc.get("title_s", [])
                 title = title_list[0] if title_list else "Untitled"
-                
+
                 abstract_list = doc.get("abstract_s", [])
                 abstract = abstract_list[0] if abstract_list else ""
-                
+
                 url_link = doc.get("uri_s", "")
                 published = str(doc.get("producedDateY_i", ""))
                 authors = doc.get("authFullName_s", [])
-                
+
                 papers.append({
                     "id": f"hal:{doc.get('docid')}",
                     "title": title,
@@ -506,43 +506,43 @@ class AcademicSearchService:
         """Queries the NCBI Entrez ESearch & ESummary APIs."""
         encoded_query = urllib.parse.quote(query)
         search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded_query}&retmode=json&retmax={limit}"
-        
+
         try:
             response = self.client.get(search_url, timeout=5.0)
             if response.status_code != 200:
                 print(f"PubMed ESearch returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             uids = data.get("esearchresult", {}).get("idlist", [])
-            
+
             if not uids:
                 return []
-                
+
             uids_str = ",".join(uids)
             summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={uids_str}&retmode=json"
-            
+
             response2 = self.client.get(summary_url, timeout=5.0)
             if response2.status_code != 200:
                 print(f"PubMed ESummary returned status {response2.status_code}")
                 return []
-                
+
             summary_data = response2.json()
             results = summary_data.get("result", {})
-            
+
             papers = []
             for uid in uids:
                 item = results.get(uid, {})
                 title = item.get("title", "Untitled")
                 published = item.get("pubdate", "")[:10]
-                
+
                 authors = []
                 for author in item.get("authors", []):
                     if author.get("name"):
                         authors.append(author["name"])
-                        
+
                 url_link = f"https://pubmed.ncbi.nlm.nih.gov/{uid}/"
-                
+
                 papers.append({
                     "id": f"pubmed:{uid}",
                     "title": title,
@@ -562,24 +562,24 @@ class AcademicSearchService:
         """Queries the DBLP Computer Science bibliography REST API."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://dblp.org/search/publ/api?q={encoded_query}&format=json&h={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"DBLP API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             papers = []
-            
+
             hits = data.get("result", {}).get("hits", {}).get("hit", [])
             if isinstance(hits, dict):
                 hits = [hits]
-                
+
             for hit in hits:
                 info = hit.get("info", {})
                 title = info.get("title", "Untitled")
-                
+
                 authors = []
                 author_data = info.get("authors", {}).get("author", [])
                 if isinstance(author_data, dict):
@@ -587,13 +587,13 @@ class AcademicSearchService:
                 for author in author_data:
                     if author.get("$"):
                         authors.append(author["$"])
-                        
+
                 url_link = info.get("ee", "")
                 published = info.get("year", "")
                 doi = info.get("doi", "")
-                
+
                 paper_id = hit.get("@id", doi or title.replace(" ", "_"))
-                
+
                 papers.append({
                     "id": f"dblp:{paper_id}",
                     "title": title,
@@ -617,16 +617,16 @@ class AcademicSearchService:
             "User-Agent": "ResearchingOS/0.1"
         }
         url = f"https://api.github.com/search/repositories?q={encoded_query}&per-page={limit}"
-        
+
         try:
             response = self.client.get(url, headers=headers, timeout=5.0)
             if response.status_code != 200:
                 print(f"GitHub API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             repos = []
-            
+
             for item in data.get("items", []):
                 full_name = item.get("full_name", "")
                 description = item.get("description", "") or ""
@@ -635,7 +635,7 @@ class AcademicSearchService:
                 language = item.get("language") or ""
                 owner = item.get("owner", {}).get("login", "")
                 published = item.get("created_at", "")[:10]
-                
+
                 repos.append({
                     "id": f"github:{full_name}",
                     "title": f"Repository: {full_name} ({language})" if language else f"Repository: {full_name}",
@@ -655,27 +655,27 @@ class AcademicSearchService:
         """Queries the Hugging Face Hub Models API."""
         encoded_query = urllib.parse.quote(query)
         url = f"https://huggingface.co/api/models?search={encoded_query}&limit={limit}"
-        
+
         try:
             response = self.client.get(url, timeout=5.0)
             if response.status_code != 200:
                 print(f"Hugging Face API returned status {response.status_code}")
                 return []
-                
+
             data = response.json()
             models = []
-            
+
             for item in data:
                 model_id = item.get("modelId") or item.get("id") or ""
                 if not model_id:
                     continue
-                    
+
                 author = item.get("author", model_id.split("/")[0] if "/" in model_id else "unknown")
                 downloads = item.get("downloads", 0) or 0
                 likes = item.get("likes", 0) or 0
-                
+
                 url_link = f"https://huggingface.co/{model_id}"
-                
+
                 models.append({
                     "id": f"huggingface:{model_id}",
                     "title": f"HuggingFace Model: {model_id}",

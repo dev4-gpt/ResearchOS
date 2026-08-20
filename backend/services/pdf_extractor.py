@@ -68,7 +68,7 @@ class PDFExtractionService:
         # Strip line breaks inside sentences
         text = re.sub(r'(\w+)-\n(\w+)', r'\1\2', text)
         text = re.sub(r'\n{3,}', '\n\n', text)
-        
+
         # Remove common arXiv header lines
         text = re.sub(r'arXiv:\d{4}\.\d{4,5}v\d+\s+\[[\w\.-]+\]\s+\d+\s+\w+\s+\d{4}', '', text)
         return text.strip()
@@ -79,7 +79,7 @@ class PDFExtractionService:
             "abstract", "introduction", "related work", "method", "methodology",
             "system architecture", "experiments", "results", "discussion", "conclusion"
         ]
-        
+
         sections: Dict[str, str] = {}
         lines = text.split("\n")
         current_section = "overview"
@@ -92,7 +92,7 @@ class PDFExtractionService:
                 if line_clean == h or re.match(fr'^\d*[\.\s]*{h}$', line_clean):
                     matched_heading = h
                     break
-            
+
             if matched_heading:
                 if section_buffer:
                     sections[current_section] = "\n".join(section_buffer).strip()

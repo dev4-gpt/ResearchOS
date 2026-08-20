@@ -2,6 +2,7 @@ import os
 import json
 import time
 import hashlib
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, Any, Callable, Optional
 from dotenv import load_dotenv
 
@@ -164,13 +165,13 @@ class CouncilOrchestrator:
         instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
 
         time.sleep(1.5)
-        
+
         provider = agent_cfg.get("provider", self.llm_router.active_provider)
         primary_model = agent_cfg.get("model")
-        
+
         # Make the LLM call via the centralized router
         response_text = self.llm_router.generate_content(prompt, instruction, provider=provider, model=primary_model)
-        
+
         if not response_text or response_text.startswith("[Error]"):
             print(f"⚠️ API unavailable or error for {agent_key}. Error: {response_text}. Using structured placeholder.")
             return (
@@ -181,12 +182,12 @@ class CouncilOrchestrator:
                 f"- The active provider ({self.llm_router.active_provider}) failed to generate content.\n"
                 f"- Re-run or switch providers via .env to get real analysis.\n"
             )
-            
+
         return response_text
 
     def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
         """Runs the full multi-agent research and LLM council debate pipeline.
-        
+
         Stages:
         1. Ingestion: Scout searches databases and Analyst creates markdown papers.
         2. Technical Critique: Engineer, Statistician, and Reviewer #2 write parallel notes.
@@ -203,7 +204,7 @@ class CouncilOrchestrator:
             topic,
             synthetic=self.is_dry_run,
         )
-        
+
         def send_log(stage: str, agent: str, message: str, data: Any = None):
             log_callback({
                 "projectId": project_id,
@@ -215,10 +216,10 @@ class CouncilOrchestrator:
             })
 
         send_log("Initialization", "System", f"Starting research pipeline for topic: '{topic}' (Target Corpus: {max_papers} papers)", {"dryRun": self.is_dry_run, "maxPapers": max_papers})
-        
+
         # --- STAGE 1: INGESTION (Scout & Analyst) ---
         send_log("Ingestion", "Senior Scout Researcher", f"Searching arXiv, OpenAlex, PubMed & 9 other databases for up to {max_papers} papers...")
-        
+
         papers = []
         if self.is_dry_run:
             time.sleep(2)
@@ -259,14 +260,14 @@ class CouncilOrchestrator:
             import re
             # 1. Extract potential arXiv IDs from the topic using regex
             arxiv_ids = re.findall(r'\b\d{4}\.\d{4,5}\b', topic)
-            
+
             # Fetch papers by exact IDs first
             papers_by_id = []
             if arxiv_ids:
                 send_log("Ingestion", "Senior Scout Researcher", f"Detected specific arXiv IDs in topic: {arxiv_ids}. Fetching directly...")
                 papers_by_id = self.search_service.fetch_arxiv_by_ids(arxiv_ids)
                 send_log("Ingestion", "Senior Scout Researcher", f"Successfully retrieved {len(papers_by_id)} paper(s) by ID.")
-            
+
             # 2. Extract search terms/keywords using Gemini if the topic is a long prompt
             search_queries = [topic]
             if len(topic.split()) > 5 and not self.is_dry_run:
@@ -280,8 +281,8 @@ class CouncilOrchestrator:
                         f"Return ONLY a JSON list of strings, e.g. [\"Generative AI productivity ROI\", \"AI Jagged Technological Frontier\", \"Enterprise Multi-Agent Collaboration\", \"LLM skill distribution labor impact\"]."
                     )
                     response_text = self._call_gemini(
-                        "Scout", 
-                        extraction_prompt, 
+                        "Scout",
+                        extraction_prompt,
                         system_instruction="You are an academic query extractor. Return only a JSON list of query strings."
                     )
                     # Clean up response text
@@ -292,7 +293,7 @@ class CouncilOrchestrator:
                         send_log("Ingestion", "Senior Scout Researcher", f"Extracted academic search queries: {search_queries}")
                 except Exception as e:
                     print(f"Error extracting search queries: {e}")
-            
+
             # Perform multi-source queries until max_papers is reached
             papers_by_search = []
             per_query_limit = max(3, max_papers // len(search_queries) + 2)
@@ -300,25 +301,25 @@ class CouncilOrchestrator:
                 if len(papers_by_id) + len(papers_by_search) < max_papers:
                     results = self.search_service.run_combined_search(query, limit=per_query_limit)
                     papers_by_search.extend(results)
-            
+
             # Merge and de-duplicate papers
             all_papers = []
             seen_titles = set()
-            
+
             for p in papers_by_id + papers_by_search:
                 title_key = p["title"].lower().strip()
                 if title_key not in seen_titles:
                     seen_titles.add(title_key)
                     all_papers.append(p)
-                    
+
             papers = all_papers[:max_papers]
-            
+
         if not papers:
             send_log("Ingestion", "System", "No papers discovered. Aborting pipeline.", {"success": False})
             return {"success": False, "error": "No papers found"}
-            
+
         send_log("Ingestion", "Senior Scout Researcher", f"Discovered {len(papers)} key papers. Commencing bibliographic extraction...", {"papers": [p["title"] for p in papers]})
-        
+
         # Lead Analyst writes paper notes into Vault
         extracted_papers_info = []
         for i, paper in enumerate(papers):
@@ -330,7 +331,7 @@ class CouncilOrchestrator:
             send_log("Ingestion", "Lead Analyst", ingest_msg)
 
             full_text_snippet = paper.get("full_text", "")[:12000]
-            
+
             prompt = (
                 f"Analyze this scientific paper metadata, abstract, and full-text content, and create a highly structured Obsidian vault summary.\n\n"
                 f"Paper Title: {paper['title']}\n"
@@ -347,7 +348,7 @@ class CouncilOrchestrator:
                 f"- limitations acknowledged by the authors\n"
                 f"Ensure you format references and concepts with Obsidian links [[ConceptName]] or [[PaperId]]."
             )
-            
+
             # Build high-speed structured paper note directly without slow 25-round LLM network loops
             note_content = (
                 f"# {paper['title']}\n\n"
@@ -362,7 +363,7 @@ class CouncilOrchestrator:
                 f"- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.\n\n"
                 f"## Content Snippet\n{full_text_snippet[:1500]}\n"
             )
-            
+
             # Format frontmatter for the vault file
             frontmatter = {
                 "title": paper["title"],
@@ -375,7 +376,7 @@ class CouncilOrchestrator:
                 "full_pdf_ingested": paper.get("full_pdf_ingested", False),
                 "tags": ["research-paper", topic.replace(" ", "-").lower()]
             }
-            
+
             # Save to Obsidian Vault 01_Papers
             filename = f"{paper['id'].replace(':', '_')}.md"
             self.vault.save_markdown("papers", filename, note_content, frontmatter)
@@ -391,7 +392,7 @@ class CouncilOrchestrator:
                 "content": note_content,
                 "full_text": full_text_snippet
             })
-            
+
         send_log("Ingestion", "Lead Analyst", "All research papers successfully ingested and saved into the Obsidian Vault under '01_Papers/'.")
         source_records = [
             SourceRecord(
@@ -410,58 +411,64 @@ class CouncilOrchestrator:
         ]
         self.evidence_ledger.add_sources(project_id, source_records)
         self.evidence_ledger.append_records(project_id, "paper_dossiers.jsonl", extracted_papers_info)
-        
+
         # --- STAGE 2: CRITIQUE (Engineer, Statistician, Reviewer #2) ---
         send_log("Critique", "System", "Spawning parallel auditing council (Systems Engineer, Statistician, Reviewer #2)...")
-        
+
         # Gather concise summaries for critique prompt to avoid token explosion & timeouts
         summaries_text = "\n\n---\n\n".join([
-            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\nAbstract & Key Content:\n{p.get('abstract', p.get('content', ''))[:1500]}" 
+            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\nAbstract & Key Content:\n{p.get('abstract', p.get('content', ''))[:1500]}"
             for p in extracted_papers_info
         ])
-        
+
         critiques = {}
-        
-        # 1. Senior Systems Engineer Audit
+
+        # The three critiques are independent and execute as a real fan-out,
+        # matching the workflow contract shown to users and in manuscripts.
         send_log("Critique", "Senior Systems Engineer", "Auditing papers for algorithmic feasibility, parameter efficiency, and hardware viability...")
         eng_prompt = (
             f"Review the following research summaries compiled for the topic '{topic}':\n\n{summaries_text}\n\n"
             f"Provide a rigorous technical evaluation. Identify deployment bottlenecks, FLOPs limitations, memory scalability, "
             f"and algorithmic constraints. Save your critique structured with headings for each paper."
         )
-        critiques["Engineer"] = self._call_gemini("Engineer", eng_prompt)
-        
-        # 2. Statistician Methods Audit
         send_log("Critique", "Senior Statistician & Methods Critic", "Auditing experimental designs, statistical tests, and baseline selections...")
         stat_prompt = (
             f"Review the following research summaries compiled for the topic '{topic}':\n\n{summaries_text}\n\n"
             f"Provide a strict quantitative methods critique. Examine sample sizes, metric selection, statistical tests, baseline comparisons, "
             f"and validation validity. Highlight any potential validation leaks or weaknesses."
         )
-        critiques["Statistician"] = self._call_gemini("Statistician", stat_prompt)
-        
-        # 3. Reviewer #2 Critique
         send_log("Critique", "Reviewer #2 / Academic Editor", "Assessing absolute novelty, structural deficiencies, and rejection risks...")
         rev_prompt = (
             f"Review the following research summaries compiled for the topic '{topic}':\n\n{summaries_text}\n\n"
             f"As Reviewer #2, challenge the claims. Identify overhype, logical gaps, structural omissions, and state-of-the-art novelty conflicts. "
             f"Write a list of critical rejection objections that must be addressed."
         )
-        critiques["Reviewer2"] = self._call_gemini("Reviewer2", rev_prompt)
-        
+        critique_jobs = {
+            "Engineer": ("Engineer", eng_prompt),
+            "Statistician": ("Statistician", stat_prompt),
+            "Reviewer2": ("Reviewer2", rev_prompt),
+        }
+        with ThreadPoolExecutor(max_workers=3, thread_name_prefix="research-council") as pool:
+            futures = {
+                pool.submit(self._call_gemini, agent_key, prompt): result_key
+                for result_key, (agent_key, prompt) in critique_jobs.items()
+            }
+            for future in as_completed(futures):
+                critiques[futures[future]] = future.result()
+
         # --- STAGE 3: THE BOARDROOM DEBATE ---
         send_log("Debate", "System", "Convening the LLM Council Boardroom Debate...")
-        
+
         # Simulate a threaded debate where agents review each other's opinions
         debate_log = []
-        
+
         # Turn 1: Systems Engineer presents major technical flags
         debate_log.append({
             "agent": "Senior Systems Engineer",
             "message": f"From a systems perspective, here is my core audit regarding '{topic}':\n\n" + critiques["Engineer"][:400] + "..."
         })
         send_log("Debate", "Senior Systems Engineer", debate_log[-1]["message"])
-        
+
         # Turn 2: Statistician highlights methodological flaws
         stat_response_prompt = (
             f"You are in a boardroom debate about '{topic}'. The Systems Engineer has just shared their initial thoughts:\n"
@@ -475,7 +482,7 @@ class CouncilOrchestrator:
             "message": stat_reply
         })
         send_log("Debate", "Senior Statistician & Methods Critic", stat_reply[:400] + "...")
-        
+
         # Turn 3: Reviewer #2 interjects with rejection risks
         rev2_response_prompt = (
             f"You are in a boardroom debate about '{topic}'. The Systems Engineer and Statistician have discussed the technicalities:\n"
@@ -491,12 +498,12 @@ class CouncilOrchestrator:
             "message": rev2_reply
         })
         send_log("Debate", "Reviewer #2 / Academic Editor", rev2_reply[:400] + "...")
-        
+
         # --- STAGE 4: CHAIRMAN SYNTHESIS ---
         send_log("Synthesis", "CEO / Institute Chairman", "Consolidating council opinions and structuring synthesis outline...")
-        
+
         debate_transcript = "\n\n".join([f"[{d['agent']}]: {d['message']}" for d in debate_log])
-        
+
         chairman_prompt = (
             f"You are moderating the research council debate on the topic '{topic}'.\n\n"
             f"Here is the debate transcript between the Systems Engineer, Statistician, and Reviewer #2:\n\n{debate_transcript}\n\n"
@@ -506,9 +513,9 @@ class CouncilOrchestrator:
             f"2. Detail the critical points of disagreement or skepticism.\n"
             f"3. Create a detailed structural outline for our final published literature review, outlining key concepts to be researched further."
         )
-        
+
         synthesis_content = self._call_gemini("Chairman", chairman_prompt)
-        
+
         # Save debate transcript and synthesis to Vault
         import re
         safe_topic_slug = re.sub(r'[^a-zA-Z0-9\s_-]', '', topic)
@@ -518,17 +525,17 @@ class CouncilOrchestrator:
 
         debate_filename = f"debate_{safe_topic_slug}.md"
         self.vault.save_markdown(
-            "debates", 
-            debate_filename, 
+            "debates",
+            debate_filename,
             synthesis_content + "\n\n## Transcript\n\n" + debate_transcript,
             {"title": f"Council Debate on {topic}", "topic": topic, "type": "debate_summary", "tags": [topic.replace(" ", "-").lower(), "debate"]}
         )
-        
+
         send_log("Synthesis", "CEO / Institute Chairman", "Debate synthesized and outlines written to '03_Debates/'. Spawning Research Writer...")
-        
+
         # --- STAGE 5: ACADEMIC DRAFTING (Writer + Red-Team + Peer Review Cycle) ---
         send_log("Drafting", "System", f"Initiating LangGraph drafting cycle with DSPy for '{topic}'...")
-        
+
         cycle_result = run_drafting_cycle(
             topic=topic,
             synthesis_content=synthesis_content,
@@ -538,10 +545,10 @@ class CouncilOrchestrator:
         )
         final_paper_content = cycle_result["draft"]
         peer_review_data = cycle_result["peer_review"]
-        
+
         # --- STAGE 6: FACT CHECK & AUDIT LINTER ---
         send_log("FactCheck", "Senior Statistician & Methods Critic", "Auditing draft manuscript for zero-hallucination citation links and metric grounding...")
-        
+
         source_texts = [p.get("content", "") + " " + p.get("full_text", "") for p in extracted_papers_info]
         source_records = {}
         for p in extracted_papers_info:
@@ -558,11 +565,11 @@ class CouncilOrchestrator:
             source_texts=source_texts,
             source_records=source_records,
         )
-        
+
         send_log(
-            "FactCheck", 
-            "Senior Statistician & Methods Critic", 
-            f"Fact-Check Audit Complete. Composite Score: {fact_audit['fact_check_score']}% ({fact_audit['status'].upper()})", 
+            "FactCheck",
+            "Senior Statistician & Methods Critic",
+            f"Fact-Check Audit Complete. Composite Score: {fact_audit['fact_check_score']}% ({fact_audit['status'].upper()})",
             fact_audit
         )
 
@@ -572,7 +579,7 @@ class CouncilOrchestrator:
             valid_keys = [k for k in source_records.keys() if len(k) > 4]
             healed_content = final_paper_content
             healed_content = re.sub(r'\[Director’s Synthesis[^\]]*\]|\[Idowu et al\.[^\]]*\]|Senior Systems Engineer', '', healed_content)
-            
+
             def heal_wikilink(m):
                 raw = citation_key(m.group(1))
                 if raw in source_records:
@@ -580,10 +587,10 @@ class CouncilOrchestrator:
                 if valid_keys:
                     return f"[[{valid_keys[0]}]]"
                 return f"[[{raw}]]"
-            
+
             healed_content = re.sub(r'\[\[([^\]]+)\]\]', heal_wikilink, healed_content)
             final_paper_content = healed_content
-            
+
             fact_audit = self.fact_checker.audit_document(
                 final_paper_content,
                 source_texts=source_texts,
@@ -661,7 +668,7 @@ class CouncilOrchestrator:
             "releaseStatus": release_status,
             }
         })
-        
+
         return {
             "success": True,
             "project_id": project_id,

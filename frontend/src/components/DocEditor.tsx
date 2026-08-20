@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, User } from 'lucide-react';
+import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, User, Layers, ShieldCheck, BarChart3, LockKeyhole } from 'lucide-react';
 import { apiFetch } from '../api';
 import LinkRenderer from './LinkRenderer';
+import { PDFVisualPreviewModal } from './PDFVisualPreviewModal';
+
 
 interface VaultFile {
   filename: string;
@@ -23,7 +25,7 @@ const DocEditor: React.FC = () => {
   const [activeFilename, setActiveFilename] = useState<string | null>(null);
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
-  
+
   const [content, setContent] = useState('');
   const [frontmatter, setFrontmatter] = useState<any>({});
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -34,6 +36,8 @@ const DocEditor: React.FC = () => {
   const [checkmateOpen, setCheckmateOpen] = useState(false);
   const [checkmateData, setCheckmateData] = useState<any>(null);
   const [checkmateLoading, setCheckmateLoading] = useState(false);
+  const [visualPreviewOpen, setVisualPreviewOpen] = useState(false);
+
 
   // Venue Advisor Panel State
   const [venueAdvisorOpen, setVenueAdvisorOpen] = useState(false);
@@ -43,6 +47,14 @@ const DocEditor: React.FC = () => {
   const [profileGoal, setProfileGoal] = useState('balanced');
   const [profileTimeline, setProfileTimeline] = useState('normal');
   const [profileCitations, setProfileCitations] = useState(0);
+
+  // Publisher readiness matrix: all drafts x all supported venues, with
+  // originality and substantive-value gates evaluated before release.
+  const [publisherSuiteOpen, setPublisherSuiteOpen] = useState(false);
+  const [publisherSuiteLoading, setPublisherSuiteLoading] = useState(false);
+  const [publisherSuiteData, setPublisherSuiteData] = useState<any>(null);
+  const [publisherSuiteError, setPublisherSuiteError] = useState<string | null>(null);
+  const [publisherJobId, setPublisherJobId] = useState<string | null>(null);
 
   const runCheckmateAudit = async () => {
     if (!activeFilename) return;
@@ -119,7 +131,43 @@ const DocEditor: React.FC = () => {
     }
   };
 
-  const handleSave = async () => {
+  const pollPublisherJob = async (initialJobId: string) => {
+    let currentJobId = initialJobId;
+    setPublisherJobId(currentJobId);
+    setPublisherSuiteOpen(true);
+    setPublisherSuiteLoading(true);
+    setPublisherSuiteError(null);
+
+    for (let attempt = 0; attempt < 900; attempt += 1) {
+      try {
+        const res = await apiFetch(`/api/vault/publisher/readiness/status?job_id=${encodeURIComponent(currentJobId)}`);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || `Readiness status failed (HTTP ${res.status})`);
+        const job = data.job || {};
+        if (job.status === 'failed') throw new Error(job.error || 'Publisher readiness job failed.');
+        if (job.status === 'completed') {
+          if (job.next_job_id) {
+            currentJobId = job.next_job_id;
+            setPublisherJobId(currentJobId);
+            continue;
+          }
+          setPublisherSuiteData(job.report || null);
+          setPublisherSuiteLoading(false);
+          await fetchFilesList();
+          return;
+        }
+        await new Promise((resolve) => window.setTimeout(resolve, 2000));
+      } catch (e: any) {
+        setPublisherSuiteError(e.message || 'Publisher readiness job failed.');
+        setPublisherSuiteLoading(false);
+        return;
+      }
+    }
+    setPublisherSuiteError('Publisher readiness job exceeded the 30-minute polling window.');
+    setPublisherSuiteLoading(false);
+  };
+
+  const handleSave = async (triggerReadiness = true) => {
     if (!activeCategory || !activeFilename) return;
     setSaveStatus('saving');
     try {
@@ -130,11 +178,16 @@ const DocEditor: React.FC = () => {
           category: activeCategory,
           filename: activeFilename,
           content: content,
-          frontmatter: frontmatter
+          frontmatter: frontmatter,
+          trigger_readiness: triggerReadiness && activeCategory === 'drafts'
         })
       });
       if (res.ok) {
+        const data = await res.json().catch(() => ({}));
         setSaveStatus('saved');
+        if (data.readiness_job?.job_id && triggerReadiness) {
+          void pollPublisherJob(data.readiness_job.job_id);
+        }
         fetchFilesList();
         setTimeout(() => setSaveStatus('idle'), 2500);
       } else {
@@ -188,6 +241,53 @@ const DocEditor: React.FC = () => {
     }
   };
 
+  const runPublisherReadiness = async () => {
+    setPublisherSuiteOpen(true);
+    setPublisherSuiteLoading(true);
+    setPublisherSuiteError(null);
+    try {
+      // Preserve any current HITL edits before the vault-wide run begins.
+      await handleSave(false);
+      const res = await apiFetch('/api/vault/publisher/readiness', { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.detail || `Readiness suite failed (HTTP ${res.status})`);
+      if (data.job?.job_id) {
+        await pollPublisherJob(data.job.job_id);
+      } else {
+        setPublisherSuiteData(data);
+        setPublisherSuiteLoading(false);
+        await fetchFilesList();
+      }
+    } catch (e: any) {
+      setPublisherSuiteError(e.message || 'Publisher readiness suite failed.');
+      setPublisherSuiteLoading(false);
+    } finally {
+      // Background polling owns the loading state after a job is accepted.
+    }
+  };
+
+  const downloadPublisherBundle = async () => {
+    try {
+      const res = await apiFetch('/api/vault/publisher/readiness/bundle');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.detail || `Bundle download failed (HTTP ${res.status})`);
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'researchingos-publish-ready-bundle.zip';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(url);
+    } catch (e: any) {
+      setPublisherSuiteError(e.message || 'Verified bundle download failed.');
+      setPublisherSuiteOpen(true);
+    }
+  };
+
   const DIFFICULTY_COLOR: Record<string, string> = {
     'Easy': '#10b981',
     'Moderate': '#f59e0b',
@@ -199,14 +299,14 @@ const DocEditor: React.FC = () => {
 
   return (
     <div className="responsive-doc-layout">
-      
+
       {/* Sidebar: File Explorer */}
       <div className="glass" style={{ display: 'grid', gridTemplateRows: 'auto 1fr', padding: '16px', overflow: 'hidden', minHeight: '0' }}>
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '15px', fontWeight: '700', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
           <FolderOpen size={16} />
           <span>Obsidian Vault Files</span>
         </h3>
-        
+
         <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {isLoadingList ? (
             <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px' }}>
@@ -327,7 +427,7 @@ const DocEditor: React.FC = () => {
           <>
             {/* Editor Action Header */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '14px', marginBottom: '16px' }}>
-              
+
               {/* Top Row: Title, Badges, View Toggle & Save */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
@@ -348,7 +448,7 @@ const DocEditor: React.FC = () => {
                     )}
                   </h3>
                 </div>
-                
+
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                   {/* View toggles */}
                   <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '2px' }}>
@@ -378,7 +478,7 @@ const DocEditor: React.FC = () => {
 
                   {/* Save Action */}
                   <button
-                    onClick={handleSave}
+                    onClick={() => void handleSave()}
                     disabled={saveStatus === 'saving'}
                     style={{
                       backgroundColor: saveStatus === 'saved' ? 'var(--success)' : 'var(--primary)',
@@ -419,6 +519,20 @@ const DocEditor: React.FC = () => {
                     <Sparkles size={14} />
                     <span>{checkmateLoading ? 'Auditing...' : '♟️ Checkmate Audit'}</span>
                   </button>
+
+                  {/* Visual Page Preview Action */}
+                  <button
+                    onClick={() => setVisualPreviewOpen(true)}
+                    style={{
+                      background: 'rgba(59,130,246,0.15)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.4)',
+                      padding: '6px 14px', borderRadius: '6px', cursor: 'pointer', fontWeight: '700', fontSize: '12px',
+                      display: 'flex', alignItems: 'center', gap: '6px'
+                    }}
+                  >
+                    <Layers size={14} />
+                    <span>Visual Page Preview</span>
+                  </button>
+
                 </div>
               </div>
 
@@ -476,12 +590,12 @@ const DocEditor: React.FC = () => {
               {/* Sub Toolbar: Venue Advisor Agent Panel */}
               {activeCategory === 'drafts' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  
+
                   {/* Profile Quick-Config Row */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
                     <User size={12} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>Profile:</span>
-                    
+
                     <select value={profileGoal} onChange={e => setProfileGoal(e.target.value)}
                       style={{ background: 'rgba(15,23,42,0.8)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.3)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', fontWeight: '600', outline: 'none', cursor: 'pointer' }}>
                       <option value="top_conference">🏆 Top Conference Only</option>
@@ -514,6 +628,12 @@ const DocEditor: React.FC = () => {
                         <option value="ACL">ACL / ARR</option>
                         <option value="IEEEtran">IEEEtran Journal</option>
                         <option value="ACM">ACM CSUR</option>
+                        <option value="IEEE_Access">IEEE Access (Open Access)</option>
+                        <option value="SpringerOpen">SpringerOpen</option>
+                        <option value="DOAJ">DOAJ (Verified Seal)</option>
+                        <option value="arXiv">arXiv (cs.SE / cs.AI Preprint)</option>
+                        <option value="Femington">Femington (IJISDS/IJAMBI/IJCRMS)</option>
+                        <option value="MDPI">MDPI (Fast Open Access)</option>
                         <option value="ALL">📦 All Venues</option>
                       </select>
                     </div>
@@ -544,10 +664,41 @@ const DocEditor: React.FC = () => {
                       <span>{venueAdvisorLoading ? 'Analyzing...' : 'AI Venue Advisor'}</span>
                     </button>
 
+                    {/* Vault-wide release matrix */}
+                    <button
+                      onClick={runPublisherReadiness}
+                      disabled={publisherSuiteLoading}
+                      style={{
+                        background: publisherSuiteLoading ? 'rgba(45,212,191,0.08)' : 'rgba(45,212,191,0.16)',
+                        color: '#5eead4', border: '1px solid rgba(45,212,191,0.45)', padding: '6px 14px', borderRadius: '7px',
+                        cursor: publisherSuiteLoading ? 'wait' : 'pointer', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px'
+                      }}
+                      title="Compile and audit every draft against every supported venue"
+                    >
+                      {publisherSuiteLoading ? <RefreshCw size={13} className="spin" /> : <ShieldCheck size={13} />}
+                      <span>{publisherSuiteLoading ? 'Testing all papers…' : 'Test all papers × venues'}</span>
+                    </button>
+                    <button
+                      onClick={downloadPublisherBundle}
+                      disabled={publisherSuiteLoading || !publisherSuiteData?.ready_count}
+                      style={{
+                        background: publisherSuiteData?.ready_count ? 'rgba(16,185,129,0.16)' : 'rgba(255,255,255,0.03)',
+                        color: publisherSuiteData?.ready_count ? '#6ee7b7' : 'var(--text-muted)',
+                        border: `1px solid ${publisherSuiteData?.ready_count ? 'rgba(16,185,129,0.42)' : 'var(--border-color)'}`,
+                        padding: '6px 12px', borderRadius: '7px', cursor: publisherSuiteLoading || !publisherSuiteData?.ready_count ? 'not-allowed' : 'pointer',
+                        fontSize: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px'
+                      }}
+                      title={publisherSuiteData?.ready_count ? 'Download only verified publish-ready artifacts' : 'Available after at least one manuscript passes every release gate'}
+                    >
+                      <Download size={13} />
+                      <span>Download verified bundle</span>
+                    </button>
+
                     {/* Export LaTeX */}
                     <button
                       onClick={async () => {
                         if (!activeFilename) return;
+                        await handleSave();
                         try {
                           const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
                           if (res.ok) {
@@ -590,6 +741,7 @@ const DocEditor: React.FC = () => {
                     <button
                       onClick={async () => {
                         if (!activeFilename) return;
+                        await handleSave();
                         try {
                           const res = await apiFetch(`/api/vault/export-venue-latex?filename=${activeFilename}&venue=${selectedVenue}`);
                           if (res.ok) {
@@ -617,6 +769,7 @@ const DocEditor: React.FC = () => {
                     <button
                       onClick={async () => {
                         if (!activeFilename) return;
+                        await handleSave();
                         const venue = selectedVenue === 'ALL' ? 'IEEEtran' : selectedVenue;
                         try {
                           const res = await apiFetch(`/api/vault/export-venue-pdf?filename=${activeFilename}&venue=${venue}`);
@@ -643,6 +796,98 @@ const DocEditor: React.FC = () => {
                       <span>Download PDF</span>
                     </button>
                   </div>
+
+                  {/* Publisher Readiness Matrix */}
+                  {publisherSuiteOpen && (
+                    <div style={{ background: 'rgba(45,212,191,0.045)', border: '1px solid rgba(45,212,191,0.3)', borderRadius: '10px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <BarChart3 size={15} style={{ color: '#5eead4' }} />
+                          <div>
+                            <div style={{ fontSize: '12px', fontWeight: '800', color: '#5eead4', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Publisher readiness matrix</div>
+                            <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Every draft × every venue · duplicate-content and substantive-value gates are fail-closed</div>
+                          </div>
+                        </div>
+                        <button onClick={() => setPublisherSuiteOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
+                      </div>
+
+                      {publisherSuiteLoading && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px', color: 'var(--text-secondary)', fontSize: '11px', background: 'rgba(255,255,255,0.025)', borderRadius: '7px' }}>
+                          <RefreshCw size={13} className="spin" />
+                          <span>Compiling, auditing, and comparing all manuscripts{publisherJobId ? ` · job ${publisherJobId}` : ''}. This can take a few minutes for a large vault.</span>
+                        </div>
+                      )}
+
+                      {publisherSuiteError && <div style={{ color: '#f87171', fontSize: '11px', padding: '9px 11px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '7px' }}>{publisherSuiteError}</div>}
+
+                      {publisherSuiteData && !publisherSuiteLoading && (
+                        <>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '7px' }}>
+                            {[
+                              ['Manuscripts', publisherSuiteData.draft_count ?? 0, '#cbd5e1'],
+                              ['Venue tests', publisherSuiteData.total_tests ?? 0, '#93c5fd'],
+                              ['Compiled', publisherSuiteData.compiled_count ?? 0, '#a7f3d0'],
+                              ['Ready', publisherSuiteData.ready_count ?? 0, '#5eead4'],
+                              ['Blocked', publisherSuiteData.blocked_count ?? 0, '#fda4af'],
+                            ].map(([label, value, color]) => (
+                              <div key={String(label)} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid var(--border-color)', borderRadius: '7px', padding: '9px 10px' }}>
+                                <div style={{ fontSize: '9px', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.4px' }}>{label}</div>
+                                <div style={{ color: String(color), fontSize: '18px', fontWeight: '800', marginTop: '2px' }}>{value}</div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', maxHeight: '340px', overflowY: 'auto' }}>
+                            {(publisherSuiteData.manuscripts || []).map((manuscript: any) => {
+                              const isReady = manuscript.readiness === 'READY_FOR_HUMAN_REVIEW';
+                              const originalityBlocked = manuscript.originality?.passed === false;
+                              return (
+                                <div key={manuscript.filename} style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${isReady ? 'rgba(45,212,191,0.32)' : originalityBlocked ? 'rgba(244,63,94,0.35)' : 'var(--border-color)'}`, borderRadius: '8px', padding: '10px 11px' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                                    <div style={{ minWidth: 0 }}>
+                                      <div style={{ fontSize: '11px', fontWeight: '800', color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{manuscript.title}</div>
+                                      <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginTop: '2px' }}>{manuscript.filename}</div>
+                                    </div>
+                                    <span style={{ flexShrink: 0, fontSize: '9px', fontWeight: '800', padding: '3px 7px', borderRadius: '10px', color: isReady ? '#5eead4' : originalityBlocked ? '#fda4af' : '#fbbf24', background: isReady ? 'rgba(45,212,191,0.12)' : originalityBlocked ? 'rgba(244,63,94,0.12)' : 'rgba(251,191,36,0.12)' }}>{manuscript.readiness}</span>
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px', fontSize: '10px', color: 'var(--text-secondary)' }}>
+                                    <span><LockKeyhole size={11} style={{ verticalAlign: 'middle', marginRight: '3px', color: originalityBlocked ? '#f87171' : '#34d399' }} />Originality: <strong style={{ color: originalityBlocked ? '#f87171' : '#34d399' }}>{manuscript.originality?.status || 'NOT RUN'}</strong></span>
+                                    <span>Value: <strong style={{ color: manuscript.value?.substantive_value_passed ? '#34d399' : '#fbbf24' }}>{manuscript.value?.score ?? 0}%</strong></span>
+                                    <span>Ready venues: <strong style={{ color: '#93c5fd' }}>{(manuscript.ready_venues || []).join(', ') || 'none'}</strong></span>
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '8px' }}>
+                                    {Object.entries(manuscript.venue_results || {}).map(([venueName, venueResult]: [string, any]) => (
+                                      <span key={venueName} title={venueResult.error || (venueResult.publish_ready ? 'All release gates passed' : (venueResult.blocking_reasons || []).join(', ') || 'Needs review')} style={{ fontSize: '9px', padding: '3px 6px', borderRadius: '5px', border: `1px solid ${venueResult.publish_ready ? 'rgba(45,212,191,0.35)' : venueResult.compiled ? 'rgba(251,191,36,0.3)' : 'rgba(244,63,94,0.3)'}`, color: venueResult.publish_ready ? '#5eead4' : venueResult.compiled ? '#fbbf24' : '#fda4af', background: venueResult.publish_ready ? 'rgba(45,212,191,0.08)' : venueResult.compiled ? 'rgba(251,191,36,0.08)' : 'rgba(244,63,94,0.08)' }}>{venueName} {venueResult.publish_ready ? '✓' : venueResult.compiled ? '!' : '×'}</span>
+                                    ))}
+                                  </div>
+                                  {!manuscript.value?.substantive_value_passed && (
+                                    <div style={{ marginTop: '7px', fontSize: '10px', color: '#fbbf24' }}>Value gate: {Object.values(manuscript.value?.checks || {}).filter((check: any) => !check.passed).map((check: any) => check.detail).join(' · ')}</div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          {(publisherSuiteData.collection_originality?.pairs || []).length > 0 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', padding: '9px 10px', background: 'rgba(244,63,94,0.06)', border: '1px solid rgba(244,63,94,0.28)', borderRadius: '7px' }}>
+                              <div style={{ fontSize: '10px', fontWeight: '800', color: '#fda4af', textTransform: 'uppercase', letterSpacing: '0.4px' }}>Cross-manuscript originality flags</div>
+                              <div style={{ fontSize: '10px', color: 'var(--text-secondary)', lineHeight: 1.4 }}>These pairs require separate work before any venue submission. Exact duplicates are shown separately from high copied-prose overlap.</div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '150px', overflowY: 'auto' }}>
+                                {publisherSuiteData.collection_originality.pairs.map((pair: any) => (
+                                  <div key={`${pair.file_1}-${pair.file_2}`} style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', alignItems: 'center', fontSize: '9px', color: '#cbd5e1' }}>
+                                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pair.file_1} ↔ {pair.file_2}</span>
+                                    <span style={{ flexShrink: 0, color: pair.exact_duplicate ? '#f87171' : '#fbbf24', fontWeight: '800' }}>{pair.exact_duplicate ? 'EXACT' : `${pair.five_gram_overlap_pct}% overlap`}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          <div style={{ fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1.45, padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px' }}>
+                            <strong style={{ color: '#cbd5e1' }}>Release rule:</strong> “Ready” means the manuscript passed PDF/venue checks, has no exact or high-overlap sibling, and states a grounded contribution with method/scope/limitations. It remains ready for human/journal review—not an automatic acceptance.
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  )}
 
                   {/* Venue Advisor Results Panel */}
                   {venueAdvisorOpen && (
@@ -675,7 +920,7 @@ const DocEditor: React.FC = () => {
                             const diffKey = rec.difficulty || 'Moderate';
                             const diffColor = DIFFICULTY_COLOR[diffKey] || '#94a3b8';
                             const o1aNum = typeof rec.o1a_value === 'number' ? Math.max(0, Math.min(5, rec.o1a_value)) : 3;
-                            
+
                             let rationaleStr = '';
                             if (typeof rec.ai_rationale === 'string') {
                               rationaleStr = rec.ai_rationale;
@@ -759,7 +1004,7 @@ const DocEditor: React.FC = () => {
 
             {/* Split layout: Editor Text vs Preview/Frontmatter */}
             <div className={editMode === 'edit' ? "responsive-doc-split" : ""} style={{ gap: '16px', overflowY: 'auto', height: '100%', minHeight: '0', flex: 1 }}>
-              
+
               {/* Primary Content Editor / Preview Pane */}
               <div style={{ height: '100%', minHeight: '350px', overflowY: 'auto' }}>
                 {editMode === 'edit' ? (
@@ -796,7 +1041,7 @@ const DocEditor: React.FC = () => {
                   <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '13px', fontWeight: '700', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
                     Metadata properties (YAML)
                   </h4>
-                  
+
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     {Object.entries(frontmatter).map(([key, val]) => {
                       // Skip complex objects and custom handled keys
@@ -905,9 +1150,17 @@ const DocEditor: React.FC = () => {
           </>
         )}
       </div>
-      
+
+      {visualPreviewOpen && activeFilename && (
+        <PDFVisualPreviewModal
+          filename={activeFilename}
+          venue={selectedVenue}
+          onClose={() => setVisualPreviewOpen(false)}
+        />
+      )}
     </div>
   );
 };
+
 
 export default DocEditor;

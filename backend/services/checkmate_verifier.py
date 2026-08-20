@@ -1,6 +1,6 @@
 """
 Checkmate Verifier Service (The Checkmate Layer)
-Performs final multi-modal review & double-tested audit of compiled PDF manuscripts.
+Performs final multi-modal review & double-tested publication audit of compiled PDF manuscripts.
 Audits layout, section numbering, author attribution, bibliography metadata, text completeness,
 and zero-placeholder enforcement before human review.
 """
@@ -20,7 +20,7 @@ class CheckmateVerifierService:
         manuscript_markdown: str = "",
         venue_key: str = "IEEEtran"
     ) -> Dict[str, Any]:
-        """Performs a comprehensive 7-point audit of a compiled PDF document."""
+        """Performs a comprehensive publication audit of a compiled PDF document."""
         if not os.path.exists(pdf_path):
             return {
                 "checkmate_passed": False,
@@ -44,6 +44,9 @@ class CheckmateVerifierService:
             }
 
         combined_text = full_pdf_text + "\n" + manuscript_markdown
+
+        from services.workflow_audit import audit_researchingos_workflow
+        workflow_report = audit_researchingos_workflow(manuscript_markdown)
 
         # 1. Zero Placeholders Check
         placeholder_patterns = [
@@ -158,12 +161,24 @@ class CheckmateVerifierService:
                 "passed": page_budget_passed,
                 "score": 100 if page_budget_passed else 0,
                 "detail": f"Valid {total_pages}-page camera-ready layout" if page_budget_passed else f"Page count ({total_pages}) out of bounds"
+            },
+            "workflow_fidelity": {
+                "passed": workflow_report["passed"],
+                "score": 100 if workflow_report["passed"] else 0,
+                "detail": workflow_report["detail"],
+                "missing_stages": workflow_report["missing_stages"],
+                "stale_linear_claim": workflow_report["stale_linear_claim"],
             }
         }
 
         passed_count = sum(1 for c in checks.values() if c["passed"])
         score = round((passed_count / len(checks)) * 100.0, 1)
-        checkmate_passed = score >= 85.0 and zero_placeholders_passed and clean_numbering_passed
+        checkmate_passed = (
+            score >= 85.0
+            and zero_placeholders_passed
+            and clean_numbering_passed
+            and workflow_report["passed"]
+        )
 
         return {
             "checkmate_passed": checkmate_passed,
@@ -187,7 +202,16 @@ class CheckmateVerifierService:
         # 1. Strip leading section numbers from markdown headings
         text = re.sub(r'^(#{1,4})\s*(\d+[\.\s]*)+', r'\1 ', text, flags=re.MULTILINE)
 
-        # 2. Scrub internal meta persona tags
+        # 2. Promote post-Conclusion ### headings to ## top-level sections
+        conclusion_idx = text.find("## Conclusion")
+        if conclusion_idx != -1:
+            pre_conclusion = text[:conclusion_idx]
+            post_conclusion = text[conclusion_idx:]
+            # Replace ### with ## in post_conclusion except for 15.1 Summary style
+            post_conclusion = re.sub(r'^###\s+(?!Summary)', r'## ', post_conclusion, flags=re.MULTILINE)
+            text = pre_conclusion + post_conclusion
+
+        # 3. Scrub internal meta persona tags
         meta_artifacts = [
             r'\[Director’s Synthesis,?\s*this volume\]', r'\[Director’s Synthesis\]', r'Director’s Synthesis',
             r'\[Director\'s Synthesis,?\s*this volume\]', r'\[Director\'s Synthesis\]', r'Director\'s Synthesis',
@@ -198,7 +222,212 @@ class CheckmateVerifierService:
         for pattern in meta_artifacts:
             text = re.sub(pattern, '', text, flags=re.IGNORECASE)
 
-        # 3. Clean up incomplete sentences at section ends
+        # 4. Fix truncated wikilinks (e.g., [[woold -> [[wooldridge2009]])
+        text = re.sub(r'\[\[woold\b', r'[[wooldridge2009', text)
+        text = re.sub(r'\[\[feuerriegel\b', r'[[feuerriegel2023generativeai', text)
+
+        # 5. Fix common math subscript brace omissions
+        text = re.sub(r'\\text\{([a-zA-Z0-9_]+)\$', r'\\text{\1}$', text)
+        text = re.sub(r'\\text\{max\$', r'\\text{max}$', text)
+        text = re.sub(r'\\text\{eng\$', r'\\text{eng}$', text)
+        text = re.sub(r'\\text\{compute\$', r'\\text{compute}$', text)
+        text = re.sub(r'\\text\{tokens\$', r'\\text{tokens}$', text)
+
+        # 6. Clean up stray leading commas or punctuation at line starts
+        text = re.sub(r'^\s*,\s*', '', text, flags=re.MULTILINE)
+        text = re.sub(r'In summaryIn summary', 'In summary', text)
+        text = re.sub(r'\b(In summary|Summary|Conclusion|Abstract|References)\s*\1\b', r'\1', text, flags=re.IGNORECASE)
+
+        # 7. Clean up incomplete sentences & orphaned trailing fragment lines
         text = re.sub(r'\b(the|a|an|and|or|during|for|with|in|of)\s*\n\n---', '.\n\n---', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*pricing structures\.\s*$', '', text, flags=re.MULTILINE)
+
+        # 7.5. Clean up any ASCII backspace (\x08) or missing backslash corruptions on LaTeX math keywords
+        text = text.replace('\x08egin', '\\begin').replace('\x08end', '\\end')
+        text = text.replace('\text{', '\\text{').replace('\text', '\\text')
+        text = text.replace('\\\\begin{aligned}', '\\begin{aligned}').replace('\\\\end{aligned}', '\\end{aligned}')
+        text = text.replace('egin{aligned}', '\\begin{aligned}').replace('end{aligned}', '\\end{aligned}')
+        text = text.replace('eginaligned', '\\begin{aligned}')
+        text = re.sub(r'(?<!\\)\b(egin|end)\{(aligned|cases|equation|matrix|bmatrix|vmatrix)\}', r'\\\1{\2}', text)
+
+
+
+
+        # 8. Automatically split wide single-line display math ($$ ... $$) into multi-line aligned blocks
+        def auto_split_display_math(match):
+            eq = match.group(1).strip()
+            if '\\begin{' in eq or '\\\\' in eq:
+                return f"\n$$\n{eq}\n$$\n"
+            if len(eq) > 50 and ('+' in eq or '=' in eq):
+                if '=' in eq:
+                    parts = eq.split('=', 1)
+                    left = parts[0].strip()
+                    right = parts[1].strip()
+                    tokens = right.split('+')
+                    if len(tokens) >= 3:
+                        mid = len(tokens) // 2
+                        part1 = "+".join(tokens[:mid]).strip()
+                        part2 = "+".join(tokens[mid:]).strip()
+                        return f"\n$$\n\\begin{{aligned}}\n{left} = & {part1} \\\\\n& + {part2}\n\\end{{aligned}}\n$$\n"
+                    elif ',' in right:
+                        comma_idx = right.find(',')
+                        part1 = right[:comma_idx+1].strip()
+                        part2 = right[comma_idx+1:].strip()
+                        return f"\n$$\n\\begin{{aligned}}\n{left} = & {part1} \\\\\n& {part2}\n\\end{{aligned}}\n$$\n"
+            return f"\n$$\n\\begin{{aligned}}\n{eq}\n\\end{{aligned}}\n$$\n"
+
+        text = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', auto_split_display_math, text)
 
         return text
+
+    def run_multi_venue_backtest(
+        self,
+        target_filename: Optional[str] = None,
+        venues: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Automated Backtesting Tool: Compiles and audits manuscript drafts across target academic venues.
+        Saves zero-defect PDF outputs to Vault exports and updates frontmatter metadata.
+        """
+        if not self.vault_manager:
+            raise ValueError("VaultManager instance is required for backtesting.")
+
+        from services.latex_exporter import LaTeXExporterService
+        exporter = LaTeXExporterService(self.vault_manager)
+
+        test_venues = venues or ["IEEEtran", "NeurIPS", "ICML", "CVPR", "ACL", "ACM"]
+
+        if target_filename:
+            clean_name = target_filename if target_filename.endswith(".md") else f"{target_filename}.md"
+            drafts = [{"filename": clean_name}]
+        else:
+            drafts = self.vault_manager.list_files("drafts")
+
+        exports_dir = os.path.join(self.vault_manager.vault_path, "04_Drafts", "exports")
+        os.makedirs(exports_dir, exist_ok=True)
+
+        results = []
+        for d in drafts:
+            fname = d["filename"]
+            try:
+                doc = self.vault_manager.read_markdown("drafts", fname)
+            except Exception:
+                continue
+
+            content = doc.get("content", "")
+            meta = doc.get("frontmatter", {}) or {}
+
+            # Apply auto-remediation rules to clean markdown content
+            remediated_content = self.auto_remediate_markdown(content)
+            if remediated_content != content:
+                content = remediated_content
+                self.vault_manager.save_markdown("drafts", fname, content, frontmatter=meta)
+
+            title = meta.get("title", fname.replace(".md", "").replace("_", " ").title())
+            authors = meta.get("authors", ["Aryaman Dev"])
+
+            # Source papers for BibTeX
+            papers_data = []
+            for p in self.vault_manager.list_files("papers"):
+                try:
+                    papers_data.append(self.vault_manager.read_markdown("papers", p["filename"]))
+                except Exception:
+                    pass
+
+            bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
+
+            for venue in test_venues:
+                abstract_match = re.search(r'#+\s*(?:\d+[\.\s]*)?(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', content, re.IGNORECASE)
+                abstract = abstract_match.group(1).strip() if abstract_match else "Executive Abstract"
+
+                tex_code = exporter.markdown_to_venue_latex(venue, title, authors, abstract, content)
+                pdf_bytes = exporter.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+
+                if pdf_bytes:
+                    pdf_filename = f"{fname.replace('.md', '')}_{venue}.pdf"
+                    pdf_path = os.path.join(exports_dir, pdf_filename)
+
+                    with open(pdf_path, "wb") as f:
+                        f.write(pdf_bytes)
+
+                    audit_res = self.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+                    passed = audit_res.get("checkmate_passed", False)
+                    score = audit_res.get("score", 0.0)
+
+                    if passed:
+                        meta["checkmate_score"] = str(score)
+                        meta["checkmate_status"] = "PASSED"
+                        self.vault_manager.save_markdown("drafts", fname, content, frontmatter=meta)
+
+                    results.append({
+                        "filename": fname,
+                        "venue": venue,
+                        "compiled": True,
+                        "size_bytes": len(pdf_bytes),
+                        "checkmate_passed": passed,
+                        "checkmate_score": score,
+                        "pdf_path": pdf_path
+                    })
+                else:
+                    results.append({
+                        "filename": fname,
+                        "venue": venue,
+                        "compiled": False,
+                        "checkmate_passed": False,
+                        "checkmate_score": 0.0,
+                        "pdf_path": None
+                    })
+
+        total_tests = len(results)
+        compiled_count = sum(1 for r in results if r["compiled"])
+        passed_count = sum(1 for r in results if r["checkmate_passed"])
+
+        return {
+            "success": True,
+            "total_tests": total_tests,
+            "compiled_count": compiled_count,
+            "passed_count": passed_count,
+            "pass_rate_percentage": round((passed_count / total_tests) * 100.0, 1) if total_tests > 0 else 0.0,
+            "results": results
+        }
+
+    def audit_pairwise_vault_dissimilarity(self, max_allowed_jaccard_overlap: float = 35.0) -> dict:
+        """Rule R22: Enforces pairwise dissimilarity (< 35% vocabulary overlap) across all Vault draft files."""
+        draft_files = self.vault_manager.list_files("drafts")
+        docs = {}
+        for d in draft_files:
+            fname = d["filename"]
+            if fname.startswith("exports") or fname.endswith(".pdf"): continue
+            try:
+                note = self.vault_manager.read_markdown("drafts", fname)
+                content = note.get("content", "") if isinstance(note, dict) else str(note)
+                docs[fname] = set(re.findall(r'\b[a-zA-Z]{4,}\b', content.lower()))
+            except Exception:
+                continue
+
+        fnames = sorted(list(docs.keys()))
+        flagged_pairs = []
+        max_overlap_observed = 0.0
+
+        for i in range(len(fnames)):
+            for j in range(i + 1, len(fnames)):
+                f1, f2 = fnames[i], fnames[j]
+                s1, s2 = docs[f1], docs[f2]
+                if not s1 or not s2: continue
+                overlap = (len(s1.intersection(s2)) / len(s1.union(s2))) * 100.0
+                if overlap > max_overlap_observed:
+                    max_overlap_observed = overlap
+                if overlap > max_allowed_jaccard_overlap:
+                    flagged_pairs.append({
+                        "file_1": f1,
+                        "file_2": f2,
+                        "jaccard_overlap_pct": round(overlap, 1)
+                    })
+
+        passed = len(flagged_pairs) == 0
+        return {
+            "passed": passed,
+            "max_overlap_observed_pct": round(max_overlap_observed, 1),
+            "max_allowed_jaccard_overlap": max_allowed_jaccard_overlap,
+            "flagged_pairs": flagged_pairs
+        }

@@ -9,7 +9,7 @@ from typing import Dict, List, Any, Optional
 
 class ErrorLedgerService:
     """Persistent System Error Ledger & Quality Assurance Registry.
-    
+
     Tracks all errors across manuscript generation, API routing, LaTeX compilation,
     section hierarchy parsing, and Checkmate audits. Guarantees zero repeat failures.
     """
@@ -116,11 +116,11 @@ class ErrorLedgerService:
         self.data["stats"]["total_errors_recorded"] = len(self.data.get("history", []))
         self.data["stats"]["resolved_count"] = sum(1 for e in self.data.get("history", []) if e.get("status") == "VERIFIED_RESOLVED")
         self.data["stats"]["active_prevention_rules"] = len(self.data.get("prevention_rules", {}))
-        
+
         with open(self.ledger_path, "w", encoding="utf-8") as f:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
             f.write("\n")
-            
+
         self._export_markdown_manual()
 
     def _export_markdown_manual(self) -> None:
@@ -140,7 +140,7 @@ class ErrorLedgerService:
         ]
         for rid, rule in self.data.get("prevention_rules", {}).items():
             lines.append(f"- **[{rid}]**: {rule}")
-            
+
         lines.extend([
             "",
             "---",
@@ -148,7 +148,7 @@ class ErrorLedgerService:
             "## 📑 Historical Error Audit Log",
             ""
         ])
-        
+
         for item in self.data.get("history", []):
             lines.append(f"### ❌ [{item['error_id']}] {item['summary']}")
             lines.append(f"- **Timestamp:** `{item['timestamp']}`")
@@ -176,7 +176,7 @@ class ErrorLedgerService:
         count = len(self.data.get("history", [])) + 1
         error_id = f"ERR-{count:03d}"
         rule_id = f"R{count}"
-        
+
         entry = {
             "error_id": error_id,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -189,7 +189,7 @@ class ErrorLedgerService:
             "prevention_rule": f"{rule_id}: {prevention_rule}",
             "status": "VERIFIED_RESOLVED"
         }
-        
+
         self.data["history"].append(entry)
         self.data["prevention_rules"][rule_id] = prevention_rule
         self._save()

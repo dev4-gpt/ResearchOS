@@ -143,7 +143,7 @@ DEFAULT_OUTLINE = [
 def planner_node(state: DraftState):
     state["log_callback"]("Drafting", "Senior Research Writer & Publisher", "Planning 10-section hierarchical manuscript outline...")
     planner = dspy.Predict(PlanPaperStructure)
-    
+
     try:
         res = planner(
             topic=state["topic"],
@@ -162,7 +162,7 @@ def planner_node(state: DraftState):
                 return state
     except Exception as e:
         print(f"Outline planning note: {e}")
-        
+
     state["outline"] = DEFAULT_OUTLINE
     return state
 
@@ -170,7 +170,7 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
     """Generates rich, topic-specific prose using llm_router if writer model encounters timeout, eliminating placeholder stubs."""
     from services.llm_router import llm_router
     clean_synthesis = re.sub(r'\[Director’s Synthesis[^\]]*\]|\[Idowu et al\.[^\]]*\]|Senior Systems Engineer', '', synthesis_content[:2000])
-    
+
     prompt = (
         f"Write a detailed, exhaustive 1500-word technical academic section for a journal review paper.\n"
         f"Topic: {topic}\n"
@@ -181,7 +181,7 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
         f"Provide deep technical analysis, mathematical formulations (using \\begin{{equation}}...\\end{{equation}}), "
         f"Markdown tables, and verified academic citations [[feuerriegel2023generativeai]], [[joshua2026adoptiondepth]], [[wooldridge2009]]."
     )
-    
+
     try:
         content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
         if content and len(content) > 300 and "Addressing " not in content[:50]:
@@ -190,7 +190,7 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
             return content
     except Exception as e:
         print(f"Fallback generation note for {sec_title}: {e}")
-        
+
     return (
         f"## {sec_title}\n\n"
         f"The implementation of {sec_title.lower()} within the architectural paradigm of {topic} requires "
@@ -211,26 +211,26 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
 def section_writer_node(state: DraftState):
     outline = state.get("outline", DEFAULT_OUTLINE)
     writer = dspy.Predict(WriteSection)
-    
+
     feedback = ""
     if state.get("peer_review") and state["peer_review"].get("overall_decision") == "REJECT":
         feedback += "Peer Review Fatal Weaknesses:\n" + "\n".join(state["peer_review"].get("fatal_weaknesses", []))
         feedback += "\nRequired Revisions:\n" + "\n".join(state["peer_review"].get("required_revisions", []))
-        
+
     if state.get("red_team_critique"):
         feedback += "\nRed-Team Critique:\n" + state["red_team_critique"][:1500]
-        
+
     section_drafts = {}
     total_sections = len(outline)
-    
+
     for idx, sec in enumerate(outline):
         sec_title = sec.get("section_title", f"Section {idx+1}")
         clean_sec_title = re.sub(r'^(\d+[\.\s]*)+', '', sec_title).strip()
         sec_id = sec.get("section_id", f"sec{idx+1}")
         sec_instructions = sec.get("instructions", "Write a detailed academic section.")
-        
+
         state["log_callback"]("Drafting", "Senior Research Writer & Publisher", f"Expanding Section {idx+1}/{total_sections}: {clean_sec_title}...")
-        
+
         success = False
         for attempt in range(2):
             try:
@@ -251,35 +251,35 @@ def section_writer_node(state: DraftState):
                     break
             except Exception as ex:
                 print(f"Error writing section {clean_sec_title} (attempt {attempt+1}): {ex}")
-                
+
         if not success:
             section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"])
-            
+
     state["section_drafts"] = section_drafts
     return state
 
 def assembler_node(state: DraftState):
     state["log_callback"]("Drafting", "Senior Research Writer & Publisher", "Assembling section drafts into camera-ready manuscript...")
-    
+
     outline = state.get("outline", DEFAULT_OUTLINE)
     section_drafts = state.get("section_drafts", {})
-    
+
     full_parts = []
-    
+
     for sec in outline:
         sec_id = sec.get("section_id", "")
         sec_title = sec.get("section_title", "")
         clean_sec_title = re.sub(r'^(\d+[\.\s]*)+', '', sec_title).strip()
         content = section_drafts.get(sec_id, "")
-        
+
         # Ensure section title heading is present and un-numbered
         if content and not content.strip().startswith("#"):
             content = f"## {clean_sec_title}\n\n" + content
-            
+
         full_parts.append(content)
-        
+
     assembled = "\n\n---\n\n".join(full_parts)
-    
+
     # Ensure Executive Abstract is clearly formatted at the top for LaTeX exporter
     if "## Executive Abstract" not in assembled and "## Abstract" not in assembled:
         topic_str = state.get("topic", "Enterprise Adoption of Multi-Agent AI Systems")
@@ -294,7 +294,7 @@ def assembler_node(state: DraftState):
         )
     elif "## Abstract" in assembled and "## Executive Abstract" not in assembled:
         assembled = assembled.replace("## Abstract", "## Executive Abstract", 1)
-        
+
     state["draft"] = assembled
     return state
 
@@ -311,7 +311,7 @@ def red_team_node(state: DraftState):
 def peer_review_node(state: DraftState):
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated peer review audit against conference rubrics...")
     reviewer = dspy.Predict(PeerReviewAudit)
-    
+
     peer_review_data = {
         "schema_valid": True,
         "overall_decision": "STRONG ACCEPT",
@@ -320,7 +320,7 @@ def peer_review_node(state: DraftState):
         "fatal_weaknesses": [],
         "required_revisions": [],
     }
-    
+
     try:
         response = reviewer(draft=state["draft"][:15000], topic=state["topic"])
         json_match = re.search(r'\{[\s\S]*\}', response.review)
@@ -334,7 +334,7 @@ def peer_review_node(state: DraftState):
 
     state["peer_review"] = peer_review_data
     state["iteration"] += 1
-    
+
     decision = peer_review_data.get("overall_decision", "STRONG ACCEPT")
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", f"Peer Review Decision: {decision}", peer_review_data)
     return state
@@ -348,20 +348,20 @@ def review_routing(state: DraftState):
 # --- Build LangGraph StateMachine ---
 def build_drafting_graph():
     workflow = StateGraph(DraftState)
-    
+
     workflow.add_node("planner", planner_node)
     workflow.add_node("section_writer", section_writer_node)
     workflow.add_node("assembler", assembler_node)
     workflow.add_node("red_team", red_team_node)
     workflow.add_node("peer_review", peer_review_node)
-    
+
     workflow.set_entry_point("planner")
-    
+
     workflow.add_edge("planner", "section_writer")
     workflow.add_edge("section_writer", "assembler")
     workflow.add_edge("assembler", "red_team")
     workflow.add_edge("red_team", "peer_review")
-    
+
     workflow.add_conditional_edges(
         "peer_review",
         review_routing,
@@ -370,13 +370,13 @@ def build_drafting_graph():
             "end": END
         }
     )
-    
+
     return workflow.compile()
 
 def run_drafting_cycle(topic: str, synthesis_content: str, summaries_text: str, log_callback: Any, max_iterations: int = 2) -> Dict[str, Any]:
     configure_dspy()
     graph = build_drafting_graph()
-    
+
     initial_state = {
         "topic": topic,
         "synthesis_content": synthesis_content,
@@ -390,7 +390,7 @@ def run_drafting_cycle(topic: str, synthesis_content: str, summaries_text: str, 
         "max_iterations": max_iterations,
         "log_callback": log_callback
     }
-    
+
     final_state = graph.invoke(initial_state)
     return {
         "draft": final_state["draft"],

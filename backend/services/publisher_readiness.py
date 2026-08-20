@@ -1,0 +1,371 @@
+"""Fail-closed publisher readiness checks for the HITL Publisher.
+
+This service keeps formatting checks and research-quality checks separate. A PDF can
+be perfectly typeset and still be a duplicate, a stub, or too weak to submit. The
+publisher gate therefore reports both kinds of evidence and only marks a venue
+ready when every required gate passes.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import os
+from datetime import datetime, timezone
+from typing import Any, Dict, Iterable, List, Optional, Set
+
+from services.checkmate_verifier import CheckmateVerifierService
+from services.latex_exporter import LaTeXExporterService
+from services.venue_profiles import VENUE_PROFILES
+
+
+DEFAULT_PUBLISHER_VENUES = [
+    "IEEEtran", "NeurIPS", "ICML", "CVPR", "ACL", "ACM",
+    "IEEE_Access", "SpringerOpen", "DOAJ", "arXiv", "Femington", "MDPI",
+]
+
+PLACEHOLDER_PATTERNS = (
+    r"\bTBD\b",
+    r"\[\?\]",
+    r"to be expanded",
+    r"unspecified authors",
+    r"insert (?:results|citation|reference)",
+)
+
+
+class PublisherReadinessService:
+    """Run the complete manuscript-by-venue release matrix."""
+
+    def __init__(self, vault_manager: Any):
+        self.vault_manager = vault_manager
+        self.checkmate = CheckmateVerifierService(vault_manager)
+        self.exporter = LaTeXExporterService(vault_manager)
+
+    @staticmethod
+    def _body_for_comparison(content: str) -> str:
+        """Normalize prose while retaining enough structure to catch copy/paste."""
+        body = re.sub(r"```[\s\S]*?```", " ", content)
+        body = re.sub(r"\$\$[\s\S]*?\$\$", " equation ", body)
+        body = re.sub(r"\\begin\{[^}]+\}[\s\S]*?\\end\{[^}]+\}", " equation ", body)
+        # Bibliographies are intentionally excluded from similarity: shared sources
+        # are normal, while copied prose and methods are not.
+        body = re.split(r"^#{1,6}\s*(?:references|bibliography)\s*$", body, maxsplit=1, flags=re.I | re.M)[0]
+        body = re.sub(r"[^a-zA-Z0-9%]+", " ", body.lower())
+        return re.sub(r"\s+", " ", body).strip()
+
+    @staticmethod
+    def _tokens(text: str) -> List[str]:
+        return re.findall(r"[a-z0-9]+(?:'[a-z0-9]+)?", text.lower())
+
+    @classmethod
+    def _shingles(cls, text: str, size: int = 5) -> Set[str]:
+        tokens = cls._tokens(text)
+        if len(tokens) < size:
+            return set()
+        return {" ".join(tokens[i:i + size]) for i in range(len(tokens) - size + 1)}
+
+    @staticmethod
+    def _section_names(content: str) -> List[str]:
+        return [m.group(1).strip().lower() for m in re.finditer(r"^#{1,6}\s+(.+?)\s*$", content, re.M)]
+
+    @classmethod
+    def audit_substantive_value(cls, content: str) -> Dict[str, Any]:
+        """Check for a real research contribution, not just clean formatting."""
+        normalized = cls._body_for_comparison(content)
+        words = cls._tokens(normalized)
+        headings = cls._section_names(content)
+        lower = content.lower()
+
+        citation_count = len(re.findall(r"\[[0-9]{1,3}\]|\([a-z][a-z-]+(?: et al\.)?,?\s*20\d{2}[a-z]?\)", lower))
+        citation_count += len(re.findall(r"\\(?:cite|citep|citet|parencite)\s*(?:\[[^\]]*\])?\{[^}]+\}", lower))
+        numeric_claim_count = len(re.findall(r"\b\d+(?:\.\d+)?\s*(?:%|ms|s|x|million|billion)?\b", lower))
+        equation_count = len(re.findall(r"\$\$|\\begin\{(?:equation|align|aligned)\}", content))
+
+        contribution = bool(re.search(
+            r"\b(contribution|contribute|novel|we present|we propose|we develop|we introduce|our findings|our results|our framework)\b",
+            lower,
+        )) or any("contribution" in heading or "novel" in heading for heading in headings)
+        evidence_or_synthesis = bool(re.search(
+            r"\b(empirical|experiment|evaluation|benchmark|dataset|ablation|measurement|results?|finding|systematic review|prisma|meta-analysis|synthesis|taxonomy)\b",
+            lower,
+        ))
+        method_or_scope = bool(re.search(
+            r"\b(methodology|method|approach|protocol|algorithm|procedure|search strategy|inclusion criteria|research question)\b",
+            lower,
+        ))
+        limitations = bool(re.search(r"\b(limitation|threats? to validity|boundary|caveat|future work)\b", lower))
+        grounded = citation_count >= 3 or len(re.findall(r"^\s*\[?\d{1,3}\]?\s+.+$", content, re.M)) >= 3
+        no_stub = not any(re.search(pattern, lower) for pattern in PLACEHOLDER_PATTERNS)
+
+        checks = {
+            "minimum_substance": {
+                "passed": len(words) >= 450,
+                "detail": f"{len(words):,} normalized words (minimum 450)",
+            },
+            "explicit_contribution": {
+                "passed": contribution,
+                "detail": "Contribution or original claim is stated" if contribution else "No explicit contribution/novelty claim found",
+            },
+            "evidence_or_synthesis": {
+                "passed": evidence_or_synthesis,
+                "detail": "Evidence, evaluation, or structured synthesis is present" if evidence_or_synthesis else "No evidence, evaluation, or synthesis signal found",
+            },
+            "method_or_scope": {
+                "passed": method_or_scope,
+                "detail": "Method, protocol, or review scope is described" if method_or_scope else "Method or review scope is not explicit",
+            },
+            "grounded_references": {
+                "passed": grounded,
+                "detail": f"At least 3 citation/reference signals ({citation_count} inline citations)" if grounded else "Fewer than 3 citation/reference signals",
+            },
+            "limitations_or_boundary": {
+                "passed": limitations,
+                "detail": "Limitations or applicability boundary is stated" if limitations else "Limitations/boundaries are not stated",
+            },
+            "no_placeholder_stub": {
+                "passed": no_stub,
+                "detail": "No manuscript placeholder language detected" if no_stub else "Placeholder language detected",
+            },
+        }
+        # A paper must state what it adds and ground that value in evidence or a
+        # reproducible synthesis. Limitations and method are required for release,
+        # but remain visible as individual checks when the paper is blocked.
+        substantive_value_passed = all(checks[key]["passed"] for key in (
+            "minimum_substance", "explicit_contribution", "evidence_or_synthesis",
+            "method_or_scope", "grounded_references", "limitations_or_boundary", "no_placeholder_stub",
+        ))
+        score = round(sum(1 for check in checks.values() if check["passed"]) / len(checks) * 100, 1)
+        return {
+            "score": score,
+            "substantive_value_passed": substantive_value_passed,
+            "status": "PASS" if substantive_value_passed else "NEEDS_REVIEW",
+            "metrics": {
+                "word_count": len(words),
+                "section_count": len(headings),
+                "citation_signal_count": citation_count,
+                "numeric_claim_count": numeric_claim_count,
+                "equation_count": equation_count,
+            },
+            "checks": checks,
+        }
+
+    def audit_collection_originality(self, documents: Dict[str, str], max_ngram_overlap: float = 65.0) -> Dict[str, Any]:
+        """Detect exact duplicates and high copied-prose overlap across drafts."""
+        normalized = {name: self._body_for_comparison(content) for name, content in documents.items()}
+        hashes = {name: hashlib.sha256(text.encode("utf-8")).hexdigest() for name, text in normalized.items()}
+        shingles = {name: self._shingles(text) for name, text in normalized.items()}
+        pairs: List[Dict[str, Any]] = []
+        max_overlap = 0.0
+        names = sorted(normalized)
+
+        for index, left in enumerate(names):
+            for right in names[index + 1:]:
+                left_shingles, right_shingles = shingles[left], shingles[right]
+                union = left_shingles | right_shingles
+                overlap = (len(left_shingles & right_shingles) / len(union) * 100) if union else 0.0
+                exact = hashes[left] == hashes[right] and bool(normalized[left])
+                max_overlap = max(max_overlap, overlap)
+                if exact or overlap >= 35.0:
+                    pairs.append({
+                        "file_1": left,
+                        "file_2": right,
+                        "exact_duplicate": exact,
+                        "five_gram_overlap_pct": round(overlap, 1),
+                        "severity": "BLOCK" if exact or overlap >= max_ngram_overlap else "REVIEW",
+                    })
+
+        blocked_files: Set[str] = set()
+        for pair in pairs:
+            if pair["severity"] == "BLOCK":
+                blocked_files.update((pair["file_1"], pair["file_2"]))
+
+        per_file = {}
+        for name in names:
+            related = [pair for pair in pairs if name in (pair["file_1"], pair["file_2"])]
+            file_max = max((pair["five_gram_overlap_pct"] for pair in related), default=0.0)
+            per_file[name] = {
+                "exact_duplicate": name in blocked_files and any(pair["exact_duplicate"] and name in (pair["file_1"], pair["file_2"]) for pair in related),
+                "max_five_gram_overlap_pct": file_max,
+                "passed": name not in blocked_files,
+                "status": "PASS" if name not in blocked_files else "BLOCKED_DUPLICATE_CONTENT",
+                "detail": "No high-overlap sibling manuscript detected" if name not in blocked_files else "High-overlap or exact-duplicate manuscript detected; separate this work before submission",
+            }
+
+        return {
+            "passed": not blocked_files,
+            "max_five_gram_overlap_pct": round(max_overlap, 1),
+            "max_allowed_blocking_overlap_pct": max_ngram_overlap,
+            "pairs": pairs,
+            "per_file": per_file,
+        }
+
+    @staticmethod
+    def _abstract(content: str) -> str:
+        match = re.search(r"^#{1,6}\s*(?:\d+[.\s]*)?(?:executive\s+)?abstract\s*$([\s\S]*?)(?=^#{1,6}\s|\Z)", content, re.I | re.M)
+        return match.group(1).strip() if match else "Executive Abstract"
+
+    def run(self, target_filename: Optional[str] = None, venues: Optional[List[str]] = None) -> Dict[str, Any]:
+        requested_venues = venues or DEFAULT_PUBLISHER_VENUES
+        test_venues = [venue for venue in requested_venues if venue in VENUE_PROFILES]
+        if not test_venues:
+            raise ValueError("No supported publication venues were requested.")
+
+        draft_items = self.vault_manager.list_files("drafts")
+        all_documents: Dict[str, str] = {}
+        all_docs_meta: Dict[str, Dict[str, Any]] = {}
+        for item in draft_items:
+            filename = item["filename"]
+            try:
+                document = self.vault_manager.read_markdown("drafts", filename)
+            except Exception:
+                continue
+            all_documents[filename] = document.get("content", "")
+            all_docs_meta[filename] = document.get("frontmatter", {}) or {}
+
+        if target_filename:
+            clean = target_filename if target_filename.endswith(".md") else f"{target_filename}.md"
+            selected = [clean] if clean in all_documents else []
+        else:
+            selected = sorted(all_documents)
+
+        originality = self.audit_collection_originality(all_documents)
+        value_reports = {filename: self.audit_substantive_value(all_documents[filename]) for filename in selected}
+        exports_dir = os.path.join(self.vault_manager.vault_path, "04_Drafts", "exports")
+        os.makedirs(exports_dir, exist_ok=True)
+
+        results: List[Dict[str, Any]] = []
+        manuscript_summaries: List[Dict[str, Any]] = []
+        source_papers: List[Dict[str, Any]] = []
+        for paper in self.vault_manager.list_files("papers"):
+            try:
+                source_papers.append(self.vault_manager.read_markdown("papers", paper["filename"]))
+            except Exception:
+                continue
+        for filename in selected:
+            content = all_documents[filename]
+            meta = all_docs_meta[filename]
+            title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
+            authors = meta.get("authors", ["Aryaman Dev"])
+            value_report = value_reports[filename]
+            originality_report = originality["per_file"].get(filename, {"passed": True, "status": "PASS", "max_five_gram_overlap_pct": 0.0})
+            venue_results: Dict[str, Any] = {}
+
+            bib_code = self.exporter.generate_bibtex(source_papers, manuscript_content=content)
+            bib_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_references.bib")
+            with open(bib_path, "w", encoding="utf-8") as handle:
+                handle.write(bib_code)
+            for venue in test_venues:
+                item_result: Dict[str, Any] = {"filename": filename, "title": title, "venue": venue, "compiled": False, "checkmate_passed": False, "layout_passed": False, "publish_ready": False}
+                try:
+                    tex_code = self.exporter.markdown_to_venue_latex(
+                        venue, title, authors, self._abstract(content), content,
+                        author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", "")},
+                        anonymize=VENUE_PROFILES[venue].anonymized_review,
+                    )
+                    pdf_bytes = self.exporter.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+                    if not pdf_bytes:
+                        raise RuntimeError("LaTeX compilation returned no PDF bytes")
+                    pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
+                    pdf_path = os.path.join(exports_dir, pdf_filename)
+                    with open(pdf_path, "wb") as handle:
+                        handle.write(pdf_bytes)
+                    tex_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.tex")
+                    with open(tex_path, "w", encoding="utf-8") as handle:
+                        handle.write(tex_code)
+                    audit = self.checkmate.audit_pdf(pdf_path, manuscript_markdown=content, venue_key=venue)
+                    # Reuse the same geometry auditor as Backtest Lab. Preview tiles
+                    # remain an explicit visual-inspection action, but every release
+                    # candidate still gets an automated overflow/column audit here.
+                    from services.visual_auditor import VisualLayoutAuditorService
+                    layout = VisualLayoutAuditorService(self.vault_manager).audit_layout_geometry(pdf_path, venue_key=venue)
+                    layout_passed = bool(layout.get("passed", False))
+                    venue_passed = bool(audit.get("checkmate_passed", False))
+                    publish_ready = venue_passed and layout_passed and value_report["substantive_value_passed"] and originality_report["passed"]
+                    reasons = []
+                    if not originality_report["passed"]:
+                        reasons.append(originality_report["status"])
+                    if not value_report["substantive_value_passed"]:
+                        reasons.append("SUBSTANTIVE_VALUE_REVIEW")
+                    if not venue_passed:
+                        reasons.append("CHECKMATE_REMEDIATION")
+                    item_result.update({
+                        "compiled": True,
+                        "checkmate_passed": venue_passed,
+                        "checkmate_score": audit.get("score", 0.0),
+                        "layout_passed": layout_passed,
+                        "layout_geometry": layout,
+                        "pdf_path": pdf_path,
+                        "tex_path": tex_path,
+                        "bib_path": bib_path,
+                        "publish_ready": publish_ready,
+                        "blocking_reasons": reasons,
+                        "checks": audit.get("checks", {}),
+                    })
+                except Exception as error:
+                    item_result["blocking_reasons"] = ["COMPILE_FAILED"]
+                    item_result["error"] = str(error)
+                results.append(item_result)
+                venue_results[venue] = item_result
+
+            ready_venues = [venue for venue, result in venue_results.items() if result.get("publish_ready")]
+            if ready_venues:
+                readiness = "READY_FOR_HUMAN_REVIEW"
+            elif not originality_report["passed"]:
+                readiness = "BLOCKED_DUPLICATE_CONTENT"
+            elif not value_report["substantive_value_passed"]:
+                readiness = "BLOCKED_SUBSTANTIVE_VALUE"
+            else:
+                readiness = "NEEDS_VENUE_REMEDIATION"
+            updated_meta = dict(meta)
+            updated_meta.update({
+                "publisher_readiness": readiness,
+                "publisher_originality": originality_report["status"],
+                "publisher_value_score": str(value_report["score"]),
+                "publisher_tested_venues": ", ".join(test_venues),
+                "publisher_best_venues": ", ".join(ready_venues),
+            })
+            self.vault_manager.save_markdown("drafts", filename, content, frontmatter=updated_meta)
+            manuscript_summaries.append({
+                "filename": filename,
+                "title": title,
+                "readiness": readiness,
+                "originality": originality_report,
+                "value": value_report,
+                "venue_results": venue_results,
+                "ready_venues": ready_venues,
+            })
+
+        manifest = {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "venues": test_venues,
+            "draft_count": len(selected),
+            "total_tests": len(results),
+            "compiled_count": sum(1 for result in results if result.get("compiled")),
+            "ready_count": sum(1 for result in results if result.get("publish_ready")),
+            "results": [
+                {
+                    key: result.get(key)
+                    for key in ("filename", "title", "venue", "compiled", "publish_ready", "blocking_reasons", "pdf_path", "tex_path", "bib_path")
+                }
+                for result in results
+            ],
+        }
+        manifest_path = os.path.join(exports_dir, "publisher_readiness_manifest.json")
+        with open(manifest_path, "w", encoding="utf-8") as handle:
+            json.dump(manifest, handle, indent=2, sort_keys=True)
+
+        return {
+            "success": True,
+            "venues": test_venues,
+            "draft_count": len(selected),
+            "total_tests": len(results),
+            "compiled_count": sum(1 for result in results if result.get("compiled")),
+            "venue_pass_count": sum(1 for result in results if result.get("checkmate_passed")),
+            "ready_count": sum(1 for result in results if result.get("publish_ready")),
+            "blocked_count": sum(1 for summary in manuscript_summaries if summary["readiness"].startswith("BLOCKED")),
+            "collection_originality": originality,
+            "manuscripts": manuscript_summaries,
+            "results": results,
+            "release_note": "Ready means formatting, originality, and substantive-value gates passed; human author/journal review is still required.",
+        }

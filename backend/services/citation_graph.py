@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 
 class CitationGraphEngine:
     """Graph-based citation traversal and contradiction detection engine across paper vault metadata."""
-    
+
     def __init__(self, vault_manager: Any = None):
         self.vault_manager = vault_manager
 

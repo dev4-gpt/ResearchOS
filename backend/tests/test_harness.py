@@ -8,7 +8,7 @@ def test_continual_memory_manager(tmp_path):
     mem_file = str(tmp_path / "test_memory.json")
     manager = ContinualMemoryManager(memory_file_path=mem_file)
     assert manager.state["version"] == "1.0.0"
-    
+
     telemetry = TrajectoryTelemetry(
         project_id="test_proj_001",
         topic="Test Harness Topic",
@@ -32,7 +32,7 @@ def test_rlm_context_partitioning():
     assert len(batches) == 3
     assert len(batches[0]) == 5
     assert len(batches[2]) == 2
-    
+
     summary = rlm.summarize_sub_agent_batch(0, batches[0])
     assert summary["paper_count"] == 5
     assert summary["batch_index"] == 0
@@ -42,11 +42,11 @@ def test_autonomous_harness_controller():
     controller.register_task("proj_123", "AI Enterprise")
     status = controller.get_task_status("proj_123")
     assert status["status"] == "started"
-    
+
     controller.update_heartbeat("proj_123", "Analyst PDF Extraction", 40.0)
     status = controller.get_task_status("proj_123")
     assert status["progress_percent"] == 40.0
-    
+
     controller.complete_task("proj_123")
     status = controller.get_task_status("proj_123")
     assert status["status"] == "completed"

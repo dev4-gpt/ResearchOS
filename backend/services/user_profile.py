@@ -26,12 +26,12 @@ DEFAULT_PROFILE = {
 
 class UserProfileService:
     """JSON-backed user profile store for publication history and venue strategy."""
-    
+
     PROFILE_FILENAME = "user_profile.json"
-    
+
     def __init__(self, vault_path: str):
         self.profile_path = os.path.join(vault_path, self.PROFILE_FILENAME)
-    
+
     def load(self) -> Dict[str, Any]:
         """Load user profile from disk. Returns default if not found."""
         if os.path.exists(self.profile_path):
@@ -44,7 +44,7 @@ class UserProfileService:
             except Exception:
                 pass
         return dict(DEFAULT_PROFILE)
-    
+
     def save(self, profile: Dict[str, Any]) -> Dict[str, Any]:
         """Save user profile to disk."""
         profile["updated_at"] = datetime.utcnow().isoformat()
@@ -52,7 +52,7 @@ class UserProfileService:
         with open(self.profile_path, "w") as f:
             json.dump(profile, f, indent=2)
         return profile
-    
+
     def add_publication(self, pub: Dict[str, Any]) -> Dict[str, Any]:
         """Add a published paper entry to the portfolio history."""
         profile = self.load()
@@ -61,7 +61,7 @@ class UserProfileService:
         pub["added_at"] = datetime.utcnow().isoformat()
         profile["publication_history"].append(pub)
         return self.save(profile)
-    
+
     def get_portfolio_summary(self) -> Dict[str, Any]:
         """Returns a summary of the user's academic portfolio for venue scoring."""
         profile = self.load()

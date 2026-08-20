@@ -6,7 +6,8 @@ import threading
 from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, Response, FileResponse, JSONResponse
+
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -25,6 +26,8 @@ from services.evidence_ledger import EvidenceLedger
 from services.user_profile import UserProfileService
 from agents.venue_advisor import VenueAdvisorAgent
 from services.checkmate_verifier import CheckmateVerifierService
+from services.publisher_readiness import PublisherReadinessService
+from services.publisher_jobs import PublisherReadinessJobManager
 from domain.models import RunManifest, citation_key
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
@@ -49,6 +52,8 @@ evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(vault_manager.vaul
 user_profile_service = UserProfileService(vault_manager.vault_path)
 venue_advisor_agent = VenueAdvisorAgent(vault_manager.vault_path)
 checkmate_verifier = CheckmateVerifierService(vault_manager)
+publisher_readiness_service = PublisherReadinessService(vault_manager)
+publisher_readiness_jobs = PublisherReadinessJobManager(publisher_readiness_service)
 
 from services.error_ledger import ErrorLedgerService
 error_ledger_service = ErrorLedgerService()
@@ -67,6 +72,7 @@ class SaveFileRequest(BaseModel):
     filename: str
     content: str
     frontmatter: Dict[str, Any]
+    trigger_readiness: bool = False
 
 class VenueRecommendRequest(BaseModel):
     title: str
@@ -120,7 +126,7 @@ def get_vault_files(category: Optional[str] = None):
             if category not in categories:
                 raise HTTPException(status_code=400, detail="Invalid category")
             return vault_manager.list_files(category)
-            
+
         result = {}
         for cat in categories:
             result[cat] = vault_manager.list_files(cat)
@@ -151,7 +157,10 @@ def write_vault_file(request: SaveFileRequest):
             request.content,
             request.frontmatter
         )
-        return {"status": "success", "saved_path": path}
+        response: Dict[str, Any] = {"status": "success", "saved_path": path}
+        if request.category == "drafts" and request.trigger_readiness:
+            response["readiness_job"] = publisher_readiness_jobs.start(trigger="draft_save")
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -224,7 +233,7 @@ def checkmate_audit(
     try:
         clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
         file_path = os.path.join(vault_manager.vault_path, "04_Drafts", clean_filename)
-        
+
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail=f"Manuscript draft '{clean_filename}' not found in Vault drafts.")
 
@@ -239,19 +248,21 @@ def checkmate_audit(
         authors = frontmatter.get("authors", ["Aryaman Dev"])
         abstract_match = re.search(r'#+\s*(?:\d+[\.\s]*)?(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', body, re.IGNORECASE)
         abstract = abstract_match.group(1).strip() if abstract_match else "Executive Abstract"
-        
+
         papers_data = _paper_data()
         bib_code = latex_service.generate_bibtex(papers_data, manuscript_content=body)
         tex_code = latex_service.markdown_to_venue_latex(venue, title, authors, abstract, body)
         pdf_name = f"{clean_filename.replace('.md', '')}_{venue}.pdf"
         pdf_path = os.path.join(vault_manager.vault_path, "04_Drafts", pdf_name)
-        
-        # Compile PDF if missing
-        if not os.path.exists(pdf_path):
-            pdf_bytes = latex_service.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
-            if pdf_bytes:
-                with open(pdf_path, "wb") as f:
-                    f.write(pdf_bytes)
+
+        # Compile PDF afresh to ensure camera-ready compliance
+        pdf_bytes = latex_service.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+        if not pdf_bytes:
+            log_tail = getattr(latex_service, "last_build_log", "")[-1200:]
+            raise HTTPException(status_code=422, detail=f"PDF compilation failed preflight; stale PDF was not audited.\n{log_tail}")
+        with open(pdf_path, "wb") as f:
+            f.write(pdf_bytes)
+
 
         # Execute 7-point Checkmate audit
         audit_res = checkmate_verifier.audit_pdf(pdf_path, manuscript_markdown=body, venue_key=venue)
@@ -276,13 +287,183 @@ def checkmate_audit(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/vault/backtest/preview-tiles")
+def get_preview_tiles(
+    filename: str = Query("review_autonomous_code_synthesis_and_self_healing_multi_a.md", description="Manuscript filename"),
+    venue: str = Query("IEEEtran", description="Target academic venue")
+):
+    """Renders PDF pages as high-resolution PNG preview tiles and returns visual layout geometry audit."""
+    try:
+        from services.visual_auditor import VisualLayoutAuditorService
+        from services.latex_exporter import LaTeXExporterService
+
+        clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
+        parsed = vault_manager.read_markdown("drafts", clean_filename)
+        body = parsed.get("content", "")
+        frontmatter = parsed.get("frontmatter", {}) or {}
+        title = frontmatter.get("title", clean_filename.replace(".md", ""))
+        authors = frontmatter.get("authors") or ["Aryaman Singh Dev"]
+        author_details = {"affiliation": "Pennsylvania State University", "email": "asd5520@psu.edu"}
+
+        exporter = LaTeXExporterService(vault_manager)
+        auditor = VisualLayoutAuditorService(vault_manager)
+
+        papers_data = _paper_data()
+        bib_code = exporter.generate_bibtex(papers_data, manuscript_content=body)
+        tex_code = exporter.markdown_to_venue_latex(venue, title, authors, "Executive Abstract", body, author_details=author_details)
+
+        pdf_bytes = exporter.compile_pdflatex(tex_code, bib_code=bib_code, allow_package_fallback=True)
+        pdf_name = f"{clean_filename.replace('.md', '')}_{venue}.pdf"
+        pdf_path = os.path.join(vault_manager.vault_path, "04_Drafts", pdf_name)
+        if not pdf_bytes:
+            log_tail = getattr(exporter, "last_build_log", "")[-1200:]
+            raise HTTPException(status_code=422, detail=f"Preview compilation failed; stale page tiles were not reused.\n{log_tail}")
+        with open(pdf_path, "wb") as f:
+            f.write(pdf_bytes)
+
+        tile_dir = os.path.join(vault_manager.vault_path, "04_Drafts", "preview_tiles")
+        audit_data = auditor.audit_full_manuscript(pdf_path, body, venue_key=venue, tile_output_dir=tile_dir)
+
+        return {
+            "success": True,
+            "filename": clean_filename,
+            "venue": venue,
+            "audit": audit_data
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vault/backtest/preview-tile-image/{filename}/{venue}/{page_num}")
+def stream_preview_tile_image(filename: str, venue: str, page_num: int):
+    """Streams binary PNG tile image for inline visual rendering in the frontend modal."""
+    try:
+        clean_filename = filename.replace(".md", "")
+        tile_name = f"{clean_filename}_{venue}_p{page_num}.png"
+        tile_path = os.path.join(vault_manager.vault_path, "04_Drafts", "preview_tiles", tile_name)
+        if not os.path.exists(tile_path):
+            raise HTTPException(status_code=404, detail=f"Preview tile '{tile_name}' not found.")
+        return FileResponse(tile_path, media_type="image/png")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/vault/backtest/auto-remediate")
+def auto_remediate_manuscript(
+    filename: str = Query("review_autonomous_code_synthesis_and_self_healing_multi_a.md"),
+    venue: str = Query("IEEEtran")
+):
+    """Triggers the Closed-Loop Self-Healing DAG Graph until 100.0 Checkmate score is achieved."""
+    try:
+        from harness.closed_loop_backtest import ClosedLoopBacktestHarness
+        harness = ClosedLoopBacktestHarness(vault_manager)
+        result = harness.run_closed_loop(filename, venue_key=venue, max_iters=3)
+        return {
+            "success": True,
+            "filename": filename,
+            "venue": venue,
+            "result": result
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vault/backtest")
+@app.post("/api/vault/backtest")
+
+def run_backtest_suite(
+    filename: Optional[str] = Query(None, description="Optional specific draft filename to test"),
+    venues: Optional[List[str]] = Query(None, description="Optional list of venue keys")
+):
+    """Executes automated multi-venue PDF compilation and Checkmate verifier backtest across vault drafts."""
+    try:
+        report = checkmate_verifier.run_multi_venue_backtest(target_filename=filename, venues=venues)
+        return report
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vault/publisher/readiness")
+@app.post("/api/vault/publisher/readiness")
+def run_publisher_readiness_suite(
+    filename: Optional[str] = Query(None, description="Optional specific draft filename; omit to test every draft"),
+    venues: Optional[List[str]] = Query(None, description="Optional venue keys; omit to test every supported venue"),
+    wait: bool = Query(False, description="Run synchronously for CLI/compatibility callers; UI uses background jobs"),
+):
+    """Runs the HITL Publisher release matrix: every selected draft x every venue.
+
+    This endpoint is intentionally fail-closed. It checks PDF quality, exact/high
+    copied-prose overlap with sibling drafts, and substantive research value before
+    reporting a venue as ready for human review.
+    """
+    try:
+        if wait:
+            return publisher_readiness_service.run(target_filename=filename, venues=venues)
+        job = publisher_readiness_jobs.start(target_filename=filename, venues=venues, trigger="manual")
+        return JSONResponse(status_code=202, content={"success": True, "job": job})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vault/publisher/readiness/status")
+def get_publisher_readiness_status(job_id: Optional[str] = Query(None)):
+    """Returns the current background readiness job and completed report, if available."""
+    job = publisher_readiness_jobs.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="No publisher readiness job found")
+    return {"success": True, "job": job}
+
+@app.get("/api/vault/publisher/readiness/bundle")
+def download_publisher_readiness_bundle():
+    """Downloads only artifacts whose latest readiness matrix marked them publish-ready."""
+    import io
+    import zipfile
+
+    manifest_path = os.path.join(vault_manager.vault_path, "04_Drafts", "exports", "publisher_readiness_manifest.json")
+    if not os.path.exists(manifest_path):
+        raise HTTPException(status_code=404, detail="Run publisher readiness before requesting a verified bundle")
+    try:
+        with open(manifest_path, "r", encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        ready_results = [result for result in manifest.get("results", []) if result.get("publish_ready")]
+        if not ready_results:
+            raise HTTPException(status_code=409, detail="No verified publish-ready artifacts are available")
+
+        exports_dir = os.path.realpath(os.path.join(vault_manager.vault_path, "04_Drafts", "exports"))
+        archive = io.BytesIO()
+        with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
+            bundle.writestr("publisher_readiness_manifest.json", json.dumps(manifest, indent=2, sort_keys=True))
+            included = set()
+            for result in ready_results:
+                for key in ("pdf_path", "tex_path", "bib_path"):
+                    path = result.get(key)
+                    if not path:
+                        continue
+                    safe_path = os.path.realpath(path)
+                    if not safe_path.startswith(exports_dir + os.sep) or not os.path.exists(safe_path) or safe_path in included:
+                        continue
+                    included.add(safe_path)
+                    bundle.write(safe_path, arcname=os.path.relpath(safe_path, exports_dir))
+        archive.seek(0)
+        headers = {"Content-Disposition": "attachment; filename=researchingos-publish-ready-bundle.zip"}
+        return Response(content=archive.read(), media_type="application/zip", headers=headers)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/vault/export-latex")
 def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_generative_ai_i.md"):
     """Generates compilable IEEEtran LaTeX and BibTeX from a vault manuscript draft."""
     try:
         from services.latex_exporter import LaTeXExporterService
         exporter = LaTeXExporterService(vault_manager)
-        
+
         draft = vault_manager.read_markdown("drafts", filename)
         title = draft["frontmatter"].get("title", "Systematic Review Manuscript")
         frontmatter = draft.get("frontmatter", {}) or {}
@@ -292,17 +473,17 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
             "email": frontmatter.get("email", ""),
         }
         content = draft["content"]
-        
+
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Review of Enterprise Generative AI."
-        
+
         tex_code = exporter.markdown_to_ieeetran(
             title, authors, abstract, content, author_details=author_details
         )
-        
+
         papers_data = _paper_data()
         bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
-        
+
         return {
             "success": True,
             "filename": filename,
@@ -327,10 +508,10 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
             "affiliation": frontmatter.get("affiliation", ""),
             "email": frontmatter.get("email", ""),
         }
-        
+
         abstract_match = content.split("## Executive Abstract\n\n")
         abstract = abstract_match[1].split("\n\n## ")[0] if len(abstract_match) > 1 else "Systematic Literature Review."
-        
+
         exporter = LaTeXExporterService(vault_manager)
         papers_data = _paper_data()
         bib_code = exporter.generate_bibtex(papers_data, manuscript_content=content)
@@ -367,7 +548,7 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
             author_details=author_details,
             anonymize=profile.anonymized_review if profile else None,
         )
-        
+
         # Save vault copy
         with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{selected_venue}.tex"), "w", encoding="utf-8") as f:
             f.write(tex_code)
@@ -399,11 +580,13 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         content = draft.get("content", "")
         meta = draft.get("frontmatter", {}) or draft.get("metadata", {})
         title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
-        authors = meta.get("authors", [])
+        authors = meta.get("authors") or ["Aryaman Singh Dev"]
         author_details = {
-            "affiliation": meta.get("affiliation", ""),
-            "email": meta.get("email", ""),
+            "affiliation": meta.get("affiliation") or "Pennsylvania State University",
+            "email": meta.get("email") or "asd5520@psu.edu",
         }
+
+
         abstract_match = re.search(r'#+\s*(?:\d+[\.\s]*)?(?:Executive\s+)?Abstract\n+([\s\S]*?)(?=\n+#|\Z)', content, re.IGNORECASE)
         abstract = abstract_match.group(1).strip() if abstract_match else "Systematic Literature Review."
 
@@ -578,13 +761,13 @@ async def start_research(request: ResearchRequest, background_tasks: BackgroundT
     """Triggers the agent research pipeline and returns a streamable project ID."""
     import time
     project_id = f"proj_{int(time.time())}"
-    
+
     # Initialize async queue for this project
     log_queues[project_id] = asyncio.Queue()
-    
+
     # Get current event loop to pass to thread
     loop = asyncio.get_running_loop()
-    
+
     # Run the orchestrator in a background thread so we don't block FastAPI
     thread = threading.Thread(
         target=run_agent_pipeline_sync,
@@ -592,7 +775,7 @@ async def start_research(request: ResearchRequest, background_tasks: BackgroundT
     )
     thread.daemon = True
     thread.start()
-    
+
     return {"status": "started", "project_id": project_id}
 
 @app.get("/api/research/stream/{project_id}")
@@ -600,7 +783,7 @@ async def stream_research_logs(project_id: str):
     """Server-Sent Events endpoint streaming real-time agent debate logs."""
     if project_id not in log_queues:
         raise HTTPException(status_code=404, detail="Active project stream not found")
-        
+
     async def event_generator():
         queue = log_queues[project_id]
         try:
@@ -609,7 +792,7 @@ async def stream_research_logs(project_id: str):
                 if log_data is None:  # Sentinel reached, end stream
                     yield "event: end\ndata: EOF\n\n"
                     break
-                
+
                 # Format SSE chunk
                 # double newline is required to flush the buffer
                 yield f"data: {json.dumps(log_data)}\n\n"
@@ -619,7 +802,7 @@ async def stream_research_logs(project_id: str):
             # Clean up queue when client disconnects or stream ends
             if project_id in log_queues:
                 del log_queues[project_id]
-                
+
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 from services.o1a_tracker import O1AEvidenceTrackerService
