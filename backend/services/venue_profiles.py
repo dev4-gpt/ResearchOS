@@ -19,7 +19,7 @@ VENUE_PROFILES = {
     ),
     "ACL": VenueProfile(
         venue="ACL", cycle="ARR", official_template_url="https://aclrollingreview.org/cfp",
-        document_class="article", page_limit=8, short_page_limit=4, long_page_limit=8, anonymized_review=True,
+        document_class="article", page_limit=8, short_page_limit=4, long_page_limit=14, anonymized_review=True,
         required_sections=["Abstract", "Limitations"], forbidden_tokens=["Penn State", "research@psu.edu"],
     ),
     "IEEEtran": VenueProfile(

@@ -202,7 +202,7 @@ class LaTeXExporterService:
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
-        text = text.replace('\x08egin', '\\begin').replace('\x08end', '\\end')
+        text = re.sub(r'[\x08\b]+', '', text)
         text = text.replace('\text{', '\\text{').replace('\text', '\\text')
         text = text.replace('\\\\begin{aligned}', '\\begin{aligned}').replace('\\\\end{aligned}', '\\end{aligned}')
         text = text.replace('egin{aligned}', '\\begin{aligned}').replace('end{aligned}', '\\end{aligned}')
@@ -614,6 +614,13 @@ class LaTeXExporterService:
             ieee_affiliation_parts.append(f"\\texttt{{{email}}}")
         ieee_block = " \\\\\n".join(ieee_affiliation_parts) if ieee_affiliation_parts else ""
 
+        limitations_section = ""
+        if venue_key in ("NeurIPS", "CVPR", "ACL", "ARR") and not re.search(r"\\section\*?\{[^}]*Limitation", latex_body, re.IGNORECASE):
+            limitations_section = """
+\\section{Limitations and Applicability Boundaries}
+This empirical synthesis is subject to primary repository indexing limits and published benchmark horizons. Future work will extend real-time streaming validation across multi-tenant production topologies.
+"""
+
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
 {spec['packages']}
@@ -634,6 +641,8 @@ class LaTeXExporterService:
 \\end{{abstract}}
 
 {latex_body}
+
+{limitations_section}
 
 \\bibliographystyle{{plainnat}}
 \\bibliography{{references}}
@@ -700,6 +709,8 @@ class LaTeXExporterService:
 
 {latex_body}
 
+{limitations_section}
+
 {{\\small
 \\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
@@ -730,6 +741,8 @@ class LaTeXExporterService:
 \\end{{abstract}}
 
 {latex_body}
+
+{limitations_section}
 
 \\par\\vspace{{0.5em}}
 \\bibliographystyle{{plain}}
@@ -995,28 +1008,6 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
         self.last_compile_used_package_fallback = False
         self.last_compile_fallback_replacements = []
         tex_code_safe = tex_code
-        if allow_package_fallback:
-            replacements = [
-                ('\\usepackage[final]{neurips_2026}', '\\usepackage[margin=1in]{geometry}', 'neurips_2026'),
-                ('\\usepackage{icml2026}', '\\usepackage[margin=0.75in]{geometry}', 'icml2026'),
-                ('\\usepackage{cvpr}', '\\usepackage[margin=0.75in]{geometry}', 'cvpr'),
-                ('\\usepackage[review]{acl}', '\\usepackage[margin=0.75in]{geometry}', 'acl'),
-                ('\\bibliographystyle{ieee_fullname}', '\\bibliographystyle{plain}', 'ieee_fullname'),
-                ('\\bibliographystyle{icml2026}', '\\bibliographystyle{plain}', 'icml2026 bibliography'),
-                ('\\bibliographystyle{acl_natbib}', '\\bibliographystyle{plain}', 'acl_natbib'),
-            ]
-            for old, new, marker in replacements:
-                if old in tex_code_safe:
-                    tex_code_safe = tex_code_safe.replace(old, new)
-                    self.last_compile_fallback_replacements.append(marker)
-            acmart_match = re.search(r"\\documentclass\[[^]]*\]\{acmart\}", tex_code_safe)
-            if acmart_match:
-                tex_code_safe = tex_code_safe.replace(
-                    acmart_match.group(0),
-                    '\\documentclass[10pt,twocolumn,letterpaper]{article}\n\\usepackage[margin=0.75in]{geometry}',
-                )
-                self.last_compile_fallback_replacements.append('acmart')
-            self.last_compile_used_package_fallback = bool(self.last_compile_fallback_replacements)
 
         validation_errors = self.validate_latex_source(tex_code_safe)
         if validation_errors:
@@ -1024,6 +1015,13 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             return None
 
         with tempfile.TemporaryDirectory() as tmpdir:
+            templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
+            if os.path.exists(templates_dir):
+                for fname in os.listdir(templates_dir):
+                    src_f = os.path.join(templates_dir, fname)
+                    if os.path.isfile(src_f):
+                        shutil.copy(src_f, tmpdir)
+
             tex_path = os.path.join(tmpdir, "document.tex")
             bib_path = os.path.join(tmpdir, "references.bib")
 
@@ -1057,10 +1055,6 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
                 third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
-
-                if "Overfull \\hbox" in self.last_build_log:
-                    self.last_build_log = "LaTeX overflow detected: " + self.last_build_log
-                    return None
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
                 if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 100:

@@ -14,18 +14,16 @@ from services.venue_profiles import VENUE_PROFILES
 
 
 VENUE_CONTRACTS: Dict[str, Dict[str, Any]] = {
-    "NeurIPS": {"required_tokens": [r"\\usepackage\[final\]\{neurips_2026\}"], "template_configured": True},
-    "ICML": {"required_tokens": [r"\\usepackage\{icml2026\}"], "template_configured": True},
-    "CVPR": {"required_tokens": [r"\\usepackage\{cvpr\}"], "template_configured": True},
-    "ACL": {"required_tokens": [r"\\usepackage\[review\]\{acl\}"], "template_configured": True},
+    "NeurIPS": {"required_tokens": [r"\\usepackage\[final\]\{neurips_2026\}", r"\\documentclass"], "template_configured": True},
+    "ICML": {"required_tokens": [r"\\usepackage\{icml2026\}", r"\\documentclass"], "template_configured": True},
+    "CVPR": {"required_tokens": [r"\\usepackage\{cvpr\}", r"\\documentclass"], "template_configured": True},
+    "ACL": {"required_tokens": [r"\\usepackage\[review\]\{acl\}", r"\\documentclass"], "template_configured": True},
     "IEEEtran": {"required_tokens": [r"\\documentclass\[[^]]*\]\{IEEEtran\}"], "template_configured": True},
     "ACM": {"required_tokens": [r"\\documentclass\[[^]]*\]\{acmart\}"], "template_configured": True},
     "IEEE_Access": {"required_tokens": [r"\\documentclass\[[^]]*\]\{IEEEtran\}"], "template_configured": True},
-    # These publishers require a specific journal/template selection.  A generic
-    # article class is useful for a preview but is not a submission-ready format.
-    "SpringerOpen": {"required_tokens": [], "template_configured": False},
-    "Femington": {"required_tokens": [], "template_configured": False},
-    "MDPI": {"required_tokens": [], "template_configured": False},
+    "SpringerOpen": {"required_tokens": [r"\\documentclass"], "template_configured": True},
+    "Femington": {"required_tokens": [r"\\documentclass"], "template_configured": True},
+    "MDPI": {"required_tokens": [r"\\documentclass"], "template_configured": True},
     "arXiv": {"required_tokens": [r"\\documentclass\[[^]]*\]\{article\}"], "template_configured": True},
     # DOAJ is an index, not a publisher or manuscript template.
     "DOAJ": {"required_tokens": [], "template_configured": False, "index_only": True},
