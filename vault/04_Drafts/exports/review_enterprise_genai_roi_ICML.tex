@@ -1,38 +1,30 @@
-\documentclass[10pt,journal,compsoc,twocolumn]{IEEEtran}
-\usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage{icml2026}
+\usepackage{times}
 \usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{booktabs}
-\usepackage{balance}
+\usepackage{subfigure}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage{hyperref}
+\usepackage{amsmath,amssymb}
 
-% Vertical compression: prevent 3-line orphan spill pages
-\setlength{\parskip}{0pt plus 0.5pt}
-\setlength{\parsep}{0pt}
-\setlength{\topsep}{2pt plus 1pt minus 1pt}
-\setlength{\itemsep}{1pt plus 0.5pt}
+\providecommand{\icmltitle}[1]{\title{#1}}
+\providecommand{\icmlsetsymbol}[2]{}
+\providecommand{\icmlauthorlist}[1]{\author{#1}}
+\providecommand{\icmlauthor}[2]{#1}
+\providecommand{\icmlaffiliation}[2]{}
+\providecommand{\icmlkeywords}[1]{}
 
 \begin{document}
 
 \title{Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption}
-
-\author{
-Aryaman Dev\\
-Institute for Econometric AI Policy \& Enterprise Risk Governance \\
-\texttt{researcher@institute.org}
-}
-
+\author{Anonymous Authors}
 \maketitle
 
 \begin{abstract}
 The integration of Generative Artificial Intelligence (GenAI) and autonomous multi-agent systems into enterprise software engineering workflows represents a fundamental economic shift in labor productivity, capital allocation, and risk governance. This paper presents a systematic review and empirical synthesis of enterprise GenAI return on investment (ROI) frameworks, compute costs, and MLOps deployment governance. Across surveyed implementations, structured agentic validation loops achieve substantial productivity gains, while platform-level causal attribution models isolate GenAI-driven revenue uplift and compute cost efficiency. We formalize total cost of ownership models $C_{\text{op}} = N_{\text{req}} \times (C_{\text{inference}} + C_{\text{data\_transfer}}) + C_{\text{infrastructure}} + C_{\text{storage}}$, evaluate hardware GPU VRAM scaling boundaries, and establish risk governance controls for shadow AI mitigation, model drift, and enterprise data exfiltration.
 \end{abstract}
-
-\noindent\textbf{Keywords---} Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-
 
 
 
@@ -672,8 +664,7 @@ In conclusion, while the promise of GenAI ROI is substantial, a thorough academi
 
 
 \par\vspace{0.5em}
-
-\bibliographystyle{IEEEtran}
+\bibliographystyle{plain}
 \bibliography{references}
 
 \end{document}

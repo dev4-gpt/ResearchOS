@@ -186,16 +186,15 @@ class LaTeXExporterService:
         for char, repl in char_map.items():
             text = text.replace(char, repl)
 
-        # Preserve math blocks $$...$$, $...$, and \cite{...} tags so underscores inside cite keys are NOT escaped
-        # Use (?<!\\)\$(?:\\\$|[^\$])+?\$ to correctly handle inline math containing escaped \$ symbols
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$|\\cite\{[^}]+\})', text)
+        # Preserve math blocks $$...$$, $...$, \cite{...}, and [[...]] wikilinks so underscores inside cite keys are NOT escaped
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
         for i in range(0, len(parts), 2):
             parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
             # Replace & and % with \& and \% ONLY if they are not already preceded by a backslash
             parts[i] = re.sub(r'(?<!\\)&', r'\\&', parts[i])
             parts[i] = re.sub(r'(?<!\\)%', r'\\%', parts[i])
         for i in range(1, len(parts), 2):
-            if parts[i].startswith("\\cite{"):
+            if parts[i].startswith("\\cite{") or parts[i].startswith("[["):
                 parts[i] = parts[i].replace("\\_", "_")
         return "".join(parts)
 
@@ -375,10 +374,12 @@ class LaTeXExporterService:
 
         for line in lines:
             stripped = line.strip()
-            if stripped.startswith('|') and stripped.endswith('|'):
-                if '---' in stripped:
+            # Clean trailing citations appended after last | column bar
+            stripped_table = re.sub(r'\|\s*(?:\\cite\{[^}]+\}|\[\[[^\]]+\]\])\s*$', '|', stripped)
+            if stripped_table.startswith('|') and stripped_table.endswith('|'):
+                if '---' in stripped_table:
                     continue
-                cells = [c.strip() for c in stripped.split('|')[1:-1]]
+                cells = [c.strip() for c in stripped_table.split('|')[1:-1]]
                 table_rows.append(cells)
                 in_table = True
             else:
@@ -543,22 +544,27 @@ class LaTeXExporterService:
         extracted_abstract = re.sub(r'Addressing\s+.*?within\s+the\s+context\s+of\s+\*\*.*?\*\*\s+requires\s+a\s+systematic\s+analysis.*?\n+', '', extracted_abstract, flags=re.IGNORECASE | re.DOTALL)
         extracted_abstract = re.sub(r'Write\s+an\s+Executive\s+Abstract.*?\n+', '', extracted_abstract, flags=re.IGNORECASE)
         extracted_abstract = re.sub(r'Good\s+morning,?\s+esteemed\s+council\s+members.*$', '', extracted_abstract, flags=re.IGNORECASE | re.DOTALL)
-        extracted_abstract = re.sub(r'#+\s*.*$', '', extracted_abstract, flags=re.MULTILINE)
-        extracted_abstract = extracted_abstract.strip()
+        extracted_abstract = re.sub(r'#+\s*.*$', '', extracted_abstract, flags=re.MULTILINE).strip()
 
-        # Truncate at last complete sentence if terminated mid-sentence
-        if extracted_abstract and not extracted_abstract.endswith(('.', '!', '?')):
-            last_period = max(extracted_abstract.rfind('.'), extracted_abstract.rfind('!'), extracted_abstract.rfind('?'))
-            if last_period > 100:
-                extracted_abstract = extracted_abstract[:last_period+1]
-
+        # Convert wikilinks to \cite{} BEFORE sentence boundary check or latex sanitization
         clean_abstract = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', extracted_abstract)
         def clean_cite_block(m):
-            keys = m.group(1).split(',')
-            return "\\cite{" + ",".join(self.clean_citation_key(k.strip()) for k in keys if k.strip()) + "}"
+            raw_k = m.group(1).replace('\\_', '_')
+            keys = raw_k.split(',')
+            clean_keys = [self.clean_citation_key(k.strip()) for k in keys if k.strip()]
+            return "\\cite{" + ",".join(clean_keys) + "}" if clean_keys else ""
 
         clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', clean_cite_block, clean_abstract)
         clean_abstract = re.sub(r'\\cite\{([^}]+)\}', clean_cite_block, clean_abstract)
+        # Strip any incomplete orphan wikilink start like [[crossref_10...
+        clean_abstract = re.sub(r'\[\[[^\n]*$', '', clean_abstract).strip()
+
+        # Truncate incomplete trailing sentence ONLY if terminated mid-sentence outside \cite{}
+        if clean_abstract and not clean_abstract.endswith(('.', '!', '?', '}')):
+            last_period = max(clean_abstract.rfind('.'), clean_abstract.rfind('!'), clean_abstract.rfind('?'))
+            if last_period > 100:
+                clean_abstract = clean_abstract[:last_period+1]
+
         clean_abstract = self.sanitize_latex(clean_abstract)
         clean_abstract = re.sub(r'^(?:#+\s*)?(?:Executive\s+)?Abstract[:\s—\-]*', '', clean_abstract, flags=re.IGNORECASE).strip()
         clean_abstract = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', clean_abstract)

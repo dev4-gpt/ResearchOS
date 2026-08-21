@@ -99,7 +99,11 @@ class CheckmateVerifierService:
             r'\[Peer Review\]',
             r'Evidence Ledger',
             r'Idowu et al\.,?\s*arxiv:',
-            r'openalex:W\d+'
+            r'openalex:W\d+',
+            r'\[\[',
+            r'\]\]',
+            r'— Mean Task Resolution Time —',
+            r'— 185s —'
         ]
         meta_leak_matches = []
         for pat in meta_leak_patterns:

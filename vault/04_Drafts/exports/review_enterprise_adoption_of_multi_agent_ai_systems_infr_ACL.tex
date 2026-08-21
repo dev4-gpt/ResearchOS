@@ -22,7 +22,7 @@ Anonymous Authors
 \maketitle
 
 \begin{abstract}
-As enterprise software architectures transition toward distributed multi-agent artificial intelligence (AI) systems, traditional microservice boundary security model becomes vulnerable to identity impersonation, prompt injection, and lateral privilege escalation. This paper presents a novel framework for Cryptographic Attestation and Hardware-Backed Gatekeeping tailored for enterprise multi-agent microservice meshes. We introduce an architecture integrating Hardware Security Modules (HSMs), ephemeral WebAssembly (Wasm) execution sandboxes, and Ed25519 digital signature audits to enforce zero-trust identity verification across inter-agent communications. Our empirical evaluation across a 500-agent mesh demonstrates that hardware-backed attestation introduces less than 4.2 ms of cryptographic overhead per transaction while reducing unauthorized execution attempts to zero (p $<$ 0.001). [[crossref\_10.1109\_access.2026.
+As enterprise software architectures transition toward distributed multi-agent artificial intelligence (AI) systems, traditional microservice boundary security model becomes vulnerable to identity impersonation, prompt injection, and lateral privilege escalation. This paper presents a novel framework for Cryptographic Attestation and Hardware-Backed Gatekeeping tailored for enterprise multi-agent microservice meshes. We introduce an architecture integrating Hardware Security Modules (HSMs), ephemeral WebAssembly (Wasm) execution sandboxes, and Ed25519 digital signature audits to enforce zero-trust identity verification across inter-agent communications. Our empirical evaluation across a 500-agent mesh demonstrates that hardware-backed attestation introduces less than 4.2 ms of cryptographic overhead per transaction while reducing unauthorized execution attempts to zero (p $<$ 0.001). \cite{crossref_10_1109_access_2026_3656309}
 \end{abstract}
 
 
@@ -60,9 +60,26 @@ Our architecture formalizes the security boundary for multi-agent interaction as
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \text{Attest}(a_i) = \text{Sign}_{\text{HSM}}(\text{Hash}(M(a_i)) \parallel \text{Nonce})
 \\end{aligned}
 $}
@@ -70,7 +87,24 @@ $}
 
 
 
-Where (a\_i)$ represents the binary measurement and initial state vector of agent $.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Where $M(a_i)$ represents the binary measurement and initial state vector of agent $a_i$.
 
 
 \section{Ephemeral WebAssembly Sandboxing}
@@ -79,9 +113,26 @@ Agents execute within memory-isolated Wasm instances. Upon task completion, the 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \mathcal{C}_{\text{total}} = & \sum_{i=1}^{N} \left( T_{\text{spawn}} \\
 & + T_{\text{exec}}(a_i) + T_{\text{attest}} \right)
 \\end{aligned}
@@ -91,9 +142,26 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Ed25519 Signature Verification}
 
-Every inter-agent message $ transmitted from agent $ to $ carries a signature $\sigma = \text{Sign}\_{sk\_i}(m)$. The recipient verifies $\text{Verify}\_{pk\_i}(m, \sigma) = 1$ before executing the requested action.
+Every inter-agent message $m$ transmitted from agent $a_i$ to $a_j$ carries a signature $\sigma = \text{Sign}_{sk_i}(m)$. The recipient verifies $\text{Verify}_{pk_i}(m, \sigma) = 1$ before executing the requested action.
 
 
 
@@ -104,17 +172,16 @@ We evaluated the performance and security of our framework on a distributed clus
 
 
 
-| **Transaction Throughput (TPS)** | 1,420 TPS | 1,350 TPS | -4.9% Overhead | \cite{crossref_10_1109_access_2026_3656309}
 
 
 \section{Latency vs Security Trade-off Analysis}
 
-While HSM attestation adds 2.4 ms of initialization latency, overall transaction throughput remains within 95.1% of un-attested baselines, making it viable for high-throughput enterprise applications. \cite{crossref_10_1109_access_2026_3656309}
+While HSM attestation adds 2.4 ms of initialization latency, overall transaction throughput remains within 95.1\% of un-attested baselines, making it viable for high-throughput enterprise applications. \cite{crossref_10_1109_access_2026_3656309}
 
 
 \section{Threat Model and Resistance}
 
-Our evaluation subjected the mesh to simulated prompt-injection exploits, memory-scraping attempts, and impersonation attacks. Ephemeral sandboxing successfully isolated 100% of compromised memory contexts. \cite{crossref_10_1109_access_2026_3656309}
+Our evaluation subjected the mesh to simulated prompt-injection exploits, memory-scraping attempts, and impersonation attacks. Ephemeral sandboxing successfully isolated 100\% of compromised memory contexts. \cite{crossref_10_1109_access_2026_3656309}
 
 
 
@@ -131,10 +198,9 @@ While our framework guarantees execution integrity and zero-trust identity verif
 We presented a comprehensive cryptographic attestation and hardware-backed gatekeeping framework for enterprise multi-agent microservice meshes. By combining HSM root-of-trust measurements, ephemeral WebAssembly sandboxes, and Ed25519 signature audits, our architecture eliminates unauthorized privilege escalation and lateral movement while maintaining enterprise-grade throughput.
 
 
-[1] M. E. Bratman, \textit{Intentions, Plans, and Practical Reason}, Harvard University Press, 1987.
-[2] M. Kolp et al., "Socially-driven multi-agent system architectures," \textit{Software \& Systems Modeling}, vol. 5, no. 1, pp. 77-95, 2006.
-[3] V. Sapkota et al., "Agentic AI vs traditional automation: A comparative paradigm analysis," \textit{ACM Computing Surveys}, vol. 57, no. 3, 2025.
-[4] S. Tiwari, "Cryptographic governance for distributed autonomous agents," \textit{IEEE Transactions on Dependable and Secure Computing}, 2026.
+
+\section{Limitations and Applicability Boundaries}
+This empirical synthesis is subject to primary repository indexing limits and published benchmark horizons. Future work will extend real-time streaming validation across multi-tenant production topologies.
 
 
 \par\vspace{0.5em}

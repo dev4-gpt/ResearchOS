@@ -7,7 +7,7 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "IEEEtran, IEEE_Access, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -32,11 +32,51 @@ In this paper, our core contribution is to bridge this gap by establishing:
 We model enterprise software output $Y$ using a non-linear econometric methodology as a function of software engineering labor $L$, traditional compute infrastructure $K$, and agentic AI capital $A$:
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 Y = A_{\text{TFP}} \left[ \gamma (A \cdot M)^{\frac{\sigma - 1}{\sigma}} + (1 - \gamma) (L \cdot E)^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\sigma}{\sigma - 1}}
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Where:
@@ -49,11 +89,51 @@ Where:
 Supermodularity requires that the cross-partial derivative of output with respect to human labor $L$ and AI capital $A$ is strictly positive:
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \frac{\partial^2 Y}{\partial L \partial A} = \frac{\sigma - 1}{\sigma} \cdot \gamma (1 - \gamma) \cdot \frac{Y^{1 + \frac{2(\sigma - 1)}{\sigma}}}{(A \cdot L)^{\frac{1}{\sigma}}} > 0
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 When $\sigma > 1$, human engineering skill and agentic AI tools act as strong economic complements rather than strict substitutes.
@@ -90,8 +170,3 @@ Our panel dataset focuses predominantly on North American and European enterpris
 # Conclusion
 
 We presented an empirical econometric framework for enterprise generative AI adoption. Our findings demonstrate supermodular labor-AI complementarity ($\sigma = 1.42, p < 0.001$), confirming that maximum enterprise value is realized when autonomous agent deployment is combined with high practitioner mastery and robust risk governance. [[crossref_10.2139_ssrn.6374778]]
-
-# References
-[1] M. E. Bratman, *Intentions, Plans, and Practical Reason*, Harvard University Press, 1987.
-[2] M. Kolp et al., "Socially-driven multi-agent system architectures," *Software & Systems Modeling*, vol. 5, no. 1, pp. 77-95, 2006.
-[3] V. Sapkota et al., "Agentic AI vs traditional automation: A comparative paradigm analysis," *ACM Computing Surveys*, vol. 57, no. 3, 2025.

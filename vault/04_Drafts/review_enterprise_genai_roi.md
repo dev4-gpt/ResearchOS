@@ -12,7 +12,7 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "IEEEtran, IEEE_Access, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -65,11 +65,45 @@ This framework moves beyond simple correlation, striving for a causal understand
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,11 +123,45 @@ However, a causal framework seeks to establish a more rigorous relationship, oft
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -186,13 +254,47 @@ The total operational cost ($C_{op}$) for a GenAI service can be approximated by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 C_{op} = & N_{req} \times (C_{inference} + C_{data\_transfer}) \\
 & + C_{infrastructure} + C_{storage}
 \label{eq:operational_cost}
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -297,12 +399,46 @@ Consider a scenario where a GenAI-powered chatbot is implemented for customer se
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 Y = & \alpha + \tau X_{GenAI} \\
 & + \sum_{i=1}^k \beta_i Z_i + \epsilon
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -429,11 +565,45 @@ The initial phase focuses on establishing a robust baseline for GenAI adoption w
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{(Benefits - Costs)}{Costs} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -497,12 +667,46 @@ This phase represents a strategic pivot, focusing on deep integration of GenAI c
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 Y_i = & \beta_0 + \beta_1 X_i \\
 & + \mathbf{\gamma}'\mathbf{Z_i} + \epsilon_i
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -577,11 +781,45 @@ From a systems architecture standpoint, multi-agent coordination requires optimi
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \lim_{N \to \infty} \mathcal{P}(\text{Pass}@k) = 1 - (1 - p)^k
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

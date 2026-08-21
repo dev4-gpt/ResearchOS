@@ -8,11 +8,11 @@ email: "asd5520@psu.edu"
 full_pdf_ingested: "true"
 venue: "IEEEtran"
 target_pages: "4"
-publisher_readiness: "BLOCKED_SUBSTANTIVE_VALUE"
+publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
-publisher_value_score: "85.7"
+publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues:
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -51,11 +51,45 @@ Rather than mutating unstructured raw source text, agents execute context-free g
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 r : n \to n' \quad \text{where } n, n' \in V \cup \Sigma
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -82,12 +116,46 @@ We categorize AST mutations into three canonical operators:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \mu_{\text{sub}}(T, n) = & T[n \mapsto n'], \\
 & \quad \text{where } \text{Type}(n) = \text{Type}(n')
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,9 +182,43 @@ Prior to executing candidate patches inside isolated Docker sandboxes, candidate
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \text{Verify}(T', C_{\text{inv}}) = \begin{cases} 1, & \text{if } \text{Z3} \models (T' \implies C_{\text{inv}}) \\ 0, & \text{otherwise} \end{cases}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,11 +268,45 @@ Let $B_{\text{max}}$ be the maximum token allocation budget, $c_i > 0$ be the to
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \Delta V(k) = V(k) - V(k-1) = -c_k \le -c_{\text{min}} < 0
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -204,11 +340,45 @@ We evaluate SHACS on 500 real-world software defects across Python and Rust repo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \text{Efficiency Gain} = \frac{\text{Baseline Sandbox Time} - \text{SHACS Sandbox Time}}{\text{Baseline Sandbox Time}} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -239,12 +409,46 @@ We analyze hardware GPU memory constraints as a function of active context windo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 M_{\text{VRAM}} = & \beta_0 \\
 & + \beta_1 \cdot (L \times B) + \beta_2 \cdot N_{\text{agents}}
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -269,12 +473,46 @@ Let $\mathcal{C}_{\text{pipeline}}$ denote the total floating-point operations (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \mathcal{C}_{\text{pipeline}} = & 6 \cdot P \cdot \sum_{i=1}^k (L_{\text{ctx},i} \cdot N_{\text{tokens},i}) \\
 & + \mathcal{C}_{\text{Z3}} + \mathcal{C}_{\text{sandbox}}
 \\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

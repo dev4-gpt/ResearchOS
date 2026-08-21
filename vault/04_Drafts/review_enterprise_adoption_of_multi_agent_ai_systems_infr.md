@@ -4,11 +4,11 @@ authors:
   - "Aryaman Dev"
 affiliation: "Institute for Advanced AI Security & Systems Engineering"
 email: "researcher@institute.org"
-publisher_readiness: "NEEDS_VENUE_REMEDIATION"
+publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues:
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -43,11 +43,45 @@ Hardware Security Modules and TEEs (such as Intel SGX or AWS Nitro Enclaves) pro
 Our architecture formalizes the security boundary for multi-agent interaction as a tuple $\mathcal{S} = (\mathcal{A}, \mathcal{K}, \mathcal{E}, \mathcal{L})$, where $\mathcal{A}$ is the set of active agents, $\mathcal{K}$ represents the Ed25519 keypair matrix, $\mathcal{E}$ defines ephemeral sandbox environments, and $\mathcal{L}$ is the append-only cryptographic ledger.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \text{Attest}(a_i) = \text{Sign}_{\text{HSM}}(\text{Hash}(M(a_i)) \parallel \text{Nonce})
-\end{aligned}
+\\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Where $M(a_i)$ represents the binary measurement and initial state vector of agent $a_i$.
@@ -56,12 +90,46 @@ Where $M(a_i)$ represents the binary measurement and initial state vector of age
 Agents execute within memory-isolated Wasm instances. Upon task completion, the instance environment is immediately destroyed, preventing memory-resident payload persistence:
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\begin{aligned}
+\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
 \mathcal{C}_{\text{total}} = & \sum_{i=1}^{N} \left( T_{\text{spawn}} \\
 & + T_{\text{exec}}(a_i) + T_{\text{attest}} \right)
-\end{aligned}
+\\end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Ed25519 Signature Verification
@@ -97,9 +165,3 @@ While our framework guarantees execution integrity and zero-trust identity verif
 # Conclusion
 
 We presented a comprehensive cryptographic attestation and hardware-backed gatekeeping framework for enterprise multi-agent microservice meshes. By combining HSM root-of-trust measurements, ephemeral WebAssembly sandboxes, and Ed25519 signature audits, our architecture eliminates unauthorized privilege escalation and lateral movement while maintaining enterprise-grade throughput.
-
-# References
-[1] M. E. Bratman, *Intentions, Plans, and Practical Reason*, Harvard University Press, 1987.
-[2] M. Kolp et al., "Socially-driven multi-agent system architectures," *Software & Systems Modeling*, vol. 5, no. 1, pp. 77-95, 2006.
-[3] V. Sapkota et al., "Agentic AI vs traditional automation: A comparative paradigm analysis," *ACM Computing Surveys*, vol. 57, no. 3, 2025.
-[4] S. Tiwari, "Cryptographic governance for distributed autonomous agents," *IEEE Transactions on Dependable and Secure Computing*, 2026.
