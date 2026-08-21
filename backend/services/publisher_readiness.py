@@ -80,6 +80,7 @@ class PublisherReadinessService:
 
         citation_count = len(re.findall(r"\[[0-9]{1,3}\]|\([a-z][a-z-]+(?: et al\.)?,?\s*20\d{2}[a-z]?\)", lower))
         citation_count += len(re.findall(r"\\(?:cite|citep|citet|parencite)\s*(?:\[[^\]]*\])?\{[^}]+\}", lower))
+        citation_count += len(re.findall(r"\[\[[^\]]+\]\]", content))
         numeric_claim_count = len(re.findall(r"\b\d+(?:\.\d+)?\s*(?:%|ms|s|x|million|billion)?\b", lower))
         equation_count = len(re.findall(r"\$\$|\\begin\{(?:equation|align|aligned)\}", content))
 
