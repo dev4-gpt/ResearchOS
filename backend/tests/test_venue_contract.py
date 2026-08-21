@@ -1,5 +1,7 @@
-from services.latex_exporter import LaTeXExporterService
-from services.venue_contract import audit_venue_contract
+from services.latex_exporter import LaTeXExporterService, VENUE_SPECS
+from services.publisher_readiness import DEFAULT_PUBLISHER_VENUES
+from services.venue_contract import VENUE_CONTRACTS, audit_venue_contract, venue_registry_gaps
+from services.venue_profiles import SUPPORTED_VENUES, VENUE_PROFILES
 
 
 def test_package_fallback_is_preview_only_not_submission_ready():
@@ -52,3 +54,13 @@ def test_acm_export_uses_acmart_contract():
 
     assert r"\documentclass[manuscript,review]{acmart}" in tex
     assert r"\settopmatter{printacmref=false}" in tex
+
+
+def test_every_exposed_venue_has_profile_exporter_and_contract():
+    assert set(VENUE_PROFILES) == set(VENUE_SPECS)
+    assert set(VENUE_PROFILES) == set(VENUE_CONTRACTS)
+    assert venue_registry_gaps() == {"missing_contracts": [], "orphan_contracts": []}
+
+
+def test_all_venue_readiness_is_registry_driven():
+    assert tuple(DEFAULT_PUBLISHER_VENUES) == SUPPORTED_VENUES

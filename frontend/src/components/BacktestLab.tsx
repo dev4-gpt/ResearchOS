@@ -52,7 +52,7 @@ interface RunRecord {
   total_pages?: number;
 }
 
-const VENUES = ['IEEEtran', 'NeurIPS', 'ICML', 'CVPR', 'ACL', 'ACM', 'IEEE_Access', 'SpringerOpen', 'DOAJ', 'arXiv', 'Femington', 'MDPI'];
+const FALLBACK_VENUES = ['IEEEtran'];
 const DEFAULT_DRAFT = 'review_autonomous_code_synthesis_and_self_healing_multi_a.md';
 
 const LOOP_STEPS = [
@@ -73,6 +73,7 @@ const scoreColor = (score: number) => (score >= 85 ? 'var(--success)' : score >=
 
 const BacktestLab: React.FC = () => {
   const [drafts, setDrafts] = useState<DraftFile[]>([]);
+  const [venues, setVenues] = useState<string[]>([]);
   const [filename, setFilename] = useState(DEFAULT_DRAFT);
   const [venue, setVenue] = useState('IEEEtran');
   const [audit, setAudit] = useState<AuditData | null>(null);
@@ -104,6 +105,23 @@ const BacktestLab: React.FC = () => {
     }
   };
 
+  const loadVenues = async () => {
+    try {
+      const response = await apiFetch('/api/venues');
+      if (!response.ok) throw new Error(`Unable to load venue registry (HTTP ${response.status})`);
+      const data = await response.json();
+      const nextVenues = Array.isArray(data.venue_order)
+        ? data.venue_order
+        : Object.keys(data.release_profiles || data.venues || {});
+      if (nextVenues.length) {
+        setVenues(nextVenues);
+        if (!nextVenues.includes(venue)) setVenue(nextVenues[0]);
+      }
+    } catch (loadError: any) {
+      setError(loadError.message || 'Unable to load the venue registry.');
+    }
+  };
+
   const loadPreview = async (nextFilename = filename, nextVenue = venue) => {
     if (!nextFilename) return;
     setLoading(true);
@@ -126,6 +144,7 @@ const BacktestLab: React.FC = () => {
 
   useEffect(() => {
     void loadDrafts();
+    void loadVenues();
   }, []);
 
   useEffect(() => {
@@ -159,6 +178,7 @@ const BacktestLab: React.FC = () => {
   const passed = Boolean(audit?.checkmate_passed);
   const lastIteration = history[history.length - 1];
   const currentTitle = selectedDraft ? titleFor(selectedDraft) : filename.replace(/\.md$/, '');
+  const venueOptions = venues.length ? venues : FALLBACK_VENUES;
 
   return (
     <div className="backtest-lab animate-entrance">
@@ -189,7 +209,7 @@ const BacktestLab: React.FC = () => {
         <div className="venue-control">
           <span className="control-label">Target venue</span>
           <div className="venue-pills">
-            {VENUES.map((candidate) => (
+            {venueOptions.map((candidate) => (
               <button key={candidate} className={venue === candidate ? 'is-active' : ''} onClick={() => { setHistory([]); setVenue(candidate); }}>
                 {candidate}
               </button>

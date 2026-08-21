@@ -11,6 +11,7 @@ interface PDFVisualPreviewModalProps {
 
 export const PDFVisualPreviewModal: React.FC<PDFVisualPreviewModalProps> = ({ filename, venue, onClose }) => {
   const [selectedVenue, setSelectedVenue] = useState(venue || 'IEEEtran');
+  const [venues, setVenues] = useState<string[]>([venue || 'IEEEtran']);
   const [loading, setLoading] = useState(true);
   const [remediating, setRemediating] = useState(false);
   const [auditData, setAuditData] = useState<any>(null);
@@ -39,6 +40,18 @@ export const PDFVisualPreviewModal: React.FC<PDFVisualPreviewModalProps> = ({ fi
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    apiFetch('/api/venues')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        const nextVenues = Array.isArray(data?.venue_order)
+          ? data.venue_order
+          : Object.keys(data?.release_profiles || data?.venues || {});
+        if (nextVenues.length) setVenues(nextVenues);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (cleanFilename) {
@@ -96,7 +109,7 @@ export const PDFVisualPreviewModal: React.FC<PDFVisualPreviewModalProps> = ({ fi
           {/* Venue Selector & Close */}
           <div className="flex items-center gap-3">
             <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800">
-              {['IEEEtran', 'arXiv', 'DOAJ'].map((v) => (
+              {venues.map((v) => (
                 <button
                   key={v}
                   onClick={() => setSelectedVenue(v)}

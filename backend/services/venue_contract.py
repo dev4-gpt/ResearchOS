@@ -32,6 +32,16 @@ VENUE_CONTRACTS: Dict[str, Dict[str, Any]] = {
 }
 
 
+def venue_registry_gaps() -> Dict[str, List[str]]:
+    """Return profile/contract mismatches instead of silently falling back."""
+    profile_keys = set(VENUE_PROFILES)
+    contract_keys = set(VENUE_CONTRACTS)
+    return {
+        "missing_contracts": sorted(profile_keys - contract_keys),
+        "orphan_contracts": sorted(contract_keys - profile_keys),
+    }
+
+
 def _contains_any(text: str, tokens: Iterable[str]) -> List[str]:
     return [token for token in tokens if re.search(token, text, flags=re.IGNORECASE)]
 
@@ -44,6 +54,7 @@ def audit_venue_contract(
     total_pages: int,
     package_fallback_used: bool = False,
 ) -> Dict[str, Any]:
+    registry_gaps = venue_registry_gaps()
     profile = VENUE_PROFILES.get(venue_key)
     contract = VENUE_CONTRACTS.get(venue_key, {})
     source = tex_source or ""
@@ -52,7 +63,7 @@ def audit_venue_contract(
 
     required_tokens = contract.get("required_tokens", [])
     missing_tokens = [token for token in required_tokens if not re.search(token, source, flags=re.IGNORECASE)]
-    configured = bool(contract.get("template_configured", False))
+    configured = bool(contract.get("template_configured", False)) and venue_key not in registry_gaps["missing_contracts"]
     index_only = bool(contract.get("index_only", False) or getattr(profile, "is_index_only", False))
     template_passed = bool(source) and configured and not missing_tokens and not package_fallback_used and not index_only
 
@@ -77,6 +88,8 @@ def audit_venue_contract(
         problems.append("DOAJ is an indexing service, not a manuscript venue/template")
     if not configured:
         problems.append("venue-specific official template is not configured")
+    if venue_key in registry_gaps["missing_contracts"]:
+        problems.append("venue is missing an explicit contract entry")
     if missing_tokens:
         problems.append("missing template markers: " + ", ".join(missing_tokens))
     if package_fallback_used:
@@ -106,4 +119,5 @@ def audit_venue_contract(
         "total_pages": total_pages,
         "max_pages": max_pages,
         "target_pages": target_pages,
+        "registry_gaps": registry_gaps,
     }

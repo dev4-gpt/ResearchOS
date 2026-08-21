@@ -19,6 +19,8 @@ interface VaultFilesData {
   drafts: VaultFile[];
 }
 
+const FALLBACK_VENUES = ['NeurIPS', 'ICML', 'CVPR', 'ACL', 'IEEEtran', 'ACM', 'IEEE_Access', 'SpringerOpen', 'DOAJ', 'arXiv', 'Femington', 'MDPI'];
+
 const DocEditor: React.FC = () => {
   const [files, setFiles] = useState<VaultFilesData | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -31,6 +33,7 @@ const DocEditor: React.FC = () => {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [editMode, setEditMode] = useState<'edit' | 'preview'>('edit');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
+  const [availableVenues, setAvailableVenues] = useState<string[]>(FALLBACK_VENUES);
 
   // Checkmate Final Layer Audit State
   const [checkmateOpen, setCheckmateOpen] = useState(false);
@@ -80,6 +83,10 @@ const DocEditor: React.FC = () => {
 
   useEffect(() => {
     fetchFilesList();
+    apiFetch('/api/venues').then(r => r.ok ? r.json() : null).then(d => {
+      const nextVenues = Array.isArray(d?.venue_order) ? d.venue_order : Object.keys(d?.release_profiles || d?.venues || {});
+      if (nextVenues.length) setAvailableVenues(nextVenues);
+    }).catch(() => {});
     // Load user profile
     apiFetch('/api/user/profile').then(r => r.json()).then(d => {
       if (d.success && d.profile) {
@@ -622,18 +629,7 @@ const DocEditor: React.FC = () => {
                       <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick select:</span>
                       <select value={selectedVenue} onChange={e => setSelectedVenue(e.target.value)}
                         style={{ background: 'rgba(15,23,42,0.8)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', borderRadius: '6px', padding: '4px 8px', fontSize: '11px', fontWeight: '600', outline: 'none', cursor: 'pointer' }}>
-                        <option value="NeurIPS">NeurIPS</option>
-                        <option value="ICML">ICML</option>
-                        <option value="CVPR">CVPR</option>
-                        <option value="ACL">ACL / ARR</option>
-                        <option value="IEEEtran">IEEEtran Journal</option>
-                        <option value="ACM">ACM CSUR</option>
-                        <option value="IEEE_Access">IEEE Access (Open Access)</option>
-                        <option value="SpringerOpen">SpringerOpen</option>
-                        <option value="DOAJ">DOAJ (Verified Seal)</option>
-                        <option value="arXiv">arXiv (cs.SE / cs.AI Preprint)</option>
-                        <option value="Femington">Femington (IJISDS/IJAMBI/IJCRMS)</option>
-                        <option value="MDPI">MDPI (Fast Open Access)</option>
+                        {availableVenues.map(venue => <option key={venue} value={venue}>{venue}</option>)}
                         <option value="ALL">📦 All Venues</option>
                       </select>
                     </div>

@@ -21,7 +21,7 @@ from agents.council import CouncilOrchestrator
 from services.latex_exporter import LaTeXExporterService
 from services.pdf_qa import PDFQualityAssurance
 from services.release_controller import ReleaseController
-from services.venue_profiles import VENUE_PROFILES
+from services.venue_profiles import SUPPORTED_VENUES, VENUE_PROFILES
 from services.evidence_ledger import EvidenceLedger
 from services.user_profile import UserProfileService
 from agents.venue_advisor import VenueAdvisorAgent
@@ -847,7 +847,11 @@ o1a_tracker = O1AEvidenceTrackerService(vault_manager)
 @app.get("/api/venues")
 def get_venue_specs():
     """Returns technical specs and pinned release profiles for target venues."""
-    return {"venues": VENUE_SPECS, "release_profiles": {k: v.model_dump() for k, v in VENUE_PROFILES.items()}}
+    return {
+        "venue_order": list(SUPPORTED_VENUES),
+        "venues": VENUE_SPECS,
+        "release_profiles": {k: v.model_dump() for k, v in VENUE_PROFILES.items()},
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -18,13 +18,12 @@ from typing import Any, Dict, Iterable, List, Optional, Set
 from services.checkmate_verifier import CheckmateVerifierService
 from services.fact_checker import FactCheckerService
 from services.latex_exporter import LaTeXExporterService
-from services.venue_profiles import VENUE_PROFILES
+from services.venue_profiles import SUPPORTED_VENUES, VENUE_PROFILES
 
 
-DEFAULT_PUBLISHER_VENUES = [
-    "IEEEtran", "NeurIPS", "ICML", "CVPR", "ACL", "ACM",
-    "IEEE_Access", "SpringerOpen", "DOAJ", "arXiv", "Femington", "MDPI",
-]
+# New venue profiles automatically enter the all-venue readiness run. Each new
+# profile must still provide an exporter and explicit venue contract to pass.
+DEFAULT_PUBLISHER_VENUES = list(SUPPORTED_VENUES)
 
 PLACEHOLDER_PATTERNS = (
     r"\bTBD\b",

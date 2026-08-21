@@ -357,7 +357,8 @@ class CheckmateVerifierService:
         from services.latex_exporter import LaTeXExporterService
         exporter = LaTeXExporterService(self.vault_manager)
 
-        test_venues = venues or ["IEEEtran", "NeurIPS", "ICML", "CVPR", "ACL", "ACM"]
+        from services.venue_profiles import SUPPORTED_VENUES
+        test_venues = venues or list(SUPPORTED_VENUES)
 
         if target_filename:
             clean_name = target_filename if target_filename.endswith(".md") else f"{target_filename}.md"

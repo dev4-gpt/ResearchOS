@@ -55,3 +55,8 @@ VENUE_PROFILES = {
         required_sections=["Abstract"], official_template_url="https://arxiv.org/help/prep",
     ),
 }
+
+# Single source of truth for every venue exposed by the publisher and backtest
+# APIs. Consumers should derive defaults from this tuple rather than keeping a
+# second venue list that can silently drift.
+SUPPORTED_VENUES = tuple(VENUE_PROFILES.keys())
