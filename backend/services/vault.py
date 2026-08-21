@@ -29,13 +29,21 @@ class VaultManager:
             os.makedirs(path, exist_ok=True)
 
     def _clean_filename(self, filename: str) -> str:
-        """Strips category/folder prefixes, spaces, and ensures .md extension."""
+        """Strips category/folder prefixes, sanitizes illegal characters, and ensures .md extension."""
         if not filename:
             return ""
-        cleaned = os.path.basename(filename.strip().replace(" ", ""))
-        if not cleaned.endswith(".md"):
-            cleaned += ".md"
-        return cleaned
+        filename = filename.strip()
+        # Strip category folder prefixes if present at start (e.g. 'drafts/', 'drafts /', '04_Drafts/')
+        for prefix in ["drafts", "papers", "concepts", "debates", "01_Papers", "02_Concepts", "03_Debates", "04_Drafts"]:
+            pattern = rf"^\s*{re.escape(prefix)}\s*[\/\\]"
+            filename = re.sub(pattern, "", filename, flags=re.IGNORECASE)
+
+        # Sanitize remaining slashes and illegal characters to underscores
+        filename = re.sub(r'[\\/*?:"<>|]', "_", filename)
+
+        if not filename.endswith(".md"):
+            filename += ".md"
+        return filename
 
     def save_markdown(self, category: str, filename: str, content: str, frontmatter: Dict[str, Any] = None) -> str:
         """Saves a markdown file with optional YAML frontmatter.
