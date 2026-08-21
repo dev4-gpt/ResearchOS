@@ -8,7 +8,7 @@ publisher_readiness: "NEEDS_VENUE_REMEDIATION"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: ""
+publisher_best_venues:
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -44,28 +44,28 @@ Our architecture formalizes the security boundary for multi-agent interaction as
 
 
 $$
-\b\b\b\b\b\b\begin{aligned}
+\begin{aligned}
 \text{Attest}(a_i) = \text{Sign}_{\text{HSM}}(\text{Hash}(M(a_i)) \parallel \text{Nonce})
-\\end{aligned}
+\end{aligned}
 $$
 
 
-Where (a_i)$ represents the binary measurement and initial state vector of agent $.
+Where $M(a_i)$ represents the binary measurement and initial state vector of agent $a_i$.
 
 ## Ephemeral WebAssembly Sandboxing
 Agents execute within memory-isolated Wasm instances. Upon task completion, the instance environment is immediately destroyed, preventing memory-resident payload persistence:
 
 
 $$
-\b\b\b\b\b\b\begin{aligned}
+\begin{aligned}
 \mathcal{C}_{\text{total}} = & \sum_{i=1}^{N} \left( T_{\text{spawn}} \\
 & + T_{\text{exec}}(a_i) + T_{\text{attest}} \right)
-\\end{aligned}
+\end{aligned}
 $$
 
 
 ## Ed25519 Signature Verification
-Every inter-agent message $ transmitted from agent $ to $ carries a signature $\sigma = \text{Sign}_{sk_i}(m)$. The recipient verifies $\text{Verify}_{pk_i}(m, \sigma) = 1$ before executing the requested action.
+Every inter-agent message $m$ transmitted from agent $a_i$ to $a_j$ carries a signature $\sigma = \text{Sign}_{sk_i}(m)$. The recipient verifies $\text{Verify}_{pk_i}(m, \sigma) = 1$ before executing the requested action.
 
 # Empirical Benchmark and Security Evaluation
 

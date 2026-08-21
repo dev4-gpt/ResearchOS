@@ -12,7 +12,7 @@ publisher_readiness: "BLOCKED_SUBSTANTIVE_VALUE"
 publisher_originality: "PASS"
 publisher_value_score: "85.7"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: ""
+publisher_best_venues:
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"

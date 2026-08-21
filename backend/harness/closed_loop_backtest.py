@@ -32,6 +32,7 @@ class ClosedLoopBacktestHarness:
 
         current_markdown = content
         iteration_history = []
+        audit_res = {}
 
         # Backtest must include research-quality gates, not only PDF geometry.
         all_documents = {}
