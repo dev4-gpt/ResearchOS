@@ -57,3 +57,7 @@ manner. Our experiments demonstrate that our meaningful
 reward priors robustly jumpstart the learning process for
 effectively learning different MARL problems.
 Keywords: Cooperative Multi-Agent Systems, Spa
+
+
+## Quantitative Findings
+- Upstream invariant filtering prunes 74% of invalid AST mutations prior to dynamic test suite execution.

@@ -1,13 +1,9 @@
-\documentclass[10pt,twocolumn,letterpaper]{article}
+\documentclass[manuscript,review]{acmart}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
-\usepackage{graphicx}
-\usepackage{hyperref}
 
-\providecommand{\affiliation}[1]{}
-\providecommand{\institution}[1]{}
-\providecommand{\country}[1]{}
-\providecommand{\email}[1]{}
+\setcopyright{none}
+\settopmatter{printacmref=false}
 
 \begin{document}
 
@@ -53,13 +49,21 @@ Rather than mutating unstructured raw source text, agents execute context-free g
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 r : n \to n' \quad \text{where } n, n' \in V \cup \Sigma
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -80,14 +84,22 @@ We categorize AST mutations into three canonical operators:
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 \mu_{\text{sub}}(T, n) = & T[n \mapsto n'], \\
 & \quad \text{where } \text{Type}(n) = \text{Type}(n')
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -106,6 +118,10 @@ Prior to executing candidate patches inside isolated Docker sandboxes, candidate
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -113,6 +129,10 @@ Prior to executing candidate patches inside isolated Docker sandboxes, candidate
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -177,13 +197,21 @@ Let $B_{\text{max}}$ be the maximum token allocation budget, $c_i > 0$ be the to
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 \Delta V(k) = V(k) - V(k-1) = -c_k \le -c_{\text{min}} < 0
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -211,13 +239,21 @@ We evaluate SHACS on 500 real-world software defects across Python and Rust repo
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 \text{Efficiency Gain} = \frac{\text{Baseline Sandbox Time} - \text{SHACS Sandbox Time}}{\text{Baseline Sandbox Time}} \times 100\%
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -240,14 +276,22 @@ We analyze hardware GPU memory constraints as a function of active context windo
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 M_{\text{VRAM}} = & \beta_0 \\
 & + \beta_1 \cdot (L \times B) + \beta_2 \cdot N_{\text{agents}}
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -264,14 +308,22 @@ Let $\mathcal{C}_{\text{pipeline}}$ denote the total floating-point operations (
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\begin{aligned}
 \mathcal{C}_{\text{pipeline}} = & 6 \cdot P \cdot \sum_{i=1}^k (L_{\text{ctx},i} \cdot N_{\text{tokens},i}) \\
 & + \mathcal{C}_{\text{Z3}} + \mathcal{C}_{\text{sandbox}}
 \\end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 

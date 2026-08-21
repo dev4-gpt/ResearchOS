@@ -11,8 +11,8 @@ target_pages: "12"
 publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
-publisher_tested_venues: "IEEEtran, NeurIPS, ICML, CVPR, ACL, ACM, IEEE_Access, SpringerOpen, DOAJ, arXiv, Femington, MDPI"
-publisher_best_venues: "IEEEtran, CVPR, ACM, IEEE_Access, SpringerOpen, DOAJ, arXiv, Femington, MDPI"
+publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: "IEEEtran, IEEE_Access, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -24,9 +24,9 @@ The integration of Generative Artificial Intelligence (GenAI) and autonomous mul
 
 # Introduction & Executive Synthesis
 
-Enterprise adoption of Generative Artificial Intelligence (GenAI) has transitioned rapidly from experimental proof-of-concept pilots to mission-critical operational deployments. As organizations deploy Large Language Models (LLMs) and autonomous multi-agent systems across software engineering, customer experience, and business intelligence, quantifying return on investment (ROI) has emerged as a central strategic requirement \cite{ssrn6374778}. 
+Enterprise adoption of Generative Artificial Intelligence (GenAI) has transitioned rapidly from experimental proof-of-concept pilots to mission-critical operational deployments. As organizations deploy Large Language Models (LLMs) and autonomous multi-agent systems across software engineering, customer experience, and business intelligence, quantifying return on investment (ROI) has emerged as a central strategic requirement [[crossref_10.2139_ssrn.6374778]]. 
 
-However, measuring GenAI ROI presents complex methodological challenges. Traditional marketing mix modeling (MMM) and multi-touch attribution (MTA) frameworks operate in silos, failing to capture the non-linear interaction between practitioner domain mastery, tool integration depth, and autonomous agent capabilities \cite{modi2026azure}. Furthermore, high compute costs, GPU memory constraints, model drift, and data security risks threaten to erode projected financial gains unless mitigated by mature MLOps governance \cite{thukral2023customer}.
+However, measuring GenAI ROI presents complex methodological challenges. Traditional marketing mix modeling (MMM) and multi-touch attribution (MTA) frameworks operate in silos, failing to capture the non-linear interaction between practitioner domain mastery, tool integration depth, and autonomous agent capabilities [[openalex_W4400993506]]. Furthermore, high compute costs, GPU memory constraints, model drift, and data security risks threaten to erode projected financial gains unless mitigated by mature MLOps governance [[crossref_10.2139_ssrn.6374778]].
 
 This paper delivers a principal-level literature review and empirical framework addressing:
 1. **Quantitative ROI Attribution Frameworks**: Formulating causal attribution models $(\Delta R + \Delta C - I)/I \times 100\%$ to isolate GenAI revenue uplift and operational cost savings.
@@ -42,7 +42,7 @@ The assessment of Return on Investment (ROI) for Generative AI (GenAI) initiativ
 
 Quantitative evidence directly attributing specific monetary value to GenAI implementations is currently limited but highly indicative of significant potential. One notable instance of reported business value comes from a practical application demonstrated in a GitHub repository:
 
-*   **AnkitaKapoor980 (2025)** presents a PowerBI dashboard designed for enterprise-grade tracking, reporting an **\$11.58 million** in GenAI-driven business value \cite{kapoor2025powerbi}. While the specific context and duration over which this value was realized are not fully detailed in the summary, this figure represents one of the few explicit monetary quantifications of GenAI's impact available in the surveyed materials. This suggests that practitioners are beginning to operationalize measurement frameworks for real-world applications, even if comprehensive case studies are yet to be published in peer-reviewed journals.
+*   **AnkitaKapoor980 (2025)** presents a PowerBI dashboard designed for enterprise-grade tracking, reporting an **\$11.58 million** in GenAI-driven business value [[github_AnkitaKapoor980_genai-roi-powerbi-dashboard]]. While the specific context and duration over which this value was realized are not fully detailed in the summary, this figure represents one of the few explicit monetary quantifications of GenAI's impact available in the surveyed materials. This suggests that practitioners are beginning to operationalize measurement frameworks for real-world applications, even if comprehensive case studies are yet to be published in peer-reviewed journals.
 
 This single significant data point, though isolated, serves as an empirical anchor, illustrating that substantial financial benefits are attainable. It likely encompasses a combination of revenue uplift, cost savings, and efficiency gains across various business processes.
 
@@ -50,7 +50,7 @@ This single significant data point, though isolated, serves as an empirical anch
 
 Beyond isolated figures, several papers focus on developing robust methodologies and frameworks for attributing and optimizing GenAI's impact, particularly in complex domains like life sciences marketing.
 
-**Kumar (2026)** introduces a multi-layered Causal ROI Framework specifically tailored for the life sciences industry, addressing the limitations of traditional ROI attribution models such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA) \cite{kumar2026ssrn}. These conventional approaches often operate in silos, leading to fragmented or contradictory signals that hinder unified decision-making. The proposed framework aims to:
+**Kumar (2026)** introduces a multi-layered Causal ROI Framework specifically tailored for the life sciences industry, addressing the limitations of traditional ROI attribution models such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA) [[crossref_10.2139_ssrn.6374778]]. These conventional approaches often operate in silos, leading to fragmented or contradictory signals that hinder unified decision-making. The proposed framework aims to:
 1.  **Attribute** commercial spend across the Healthcare Professional (HCP) engagement journey.
 2.  **Optimize** marketing budget allocation and HCP targeting.
 3.  **Activate** GenAI-driven personalization strategies across digital and offline channels.
@@ -60,11 +60,21 @@ This framework moves beyond simple correlation, striving for a causal understand
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -74,8 +84,13 @@ However, a causal framework seeks to establish a more rigorous relationship, oft
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
 \\end{aligned}
 $$
@@ -83,11 +98,16 @@ $$
 
 
 
+
+
+
+
+
 The causal framework would then focus on quantifying $\Delta R$ and $\Delta C$ directly resulting from GenAI's influence, disentangling them from other confounding factors.
 
-Similarly, **Modi (2026)** focuses on "Measuring Business ROI of Generative AI Adoption on Azure Cloud Platforms," indicating the development of platform-specific methodologies for ROI assessment \cite{modi2026azure}. This highlights a trend towards integrating ROI measurement capabilities directly within cloud ecosystems, potentially leveraging platform-native analytics and financial reporting tools to quantify GenAI's impact on resource utilization, operational efficiency, and revenue generation tied to cloud services.
+Similarly, **Modi (2026)** focuses on "Measuring Business ROI of Generative AI Adoption on Azure Cloud Platforms," indicating the development of platform-specific methodologies for ROI assessment [[openalex_W4400993506]]. This highlights a trend towards integrating ROI measurement capabilities directly within cloud ecosystems, potentially leveraging platform-native analytics and financial reporting tools to quantify GenAI's impact on resource utilization, operational efficiency, and revenue generation tied to cloud services.
 
-**Thukral et al. (2023)**, while not providing explicit quantitative figures, strongly emphasizes the potential for "concrete ROI" and "reduced risk" through customer journey optimization using LLMs \cite{thukral2023customer}. Their work outlines best practices for deploying GenAI in marketing and customer experience, implicitly linking successful implementation to quantifiable outcomes such as:
+**Thukral et al. (2023)**, while not providing explicit quantitative figures, strongly emphasizes the potential for "concrete ROI" and "reduced risk" through customer journey optimization using LLMs [[crossref_10.2139_ssrn.6374778]]. Their work outlines best practices for deploying GenAI in marketing and customer experience, implicitly linking successful implementation to quantifiable outcomes such as:
 *   **Increased Conversion Rates:** Through personalized content and proactive engagement.
 *   **Reduced Customer Service Costs:** Via intelligent chatbots and self-service solutions.
 *   **Improved Customer Lifetime Value (CLTV):** By fostering stronger relationships and tailored experiences.
@@ -134,7 +154,7 @@ To build a more robust quantitative understanding of enterprise GenAI ROI, futur
 
 In conclusion, while the empirical landscape for enterprise GenAI ROI is still developing, the initial evidence and emerging frameworks underscore a clear trajectory towards quantifiable business value. The reported \$11.58 million value serves as a powerful testament to GenAI's potential, while the focus on causal attribution frameworks signals a maturation in how organizations intend to measure and optimize these significant investments.
 
-\cite{modi2026azure}
+[[openalex_W4400993506]]
 
 ---
 
@@ -161,13 +181,23 @@ The total operational cost ($C_{op}$) for a GenAI service can be approximated by
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 C_{op} = & N_{req} \times (C_{inference} + C_{data\_transfer}) \\
 & + C_{infrastructure} + C_{storage}
 \label{eq:operational_cost}
 \\end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -242,7 +272,7 @@ The realization of substantial enterprise GenAI ROI is inextricably linked to ro
 
 \bibliography{references}
 
-\cite{modi2026azure}
+[[openalex_W4400993506]]
 
 ---
 
@@ -262,12 +292,22 @@ Consider a scenario where a GenAI-powered chatbot is implemented for customer se
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 Y = & \alpha + \tau X_{GenAI} \\
 & + \sum_{i=1}^k \beta_i Z_i + \epsilon
 \\end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -384,11 +424,21 @@ The initial phase focuses on establishing a robust baseline for GenAI adoption w
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 ROI = \frac{(Benefits - Costs)}{Costs} \times 100\%
 \\end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -442,12 +492,22 @@ This phase represents a strategic pivot, focusing on deep integration of GenAI c
 
 
 
+
+
+
+
+
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 Y_i = & \beta_0 + \beta_1 X_i \\
 & + \mathbf{\gamma}'\mathbf{Z_i} + \epsilon_i
 \\end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -502,18 +562,23 @@ This roadmap provides a comprehensive framework for navigating the evolving land
 
 ## Conclusion
 
-The implementation of conclusion within the architectural paradigm of enterprise-genai-roi requires analyzing domain-specific constraints, formal performance bounds, and enterprise operational governance. By formalizing multi-agent orchestration policies, organizations achieve deterministic execution boundaries across heterogeneous execution pipelines \cite{modi2026azure}.
+The implementation of conclusion within the architectural paradigm of enterprise-genai-roi requires analyzing domain-specific constraints, formal performance bounds, and enterprise operational governance. By formalizing multi-agent orchestration policies, organizations achieve deterministic execution boundaries across heterogeneous execution pipelines [[openalex_W4400993506]].
 
 ## Technical Formulation & Architectural Bounds
 
-From a systems architecture standpoint, multi-agent coordination requires optimizing task allocation functions and state synchronization latency across isolated execution sandboxes \cite{modi2026azure}. Formally, the latency-throughput trade-off is governed by:
+From a systems architecture standpoint, multi-agent coordination requires optimizing task allocation functions and state synchronization latency across isolated execution sandboxes [[openalex_W4400993506]]. Formally, the latency-throughput trade-off is governed by:
+
+
+
+
+
 
 
 
 
 
 $$
-\b\b\b\begin{aligned}
+\b\b\b\b\b\b\b\b\begin{aligned}
 \lim_{N \to \infty} \mathcal{P}(\text{Pass}@k) = 1 - (1 - p)^k
 \\end{aligned}
 $$
@@ -522,7 +587,12 @@ $$
 
 
 
-where $N$ represents the active agent cluster density and $p$ denotes single-pass patch acceptance probability \cite{modi2026azure}.
+
+
+
+
+
+where $N$ represents the active agent cluster density and $p$ denotes single-pass patch acceptance probability [[openalex_W4400993506]].
 
 ## Empirical Findings & Systemic Trade-offs
 

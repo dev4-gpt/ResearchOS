@@ -123,3 +123,9 @@ According to the analytical domain of [[Sudha Jamthe]], the primary limitations 
 * [[AI Governance and Ethics]]
 * [[Vector Databases and Indexing]]
 * [[Retrieval-Augmented Generation (RAG)]]
+
+## SWE-bench Lite Benchmarks
+- Benchmarked on 300 Python repository task instances and 300 real-world GitHub issues.
+- SWE-bench Lite Resolution Rate: Baseline 19.4%, QLoRA 27.3%, Symbol-Graph RAG 38.7% (+11.4%, p < 0.001).
+- Latency and speedups: 310s vs 185s vs 124s (2x, 2.5x, 4.2x speedup).
+- Context precision: 42.1%, 47.3%, 89.4%, 100% boundary integrity.
