@@ -361,7 +361,8 @@ class CheckmateVerifierService:
         test_venues = venues or list(SUPPORTED_VENUES)
 
         if target_filename:
-            clean_name = target_filename if target_filename.endswith(".md") else f"{target_filename}.md"
+            base = os.path.basename(target_filename.strip().replace(" ", ""))
+            clean_name = base if base.endswith(".md") else f"{base}.md"
             drafts = [{"filename": clean_name}]
         else:
             drafts = self.vault_manager.list_files("drafts")

@@ -241,7 +241,8 @@ def checkmate_audit(
 ):
     """Executes The Checkmate Layer multi-modal PDF audit and auto-persists certificate scores."""
     try:
-        clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
+        base = os.path.basename(filename.strip().replace(" ", ""))
+        clean_filename = base if base.endswith(".md") else f"{base}.md"
         file_path = os.path.join(vault_manager.vault_path, "04_Drafts", clean_filename)
 
         if not os.path.exists(file_path):
@@ -315,7 +316,8 @@ def get_preview_tiles(
         from services.visual_auditor import VisualLayoutAuditorService
         from services.latex_exporter import LaTeXExporterService
 
-        clean_filename = filename if filename.endswith(".md") else f"{filename}.md"
+        base = os.path.basename(filename.strip().replace(" ", ""))
+        clean_filename = base if base.endswith(".md") else f"{base}.md"
         parsed = vault_manager.read_markdown("drafts", clean_filename)
         body = parsed.get("content", "")
         evidence_report = _fact_check_draft(body)
@@ -362,11 +364,11 @@ def get_preview_tiles(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/vault/backtest/preview-tile-image/{filename}/{venue}/{page_num}")
+@app.get("/api/vault/backtest/preview-tile-image/{filename:path}/{venue}/{page_num}")
 def stream_preview_tile_image(filename: str, venue: str, page_num: int):
     """Streams binary PNG tile image for inline visual rendering in the frontend modal."""
     try:
-        clean_filename = filename.replace(".md", "")
+        clean_filename = os.path.basename(filename.strip().replace(" ", "")).replace(".md", "")
         tile_name = f"{clean_filename}_{venue}_p{page_num}.png"
         tile_path = os.path.join(vault_manager.vault_path, "04_Drafts", "preview_tiles", tile_name)
         if not os.path.exists(tile_path):
@@ -491,7 +493,10 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
         from services.latex_exporter import LaTeXExporterService
         exporter = LaTeXExporterService(vault_manager)
 
-        draft = vault_manager.read_markdown("drafts", filename)
+        clean_filename = os.path.basename(filename.strip().replace(" ", ""))
+        if not clean_filename.endswith(".md"): clean_filename += ".md"
+
+        draft = vault_manager.read_markdown("drafts", clean_filename)
         title = draft["frontmatter"].get("title", "Systematic Review Manuscript")
         frontmatter = draft.get("frontmatter", {}) or {}
         authors = frontmatter.get("authors", [])
@@ -513,8 +518,8 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
 
         return {
             "success": True,
-            "filename": filename,
-            "tex_filename": filename.replace(".md", "_IEEEtran.tex"),
+            "filename": clean_filename,
+            "tex_filename": clean_filename.replace(".md", "_IEEEtran.tex"),
             "bib_filename": "references.bib",
             "tex_code": tex_code,
             "bib_code": bib_code
@@ -526,10 +531,13 @@ def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_gene
 def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
     """Exports manuscript in specific venue format (NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM) or multi-path bundle."""
     try:
-        doc_data = vault_manager.read_markdown("drafts", filename)
+        clean_filename = os.path.basename(filename.strip().replace(" ", ""))
+        if not clean_filename.endswith(".md"): clean_filename += ".md"
+
+        doc_data = vault_manager.read_markdown("drafts", clean_filename)
         content = doc_data.get("content", "")
         frontmatter = doc_data.get("frontmatter", {})
-        title = frontmatter.get("title", filename.replace(".md", ""))
+        title = frontmatter.get("title", clean_filename.replace(".md", ""))
         authors = frontmatter.get("authors", [])
         author_details = {
             "affiliation": frontmatter.get("affiliation", ""),
@@ -552,13 +560,13 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
                 title, authors, abstract, content, author_details=author_details
             )
             for v_key, v_code in bundle.items():
-                with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{v_key}.tex"), "w", encoding="utf-8") as f:
+                with open(os.path.join(exports_dir, f"{clean_filename.replace('.md', '')}_{v_key}.tex"), "w", encoding="utf-8") as f:
                     f.write(v_code)
             with open(os.path.join(exports_dir, "references.bib"), "w", encoding="utf-8") as f:
                 f.write(bib_code)
             return {
                 "success": True,
-                "filename": filename,
+                "filename": clean_filename,
                 "venue": "ALL",
                 "bundle": bundle,
                 "bib_code": bib_code
@@ -577,16 +585,16 @@ def export_venue_latex(filename: str, venue: Optional[str] = "NeurIPS"):
         )
 
         # Save vault copy
-        with open(os.path.join(exports_dir, f"{filename.replace('.md', '')}_{selected_venue}.tex"), "w", encoding="utf-8") as f:
+        with open(os.path.join(exports_dir, f"{clean_filename.replace('.md', '')}_{selected_venue}.tex"), "w", encoding="utf-8") as f:
             f.write(tex_code)
         with open(os.path.join(exports_dir, "references.bib"), "w", encoding="utf-8") as f:
             f.write(bib_code)
 
         return {
             "success": True,
-            "filename": filename,
+            "filename": clean_filename,
             "venue": selected_venue,
-            "tex_filename": f"{filename.replace('.md', '')}_{selected_venue}.tex",
+            "tex_filename": f"{clean_filename.replace('.md', '')}_{selected_venue}.tex",
             "bib_filename": "references.bib",
             "tex_code": tex_code,
             "bib_code": bib_code
@@ -600,13 +608,16 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
     from fastapi.responses import Response
     from services.latex_exporter import LaTeXExporterService
     try:
-        draft = vault_manager.read_markdown("drafts", filename)
+        clean_filename = os.path.basename(filename.strip().replace(" ", ""))
+        if not clean_filename.endswith(".md"): clean_filename += ".md"
+
+        draft = vault_manager.read_markdown("drafts", clean_filename)
         if not draft:
             raise HTTPException(status_code=404, detail="Manuscript draft not found")
 
         content = draft.get("content", "")
         meta = draft.get("frontmatter", {}) or draft.get("metadata", {})
-        title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
+        title = meta.get("title", clean_filename.replace(".md", "").replace("_", " ").title())
         authors = meta.get("authors") or ["Aryaman Singh Dev"]
         author_details = {
             "affiliation": meta.get("affiliation") or "Pennsylvania State University",
