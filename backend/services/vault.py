@@ -28,6 +28,15 @@ class VaultManager:
         for path in self.folders.values():
             os.makedirs(path, exist_ok=True)
 
+    def _clean_filename(self, filename: str) -> str:
+        """Strips category/folder prefixes, spaces, and ensures .md extension."""
+        if not filename:
+            return ""
+        cleaned = os.path.basename(filename.strip().replace(" ", ""))
+        if not cleaned.endswith(".md"):
+            cleaned += ".md"
+        return cleaned
+
     def save_markdown(self, category: str, filename: str, content: str, frontmatter: Dict[str, Any] = None) -> str:
         """Saves a markdown file with optional YAML frontmatter.
 
@@ -43,11 +52,7 @@ class VaultManager:
         if category not in self.folders:
             raise ValueError(f"Invalid vault category: {category}")
 
-        if not filename.endswith(".md"):
-            filename += ".md"
-
-        # Sanitize filename (replace slashes and other illegal characters)
-        filename = re.sub(r'[\\/*?:"<>|]', "_", filename)
+        filename = self._clean_filename(filename)
         file_path = os.path.join(self.folders[category], filename)
 
         # Build YAML frontmatter string
@@ -75,8 +80,7 @@ class VaultManager:
         if category not in self.folders:
             raise ValueError(f"Invalid vault category: {category}")
 
-        if not filename.endswith(".md"):
-            filename += ".md"
+        filename = self._clean_filename(filename)
 
         file_path = os.path.join(self.folders[category], filename)
         if not os.path.exists(file_path):

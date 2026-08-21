@@ -225,7 +225,8 @@ class PublisherReadinessService:
             all_docs_meta[filename] = document.get("frontmatter", {}) or {}
 
         if target_filename:
-            clean = target_filename if target_filename.endswith(".md") else f"{target_filename}.md"
+            base = os.path.basename(target_filename.strip().replace(" ", ""))
+            clean = base if base.endswith(".md") else f"{base}.md"
             selected = [clean] if clean in all_documents else []
         else:
             selected = sorted(all_documents)
