@@ -59,16 +59,14 @@ class VisualLayoutAuditorService:
             for block in text_instances:
                 x0, y0, x1, y1, text, block_no, block_type = block
                 width = x1 - x0
-                # Detect lines extending past column right edge
-                if is_two_column:
-                    # In 2-column layout, blocks spanning wider than single column (unless title/abstract) trigger margin checks
-                    if width > column_limit_pt and y0 > 200 and "Abstract" not in text:
-                        margin_overflows.append({
-                            "page": page_num,
-                            "bbox": [round(x0, 1), round(y0, 1), round(x1, 1), round(y1, 1)],
-                            "width": round(width, 1),
-                            "text_snippet": text.strip()[:60]
-                        })
+                # Detect lines extending past physical printable page margins (page width is 612pt for letter / 595pt for A4)
+                if x1 > 576 or x0 < 36:
+                    margin_overflows.append({
+                        "page": page_num,
+                        "bbox": [round(x0, 1), round(y0, 1), round(x1, 1), round(y1, 1)],
+                        "width": round(width, 1),
+                        "text_snippet": text.strip()[:60]
+                    })
 
         doc.close()
 

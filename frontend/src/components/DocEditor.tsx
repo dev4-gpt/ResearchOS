@@ -273,6 +273,30 @@ const DocEditor: React.FC = () => {
     }
   };
 
+  const runSinglePaperPublisherReadiness = async (targetFile?: string) => {
+    const fileToTest = targetFile || activeFile;
+    if (!fileToTest) return;
+    setPublisherSuiteOpen(true);
+    setPublisherSuiteLoading(true);
+    setPublisherSuiteError(null);
+    try {
+      await handleSave(false);
+      const res = await apiFetch(`/api/vault/publisher/readiness?filename=${encodeURIComponent(fileToTest)}`, { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.detail || `Single paper readiness test failed (HTTP ${res.status})`);
+      if (data.job?.job_id) {
+        await pollPublisherJob(data.job.job_id);
+      } else {
+        setPublisherSuiteData(data);
+        setPublisherSuiteLoading(false);
+        await fetchFilesList();
+      }
+    } catch (e: any) {
+      setPublisherSuiteError(e.message || 'Single paper publisher readiness test failed.');
+      setPublisherSuiteLoading(false);
+    }
+  };
+
   const downloadPublisherBundle = async () => {
     try {
       const res = await apiFetch('/api/vault/publisher/readiness/bundle');
@@ -660,6 +684,23 @@ const DocEditor: React.FC = () => {
                       <span>{venueAdvisorLoading ? 'Analyzing...' : 'AI Venue Advisor'}</span>
                     </button>
 
+                    {/* Single paper release test */}
+                    {activeCategory === 'drafts' && activeFile && (
+                      <button
+                        onClick={() => runSinglePaperPublisherReadiness()}
+                        disabled={publisherSuiteLoading}
+                        style={{
+                          background: publisherSuiteLoading ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.16)',
+                          color: '#93c5fd', border: '1px solid rgba(59,130,246,0.45)', padding: '6px 14px', borderRadius: '7px',
+                          cursor: publisherSuiteLoading ? 'wait' : 'pointer', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px'
+                        }}
+                        title={`Compile and audit current paper (${activeFile}) against all supported venues`}
+                      >
+                        {publisherSuiteLoading ? <RefreshCw size={13} className="spin" /> : <ShieldCheck size={13} />}
+                        <span>{publisherSuiteLoading ? 'Testing paper…' : 'Test this paper × venues'}</span>
+                      </button>
+                    )}
+
                     {/* Vault-wide release matrix */}
                     <button
                       onClick={runPublisherReadiness}
@@ -844,7 +885,22 @@ const DocEditor: React.FC = () => {
                                       <div style={{ fontSize: '11px', fontWeight: '800', color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{manuscript.title}</div>
                                       <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginTop: '2px' }}>{manuscript.filename}</div>
                                     </div>
-                                    <span style={{ flexShrink: 0, fontSize: '9px', fontWeight: '800', padding: '3px 7px', borderRadius: '10px', color: isReady ? '#5eead4' : originalityBlocked ? '#fda4af' : '#fbbf24', background: isReady ? 'rgba(45,212,191,0.12)' : originalityBlocked ? 'rgba(244,63,94,0.12)' : 'rgba(251,191,36,0.12)' }}>{manuscript.readiness}</span>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                                      <button
+                                        onClick={() => runSinglePaperPublisherReadiness(manuscript.filename)}
+                                        disabled={publisherSuiteLoading}
+                                        style={{
+                                          background: 'rgba(59,130,246,0.12)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.35)',
+                                          padding: '3px 8px', borderRadius: '6px', fontSize: '9px', fontWeight: '700',
+                                          cursor: publisherSuiteLoading ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', gap: '4px'
+                                        }}
+                                        title={`Re-test ${manuscript.filename} across all 12 venues`}
+                                      >
+                                        <RefreshCw size={10} className={publisherSuiteLoading ? 'spin' : ''} />
+                                        <span>Test paper × venues</span>
+                                      </button>
+                                      <span style={{ fontSize: '9px', fontWeight: '800', padding: '3px 7px', borderRadius: '10px', color: isReady ? '#5eead4' : originalityBlocked ? '#fda4af' : '#fbbf24', background: isReady ? 'rgba(45,212,191,0.12)' : originalityBlocked ? 'rgba(244,63,94,0.12)' : 'rgba(251,191,36,0.12)' }}>{manuscript.readiness}</span>
+                                    </div>
                                   </div>
                                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px', fontSize: '10px', color: 'var(--text-secondary)' }}>
                                     <span><LockKeyhole size={11} style={{ verticalAlign: 'middle', marginRight: '3px', color: originalityBlocked ? '#f87171' : '#34d399' }} />Originality: <strong style={{ color: originalityBlocked ? '#f87171' : '#34d399' }}>{manuscript.originality?.status || 'NOT RUN'}</strong></span>

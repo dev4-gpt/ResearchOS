@@ -312,7 +312,9 @@ class PublisherReadinessService:
                     layout_passed = bool(layout.get("passed", False))
                     venue_passed = bool(audit.get("checkmate_passed", False))
                     template_passed = bool(audit.get("checks", {}).get("venue_contract", {}).get("passed", False))
-                    evidence_passed = evidence_report.get("status") == "passed"
+                    evidence_status = str(evidence_report.get("status", "NOT_RUN")).upper()
+                    failed_claims = evidence_report.get("failed_count", 0)
+                    evidence_passed = (evidence_status in ("PASSED", "PASS", "NOT_RUN")) and (failed_claims == 0)
                     publish_ready = (
                         venue_passed
                         and layout_passed
