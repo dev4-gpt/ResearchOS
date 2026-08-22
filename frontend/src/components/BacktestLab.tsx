@@ -53,7 +53,7 @@ interface RunRecord {
 }
 
 const FALLBACK_VENUES = ['IEEEtran'];
-const DEFAULT_DRAFT = 'review_autonomous_code_synthesis_and_self_healing_multi_a.md';
+const DEFAULT_DRAFT = 'autonomous_code_synthesis_and_self_healing_multi_agent_systems.md';
 
 const LOOP_STEPS = [
   { key: 'detect', label: 'Defect detector', detail: 'Find visual + textual defects', icon: AlertTriangle },

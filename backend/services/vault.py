@@ -92,7 +92,22 @@ class VaultManager:
 
         file_path = os.path.join(self.folders[category], filename)
         if not os.path.exists(file_path):
-            raise FileNotFoundError(f"File not found in vault: {file_path}")
+            found_match = None
+            target_clean = filename.replace("review_", "").replace(".md", "").lower()
+            try:
+                for existing in os.listdir(self.folders[category]):
+                    if existing.endswith(".md"):
+                        clean_exist = existing.replace("review_", "").replace(".md", "").lower()
+                        if target_clean in clean_exist or clean_exist in target_clean:
+                            found_match = existing
+                            break
+            except Exception:
+                pass
+
+            if found_match:
+                file_path = os.path.join(self.folders[category], found_match)
+            else:
+                raise FileNotFoundError(f"File not found in vault: {file_path}")
 
         with open(file_path, "r", encoding="utf-8") as f:
             text = f.read()

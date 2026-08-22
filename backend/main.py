@@ -308,7 +308,7 @@ def checkmate_audit(
 
 @app.get("/api/vault/backtest/preview-tiles")
 def get_preview_tiles(
-    filename: str = Query("review_autonomous_code_synthesis_and_self_healing_multi_a.md", description="Manuscript filename"),
+    filename: str = Query("autonomous_code_synthesis_and_self_healing_multi_agent_systems.md", description="Manuscript filename"),
     venue: str = Query("IEEEtran", description="Target academic venue")
 ):
     """Renders PDF pages as high-resolution PNG preview tiles and returns visual layout geometry audit."""
