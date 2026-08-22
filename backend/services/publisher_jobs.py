@@ -34,6 +34,7 @@ class PublisherReadinessJobManager:
             "job_id": job_id,
             "status": "running",
             "trigger": trigger,
+            "target_filename": target_filename,
             "started_at": self._now(),
             "finished_at": None,
             "error": None,

@@ -58,6 +58,7 @@ const DocEditor: React.FC = () => {
   const [publisherSuiteData, setPublisherSuiteData] = useState<any>(null);
   const [publisherSuiteError, setPublisherSuiteError] = useState<string | null>(null);
   const [publisherJobId, setPublisherJobId] = useState<string | null>(null);
+  const [publisherJobTargetFilename, setPublisherJobTargetFilename] = useState<string | null>(null);
 
   const runCheckmateAudit = async () => {
     if (!activeFilename) return;
@@ -151,6 +152,9 @@ const DocEditor: React.FC = () => {
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.detail || `Readiness status failed (HTTP ${res.status})`);
         const job = data.job || {};
+        if (job.target_filename) {
+          setPublisherJobTargetFilename(job.target_filename);
+        }
         if (job.status === 'failed') throw new Error(job.error || 'Publisher readiness job failed.');
         if (job.status === 'completed') {
           if (job.next_job_id) {
@@ -249,6 +253,7 @@ const DocEditor: React.FC = () => {
   };
 
   const runPublisherReadiness = async () => {
+    setPublisherJobTargetFilename(null);
     setPublisherSuiteOpen(true);
     setPublisherSuiteLoading(true);
     setPublisherSuiteError(null);
@@ -276,6 +281,7 @@ const DocEditor: React.FC = () => {
   const runSinglePaperPublisherReadiness = async (targetFile?: string) => {
     const fileToTest = targetFile || activeFilename;
     if (!fileToTest) return;
+    setPublisherJobTargetFilename(fileToTest);
     setPublisherSuiteOpen(true);
     setPublisherSuiteLoading(true);
     setPublisherSuiteError(null);
@@ -851,7 +857,12 @@ const DocEditor: React.FC = () => {
                       {publisherSuiteLoading && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px', color: 'var(--text-secondary)', fontSize: '11px', background: 'rgba(255,255,255,0.025)', borderRadius: '7px' }}>
                           <RefreshCw size={13} className="spin" />
-                          <span>Compiling, auditing, and comparing all manuscripts{publisherJobId ? ` · job ${publisherJobId}` : ''}. This can take a few minutes for a large vault.</span>
+                          <span>
+                            {publisherJobTargetFilename
+                              ? `Compiling, auditing, and comparing targeted manuscript (${publisherJobTargetFilename}) across all 12 venues`
+                              : 'Compiling, auditing, and comparing all manuscripts'}
+                            {publisherJobId ? ` · job ${publisherJobId}` : ''}. This can take a few moments.
+                          </span>
                         </div>
                       )}
 

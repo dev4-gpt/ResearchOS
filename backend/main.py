@@ -159,7 +159,7 @@ def write_vault_file(request: SaveFileRequest):
         )
         response: Dict[str, Any] = {"status": "success", "saved_path": path}
         if request.category == "drafts" and request.trigger_readiness:
-            response["readiness_job"] = publisher_readiness_jobs.start(trigger="draft_save")
+            response["readiness_job"] = publisher_readiness_jobs.start(target_filename=request.filename, trigger="draft_save")
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
