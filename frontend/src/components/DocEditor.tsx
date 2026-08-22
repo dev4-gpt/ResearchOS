@@ -274,7 +274,7 @@ const DocEditor: React.FC = () => {
   };
 
   const runSinglePaperPublisherReadiness = async (targetFile?: string) => {
-    const fileToTest = targetFile || activeFile;
+    const fileToTest = targetFile || activeFilename;
     if (!fileToTest) return;
     setPublisherSuiteOpen(true);
     setPublisherSuiteLoading(true);
@@ -685,7 +685,7 @@ const DocEditor: React.FC = () => {
                     </button>
 
                     {/* Single paper release test */}
-                    {activeCategory === 'drafts' && activeFile && (
+                    {activeCategory === 'drafts' && activeFilename && (
                       <button
                         onClick={() => runSinglePaperPublisherReadiness()}
                         disabled={publisherSuiteLoading}
@@ -694,7 +694,7 @@ const DocEditor: React.FC = () => {
                           color: '#93c5fd', border: '1px solid rgba(59,130,246,0.45)', padding: '6px 14px', borderRadius: '7px',
                           cursor: publisherSuiteLoading ? 'wait' : 'pointer', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px'
                         }}
-                        title={`Compile and audit current paper (${activeFile}) against all supported venues`}
+                        title={`Compile and audit current paper (${activeFilename}) against all supported venues`}
                       >
                         {publisherSuiteLoading ? <RefreshCw size={13} className="spin" /> : <ShieldCheck size={13} />}
                         <span>{publisherSuiteLoading ? 'Testing paper…' : 'Test this paper × venues'}</span>
