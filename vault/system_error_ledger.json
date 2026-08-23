@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-19 18:50:26",
+  "last_updated": "2026-08-23 12:27:43",
   "stats": {
-    "total_errors_recorded": 24,
-    "resolved_count": 24,
-    "active_prevention_rules": 24
+    "total_errors_recorded": 27,
+    "resolved_count": 27,
+    "active_prevention_rules": 27
   },
   "history": [
     {
@@ -226,8 +226,6 @@
     },
     {
       "error_id": "ERR-019",
-      "timestamp": "2026-08-19 18:08:41",
-      "component": "PDF Quality Assurance & Venue Auditor",
       "timestamp": "2026-08-19 18:05:00",
       "component": "LaTeX Exporter / arXiv Geometry Package",
       "stage": "latex_compilation",
@@ -309,6 +307,30 @@
       "resolution": "Updated clean_cite_block to process multi-key citations individually; added first-paragraph fallback abstract extraction; enforced # Executive Abstract headings across all portfolio drafts",
       "prevention_rule": "R25: Multi-key citations \\cite{a,b} must be split and cleaned individually and all manuscript exports must feature a dedicated, non-empty Executive Abstract",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-026",
+      "timestamp": "2026-08-23 08:14:00",
+      "component": "LaTeX Exporter / QED Symbol Sanitizer",
+      "stage": "draft_source_quality",
+      "error_type": "Double-Escaped Backslash QED Symbol Corruption",
+      "summary": "Source markdown contained literal 'lacksquare' (\\b\\b\\blacksquare) instead of valid \\blacksquare QED symbol in proof termination lines",
+      "root_cause": "LLM draft generation produced \\\\b\\\\b\\\\blacksquare (double-escaped) in Python string context, which rendered as the ASCII backspace escape \\x08 twice followed by 'lacksquare' in the saved file",
+      "resolution": "Patched line 118 of autonomous_code_synthesis draft: replaced $\\b\\b\\blacksquare$ with $\\blacksquare$. Added detection regex r'\\$\\\\\\\\b\\\\\\\\b' to auto_remediate_markdown QED sanitizer",
+      "prevention_rule": "R26: Scan all manuscript source files for double-escaped backslash patterns (\\\\b\\\\b) before any \\blacksquare or \\qed QED symbol and auto-replace with single properly-escaped \\blacksquare",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-027",
+      "timestamp": "2026-08-23 08:14:00",
+      "component": "LaTeX Exporter / Bold-Italic Converter",
+      "stage": "latex_conversion",
+      "error_type": "re.sub Raw-String Backslash Expansion \u2014 Tab Character Injection",
+      "summary": "\\textbf{} and \\textit{} replacements used Python raw replacement strings (r'\\\\textbf{\\1}') in re.sub, causing \\t in \\textbf to be interpreted as ASCII tab character (\\x09), producing 'extbf' with a leading tab in PDF output",
+      "root_cause": "Python re.sub replacement strings interpret \\t, \\n, \\r etc. even inside r'' raw strings when they appear as two-character sequences in the replacement template. r'\\\\textbf{\\1}' resolves to literal backslash + 't' + 'extbf{\\1}' which re.sub then expands \\1 correctly but the \\t becomes a tab in some Python versions/contexts",
+      "resolution": "Replaced all re.sub r-string replacements for \\textbf, \\textit, and blockquote \\begin{quote}/\\end{quote} with lambda functions: lambda m: '\\\\textbf{' + m.group(1) + '}' \u2014 lambdas never suffer replacement-string escape interpretation",
+      "prevention_rule": "R27: Never use re.sub() with raw-string replacement templates containing \\\\textbf, \\\\textit, \\\\begin, or \\\\end. Always use lambda m: '\\\\cmd{' + m.group(N) + '}' form to guarantee zero tab/newline injection from escape expansion",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -336,6 +358,8 @@
     "R22": "R22: All manuscript generation and expansion tasks must enforce pairwise Jaccard vocabulary dissimilarity (< 35% overlap) across all Vault draft files before saving",
     "R23": "R23: Enforce raw string literals r\"\"\"...\"\"\" for all LaTeX math content and apply backslash command repair rules in auto_remediate_markdown prior to compilation",
     "R24": "R24: All \\begin{aligned} display math blocks must be wrapped inside \\begin{equation} environments and wide formulas (>50 chars) split across multi-line breaks to enforce zero Overfull \\hbox column overflows",
-    "R25": "R25: Multi-key citations \\cite{a,b} must be split and cleaned individually and all manuscript exports must feature a dedicated, non-empty Executive Abstract"
+    "R25": "R25: Multi-key citations \\cite{a,b} must be split and cleaned individually and all manuscript exports must feature a dedicated, non-empty Executive Abstract",
+    "R26": "R26: Scan all manuscript source files for double-escaped backslash patterns (\\\\b\\\\b) before any \\blacksquare or \\qed QED symbol and auto-replace with single properly-escaped \\blacksquare",
+    "R27": "R27: Never use re.sub() with raw-string replacement templates containing \\\\textbf, \\\\textit, \\\\begin, or \\\\end. Always use lambda m: '\\\\cmd{' + m.group(N) + '}' form to guarantee zero tab/newline injection from escape expansion"
   }
 }

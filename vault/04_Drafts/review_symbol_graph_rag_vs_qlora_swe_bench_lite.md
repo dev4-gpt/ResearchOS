@@ -9,7 +9,7 @@ publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-checkmate_score: "100.0"
+checkmate_score: "100"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
 ---
@@ -36,12 +36,14 @@ We construct a comparative benchmark suite evaluating both paradigms on the 300 
 
 
 
+
 $$
 \b\begin{aligned}
 \text{Relevance}(v_i, q) = & \alpha \cdot \text{Cosine}(\vec{e}(v_i), \\
 & \vec{e}(q)) + (1 - \alpha) \cdot \text{PageRank}(v_i \mid G)
 \end{aligned}
 $$
+
 
 
 

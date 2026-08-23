@@ -308,6 +308,9 @@ class CheckmateVerifierService:
         text = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
         text = text.replace('egin{', '\\begin{')
         text = text.replace('\text{', '\\text{').replace('\text', '\\text')
+        # R26: repair double-escaped QED symbol \b\b\blacksquare → \blacksquare
+        text = re.sub(r'\$(?:\\b|\\x08|b)+\\*?(?:\\b|\\x08|b)*\\*?blacksquare\$', r'$\\blacksquare$', text)
+        text = re.sub(r'(?:\\\\b)+\\\\blacksquare', r'\\\\blacksquare', text)
         text = text.replace('lacksquare', '\\blacksquare')
         text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
         text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
