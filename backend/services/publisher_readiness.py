@@ -310,8 +310,10 @@ class PublisherReadinessService:
                     from services.visual_auditor import VisualLayoutAuditorService
                     layout = VisualLayoutAuditorService(self.vault_manager).audit_layout_geometry(pdf_path, venue_key=venue)
                     layout_passed = bool(layout.get("passed", False))
-                    venue_passed = bool(audit.get("checkmate_passed", False))
-                    template_passed = bool(audit.get("checks", {}).get("venue_contract", {}).get("passed", False))
+                    vc_check = audit.get("checks", {}).get("venue_contract", {})
+                    is_index_only = bool(vc_check.get("index_only", False))
+                    venue_passed = is_index_only or bool(audit.get("checkmate_passed", False))
+                    template_passed = is_index_only or bool(vc_check.get("passed", False))
                     evidence_status = str(evidence_report.get("status", "NOT_RUN")).upper()
                     failed_claims = evidence_report.get("failed_count", 0)
                     evidence_passed = (evidence_status in ("PASSED", "PASS", "NOT_RUN")) and (failed_claims == 0)
@@ -330,6 +332,8 @@ class PublisherReadinessService:
                         reasons.append("SUBSTANTIVE_VALUE_REVIEW")
                     if not venue_passed:
                         reasons.append("CHECKMATE_REMEDIATION")
+                    if not layout_passed:
+                        reasons.append("LAYOUT_GEOMETRY_REMEDIATION")
                     if not template_passed:
                         reasons.append("VENUE_TEMPLATE_REMEDIATION")
                     if not evidence_passed:

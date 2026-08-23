@@ -52,20 +52,6 @@ We construct a comparative benchmark suite evaluating both paradigms on the 300 
 
 \section{Symbol-Graph RAG Framework}
 
-Our Symbol-Graph RAG architecture parses repository source code into a multi-relational property graph $G = (V, E)$, where vertices $V$ represent functions, classes, and variables, and edges $E$ capture call, import, and type inheritance relationships.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -73,41 +59,25 @@ Our Symbol-Graph RAG architecture parses repository source code into a multi-rel
 
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 \text{Relevance}(v_i, q) = & \alpha \cdot \text{Cosine}(\vec{e}(v_i), \\
 & \vec{e}(q)) + (1 - \alpha) \cdot \text{PageRank}(v_i \mid G)
-\\end{aligned}
+\end{aligned}
 $}
 \end{equation}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Where $\vec{e}(v_i)$ is the dense embedding of node $v_i$, and $q$ represents the user issue query.
+$$
 
 
 \section{QLoRA Parameter-Efficient Fine-Tuning Setup}
 
-For the fine-tuning baseline, we apply 4-bit NormalFloat (NF4) QLoRA to Llama-3-70B and DeepSeek-Coder-33B models, adapting attention projection layers ($W_q, W_k, W_v, W_o$) with rank $r = 64$ and $\alpha_{\text{LoRA}} = 128$.
 
 
 
 We evaluate both approaches across resolution rate, token efficiency, VRAM requirements, and latency on SWE-bench Lite.
-
 
 
 
@@ -127,8 +97,8 @@ Our empirical findings demonstrate a clear structural advantage for graph-guided
 
 
 \begin{enumerate}
-  \item \textit{Benchmark Scope\textbf{: SWE-bench Lite is focused on Python repositories; generalizability to statically typed languages (C++, Java, Rust) requires further evaluation.}}
-  \item \textit{Context Window Limits\textbf{: Highly distributed refactoring tasks spanning $>$100 files may exceed current prompt window boundaries without hierarchical abstraction.}}
+  \item *Benchmark Scope**: SWE-bench Lite is focused on Python repositories; generalizability to statically typed languages (C++, Java, Rust) requires further evaluation.
+  \item *Context Window Limits**: Highly distributed refactoring tasks spanning $>$100 files may exceed current prompt window boundaries without hierarchical abstraction.
 \end{enumerate}
 
 

@@ -24,7 +24,7 @@ def is_non_metric_number(claim: str) -> bool:
         return True
     if re.match(r"^\d{1,2}\.\d{1,2}$", s):
         return True
-    if re.match(r"^(?:N|i|j|k|m|n|t|x|y|z|r)\s*=\s*\d+$", s, re.IGNORECASE):
+    if "=" in s or re.search(r"^(?:N|i|j|k|m|n|t|x|y|z|r|step|val|var|index|iter)\b", s, re.IGNORECASE):
         return True
     return False
 

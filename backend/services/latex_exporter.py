@@ -55,7 +55,7 @@ VENUE_SPECS = {
         "format": "Two-column ACM article format",
         "page_limit": "12 - 20+ pages",
         "doc_class": "\\documentclass[manuscript,review]{acmart}",
-        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}",
+        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
         "template_style": "acm",
         "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
     },
@@ -201,12 +201,15 @@ class LaTeXExporterService:
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
-        text = re.sub(r'[\x08\b]+', '', text)
+        text = text.replace('\x08', '')
+        text = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = text.replace('egin{', '\\begin{')
         text = text.replace('\text{', '\\text{').replace('\text', '\\text')
-        text = text.replace('\\\\begin{aligned}', '\\begin{aligned}').replace('\\\\end{aligned}', '\\end{aligned}')
-        text = text.replace('egin{aligned}', '\\begin{aligned}').replace('end{aligned}', '\\end{aligned}')
-        text = text.replace('eginaligned', '\\begin{aligned}')
-        text = re.sub(r'(?<!\\)\b(egin|end)\{(aligned|cases|equation|matrix|bmatrix|vmatrix)\}', r'\\\1{\2}', text)
+        text = text.replace('lacksquare', '\\blacksquare')
+        text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
+        text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
 
 
 
@@ -265,7 +268,7 @@ class LaTeXExporterService:
         text = text.replace('¿', '').replace('-->', '').replace('<--', '')
 
         # 3. Convert blockquotes (> text) into clean LaTeX quotes and remove literal '[?]' artifacts
-        text = re.sub(r'^\s*>\s*(.*)$', r'\n\\begin{quote}\1\\end{quote}\n', text, flags=re.MULTILINE)
+        text = re.sub(r'^\s*>\s*(.*)$', lambda m: '\n\\begin{quote}' + m.group(1) + '\\end{quote}\n', text, flags=re.MULTILINE)
         text = re.sub(r'\(?\s*[\'\"‘“]?\s*\[\?\]\s*[\'\"’”]?\s*\)?', '', text)
         text = re.sub(r'[\'\"‘“\s]*\[\?\][\'\"’\”\s]*', ' ', text)
 
@@ -452,19 +455,20 @@ class LaTeXExporterService:
                     line += '*'
             fixed_lines.append(line)
         latex_body = '\n'.join(fixed_lines)
-        latex_body = re.sub(r'\*\*([^\n]+?)\*\*', r'\\textbf{\1}', latex_body)
-        latex_body = re.sub(r'(?<!\*)\*([^\*\n]+?)\*(?!\*)', r'\\textit{\1}', latex_body)
+        latex_body = re.sub(r'\*\*([^\n]+?)\*\*', lambda m: '\\textbf{' + m.group(1) + '}', latex_body)
+        latex_body = re.sub(r'(?<!\*)\*([^\*\n]+?)\*(?!\*)', lambda m: '\\textit{' + m.group(1) + '}', latex_body)
 
         for token, math in math_tokens.items():
             latex_body = latex_body.replace(token, math)
 
         # Clean any accidental \textbf{\section{...}} occurrences
-        latex_body = re.sub(r'\\textbf\{(\\section\{[^}]+\})\}', r'\1', latex_body)
-        latex_body = re.sub(r'\\textbf\{(\\subsection\{[^}]+\})\}', r'\1', latex_body)
-        latex_body = re.sub(r'\\textbf\{(\\subsubsection\{[^}]+\})\}', r'\1', latex_body)
+        latex_body = re.sub(r'\\textbf\{(\\section\{[^}]+\})\}', lambda m: m.group(1), latex_body)
+        latex_body = re.sub(r'\\textbf\{(\\subsection\{[^}]+\})\}', lambda m: m.group(1), latex_body)
+        latex_body = re.sub(r'\\textbf\{(\\subsubsection\{[^}]+\})\}', lambda m: m.group(1), latex_body)
 
         # 12. Clean any accidental stray \b before \begin
-        latex_body = re.sub(r'\\b\s*(\\begin\{)', r'\1', latex_body)
+        latex_body = re.sub(r'\\b\s*(\\begin\{)', lambda m: m.group(1), latex_body)
+        latex_body = re.sub(r'\x08\s*(\\begin\{)', lambda m: m.group(1), latex_body)
 
 
         # 13. Auto-wrap display math and constrain it to the active column.
@@ -472,13 +476,19 @@ class LaTeXExporterService:
         # from crossing into the neighboring column in two-column venues.
         def wrap_display_math(m):
             eq_content = m.group(1).strip()
-            # Preserve LaTeX row breaks (\\) inside aligned/cases environments.
-            # Collapsing them to a single slash corrupts cases and multiline math.
+            eq_content = eq_content.replace('\x08', '')
+            eq_content = re.sub(r'^[b\s\x08\\]*(?=\\begin\{)', '', eq_content)
+            eq_content = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
+            eq_content = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
+            eq_content = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
+            eq_content = eq_content.replace('egin{', '\\begin{')
+            eq_content = eq_content.replace('lacksquare', '\\blacksquare')
+            eq_content = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), eq_content)
+            eq_content = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), eq_content)
             eq_content = eq_content.replace('\t', ' ')
-            eq_content = re.sub(r'\\b\s*(\\begin\{)', r'\1', eq_content)
             if '\\begin{equation}' in eq_content:
                 return f"\n{eq_content}\n"
-            if '\\begin{aligned}' not in eq_content:
+            if '\\begin{aligned}' not in eq_content and '\\begin{cases}' not in eq_content:
                 if len(eq_content) > 110 and '\\land' in eq_content:
                     eq_content = re.sub(
                         r'\s+\\land\s+',
@@ -573,6 +583,8 @@ class LaTeXExporterService:
 
         # Remove Abstract heading and text from body_for_export so it doesn't duplicate in LaTeX body
         body_for_export = re.sub(r'#+\s*[\d\.\s]*(?:Executive\s+)?Abstract[^\n]*\n+[\s\S]*?(?=\n+#{1,2}\s+|\Z)', '', body_markdown, flags=re.IGNORECASE)
+        # Remove hardcoded References section from body_for_export so LaTeX bibliography handles it exclusively
+        body_for_export = re.sub(r'#+\s*[\d\.\s]*References[^\n]*\n+[\s\S]*$', '', body_for_export, flags=re.IGNORECASE)
         body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
 
         latex_body = self.convert_markdown_body(body_for_export)

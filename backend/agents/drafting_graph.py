@@ -59,6 +59,7 @@ class DraftState(TypedDict):
     iteration: int
     max_iterations: int
     log_callback: Any
+    is_dry_run: Optional[bool]
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
@@ -142,6 +143,10 @@ DEFAULT_OUTLINE = [
 
 def planner_node(state: DraftState):
     state["log_callback"]("Drafting", "Senior Research Writer & Publisher", "Planning 10-section hierarchical manuscript outline...")
+    if state.get("is_dry_run"):
+        state["outline"] = DEFAULT_OUTLINE
+        return state
+
     planner = dspy.Predict(PlanPaperStructure)
 
     try:
@@ -201,7 +206,7 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
         f"From a systems architecture standpoint, multi-agent coordination requires optimizing task allocation functions "
         f"and state synchronization latency across isolated execution sandboxes [[wooldridge2009]]. "
         f"Formally, the latency-throughput trade-off is governed by:\n\n"
-        f"$$\\lim_{{N \\to \\infty}} \\mathcal{{P}}(\\text{{Pass}}@k) = 1 - (1 - p)^k$$\n\n"
+        f"$$\\begin{{aligned}}\n\\lim_{{N \\to \\infty}} \\mathcal{{P}}(\\text{{Pass}}@k) = 1 - (1 - p)^k\n\\end{{aligned}}$$\n\n"
         f"where $N$ represents the active agent cluster density and $p$ denotes single-pass patch acceptance probability [[joshua2026adoptiondepth]].\n\n"
         f"### Empirical Findings & Systemic Trade-offs\n\n"
         f"Surveyed empirical deployment benchmarks demonstrate that structured agent validation loops achieve "
@@ -230,6 +235,10 @@ def section_writer_node(state: DraftState):
         sec_instructions = sec.get("instructions", "Write a detailed academic section.")
 
         state["log_callback"]("Drafting", "Senior Research Writer & Publisher", f"Expanding Section {idx+1}/{total_sections}: {clean_sec_title}...")
+
+        if state.get("is_dry_run"):
+            section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"])
+            continue
 
         success = False
         for attempt in range(2):
@@ -373,8 +382,9 @@ def build_drafting_graph():
 
     return workflow.compile()
 
-def run_drafting_cycle(topic: str, synthesis_content: str, summaries_text: str, log_callback: Any, max_iterations: int = 2) -> Dict[str, Any]:
-    configure_dspy()
+def run_drafting_cycle(topic: str, synthesis_content: str, summaries_text: str, log_callback: Any, max_iterations: int = 2, is_dry_run: bool = False) -> Dict[str, Any]:
+    if not is_dry_run:
+        configure_dspy()
     graph = build_drafting_graph()
 
     initial_state = {
@@ -388,7 +398,8 @@ def run_drafting_cycle(topic: str, synthesis_content: str, summaries_text: str, 
         "peer_review": {},
         "iteration": 0,
         "max_iterations": max_iterations,
-        "log_callback": log_callback
+        "log_callback": log_callback,
+        "is_dry_run": is_dry_run
     }
 
     final_state = graph.invoke(initial_state)

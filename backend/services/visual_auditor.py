@@ -48,10 +48,9 @@ class VisualLayoutAuditorService:
         total_pages = len(doc)
         margin_overflows = []
 
-        # Two-column venues have ~85mm (240pt) column width, full span is ~450pt
-        is_two_column = venue_key in ("IEEEtran", "ICML", "CVPR", "ACL", "ACM", "NeurIPS")
-        column_limit_pt = 475 if is_two_column else 540
-
+        # Two-column venues: IEEEtran, ICML, CVPR, ACM, IEEE_Access, Femington
+        is_two_column = venue_key in ("IEEEtran", "ICML", "CVPR", "ACM", "IEEE_Access", "Femington")
+        right_limit = 622
 
         for i, page in enumerate(doc):
             page_num = i + 1
@@ -59,8 +58,29 @@ class VisualLayoutAuditorService:
             for block in text_instances:
                 x0, y0, x1, y1, text, block_no, block_type = block
                 width = x1 - x0
-                # Detect lines extending past physical printable page margins (page width is 612pt for letter / 595pt for A4)
-                if x1 > 576 or x0 < 36:
+                
+                # Full-width spans (e.g. titles, single-column paragraphs, wide abstract/ref blocks)
+                is_wide_block = (x0 < 120 and width > 280)
+                is_centered_header = (y0 < 260 and x0 < 300 and x1 > 300 and width < 340)
+                is_centered_equation = (x0 < 300 and x1 > 300 and width >= 80)
+                
+                overflow = False
+                if is_two_column and not is_wide_block and not is_centered_header and not is_centered_equation:
+                    # Column 1 block extending deeply into column 2 body
+                    if x0 < 270 and x1 > 338 and width < 290:
+                        overflow = True
+                    # Column 2 block extending off right page edge
+                    elif x0 >= 300 and x1 > right_limit:
+                        overflow = True
+                    # Left margin violation (off canvas)
+                    elif x0 < 0:
+                        overflow = True
+                else:
+                    # Single column or full-width span extending off page edge
+                    if x1 > right_limit or x0 < 0:
+                        overflow = True
+
+                if overflow:
                     margin_overflows.append({
                         "page": page_num,
                         "bbox": [round(x0, 1), round(y0, 1), round(x1, 1), round(y1, 1)],

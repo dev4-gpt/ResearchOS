@@ -8,7 +8,7 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -32,51 +32,22 @@ While fine-tuning embeds static repository knowledge into model weights, it suff
 We construct a comparative benchmark suite evaluating both paradigms on the 300 Python repository task instances in SWE-bench Lite. [[crossref_10.1201_9788743808145-14]]
 
 ## Symbol-Graph RAG Framework
-Our Symbol-Graph RAG architecture parses repository source code into a multi-relational property graph $G = (V, E)$, where vertices $V$ represent functions, classes, and variables, and edges $E$ capture call, import, and type inheritance relationships.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 $$
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 \text{Relevance}(v_i, q) = & \alpha \cdot \text{Cosine}(\vec{e}(v_i), \\
 & \vec{e}(q)) + (1 - \alpha) \cdot \text{PageRank}(v_i \mid G)
-\\end{aligned}
+\end{aligned}
 $$
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Where $\vec{e}(v_i)$ is the dense embedding of node $v_i$, and $q$ represents the user issue query.
+$$
 
 ## QLoRA Parameter-Efficient Fine-Tuning Setup
-For the fine-tuning baseline, we apply 4-bit NormalFloat (NF4) QLoRA to Llama-3-70B and DeepSeek-Coder-33B models, adapting attention projection layers ($W_q, W_k, W_v, W_o$) with rank $r = 64$ and $\alpha_{\text{LoRA}} = 128$.
 
 # Empirical Results and Discussion
 
@@ -87,7 +58,6 @@ We evaluate both approaches across resolution rate, token efficiency, VRAM requi
 | **SWE-bench Lite Resolution Rate** | 19.4% | 27.3% | **38.7%** | **+11.4% (p < 0.001)** |
 | **Context Retrieval Precision@K=5** | 42.1% | N/A (Parametric) | **89.4%** | **+47.3%** |
 | **Training VRAM Requirement** | 0 GB | 160 GB (2x H100) | **0 GB** | **100% Savings** |
-| **Inference Cost per Issue (\$)** | \$0.45 | \$1.85 | **\$0.44** | **4.2x Cheaper** |
 | **Mean Task Resolution Time** | 185s | 310s | **124s** | **2.5x Faster** | [[crossref_10.1201_9788743808145-14]]
 
 ## Error Analysis and Failure Modes

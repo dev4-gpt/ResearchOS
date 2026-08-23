@@ -9,3 +9,5 @@
 \newcommand{\acmISBN}[1]{}
 \newcommand{\acmYear}[1]{}
 \newcommand{\copyrightyear}[1]{}
+\newcommand{\setcopyright}[1]{}
+\newcommand{\settopmatter}[1]{}

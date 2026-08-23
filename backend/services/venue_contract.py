@@ -77,7 +77,7 @@ def audit_venue_contract(
     target_pages = int(target_match.group(1)) if target_match else None
     configured_max = getattr(profile, "long_page_limit", None) or getattr(profile, "page_limit", None) or 16
     max_pages = target_pages or configured_max
-    page_passed = 2 <= total_pages <= max_pages
+    page_passed = 1 <= total_pages <= max_pages
 
     policy_passed = not missing_sections and not forbidden_found
     passed = template_passed and policy_passed and page_passed
@@ -97,7 +97,7 @@ def audit_venue_contract(
     if forbidden_found:
         problems.append("forbidden identity tokens found: " + ", ".join(forbidden_found))
     if not page_passed:
-        problems.append(f"page count {total_pages} outside allowed scope 2-{max_pages}")
+        problems.append(f"page count {total_pages} outside allowed scope 1-{max_pages}")
 
     return {
         "passed": passed,

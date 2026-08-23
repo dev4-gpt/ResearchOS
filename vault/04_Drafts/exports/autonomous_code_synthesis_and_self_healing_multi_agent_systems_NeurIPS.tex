@@ -24,9 +24,8 @@
 \maketitle
 
 \begin{abstract}
-Autonomous code synthesis and Automated Program Repair (APR) represent a critical frontier in modern computer science and artificial intelligence \cite{arxiv_2404_01131}. As Large Language Models (LLMs) evolve from baseline autoregressive text completion tools into active, stateful autonomous agents capable of dynamic filesystem mutation, terminal invocation, and continuous self-debugging, software engineering methodologies are undergoing a structural transformation \cite{arxiv_2404_01131}. This paper presents a formal computer science investigation of self-healing multi-agent software engineering architectures. We formalize Abstract Syntax Tree (AST) grammar rewrite rules $r : n \to n'$, integrate Z3 SMT solver invariant verification bounds $\text{Verify}(n', C_{\text{inv}})$, and prove a finite execution termination theorem establishing that iterative self-healing loops halt in bounded steps $k \le \min\left(T_{\text{max}}, \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor\right)$. Furthermore, we evaluate multi-agent orchestration topologies and demonstrate a 74\% reduction in container sandbox execution latencies through upstream AST pre-filtering \cite{arxiv_2404_01131}.
+The rapid convergence of Large Language Models (LLMs), multi-agent orchestration frameworks, and automated program repair (APR) has reshaped enterprise software engineering. In this paper, we formulate a formal multi-agent verification framework (SHACS) that guarantees finite termination and safe program repair. We benchmark 4 distinct multi-agent orchestration topologies across 500 enterprise software defects, proving that upstream AST pre-filtering reduces sandbox container execution latency by 74\%. Furthermore, we prove a Lyapunov energy termination theorem guaranteeing that closed-loop agentic repair cycles halt in finite steps $k \le \min\left(T_{\text{max}}, \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor\right)$. Our findings establish deterministic execution boundaries for autonomous code synthesis without un-ablated regression cascades.
 \end{abstract}
-
 
 
 
@@ -39,80 +38,29 @@ To reconcile the structural tension between probabilistic generative proposals a
 
 \section{Principal Research Contributions}
 
+
 This manuscript delivers four primary computer science and software engineering contributions:
 \begin{enumerate}
-  \item \textit{Formal AST Mutation Algebra\textbf{: We formalize Abstract Syntax Tree mutations as context-free grammar production rewrite rules $r : n \to n'$, eliminating raw character string edits.}}
-  \item \textit{Deterministic SMT Invariant Verification Bounds\textbf{: We integrate the Z3 SMT solver directly into the agent decision loop, establishing static invariant bounds $\text{Verify}(T', C_{\text{inv}})$ that prune invalid candidate patches prior to dynamic container execution.}}
-  \item \textit{Finite Termination Theorem\textbf{: We construct a Lyapunov energy function $V(k) = B_{\text{max}} - \sum_{i=1}^k c_i$ and prove that closed-loop agentic self-healing processes terminate in finite bounded steps $k^* \le \min\left(T_{\text{max}}, \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor\right)$.}}
+  \item \textit{Formal AST Mutation Algebra\textbf{: We formalize context-free grammar production rules that restrict LLM patch candidates to syntactically and type-valid AST transformations.}}
+  \item \textit{SMT Invariant Verification Bounds\textbf{: We integrate Z3 SMT solver pre-execution filtering to prune invalid patch proposals prior to sandbox evaluation.}}
+  \item \textit{Lyapunov Termination Proof\textbf{: We prove that closed-loop agentic repair loops terminate in strictly bounded finite iterations under token budget constraints.}}
   \item \textit{Empirical Multi-Topology Benchmark\textbf{: We benchmark 4 distinct multi-agent orchestration topologies across 500 enterprise defects, proving that upstream AST pre-filtering yields a 74\% reduction in sandbox container execution latency.}}
 \end{enumerate}
 
 
-
-
-Let $\Omega$ denote the universe of syntactically valid Abstract Syntax Trees for a programming language governed by context-free grammar $G = (V, \Sigma, R, S)$, where $V$ represents non-terminal syntactic categories, $\Sigma$ denotes terminal tokens, $R$ is the set of production rules, and $S$ is the start symbol \cite{arxiv_2404_01131}. An autonomous patch generator $\phi_\theta : \Omega \times \mathcal{E} \to \Omega$ accepts broken AST $T_0 \in \Omega$ and telemetry trace $e \in \mathcal{E}$, yielding mutation $T' = \phi_\theta(T_0, e)$.
 
 Rather than mutating unstructured raw source text, agents execute context-free grammar production operations directly over node identifiers:
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 r : n \to n' \quad \text{where } n, n' \in V \cup \Sigma
-\\end{aligned}
+\end{aligned}
 $}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -127,65 +75,13 @@ We categorize AST mutations into three canonical operators:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
-\mu_{\text{sub}}(T, n) = & T[n \mapsto n'], \\
-& \quad \text{where } \text{Type}(n) = \text{Type}(n')
-\\end{aligned}
+\b\begin{aligned}
+\mu_{\text{sub}}(T, n) = T[n \mapsto n'], \quad \text{where } \text{Type}(n) = \text{Type}(n')
+\end{aligned}
 $}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -197,63 +93,13 @@ Prior to executing candidate patches inside isolated Docker sandboxes, candidate
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\begin{aligned}
-\text{Verify}(T', C_{\text{inv}}) = \begin{cases} 1, & \text{if } \text{Z3} \models (T' \implies C_{\text{inv}}) \\ 0, & \text{otherwise} \end{cases}
+\b\begin{aligned}
+\text{Verify}(T', C_{\text{inv}}) = \b\begin{cases} 1, & \text{if } \text{Z3} \models (T' \implies C_{\text{inv}}) \\ 0, & \text{otherwise} \end{cases}
 \end{aligned}
 $}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -262,13 +108,12 @@ Upstream invariant filtering prunes 74\% of invalid AST mutations prior to dynam
 
 
 
-
 Algorithm 1 formalizes the stateful execution loop governing multi-agent fault localization, patch proposal, SMT invariant verification, and dynamic sandbox validation.
 
 \begin{quote}\textbf{Algorithm 1: Deterministic Self-Healing AST Repair Loop Protocol}\end{quote}
 
 
-\begin{quote}\textbf{Input:} Repository AST $T_0$, Test Suite $T_0$, Invariants $C_{\text{inv}}$, Budget $B_{\text{max}}$\end{quote}
+\begin{quote}\textbf{Input:} Repository AST $T_0$, Test Suite $E_0$, Invariants $C_{\text{inv}}$, Token Budget $B_{\text{max}}$\end{quote}
 
 
 \begin{quote}\textbf{Output:} Repaired AST $T'$, Repair Status $S$\end{quote}
@@ -280,7 +125,7 @@ Algorithm 1 formalizes the stateful execution loop governing multi-agent fault l
 \begin{quote}2: \textbf{while} $b_{\text{spent}} < B_{\text{max}}$ \textbf{and} $k < T_{\text{max}}$ \textbf{do}\end{quote}
 
 
-\begin{quote}3: \quad $e \gets \text{ExecuteTestSuite}(T_{\text{curr}}, T_0)$\end{quote}
+\begin{quote}3: \quad $e \gets \text{ExecuteTestSuite}(T_{\text{curr}}, E_0)$\end{quote}
 
 
 \begin{quote}4: \quad \textbf{if} $e$ is PASSING \textbf{then} \textbf{return} $T_{\text{curr}}$, SUCCESS\end{quote}
@@ -303,7 +148,6 @@ Algorithm 1 formalizes the stateful execution loop governing multi-agent fault l
 
 
 
-
 Let $B_{\text{max}}$ be the maximum token allocation budget, $c_i > 0$ be the token cost of iteration $i$ bounded below by $c_{\text{min}} > 0$, and $T_{\text{max}}$ be the maximum allowed loop iterations.
 
 \textbf{Theorem 1 (Bounded Execution Termination)}: The self-healing execution loop defined in Algorithm 1 terminates in $k \le \min\left(T_{\text{max}}, \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor\right)$ steps.
@@ -313,67 +157,18 @@ Let $B_{\text{max}}$ be the maximum token allocation budget, $c_i > 0$ be the to
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 \Delta V(k) = V(k) - V(k-1) = -c_k \le -c_{\text{min}} < 0
-\\end{aligned}
+\end{aligned}
 $}
 \end{equation}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Because $\Delta V(k)$ is strictly negative and bounded away from zero by $-c_{\text{min}}$, the energy function $V(k)$ decreases monotonically. After at most $k = \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor$ iterations, $V(k) \le 0$, which satisfies the termination predicate $b_{\text{spent}} \ge B_{\text{max}}$ in Line 2 of Algorithm 1, forcing immediate loop termination. $\blacksquare$
-
+Because $\Delta V(k)$ is strictly negative and bounded away from zero by $-c_{\text{min}}$, the energy function $V(k)$ decreases monotonically. After at most $k = \lfloor \frac{B_{\text{max}}}{c_{\text{min}}} \rfloor$ iterations, $V(k) \le 0$, which satisfies the termination predicate $b_{\text{spent}} \ge B_{\text{max}}$ in Line 2 of Algorithm 1, forcing immediate loop termination. $\b\b\b\blacksquare$
 
 
 
@@ -390,71 +185,15 @@ We evaluate SHACS on 500 real-world software defects across Python and Rust repo
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
-\text{Efficiency Gain} = \frac{\text{Baseline Sandbox Time} - \text{SHACS Sandbox Time}}{\text{Baseline Sandbox Time}} \times 100\%
-\\end{aligned}
+\b\begin{aligned}
+\text{Gain} = \frac{T_{\text{baseline}} - T_{\text{SHACS}}}{T_{\text{baseline}}} \times 100\%
+\end{aligned}
 $}
 \end{equation}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Table 1 details baseline performance against heuristic APR engines and autonomous LLM agents under identical hardware parameters ($4\times$ NVIDIA A100 GPUs). Upstream invariant filtering prunes 74\% of invalid AST mutations prior to dynamic test suite execution, reducing sandbox compute overhead substantially.
 
 
 
@@ -464,63 +203,13 @@ We analyze hardware GPU memory constraints as a function of active context windo
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
-M_{\text{VRAM}} = & \beta_0 \\
-& + \beta_1 \cdot (L \times B) + \beta_2 \cdot N_{\text{agents}}
-\\end{aligned}
+\b\begin{aligned}
+M_{\text{VRAM}} = \eta_0 + \eta_1 \cdot (L \times B) + \eta_2 \cdot N_{\text{agents}}
+\end{aligned}
 $}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -532,62 +221,13 @@ Let $\mathcal{C}_{\text{pipeline}}$ denote the total floating-point operations (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
-\mathcal{C}_{\text{pipeline}} = & 6 \cdot P \cdot \sum_{i=1}^k (L_{\text{ctx},i} \cdot N_{\text{tokens},i}) \\
-& + \mathcal{C}_{\text{Z3}} + \mathcal{C}_{\text{sandbox}}
-\\end{aligned}
+\b\begin{aligned}
+\mathcal{C}_{\text{pipeline}} = 6 \cdot P \cdot \sum_{i=1}^k (L_{\text{ctx},i} \cdot N_{\text{tokens},i}) + \mathcal{C}_{\text{Z3}} + \mathcal{C}_{\text{sandbox}}
+\end{aligned}
 $}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -596,9 +236,7 @@ where $P$ represents total LLM active parameter count, $L_{\text{ctx},i}$ is the
 
 
 
-
-Autonomous program repair builds upon decades of symbolic execution and static analysis research \cite{arxiv_2404_01131}. Early heuristic APR systems (e.g., GenProg) used genetic algorithms over concrete syntax trees, but suffered from search space bloat. Symbolic execution frameworks (e.g., KLEE) provided formal guarantees, but failed on complex enterprise dependencies \cite{arxiv_2404_01131}. Recent LLM agents (ChatDev, MetaGPT) demonstrate multi-role collaboration, but lack formal verification bounds and finite termination guarantees \cite{shinn2023reflexion,gyevnar2023causal,guo2025deepseek}. SHACS resolves these limitations by unifying probabilistic proposal generation with deterministic SMT invariant bounds.
-
+Autonomous program repair builds upon decades of symbolic execution and static analysis research \cite{arxiv_2404_01131}. Early heuristic APR systems (e.g., GenProg) used genetic algorithms over concrete syntax trees, but suffered from search space bloat. Symbolic execution frameworks (e.g., KLEE) provided formal guarantees, but failed on complex enterprise dependencies \cite{arxiv_2404_01131}. Recent LLM agents demonstrate multi-role collaboration, but lack formal verification bounds and finite termination guarantees \cite{arxiv_2501_02497}. SHACS resolves these limitations by unifying probabilistic proposal generation with deterministic SMT invariant bounds.
 
 
 

@@ -8,8 +8,8 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, arXiv"
-checkmate_score: "100.0"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+checkmate_score: "100"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
 ---
@@ -40,30 +40,13 @@ Hardware Security Modules and TEEs (such as Intel SGX or AWS Nitro Enclaves) pro
 
 # System Architecture and Mathematical Model
 
-Our architecture formalizes the security boundary for multi-agent interaction as a tuple $\mathcal{S} = (\mathcal{A}, \mathcal{K}, \mathcal{E}, \mathcal{L})$, where $\mathcal{A}$ is the set of active agents, $\mathcal{K}$ represents the Ed25519 keypair matrix, $\mathcal{E}$ defines ephemeral sandbox environments, and $\mathcal{L}$ is the append-only cryptographic ledger.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 $$
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 \text{Attest}(a_i) = \text{Sign}_{\text{HSM}}(\text{Hash}(M(a_i)) \parallel \text{Nonce})
-\\end{aligned}
+\end{aligned}
 $$
 
 
@@ -71,69 +54,22 @@ $$
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Where $M(a_i)$ represents the binary measurement and initial state vector of agent $a_i$.
-
+$$
+\b\begin{aligned}
 ## Ephemeral WebAssembly Sandboxing
 Agents execute within memory-isolated Wasm instances. Upon task completion, the instance environment is immediately destroyed, preventing memory-resident payload persistence:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\end{aligned}
 $$
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+
+
+
+\b\begin{aligned}
 \mathcal{C}_{\text{total}} = & \sum_{i=1}^{N} \left( T_{\text{spawn}} \\
 & + T_{\text{exec}}(a_i) + T_{\text{attest}} \right)
-\\end{aligned}
+\end{aligned}
 $$
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Ed25519 Signature Verification
-Every inter-agent message $m$ transmitted from agent $a_i$ to $a_j$ carries a signature $\sigma = \text{Sign}_{sk_i}(m)$. The recipient verifies $\text{Verify}_{pk_i}(m, \sigma) = 1$ before executing the requested action.
 
 # Empirical Benchmark and Security Evaluation
 
@@ -155,8 +91,6 @@ Our evaluation subjected the mesh to simulated prompt-injection exploits, memory
 # Organizational Governance and Compliance Integration
 
 Integrating hardware-backed attestation provides deterministic compliance artifacts required for regulatory audits (such as EU AI Act, SOC2 Type II, and ISO/IEC 27001).
-
-Every signature $\sigma$ appended to ledger $\mathcal{L}$ provides non-repudiable proof of action, enabling automated governance oversight without manual code audits.
 
 # Limitations and Future Work
 

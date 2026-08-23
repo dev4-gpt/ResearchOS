@@ -222,8 +222,7 @@ class CouncilOrchestrator:
 
         papers = []
         if self.is_dry_run:
-            time.sleep(2)
-            # Mock paper metadata
+            # Mock paper metadata for fast dry-run execution
             papers = [
                 {
                     "id": "arxiv:2305.18290",
@@ -233,7 +232,9 @@ class CouncilOrchestrator:
                     "url": "https://arxiv.org/abs/2305.18290",
                     "published": "2023-05-29",
                     "citations": 1240,
-                    "source": "arXiv & OpenAlex"
+                    "source": "arXiv & OpenAlex",
+                    "full_pdf_ingested": True,
+                    "full_text": "We present Direct Preference Optimization (DPO), a stable, performant, and computationally lightweight algorithm."
                 },
                 {
                     "id": "arxiv:2005.14165",
@@ -243,7 +244,9 @@ class CouncilOrchestrator:
                     "url": "https://arxiv.org/abs/2005.14165",
                     "published": "2020-05-28",
                     "citations": 25400,
-                    "source": "arXiv & OpenAlex"
+                    "source": "arXiv & OpenAlex",
+                    "full_pdf_ingested": True,
+                    "full_text": "We demonstrate that scaling up language models greatly improves few-shot performance across tasks."
                 },
                 {
                     "id": "arxiv:2203.02155",
@@ -253,7 +256,9 @@ class CouncilOrchestrator:
                     "url": "https://arxiv.org/abs/2203.02155",
                     "published": "2022-03-04",
                     "citations": 4350,
-                    "source": "arXiv & OpenAlex"
+                    "source": "arXiv & OpenAlex",
+                    "full_pdf_ingested": True,
+                    "full_text": "We show how to fine-tune language models on a wide range of tasks to align them with user intent."
                 }
             ]
         else:
@@ -323,8 +328,12 @@ class CouncilOrchestrator:
         # Lead Analyst writes paper notes into Vault
         extracted_papers_info = []
         for i, paper in enumerate(papers):
-            # Attempt full PDF extraction
-            paper = self.search_service.fetch_full_text_for_paper(paper)
+            # Attempt full PDF extraction (bypassed in dry run mode)
+            if not self.is_dry_run:
+                paper = self.search_service.fetch_full_text_for_paper(paper)
+            else:
+                paper.setdefault("full_text", paper.get("abstract", ""))
+                paper.setdefault("full_pdf_ingested", True)
             ingest_msg = f"Ingesting paper {i+1}/{len(papers)}: '{paper['title']}'"
             if paper.get("full_pdf_ingested"):
                 ingest_msg += " [Full PDF Ingested]"
@@ -541,7 +550,8 @@ class CouncilOrchestrator:
             synthesis_content=synthesis_content,
             summaries_text=summaries_text,
             log_callback=send_log,
-            max_iterations=2
+            max_iterations=2,
+            is_dry_run=self.is_dry_run
         )
         final_paper_content = cycle_result["draft"]
         peer_review_data = cycle_result["peer_review"]

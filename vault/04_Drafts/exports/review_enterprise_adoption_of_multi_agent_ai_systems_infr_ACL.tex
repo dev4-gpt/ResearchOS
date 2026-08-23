@@ -56,32 +56,15 @@ Hardware Security Modules and TEEs (such as Intel SGX or AWS Nitro Enclaves) pro
 
 
 
-Our architecture formalizes the security boundary for multi-agent interaction as a tuple $\mathcal{S} = (\mathcal{A}, \mathcal{K}, \mathcal{E}, \mathcal{L})$, where $\mathcal{A}$ is the set of active agents, $\mathcal{K}$ represents the Ed25519 keypair matrix, $\mathcal{E}$ defines ephemeral sandbox environments, and $\mathcal{L}$ is the append-only cryptographic ledger.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
+\b\begin{aligned}
 \text{Attest}(a_i) = \text{Sign}_{\text{HSM}}(\text{Hash}(M(a_i)) \parallel \text{Nonce})
-\\end{aligned}
+\end{aligned}
 $}
 \end{equation}
 
@@ -92,76 +75,29 @@ $}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Where $M(a_i)$ represents the binary measurement and initial state vector of agent $a_i$.
-
+\begin{equation}
+\resizebox{\columnwidth}{!}{$\displaystyle
+\b\begin{aligned}
 
 \section{Ephemeral WebAssembly Sandboxing}
 
 Agents execute within memory-isolated Wasm instances. Upon task completion, the instance environment is immediately destroyed, preventing memory-resident payload persistence:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{equation}
-\resizebox{\columnwidth}{!}{$\displaystyle
-\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\begin{aligned}
-\mathcal{C}_{\text{total}} = & \sum_{i=1}^{N} \left( T_{\text{spawn}} \\
-& + T_{\text{exec}}(a_i) + T_{\text{attest}} \right)
-\\end{aligned}
+\end{aligned}
 $}
 \end{equation}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{aligned}
+\mathcal{C}\_{\text{total}} = \& \sum\_{i=1}^{N} \left( T\_{\text{spawn}} \\
+\& + T\_{\text{exec}}(a\_i) + T\_{\text{attest}} \right)
+\end{aligned}
+$$
 
 
 \section{Ed25519 Signature Verification}
 
-Every inter-agent message $m$ transmitted from agent $a_i$ to $a_j$ carries a signature $\sigma = \text{Sign}_{sk_i}(m)$. The recipient verifies $\text{Verify}_{pk_i}(m, \sigma) = 1$ before executing the requested action.
 
 
 
@@ -186,8 +122,6 @@ Our evaluation subjected the mesh to simulated prompt-injection exploits, memory
 
 
 Integrating hardware-backed attestation provides deterministic compliance artifacts required for regulatory audits (such as EU AI Act, SOC2 Type II, and ISO/IEC 27001).
-
-Every signature $\sigma$ appended to ledger $\mathcal{L}$ provides non-repudiable proof of action, enabling automated governance oversight without manual code audits.
 
 
 

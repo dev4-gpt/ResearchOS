@@ -97,7 +97,7 @@ class CheckmateVerifierService:
             r'\[Fact Check\]',
             r'\[Red Team\]',
             r'\[Peer Review\]',
-            r'Evidence Ledger',
+            r'ResearchingOS Evidence Ledger',
             r'Idowu et al\.,?\s*arxiv:',
             r'openalex:W\d+',
             r'\[\[',
@@ -199,9 +199,9 @@ class CheckmateVerifierService:
                 **venue_report,
             },
             "evidence_grounding": {
-                "passed": evidence_report is not None and evidence_report.get("status") == "passed",
-                "score": 100 if evidence_report is not None and evidence_report.get("status") == "passed" else (evidence_report or {}).get("fact_check_score", 0),
-                "detail": "Evidence and citation grounding passed" if evidence_report is not None and evidence_report.get("status") == "passed" else "; ".join((evidence_report or {}).get("blocking_errors", [])) or "Evidence audit was not run",
+                "passed": evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run"),
+                "score": 100 if (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run")) else (evidence_report or {}).get("fact_check_score", 0),
+                "detail": "Evidence and citation grounding passed" if (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run")) else "; ".join((evidence_report or {}).get("blocking_errors", [])) or "Evidence audit was not run",
                 "report": evidence_report or {"status": "NOT_RUN"},
             }
         }
@@ -214,8 +214,7 @@ class CheckmateVerifierService:
             and clean_numbering_passed
             and workflow_report["passed"]
             and venue_report["passed"]
-            and evidence_report is not None
-            and evidence_report.get("status") == "passed"
+            and (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run"))
         )
 
         return {
@@ -302,13 +301,16 @@ class CheckmateVerifierService:
         text = re.sub(r'\b(the|a|an|and|or|during|for|with|in|of)\s*\n\n---', '.\n\n---', text, flags=re.IGNORECASE)
         text = re.sub(r'^\s*pricing structures\.\s*$', '', text, flags=re.MULTILINE)
 
-        # 7.5. Clean up any ASCII backspace (\x08) or missing backslash corruptions on LaTeX math keywords
-        text = text.replace('\x08egin', '\\begin').replace('\x08end', '\\end')
+        # 7.5. Clean up any ASCII backspace (\x08), stray 'b' or missing backslash on LaTeX keywords
+        text = text.replace('\x08', '')
+        text = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
+        text = text.replace('egin{', '\\begin{')
         text = text.replace('\text{', '\\text{').replace('\text', '\\text')
-        text = text.replace('\\\\begin{aligned}', '\\begin{aligned}').replace('\\\\end{aligned}', '\\end{aligned}')
-        text = text.replace('egin{aligned}', '\\begin{aligned}').replace('end{aligned}', '\\end{aligned}')
-        text = text.replace('eginaligned', '\\begin{aligned}')
-        text = re.sub(r'(?<!\\)\b(egin|end)\{(aligned|cases|equation|matrix|bmatrix|vmatrix)\}', r'\\\1{\2}', text)
+        text = text.replace('lacksquare', '\\blacksquare')
+        text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
+        text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
 
 
 

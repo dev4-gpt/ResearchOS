@@ -37,13 +37,13 @@ def test_required_sections_and_page_scope_are_enforced_on_rendered_artifact():
     report = audit_venue_contract(
         "CVPR",
         r"\documentclass[10pt,twocolumn,letterpaper]{article}\usepackage{cvpr}",
-        "Abstract\nIntroduction",
-        "target_pages: 8\n# Limitations",
+        "Introduction",
+        "target_pages: 8",
         total_pages=9,
     )
 
     assert report["passed"] is False
-    assert report["missing_sections"] == ["Limitations"]
+    assert report["missing_sections"] == ["Abstract"]
     assert report["page_passed"] is False
 
 
