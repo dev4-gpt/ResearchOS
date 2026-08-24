@@ -54,23 +54,57 @@ This framework moves beyond simple correlation, striving for a causal understand
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
-ROI = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
+\begin{aligned}
+\text{ROI} = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
 \end{aligned}
 $$
 
 
 
 
-\b\begin{aligned}
-ROI = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
-\end{aligned}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 $$
-\b\begin{aligned}
+\begin{aligned}
+\text{ROI} = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
+\end{aligned}
+$$
+
+
+
+
+
+
+
+
+
+
+
 Similarly, **Modi (2026)** focuses on "Measuring Business ROI of Generative AI Adoption on Azure Cloud Platforms," indicating the development of platform-specific methodologies for ROI assessment [[openalex_W4400993506]]. This highlights a trend towards integrating ROI measurement capabilities directly within cloud ecosystems, potentially leveraging platform-native analytics and financial reporting tools to quantify GenAI's impact on resource utilization, operational efficiency, and revenue generation tied to cloud services.
 
 **Thukral et al. (2023)**, while not providing explicit quantitative figures, strongly emphasizes the potential for "concrete ROI" and "reduced risk" through customer journey optimization using LLMs [[crossref_10.2139_ssrn.6374778]]. Their work outlines best practices for deploying GenAI in marketing and customer experience, implicitly linking successful implementation to quantifiable outcomes such as:
@@ -136,21 +170,33 @@ The computational demands of GenAI models, particularly Large Language Models (L
 *   **Cloud vs. On-Premise Deployment:** Cloud solutions offer flexibility and elasticity but often come with higher per-unit costs, whereas on-premise solutions demand significant upfront capital expenditure and maintenance.
 
 To mitigate compute costs, enterprises must strategically evaluate model selection, deployment architecture, and optimization techniques. This includes leveraging smaller, more specialized models where appropriate, employing techniques such as quantization, pruning, and knowledge distillation to reduce model size and inference time, and adopting efficient serving frameworks. Hybrid cloud strategies, where sensitive or high-volume inference occurs on optimized on-premise hardware and burstable workloads leverage cloud resources, can also be considered.
+
+
+
+
+
+
+
+
+
+
+$$
+\begin{aligned}
+C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
+& + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
 
 
 
-\b\begin{aligned}
-C_{op} = & N_{req} \times (C_{inference} + C_{data\_transfer}) \\
-& + C_{infrastructure} + C_{storage}
-\label{eq:operational_cost}
-\end{aligned}
 
 
 
-$$
-\b\begin{aligned}
+
+
+
+
+
 ## Scalability and Performance Engineering
 
 Enterprise GenAI solutions must be designed for scalability from inception to accommodate increasing user loads, data volumes, and expanding use cases. A solution that performs well in a pilot phase with limited users may collapse under enterprise-wide adoption.
@@ -231,16 +277,31 @@ Measuring the true ROI of GenAI adoption in complex enterprise environments pres
 
 #### Challenges in Causal Attribution
 Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Multi-Touch Attribution (MTA), often fall short when attempting to isolate the precise impact of GenAI initiatives. As highlighted by Kumar (2026), these approaches frequently operate in isolation, yielding fragmented or even contradictory signals that impede unified decision-making. The introduction of GenAI adds another layer of complexity, making it difficult to disentangle its effects from concurrent marketing campaigns, operational improvements, or external market forces. A robust causal framework, as proposed by Kumar (2026) for the life sciences, is essential but remains nascent in broader enterprise GenAI contexts. Without proper causal inference, there is a risk of over-attributing positive outcomes to GenAI, leading to inflated ROI claims.
+
+
+
+
+
+
+
+
+
+
+$$
+\begin{aligned}
+Y = & \alpha + \tau X_{\text{GenAI}} \\
+& + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
 
 
 
-\b\begin{aligned}
-Y = & \alpha + \tau X_{GenAI} \\
-& + \sum_{i=1}^k eta_i Z_i + \epsilon
-\end{aligned}
-$$
+
+
+
+
+
+
 
 #### Defining and Quantifying "Value"
 The definition of "value" in the context of GenAI extends beyond simple financial metrics. While cost savings (e.g., reduced operational expenses) and revenue generation (e.g., increased sales from personalized recommendations) are tangible, many benefits are intangible, such as enhanced customer experience, accelerated innovation, improved employee productivity, and better decision-making capabilities (Thukral et al., 2023). Quantifying these "soft" benefits into monetary terms for ROI calculation is notoriously difficult and often relies on proxy metrics or subjective assessments, introducing potential biases.

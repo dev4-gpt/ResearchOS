@@ -202,12 +202,11 @@ class LaTeXExporterService:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
         text = body_markdown.replace('‘', "'").replace('’', "'").replace('“', '"').replace('”', '"')
         text = text.replace('\x08', '')
-        text = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = text.replace('egin{', '\\begin{')
-        text = text.replace('\text{', '\\text{').replace('\text', '\\text')
-        text = text.replace('lacksquare', '\\blacksquare')
+        # Clean any accidental \b\command prefixes
+        text = re.sub(r'\\+b\\+([a-zA-Z]+)', r'\\\1', text)
+        text = re.sub(r'\\*(begin|end)\{\\+([a-zA-Z]+)\}', r'\\\1{\2}', text)
+        text = re.sub(r'(?<!\\)\b(begin|end)\{', r'\\\1{', text)
+        text = re.sub(r'(?<!\\)\bblacksquare\b', r'\\blacksquare', text)
         text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
         text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
 
@@ -466,10 +465,8 @@ class LaTeXExporterService:
         latex_body = re.sub(r'\\textbf\{(\\subsection\{[^}]+\})\}', lambda m: m.group(1), latex_body)
         latex_body = re.sub(r'\\textbf\{(\\subsubsection\{[^}]+\})\}', lambda m: m.group(1), latex_body)
 
-        # 12. Clean any accidental stray \b before \begin
-        latex_body = re.sub(r'\\b\s*(\\begin\{)', lambda m: m.group(1), latex_body)
-        latex_body = re.sub(r'\x08\s*(\\begin\{)', lambda m: m.group(1), latex_body)
-
+        # 12. Clean any accidental stray \b or \x08 before LaTeX commands
+        latex_body = re.sub(r'\\+b\\+([a-zA-Z]+)', r'\\\1', latex_body)
 
         # 13. Auto-wrap display math and constrain it to the active column.
         # \resizebox preserves equation numbering while preventing long formulas
@@ -477,12 +474,10 @@ class LaTeXExporterService:
         def wrap_display_math(m):
             eq_content = m.group(1).strip()
             eq_content = eq_content.replace('\x08', '')
-            eq_content = re.sub(r'^[b\s\x08\\]*(?=\\begin\{)', '', eq_content)
-            eq_content = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
-            eq_content = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
-            eq_content = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', eq_content)
-            eq_content = eq_content.replace('egin{', '\\begin{')
-            eq_content = eq_content.replace('lacksquare', '\\blacksquare')
+            eq_content = re.sub(r'\\+b\\+([a-zA-Z]+)', r'\\\1', eq_content)
+            eq_content = re.sub(r'\\*(begin|end)\{\\+([a-zA-Z]+)\}', r'\\\1{\2}', eq_content)
+            eq_content = re.sub(r'(?<!\\)\b(begin|end)\{', r'\\\1{', eq_content)
+            eq_content = re.sub(r'(?<!\\)\bblacksquare\b', r'\\blacksquare', eq_content)
             eq_content = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), eq_content)
             eq_content = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), eq_content)
             eq_content = eq_content.replace('\t', ' ')
@@ -504,10 +499,7 @@ class LaTeXExporterService:
             )
 
         latex_body = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', wrap_display_math, latex_body)
-
-        # 14. Do not run a second aligned/equation wrapper pass here. Display
-        # math was normalized above; wrapping it again would create nested
-        # equation environments inside \resizebox and corrupt compilation.
+        latex_body = re.sub(r'\\+b\\+([a-zA-Z]+)', r'\\\1', latex_body)
 
         return latex_body
 

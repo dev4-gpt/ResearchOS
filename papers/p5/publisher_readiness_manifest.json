@@ -1,0 +1,2682 @@
+{
+  "ready_count": 12,
+  "total_tests": 12,
+  "results": [
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 4-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 4,
+          "venue": "NeurIPS"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "NeurIPS"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "ICML"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ICML.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ICML.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "ICML"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "CVPR"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "CVPR"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 4-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 4,
+          "venue": "ACL"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "ACL"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 2-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 2,
+          "venue": "IEEEtran"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEEtran.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEEtran.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "IEEEtran"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "ACM"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACM.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACM.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "ACM"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 2-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 2,
+          "venue": "IEEE_Access"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEE_Access.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEE_Access.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "IEEE_Access"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "SpringerOpen"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_SpringerOpen.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_SpringerOpen.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "SpringerOpen"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 2-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 2,
+          "venue": "Femington"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_Femington.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_Femington.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "Femington"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "MDPI"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_MDPI.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_MDPI.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "MDPI"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 91.7,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "DOAJ is an indexing service, not a manuscript venue/template; venue-specific official template is not configured",
+          "forbidden_tokens_found": [],
+          "index_only": true,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": false,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 0,
+          "status": "NEEDS_REMEDIATION",
+          "target_pages": null,
+          "template_configured": false,
+          "template_passed": false,
+          "total_pages": 3,
+          "venue": "DOAJ"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_DOAJ.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_DOAJ.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "DOAJ"
+    },
+    {
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checkmate_passed": true,
+      "checkmate_score": 100.0,
+      "checks": {
+        "clean_section_numbering": {
+          "detail": "Clean LaTeX section hierarchy",
+          "passed": true,
+          "score": 100
+        },
+        "clean_tex_syntax": {
+          "detail": "TeX source syntax is 100% sound and balanced",
+          "passed": true,
+          "score": 100
+        },
+        "complete_abstract": {
+          "detail": "Abstract contains full, terminal-punctuated synthesis",
+          "passed": true,
+          "score": 100
+        },
+        "evidence_grounding": {
+          "detail": "Evidence and citation grounding passed",
+          "passed": true,
+          "report": {
+            "blocking_errors": [],
+            "citation_report": {
+              "broken_count": 0,
+              "broken_links": [],
+              "citation_score": 100.0,
+              "total_citations": 1,
+              "unresolved_count": 0,
+              "unresolved_links": [],
+              "verified_count": 1,
+              "verified_links": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            },
+            "fact_check_score": 100.0,
+            "metric_report": {
+              "grounded_claims": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "grounded_count": 13,
+              "metric_score": 100.0,
+              "total_numeric_claims": 13,
+              "unverified_claims": [],
+              "unverified_count": 0
+            },
+            "status": "passed",
+            "verification_matrix": {
+              "broken_citations": [],
+              "grounded_metrics": [
+                "0.03%",
+                "0.9 ms",
+                "000 agents",
+                "1.7 ms",
+                "100%",
+                "14.3 ms",
+                "23.7 ms",
+                "4.2 ms",
+                "41.2 ms",
+                "500 autonomous agents",
+                "6.8 ms",
+                "8.1 ms",
+                "p < 0.001"
+              ],
+              "unresolved_citations": [],
+              "unverified_metrics": [],
+              "verified_citations": [
+                "crossref_10_1109_access_2026_3656309"
+              ]
+            }
+          },
+          "score": 100
+        },
+        "real_bibliography": {
+          "detail": "100% verified real academic publications",
+          "passed": true,
+          "score": 100
+        },
+        "valid_layout": {
+          "detail": "Valid 3-page camera-ready layout",
+          "passed": true,
+          "score": 100
+        },
+        "venue_contract": {
+          "detail": "Venue contract satisfied",
+          "forbidden_tokens_found": [],
+          "index_only": false,
+          "max_pages": 20,
+          "missing_sections": [],
+          "missing_template_markers": [],
+          "package_fallback_used": false,
+          "page_passed": true,
+          "passed": true,
+          "policy_passed": true,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          },
+          "required_sections": [
+            "Abstract"
+          ],
+          "score": 100,
+          "status": "PASS",
+          "target_pages": null,
+          "template_configured": true,
+          "template_passed": true,
+          "total_pages": 3,
+          "venue": "arXiv"
+        },
+        "verified_author": {
+          "detail": "Author explicitly attributed",
+          "passed": true,
+          "score": 100
+        },
+        "workflow_fidelity": {
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "passed": true,
+          "score": 100,
+          "stale_linear_claim": false
+        },
+        "zero_meta_leakage": {
+          "detail": "0 internal persona/prompt tags leaked",
+          "passed": true,
+          "score": 100
+        },
+        "zero_placeholders": {
+          "detail": "0 placeholder stubs detected",
+          "passed": true,
+          "score": 100
+        },
+        "zero_raw_leaks": {
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked",
+          "passed": true,
+          "score": 100
+        }
+      },
+      "compiled": true,
+      "evidence_report": {
+        "blocking_errors": [],
+        "citation_report": {
+          "broken_count": 0,
+          "broken_links": [],
+          "citation_score": 100.0,
+          "total_citations": 1,
+          "unresolved_count": 0,
+          "unresolved_links": [],
+          "verified_count": 1,
+          "verified_links": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        },
+        "fact_check_score": 100.0,
+        "metric_report": {
+          "grounded_claims": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "grounded_count": 13,
+          "metric_score": 100.0,
+          "total_numeric_claims": 13,
+          "unverified_claims": [],
+          "unverified_count": 0
+        },
+        "status": "passed",
+        "verification_matrix": {
+          "broken_citations": [],
+          "grounded_metrics": [
+            "0.03%",
+            "0.9 ms",
+            "000 agents",
+            "1.7 ms",
+            "100%",
+            "14.3 ms",
+            "23.7 ms",
+            "4.2 ms",
+            "41.2 ms",
+            "500 autonomous agents",
+            "6.8 ms",
+            "8.1 ms",
+            "p < 0.001"
+          ],
+          "unresolved_citations": [],
+          "unverified_metrics": [],
+          "verified_citations": [
+            "crossref_10_1109_access_2026_3656309"
+          ]
+        }
+      },
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "layout_passed": true,
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_arXiv.pdf",
+      "publish_ready": true,
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_arXiv.tex",
+      "title": "Cryptographic Attestation and Hardware-Backed Gatekeeping for Enterprise Multi-Agent Microservice Meshes",
+      "venue": "arXiv"
+    }
+  ]
+}

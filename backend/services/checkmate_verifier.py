@@ -149,6 +149,42 @@ class CheckmateVerifierService:
             package_fallback_used=package_fallback_used,
         )
 
+        # 8. Zero Raw LaTeX and Markdown Leaks Check
+        raw_code_leak_patterns = [
+            r'\\begin\{',
+            r'\\end\{',
+            r'\\blacksquare',
+            r'\\text\{',
+            r'\\cite\{',
+            r'\*\*[a-zA-Z0-9]',
+            r'\[\[[a-zA-Z0-9_]+\]\]',
+        ]
+        raw_code_matches = []
+        for pat in raw_code_leak_patterns:
+            m = re.findall(pat, full_pdf_text)
+            if m:
+                raw_code_matches.extend(m)
+        zero_raw_leaks_passed = len(raw_code_matches) == 0
+
+        # 9. Clean TeX Syntax and Math Environment Balance Check
+        tex_syntax_errors = []
+        if tex_source:
+            if re.search(r'\\+b\\+([a-zA-Z]+)', tex_source):
+                tex_syntax_errors.append('Stray \\b\\ command prefix detected')
+            if re.search(r'\\*(begin|end)\{\\+([a-zA-Z]+)\}', tex_source):
+                tex_syntax_errors.append('Escaped environment name inside begin/end')
+            if re.search(r'(?<!\\)\b(begin|end)\{', tex_source):
+                tex_syntax_errors.append('Unescaped begin/end')
+            if re.search(r'(?<!\\)\bblacksquare\b', tex_source):
+                tex_syntax_errors.append('Unescaped blacksquare')
+            if re.search(r'(?<!\\)eta[0-9_]', tex_source):
+                tex_syntax_errors.append('Unescaped eta')
+            begins_eq = len(re.findall(r'\\begin\{equation\*?\}', tex_source))
+            ends_eq = len(re.findall(r'\\end\{equation\*?\}', tex_source))
+            if begins_eq != ends_eq:
+                tex_syntax_errors.append(f'Unbalanced equation environments ({begins_eq} vs {ends_eq})')
+        clean_tex_syntax_passed = len(tex_syntax_errors) == 0
+
         checks = {
             "zero_placeholders": {
                 "passed": zero_placeholders_passed,
@@ -185,6 +221,16 @@ class CheckmateVerifierService:
                 "score": 100 if venue_report["page_passed"] else 0,
                 "detail": f"Valid {total_pages}-page camera-ready layout" if venue_report["page_passed"] else venue_report["detail"]
             },
+            "zero_raw_leaks": {
+                "passed": zero_raw_leaks_passed,
+                "score": 100 if zero_raw_leaks_passed else 0,
+                "detail": "0 raw LaTeX macros or unrendered markdown leaked" if zero_raw_leaks_passed else f"Detected {len(raw_code_matches)} raw syntax leaks: {', '.join(raw_code_matches[:3])}"
+            },
+            "clean_tex_syntax": {
+                "passed": clean_tex_syntax_passed,
+                "score": 100 if clean_tex_syntax_passed else 0,
+                "detail": "TeX source syntax is 100% sound and balanced" if clean_tex_syntax_passed else "; ".join(tex_syntax_errors)
+            },
             "workflow_fidelity": {
                 "passed": workflow_report["passed"],
                 "score": 100 if workflow_report["passed"] else 0,
@@ -212,6 +258,8 @@ class CheckmateVerifierService:
             score >= 85.0
             and zero_placeholders_passed
             and clean_numbering_passed
+            and zero_raw_leaks_passed
+            and clean_tex_syntax_passed
             and workflow_report["passed"]
             and venue_report["passed"]
             and (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run"))
@@ -301,17 +349,12 @@ class CheckmateVerifierService:
         text = re.sub(r'\b(the|a|an|and|or|during|for|with|in|of)\s*\n\n---', '.\n\n---', text, flags=re.IGNORECASE)
         text = re.sub(r'^\s*pricing structures\.\s*$', '', text, flags=re.MULTILINE)
 
-        # 7.5. Clean up any ASCII backspace (\x08), stray 'b' or missing backslash on LaTeX keywords
+        # 7.5. Clean up any ASCII backspace (\x08), stray \b\ prefixes or missing backslashes on LaTeX keywords
         text = text.replace('\x08', '')
-        text = re.sub(r'(?:\\b|b|\x08)+\\*(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = re.sub(r'\\\\+(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = re.sub(r'(?<!\\)\b(begin|end)\{', lambda m: '\\' + m.group(1) + '{', text)
-        text = text.replace('egin{', '\\begin{')
-        text = text.replace('\text{', '\\text{').replace('\text', '\\text')
-        # R26: repair double-escaped QED symbol \b\b\blacksquare → \blacksquare
-        text = re.sub(r'\$(?:\\b|\\x08|b)+\\*?(?:\\b|\\x08|b)*\\*?blacksquare\$', r'$\\blacksquare$', text)
-        text = re.sub(r'(?:\\\\b)+\\\\blacksquare', r'\\\\blacksquare', text)
-        text = text.replace('lacksquare', '\\blacksquare')
+        text = re.sub(r'\\+b\\+([a-zA-Z]+)', r'\\\1', text)
+        text = re.sub(r'\\*(begin|end)\{\\+([a-zA-Z]+)\}', r'\\\1{\2}', text)
+        text = re.sub(r'(?<!\\)\b(begin|end)\{', r'\\\1{', text)
+        text = re.sub(r'(?<!\\)\bblacksquare\b', r'\\blacksquare', text)
         text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
         text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
 

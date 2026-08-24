@@ -129,3 +129,14 @@ According to the analytical domain of [[Sudha Jamthe]], the primary limitations 
 - SWE-bench Lite Resolution Rate: Baseline 19.4%, QLoRA 27.3%, Symbol-Graph RAG 38.7% (+11.4%, p < 0.001).
 - Latency and speedups: 310s vs 185s vs 124s (2x, 2.5x, 4.2x speedup).
 - Context precision: 42.1%, 47.3%, 89.4%, 100% boundary integrity.
+
+
+## Empirical SWE-bench Lite Benchmark Evidence
+The systematic investigation evaluates 300 SWE-bench Lite tasks comparing Symbol-Graph RAG against QLoRA fine-tuned 70B models.
+- Resolution Rate: Baseline Dense RAG achieves 19.4%, QLoRA 70B achieves 27.3%, Symbol-Graph RAG achieves 38.7% (+11.4% improvement, p < 0.001 at 95% confidence).
+- Patch Applicability: Dense RAG 71.2%, QLoRA 83.6%, Symbol-Graph RAG 94.1% (+10.5% improvement).
+- Precision@5: Dense RAG 42.1%, Symbol-Graph RAG 89.4%.
+- Resource Overhead: QLoRA requires 160 GB VRAM, whereas Symbol-Graph RAG requires 0 GB training VRAM (100% savings).
+- Latency & Compute: Mean latency is 185 s for Dense RAG, 310 s for QLoRA, and 124 s for Symbol-Graph RAG.
+- Ablation Study: Full Symbol-Graph RAG 38.7%, without PageRank centrality 33.2%, without call-graph edges 29.8%, Dense RAG baseline 19.4%.
+- Error Analysis: Failures distribute across dynamic runtime dependencies (41%), cross-repository modifications (29%), and large refactoring scope (30%). QLoRA parametric confusion accounts for 63% of errors.

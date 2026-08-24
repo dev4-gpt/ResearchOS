@@ -41,11 +41,53 @@ Rather than mutating unstructured raw source text, agents execute context-free g
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 r : n \to n' \quad \text{where } n, n' \in V \cup \Sigma
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -56,11 +98,53 @@ We categorize AST mutations into three canonical operators:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 \mu_{\text{sub}}(T, n) = T[n \mapsto n'], \quad \text{where } \text{Type}(n) = \text{Type}(n')
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,11 +154,53 @@ Prior to executing candidate patches inside isolated Docker sandboxes, candidate
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
-\text{Verify}(T', C_{\text{inv}}) = \b\begin{cases} 1, & \text{if } \text{Z3} \models (T' \implies C_{\text{inv}}) \\ 0, & \text{otherwise} \end{cases}
+\begin{aligned}
+\text{Verify}(T', C_{\text{inv}}) = \begin{cases} 1, & \text{if } \text{Z3} \models (T' \implies C_{\text{inv}}) \\ 0, & \text{otherwise} \end{cases}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -107,11 +233,53 @@ Let $B_{\text{max}}$ be the maximum token allocation budget, $c_i > 0$ be the to
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 \Delta V(k) = V(k) - V(k-1) = -c_k \le -c_{\text{min}} < 0
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -129,11 +297,53 @@ We evaluate SHACS on 500 real-world software defects across Python and Rust repo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 \text{Gain} = \frac{T_{\text{baseline}} - T_{\text{SHACS}}}{T_{\text{baseline}}} \times 100\%
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -143,11 +353,53 @@ We analyze hardware GPU memory constraints as a function of active context windo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 M_{\text{VRAM}} = \eta_0 + \eta_1 \cdot (L \times B) + \eta_2 \cdot N_{\text{agents}}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,11 +409,53 @@ Let $\mathcal{C}_{\text{pipeline}}$ denote the total floating-point operations (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
-\b\begin{aligned}
+\begin{aligned}
 \mathcal{C}_{\text{pipeline}} = 6 \cdot P \cdot \sum_{i=1}^k (L_{\text{ctx},i} \cdot N_{\text{tokens},i}) + \mathcal{C}_{\text{Z3}} + \mathcal{C}_{\text{sandbox}}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
