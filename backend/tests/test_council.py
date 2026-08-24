@@ -26,12 +26,13 @@ if BACKEND_DIR not in sys.path:
 def make_orchestrator(tmp_path):
     """Helper: build a CouncilOrchestrator in dry-run mode at tmp_path."""
     # Guarantee no API key leaks in from the real environment
-    os.environ.pop("GEMINI_API_KEY", None)
+    for k in ["GEMINI_API_KEY", "NVIDIA_NIM_API_KEY", "NVIDIA_API_KEY", "OPENROUTER_API_KEY", "GROQ_API_KEY"]:
+        os.environ.pop(k, None)
     from agents.council import CouncilOrchestrator
     orch = CouncilOrchestrator(str(tmp_path))
-    if "GEMINI_API_KEY" not in os.environ:
-        orch.api_key = None
-        orch.is_dry_run = True
+    orch.api_key = None
+    orch.nim_api_key = None
+    orch.is_dry_run = True
     return orch
 
 
@@ -42,16 +43,22 @@ def make_orchestrator(tmp_path):
 class TestCouncilOrchestratorInit:
     def test_is_dry_run_true_without_api_key(self, tmp_path, monkeypatch):
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_NIM_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_API_KEY", raising=False)
         orch = make_orchestrator(tmp_path)
         assert orch.is_dry_run is True
 
     def test_vault_path_matches_tmp(self, tmp_path, monkeypatch):
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_NIM_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_API_KEY", raising=False)
         orch = make_orchestrator(tmp_path)
         assert orch.vault.vault_path == str(tmp_path)
 
     def test_search_service_is_initialised(self, tmp_path, monkeypatch):
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_NIM_API_KEY", raising=False)
+        monkeypatch.delenv("NVIDIA_API_KEY", raising=False)
         from services.search import AcademicSearchService
         orch = make_orchestrator(tmp_path)
         assert isinstance(orch.search_service, AcademicSearchService)

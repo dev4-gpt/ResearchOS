@@ -111,7 +111,8 @@ class FactCheckerService:
 
     def validate_numeric_claims(self, draft_content: str, source_texts: List[str],
                                 source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
-        raw_claims = sorted(set(NUMERIC_PATTERN.findall(draft_content)))
+        clean_content_for_claims = re.sub(r"\[\[.*?\]\]|\\cite\{.*?\}|https?://\S+", " ", draft_content)
+        raw_claims = sorted(set(NUMERIC_PATTERN.findall(clean_content_for_claims)))
         claims = [c for c in raw_claims if not is_non_metric_number(c)]
         grounded = []
         unverified = []

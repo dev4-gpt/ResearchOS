@@ -274,10 +274,15 @@ class LaTeXExporterService:
         # 4. Strip backticks around wikilinks and convert Wikilinks [[key]] into \cite{clean_citation_key(key)} AND normalize existing \cite{key}
         text = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', text)
         def clean_cite_block(m):
-            keys = m.group(1).split(',')
-            return "\\cite{" + ",".join(self.clean_citation_key(k.strip()) for k in keys if k.strip()) + "}"
-        text = re.sub(r'\[\[([^\]]+)\]\]', clean_cite_block, text)
+            raw = m.group(1).replace('[', '').replace(']', '').replace('\\_', '_')
+            keys = [k.strip() for k in raw.split(',') if k.strip()]
+            clean_keys = [self.clean_citation_key(k) for k in keys if k]
+            return "\\cite{" + ",".join(clean_keys) + "}" if clean_keys else ""
+        text = re.sub(r'\[\[(.*?)\]\]', clean_cite_block, text)
         text = re.sub(r'\\cite\{([^}]+)\}', clean_cite_block, text)
+        # Merge consecutive \cite{a}, \cite{b} or \cite{a}\cite{b} into \cite{a,b}
+        for _ in range(3):
+            text = re.sub(r'\\cite\{([^}]+)\}\s*(?:,|and|&)?\s*\\cite\{([^}]+)\}', r'\\cite{\1,\2}', text)
 
 
 
@@ -551,13 +556,15 @@ class LaTeXExporterService:
         # Convert wikilinks to \cite{} BEFORE sentence boundary check or latex sanitization
         clean_abstract = re.sub(r'`\[\[([^\]]+)\]\]`', r'[[\1]]', extracted_abstract)
         def clean_cite_block(m):
-            raw_k = m.group(1).replace('\\_', '_')
+            raw_k = m.group(1).replace('[', '').replace(']', '').replace('\\_', '_')
             keys = raw_k.split(',')
             clean_keys = [self.clean_citation_key(k.strip()) for k in keys if k.strip()]
             return "\\cite{" + ",".join(clean_keys) + "}" if clean_keys else ""
 
-        clean_abstract = re.sub(r'\[\[([^\]]+)\]\]', clean_cite_block, clean_abstract)
+        clean_abstract = re.sub(r'\[\[(.*?)\]\]', clean_cite_block, clean_abstract)
         clean_abstract = re.sub(r'\\cite\{([^}]+)\}', clean_cite_block, clean_abstract)
+        for _ in range(3):
+            clean_abstract = re.sub(r'\\cite\{([^}]+)\}\s*(?:,|and|&)?\s*\\cite\{([^}]+)\}', r'\\cite{\1,\2}', clean_abstract)
         # Strip any incomplete orphan wikilink start like [[crossref_10...
         clean_abstract = re.sub(r'\[\[[^\n]*$', '', clean_abstract).strip()
 

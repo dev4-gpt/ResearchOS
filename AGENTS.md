@@ -57,19 +57,41 @@ ResearchingOS orchestrates a 7-agent council of specialized personas to ensure r
      - Layer 4: HITL Publisher Endpoints (`http://127.0.0.1:8000/api/vault/files?category=drafts`)
    - NEVER end a turn while any of the 4 connectivity layers return HTTP 500 or connection failures.
 
-53: ---
-54: 
-55: ## Master Venue Length & Formatting Reference
-56: 
-57: All manuscript generation, layout budgeting, and exporter logic MUST adhere to [venue_formatting_and_length_specifications.md](file:///Users/aryamandev/Library/Mobile%20Documents/com~apple~CloudDocs/Projects%202/ResearchingOS/vault/00_System/venue_formatting_and_length_specifications.md):
-58: - **`IEEEtran`**: Exactly 4 pages (Short/Camera-Ready) or 10–14 pages (Journal). 100% column density on p.4; zero orphan spills on p.5.
-59: - **`NeurIPS`**: 9 pages maximum main content. References & checklist after p.9. Double-Blind.
-60: - **`ICML`**: 8 pages maximum main content. References & appendices after p.8. Double-Blind.
-61: - **`CVPR`**: 8 pages maximum main content. References after p.8. Double-Blind.
-62: - **`ACL/ARR`**: 8 pages (Long) / 4 pages (Short). Unlimited refs & ethics statement. Double-Blind.
-63: - **`ACM`**: 10–12 pages (Surveys) / 9 pages (Conf). Avoid <15 line orphan final pages.
-64: 
-65: ---
+---
+
+## Dual-Phase Multi-Agent Architecture & Meta-Review Council
+
+ResearchingOS operates a **Two-Tier Orchestration Pipeline** to guarantee senior principal-level academic manuscripts:
+
+### Tier 1: Senior Principal Research Author & 7-Agent Council
+- **Master Prompt**:
+  > *"You are a world-class AI researcher and senior academic author. Generate a manuscript of exceptional technical depth and rigor, adhering strictly to the following guidelines:*
+  > *1. Content Integrity: Present primary empirical data, reproducible methodologies, and genuine, verifiable citations. Do not invent datasets or references.*
+  > *2. Professional Formatting: Ensure the paper is fully formatted for your target venue, free of synthetic artifacts, internal workflow metadata, or placeholder text, while maintaining an objective, restrained tone.*
+  > *3. Advanced Structure: Develop sophisticated sections, such as in-depth theoretical proofs, comparative analyses, and comprehensive discussions on impact.*
+  > *Conclude by generating a detailed paper outline or compiling the raw text for this specific research topic."*
+
+### Tier 2: Meta-Review & Cross-Venue Alignment Council
+- **Role & Objective**:
+  > *"Act as a meta-review and cross-venue alignment council. Your objective is to take the raw manuscript outputs from the first multi-agent phase and rigorously evaluate them against the strict standards of the target venue. You must critically analyze the drafts for technical depth, expanding the argumentation and analysis to meet full length requirements. Cross-reference all citations to build a robust, authoritative bibliography from peer-reviewed sources (minimum 15–30+ authentic citations per manuscript). Completely scrub any generic placeholders or synthetic metadata, and reformat the layout precisely according to the venue's style files. Finally, identify and rectify any logical or mathematical errors."*
+- **Enforcement Directives**:
+  1. **Exhaustive Citation Density**: Every manuscript must cite 15–30+ distinct peer-reviewed papers from `vault/01_Papers/`, eliminating 1-2 citation shallow stubs.
+  2. **Full Section Technical Depth**: Manuscripts must include rigorous formal proofs, Lyapunov convergence guarantees, multi-baseline empirical tables ($N \ge 300$), and comprehensive reviewer ablations.
+  3. **Venue-Specific Page Budget Adherence**: Match target venue profiles (IEEE 4-page camera-ready or 10-14 page journal; NeurIPS 9-page; ICML 8-page; ACM 10-12 page).
+
+---
+
+## Master Venue Length & Formatting Reference
+
+All manuscript generation, layout budgeting, and exporter logic MUST adhere to [venue_formatting_and_length_specifications.md](file:///Users/aryamandev/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/00_System/venue_formatting_and_length_specifications.md):
+- **`IEEEtran`**: Exactly 4 pages (Short/Camera-Ready) or 10–14 pages (Journal). 100% column density on p.4; zero orphan spills on p.5.
+- **`NeurIPS`**: 9 pages maximum main content. References & checklist after p.9. Double-Blind.
+- **`ICML`**: 8 pages maximum main content. References & appendices after p.8. Double-Blind.
+- **`CVPR`**: 8 pages maximum main content. References after p.8. Double-Blind.
+- **`ACL/ARR`**: 8 pages (Long) / 4 pages (Short). Unlimited refs & ethics statement. Double-Blind.
+- **`ACM`**: 10–12 pages (Surveys) / 9 pages (Conf). Avoid <15 line orphan final pages.
+
+---
 66: 
 67: ## Directory & Vault Structure
 
