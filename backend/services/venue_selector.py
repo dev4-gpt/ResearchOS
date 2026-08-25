@@ -202,13 +202,21 @@ class VenueSelectorService:
         elif scope.tier == TIER_PREPRINT:
             warnings.append(scope.note)
 
-        # 3. Scope fit.
+        # 3. Scope fit. A competitive venue needs real topical overlap: three
+        # incidental words ("prompt", "text", "token") routed a systems simulation
+        # paper to a computational-linguistics conference before this gate existed.
+        overlap = scope.keywords.intersection(paper.keywords) if scope.keywords else set()
         if scope.keywords:
-            overlap = scope.keywords.intersection(paper.keywords)
-            fit = min(len(overlap) / 4.0, 1.0) * 25.0
+            fit = min(len(overlap) / 6.0, 1.0) * 25.0
             score += fit
             reasons.append(
                 f"Scope fit {fit:.0f}/25 (matched: {', '.join(sorted(overlap)[:5]) or 'none'})."
+            )
+        if scope.tier == TIER_COMPETITIVE and len(overlap) < 4:
+            eligible = False
+            reasons.append(
+                f"BLOCKED: only {len(overlap)} scope term(s) overlap; too weak a topical "
+                f"match for {venue_key}."
             )
 
         # 4. Length fit against the venue's limit.
@@ -220,6 +228,14 @@ class VenueSelectorService:
                 f"Under-built: ~{pages} pages against a {scope.page_limit}-page venue "
                 f"({deficit:.1f} pages short) (+5)."
             )
+            # A half-length submission to a competitive venue is a desk reject, not a
+            # long shot. Recommending one wastes a submission cycle.
+            if scope.tier == TIER_COMPETITIVE:
+                eligible = False
+                reasons.append(
+                    f"BLOCKED: ~{pages} pages is under 60% of {venue_key}'s "
+                    f"{scope.page_limit}-page format; expand before submitting."
+                )
         elif pages <= scope.page_limit:
             score += 20.0
             reasons.append(f"Length fits: ~{pages} of {scope.page_limit} pages (+20).")
@@ -227,9 +243,14 @@ class VenueSelectorService:
             score += 8.0
             reasons.append(f"Over limit: ~{pages} against {scope.page_limit} pages (+8).")
 
-        # 5. Acceptance likelihood, ordering within a tier.
-        score += scope.acceptance * 15.0
-        reasons.append(f"Acceptance weight +{scope.acceptance * 15.0:.1f}.")
+        # 5. Acceptance likelihood, ordering within a tier. A preprint accepts
+        # everything, but posting one is not a publication, so it must never
+        # outscore a reviewed venue the manuscript is actually eligible for.
+        if scope.tier == TIER_PREPRINT:
+            reasons.append("Preprint: no acceptance weight; fallback only.")
+        else:
+            score += scope.acceptance * 15.0
+            reasons.append(f"Acceptance weight +{scope.acceptance * 15.0:.1f}.")
 
         # 6. Portfolio spread.
         if used_venues and venue_key in used_venues:

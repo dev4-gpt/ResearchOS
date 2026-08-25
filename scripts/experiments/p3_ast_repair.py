@@ -360,6 +360,7 @@ def main() -> int:
     # The manuscript credits Z3-SMT with eliminating most invalid candidates. That
     # is a measurable claim, so measure it: how many mutants does the solver reject
     # that the far cheaper binding check had already let through?
+    compiled = sum(e["syntactically_valid"] for e in results.values())
     name_passed = sum(e["passed_name_check"] for e in results.values())
     smt_passed = sum(e["passed_smt"] for e in results.values())
     smt_marginal = round(100.0 * (name_passed - smt_passed) / name_passed, 2) if name_passed else 0.0
@@ -370,6 +371,23 @@ def main() -> int:
                notes=f"{guards} integer guards submitted to the solver")
     rec.record("smt_guards_checked", guards, "n", art1, sha1,
                "integer guards extracted and solved", n=produced_all)
+
+    # Per-stage marginal rates: the pooled number hides which stage does the work.
+    compile_marginal = round(100.0 * (produced_all - compiled) / produced_all, 2)
+    binding_marginal = round(100.0 * (compiled - name_passed) / compiled, 2)
+    rec.record("stage_marginal_rejection_compile", compile_marginal, "%", art1, sha1,
+               "mutants failing to compile, over all generated", n=produced_all)
+    rec.record("stage_marginal_rejection_binding", binding_marginal, "%", art1, sha1,
+               "mutants rejected by the static binding check, over those that compiled",
+               n=compiled)
+    rec.record("stage_entering_compile", produced_all, "n", art1, sha1,
+               "candidates entering stage 1", n=produced_all)
+    rec.record("stage_entering_binding", compiled, "n", art1, sha1,
+               "candidates entering stage 2", n=compiled)
+    rec.record("stage_entering_smt", name_passed, "n", art1, sha1,
+               "candidates entering stage 3", n=name_passed)
+    print(f"  stage marginals: compile {compile_marginal}%, binding {binding_marginal}%, "
+          f"smt {smt_marginal}%")
     print(f"  Z3 marginal rejection beyond binding check: {smt_marginal}% "
           f"({guards} guards solved)")
 

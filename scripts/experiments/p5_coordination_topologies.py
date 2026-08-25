@@ -251,6 +251,22 @@ def main() -> int:
                    "2-state DTMC stationary distribution",
                    notes="derived from assumed MTTF/MTTR parameters, not observed uptime")
 
+    # 5. Corollary 1: pipeline reliability with and without supervisor retry ----
+    K, p_k, r_k, M = 5, 0.85, 0.90, 2
+    mono = p_k ** K
+    hier = (1.0 - (1.0 - p_k) * (1.0 - r_k) ** M) ** K
+    art6, sha6 = rec.save_artifact("pipeline_reliability.json", {
+        "stages_K": K, "worker_accuracy_p": p_k, "supervisor_recovery_r": r_k,
+        "retries_M": M, "monolithic": mono, "hierarchical": hier,
+    })
+    print("\n  pipeline reliability (Corollary 1, evaluated from the stated formula):")
+    print(f"    monolithic   R = {mono*100:.2f}%")
+    print(f"    hierarchical R = {hier*100:.2f}%")
+    rec.record("pipeline_reliability_monolithic", round(mono * 100, 2), "%", art6, sha6,
+               f"p^K with p={p_k}, K={K}", n=K)
+    rec.record("pipeline_reliability_hierarchical", round(hier * 100, 2), "%", art6, sha6,
+               f"[1-(1-p)(1-r)^M]^K with p={p_k}, r={r_k}, M={M}, K={K}", n=K)
+
     rec.finalize()
     print("\n  NOTE: these are properties of the simulated protocols under the stated")
     print("  fault model. They are not observations of deployed systems, and no")

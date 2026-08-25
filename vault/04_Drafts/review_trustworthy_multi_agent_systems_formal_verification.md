@@ -89,12 +89,14 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -116,11 +118,13 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -149,11 +153,13 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
 
 
 
@@ -178,12 +184,14 @@ $$
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
 
 
 
@@ -222,11 +230,13 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
 \end{aligned}
 $$
+
 
 
 

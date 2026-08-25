@@ -153,13 +153,46 @@ def test_selector_refuses_reviewed_venues_for_an_unbacked_paper():
     assert allocation["p"]["venue"] == "arXiv"
 
 
+#: Long enough to clear the page-limit gate and on-topic enough to clear the
+#: scope gate, which is what a submittable conference paper actually looks like.
+CONFERENCE_LENGTH_TEXT = (
+    "learning neural model representation optimization agent benchmark training "
+    "generalization bound theorem convergence gradient parameter efficiency "
+) * 500
+
+
 def test_selector_opens_reviewed_venues_for_a_backed_paper():
     selector = VenueSelectorService("balanced")
-    text = DRAFT + "\nlearning model training optimization benchmark agent theorem\n"
-    paper = selector.extract_features("p", text, ungrounded_claims=0, total_claims=6)
+    paper = selector.extract_features(
+        "p", DRAFT + CONFERENCE_LENGTH_TEXT, ungrounded_claims=0, total_claims=6
+    )
 
     allocation = selector.allocate_portfolio([paper])
     assert allocation["p"]["tier"] != "preprint"
+
+
+def test_selector_blocks_a_competitive_venue_for_a_half_length_paper():
+    """A 4-page draft aimed at an 8-page conference is a desk reject, not a long shot."""
+    selector = VenueSelectorService("balanced")
+    short = selector.extract_features(
+        "p", DRAFT + "learning neural model agent benchmark theorem " * 200,
+        ungrounded_claims=0, total_claims=1,
+    )
+
+    ranked = {s.venue: s for s in selector.rank_venues(short)}
+    assert ranked["NeurIPS"].eligible is False
+    assert any("under 60%" in r for r in ranked["NeurIPS"].reasons)
+
+
+def test_selector_blocks_a_competitive_venue_on_weak_scope_overlap():
+    """Incidental vocabulary must not route a systems paper to a linguistics venue."""
+    selector = VenueSelectorService("balanced")
+    off_topic = selector.extract_features(
+        "p", "token prompt text " * 4000, ungrounded_claims=0, total_claims=1
+    )
+
+    acl = {s.venue: s for s in selector.rank_venues(off_topic)}["ACL"]
+    assert acl.eligible is False
 
 
 def test_selector_never_routes_to_an_unverified_or_index_only_venue():
@@ -175,11 +208,7 @@ def test_balanced_strategy_caps_competitive_submissions():
     selector = VenueSelectorService("balanced")
     papers = [
         selector.extract_features(
-            f"p{i}",
-            "learning neural model representation optimization agent benchmark "
-            "training generalization bound theorem " * 60,
-            ungrounded_claims=0,
-            total_claims=1,
+            f"p{i}", CONFERENCE_LENGTH_TEXT, ungrounded_claims=0, total_claims=1
         )
         for i in range(5)
     ]

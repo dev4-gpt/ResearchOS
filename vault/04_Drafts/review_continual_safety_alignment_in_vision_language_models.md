@@ -98,11 +98,13 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
 $$
 \begin{aligned}
 \Delta_{\text{drift}} = \mathcal{M}_{\text{safe}}(\Theta_{\text{aligned}}) - \mathcal{M}_{\text{safe}}(\Theta_{\text{task}})
 \end{aligned}
 $$
+
 
 
 
@@ -142,11 +144,13 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
 $$
 \begin{aligned}
 \text{Query} = (\text{VLM} \lor \text{"Vision-Language"}) \land (\text{"Safety Alignment"} \lor \text{"Alignment Drift"}) \land (\text{"Continual Learning"} \lor \text{"Fine-Tuning"})
 \end{aligned}
 $$
+
 
 
 

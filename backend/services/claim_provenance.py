@@ -101,18 +101,30 @@ class ClaimProvenanceService:
         ("percentage", r"-?\d+(?:\.\d+)?\s*\\?%", "%"),
         ("percentage_points", r"[-+]?\d+(?:\.\d+)?\s*pp\b", "pp"),
         ("factor", r"\d+(?:\.\d+)?\s*(?:\$\\times\$|×|x)\b", "x"),
-        ("currency", r"\\?\$\s*\d+(?:\.\d+)?", "$"),
+        # Only an escaped '\$' is currency. A bare '$' followed by digits is the
+        # opening delimiter of inline math ("$1 - p_k$", "$20{,}000$"), and reading
+        # those as prices produced a stream of phantom unbacked claims.
+        ("currency", r"\\\$\s*\d+(?:\.\d+)?", "$"),
         ("duration", r"\d+(?:\.\d+)?\s*(?:ms|s|min|h)\b(?:/task)?", "time"),
         ("memory", r"\d+(?:\.\d+)?\s*(?:GB|MB|TB)\b", "bytes"),
         ("mass", r"\d+(?:\.\d+)?\s*kg\b", "kg"),
     )
+
+    #: "95% CI" / "95% confidence interval" states the interval level, and a trial
+    #: or resample count states an experimental parameter. Neither is a measured
+    #: finding that needs its own artifact.
+    _INTERVAL_LEVEL = re.compile(r"(?:95|90|99)\s*\\?%\s*(?:CI|confidence)", re.IGNORECASE)
 
     _WIKILINK = re.compile(r"\[\[([^\]]+)\]\]")
     _CITE = re.compile(r"\\cite\{([^}]+)\}")
     # A claim attributed to prior work rather than measured here.
     _ATTRIBUTION = re.compile(
         r"\b(?:report(?:ed|s)?|observ(?:ed|es)|found|according to|shown by|"
-        r"demonstrated by|per|follows?|prior work|baseline[sd]?\s+from)\b",
+        r"demonstrated by|per|follows?|prior work|baseline[sd]?\s+from|"
+        # A requirement or specification carrying a citation is attributed to that
+        # source; it states a target the cited work defines, not a result measured here.
+        r"specif(?:y|ied|ication)|must\s+(?:provide|carry|satisfy|meet)|"
+        r"require[sd]?|mandate[sd]?|target(?:ed)?\s+at)\b",
         re.IGNORECASE,
     )
 
@@ -140,8 +152,12 @@ class ClaimProvenanceService:
                     span = (line_no, match.start(), match.end())
                     if self._overlaps(span, seen_spans):
                         continue
-                    seen_spans.append(span)
                     raw = match.group(0).strip()
+                    if kind == "percentage" and self._INTERVAL_LEVEL.match(
+                        line[match.start():match.start() + 30]
+                    ):
+                        continue
+                    seen_spans.append(span)
                     claims.append(
                         QuantitativeClaim(
                             claim_id=f"C{len(claims) + 1:04d}",
@@ -245,6 +261,14 @@ class ClaimProvenanceService:
             return False
         if claim.value is None:
             return False
+        # A sample/trial count is a stated experimental parameter, so it is backed
+        # when a measurement was actually recorded over that many observations.
+        if claim.kind == "sample_size" and claim.value is not None:
+            try:
+                if record.get("n") is not None and float(record["n"]) == claim.value:
+                    return True
+            except (TypeError, ValueError):
+                pass
         if not ClaimProvenanceService._units_compatible(claim.unit, record.get("unit")):
             return False
         recorded_raw = record.get("value")
@@ -254,6 +278,16 @@ class ClaimProvenanceService:
             recorded = float(recorded_raw)
         except (TypeError, ValueError):
             return False
+        # A manuscript reporting "d = 2.13" for a measured 2.1339 is rounding
+        # correctly, not asserting a different number. Accept the claim when the
+        # recorded value rounds to it at the precision the claim was written to.
+        fraction = re.search(r"\.(\d+)", claim.raw)
+        decimals = len(fraction.group(1)) if fraction else 0
+        try:
+            if round(recorded, decimals) == round(claim.value, decimals):
+                return True
+        except (TypeError, ValueError):
+            pass
         tolerance = max(abs(recorded) * 1e-6, 1e-9)
         return abs(recorded - claim.value) <= tolerance
 
