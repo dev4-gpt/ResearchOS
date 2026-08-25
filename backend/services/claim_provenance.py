@@ -144,12 +144,16 @@ class ClaimProvenanceService:
         claims: List[QuantitativeClaim] = []
         seen_spans: List[Tuple[int, int, int]] = []
 
-        for line_no, line in enumerate(markdown.split("\n"), start=1):
-            if self._is_noise_line(line):
+        for line_no, raw_line in enumerate(markdown.split("\n"), start=1):
+            if self._is_noise_line(raw_line):
                 continue
-            cite_keys = self._WIKILINK.findall(line) + [
+            # Inline code spans hold parameter literals and identifiers -- `p=0.85`
+            # is a model parameter, not a p-value, and `95% delivery` is a rate, not
+            # an interval level. Blank them so positions are preserved.
+            line = re.sub(r"`[^`]*`", lambda m: " " * len(m.group(0)), raw_line)
+            cite_keys = self._WIKILINK.findall(raw_line) + [
                 k.strip()
-                for group in self._CITE.findall(line)
+                for group in self._CITE.findall(raw_line)
                 for k in group.split(",")
             ]
             for kind, pattern, unit in self._PATTERNS:

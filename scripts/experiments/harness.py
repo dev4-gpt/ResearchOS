@@ -129,6 +129,17 @@ class ExperimentRecorder:
     def finalize(self) -> Dict[str, Any]:
         """Write measurements.jsonl and a manifest describing how they were made."""
         measurements_path = os.path.join(self.run_dir, "measurements.jsonl")
+
+        # A run that recorded nothing is a failed run -- a network timeout, an empty
+        # result set -- and must not overwrite the evidence a previous successful run
+        # left behind. This clobbered ten p4 measurements with a single row once, and
+        # the manuscript silently lost its grounding.
+        if not self._measurements and os.path.exists(measurements_path):
+            raise RuntimeError(
+                f"{self.run_id}: refusing to overwrite existing measurements with an "
+                "empty result set. The run produced nothing; investigate before rerunning."
+            )
+
         with open(measurements_path, "w", encoding="utf-8") as handle:
             for measurement in self._measurements:
                 handle.write(json.dumps(measurement.to_dict(), sort_keys=True) + "\n")

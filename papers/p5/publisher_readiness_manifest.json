@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 12,
+        "total_pages": 14,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 12-page camera-ready layout"
+          "detail": "Valid 14-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 12,
+          "total_pages": 14,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -136,10 +136,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -165,7 +168,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -200,10 +206,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -229,7 +238,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -245,7 +257,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 11,
+        "total_pages": 12,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -288,466 +300,6 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 11-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "ICML",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 11,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2203_08975",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2411_15594",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1108_jeim_12_2025_1269",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793",
-                "doaj_001772c2113c476d9d5d40452c8e10e1",
-                "pubmed_42380865"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2203_08975",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2411_15594",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1108_jeim_12_2025_1269",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793",
-                "doaj_001772c2113c476d9d5d40452c8e10e1",
-                "pubmed_42380865"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2203_08975",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2411_15594",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1108_jeim_12_2025_1269",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793",
-            "doaj_001772c2113c476d9d5d40452c8e10e1",
-            "pubmed_42380865"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2203_08975",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2411_15594",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1108_jeim_12_2025_1269",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793",
-            "doaj_001772c2113c476d9d5d40452c8e10e1",
-            "pubmed_42380865"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
-      "title": "Enterprise Adoption of Multi-Agent AI Systems: Infrastructure, Reliability, and Economics",
-      "venue": "CVPR",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 7,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "CVPR",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 7,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2203_08975",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2411_15594",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1108_jeim_12_2025_1269",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793",
-                "doaj_001772c2113c476d9d5d40452c8e10e1",
-                "pubmed_42380865"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2203_08975",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2411_15594",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1108_jeim_12_2025_1269",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793",
-                "doaj_001772c2113c476d9d5d40452c8e10e1",
-                "pubmed_42380865"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2203_08975",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2411_15594",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1108_jeim_12_2025_1269",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793",
-            "doaj_001772c2113c476d9d5d40452c8e10e1",
-            "pubmed_42380865"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2203_08975",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2411_15594",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1108_jeim_12_2025_1269",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793",
-            "doaj_001772c2113c476d9d5d40452c8e10e1",
-            "pubmed_42380865"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
-      "title": "Enterprise Adoption of Multi-Agent AI Systems: Infrastructure, Reliability, and Economics",
-      "venue": "ACL",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 12,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
           "detail": "Valid 12-page camera-ready layout"
         },
         "zero_raw_leaks": {
@@ -775,7 +327,7 @@
           "policy_passed": true,
           "page_passed": true,
           "status": "PASS",
-          "venue": "ACL",
+          "venue": "ICML",
           "template_configured": true,
           "index_only": false,
           "package_fallback_used": false,
@@ -826,10 +378,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -855,7 +410,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -890,10 +448,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -919,7 +480,494 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "title": "Enterprise Adoption of Multi-Agent AI Systems: Infrastructure, Reliability, and Economics",
+      "venue": "CVPR",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 8,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 8-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "CVPR",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 8,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 15,
+              "verified_count": 15,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2203_08975",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2411_15594",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1108_jeim_12_2025_1269",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793",
+                "doaj_001772c2113c476d9d5d40452c8e10e1",
+                "pubmed_42380865"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2203_08975",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2411_15594",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1108_jeim_12_2025_1269",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793",
+                "doaj_001772c2113c476d9d5d40452c8e10e1",
+                "pubmed_42380865"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 15,
+          "verified_count": 15,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2203_08975",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2411_15594",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1108_jeim_12_2025_1269",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793",
+            "doaj_001772c2113c476d9d5d40452c8e10e1",
+            "pubmed_42380865"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2203_08975",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2411_15594",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1108_jeim_12_2025_1269",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793",
+            "doaj_001772c2113c476d9d5d40452c8e10e1",
+            "pubmed_42380865"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md",
+      "title": "Enterprise Adoption of Multi-Agent AI Systems: Infrastructure, Reliability, and Economics",
+      "venue": "ACL",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 14,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 14-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "ACL",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 14,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 15,
+              "verified_count": 15,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2203_08975",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2411_15594",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1108_jeim_12_2025_1269",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793",
+                "doaj_001772c2113c476d9d5d40452c8e10e1",
+                "pubmed_42380865"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2203_08975",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2411_15594",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1108_jeim_12_2025_1269",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793",
+                "doaj_001772c2113c476d9d5d40452c8e10e1",
+                "pubmed_42380865"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 15,
+          "verified_count": 15,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2203_08975",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2411_15594",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1108_jeim_12_2025_1269",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793",
+            "doaj_001772c2113c476d9d5d40452c8e10e1",
+            "pubmed_42380865"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2203_08975",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2411_15594",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1108_jeim_12_2025_1269",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793",
+            "doaj_001772c2113c476d9d5d40452c8e10e1",
+            "pubmed_42380865"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -935,7 +983,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -978,7 +1026,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1015,7 +1063,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1056,10 +1104,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1085,7 +1136,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1120,10 +1174,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1149,7 +1206,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1165,7 +1225,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1208,7 +1268,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1245,7 +1305,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1286,10 +1346,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1315,7 +1378,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1350,10 +1416,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1379,7 +1448,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1395,7 +1467,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1438,7 +1510,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1475,7 +1547,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1516,10 +1588,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1545,7 +1620,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1580,10 +1658,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1609,7 +1690,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1625,7 +1709,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1668,7 +1752,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1705,7 +1789,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1746,10 +1830,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1775,7 +1862,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1810,10 +1900,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1839,7 +1932,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1855,7 +1951,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1898,7 +1994,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1935,7 +2031,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1976,10 +2072,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2005,7 +2104,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2040,10 +2142,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2069,7 +2174,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2085,7 +2193,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2128,7 +2236,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2165,7 +2273,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2206,10 +2314,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2235,7 +2346,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2270,10 +2384,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2299,7 +2416,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2315,7 +2435,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2358,7 +2478,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2395,7 +2515,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2436,10 +2556,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2465,7 +2588,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2500,10 +2626,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2529,7 +2658,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2545,7 +2677,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2588,7 +2720,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2625,7 +2757,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2666,10 +2798,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2695,7 +2830,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "2.877 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2730,10 +2868,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2759,7 +2900,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "2.877 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }

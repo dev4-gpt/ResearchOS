@@ -78,6 +78,7 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -94,9 +95,11 @@ $$
 
 
 
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
 
 
 
@@ -124,9 +127,11 @@ $$
 
 
 
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
 
 
 
@@ -154,9 +159,11 @@ $$
 
 
 
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
 
 
 
@@ -184,11 +191,13 @@ $$
 
 
 
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
 
 
 
@@ -217,7 +226,9 @@ $$
 
 
 
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
 
 
 
@@ -245,7 +256,9 @@ $$
 
 
 
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
 
 
 
@@ -262,6 +275,7 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -293,11 +307,13 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
 
 
 
@@ -474,3 +490,103 @@ Under an explicit independent-failure model with $20{,}000$ trials per topology,
 The result is not that hierarchy wins uniformly. Hierarchical coordination carries the deepest critical path of the four topologies -- 6 hops against 1 for a mesh broadcast -- so its message savings are paid for in serial latency, and contract-net reaches comparable containment ($4.00\%$) at half that depth. The design choice depends on whether message volume or latency is the binding constraint.
 
 These findings describe simulated protocols under a stated fault model. Establishing that they hold in deployment requires instrumented production systems, which this work does not have and does not claim. The simulation harness, all $23$ recorded measurements, and their raw artifacts are released so that every number here can be re-derived or contradicted [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14], [crossref_10.1108_jeim-12-2025-1269]].
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr` |
+| Random seed | 20260825 |
+| Repository revision | `90967292066d` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `2.877 s` |
+| Measurements recorded | 25 |
+| Recorded at | 2026-08-25T17:29:03-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p5_coordination_topologies.py
+```
+
+This rewrites `runs/draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`message_count`.** Exact number of coordination messages to complete one task with n agents. Counted from the protocol definition, not estimated: mesh every agent informs every other agent: n(n-1) contract_net announce to n-1, collect n-1 bids, one award: 2(n-1)+1 blackboard each agent writes once and reads the board once: 2n hierarchical one message down and one up each tree edge: 2(n-1)
+
+**`coordination_depth`.** Critical-path hop count, which sets latency under equal per-hop cost.
+
+**`fit_growth_exponent`.** Fit counts ~ N^k in log-log space and return k.
+
+**`simulate_cascades`.** Monte Carlo cascade simulation. Each agent fails independently with probability ``p_fail``. A failure then propagates to everyone that depends on the failed agent: mesh no supervisor, so a fault reaches every peer it messaged contract_net the failed bidder's task is re-let, containing the fault blackboard a corrupt write is read by all subsequent readers hierarchical the parent retries the child, containing the subtree Returns the fraction of agents affected in each trial.
+
+**`steady_state_availability`.** Exact steady state of a 2-state DTMC {UP, DOWN}, solved by eigenvector. Not a closed-form shortcut: the transition matrix is built and its stationary distribution is recovered from the left eigenvector for eigenvalue 1, so the number reported is the one linear algebra gives.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `availability_blackboard` | 99.3377 | % | — | — | `2-state DTMC stationary distribution` |
+| `availability_contract_net` | 98.5222 | % | — | — | `2-state DTMC stationary distribution` |
+| `availability_hierarchical` | 99.8004 | % | — | — | `2-state DTMC stationary distribution` |
+| `availability_mesh` | 96.1538 | % | — | — | `2-state DTMC stationary distribution` |
+| `cascade_cohens_d_mesh_vs_hier` | 2.1339 | d | 20000 | — | `Welch t-test on Monte Carlo samples` |
+| `cascade_rate_blackboard` | 36.72 | % | 20000 | [36.403, 37.051] | `Monte Carlo, independent per-agent faults` |
+| `cascade_rate_contract_net` | 4.0 | % | 20000 | [3.957, 4.051] | `Monte Carlo, independent per-agent faults` |
+| `cascade_rate_hierarchical` | 2.84 | % | 20000 | [2.709, 2.96] | `Monte Carlo, independent per-agent faults` |
+| `cascade_rate_mesh` | 72.06 | % | 20000 | [71.455, 72.655] | `Monte Carlo, independent per-agent faults` |
+| `cascade_t_statistic` | 213.3862 | t | 20000 | — | `Welch t-test on Monte Carlo samples` |
+| `coordination_depth_blackboard` | 2.0 | hops | 64 | — | `critical path through protocol` |
+| `coordination_depth_contract_net` | 3.0 | hops | 64 | — | `critical path through protocol` |
+| `coordination_depth_hierarchical` | 6.0 | hops | 64 | — | `critical path through protocol` |
+| `coordination_depth_mesh` | 1.0 | hops | 64 | — | `critical path through protocol` |
+| `growth_exponent_blackboard` | 1.0000000000000002 | exponent | 7 | — | `log-log fit of exact protocol message counts` |
+| `growth_exponent_contract_net` | 1.0278174191259293 | exponent | 7 | — | `log-log fit of exact protocol message counts` |
+| `growth_exponent_hierarchical` | 1.059329345204773 | exponent | 7 | — | `log-log fit of exact protocol message counts` |
+| `growth_exponent_mesh` | 2.0593293452047727 | exponent | 7 | — | `log-log fit of exact protocol message counts` |
+| `message_reduction_hier_vs_mesh` | 96.88 | % | 64 | — | `exact counts at N=64: 4032 vs 126` |
+| `messages_at_n64_blackboard` | 128.0 | messages | 64 | — | `exact protocol message count` |
+| `messages_at_n64_contract_net` | 127.0 | messages | 64 | — | `exact protocol message count` |
+| `messages_at_n64_hierarchical` | 126.0 | messages | 64 | — | `exact protocol message count` |
+| `messages_at_n64_mesh` | 4032.0 | messages | 64 | — | `exact protocol message count` |
+| `pipeline_reliability_hierarchical` | 99.25 | % | 5 | — | `[1-(1-p)(1-r)^M]^K with p=0.85, r=0.9, M=2, K=5` |
+| `pipeline_reliability_monolithic` | 44.37 | % | 5 | — | `p^K with p=0.85, K=5` |
+
+**25 measurements across 6 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/cascade_significance.json` | `51a53501a35c3371` |
+| `artifacts/cascade_trials.json` | `88527de8baa06f95` |
+| `artifacts/coordination_depth.json` | `c783009e1db39108` |
+| `artifacts/dtmc_availability.json` | `b2bbe53050834991` |
+| `artifacts/message_scaling.json` | `7bb8504d82efc8db` |
+| `artifacts/pipeline_reliability.json` | `b85f3803f45690d0` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

@@ -110,12 +110,14 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
 
 
 
@@ -265,12 +267,14 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
 
 
 
@@ -387,3 +391,75 @@ As noted in data quality, the ethical handling of sensitive data is critical. En
 In conclusion, while the promise of GenAI ROI is substantial, a thorough academic and practical understanding demands a rigorous engagement with its inherent limitations, open challenges, data considerations, anticipated criticisms, and profound ethical implications. A holistic and responsible approach is indispensable for realizing the true, sustainable value of GenAI in the enterprise.
 
 \
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_enterprise_genai_roi` |
+| Random seed | 20260825 |
+| Repository revision | `cbc42b88617a` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `21.582 s` |
+| Measurements recorded | 10 |
+| Recorded at | 2026-08-25T17:24:19-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p4_literature_census.py
+```
+
+This rewrites `runs/draft-review_enterprise_genai_roi/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`fetch`.** Fetch works for one search string. Returns [] rather than raising on failure.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `literature_distinct_venues` | 714.0 | n | 1779 | — | `distinct primary sources` |
+| `literature_empirical_share` | 31.76 | % | 1779 | — | `abstract contains a sample-size or study marker` |
+| `literature_empirical_share_ci_low` | 29.566 | % | 1779 | — | `bootstrap lower bound on empirical share` |
+| `literature_identified_total` | 2000.0 | n | 1779 | — | `sum of per-query result counts` |
+| `literature_median_citations` | 62.0 | n | 1779 | — | `median of cited_by_count` |
+| `literature_open_access_share` | 98.54 | % | 1779 | — | `OpenAlex is_oa flag` |
+| `literature_recent_share` | 68.63 | % | 1779 | — | `publication year >= 2023` |
+| `literature_screened` | 1779.0 | n | 1779 | — | `abstract and title present` |
+| `literature_unique_after_dedup` | 1893.0 | n | 1779 | — | `deduplicated by OpenAlex id` |
+| `literature_zero_citation_share` | 0.51 | % | 1779 | — | `share with cited_by_count == 0` |
+
+**10 measurements across 1 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/literature_census.json` | `b96a25dbca78848f` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

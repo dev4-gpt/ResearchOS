@@ -218,6 +218,23 @@ class ErrorLedgerService:
         self._save()
         return entry
 
+    def resolve_error(self, error_id: str, resolution: str,
+                      status: str = "VERIFIED_RESOLVED") -> Optional[Dict[str, Any]]:
+        """Close a previously open incident, or restate what remains of it.
+
+        Without this the ledger could record an open defect but never retire one, so
+        entries went stale the moment part of an incident was fixed -- and a stale
+        open entry is as misleading as a false green.
+        """
+        for entry in self.data.get("history", []):
+            if entry.get("error_id") == error_id:
+                entry["resolution"] = resolution
+                entry["status"] = status
+                entry["resolved_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+                self._save()
+                return entry
+        return None
+
     def get_ledger_summary(self) -> Dict[str, Any]:
         return {
             "stats": self.data.get("stats", {}),

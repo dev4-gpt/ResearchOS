@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 10,
+        "total_pages": 12,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 10-page camera-ready layout"
+          "detail": "Valid 12-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 10,
+          "total_pages": 12,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -126,10 +126,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -145,7 +148,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -170,10 +176,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -189,7 +198,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -205,7 +217,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -248,7 +260,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -285,7 +297,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -316,10 +328,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -335,7 +350,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -360,10 +378,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -379,7 +400,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -395,7 +419,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -438,7 +462,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -475,7 +499,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -506,10 +530,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -525,7 +552,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -550,10 +580,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -569,7 +602,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -585,7 +621,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 10,
+        "total_pages": 12,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -628,7 +664,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 10-page camera-ready layout"
+          "detail": "Valid 12-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -665,7 +701,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 10,
+          "total_pages": 12,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -696,10 +732,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -715,7 +754,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -740,10 +782,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -759,7 +804,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -775,7 +823,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -818,7 +866,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -855,7 +903,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -886,10 +934,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -905,7 +956,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -930,10 +984,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -949,7 +1006,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -965,7 +1025,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1008,7 +1068,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1045,7 +1105,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1076,10 +1136,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1095,7 +1158,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1120,10 +1186,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1139,7 +1208,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1155,7 +1227,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1198,7 +1270,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1235,7 +1307,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1266,10 +1338,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1285,7 +1360,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1310,10 +1388,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1329,7 +1410,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1345,7 +1429,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1388,7 +1472,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1425,7 +1509,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1456,10 +1540,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1475,7 +1562,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1500,10 +1590,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1519,7 +1612,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1535,7 +1631,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1578,7 +1674,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1615,7 +1711,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1646,10 +1742,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1665,7 +1764,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1690,10 +1792,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1709,7 +1814,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1725,7 +1833,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1768,7 +1876,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1805,7 +1913,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1836,10 +1944,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -1855,7 +1966,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1880,10 +1994,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -1899,7 +2016,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1915,7 +2035,7 @@
       "checkmate_score": 83.3,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1958,7 +2078,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1995,7 +2115,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2026,10 +2146,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2045,7 +2168,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2070,10 +2196,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2089,7 +2218,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2105,7 +2237,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2148,7 +2280,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2185,7 +2317,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2216,10 +2348,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 0,
-              "grounded_count": 0,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0
             },
@@ -2235,7 +2370,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "21.582 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2260,10 +2398,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 0,
-          "grounded_count": 0,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0
         },
@@ -2279,7 +2420,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "21.582 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }

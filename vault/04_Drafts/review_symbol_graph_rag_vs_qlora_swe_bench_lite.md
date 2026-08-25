@@ -79,12 +79,14 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
 
 
 
@@ -120,11 +122,13 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
 
 
 
@@ -158,11 +162,13 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -287,3 +293,87 @@ We set out to test whether symbol-graph structure improves retrieval for reposit
 We also find that SWE-bench Lite is an easier retrieval problem than its framing implies: all 300 gold patches are single-file, and 55.33\% of problem statements name the file to be edited. Retrieval gains reported on that benchmark should be read against this baseline.
 
 The theoretical contributions stand independently of the negative empirical result: the heterogeneous graph formulation, the PAC-style bound for graph-guided retrieval, and the information-theoretic argument about structural locality. What we cannot claim is any resolved-issue rate, any comparison against QLoRA fine-tuning, or any inference-cost ratio; those require serving a large model and executing the benchmark's tests, which this study did not do. The retrieval harness and every recorded measurement are released so the negative result can be re-derived or overturned [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14]].
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite` |
+| Random seed | 20260825 |
+| Repository revision | `cbc42b88617a` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `6.643 s` |
+| Measurements recorded | 12 |
+| Recorded at | 2026-08-25T17:22:15-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p1_symbol_graph_retrieval.py
+```
+
+This rewrites `runs/draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`BM25`.** Standard Okapi BM25. Implemented here to keep the result inspectable.
+
+**`build_corpus`.** Return {module: source} and [(module, symbol, docstring)] query candidates.
+
+**`build_symbol_graph`.** Nodes are modules and top-level symbols; edges are definition and reference.
+
+**`ppr_rerank`.** Personalized PageRank seeded by BM25, projected back onto modules.
+
+**`rank_metrics`.** Return (P@1, P@5, reciprocal rank).
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `mrr_bm25` | 0.8739 | — | 103 | [0.8189, 0.9222] | `BM25 over docstring queries, gold = defining module` |
+| `mrr_delta_ppr_minus_bm25` | -0.00379 | — | 103 | — | `paired difference in MRR` |
+| `mrr_ppr` | 0.8701 | — | 103 | [0.8121, 0.9191] | `Symbol+PPR over docstring queries, gold = defining module` |
+| `p_at_1_bm25` | 81.5534 | % | 103 | [73.7864, 88.3495] | `BM25 over docstring queries, gold = defining module` |
+| `p_at_1_ppr` | 80.5825 | % | 103 | [72.8155, 87.3786] | `Symbol+PPR over docstring queries, gold = defining module` |
+| `p_at_5_bm25` | 94.1748 | % | 103 | [89.3204, 98.0583] | `BM25 over docstring queries, gold = defining module` |
+| `p_at_5_ppr` | 94.1748 | % | 103 | [89.3204, 98.0583] | `Symbol+PPR over docstring queries, gold = defining module` |
+| `retrieval_cohens_d` | -0.0137 | — | 103 | — | `Welch t-test, PPR vs BM25 MRR` |
+| `swebench_gold_file_named_rate` | 55.33 | % | 300 | [49.667, 60.667] | `gold filename stem appears in problem statement` |
+| `swebench_instances` | 300.0 | n | 300 | — | `rows fetched from the public dataset` |
+| `swebench_mean_files_per_patch` | 1.0 | n | 300 | — | `parsed from gold patch headers` |
+| `swebench_single_file_patch_rate` | 100.0 | % | 300 | — | `share of gold patches touching exactly one file` |
+
+**12 measurements across 3 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/retrieval_results.json` | `3f00497402092e3b` |
+| `artifacts/retrieval_significance.json` | `6f7eafd9526f7175` |
+| `artifacts/swebench_census.json` | `cc53d4c67d3e7b2a` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

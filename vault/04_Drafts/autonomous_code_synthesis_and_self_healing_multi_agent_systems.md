@@ -69,6 +69,7 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
 $$
 \begin{aligned}
 \mu_{\text{sub}}(T, v, v') = T[v \leftarrow v']\ \text{(node substitution)}
@@ -98,11 +99,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \mu_{\text{ins}}(T, e, v_{\text{new}}) = T \cup \{v_{\text{new}}\} \cup \{e_{\text{new}}\}\ \text{(node insertion)}
 \end{aligned}
 $$
+
+
 
 
 
@@ -157,12 +162,16 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \mu_{\text{wrap}}(T, v, c) = & \text{wrap}(T, \\
 & v, c)\ \text{(control flow wrapping)}
 \end{aligned}
 $$
+
+
 
 
 
@@ -206,6 +215,7 @@ $$
 
 
 
+
 **Proposition 1 (Closure Under Grammar).** For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 *Proof.* Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -226,11 +236,14 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
 $$
 \begin{aligned}
 \text{Patch} \rightarrow \text{HunkList}\ |\ \epsilon
 \end{aligned}
 $$
+
+
 
 
 
@@ -284,11 +297,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Hunk} \rightarrow \text{Header}\ \text{ContextLines}\ \text{ChangeLines}\ \text{ContextLines}
 \end{aligned}
 $$
+
+
 
 
 
@@ -331,6 +348,7 @@ $$
 
 
 
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run [[crossref_10.18653_v1_2026.findings-acl.1933]].
 
 ---
@@ -346,6 +364,7 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 - $V: \mathcal{S} \rightarrow \mathbb{R}_{\geq 0}$: Lyapunov energy function
 
 **Definition 3 (Lyapunov Energy Function).** Let $T^*$ be the target (defect-free) program state. Define:
+
 
 
 
@@ -378,9 +397,11 @@ $$
 
 
 
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 **Theorem 1 (Lyapunov Termination).** Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
 
 
 
@@ -399,6 +420,7 @@ $$
 k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rfloor\right)
 \end{aligned}
 $$
+
 
 
 
@@ -440,11 +462,13 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}[k^*] \leq \frac{V(T_0)}{p_{\min} \cdot c_{\min}}
 \end{aligned}
 $$
+
 
 
 
@@ -592,11 +616,13 @@ What the staged measurement does establish is an ordering argument for filter de
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{DRR}(\pi)] \geq \hat{\mathbb{E}}_n[\text{DRR}(\pi)] - \sqrt{\frac{\log|\Pi| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
 
 
 
@@ -647,3 +673,109 @@ The pipeline rejects 46.34\% of candidates before any sandbox is started, at a m
 We had expected the opposite. The result suggests that the assumed benefit of symbolic pre-filtering is contingent on the defect distribution rather than general: mutations that break name bindings are caught more cheaply upstream, and mutations of comparison operators tend to yield reachable branches rather than contradictions. Symbolic filtering should be expected to pay off on numeric-contradiction defect classes, which this operator set does not generate, and that is the experiment we would run next.
 
 Repair convergence was measured over 300 seeded defects: node-multiset distance reaches zero in a mean of 6.62 steps with a worst case of 19, consistent with Theorem 1's finite-termination guarantee. The harness, all 23 recorded measurements and their raw artifacts are released so that these results, including the negative one, can be re-derived or refuted [[arxiv_2501.02497], [arxiv_2405.01543], [crossref_10.1145_3689096.3689462]].
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-autonomous_code_synthesis_and_self_healing_multi_agent_systems` |
+| Random seed | 20260825 |
+| Repository revision | `90967292066d` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `10.293 s` |
+| Measurements recorded | 23 |
+| Recorded at | 2026-08-25T17:33:19-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p3_ast_repair.py
+```
+
+This rewrites `runs/draft-autonomous_code_synthesis_and_self_healing_multi_agent_systems/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`MutationOperator`.** One AST rewrite from the manuscript's mutation algebra.
+
+**`SubstituteOperator`.** mu_sub: swap a comparison or binary operator for a sibling of the same arity.
+
+**`DeleteOperator`.** mu_del: remove a statement from a body with more than one statement.
+
+**`InsertOperator`.** mu_ins: insert an integer guard statement. Half the time the guard reads a name bound elsewhere in the module, half the time a fresh unbound one. Always emitting an unbound name would make the binding filter reject 100% of this operator's output by construction, which would be an artifact of the generator rather than a property of the filter.
+
+**`WrapOperator`.** mu_wrap: wrap a statement in a conditional, changing control flow.
+
+**`ReorderOperator`.** mu_reorder: swap two adjacent statements, possibly breaking a dependency.
+
+**`syntactically_valid`.** Does the mutant still compile? Answered by compiling it.
+
+**`unbound_name_check`.** Cheap static binding check: does the mutant read a name nothing defines? Returns True when the mutant passes (no obviously unbound read).
+
+**`z3_reachability_check`.** Reject mutants whose integer guards are provably unsatisfiable. Extracts `if <int comparison>` guards over simple integer names, hands each to Z3, and rejects the mutant when any guard is UNSAT (dead branch introduced by mutation). Returns (passes, guards_checked).
+
+**`tree_edit_distance`.** Node-multiset distance: a cheap, deterministic proxy for tree-edit distance.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `corpus_ast_nodes` | 36032.0 | n | 27 | — | `ast.walk node count over the corpus` |
+| `corpus_modules` | 27.0 | n | 27 | — | `files parsed from backend/services/*.py` |
+| `max_repair_steps` | 19.0 | n | 300 | — | `worst observed convergence over 300 seeded repairs` |
+| `mean_prefilter_latency_ms` | 4.0905 | ms | 943 | [3.535, 4.976] | `syntax + binding + Z3 reachability per candidate` |
+| `mean_repair_steps` | 6.623 | n | 300 | [6.173333, 7.08675] | `steps to drive node-multiset distance to zero` |
+| `prefilter_rejection_rate_overall` | 46.34 | % | 943 | — | `all operators pooled` |
+| `rejection_rate_mu_del` | 52.85 | % | 193 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_ins` | 64.62 | % | 195 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_reorder` | 35.26 | % | 190 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_sub` | 40.57 | % | 175 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_wrap` | 37.37 | % | 190 | — | `fraction of generated mutants rejected before execution` |
+| `smt_guards_checked` | 93.0 | n | 943 | — | `integer guards extracted and solved` |
+| `smt_marginal_rejection_rate` | 0.0 | % | 506 | — | `extra mutants rejected by Z3 beyond the static binding check` |
+| `stage_entering_binding` | 937.0 | n | 937 | — | `candidates entering stage 2` |
+| `stage_entering_compile` | 943.0 | n | 943 | — | `candidates entering stage 1` |
+| `stage_entering_smt` | 506.0 | n | 506 | — | `candidates entering stage 3` |
+| `stage_marginal_rejection_binding` | 46.0 | % | 937 | — | `mutants rejected by the static binding check, over those that compiled` |
+| `stage_marginal_rejection_compile` | 0.64 | % | 943 | — | `mutants failing to compile, over all generated` |
+| `syntactic_validity_mu_del` | 100.0 | % | 193 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_ins` | 100.0 | % | 195 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_reorder` | 98.95 | % | 190 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_sub` | 100.0 | % | 175 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_wrap` | 97.89 | % | 190 | — | `fraction of mutants that compile` |
+
+**23 measurements across 4 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/corpus.json` | `86ed052f72a0ea41` |
+| `artifacts/filter_cost.json` | `8f25e566e0d7ff03` |
+| `artifacts/mutation_results.json` | `88b98c31b41668dc` |
+| `artifacts/repair_convergence.json` | `2f9c25138804815a` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

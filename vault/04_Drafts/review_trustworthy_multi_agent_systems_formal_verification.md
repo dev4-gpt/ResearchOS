@@ -97,12 +97,14 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -132,11 +134,13 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -173,11 +177,13 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
 
 
 
@@ -210,12 +216,14 @@ $$
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
 
 
 
@@ -262,11 +270,13 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
 \end{aligned}
 $$
+
 
 
 
@@ -388,3 +398,84 @@ Model checking explores 37 reachable states over 111 transitions in 0.05 ms and 
 
 The scope of these claims is the model. Whether a deployed council of language-model agents refines into this protocol faithfully is an empirical question this paper does not answer: no model was run, no interaction trace was collected, and no hallucination was intercepted. What the work provides is a specification precise enough to be checked, a checker that returns counterexamples, and the recorded measurements to re-derive every number here [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309], [crossref_10.1201_9788743808145-14]].
 
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_trustworthy_multi_agent_systems_formal_verification` |
+| Random seed | 20260825 |
+| Repository revision | `af99c4e72108` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `0.922 s` |
+| Measurements recorded | 12 |
+| Recorded at | 2026-08-25T18:08:42-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p9_formal_verification.py
+```
+
+This rewrites `runs/draft-review_trustworthy_multi_agent_systems_formal_verification/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`successors`.** One step of the council protocol. Returns every legal next state.
+
+**`explore`.** Breadth-first exploration of the reachable state space. Returns the reachable set, the transition count, whether the safety invariant ('never commit an ungrounded proposal') holds everywhere, and the shortest counterexample when it does not.
+
+**`has_cycle_without_progress`.** Detect an unbounded rebuttal cycle between two polarised personas. Modelled on the turn alone. Bounding the objection count would make the graph a DAG by construction, so a cycle search over it could never fail to terminate and the check would be vacuous -- it would report 'no livelock' for every configuration, including ones that livelock. Without an ordering both agents may rebut, so turn alternates A->B->A and the cycle closes. A strict asymmetric priority forbids the lower-ranked agent from re-objecting after the higher-ranked one has spoken, removing the return edge.
+
+**`byzantine_round`.** One randomised round of quorum consensus over an unreliable channel. Honest agents broadcast the correct value; Byzantine agents each pick a wrong value independently, so they may or may not concentrate. Every message is delivered with probability ``p_deliver``. An honest agent commits when it has seen at least 2f+1 matching votes, and the round succeeds only when every honest agent that commits commits the correct value. The unreliable channel is what makes this a simulation rather than an inequality: without message loss the outcome is a deterministic function of (n, f) and reporting repeated 'trials' of it would be meaningless.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `byzantine_agreement_f0` | 100.0 | % | 20000 | — | `randomised quorum consensus, 0 corrupt of 7, 95% message delivery` |
+| `byzantine_agreement_f1` | 100.0 | % | 20000 | — | `randomised quorum consensus, 1 corrupt of 7, 95% message delivery` |
+| `byzantine_agreement_f2` | 100.0 | % | 20000 | — | `randomised quorum consensus, 2 corrupt of 7, 95% message delivery` |
+| `byzantine_agreement_f3` | 0.0 | % | 20000 | — | `randomised quorum consensus, 3 corrupt of 7, 95% message delivery` |
+| `counterexample_depth_without_invariant` | 4.0 | n | — | — | `shortest path to an ungrounded commit once the invariant is removed` |
+| `livelock_cycle_with_priority` | 0.0 | % | 2 | — | `DFS cycle detection over the reachable graph` |
+| `livelock_cycle_without_priority` | 100.0 | % | 2 | — | `DFS cycle detection over the reachable graph` |
+| `max_tolerated_byzantine` | 2.0 | n | 7 | — | `largest f at which honest agreement is total` |
+| `model_check_latency_ms` | 0.0531 | ms | — | — | `wall-clock exhaustive exploration` |
+| `model_states_reachable` | 37.0 | n | — | — | `breadth-first reachable state count, invariant enforced` |
+| `model_transitions` | 111.0 | n | — | — | `transitions explored, invariant enforced` |
+| `safety_invariant_holds` | 100.0 | % | 37 | — | `exhaustive: no reachable state commits an ungrounded proposal` |
+
+**12 measurements across 3 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/byzantine_sweep.json` | `81008558d1f8f86b` |
+| `artifacts/deadlock_check.json` | `144ad5ed29ce76de` |
+| `artifacts/model_checking.json` | `77b86c3ca17d982c` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

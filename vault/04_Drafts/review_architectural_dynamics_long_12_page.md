@@ -45,12 +45,14 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
 & + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{\mathcal{D}^\beta}
 \end{aligned}
 $$
+
 
 
 
@@ -103,6 +105,7 @@ The Hoffmann et al. scaling law [[arxiv_2005.14165]] characterizes test cross-en
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
@@ -122,7 +125,9 @@ $$
 
 
 
+
 **Theorem 1 (Optimal Compute Allocation).** Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
 
 
 
@@ -155,7 +160,9 @@ $$
 
 
 
+
 *Proof.* Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
 
 
 
@@ -175,6 +182,7 @@ $$
 & + A\mathcal{N}^{-\alpha} + B\left(\frac{6\mathcal{N}}{\mathcal{C}}\right)^\beta
 \end{aligned}
 $$
+
 
 
 
@@ -208,11 +216,13 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
 $$
 \begin{aligned}
 \text{Pass@}k = 1 - (1-p)^k
 \end{aligned}
 $$
+
 
 
 
@@ -248,6 +258,7 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
 $$
 \begin{aligned}
 W = & W_0 \\
@@ -267,7 +278,9 @@ $$
 
 
 
+
 **Definition 1 (Subspace Capacity).** The rank-$r$ adaptation subspace capacity is:
+
 
 
 
@@ -299,9 +312,11 @@ $$
 
 
 
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 **Theorem 2 (Approximation Error Bound).** For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
 
 
 
@@ -321,6 +336,7 @@ $$
 & k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $$
+
 
 
 
@@ -354,11 +370,13 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
 $$
 \begin{aligned}
 \eta_{\text{eff}} = \frac{\gamma}{r} \cdot \eta_{\text{LoRA}}
 \end{aligned}
 $$
+
 
 
 
@@ -386,11 +404,13 @@ $$
 
 
 
+
 $$
 \begin{aligned}
 \|\nabla_{W_\ell}\mathcal{L}\|_F \approx \|\nabla_{B_\ell}\mathcal{L}\|_F \cdot \|A_\ell\|_F + \|B_\ell\|_F \cdot \|\nabla_{A_\ell}\mathcal{L}\|_F
 \end{aligned}
 $$
+
 
 
 
@@ -426,6 +446,7 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
 $$
 \begin{aligned}
 p_i(x) = \text{Softmax}(W_g x)_i = \frac{\exp(w_i^\top x)}{\sum_{j=1}^E \exp(w_j^\top x)}
@@ -444,11 +465,13 @@ $$
 
 
 
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 ### Load Balancing and Routing Entropy
 
 **Definition 2 (Routing Entropy).** The expert routing entropy for batch $\mathcal{B}$ is:
+
 
 
 
@@ -481,9 +504,11 @@ $$
 
 
 
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 **Theorem 3 (Routing Stability Under Auxiliary Loss).** The auxiliary load-balancing loss:
+
 
 
 
@@ -502,6 +527,7 @@ $$
 \mathcal{L}_{\text{aux}} = \alpha_{\text{aux}} \cdot E \sum_{i=1}^E f_i \cdot P_i
 \end{aligned}
 $$
+
 
 
 
@@ -535,11 +561,13 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
 $$
 \begin{aligned}
 \text{ActiveParams} = \mathcal{N}_{\text{attn}} + k \cdot \frac{\mathcal{N}_{\text{total}} - \mathcal{N}_{\text{attn}}}{E}
 \end{aligned}
 $$
+
 
 
 
@@ -575,12 +603,14 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{VRAM}} = & \underbrace{\mathcal{M}_{\text{weights}}}_{\text{model params}} + \underbrace{2 \cdot N_L \cdot d_{\text{model}} \cdot B \cdot L_{\text{ctx}} \cdot s_{\text{dtype}}}_{\text{KV cache}} \\
 & + \underbrace{\mathcal{M}_{\text{activations}}}_{\text{residual streams}} + \underbrace{\mathcal{M}_{\text{cuda}}}_{\text{CUDA overhead}}
 \end{aligned}
 $$
+
 
 
 
@@ -624,11 +654,13 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
 $$
 \begin{aligned}
 \text{AI} = \frac{\text{FLOPs/token}}{2\mathcal{N} \cdot s_{\text{dtype}}} \approx \frac{1}{s_{\text{dtype}}} \text{ FLOP/byte}
 \end{aligned}
 $$
+
 
 
 
@@ -732,11 +764,13 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{compound}}(\mathcal{N}, \mathcal{D}, \mathcal{I}_{\text{ext}}) \approx E' + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{(\mathcal{D} + \lambda\mathcal{I}_{\text{ext}})^\beta}
 \end{aligned}
 $$
+
 
 
 
@@ -797,3 +831,102 @@ Architectural choice governs deployment cost through relationships that can be d
 Singular value decomposition places low-rank adaptation capacity at 99.45\% of update energy for rank 64 using 12.5\% of dense parameters, with a sharp fall to 64.47\% at rank 32 -- the intrinsic rank is a cliff, not a gradual trade-off. Simulated routing entropy ranges from 2.4539 to 3.4118 nats against a 4.1589 nat maximum.
 
 The limits of this evidence are worth stating plainly. Exact arithmetic tells you what a cache costs, not what a served system achieves; SVD on planted-rank matrices tells you what a factorisation can represent, not what fine-tuning finds. Confirming that these bounds predict deployed behaviour requires accelerators and trained models, which this study did not have. Every calculation is released for re-execution [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14]].
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_architectural_dynamics_long_12_page` |
+| Random seed | 20260825 |
+| Repository revision | `af99c4e72108` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `0.711 s` |
+| Measurements recorded | 31 |
+| Recorded at | 2026-08-25T18:17:02-0400 |
+
+## Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p2_scaling_laws.py
+```
+
+This rewrites `runs/draft-review_architectural_dynamics_long_12_page/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+## Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`optimal_allocation`.** Minimise the parametric loss subject to C = 6ND, by scanning the constraint. Solved numerically: for each candidate parameter count the token budget is fixed by the compute constraint, so the search is one-dimensional.
+
+**`kv_cache_bytes`.** Exact KV cache size. Two tensors (K and V) per layer per token.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `chinchilla_tokens_per_param_mean` | 60.117 | x | 6 | — | `mean D/N over six compute budgets` |
+| `dead_experts_load_balanced` | 0.0 | n | 64 | — | `experts receiving zero tokens` |
+| `dead_experts_noisy_topk` | 0.0 | n | 64 | — | `experts receiving zero tokens` |
+| `dead_experts_uncorrected` | 0.0 | n | 64 | — | `experts receiving zero tokens` |
+| `kv_budget_gib_ctx131072` | 320.0 | bytes | — | — | `exact KV arithmetic, batch 1, bf16` |
+| `kv_budget_gib_ctx16384` | 40.0 | bytes | — | — | `exact KV arithmetic, batch 1, bf16` |
+| `kv_budget_gib_ctx32768` | 80.0 | bytes | — | — | `exact KV arithmetic, batch 1, bf16` |
+| `kv_budget_gib_ctx4096` | 10.0 | bytes | — | — | `exact KV arithmetic, batch 1, bf16` |
+| `kv_budget_gib_ctx65536` | 160.0 | bytes | — | — | `exact KV arithmetic, batch 1, bf16` |
+| `kv_budget_pct_h100_ctx131072` | 400.0 | % | — | — | `share of an 80 GiB H100, batch 1` |
+| `kv_budget_pct_h100_ctx16384` | 50.0 | % | — | — | `share of an 80 GiB H100, batch 1` |
+| `kv_budget_pct_h100_ctx32768` | 100.0 | % | — | — | `share of an 80 GiB H100, batch 1` |
+| `kv_budget_pct_h100_ctx4096` | 12.5 | % | — | — | `share of an 80 GiB H100, batch 1` |
+| `kv_budget_pct_h100_ctx65536` | 200.0 | % | — | — | `share of an 80 GiB H100, batch 1` |
+| `kv_cache_gib_mha7b_128k` | 64.0 | bytes | — | — | `exact KV cache at 128k context` |
+| `kv_reduction_gqa_vs_mha` | 75.0 | % | — | — | `exact KV cache ratio at 32k context, 7B shape` |
+| `kv_reduction_mqa_vs_mha` | 96.88 | % | — | — | `exact KV cache ratio at 32k context, 7B shape` |
+| `lora_energy_rank1` | 2.813 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank128` | 99.571 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank16` | 37.227 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank2` | 5.514 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank256` | 99.744 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank32` | 64.475 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank4` | 10.769 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank64` | 99.449 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_energy_rank8` | 20.47 | % | 1024 | — | `SVD energy captured by rank-r truncation` |
+| `lora_param_fraction_d8192_r16` | 0.39 | % | — | — | `2*d*r / d^2 at d=k=8192, r=16` |
+| `lora_param_fraction_rank64` | 12.5 | % | — | — | `2*d*r / d^2 at r=64` |
+| `routing_entropy_load_balanced` | 3.4118 | — | 200000 | — | `Shannon entropy of expert assignment counts` |
+| `routing_entropy_noisy_topk` | 2.718 | — | 200000 | — | `Shannon entropy of expert assignment counts` |
+| `routing_entropy_uncorrected` | 2.4539 | — | 200000 | — | `Shannon entropy of expert assignment counts` |
+
+**31 measurements across 5 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+## Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/chinchilla_allocation.json` | `abd75fba0c2e938d` |
+| `artifacts/kv_budget_70b.json` | `4eef61836ffb4339` |
+| `artifacts/kv_cache_scaling.json` | `946803b9288e78d5` |
+| `artifacts/lora_subspace.json` | `c61f5c0d92cd90a9` |
+| `artifacts/moe_routing.json` | `aabd77a2874c57a9` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

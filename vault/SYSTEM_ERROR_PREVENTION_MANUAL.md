@@ -1,18 +1,21 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-25 15:51:36
-**Total Tracked Incidents:** 46
-**Resolved & Verified:** 43
-**Open / Unresolved:** 3
-**Active Prevention Rules:** 46
+**Last Updated:** 2026-08-25 19:50:15
+**Total Tracked Incidents:** 63
+**Resolved & Verified:** 57
+**Open / Unresolved:** 6
+**Active Prevention Rules:** 63
 
 ---
 
 ## ⚠️ Open Defects — NOT resolved
 
 - **[ERR-044]** `OPEN_NOT_FIXED` — Numeric claim detection under-counts and returns no unverified claims: tests/test_fact_checker.py::test_validate_numeric_claims finds 1 claim where 2 are asserted, and test_fact_checker_catches_unsupported_scale_claims gets an empty unverified_claims list for '500 enterprise codebases'.
-- **[ERR-045]** `OPEN_NOT_FIXED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
+- **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-046]** `OPEN_NOT_FIXED` — The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
+- **[ERR-061]** `OPEN_NOT_FIXED` — p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.
+- **[ERR-062]** `OPEN_NOT_FIXED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
+- **[ERR-063]** `OPEN_NOT_FIXED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 
 ---
 
@@ -64,6 +67,23 @@
 - **[R44]**: A verification service that returns an empty finding list must be distinguishable from one that found nothing wrong. Fact-check and audit services require tests asserting they detect known-bad input.
 - **[R45]**: Manuscript readiness must assert word count against the venue target, citation count and topical relevance of each citation, and at least one figure, before a draft is marked publisher-ready.
 - **[R46]**: Every venue branch must emit the full author block that venue's document class requires; a branch that omits metadata must fail its venue contract test rather than compile quietly.
+- **[R47]**: A citation adjacent to a named system must resolve to a work whose title leads with that name. Key resolution alone is not citation verification.
+- **[R48]**: Ingestion must be driven by what the manuscripts cite. A manuscript whose topic has no matching corpus cannot be honestly cited, and citation repair must fetch sources rather than reuse unrelated ones.
+- **[R49]**: Lexical relevance must be specificity-weighted. Shared field vocabulary is not evidence of a topical relationship, and a metric that cannot separate them will rank generic matches highest.
+- **[R50]**: Every Markdown construct the drafts use must have an explicit converter rule; anything unhandled must fail loudly rather than be dropped.
+- **[R51]**: A failed or empty run must never overwrite recorded evidence. Writes to an evidence store must be refused when the new result set is empty.
+- **[R52]**: An experiment whose input is the repository must record the revision it ran against, and the manuscript must state it. Reported values must be generated from the recorded run, never transcribed.
+- **[R53]**: A verification must be shown capable of failing. Any checker that passes must be run against a known-bad input that it is required to reject.
+- **[R54]**: A trial count may only be reported for a procedure with a genuine random component. Repeating a deterministic computation is not sampling.
+- **[R55]**: Report the baseline's headroom before drawing a comparative conclusion, and never select a configuration on the split used to report it.
+- **[R56]**: Two checks that judge the same property must share their evidence sources. A disagreement between graders is a defect in the graders, not a verdict.
+- **[R57]**: A claim extractor must be validated against notation as well as prose, and must accept a value stated to fewer significant figures than measured. Every false positive it produces trains authors to ignore it.
+- **[R58]**: Manuscript completeness must be checked against an explicit section template with word budgets. Appendix material derived from recorded runs is the safe way to add length; prose invented to reach a target is not.
+- **[R59]**: Generated LaTeX must never place a bracketed literal immediately after a command that accepts an optional argument.
+- **[R60]**: Span replacement must be bounded and verified: assert the retired content is absent before writing, and make every rewrite idempotent.
+- **[R61]**: A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.
+- **[R62]**: Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.
+- **[R63]**: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.
 
 ---
 
@@ -470,9 +490,9 @@
 - **Component:** `Manuscript corpus (vault/04_Drafts)` (manuscript_authoring)
 - **Error Type:** `Content Gaps`
 - **Root Cause:** Drafting produced structurally complete but thin manuscripts, and no gate checked length, citation relevance or figure presence.
-- **Resolution:** OPEN. Requires manuscript rewriting, not a pipeline fix. VenueSelectorService now scores length fit and flags under-built drafts, but does not remediate.
+- **Resolution:** PARTIALLY RESOLVED. Figures: fixed -- 9 generated from measurement artifacts and rendering in the PDFs (see ERR-050). Citations: 27 false attributions repointed and the corpus expanded 448->1010 (ERR-047, ERR-048); 84 weak citations remain for author review (ERR-062). Length: appendices C-E now generated from recorded runs, adding ~1,000 words per grounded manuscript; main-body expansion against the measured template (ERR-058) is still outstanding.
 - **Prevention Rule:** `R45: Manuscript readiness must assert word count against the venue target, citation count and topical relevance of each citation, and at least one figure, before a draft is marked publisher-ready.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ⚠️ `PARTIALLY_RESOLVED`
 
 ### ⚠️ [ERR-046] The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
 - **Timestamp:** `2026-08-25 15:51:36`
@@ -481,4 +501,157 @@
 - **Root Cause:** The ACM branch was written with a minimal top matter block and never extended when affiliation handling was added to the other venues.
 - **Resolution:** OPEN. Needs a proper acmart \author/\affiliation block.
 - **Prevention Rule:** `R46: Every venue branch must emit the full author block that venue's document class requires; a branch that omits metadata must fail its venue contract test rather than compile quietly.`
+- **Status:** ⚠️ `OPEN_NOT_FIXED`
+
+### ❌ [ERR-047] 27 citations named a specific system in prose while the key resolved to an unrelated paper: 'Vision Transformers' pointed at network topology self-healing, 'LoRA' at contrastive domain adaptation, 'MM-SafetyBench' at 'Target search by active particles', 'MetaGPT' at a Hanabi study.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Manuscript corpus / CitationRelevanceService` (citation_authoring)
+- **Error Type:** `False Attribution`
+- **Root Cause:** Citation checks verified that a key resolves to a real vault note and stopped there. Nothing compared the cited work against the sentence citing it, so a resolvable key pointing at the wrong paper passed.
+- **Resolution:** Added CitationRelevanceService and a named-entity resolver. 22 keys repointed to the paper the prose names; 5 unresolved and reported.
+- **Prevention Rule:** `R47: A citation adjacent to a named system must resolve to a work whose title leads with that name. Key resolution alone is not citation verification.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-048] The 448-paper vault did not contain the literature the manuscripts needed. The best available replacement for a sentence on repair convergence was a paper on generative AI in business, scoring 0.18.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Vault paper corpus` (literature_ingestion)
+- **Error Type:** `Corpus Coverage Gap`
+- **Root Cause:** Ingestion was topic-agnostic, accumulating whatever search returned rather than what the drafts actually cite.
+- **Resolution:** Added scripts/experiments/ingest_literature.py with per-manuscript queries; 562 papers ingested from arXiv and OpenAlex, vault now 1010.
+- **Prevention Rule:** `R48: Ingestion must be driven by what the manuscripts cite. A manuscript whose topic has no matching corpus cannot be honestly cited, and citation repair must fetch sources rather than reuse unrelated ones.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-049] Unweighted lexical overlap rated a paper on the card game Hanabi as relevant to program repair (0.46) because both concern 'agents', while rating an apt software-engineering citation irrelevant.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `CitationRelevanceService scoring` (citation_audit)
+- **Error Type:** `Scorer Miscalibration`
+- **Root Cause:** Overlap counted every shared token equally, so field-generic vocabulary ('agent', 'multi', 'systems') carried the match. Scoring used title and tags only, and the tag list contains the ingesting topic slug, which matches any manuscript on that topic regardless of content.
+- **Resolution:** Weighted by inverse document frequency over the corpus, scored against the cited work's abstract, and normalised by the citing sentence.
+- **Prevention Rule:** `R49: Lexical relevance must be specificity-weighted. Shared field vocabulary is not evidence of a topical relationship, and a metric that cannot separate them will rank generic matches highest.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-050] Markdown images were dropped without warning, so all 108 venue packages contained zero figures despite the drafts referencing them.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `LaTeXExporterService.convert_markdown_body` (markdown_to_venue_latex)
+- **Error Type:** `Silent Content Loss`
+- **Root Cause:** The converter had no rule for image syntax; unmatched markup was discarded.
+- **Resolution:** Images convert to figure floats with captions and labels, and the build directory receives the figure files. Nine figures generated from measurement artifacts by scripts/experiments/figures.py.
+- **Prevention Rule:** `R50: Every Markdown construct the drafts use must have an explicit converter rule; anything unhandled must fail loudly rather than be dropped.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-051] A network-failed rerun of the p4 census overwrote 10 recorded measurements with a single row, silently removing the manuscript's grounding; the provenance gate then reported p4 as 0/6 grounded.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `ExperimentRecorder.finalize` (measurement_recording)
+- **Error Type:** `Evidence Destroyed By Failed Run`
+- **Root Cause:** finalize() wrote measurements.jsonl unconditionally, so a run that collected nothing truncated the file a previous successful run produced.
+- **Resolution:** finalize() now refuses to overwrite an existing measurements file with an empty result set and raises instead.
+- **Prevention Rule:** `R51: A failed or empty run must never overwrite recorded evidence. Writes to an evidence store must be refused when the new result set is empty.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-052] p3's mutant count moved from 940 to 943 between identical runs, and p1's retrieval corpus grew as tooling was added, because both draw their corpus from this repository's own working tree.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Experiment corpora (p1, p3)` (experiment_design)
+- **Error Type:** `Corpus Drift`
+- **Root Cause:** The corpus is the live source tree, which changes as the project is edited, so a seeded run is only reproducible against a fixed revision.
+- **Resolution:** Corpus pinned to a named commit in the manuscript, and reported numbers regenerated from measurements.jsonl rather than typed by hand.
+- **Prevention Rule:** `R52: An experiment whose input is the repository must record the revision it ran against, and the manuscript must state it. Reported values must be generated from the recorded run, never transcribed.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-053] The livelock cycle detector could not fail: its state carried monotonically increasing counters, making the reachable graph acyclic by construction, so it would report 'no livelock' for a protocol that livelocks.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `p9 experiment: deadlock check` (experiment_design)
+- **Error Type:** `Vacuous Verification`
+- **Root Cause:** Bounding the state space to keep the search finite removed the very property the search was meant to detect.
+- **Resolution:** Remodelled on the turn alone, where the cycle genuinely exists.
+- **Prevention Rule:** `R53: A verification must be shown capable of failing. Any checker that passes must be run against a known-bad input that it is required to reject.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-054] Byzantine agreement was computed by a deterministic function of (n, f) yet reported as 20,000 Monte Carlo trials, implying a sampling distribution that did not exist.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `p9 experiment: Byzantine simulation` (experiment_design)
+- **Error Type:** `Deterministic Result Reported As Sampled`
+- **Root Cause:** The round had no stochastic component; repeated trials returned the same value.
+- **Resolution:** Modelled per-message delivery probability, which is what makes repeated trials informative. The measured threshold still lands at floor((n-1)/3).
+- **Prevention Rule:** `R54: A trial count may only be reported for a procedure with a genuine random component. Repeating a deterministic computation is not sampling.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-055] The first retrieval corpus was small enough that BM25 alone reached 100% P@5, a ceiling at which no re-ranker can show an effect, and the diffusion's hyperparameters were selected on the same queries used to report results.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `p1 experiment: retrieval evaluation` (experiment_design)
+- **Error Type:** `Ceiling Effect And Tuning On Test`
+- **Root Cause:** Corpus size was not checked against baseline saturation, and no held-out split separated selection from reporting.
+- **Resolution:** Corpus widened to 109 modules; hyperparameters selected on a held-out dev half and reported on 103 unseen queries.
+- **Prevention Rule:** `R55: Report the baseline's headroom before drawing a comparative conclusion, and never select a configuration on the split used to report it.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-056] FactCheckerService flagged p9's measured 0.05 ms as unverified because it is absent from the literature corpus, blocking all 12 p9 venues, while the provenance gate reported the same manuscript fully grounded.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `FactCheckerService / ClaimProvenanceService` (release_audit)
+- **Error Type:** `Contradictory Verification`
+- **Root Cause:** Two independent graders judged the same claims against different evidence sources, and neither knew about the other.
+- **Resolution:** FactCheckerService accepts values recorded by the draft's own experiment, supplied by PublisherReadinessService.
+- **Prevention Rule:** `R56: Two checks that judge the same property must share their evidence sources. A disagreement between graders is a defect in the graders, not a verdict.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-057] The claim extractor read inline maths as currency ('$1 - p_k$' became a price), 'Mixtral 8x7B' as an eight-fold factor, interval levels ('95% CI') as findings, and rejected correctly rounded values ('d = 2.13' against a measured 2.1339). Decimal precision was parsed from '4.39 ms' as five places.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `ClaimProvenanceService extraction` (provenance_audit)
+- **Error Type:** `Extractor False Positives`
+- **Root Cause:** Patterns were written against prose and matched notation, and value comparison demanded exact equality where manuscripts legitimately round.
+- **Resolution:** Currency requires an escaped dollar; factors reject a following digit; interval levels and inline code spans are skipped; comparison accepts the claim's own precision; units must agree, not only values.
+- **Prevention Rule:** `R57: A claim extractor must be validated against notation as well as prose, and must accept a value stated to fewer significant figures than measured. Every false positive it produces trains authors to ignore it.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-058] Manuscripts averaged 3,200 words with no appendix, against a measured reference of 5,182 main-body plus 3,987 appendix words, and lacked the Analysis-before-Method ordering the reference uses.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Manuscript structure` (manuscript_authoring)
+- **Error Type:** `Structural Shortfall`
+- **Root Cause:** No template encoded what a complete paper of this kind contains, so structure varied per draft and appendices were absent entirely.
+- **Resolution:** scripts/experiments/paper_template.py encodes the structure and per-section budgets measured from arXiv 2604.17215; generate_appendices.py builds Appendices C, D and E from recorded artifacts.
+- **Prevention Rule:** `R58: Manuscript completeness must be checked against an explicit section template with word budgets. Appendix material derived from recorded runs is the safe way to add length; prose invented to reach a target is not.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-059] The '[AFFILIATION NOT SET]' placeholder marker followed a '\\' line break, so LaTeX parsed it as an optional length argument and failed with 'Missing number, treated as zero'.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `LaTeXExporterService author block` (markdown_to_venue_latex)
+- **Error Type:** `Marker Breaks Compilation`
+- **Root Cause:** A square-bracketed marker was emitted directly after a line break, where TeX reads brackets as an optional argument.
+- **Resolution:** Marker emitted brace-protected so it cannot be read as an argument.
+- **Prevention Rule:** `R59: Generated LaTeX must never place a bracketed literal immediately after a command that accepts an optional argument.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-060] A DOTALL span pattern intended to replace one paragraph matched as far as the Conclusion's own repeated phrase and would have deleted the Related Work and Conclusion sections; rewrite scripts were also non-idempotent and crashed on a second run after consuming their own anchors.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Manuscript rewrite tooling` (manuscript_sync)
+- **Error Type:** `Unsafe Rewrite Operations`
+- **Root Cause:** Span replacement was anchored on text that recurs later in the document, with no bound and no completion sentinel.
+- **Resolution:** Patterns bounded to a single line, assert_absent verifies retired claims are gone before saving, and each rewrite checks a sentinel first.
+- **Prevention Rule:** `R60: Span replacement must be bounded and verified: assert the retired content is absent before writing, and make every rewrite idempotent.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ⚠️ [ERR-061] p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Manuscript corpus (p6, p7, p8)` (manuscript_authoring)
+- **Error Type:** `Ungrounded Empirical Claims`
+- **Root Cause:** The claims describe experiments that were never run and cannot be run here.
+- **Resolution:** OPEN. p7's formal core is groundable on CPU as p9's was. p6 and p8 need GPU access or must be reframed with their empirical claims removed.
+- **Prevention Rule:** `R61: A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.`
+- **Status:** ⚠️ `OPEN_NOT_FIXED`
+
+### ⚠️ [ERR-062] 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Citation relevance backlog` (citation_audit)
+- **Error Type:** `Unreviewed Weak Citations`
+- **Root Cause:** Lexical scoring cannot decide whether a source supports a claim, and automatic substitution proposed replacing InstructGPT with a paper on fracture image captioning.
+- **Resolution:** OPEN by design. These need an author decision; automated replacement was rejected as more dangerous than the defect.
+- **Prevention Rule:** `R62: Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.`
+- **Status:** ⚠️ `OPEN_NOT_FIXED`
+
+### ⚠️ [ERR-063] iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
+- **Timestamp:** `2026-08-25 19:49:54`
+- **Component:** `Environment / iCloud` (repository_hygiene)
+- **Error Type:** `Credentials In Sync Conflict Copies`
+- **Root Cause:** iCloud created conflict copies of a synced project directory containing secrets.
+- **Resolution:** OPEN. Reported, not deleted: removing files and rotating keys is the owner's decision.
+- **Prevention Rule:** `R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.`
 - **Status:** ⚠️ `OPEN_NOT_FIXED`

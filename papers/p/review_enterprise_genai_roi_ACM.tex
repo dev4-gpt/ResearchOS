@@ -136,6 +136,7 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -144,6 +145,7 @@ C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfe
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -319,6 +321,7 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -327,6 +330,7 @@ Y = & \alpha + \tau X_{\text{GenAI}} \\
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -494,6 +498,115 @@ As noted in data quality, the ethical handling of sensitive data is critical. En
 In conclusion, while the promise of GenAI ROI is substantial, a thorough academic and practical understanding demands a rigorous engagement with its inherent limitations, open challenges, data considerations, anticipated criticisms, and profound ethical implications. A holistic and responsible approach is indispensable for realizing the true, sustainable value of GenAI in the enterprise.
 
 \
+
+
+
+
+
+\section{Appendix C: Extended Experimental Setup}
+
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+\begin{table}[htbp]
+\centering
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{ll}
+\toprule
+Property & Value \\
+\midrule
+Run identifier & `draft-review\_enterprise\_genai\_roi` \\
+Random seed & 20260825 \\
+Repository revision & `cbc42b88617a` \\
+Python & 3.13.5 \\
+Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
+Architecture & arm64 \\
+Logical CPUs & 12 \\
+Accelerator & none; no GPU was used at any point \\
+Wall-clock duration & `21.582 s` \\
+Measurements recorded & 10 \\
+Recorded at & 2026-08-25T17:24:19-0400 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+
+\section{Reproduction}
+
+
+The run is deterministic under the recorded seed. From the repository root:
+
+
+\begin{scriptsize}
+\begin{verbatim}
+backend/.venv/bin/python scripts/experim
+ents/p4\_literature\_census.py
+\end{verbatim}
+\end{scriptsize}
+
+
+This rewrites `runs/draft-review\_enterprise\_genai\_roi/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+
+\section{Scope of the Environment}
+
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+
+
+
+\section{Appendix D: Methodology Detail}
+
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+\textbf{`fetch`.} Fetch works for one search string. Returns [] rather than raising on failure.
+
+
+
+
+\section{Appendix E: Additional Results}
+
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+\begin{table}[htbp]
+\centering
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lclcll}
+\toprule
+Metric & Value & Unit & n & 95\% CI & Derivation \\
+\midrule
+`literature\_distinct\_venues` & 714.0 & n & 1779 & -- & `distinct primary sources` \\
+`literature\_empirical\_share` & 31.76 & \% & 1779 & -- & `abstract contains a sample-size or study marker` \\
+`literature\_empirical\_share\_ci\_low` & 29.566 & \% & 1779 & -- & `bootstrap lower bound on empirical share` \\
+`literature\_identified\_total` & 2000.0 & n & 1779 & -- & `sum of per-query result counts` \\
+`literature\_median\_citations` & 62.0 & n & 1779 & -- & `median of cited\_by\_count` \\
+`literature\_open\_access\_share` & 98.54 & \% & 1779 & -- & `OpenAlex is\_oa flag` \\
+`literature\_recent\_share` & 68.63 & \% & 1779 & -- & `publication year $>$= 2023` \\
+`literature\_screened` & 1779.0 & n & 1779 & -- & `abstract and title present` \\
+`literature\_unique\_after\_dedup` & 1893.0 & n & 1779 & -- & `deduplicated by OpenAlex id` \\
+`literature\_zero\_citation\_share` & 0.51 & \% & 1779 & -- & `share with cited\_by\_count == 0` \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\textbf{10 measurements across 1 artifacts.} Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+
+\section{Artifact Digests}
+\begin{table}[htbp]
+\centering
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lc}
+\toprule
+Artifact & SHA-256 (first 16) \\
+\midrule
+`artifacts/literature\_census.json` & `b96a25dbca78848f` \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
 
 
 \par\vspace{0.5em}

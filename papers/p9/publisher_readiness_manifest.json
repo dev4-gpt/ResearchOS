@@ -15,13 +15,477 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
       },
       "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.pdf",
       "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 10-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "NeurIPS",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 10,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "ICML",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 11,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 11-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "ICML",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 11,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "CVPR",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 9,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.tex",
       "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checks": {
@@ -85,7 +549,7 @@
           "policy_passed": true,
           "page_passed": true,
           "status": "PASS",
-          "venue": "NeurIPS",
+          "venue": "CVPR",
           "template_configured": true,
           "index_only": false,
           "package_fallback_used": false,
@@ -132,10 +596,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -160,7 +627,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -191,10 +661,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -219,7 +692,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -227,7 +703,935 @@
     {
       "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "ICML",
+      "venue": "ACL",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 10,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 10-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "ACL",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 10,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "IEEEtran",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 8,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 8-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "IEEEtran",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 8,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "ACM",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 9,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 9-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "ACM",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 9,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "IEEE_Access",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 8,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 8-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "IEEE_Access",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 8,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 11,
+              "verified_count": 11,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.05 ms"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2312_03893",
+                "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_1201_9788743808145_14",
+                "crossref_10_18653_v1_2026_findings_acl_1933"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 11,
+          "verified_count": 11,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.05 ms"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2312_03893",
+            "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_1201_9788743808145_14",
+            "crossref_10_18653_v1_2026_findings_acl_1933"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
+      "venue": "SpringerOpen",
       "compiled": true,
       "checkmate_passed": true,
       "layout_passed": true,
@@ -240,8 +1644,8 @@
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
       },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.tex",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.tex",
       "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checks": {
@@ -305,7 +1709,7 @@
           "policy_passed": true,
           "page_passed": true,
           "status": "PASS",
-          "venue": "ICML",
+          "venue": "SpringerOpen",
           "template_configured": true,
           "index_only": false,
           "package_fallback_used": false,
@@ -352,10 +1756,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -380,7 +1787,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -411,10 +1821,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -439,1327 +1852,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "CVPR",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 5,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "CVPR",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
           ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 5,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "ACL",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 9,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "ACL",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 9,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "IEEEtran",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 5,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "IEEEtran",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 5,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "ACM",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 6,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "ACM",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 6,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "IEEE_Access",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 5,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "IEEE_Access",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 5,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
-      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
-      "venue": "SpringerOpen",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 6,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "SpringerOpen",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 6,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
-              "unverified_count": 0,
-              "grounded_claims": [],
-              "unverified_claims": [],
-              "metric_score": 100.0,
-              "measurement_backed_claims": [
-                "0.05 ms"
-              ]
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2404_04289",
-                "arxiv_2406_00584",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "arxiv_2501_14050",
-                "crossref_10_1109_access_2026_3656309",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2026_findings_acl_1933"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
-          "unverified_count": 0,
-          "grounded_claims": [],
-          "unverified_claims": [],
-          "metric_score": 100.0,
-          "measurement_backed_claims": [
-            "0.05 ms"
-          ]
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2404_04289",
-            "arxiv_2406_00584",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "arxiv_2501_14050",
-            "crossref_10_1109_access_2026_3656309",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2026_findings_acl_1933"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [],
           "unverified_metrics": []
         }
       }
@@ -1775,7 +1871,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1818,7 +1914,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1855,7 +1951,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1892,10 +1988,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -1920,7 +2019,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -1951,10 +2053,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -1979,7 +2084,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -1995,7 +2103,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2038,7 +2146,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2075,7 +2183,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2112,10 +2220,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -2140,7 +2251,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2171,10 +2285,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -2199,7 +2316,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2215,7 +2335,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2258,7 +2378,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2295,7 +2415,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2332,10 +2452,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -2360,7 +2483,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2391,10 +2517,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -2419,7 +2548,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
@@ -2435,7 +2567,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2478,7 +2610,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2515,7 +2647,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2552,10 +2684,13 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 0,
+              "total_numeric_claims": 3,
+              "grounded_count": 2,
               "unverified_count": 0,
-              "grounded_claims": [],
+              "grounded_claims": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_claims": [],
               "metric_score": 100.0,
               "measurement_backed_claims": [
@@ -2580,7 +2715,10 @@
               ],
               "broken_citations": [],
               "unresolved_citations": [],
-              "grounded_metrics": [],
+              "grounded_metrics": [
+                "0.922 s",
+                "95%"
+              ],
               "unverified_metrics": []
             }
           }
@@ -2611,10 +2749,13 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 0,
+          "total_numeric_claims": 3,
+          "grounded_count": 2,
           "unverified_count": 0,
-          "grounded_claims": [],
+          "grounded_claims": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_claims": [],
           "metric_score": 100.0,
           "measurement_backed_claims": [
@@ -2639,7 +2780,10 @@
           ],
           "broken_citations": [],
           "unresolved_citations": [],
-          "grounded_metrics": [],
+          "grounded_metrics": [
+            "0.922 s",
+            "95%"
+          ],
           "unverified_metrics": []
         }
       }
