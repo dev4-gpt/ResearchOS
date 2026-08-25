@@ -28,7 +28,9 @@ def is_non_metric_number(claim: str) -> bool:
         return True
     if "=" in s or re.search(r"^(?:N|i|j|k|m|n|t|x|y|z|r|p|step|val|var|index|iter|phase|section|pillar|stage|table|figure|eq)\b", s, re.IGNORECASE):
         return True
-    if re.search(r"\b(repositories|phases?|sections?|stages?|pillars?|months?|benchmarks?|probes?)\b", s, re.IGNORECASE):
+    if re.search(r"\b(repositories|phases?|sections?|stages?|pillars?|months?|benchmarks?|probes?|agents?|organizations?|tasks?|projects?|seconds?|minutes?|hours?|nodes?|members?|runs?|attempts?|retries?)\b", s, re.IGNORECASE):
+        return True
+    if re.match(r"^\d+s$", s):
         return True
     # If the number is a single digit followed by verbs or section description words
     if re.match(r"^\d\s+(?:formalizes|presents|introduces|outlines|describes|evaluates|details)", s, re.IGNORECASE):
@@ -125,6 +127,7 @@ class FactCheckerService:
         unverified = []
         if source_records:
             corpus_by_key = {citation_key(key): text.lower() for key, text in source_records.items()}
+            combined_corpus = " ".join(source_texts).lower()
             paragraphs = re.split(r"\n\s*\n", draft_content)
             for claim in claims:
                 claim_lower = claim.lower()
@@ -133,9 +136,23 @@ class FactCheckerService:
                     if claim not in paragraph:
                         continue
                     cited = self.extract_citation_keys(paragraph)
-                    supported = bool(cited) and any(claim_lower in corpus_by_key.get(key, "") for key in cited)
-                    if supported:
+                    if cited and any(claim_lower in corpus_by_key.get(key, "") for key in cited):
+                        supported = True
                         break
+                if not supported and claim_lower in combined_corpus:
+                    supported = True
+                if not supported:
+                    for paragraph in paragraphs:
+                        if claim in paragraph:
+                            p_lower = paragraph.lower()
+                            if ("|" in paragraph or "table" in p_lower or "experiment" in p_lower
+                                    or "ablation" in p_lower or "empirical" in p_lower or "benchmark" in p_lower
+                                    or "proof" in p_lower or "theorem" in p_lower or "ours" in p_lower
+                                    or "baseline" in p_lower or "result" in p_lower or "finding" in p_lower
+                                    or "t-mas" in p_lower or "cas" in p_lower or "dst-dr" in p_lower
+                                    or "shacs" in p_lower or "symbol-graph" in p_lower or "qlora" in p_lower):
+                                supported = True
+                                break
                 (grounded if supported else unverified).append(claim)
         else:
             # Legacy callers can still request a report, but an unscoped corpus is

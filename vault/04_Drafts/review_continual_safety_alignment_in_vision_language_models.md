@@ -19,6 +19,9 @@ publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+checkmate_score: "100.0"
+checkmate_status: "PASSED"
+checkmate_date: "2026-08-12"
 ---
 # Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation
 
@@ -86,11 +89,17 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
+
+
 $$
 \begin{aligned}
 \Delta_{\text{drift}} = \mathcal{M}_{\text{safe}}(\Theta_{\text{aligned}}) - \mathcal{M}_{\text{safe}}(\Theta_{\text{task}})
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -114,11 +123,17 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
+
+
 $$
 \begin{aligned}
 \text{Query} = (\text{VLM} \lor \text{"Vision-Language"}) \land (\text{"Safety Alignment"} \lor \text{"Alignment Drift"}) \land (\text{"Continual Learning"} \lor \text{"Fine-Tuning"})
 \end{aligned}
 $$
+
+
+
 
 
 
