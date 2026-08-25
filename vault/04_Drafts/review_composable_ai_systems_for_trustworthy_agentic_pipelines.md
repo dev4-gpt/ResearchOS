@@ -84,12 +84,14 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
 $$
 \begin{aligned}
 \mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
 & \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $$
+
 
 
 
@@ -119,12 +121,14 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
 $$
 \begin{aligned}
 c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
 
 
 
@@ -157,11 +161,13 @@ where:
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
 \end{aligned}
 $$
+
 
 
 
@@ -193,6 +199,7 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \lambda_{\min}(\mathbf{P}) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \text{Tr}(\mathbf{P})
@@ -210,7 +217,9 @@ $$
 
 
 
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
 
 
 
@@ -240,7 +249,9 @@ $$
 
 
 
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
 
 
 
@@ -270,7 +281,9 @@ $$
 
 
 
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
 
 
 
@@ -288,6 +301,7 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
 
 
 
@@ -452,13 +466,13 @@ Level 3 verification (Z3-SMT path invariants with 45 ms timeout) achieves the op
 ## Related Work & Taxonomic Synthesis
 
 ### Multi-Agent Orchestration Frameworks
-Early multi-agent LLM systems—including AutoGPT, BabyAGI, MetaGPT [[arxiv_2412.06333]], and ChatDev [[arxiv_2404.01131]]—established the viability of role-playing agents for software development. However, these systems rely primarily on unconstrained natural language exchanges, rendering them non-deterministic and susceptible to conversational deadlocks. LangGraph, Semantic Kernel, and AutoGen introduce graph abstractions, but lack formal algebraic contracts and Lyapunov error bounds.
+Early multi-agent LLM systems—including AutoGPT, BabyAGI, MetaGPT [[crossref_10_48550_arxiv_2308_00352]], and ChatDev [[crossref_10_18653_v1_2024_acl_long_810]]—established the viability of role-playing agents for software development. However, these systems rely primarily on unconstrained natural language exchanges, rendering them non-deterministic and susceptible to conversational deadlocks. LangGraph, Semantic Kernel, and AutoGen introduce graph abstractions, but lack formal algebraic contracts and Lyapunov error bounds.
 
 ### Formal Methods in Artificial Intelligence
 The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification [[crossref_10.18653_v1_2026.findings-acl.1933]]. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams [[arxiv_2404.01131]].
 
 ### Compound AI Systems and Retrieval Architectures
-Recent literature highlights the shift from monolithic model scaling to Compound AI Systems [[arxiv_2406.00584], [arxiv_2005.14165]]. Systems such as GraphRAG [[crossref_10.1145_3689096.3689462]] and Symbol-Graph RAG demonstrate that structured graph indexing outperforms brute-force fine-tuning. CAS serves as the overarching architectural operating system uniting structured retrieval, parameter-efficient adapters [[arxiv_2305.18290]], and multi-agent coordination under a unified contract framework.
+Recent literature highlights the shift from monolithic model scaling to Compound AI Systems [[arxiv_2406.00584], [arxiv_2005.14165]]. Systems such as GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG demonstrate that structured graph indexing outperforms brute-force fine-tuning. CAS serves as the overarching architectural operating system uniting structured retrieval, parameter-efficient adapters [[arxiv_2305.18290]], and multi-agent coordination under a unified contract framework.
 
 ---
 

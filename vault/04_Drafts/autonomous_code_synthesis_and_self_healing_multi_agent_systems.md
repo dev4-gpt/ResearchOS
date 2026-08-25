@@ -68,6 +68,7 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
 $$
 \begin{aligned}
 \mu_{\text{sub}}(T, v, v') = T[v \leftarrow v']\ \text{(node substitution)}
@@ -95,11 +96,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \mu_{\text{ins}}(T, e, v_{\text{new}}) = T \cup \{v_{\text{new}}\} \cup \{e_{\text{new}}\}\ \text{(node insertion)}
 \end{aligned}
 $$
+
+
 
 
 
@@ -150,12 +155,16 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \mu_{\text{wrap}}(T, v, c) = & \text{wrap}(T, \\
 & v, c)\ \text{(control flow wrapping)}
 \end{aligned}
 $$
+
+
 
 
 
@@ -196,6 +205,7 @@ $$
 
 
 
+
 **Proposition 1 (Closure Under Grammar).** For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 *Proof.* Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -215,11 +225,14 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
 $$
 \begin{aligned}
 \text{Patch} \rightarrow \text{HunkList}\ |\ \epsilon
 \end{aligned}
 $$
+
+
 
 
 
@@ -269,11 +282,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Hunk} \rightarrow \text{Header}\ \text{ContextLines}\ \text{ChangeLines}\ \text{ContextLines}
 \end{aligned}
 $$
+
+
 
 
 
@@ -313,6 +330,7 @@ $$
 
 
 
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run [[crossref_10.18653_v1_2026.findings-acl.1933]].
 
 ---
@@ -328,6 +346,7 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 - $V: \mathcal{S} \rightarrow \mathbb{R}_{\geq 0}$: Lyapunov energy function
 
 **Definition 3 (Lyapunov Energy Function).** Let $T^*$ be the target (defect-free) program state. Define:
+
 
 
 
@@ -358,9 +377,11 @@ $$
 
 
 
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 **Theorem 1 (Lyapunov Termination).** Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
 
 
 
@@ -378,6 +399,7 @@ $$
 k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rfloor\right)
 \end{aligned}
 $$
+
 
 
 
@@ -417,11 +439,13 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}[k^*] \leq \frac{V(T_0)}{p_{\min} \cdot c_{\min}}
 \end{aligned}
 $$
+
 
 
 
@@ -567,11 +591,13 @@ What the staged measurement does establish is an ordering argument for filter de
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{DRR}(\pi)] \geq \hat{\mathbb{E}}_n[\text{DRR}(\pi)] - \sqrt{\frac{\log|\Pi| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
 
 
 
@@ -596,7 +622,7 @@ Classical APR [[arxiv_2010.11146]] applies heuristic search over syntax tree mut
 
 ### Multi-Agent Code Synthesis
 
-MetaGPT [[arxiv_2412.06333]] assigns software engineering roles (product manager, architect, engineer, QA) to separate LLM agents. ChatDev [[arxiv_2404.01131]] implements chat-based multi-agent software development. SWE-agent [[arxiv_2405.01543]] provides a single-agent interface for repository-scale issue resolution. Our H-MAS topology extends these with hierarchical task decomposition and formal termination guarantees.
+MetaGPT [[crossref_10_48550_arxiv_2308_00352]] assigns software engineering roles (product manager, architect, engineer, QA) to separate LLM agents. ChatDev [[crossref_10_18653_v1_2024_acl_long_810]] implements chat-based multi-agent software development. SWE-agent [[crossref_10_48550_arxiv_2405_15793]] provides a single-agent interface for repository-scale issue resolution. Our H-MAS topology extends these with hierarchical task decomposition and formal termination guarantees.
 
 ### Formal Verification in AI Systems
 

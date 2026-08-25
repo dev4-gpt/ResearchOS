@@ -1,0 +1,28 @@
+---
+title: "Fine-Tuning Open Video Generators for Cinematic Scene Synthesis: A Small-Data Pipeline with LoRA and Wan2.1 I2V"
+authors:
+  - "Meftun Akarsu"
+  - "Kerem Catay"
+  - "Sedat Bin Vedat"
+  - "Enes Kutay Yarkan"
+  - "Ilke Senturk"
+  - "Arda Sar"
+  - "Dafne Eksioglu"
+url: "http://arxiv.org/abs/2510.27364v1"
+published: "2025-10-31"
+citations: "0"
+source: "arXiv"
+id: "arxiv:2510.27364"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-symbol-graph-rag-vs-qlora-swe-bench-lite"
+---
+# Fine-Tuning Open Video Generators for Cinematic Scene Synthesis: A Small-Data Pipeline with LoRA and Wan2.1 I2V
+
+**Authors**: Meftun Akarsu, Kerem Catay, Sedat Bin Vedat, Enes Kutay Yarkan, Ilke Senturk, Arda Sar, Dafne Eksioglu
+**Published**: 2025-10-31 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/2510.27364v1
+
+## Abstract
+We present a practical pipeline for fine-tuning open-source video diffusion transformers to synthesize cinematic scenes for television and film production from small datasets. The proposed two-stage process decouples visual style learning from motion generation. In the first stage, Low-Rank Adaptation (LoRA) modules are integrated into the cross-attention layers of the Wan2.1 I2V-14B model to adapt its visual representations using a compact dataset of short clips from Ay Yapim's historical television film El Turco. This enables efficient domain transfer within hours on a single GPU. In the second stage, the fine-tuned model produces stylistically consistent keyframes that preserve costume, lighting, and color grading, which are then temporally expanded into coherent 720p sequences through the model's video decoder. We further apply lightweight parallelization and sequence partitioning strategies to accelerate inference without quality degradation. Quantitative and qualitative evaluations using FVD, CLIP-SIM, and LPIPS metrics, supported by a small expert user study, demonstrate measurable improvements in cinematic fidelity and temporal stability over the base model. The complete training and inference pipeline is released to support reproducibility and adaptation across cinematic domains.

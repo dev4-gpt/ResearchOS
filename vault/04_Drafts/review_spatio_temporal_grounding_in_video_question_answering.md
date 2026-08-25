@@ -72,12 +72,14 @@ Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled fra
 
 
 
+
 $$
 \begin{aligned}
 Z_t = & f_{\theta_v}(I_t) \in \mathbb{R}^{K \times d_v}, \\
 & \quad \text{for } t = 1, \ldots, T
 \end{aligned}
 $$
+
 
 
 
@@ -105,11 +107,13 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 
 
 
+
 $$
 \begin{aligned}
 \mathbf{A} = \text{Softmax}\left( \frac{(\mathbf{Q} \mathbf{W}_Q) (\mathbf{Z} \mathbf{W}_K)^\top}{\sqrt{d_k}} \right)
 \end{aligned}
 $$
+
 
 
 
@@ -143,11 +147,13 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
 $$
 \begin{aligned}
 \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} \right\|_F \le \frac{1}{\gamma T + (1 - \gamma)} \cdot \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{Q}} \right\|_F \cdot \|\mathbf{W}_Q\|_F \|\mathbf{W}_K\|_F
 \end{aligned}
 $$
+
 
 
 
@@ -177,12 +183,14 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
 $$
 \begin{aligned}
 \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \\
 & \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
 \end{aligned}
 $$
+
 
 
 
@@ -244,6 +252,7 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
 $$
 \begin{aligned}
 \Delta Z_t = & Z_{t+1} - Z_t, \\
@@ -262,9 +271,11 @@ $$
 
 
 
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 **Definition 2 (Orthogonal Projector Constraint).** We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
 
 
 
@@ -294,7 +305,9 @@ $$
 
 
 
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
 
 
 
@@ -312,6 +325,7 @@ $$
 \hat{\mathbf{Z}}_t = \mathbf{Z}_t \mathbf{W}_S + \lambda_T \cdot \left( \Delta \mathbf{Z}_t \mathbf{W}_T \right)
 \end{aligned}
 $$
+
 
 
 
@@ -343,12 +357,14 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{total}} = & \mathcal{L}_{\text{CE}}(Y \mid \hat{\mathbf{Z}}, \mathbf{Q}) \\
 & + \alpha_{\text{orth}} \mathcal{L}_{\text{orth}} + \beta_{\text{ent}} \mathcal{H}(\mathbf{A}_{\text{temporal}})
 \end{aligned}
 $$
+
 
 
 

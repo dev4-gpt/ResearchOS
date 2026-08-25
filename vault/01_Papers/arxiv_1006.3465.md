@@ -1,0 +1,24 @@
+---
+title: "Hosting Byzantine Fault Tolerant Services on a Chord Ring"
+authors:
+  - "Alan Dearle"
+  - "Graham Kirby"
+  - "Stuart Norcross"
+url: "http://arxiv.org/abs/1006.3465v1"
+published: "2010-06-17"
+citations: "0"
+source: "arXiv"
+id: "arxiv:1006.3465"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-trustworthy-multi-agent-systems-formal-verification"
+---
+# Hosting Byzantine Fault Tolerant Services on a Chord Ring
+
+**Authors**: Alan Dearle, Graham Kirby, Stuart Norcross
+**Published**: 2010-06-17 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/1006.3465v1
+
+## Abstract
+In this paper we demonstrate how stateful Byzantine Fault Tolerant services may be hosted on a Chord ring. The strategy presented is fourfold: firstly a replication scheme that dissociates the maintenance of replicated service state from ring recovery is developed. Secondly, clients of the ring based services are made replication aware. Thirdly, a consensus protocol is introduced that supports the serialization of updates. Finally Byzantine fault tolerant replication protocols are developed that ensure the integrity of service data hosted on the ring.

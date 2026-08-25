@@ -1,0 +1,23 @@
+---
+title: "A Performance Comparison of Stability, Load-Balancing and Power-Aware Routing Protocols for Mobile Ad Hoc Networks"
+authors:
+  - "Natarajan Meghanathan"
+  - "Leslie Milton"
+url: "http://arxiv.org/abs/1007.0409v1"
+published: "2010-07-01"
+citations: "0"
+source: "arXiv"
+id: "arxiv:1007.0409"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-architectural-dynamics-long-12-page"
+---
+# A Performance Comparison of Stability, Load-Balancing and Power-Aware Routing Protocols for Mobile Ad Hoc Networks
+
+**Authors**: Natarajan Meghanathan, Leslie Milton
+**Published**: 2010-07-01 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/1007.0409v1
+
+## Abstract
+The high-level contribution of this paper is a simulation-based detailed performance comparison of three different classes of routing protocols for mobile ad hoc networks: stability-based routing, power-aware routing and load-balanced routing. We choose the Flow-Oriented Routing protocol (FORP), the traffic interference based Load Balancing Routing (LBR) protocol and Min-Max Battery Cost Routing (MMBCR) as representatives of the stability-based routing, load-balancing and power-aware routing protocols respectively. Among the three routing protocols, FORP incurs the least number of route transitions; while LBR incurs the smallest hop count and lowest end-to-end delay per data packet. Energy consumed per node is the least for MMBCR, closely followed by LBR. MMBCR is the most fair in terms of node usage and hence it incurs the largest time for first node failure. FORP tends to repeatedly use nodes lying on the stable path and hence is the most unfair of the three routing protocols and it incurs the smallest value for the time of first node failure. As we measure the failure times of up to the first five nodes in the network, we observe that LBR incurs the maximum improvement in the lifetime of the nodes and MMBCR incurs the least improvement beyond the time of first node failure.

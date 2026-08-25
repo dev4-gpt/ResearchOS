@@ -63,6 +63,7 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -71,6 +72,7 @@ Scaling laws in deep learning establish power-law relationships between compute 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -133,6 +135,7 @@ The Hoffmann et al. scaling law \cite{arxiv_2005_14165} characterizes test cross
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -154,7 +157,9 @@ $}
 
 
 
+
 \textbf{Theorem 1 (Optimal Compute Allocation).} Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
 
 
 
@@ -189,7 +194,9 @@ $}
 
 
 
+
 \textit{Proof.} Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
 
 
 
@@ -211,6 +218,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -246,6 +254,7 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -253,6 +262,7 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -292,6 +302,7 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -313,7 +324,9 @@ $}
 
 
 
+
 \textbf{Definition 1 (Subspace Capacity).} The rank-$r$ adaptation subspace capacity is:
+
 
 
 
@@ -347,9 +360,11 @@ $}
 
 
 
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 \textbf{Theorem 2 (Approximation Error Bound).} For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
 
 
 
@@ -371,6 +386,7 @@ For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirmi
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -406,6 +422,7 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -413,6 +430,7 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -440,6 +458,7 @@ $}
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -447,6 +466,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -486,6 +506,7 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -506,6 +527,7 @@ $}
 
 
 
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 
@@ -513,6 +535,7 @@ The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \t
 
 
 \textbf{Definition 2 (Routing Entropy).} The expert routing entropy for batch $\mathcal{B}$ is:
+
 
 
 
@@ -547,9 +570,11 @@ $}
 
 
 
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 \textbf{Theorem 3 (Routing Stability Under Auxiliary Loss).} The auxiliary load-balancing loss:
+
 
 
 
@@ -570,6 +595,7 @@ Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced lo
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -605,6 +631,7 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -612,6 +639,7 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -651,6 +679,7 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -659,6 +688,7 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -711,6 +741,7 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -718,6 +749,7 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -873,6 +905,7 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -880,6 +913,7 @@ We extend the Chinchilla framework to compound architectures where external retr
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -911,7 +945,7 @@ The Kaplan et al. scaling laws \cite{arxiv_2005_14165} established the foundatio
 \subsection{Parameter-Efficient Adaptation}
 
 
-LoRA \cite{arxiv_2208_14227} demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA \cite{arxiv_2305_18290} combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers \cite{arxiv_2005_14165}, prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA$^3$ (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\%$ of parameters.
+LoRA \cite{crossref_10_48550_arxiv_2106_09685} demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA \cite{crossref_10_48550_arxiv_2305_14314} combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers \cite{arxiv_2005_14165}, prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA$^3$ (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\%$ of parameters.
 
 
 \subsection{Mixture-of-Experts}
@@ -923,7 +957,7 @@ Switch Transformer \cite{arxiv_2412_06333} demonstrated that MoE scaling enables
 \subsection{Compound AI Systems}
 
 
-Compound AI architectures \cite{arxiv_2406_00584} decompose reasoning, memory, and retrieval into specialized components. RETRO \cite{arxiv_2501_02842} demonstrates that retrieval-augmented training can reduce model size by $25\times$ at fixed perplexity. GraphRAG \cite{crossref_10_1145_3689096_3689462} and Symbol-Graph RAG extend retrieval to structured graph representations. Multi-agent orchestration \cite{arxiv_2404_01131,crossref_10_1109_access_2026_3656309} provides a deployment framework for compound systems at enterprise scale.
+Compound AI architectures \cite{arxiv_2406_00584} decompose reasoning, memory, and retrieval into specialized components. RETRO \cite{arxiv_2310_09270} demonstrates that retrieval-augmented training can reduce model size by $25\times$ at fixed perplexity. GraphRAG \cite{arxiv_2501_14050} and Symbol-Graph RAG extend retrieval to structured graph representations. Multi-agent orchestration \cite{arxiv_2404_01131,crossref_10_1109_access_2026_3656309} provides a deployment framework for compound systems at enterprise scale.
 
 
 

@@ -122,6 +122,7 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -130,6 +131,7 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -159,6 +161,7 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -166,6 +169,7 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -206,6 +210,7 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -213,6 +218,7 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -249,6 +255,7 @@ $}
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -257,6 +264,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -309,6 +317,7 @@ To prevent infinite rebuttal loops between polarized personas (e.g., \textit{Sta
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -316,6 +325,7 @@ To prevent infinite rebuttal loops between polarized personas (e.g., \textit{Sta
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -455,7 +465,7 @@ Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have
 
 \subsection{Zero-Hallucination Architectures \& External Grounding}
 
-Retrieval-Augmented Generation (RAG), GraphRAG \cite{crossref_10_1145_3689096_3689462}, and automated fact-checking linters ground generative outputs against external knowledge repositories. T-MAS integrates these linters as atomic predicates within LTL safety invariants, ensuring that no state mutation is committed without cryptographic proof of factual grounding \cite{arxiv_2405_01543,crossref_10_1201_9788743808145_14}.
+Retrieval-Augmented Generation (RAG), GraphRAG \cite{arxiv_2501_14050}, and automated fact-checking linters ground generative outputs against external knowledge repositories. T-MAS integrates these linters as atomic predicates within LTL safety invariants, ensuring that no state mutation is committed without cryptographic proof of factual grounding \cite{arxiv_2405_01543,crossref_10_1201_9788743808145_14}.
 
 
 

@@ -96,12 +96,14 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -129,11 +131,13 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
 
 
 
@@ -168,11 +172,13 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
 
 
 
@@ -203,12 +209,14 @@ $$
 
 
 
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
 
 
 
@@ -253,11 +261,13 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
 \end{aligned}
 $$
+
 
 
 
@@ -345,7 +355,7 @@ Early multi-agent debate literature demonstrated that multi-persona argumentatio
 Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have been widely applied to hardware verification, robotic motion planning, and autonomous cyber-physical systems [[crossref_10.18653_v1_2026.findings-acl.1933]]. Recent literature investigates neuro-symbolic reasoning and SMT constraint solving for neural network safety [[arxiv_2404.01131]]. T-MAS extends temporal logic to multi-agent generative deliberation, treating LLM agents as non-deterministic transitions within a formally verified state space.
 
 ### Zero-Hallucination Architectures & External Grounding
-Retrieval-Augmented Generation (RAG), GraphRAG [[crossref_10.1145_3689096.3689462]], and automated fact-checking linters ground generative outputs against external knowledge repositories. T-MAS integrates these linters as atomic predicates within LTL safety invariants, ensuring that no state mutation is committed without cryptographic proof of factual grounding [[arxiv_2405.01543], [crossref_10.1201_9788743808145-14]].
+Retrieval-Augmented Generation (RAG), GraphRAG [[arxiv_2501.14050]], and automated fact-checking linters ground generative outputs against external knowledge repositories. T-MAS integrates these linters as atomic predicates within LTL safety invariants, ensuring that no state mutation is committed without cryptographic proof of factual grounding [[arxiv_2405.01543], [crossref_10.1201_9788743808145-14]].
 
 ---
 

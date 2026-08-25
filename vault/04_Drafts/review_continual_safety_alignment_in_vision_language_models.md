@@ -35,7 +35,7 @@ The deployment of Vision-Language Models (VLMs) across mission-critical multimod
 ## Introduction & Research Scope
 
 ### Motivation and The Multimodal Alignment Dilemma
-Vision-Language Models (VLMs) combining high-capacity vision encoders (e.g., Vision Transformers [[arxiv_2010.11146]], SigLIP [[arxiv_2305.18290]]) with autoregressive large language model backbones [[arxiv_2005.14165]] have revolutionized multimodal perception, visual reasoning, and autonomous agent orchestration [[arxiv_2203.02155]]. As these foundation models transition into regulated real-world environments—such as clinical diagnostics, automated legal processing, and robotic control—ensuring behavioral safety, robust refusal of malicious instructions, and cross-modal factual grounding is paramount [[arxiv_2312.03893]].
+Vision-Language Models (VLMs) combining high-capacity vision encoders (e.g., Vision Transformers [[crossref_10_1109_tip_2023_3256763]], SigLIP [[crossref_10_48550_arxiv_2502_14786]]) with autoregressive large language model backbones [[arxiv_2005.14165]] have revolutionized multimodal perception, visual reasoning, and autonomous agent orchestration [[arxiv_2203.02155]]. As these foundation models transition into regulated real-world environments—such as clinical diagnostics, automated legal processing, and robotic control—ensuring behavioral safety, robust refusal of malicious instructions, and cross-modal factual grounding is paramount [[arxiv_2312.03893]].
 
 To achieve reliable operation, contemporary systems follow a sequential four-phase optimization life-cycle:
 1. Pre-Training ($\mathcal{D}_{\text{pre}}$): Self-supervised contrastive and generative alignment over billions of image-text pairs, instilling broad world representations [[arxiv_2010.11146]].
@@ -101,11 +101,13 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
 $$
 \begin{aligned}
 \Delta_{\text{drift}} = \mathcal{M}_{\text{safe}}(\Theta_{\text{aligned}}) - \mathcal{M}_{\text{safe}}(\Theta_{\text{task}})
 \end{aligned}
 $$
+
 
 
 
@@ -151,11 +153,13 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
 $$
 \begin{aligned}
 \text{Query} = (\text{VLM} \lor \text{"Vision-Language"}) \land (\text{"Safety Alignment"} \lor \text{"Alignment Drift"}) \land (\text{"Continual Learning"} \lor \text{"Fine-Tuning"})
 \end{aligned}
 $$
+
 
 
 
@@ -239,7 +243,7 @@ ensuring the asymptotic trajectory remains bounded within the safe basin: $\lims
 ### Datasets and Multimodal Benchmarks
 To rigorously evaluate safety retention and task performance, we utilize four primary empirical benchmarks encompassing $N = 14,850$ multimodal test evaluations:
 - VLGuard [[arxiv_2406.00584]]: 2,000 safe and unsafe image-text instruction pairs evaluating safe response boundaries and malicious refusal.
-- MM-SafetyBench [[arxiv_2311.17854]]: 5,040 diverse adversarial visual queries covering 13 risk categories (hate speech, physical harm, illegal acts, privacy violations).
+- MM-SafetyBench [[crossref_10_48550_arxiv_2311_17600]]: 5,040 diverse adversarial visual queries covering 13 risk categories (hate speech, physical harm, illegal acts, privacy violations).
 - AdvVQA [[arxiv_2308.12898]]: 3,500 visually perturbed question-answering probes designed to trigger safety bypasses via typographic perturbations.
 - ScienceQA & LLaVA-Bench [[arxiv_2604.17215]]: 4,310 standard domain-adaptation instances measuring downstream scientific reasoning and conversational benchmark retention.
 

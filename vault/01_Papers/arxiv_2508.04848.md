@@ -1,0 +1,27 @@
+---
+title: "Large Language Models Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning"
+authors:
+  - "Chang Tian"
+  - "Matthew B. Blaschko"
+  - "Mingzhe Xing"
+  - "Xiuxing Li"
+  - "Yinliang Yue"
+  - "Marie-Francine Moens"
+url: "http://arxiv.org/abs/2508.04848v1"
+published: "2025-08-06"
+citations: "0"
+source: "arXiv"
+id: "arxiv:2508.04848"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-enterprise-genai-roi"
+---
+# Large Language Models Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning
+
+**Authors**: Chang Tian, Matthew B. Blaschko, Mingzhe Xing, Xiuxing Li, Yinliang Yue, Marie-Francine Moens
+**Published**: 2025-08-06 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/2508.04848v1
+
+## Abstract
+Reinforcement learning (RL) has become a key technique for enhancing the reasoning abilities of large language models (LLMs), with policy-gradient algorithms dominating the post-training stage because of their efficiency and effectiveness. However, most existing benchmarks evaluate large-language-model reasoning under idealized settings, overlooking performance in realistic, non-ideal scenarios. We identify three representative non-ideal scenarios with practical relevance: summary inference, fine-grained noise suppression, and contextual filtering. We introduce a new research direction guided by brain-science findings that human reasoning remains reliable under imperfect inputs. We formally define and evaluate these challenging scenarios. We fine-tune three LLMs and a state-of-the-art large vision-language model (LVLM) using RL with a representative policy-gradient algorithm and then test their performance on eight public datasets. Our results reveal that while RL fine-tuning improves baseline reasoning under idealized settings, performance declines significantly across all three non-ideal scenarios, exposing critical limitations in advanced reasoning capabilities. Although we propose a scenario-specific remediation method, our results suggest current methods leave these reasoning deficits largely unresolved. This work highlights that the reasoning abilities of large models are often overstated and underscores the importance of evaluating models under non-ideal scenarios. The code and data will be released at XXXX.

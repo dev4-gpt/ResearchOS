@@ -1,0 +1,30 @@
+---
+title: "SWE-Debate: Competitive Multi-Agent Debate for Software Issue Resolution"
+authors:
+  - "Han Li"
+  - "Yuling Shi"
+  - "Shaoxin Lin"
+  - "Xiaodong Gu"
+  - "Heng Lian"
+  - "Xin Wang"
+  - "Yantao Jia"
+  - "Tao Huang"
+  - "Qianxiang Wang"
+url: "http://arxiv.org/abs/2507.23348v1"
+published: "2025-07-31"
+citations: "0"
+source: "arXiv"
+id: "arxiv:2507.23348"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-symbol-graph-rag-vs-qlora-swe-bench-lite"
+---
+# SWE-Debate: Competitive Multi-Agent Debate for Software Issue Resolution
+
+**Authors**: Han Li, Yuling Shi, Shaoxin Lin, Xiaodong Gu, Heng Lian, Xin Wang, Yantao Jia, Tao Huang, Qianxiang Wang
+**Published**: 2025-07-31 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/2507.23348v1
+
+## Abstract
+Issue resolution has made remarkable progress thanks to the advanced reasoning capabilities of large language models (LLMs). Recently, agent-based frameworks such as SWE-agent have further advanced this progress by enabling autonomous, tool-using agents to tackle complex software engineering tasks. While existing agent-based issue resolution approaches are primarily based on agents' independent explorations, they often get stuck in local solutions and fail to identify issue patterns that span across different parts of the codebase. To address this limitation, we propose SWE-Debate, a competitive multi-agent debate framework that encourages diverse reasoning paths and achieves more consolidated issue localization. SWE-Debate first creates multiple fault propagation traces as localization proposals by traversing a code dependency graph. Then, it organizes a three-round debate among specialized agents, each embodying distinct reasoning perspectives along the fault propagation trace. This structured competition enables agents to collaboratively converge on a consolidated fix plan. Finally, this consolidated fix plan is integrated into an MCTS-based code modification agent for patch generation. Experiments on the SWE-bench benchmark show that SWE-Debate achieves new state-of-the-art results in open-source agent frameworks and outperforms baselines by a large margin.

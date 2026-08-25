@@ -77,6 +77,7 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -92,9 +93,11 @@ $$
 
 
 
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
 
 
 
@@ -120,9 +123,11 @@ $$
 
 
 
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
 
 
 
@@ -148,9 +153,11 @@ $$
 
 
 
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
 
 
 
@@ -176,11 +183,13 @@ $$
 
 
 
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
 
 
 
@@ -207,7 +216,9 @@ $$
 
 
 
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
 
 
 
@@ -233,7 +244,9 @@ $$
 
 
 
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
 
 
 
@@ -249,6 +262,7 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -278,11 +292,13 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
 
 
 
@@ -411,7 +427,7 @@ To mitigate these threats, we implement a 3-layer enterprise defense-in-depth ar
 ## Related Work & Taxonomic Synthesis
 
 ### Multi-Agent Systems & Coordination Topologies
-Foundational distributed multi-agent literature established game-theoretic coordination and contract-net protocols [[arxiv_2203.08975], [arxiv_2010.11146]]. Modern LLM-based multi-agent frameworks—including MetaGPT [[arxiv_2412.06333]], ChatDev [[arxiv_2404.01131]], and SWE-agent [[arxiv_2405.01543]]—demonstrate emergent collaborative reasoning. Our work advances this literature by providing the first empirical study of enterprise infrastructure, asymptotic token complexity, and SLA reliability across production deployments [[crossref_10.1201_9788743808145-14]].
+Foundational distributed multi-agent literature established game-theoretic coordination and contract-net protocols [[arxiv_2203.08975], [arxiv_2010.11146]]. Modern LLM-based multi-agent frameworks—including MetaGPT [[crossref_10_48550_arxiv_2308_00352]], ChatDev [[crossref_10_18653_v1_2024_acl_long_810]], and SWE-agent [[crossref_10_48550_arxiv_2405_15793]]—demonstrate emergent collaborative reasoning. Our work advances this literature by providing the first empirical study of enterprise infrastructure, asymptotic token complexity, and SLA reliability across production deployments [[crossref_10.1201_9788743808145-14]].
 
 ### Enterprise Software Reliability & Compound Systems
 Compound AI Systems decouple monolithic models into specialized modules for retrieval, verification, and execution [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309]]. Automated evaluation frameworks and LLM-as-a-judge methodologies provide continuous quality monitoring [[arxiv_2411.15594], [arxiv_2302.10809]]. Our empirical analysis provides concrete operational metrics (MTTR, SLA availability, token cost curves) for managing compound multi-agent deployments at scale.

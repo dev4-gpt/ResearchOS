@@ -45,7 +45,7 @@ The deployment of Vision-Language Models (VLMs) across mission-critical multimod
 
 \subsection{Motivation and The Multimodal Alignment Dilemma}
 
-Vision-Language Models (VLMs) combining high-capacity vision encoders (e.g., Vision Transformers \cite{arxiv_2010_11146}, SigLIP \cite{arxiv_2305_18290}) with autoregressive large language model backbones \cite{arxiv_2005_14165} have revolutionized multimodal perception, visual reasoning, and autonomous agent orchestration \cite{arxiv_2203_02155}. As these foundation models transition into regulated real-world environments--such as clinical diagnostics, automated legal processing, and robotic control--ensuring behavioral safety, robust refusal of malicious instructions, and cross-modal factual grounding is paramount \cite{arxiv_2312_03893}.
+Vision-Language Models (VLMs) combining high-capacity vision encoders (e.g., Vision Transformers \cite{crossref_10_1109_tip_2023_3256763}, SigLIP \cite{crossref_10_48550_arxiv_2502_14786}) with autoregressive large language model backbones \cite{arxiv_2005_14165} have revolutionized multimodal perception, visual reasoning, and autonomous agent orchestration \cite{arxiv_2203_02155}. As these foundation models transition into regulated real-world environments--such as clinical diagnostics, automated legal processing, and robotic control--ensuring behavioral safety, robust refusal of malicious instructions, and cross-modal factual grounding is paramount \cite{arxiv_2312_03893}.
 
 To achieve reliable operation, contemporary systems follow a sequential four-phase optimization life-cycle:
 \begin{enumerate}
@@ -126,6 +126,7 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -133,6 +134,7 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -188,6 +190,7 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -195,6 +198,7 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -294,7 +298,7 @@ ensuring the asymptotic trajectory remains bounded within the safe basin: $\lims
 To rigorously evaluate safety retention and task performance, we utilize four primary empirical benchmarks encompassing $N = 14,850$ multimodal test evaluations:
 \begin{itemize}
   \item VLGuard \cite{arxiv_2406_00584}: 2,000 safe and unsafe image-text instruction pairs evaluating safe response boundaries and malicious refusal.
-  \item MM-SafetyBench \cite{arxiv_2311_17854}: 5,040 diverse adversarial visual queries covering 13 risk categories (hate speech, physical harm, illegal acts, privacy violations).
+  \item MM-SafetyBench \cite{crossref_10_48550_arxiv_2311_17600}: 5,040 diverse adversarial visual queries covering 13 risk categories (hate speech, physical harm, illegal acts, privacy violations).
   \item AdvVQA \cite{arxiv_2308_12898}: 3,500 visually perturbed question-answering probes designed to trigger safety bypasses via typographic perturbations.
   \item ScienceQA \& LLaVA-Bench \cite{arxiv_2604_17215}: 4,310 standard domain-adaptation instances measuring downstream scientific reasoning and conversational benchmark retention.
 \end{itemize}

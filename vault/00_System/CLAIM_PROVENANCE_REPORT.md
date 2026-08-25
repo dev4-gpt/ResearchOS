@@ -30,36 +30,36 @@ support.
 - **L59** `p < 0.001` — **Large-Scale Multi-Domain Empirical Benchmark:** We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demons
 - **L59** `N = 8,600` — **Large-Scale Multi-Domain Empirical Benchmark:** We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demons
 - **L59** `N = 412` — **Large-Scale Multi-Domain Empirical Benchmark:** We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demons
-- **L328** `N = 8,600` — We evaluate the CAS framework across four distinct enterprise task suites totaling $N = 8,600$ multi-step workflows:
-- **L329** `N = 2,400` — **SWE-bench Multi-Repo Repair ($N = 2,400$):** Multi-file issue resolution requiring AST parsing, patch generation, and regression testing [[arxiv_240
-- **L330** `N = 2,200` — **Financial Compliance & Regulatory Auditing ($N = 2,200$):** Multi-hop document extraction requiring strict numerical grounding and SEC filing invari
-- **L331** `N = 2,000` — **Distributed Clinical Pathway Synthesis ($N = 2,000$):** Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-inter
-- **L332** `N = 2,000` — **Autonomous Cloud Infrastructure Remediation ($N = 2,000$):** Live Kubernetes microservice incident triage requiring root-cause diagnosis and non-des
-- **L355** `N = 8,600` — **Table 1: Multi-Domain Benchmark Results Across $N = 8,600$ Enterprise Workflows**
-- **L359** `61.2%` — 61.2%
-- **L359** `54.3%` — 54.3%
-- **L359** `28.4%` — 28.4%
-- **L359** `24.8s` — 24.8s
-- **L360** `68.7%` — 68.7%
-- **L360** `49.1%` — 49.1%
-- **L360** `34.1%` — 34.1%
-- **L360** `31.2s` — 31.2s
-- **L361** `77.4%` — 77.4%
-- **L361** `79.2%` — 79.2%
-- **L361** `12.3%` — 12.3%
-- **L361** `18.6s` — 18.6s
-- **L362** `92.6%` — **92.6%**
-- **L362** `98.4%` — **98.4%**
-- **L362** `0.8%` — **0.8%**
-- **L362** `6.7s` — **6.7s**
-- **L364** `p < 0.001` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
-- **L364** `d = 1.08` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
-- **L364** `t(8598) = 21.43` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
-- **L364** `15.2\%` — Bootstrap 95% CI on WCR gain over StateGraph: $\Delta = +15.2\% \pm 1.1\%$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-- **L364** `1.1\%` — Bootstrap 95% CI on WCR gain over StateGraph: $\Delta = +15.2\% \pm 1.1\%$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-- **L367** `28.4\%` — **Zero Hallucination Cascades:** CAS reduces hallucination cascade rates from $28.4\%$ (ReAct) to $0.8\%$, validating the Lyapunov error containment b
-- **L367** `0.8\%` — **Zero Hallucination Cascades:** CAS reduces hallucination cascade rates from $28.4\%$ (ReAct) to $0.8\%$, validating the Lyapunov error containment b
-- **L368** `51.8\%` — **Compute Efficiency:** By terminating invalid reasoning branches at Tier 3 contracts rather than looping through 10+ open-ended LLM reflection passes
+- **L356** `N = 8,600` — We evaluate the CAS framework across four distinct enterprise task suites totaling $N = 8,600$ multi-step workflows:
+- **L357** `N = 2,400` — **SWE-bench Multi-Repo Repair ($N = 2,400$):** Multi-file issue resolution requiring AST parsing, patch generation, and regression testing [[arxiv_240
+- **L358** `N = 2,200` — **Financial Compliance & Regulatory Auditing ($N = 2,200$):** Multi-hop document extraction requiring strict numerical grounding and SEC filing invari
+- **L359** `N = 2,000` — **Distributed Clinical Pathway Synthesis ($N = 2,000$):** Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-inter
+- **L360** `N = 2,000` — **Autonomous Cloud Infrastructure Remediation ($N = 2,000$):** Live Kubernetes microservice incident triage requiring root-cause diagnosis and non-des
+- **L383** `N = 8,600` — **Table 1: Multi-Domain Benchmark Results Across $N = 8,600$ Enterprise Workflows**
+- **L387** `61.2%` — 61.2%
+- **L387** `54.3%` — 54.3%
+- **L387** `28.4%` — 28.4%
+- **L387** `24.8s` — 24.8s
+- **L388** `68.7%` — 68.7%
+- **L388** `49.1%` — 49.1%
+- **L388** `34.1%` — 34.1%
+- **L388** `31.2s` — 31.2s
+- **L389** `77.4%` — 77.4%
+- **L389** `79.2%` — 79.2%
+- **L389** `12.3%` — 12.3%
+- **L389** `18.6s` — 18.6s
+- **L390** `92.6%` — **92.6%**
+- **L390** `98.4%` — **98.4%**
+- **L390** `0.8%` — **0.8%**
+- **L390** `6.7s` — **6.7s**
+- **L392** `p < 0.001` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
+- **L392** `d = 1.08` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
+- **L392** `t(8598) = 21.43` — $p < 0.001$ across all metrics; Two-sample $t(8598) = 21.43$; Cohen's $d = 1.08$ (large effect)
+- **L392** `15.2\%` — Bootstrap 95% CI on WCR gain over StateGraph: $\Delta = +15.2\% \pm 1.1\%$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
+- **L392** `1.1\%` — Bootstrap 95% CI on WCR gain over StateGraph: $\Delta = +15.2\% \pm 1.1\%$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
+- **L395** `28.4\%` — **Zero Hallucination Cascades:** CAS reduces hallucination cascade rates from $28.4\%$ (ReAct) to $0.8\%$, validating the Lyapunov error containment b
+- **L395** `0.8\%` — **Zero Hallucination Cascades:** CAS reduces hallucination cascade rates from $28.4\%$ (ReAct) to $0.8\%$, validating the Lyapunov error containment b
+- **L396** `51.8\%` — **Compute Efficiency:** By terminating invalid reasoning branches at Tier 3 contracts rather than looping through 10+ open-ended LLM reflection passes
 
 ## review_continual_safety_alignment_in_vision_language_models — 39 ungrounded
 
@@ -67,41 +67,41 @@ support.
 - **L31** `N = 14,850` — Through extensive meta-analysis across four standard multimodal safety benchmarks ($N = 14,850$ test probes), we prove that gradient-constrained sampl
 - **L31** `93.4\%` — Through extensive meta-analysis across four standard multimodal safety benchmarks ($N = 14,850$ test probes), we prove that gradient-constrained sampl
 - **L31** `99.2\%` — Through extensive meta-analysis across four standard multimodal safety benchmarks ($N = 14,850$ test probes), we prove that gradient-constrained sampl
-- **L167** `N = 1,214` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
-- **L167** `N = 486` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
-- **L167** `N = 168` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
-- **L167** `N = 38` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
-- **L186** `44.2\%` — Unconstrained Full SFT & Low ($1.0\times$) & Baseline ($1.0\times$) & No & 44.2\% & Catastrophic alignment collapse \\
-- **L187** `68.5\%` — LoRA / PEFT Adapter & Low ($1.1\times$) & Low ($0.1\times$) & No & 68.5\% & Subspace leakage into shared bases \\
-- **L188** `88.7\%` — Dark Experience Replay & High ($2.4\times$) & High ($1.8\times$) & Yes (Replay Buffer) & 88.7\% & Heavy memory \& data privacy burden \\
-- **L189** `89.4\%` — Gradient Projection Surgery & Very High ($3.1\times$) & Medium ($1.3\times$) & Yes (Reference Grad) & 89.4\% & Quadratic gradient inner products \\
-- **L190** `76.1\%` — Representation Steering & Low ($1.05\times$) & Low ($1.0\times$) & No & 76.1\% & Fails under complex visual jailbreaks \\
-- **L191** `93.4\%` — \textbf{Gradient Sample Selection (Ours)} & \textbf{Low ($1.15\times$)} & \textbf{Baseline ($1.0\times$)} & \textbf{No} & \textbf{93.4\%} & Requires s
-- **L232** `N = 14,850` — To rigorously evaluate safety retention and task performance, we utilize four primary empirical benchmarks encompassing $N = 14,850$ multimodal test e
-- **L242** `10\%` — Dark Experience Replay (DER++): Replaying $10\%$ historical safety alignment batches during task adaptation [[arxiv_2406.04028]].
-- **L256** `N = 14,850` — \caption{Comprehensive Main Results across Multimodal Safety Benchmarks and Downstream Task Accuracy ($N = 14,850$)
-- **L275** `6.2\%` — As demonstrated in Table \ref{tab:main_results}, unconstrained full fine-tuning causes an alarming collapse in safety performance, with attack vulnera
-- **L275** `58.4\%` — As demonstrated in Table \ref{tab:main_results}, unconstrained full fine-tuning causes an alarming collapse in safety performance, with attack vulnera
-- **L275** `89.2\%` — While DER++ preserves safety effectively ($89.2\%$), it requires continuous access to proprietary safety alignment data
-- **L275** `93.8\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
-- **L275** `7.8\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
-- **L275** `0.6\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
-- **L278** `30\%` — To analyze the sensitivity of the gradient filtering cutoff, Table \ref{tab:ablation_alpha} details model performance as the filtering quantile $(1-\a
-- **L289** `100\%` — 1.00 (Full Dataset) & 100\% & 46.2 & 58.4 & 84.2 \\
-- **L290** `95\%` — 0.95 & 95\% & 68.4 & 34.2 & 84.0 \\
-- **L291** `90\%` — 0.90 & 90\% & 86.7 & 16.1 & 83.9 \\
-- **L292** `85\%` — \textbf{0.85 (Optimal)} & \textbf{85\%} & \textbf{93.8} & \textbf{7.8} & \textbf{83.6} \\
-- **L293** `80\%` — 0.80 & 80\% & 94.1 & 7.2 & 81.8 \\
-- **L294** `70\%` — 0.70 & 70\% & 94.6 & 6.5 & 77.4 \\
-- **L299** `15\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
-- **L299** `95\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
-- **L299** `20\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
-- **L323** `0 GB` — Full Fine-Tuning & 48.2 & 142 & 0 GB \\
-- **L324** `12 GB` — Dark Experience Replay & 74.6 & 318 & 12 GB (Replay Buffer) \\
-- **L325** `8 GB` — Gradient Projection (GPM) & 82.4 & 485 & 8 GB (Feature Bases) \\
-- **L326** `0 GB` — \textbf{Gradient Selection (Ours)} & \textbf{49.1} & \textbf{156} & \textbf{0 GB} \\
-- **L357** `93.8\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
-- **L357** `98.9\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
+- **L175** `N = 1,214` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
+- **L175** `N = 486` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
+- **L175** `N = 168` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
+- **L175** `N = 38` — Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus o
+- **L194** `44.2\%` — Unconstrained Full SFT & Low ($1.0\times$) & Baseline ($1.0\times$) & No & 44.2\% & Catastrophic alignment collapse \\
+- **L195** `68.5\%` — LoRA / PEFT Adapter & Low ($1.1\times$) & Low ($0.1\times$) & No & 68.5\% & Subspace leakage into shared bases \\
+- **L196** `88.7\%` — Dark Experience Replay & High ($2.4\times$) & High ($1.8\times$) & Yes (Replay Buffer) & 88.7\% & Heavy memory \& data privacy burden \\
+- **L197** `89.4\%` — Gradient Projection Surgery & Very High ($3.1\times$) & Medium ($1.3\times$) & Yes (Reference Grad) & 89.4\% & Quadratic gradient inner products \\
+- **L198** `76.1\%` — Representation Steering & Low ($1.05\times$) & Low ($1.0\times$) & No & 76.1\% & Fails under complex visual jailbreaks \\
+- **L199** `93.4\%` — \textbf{Gradient Sample Selection (Ours)} & \textbf{Low ($1.15\times$)} & \textbf{Baseline ($1.0\times$)} & \textbf{No} & \textbf{93.4\%} & Requires s
+- **L240** `N = 14,850` — To rigorously evaluate safety retention and task performance, we utilize four primary empirical benchmarks encompassing $N = 14,850$ multimodal test e
+- **L250** `10\%` — Dark Experience Replay (DER++): Replaying $10\%$ historical safety alignment batches during task adaptation [[arxiv_2406.04028]].
+- **L264** `N = 14,850` — \caption{Comprehensive Main Results across Multimodal Safety Benchmarks and Downstream Task Accuracy ($N = 14,850$)
+- **L283** `6.2\%` — As demonstrated in Table \ref{tab:main_results}, unconstrained full fine-tuning causes an alarming collapse in safety performance, with attack vulnera
+- **L283** `58.4\%` — As demonstrated in Table \ref{tab:main_results}, unconstrained full fine-tuning causes an alarming collapse in safety performance, with attack vulnera
+- **L283** `89.2\%` — While DER++ preserves safety effectively ($89.2\%$), it requires continuous access to proprietary safety alignment data
+- **L283** `93.8\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
+- **L283** `7.8\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
+- **L283** `0.6\%` — In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstraine
+- **L286** `30\%` — To analyze the sensitivity of the gradient filtering cutoff, Table \ref{tab:ablation_alpha} details model performance as the filtering quantile $(1-\a
+- **L297** `100\%` — 1.00 (Full Dataset) & 100\% & 46.2 & 58.4 & 84.2 \\
+- **L298** `95\%` — 0.95 & 95\% & 68.4 & 34.2 & 84.0 \\
+- **L299** `90\%` — 0.90 & 90\% & 86.7 & 16.1 & 83.9 \\
+- **L300** `85\%` — \textbf{0.85 (Optimal)} & \textbf{85\%} & \textbf{93.8} & \textbf{7.8} & \textbf{83.6} \\
+- **L301** `80\%` — 0.80 & 80\% & 94.1 & 7.2 & 81.8 \\
+- **L302** `70\%` — 0.70 & 70\% & 94.6 & 6.5 & 77.4 \\
+- **L307** `15\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
+- **L307** `95\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
+- **L307** `20\%` — The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, captu
+- **L331** `0 GB` — Full Fine-Tuning & 48.2 & 142 & 0 GB \\
+- **L332** `12 GB` — Dark Experience Replay & 74.6 & 318 & 12 GB (Replay Buffer) \\
+- **L333** `8 GB` — Gradient Projection (GPM) & 82.4 & 485 & 8 GB (Feature Bases) \\
+- **L334** `0 GB` — \textbf{Gradient Selection (Ours)} & \textbf{49.1} & \textbf{156} & \textbf{0 GB} \\
+- **L365** `93.8\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
+- **L365** `98.9\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
 
 ## review_spatio_temporal_grounding_in_video_question_answering — 85 ungrounded
 
@@ -114,34 +114,34 @@ support.
 - **L53** `p < 0.001` — **Large-Scale Multi-Benchmark Empirical Synthesis ($N = 42,000$):** We evaluate DST-DR across eight standard VideoQA benchmarks, demonstrating consist
 - **L53** `N = 42,000` — **Large-Scale Multi-Benchmark Empirical Synthesis ($N = 42,000$):** We evaluate DST-DR across eight standard VideoQA benchmarks, demonstrating consist
 - **L53** `38.4\%` — **Large-Scale Multi-Benchmark Empirical Synthesis ($N = 42,000$):** We evaluate DST-DR across eight standard VideoQA benchmarks, demonstrating consist
-- **L344** `N = 42,000` — We evaluate DST-DR across eight standard video reasoning benchmarks totaling $N = 42,000$ test queries:
-- **L346** `N = 42,000` — **Table 1: Benchmark Dataset Characteristics Across $N = 42,000$ Probes**
-- **L350** `180 s` — 180 s
-- **L351** `120 s` — 120 s
-- **L352** `44 s` — 44 s
-- **L353** `10 s` — 10 s
-- **L354** `15 s` — 15 s
-- **L355** `3 s` — 3 s
-- **L356** `25 s` — 25 s
-- **L357** `300 s` — 300 s
-- **L389** `p < 0.001` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
-- **L389** `d = 0.89` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
-- **L389** `t(41998) = 16.84` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
-- **L389** `5.2\%` — Bootstrap 95% CI on ActivityNet-QA gain over PLLaVA: $\Delta = +5.2\% \pm 0.6\%$ [[crossref_10.1201_9788743808145-14], [arxiv_2501.02497]].
-- **L389** `0.6\%` — Bootstrap 95% CI on ActivityNet-QA gain over PLLaVA: $\Delta = +5.2\% \pm 0.6\%$ [[crossref_10.1201_9788743808145-14], [arxiv_2501.02497]].
-- **L392** `5.2\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
-- **L392** `6.4\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
-- **L392** `6.1\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
-- **L393** `78.7\%` — **Compute Efficiency:** DST-DR reduces cross-attention FLOPs from $5.58 \times 10^{12}$ (dense concatenation) to $1.19 \times 10^{12}$ (**$78.7\%$ red
-- **L393** `38.4\%` — dense**, and **$38.4\%$ reduction vs
-- **L394** `54.7\%` — **Egocentric Mastery:** On Ego4D (fine-grained tool manipulation across 5-minute video streams), DST-DR achieves $54.7\%$ accuracy, proving robust spa
-- **L402** `N = 6,500` — **Table 3: Next-QA Accuracy Breakdown by Reasoning Category ($N = 6,500$)**
-- **L406** `54.2%` — 54.2%
-- **L406** `48.1%` — 48.1%
-- **L406** `66.9%` — 66.9%
-- **L406** `56.4%` — 56.4%
-- **L407** `59.8%` — 59.8%
-- **L407** `53.4%` — 53.4%
-- **L407** `73.1%` — 73.1%
-- **L407** `62.1%` — 62.1%
-- **L408** `64.1%` — 64.1%
+- **L376** `N = 42,000` — We evaluate DST-DR across eight standard video reasoning benchmarks totaling $N = 42,000$ test queries:
+- **L378** `N = 42,000` — **Table 1: Benchmark Dataset Characteristics Across $N = 42,000$ Probes**
+- **L382** `180 s` — 180 s
+- **L383** `120 s` — 120 s
+- **L384** `44 s` — 44 s
+- **L385** `10 s` — 10 s
+- **L386** `15 s` — 15 s
+- **L387** `3 s` — 3 s
+- **L388** `25 s` — 25 s
+- **L389** `300 s` — 300 s
+- **L421** `p < 0.001` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
+- **L421** `d = 0.89` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
+- **L421** `t(41998) = 16.84` — $p < 0.001$ across all benchmarks; Two-sample $t(41998) = 16.84$; Cohen's $d = 0.89$ (large effect)
+- **L421** `5.2\%` — Bootstrap 95% CI on ActivityNet-QA gain over PLLaVA: $\Delta = +5.2\% \pm 0.6\%$ [[crossref_10.1201_9788743808145-14], [arxiv_2501.02497]].
+- **L421** `0.6\%` — Bootstrap 95% CI on ActivityNet-QA gain over PLLaVA: $\Delta = +5.2\% \pm 0.6\%$ [[crossref_10.1201_9788743808145-14], [arxiv_2501.02497]].
+- **L424** `5.2\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
+- **L424** `6.4\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
+- **L424** `6.1\%` — **State-of-the-Art Accuracy:** DST-DR outperforms PLLaVA by **$+5.2\%$ on ActivityNet-QA**, **$+6.4\%$ on Next-QA**, and **$+6.1\%$ on Ego4D**, demons
+- **L425** `78.7\%` — **Compute Efficiency:** DST-DR reduces cross-attention FLOPs from $5.58 \times 10^{12}$ (dense concatenation) to $1.19 \times 10^{12}$ (**$78.7\%$ red
+- **L425** `38.4\%` — dense**, and **$38.4\%$ reduction vs
+- **L426** `54.7\%` — **Egocentric Mastery:** On Ego4D (fine-grained tool manipulation across 5-minute video streams), DST-DR achieves $54.7\%$ accuracy, proving robust spa
+- **L434** `N = 6,500` — **Table 3: Next-QA Accuracy Breakdown by Reasoning Category ($N = 6,500$)**
+- **L438** `54.2%` — 54.2%
+- **L438** `48.1%` — 48.1%
+- **L438** `66.9%` — 66.9%
+- **L438** `56.4%` — 56.4%
+- **L439** `59.8%` — 59.8%
+- **L439** `53.4%` — 53.4%
+- **L439** `73.1%` — 73.1%
+- **L439** `62.1%` — 62.1%
+- **L440** `64.1%` — 64.1%

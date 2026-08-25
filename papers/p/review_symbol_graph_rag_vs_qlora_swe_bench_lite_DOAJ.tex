@@ -107,6 +107,7 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -115,6 +116,7 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -152,6 +154,7 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -159,6 +162,7 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -194,6 +198,7 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -201,6 +206,7 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -330,19 +336,19 @@ Across the sweep the best development MRR was 0.9173, and the configuration achi
 \subsection{Parameter-Efficient Fine-Tuning}
 
 
-LoRA \cite{arxiv_2208_14227} and QLoRA \cite{arxiv_2305_18290} enable efficient weight adaptation by decomposing gradient updates into low-rank factors, reducing trainable parameters by 10,000$\times$ relative to full fine-tuning. Prefix-tuning \cite{arxiv_2406_00584} and prompt tuning operate in the input embedding space. Adapter layers \cite{arxiv_2005_14165} insert small bottleneck modules between transformer layers. Across all PEFT variants, the fundamental limitation is parametric compression of structured knowledge -- information that is naturally preserved in explicit retrieval systems \cite{arxiv_2406_00584}.
+LoRA \cite{crossref_10_48550_arxiv_2106_09685} and QLoRA \cite{crossref_10_48550_arxiv_2305_14314} enable efficient weight adaptation by decomposing gradient updates into low-rank factors, reducing trainable parameters by 10,000$\times$ relative to full fine-tuning. Prefix-tuning \cite{arxiv_2101_00190} and prompt tuning operate in the input embedding space. Adapter layers \cite{arxiv_2005_14165} insert small bottleneck modules between transformer layers. Across all PEFT variants, the fundamental limitation is parametric compression of structured knowledge -- information that is naturally preserved in explicit retrieval systems \cite{arxiv_2101_00190}.
 
 
 \subsection{Retrieval-Augmented Code Generation}
 
 
-Dense retrieval (DPR, BM25) matches issue descriptions against code tokens via embedding similarity \cite{arxiv_2501_02842}, but struggles with non-local dependency chains requiring multi-hop graph traversal. CodeBERT \cite{crossref_10_18653_v1_2026_findings_acl_1933} and GraphCodeBERT extend dense retrieval to incorporate structural graph signals. Our Symbol-Graph RAG framework extends these approaches with full heterogeneous AST graph construction, typed edge traversal, and Personalized PageRank diffusion \cite{crossref_10_1145_3689096_3689462}.
+Dense retrieval (DPR, BM25) matches issue descriptions against code tokens via embedding similarity \cite{arxiv_2501_02842}, but struggles with non-local dependency chains requiring multi-hop graph traversal. CodeBERT \cite{arxiv_2002_08155} and GraphCodeBERT extend dense retrieval to incorporate structural graph signals. Our Symbol-Graph RAG framework extends these approaches with full heterogeneous AST graph construction, typed edge traversal, and Personalized PageRank diffusion \cite{crossref_10_1145_3689096_3689462}.
 
 
 \subsection{Automated Program Repair}
 
 
-Real-world benchmarks SWE-bench \cite{arxiv_2405_01543}, SWE-bench Verified, and SWE-bench Multimodal operationalize multi-file repository reasoning. Agentless systems \cite{arxiv_2501_02497} decompose repair into file localization, function localization, and patch generation. Test-time compute scaling \cite{arxiv_2203_11171} uses repeated sampling and verifier ranking to improve patch quality. Our work is complementary: Symbol-Graph RAG improves the localization phase, while test-time compute scaling improves the generation phase \cite{arxiv_2412_06333}.
+Real-world benchmarks SWE-bench \cite{arxiv_2505_23419}, SWE-bench Verified, and SWE-bench Multimodal operationalize multi-file repository reasoning. Agentless systems \cite{arxiv_2501_02497} decompose repair into file localization, function localization, and patch generation. Test-time compute scaling \cite{arxiv_2203_11171} uses repeated sampling and verifier ranking to improve patch quality. Our work is complementary: Symbol-Graph RAG improves the localization phase, while test-time compute scaling improves the generation phase \cite{arxiv_2412_06333}.
 
 
 \subsection{Agentic Software Engineering}
