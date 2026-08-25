@@ -4,7 +4,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 
 | Manuscript | Venue | Tier | Pages | Ungrounded | Score |
 |:---|:---|:---|---:|---:|---:|
-| autonomous_code_synthesis_and_self_healing_m | arXiv | preprint | 4.4 | 81 | 2.0 |
+| autonomous_code_synthesis_and_self_healing_m | arXiv | preprint | 4.4 | 80 | 2.0 |
 | review_architectural_dynamics_long_12_page | arXiv | preprint | 4.3 | 64 | 2.0 |
 | review_composable_ai_systems_for_trustworthy | arXiv | preprint | 4.4 | 122 | 2.0 |
 | review_continual_safety_alignment_in_vision_ | arXiv | preprint | 4.4 | 85 | 2.0 |

@@ -1,10 +1,10 @@
 ---
 title: "Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption"
 authors:
-  - "Aryaman Dev"
+  - "Aryaman Singh Dev"
 author_details:
-affiliation: "Institute for Econometric AI Policy & Enterprise Risk Governance"
-email: "researcher@institute.org"
+affiliation: "Pennsylvania State University"
+email: "asd5520@psu.edu"
 full_pdf_ingested: "true"
 venue: "IEEEtran"
 target_pages: "12"

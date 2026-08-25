@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+  "paper": "p5",
+  "description": "Simulation study of four multi-agent coordination topologies: message complexity, cascade containment, coordination depth, and DTMC steady-state availability.",
+  "seed": 20260825,
+  "measurement_count": 23,
+  "recorded_at": "2026-08-25T16:15:58-0400",
+  "duration_s": 16.663,
+  "git_commit": "e547d39256573e659371751109e9774e6b1c106b",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p5*.py"
+}

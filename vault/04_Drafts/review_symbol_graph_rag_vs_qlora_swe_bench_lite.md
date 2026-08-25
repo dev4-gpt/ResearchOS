@@ -1,9 +1,9 @@
 ---
 title: "Empirical Evaluation of Symbol-Graph Retrieval-Augmented Generation vs. QLoRA Parameter-Efficient Fine-Tuning on SWE-bench Lite"
 authors:
-  - "Aryaman Dev"
-affiliation: "Institute for Advanced AI Systems & Empirical Software Engineering"
-email: "researcher@institute.org"
+  - "Aryaman Singh Dev"
+affiliation: "Pennsylvania State University"
+email: "asd5520@psu.edu"
 publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"

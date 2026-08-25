@@ -1,0 +1,4756 @@
+{
+  "per_operator": {
+    "mu_del": {
+      "guards_checked": 5,
+      "passed_name_check": 95,
+      "passed_smt": 95,
+      "produced": 192,
+      "rejection_rate_pct": 50.52,
+      "syntactic_validity_pct": 100.0,
+      "syntactically_valid": 192,
+      "total_rejected": 97
+    },
+    "mu_ins": {
+      "guards_checked": 73,
+      "passed_name_check": 71,
+      "passed_smt": 71,
+      "produced": 192,
+      "rejection_rate_pct": 63.02,
+      "syntactic_validity_pct": 100.0,
+      "syntactically_valid": 192,
+      "total_rejected": 121
+    },
+    "mu_reorder": {
+      "guards_checked": 5,
+      "passed_name_check": 129,
+      "passed_smt": 129,
+      "produced": 191,
+      "rejection_rate_pct": 32.46,
+      "syntactic_validity_pct": 98.43,
+      "syntactically_valid": 188,
+      "total_rejected": 62
+    },
+    "mu_sub": {
+      "guards_checked": 9,
+      "passed_name_check": 101,
+      "passed_smt": 101,
+      "produced": 174,
+      "rejection_rate_pct": 41.95,
+      "syntactic_validity_pct": 100.0,
+      "syntactically_valid": 174,
+      "total_rejected": 73
+    },
+    "mu_wrap": {
+      "guards_checked": 6,
+      "passed_name_check": 131,
+      "passed_smt": 131,
+      "produced": 191,
+      "rejection_rate_pct": 31.41,
+      "syntactic_validity_pct": 97.38,
+      "syntactically_valid": 186,
+      "total_rejected": 60
+    }
+  },
+  "trials": [
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_sub",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_ins",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_del",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_wrap",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_jobs.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": false
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/search.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_qa.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/release_controller.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/latex_exporter.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/publisher_readiness.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/visual_auditor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/llm_router.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/user_profile.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/topic_recommender.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_selector.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/error_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_interceptor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/o1a_tracker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/workflow_audit.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_contract.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/citation_graph.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/checkmate_verifier.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/fact_checker.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/venue_profiles 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/evidence_ledger 2.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/vault.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/claim_provenance.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    },
+    {
+      "file": "backend/services/pdf_extractor.py",
+      "operator": "mu_reorder",
+      "syntax_ok": true
+    }
+  ]
+}

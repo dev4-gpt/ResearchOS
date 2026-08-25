@@ -1,0 +1,32 @@
+{
+  "ast_nodes": 35872,
+  "files": [
+    "backend/services/__init__.py",
+    "backend/services/checkmate_interceptor.py",
+    "backend/services/checkmate_verifier.py",
+    "backend/services/citation_graph.py",
+    "backend/services/claim_provenance.py",
+    "backend/services/error_ledger.py",
+    "backend/services/evidence_ledger 2.py",
+    "backend/services/evidence_ledger.py",
+    "backend/services/fact_checker.py",
+    "backend/services/latex_exporter.py",
+    "backend/services/llm_router.py",
+    "backend/services/o1a_tracker.py",
+    "backend/services/pdf_extractor.py",
+    "backend/services/pdf_qa.py",
+    "backend/services/publisher_jobs.py",
+    "backend/services/publisher_readiness.py",
+    "backend/services/release_controller.py",
+    "backend/services/search.py",
+    "backend/services/topic_recommender.py",
+    "backend/services/user_profile.py",
+    "backend/services/vault.py",
+    "backend/services/venue_contract.py",
+    "backend/services/venue_profiles 2.py",
+    "backend/services/venue_profiles.py",
+    "backend/services/venue_selector.py",
+    "backend/services/visual_auditor.py",
+    "backend/services/workflow_audit.py"
+  ]
+}

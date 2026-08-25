@@ -1,8 +1,7 @@
 ---
 title: "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation"
 authors:
-  - "ResearchingOS Autonomous Multi-Agent Publishing Council"
-  - "Senior Institute Research Fellows"
+  - "Aryaman Singh Dev"
 date: "2026-08-24"
 status: "draft"
 target_venue: "IEEEtran"
@@ -22,6 +21,8 @@ publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, Sp
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
+affiliation: "Pennsylvania State University"
+email: "asd5520@psu.edu"
 ---
 # Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation
 

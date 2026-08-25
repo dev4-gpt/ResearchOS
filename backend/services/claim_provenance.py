@@ -212,6 +212,28 @@ class ClaimProvenanceService:
                     continue
         return records
 
+    #: A claim is only backed by a measurement in a compatible unit. Without this,
+    #: a bare "$1" matches any recorded value of 1.0 and reports itself as grounded,
+    #: which is the exact false positive this service exists to prevent.
+    _UNIT_COMPAT: Dict[str, frozenset] = {
+        "%": frozenset({"%", "percent"}),
+        "x": frozenset({"x", "factor", "exponent", "multiplier"}),
+        "$": frozenset({"$", "usd"}),
+        "n": frozenset({"n", "count", "messages", "hops", "instances", "tasks"}),
+        "time": frozenset({"time", "s", "ms", "min", "h", "seconds"}),
+        "bytes": frozenset({"bytes", "gb", "mb", "tb"}),
+        "kg": frozenset({"kg"}),
+        "pp": frozenset({"pp", "%"}),
+        "": frozenset({"", "d", "t", "p", "exponent", "statistic"}),
+    }
+
+    @classmethod
+    def _units_compatible(cls, claim_unit: str, record_unit: Optional[str]) -> bool:
+        allowed = cls._UNIT_COMPAT.get(claim_unit)
+        if allowed is None:
+            return True
+        return str(record_unit or "").strip().lower() in allowed
+
     @staticmethod
     def _matches_measurement(claim: QuantitativeClaim, record: Dict[str, Any]) -> bool:
         """A measurement backs a claim when the recorded value matches it numerically.
@@ -222,6 +244,8 @@ class ClaimProvenanceService:
         if not record.get("artifact") or not record.get("sha256"):
             return False
         if claim.value is None:
+            return False
+        if not ClaimProvenanceService._units_compatible(claim.unit, record.get("unit")):
             return False
         recorded_raw = record.get("value")
         if recorded_raw is None:

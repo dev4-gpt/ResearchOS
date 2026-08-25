@@ -57,7 +57,15 @@ scratch/test_research.py
 logs/
 
 # === Evidence-first run ledger ===
-runs/
+# Evidence must be versioned: a measurement whose artifact nobody can fetch is not
+# evidence. Track measurements, manifests and raw artifacts; ignore compiled builds.
+runs/*
+!runs/*/
+runs/*/*
+!runs/*/measurements.jsonl
+!runs/*/experiment_manifest.json
+!runs/*/artifacts/
+!runs/*/artifacts/**
 
 # Scratch directory (local only)
 scratch/

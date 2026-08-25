@@ -1,11 +1,9 @@
 ---
 title: "Spatio-Temporal Grounding and Multimodal Reasoning in Video Question Answering: Overcoming Cross-Modal Attention Collapse"
 authors:
-  - "Aryaman Dev"
-  - "ResearchingOS Autonomous Multi-Agent Publishing Council"
-  - "Senior Institute Research Fellows"
-affiliation: "Institute for Advanced AI Systems & Empirical Software Engineering"
-email: "researcher@institute.org"
+  - "Aryaman Singh Dev"
+affiliation: "Pennsylvania State University"
+email: "asd5520@psu.edu"
 date: "2026-08-24"
 status: "draft"
 target_venue: "IEEEtran"

@@ -37,12 +37,13 @@ def _write_draft(tmp_path, text=DRAFT, name="paper.md"):
     return str(path)
 
 
-def _record_measurement(tmp_path, run_id, value, artifact="bench/out.json", sha="a" * 64):
+def _record_measurement(tmp_path, run_id, value, artifact="bench/out.json", sha="a" * 64,
+                        unit="%"):
     run_dir = tmp_path / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     with (run_dir / "measurements.jsonl").open("a", encoding="utf-8") as handle:
         handle.write(json.dumps({
-            "metric": "resolution_rate", "value": value,
+            "metric": "resolution_rate", "value": value, "unit": unit,
             "artifact": artifact, "sha256": sha,
         }) + "\n")
 
@@ -93,7 +94,7 @@ def test_measurement_without_artifact_does_not_ground_a_claim(service, tmp_path)
     run_dir = tmp_path / "runs" / "draft-paper"
     run_dir.mkdir(parents=True)
     (run_dir / "measurements.jsonl").write_text(
-        json.dumps({"metric": "rate", "value": 47.2}) + "\n", encoding="utf-8"
+        json.dumps({"metric": "rate", "value": 47.2, "unit": "%"}) + "\n", encoding="utf-8"
     )
 
     report = service.audit_draft(path)
@@ -198,3 +199,12 @@ def test_each_manuscript_gets_exactly_one_venue():
     allocation = selector.allocate_portfolio(papers)
     assert all(isinstance(a["venue"], str) for a in allocation.values())
     assert len(allocation) == 4
+
+
+def test_measurement_in_an_incompatible_unit_does_not_ground_a_claim(service, tmp_path):
+    """A '$1' price must not be grounded by a recorded exponent that happens to be 1.0."""
+    path = _write_draft(tmp_path, "Inference cost is \\$1 per task.\n")
+    _record_measurement(tmp_path, "draft-paper", 1.0, unit="exponent")
+
+    report = service.audit_draft(path)
+    assert report.experiment_backed == 0
