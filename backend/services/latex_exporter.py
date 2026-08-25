@@ -171,6 +171,81 @@ class LaTeXExporterService:
             return "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows"
         return title
 
+    #: Identity strings that are stand-ins rather than real author details. These
+    #: shipped into 108 venue packages unnoticed because they read as plausible.
+    PLACEHOLDER_IDENTITY = (
+        "institute for advanced ai systems",
+        "researcher@institute.org",
+        "your institution",
+        "example.com",
+        "affiliation not set",
+        "unspecified",
+        "unknown",
+        "tbd",
+    )
+
+    @classmethod
+    def is_placeholder_identity(cls, value: Optional[str]) -> bool:
+        """True when an author-identity field is a stand-in rather than real."""
+        if not value or not str(value).strip():
+            return True
+        lowered = str(value).strip().lower()
+        return any(token in lowered for token in cls.PLACEHOLDER_IDENTITY)
+
+    @classmethod
+    def _resolve_identity_field(cls, value: Optional[str], label: str) -> str:
+        """Return the real value, or a marker loud enough to stop a submission."""
+        if cls.is_placeholder_identity(value):
+            return f"[{label} NOT SET]"
+        return str(value).strip()
+
+    #: Terms too generic to index a paper by. The previous hardcoded keyword line
+    #: was built entirely from these and was identical on all nine manuscripts.
+    _GENERIC_KEYWORDS = frozenset({
+        "generative", "empirical", "evaluation", "systems", "system", "enterprise",
+        "operations", "review", "paper", "approach", "results", "study", "analysis",
+        "based", "using", "model", "models", "method", "methods", "data", "work",
+        "research", "framework", "table", "figure", "section", "theorem", "proof",
+        # Citation-key fragments: these are bibliography plumbing, not subject terms.
+        "arxiv", "crossref", "openalex", "europepmc", "pubmed", "plos", "doaj", "dblp",
+    })
+
+    def derive_keywords(self, title: str, body_markdown: str, limit: int = 6) -> str:
+        """Build an index term list from this manuscript's own vocabulary.
+
+        Terms in the title rank first — they are what the paper is actually about —
+        then distinctive body terms. Falls back to the title itself rather than to a
+        generic list, so two papers never carry identical keywords.
+        """
+        title_terms = [
+            w.lower() for w in re.findall(r"[A-Za-z][A-Za-z\-]{3,}", title or "")
+            if w.lower() not in self._GENERIC_KEYWORDS
+        ]
+
+        # Maths spans and TeX control sequences are notation, not subject matter:
+        # without this, '\mathcal' surfaces as an index term.
+        prose = re.sub(r"\$\$[\s\S]*?\$\$|\$[^\$\n]*\$", " ", body_markdown or "")
+        prose = re.sub(r"\\[A-Za-z]+", " ", prose)
+
+        frequency: Dict[str, int] = {}
+        for word in re.findall(r"[A-Za-z][A-Za-z\-]{4,}", prose.lower()):
+            if word in self._GENERIC_KEYWORDS or word in title_terms:
+                continue
+            frequency[word] = frequency.get(word, 0) + 1
+
+        body_terms = [w for w, n in sorted(frequency.items(), key=lambda kv: -kv[1]) if n >= 3]
+
+        ordered: List[str] = []
+        for term in title_terms + body_terms:
+            if term not in ordered:
+                ordered.append(term)
+            if len(ordered) >= limit:
+                break
+
+        if not ordered:
+            return self.sanitize_latex(title or "Artificial Intelligence")
+        return self.sanitize_latex(", ".join(t.replace("-", " ").title() for t in ordered)) + "."
+
     def sanitize_latex(self, text: str) -> str:
         """Preserves math blocks $$...$$, $...$, and \\cite{...} tags while cleaning special LaTeX and Unicode characters."""
         if not text:
@@ -181,22 +256,114 @@ class LaTeXExporterService:
             '┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+',
             '═': '=', '║': '|', '▲': '^', '▼': 'v', '◄': '<', '►': '>', '◆': '*', '●': '*', '★': '*', '✓': '[V]', '✗': '[X]',
             '░': ' ', '▒': ' ', '▓': ' ', '█': '#',
+            '−': '-', '§': '\\S{}',
             '🚀': '', '🎉': '', '📦': '', '🛡️': '', '🏛️': '', '📊': '', '💡': '', '🏆': '', '⚡': '', '🌐': ''
         }
         for char, repl in char_map.items():
             text = text.replace(char, repl)
 
         # Preserve math blocks $$...$$, $...$, \cite{...}, and [[...]] wikilinks so underscores inside cite keys are NOT escaped
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
+        # Inline math may not span a newline or a '|' cell boundary: a single unescaped
+        # currency '$' (e.g. a 'Cost ($)' header) would otherwise open a math run that
+        # swallows the rest of the table row.
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$\n|])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
         for i in range(0, len(parts), 2):
+            # Genuine math is already split out, so any '$' still here is literal currency.
+            # Escape it before the '<'/'>' rules below introduce math shifts of their own.
+            parts[i] = re.sub(r'(?<!\\)\$', r'\\$', parts[i])
             parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            # After underscore escaping, so that a '₂' -> '$_2$' subscript is not itself
+            # escaped into a literal '\_2'.
+            parts[i] = self._replace_math_glyphs(parts[i], inline=True)
             # Replace & and % with \& and \% ONLY if they are not already preceded by a backslash
             parts[i] = re.sub(r'(?<!\\)&', r'\\&', parts[i])
             parts[i] = re.sub(r'(?<!\\)%', r'\\%', parts[i])
         for i in range(1, len(parts), 2):
             if parts[i].startswith("\\cite{") or parts[i].startswith("[["):
                 parts[i] = parts[i].replace("\\_", "_")
+            else:
+                # Already inside $...$: emit the bare command, never a nested math shift.
+                parts[i] = self._replace_math_glyphs(parts[i], inline=False)
         return "".join(parts)
+
+    # pdflatex has no glyph for these, so an unmapped one is a hard compile error.
+    # They arrive mostly via table cells, which is why they stayed latent while the
+    # converter was still discarding every table.
+    _MATH_GLYPHS = {
+        '×': '\\times', '±': '\\pm', '≤': '\\leq', '≥': '\\geq', '≈': '\\approx',
+        '≠': '\\neq', '→': '\\rightarrow', '←': '\\leftarrow', '↑': '\\uparrow',
+        '↓': '\\downarrow', '∞': '\\infty', '·': '\\cdot', '†': '\\dagger',
+        '‡': '\\ddagger', '°': '^\\circ', '∈': '\\in', '∀': '\\forall', '∃': '\\exists',
+        '₀': '_0', '₁': '_1', '₂': '_2', '₃': '_3', '₄': '_4', '₅': '_5',
+        '⁰': '^0', '¹': '^1', '²': '^2', '³': '^3', '⁴': '^4', '⁵': '^5',
+    }
+
+    def _replace_math_glyphs(self, text: str, inline: bool) -> str:
+        """Map Unicode maths glyphs to TeX. `inline` wraps each in its own math shift,
+        for text that is not already inside a $...$ region."""
+        for char, cmd in self._MATH_GLYPHS.items():
+            if char in text:
+                text = text.replace(char, f'${cmd}$' if inline else cmd)
+        return text
+
+    # Markdown emphasis has to be resolved here rather than in step 11: step 11 holds
+    # every table environment aside as protected math, so '**47.2**' left inside a cell
+    # is restored verbatim and reaches the PDF as literal asterisks.
+    _CELL_BOLD = re.compile(r'\*\*(.+?)\*\*')
+    _CELL_ITALIC = re.compile(r'(?<!\*)\*([^\*]+?)\*(?!\*)')
+    _CAPTION_LINE = re.compile(r'^\s*\*\*\s*(Table[^*]*?)\s*\*\*\s*$')
+
+    def _format_cell(self, cell: str) -> str:
+        cell = self._CELL_BOLD.sub(lambda m: '\\textbf{' + m.group(1) + '}', cell)
+        cell = self._CELL_ITALIC.sub(lambda m: '\\textit{' + m.group(1) + '}', cell)
+        return cell.replace('*', '').strip()
+
+    def _emit_booktabs_table(self, table_rows: List[List[str]], final_lines: List[str]) -> None:
+        """Append one booktabs table built from collected Markdown rows.
+
+        Consumes a preceding '**Table N: ...**' line as the real \\caption, and clamps
+        the tabular to the text column so wide result tables cannot bleed into the
+        gutter (the shrink-only \\resizebox idiom leaves narrow tables at natural size).
+        """
+        valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
+        if len(valid_rows) < 2:
+            return
+        cols = max(len(r) for r in valid_rows)
+        rows = [[self._format_cell(c) for c in r] + [''] * (cols - len(r)) for r in valid_rows]
+
+        caption = None
+        while final_lines and not final_lines[-1].strip():
+            final_lines.pop()
+        if final_lines:
+            match = self._CAPTION_LINE.match(final_lines[-1])
+            if match:
+                # Drop the author's manual 'Table N:' prefix; \caption numbers itself.
+                caption = re.sub(r'^Table\s*\d+\s*[:.\-]\s*', '', match.group(1)).strip()
+                final_lines.pop()
+
+        # Numeric columns centre; the leading label column stays left-aligned.
+        def numericish(idx: int) -> bool:
+            body = [r[idx] for r in rows[1:] if r[idx]]
+            if not body:
+                return False
+            return sum(bool(re.search(r'\d', c)) and len(c) <= 18 for c in body) >= len(body) * 0.8
+
+        col_align = ''.join('l' if i == 0 or not numericish(i) else 'c' for i in range(cols))
+
+        final_lines.append('\\begin{table}[htbp]')
+        final_lines.append('\\centering')
+        if caption:
+            final_lines.append('\\caption{' + caption + '}')
+        final_lines.append('\\resizebox{\\ifdim\\width>\\columnwidth\\columnwidth\\else\\width\\fi}{!}{%')
+        final_lines.append('\\begin{tabular}{' + col_align + '}')
+        final_lines.append('\\toprule')
+        final_lines.append(' & '.join(rows[0]) + ' \\\\')
+        final_lines.append('\\midrule')
+        for r in rows[1:]:
+            final_lines.append(' & '.join(r) + ' \\\\')
+        final_lines.append('\\bottomrule')
+        final_lines.append('\\end{tabular}}')
+        final_lines.append('\\end{table}')
 
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
@@ -254,7 +421,13 @@ class LaTeXExporterService:
         text = re.sub(r'\\begin\{thebibliography\}[\s\S]*?(\\end\{thebibliography\}|$)', '', text, flags=re.IGNORECASE)
         text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
-        text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
+        # Strip ASCII box art only. Markdown table rows also start and end with '|',
+        # so they must survive this pass and be converted to booktabs in step 10.
+        text = re.sub(r'^\+.*\+$', '', text, flags=re.MULTILINE)
+        # '|====|' rules only. Markdown alignment rows ('|:---|:---:|') must be left in
+        # place: deleting them here inserts a blank line that splits the table in step 10,
+        # orphaning the header row. Step 10 skips them itself.
+        text = re.sub(r'^\|[=\s|]*\|$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^(INFERENCE-TIME|CARDIOLOGY-CHAT|THE EPISTEMOLOGICAL|PROPOSED METHODOLOGICAL).*$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^-{3,}$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^\+->.*$', '', text, flags=re.MULTILINE)
@@ -325,7 +498,9 @@ class LaTeXExporterService:
         for i, line in enumerate(lines):
             stripped = line.strip()
             # Remove leading bullet artifacts if appended after item numbers like '1)•'
-            stripped = re.sub(r'^(\d+[\)\.])\s*[•*]\s*', r'\1 ', stripped)
+            # A lone bullet glyph, never the '**' of a bold run: '1. **Term**: body'
+            # must keep both asterisks or step 11 emits \textit{Term\textbf{: body}}.
+            stripped = re.sub(r'^(\d+[\)\.])\s*(?:•|\*(?!\*))\s*', r'\1 ', stripped)
 
             bullet_match = re.match(r'^[*\-\+•]\s+(.*)', stripped)
             enum_match = re.match(r'^\d+[\)\.]\s+(.*)', stripped)
@@ -391,41 +566,13 @@ class LaTeXExporterService:
                 in_table = True
             else:
                 if in_table and table_rows:
-                    valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
-                    if valid_rows and len(valid_rows) >= 2:
-                        cols = max(len(r) for r in valid_rows)
-                        col_align = 'l' * cols
-                        final_lines.append('\\begin{table}[htbp]')
-                        final_lines.append('\\centering')
-                        final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
-                        final_lines.append('\\toprule')
-                        final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
-                        final_lines.append('\\midrule')
-                        for r in valid_rows[1:]:
-                            final_lines.append(' & '.join(r) + ' \\\\')
-                        final_lines.append('\\bottomrule')
-                        final_lines.append('\\end{tabular}')
-                        final_lines.append('\\end{table}')
+                    self._emit_booktabs_table(table_rows, final_lines)
                     in_table = False
                     table_rows = []
                 final_lines.append(line)
 
         if in_table and table_rows:
-            valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
-            if valid_rows and len(valid_rows) >= 2:
-                cols = max(len(r) for r in valid_rows)
-                col_align = 'l' * cols
-                final_lines.append('\\begin{table}[htbp]')
-                final_lines.append('\\centering')
-                final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
-                final_lines.append('\\toprule')
-                final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
-                final_lines.append('\\midrule')
-                for r in valid_rows[1:]:
-                    final_lines.append(' & '.join(r) + ' \\\\')
-                final_lines.append('\\bottomrule')
-                final_lines.append('\\end{tabular}')
-                final_lines.append('\\end{table}')
+            self._emit_booktabs_table(table_rows, final_lines)
 
         text = '\n'.join(final_lines)
 
@@ -594,8 +741,16 @@ class LaTeXExporterService:
 
         clean_provided_authors = [a for a in (authors or []) if a and "Unspecified" not in a and "Unknown" not in a]
         authors_list = ["Anonymous Authors"] if is_anonymous else (clean_provided_authors or ["Aryaman Singh Dev"])
-        affiliation = "" if is_anonymous else self.sanitize_latex(str(details.get("affiliation") or "Pennsylvania State University"))
-        email = "" if is_anonymous else self.sanitize_latex(str(details.get("email") or "asd5520@psu.edu"))
+        # A placeholder affiliation must never ship silently: a manuscript that names
+        # an institute the author has no association with is a misrepresentation, and
+        # it reached all 108 packages last time precisely because it looked filled in.
+        # Surfacing the gap in the typeset PDF is the only version nobody can miss.
+        affiliation = "" if is_anonymous else self.sanitize_latex(
+            self._resolve_identity_field(details.get("affiliation"), "AFFILIATION")
+        )
+        email = "" if is_anonymous else self.sanitize_latex(
+            self._resolve_identity_field(details.get("email"), "CONTACT EMAIL")
+        )
 
 
         neurips_authors = " \\And ".join(
@@ -795,10 +950,12 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 \\end{{document}}
 """
         else:
-            keywords_block = """\\begin{IEEEkeywords}
-Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-\\end{IEEEkeywords}""" if venue_key == "IEEEtran" else """\\noindent\\textbf{Keywords---} Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-"""
+            keyword_text = self.derive_keywords(clean_title, body_markdown)
+            keywords_block = (
+                f"""\\begin{{IEEEkeywords}}\n{keyword_text}\n\\end{{IEEEkeywords}}"""
+                if venue_key == "IEEEtran"
+                else f"""\\noindent\\textbf{{Keywords---}} {keyword_text}\n"""
+            )
             balance_cmd = "\\balance" if venue_key == "IEEEtran" else ""
 
             doc_code = f"""{spec['doc_class']}
