@@ -21,8 +21,8 @@
 
 \author{
 ResearchingOS Autonomous Multi-Agent Publishing Council \and Senior Institute Research Fellows\\
-Pennsylvania State University \\
-\texttt{asd5520@psu.edu}
+[AFFILIATION NOT SET] \\
+\texttt{[CONTACT EMAIL NOT SET]}
 }
 
 \maketitle
@@ -32,7 +32,7 @@ The deployment of Vision-Language Models (VLMs) across mission-critical multimod
 \end{abstract}
 
 \begin{IEEEkeywords}
-Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
+Continual, Safety, Alignment, Vision Language, Mitigating, Multi Stage.
 \end{IEEEkeywords}
 
 
@@ -119,6 +119,11 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -136,12 +141,17 @@ $}
 
 
 
+
+
+
+
+
 \subsection{Key Assumptions and Scope Boundaries}
 
 Throughout this synthesis, we operate under three fundamental assumptions verified across empirical literature:
 \begin{itemize}
   \item Assumption 1 (Subspace Orthogonality Deficit): Safety representations and task-specific capability representations share overlapping parameter subspaces in high-dimensional transformer layers, preventing trivial parameter partitioning \cite{arxiv_2406_00584}.
-  \item Assumption 2 (Gradient Norm Heterogeneity): Downstream training instances exhibit non-uniform gradient distributions; sample gradient norms $\|\nabla_\Theta \mathcal{L}_i\|_2$ follow heavy-tailed distributions where a minority of samples induce the majority of parameter displacement \cite{arxiv_2604_17215}.
+  \item Assumption 2 (Gradient Norm Heterogeneity): Downstream training instances exhibit non-uniform gradient distributions; sample gradient norms \$\|\nabla\_\Theta \mathcal{L}\_i\|\_2\$ follow heavy-tailed distributions where a minority of samples induce the majority of parameter displacement \cite{arxiv_2604_17215}.
   \item Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins \cite{arxiv_2405_01543}.
 \end{itemize}
 
@@ -165,6 +175,11 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -172,6 +187,11 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -242,9 +262,9 @@ where $\kappa$ represents the condition number of the cross-modal Hessian matrix
 
 \subsection{Mathematical Convergence and Stability Analysis}
 
-We establish that filtering the top $\alpha$-percentile high-gradient instances guarantees Lyapunov stability of the safety compliance functional $\mathcal{V}(\Theta) = \|\Theta - \Theta_{\text{aligned}}\|^2_{\mathbf{H}_{\text{safe}}}$.
+We establish that filtering the top $\alpha$-percentile high-gradient instances guarantees Lyapunov stability of the safety compliance functional \$\mathcal{V}(\Theta) = \|\Theta - \Theta\_{\text{aligned}}\|^2\_{\mathbf{H}\_{\text{safe}}}\$.
 
-Let the safety loss surface be locally $\mu$-strongly convex in neighborhood $\mathcal{B}_\delta(\Theta_{\text{aligned}})$. If downstream training is restricted to samples satisfying $\|\nabla_\Theta \mathcal{L}_i\|_2 \le \tau_{\text{high}} = \sqrt{2\mu \epsilon}$, then the expected parameter drift satisfies:
+Let the safety loss surface be locally $\mu$-strongly convex in neighborhood $\mathcal{B}_\delta(\Theta_{\text{aligned}})$. If downstream training is restricted to samples satisfying \$\|\nabla\_\Theta \mathcal{L}\_i\|\_2 \le \tau\_{\text{high}} = \sqrt{2\mu \epsilon}\$, then the expected parameter drift satisfies:
 \begin{equation}
 \label{eq:lyapunov\_bound}
 \mathbb{E}\left[ \mathcal{V}(\Theta\_{t+1}) \right] \le (1 - \eta \mu) \mathcal{V}(\Theta\_t) + \eta^2 \tau\_{\text{high}}^2

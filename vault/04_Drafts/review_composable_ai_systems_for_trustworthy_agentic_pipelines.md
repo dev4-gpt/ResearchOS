@@ -78,12 +78,22 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
 & \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -97,12 +107,22 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -119,11 +139,21 @@ where:
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -139,6 +169,11 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \lambda_{\min}(\mathbf{P}) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \text{Tr}(\mathbf{P})
@@ -148,7 +183,17 @@ $$
 
 
 
+
+
+
+
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
+
+
+
+
 
 
 
@@ -162,7 +207,17 @@ $$
 
 
 
+
+
+
+
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
+
+
+
 
 
 
@@ -176,7 +231,17 @@ $$
 
 
 
+
+
+
+
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
+
+
+
+
 
 
 
@@ -186,6 +251,11 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
+
+
+
+
 
 
 

@@ -22,7 +22,7 @@ publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-checkmate_score: "100.0"
+checkmate_score: "100"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
 ---
@@ -67,6 +67,11 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 **Definition 1 (Fully Connected Mesh $\mathcal{K}_N$).** Every agent broadcasts its state diffs to all $N-1$ peers. The total message complexity per coordination round is:
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -74,9 +79,19 @@ $$
 $$
 
 
+
+
+
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
+
+
+
 
 
 $$
@@ -86,9 +101,19 @@ $$
 $$
 
 
+
+
+
+
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
+
+
+
 
 
 $$
@@ -98,9 +123,19 @@ $$
 $$
 
 
+
+
+
+
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
+
+
+
 
 
 $$
@@ -110,11 +145,21 @@ $$
 $$
 
 
+
+
+
+
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
+
+
+
+
 
 
 $$
@@ -125,7 +170,17 @@ $$
 $$
 
 
+
+
+
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
+
+
+
 
 
 $$
@@ -135,7 +190,17 @@ $$
 $$
 
 
+
+
+
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
+
+
+
 
 
 $$
@@ -143,6 +208,11 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
+
+
+
+
 
 
 This theoretical derivation explains why hierarchical topologies achieve dramatic economic savings at scale [[arxiv_2501.02497]].
@@ -156,11 +226,21 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 **Theorem 1 (System Availability under Hierarchical Supervision).** Let $p_k \in (0, 1)$ denote the single-attempt success probability of worker agent at stage $k$, and let $r_k \in (0, 1)$ denote the supervisor's failure-detection and retry recovery probability. If the supervisor permits up to $M$ retries per stage, the composite pipeline reliability $\mathcal{R}_{\text{hierarchical}}$ satisfies:
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
+
+
+
+
 
 
 *Proof.* For stage $k$, the worker fails with probability $1 - p_k$. If the supervisor detects the failure and triggers an independent retry with recovery probability $r_k$, the probability that all $M$ retry attempts fail is $(1 - p_k)(1 - r_k)^M$. Thus, stage $k$ succeeds with probability $1 - (1 - p_k)(1 - r_k)^M$. Since milestones are conditionally independent given supervisor state validation, the composite success probability is the product across all $K$ stages. $\square$

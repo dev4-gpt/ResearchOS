@@ -54,6 +54,11 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{sub}}(T, v, v') = T[v \leftarrow v']\ \text{(node substitution)}
@@ -65,11 +70,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{ins}}(T, e, v_{\text{new}}) = T \cup \{v_{\text{new}}\} \cup \{e_{\text{new}}\}\ \text{(node insertion)}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,12 +113,32 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{wrap}}(T, v, c) = & \text{wrap}(T, \\
 & v, c)\ \text{(control flow wrapping)}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,6 +155,11 @@ $$
 
 
 
+
+
+
+
+
 **Proposition 1 (Closure Under Grammar).** For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 *Proof.* Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -121,11 +171,26 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Patch} \rightarrow \text{HunkList}\ |\ \epsilon
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -143,6 +208,16 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Hunk} \rightarrow \text{Header}\ \text{ContextLines}\ \text{ChangeLines}\ \text{ContextLines}
@@ -154,11 +229,26 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{ChangeLines} \rightarrow (+\ |\ -)\ \text{Statement}^+
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -182,12 +272,22 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 V(T) = & d_{\text{AST}}(T, \\
 & T^*) = \min_{\text{edit sequence}} |\text{edits}(T \rightarrow T^*)|
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -199,11 +299,21 @@ the tree-edit distance from the current state $T$ to the target state $T^*$ unde
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rfloor\right)
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -227,11 +337,21 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathbb{E}[k^*] \leq \frac{V(T_0)}{p_{\min} \cdot c_{\min}}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -409,11 +529,21 @@ The 70B backbone provides the best cost-performance trade-off: only +1.9 pp behi
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{DRR}(\pi)] \geq \hat{\mathbb{E}}_n[\text{DRR}(\pi)] - \sqrt{\frac{\log|\Pi| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 

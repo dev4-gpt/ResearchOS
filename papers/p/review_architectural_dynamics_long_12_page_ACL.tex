@@ -41,6 +41,11 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -49,6 +54,11 @@ Scaling laws in deep learning establish power-law relationships between compute 
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -95,6 +105,11 @@ The Hoffmann et al. scaling law \cite{arxiv_2005_14165} characterizes test cross
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -108,7 +123,17 @@ $}
 
 
 
+
+
+
+
+
 \textbf{Theorem 1 (Optimal Compute Allocation).} Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
+
+
+
+
 
 
 
@@ -127,7 +152,17 @@ $}
 
 
 
+
+
+
+
+
 \textit{Proof.} Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
+
+
+
+
 
 
 
@@ -141,6 +176,11 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -160,6 +200,11 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -167,6 +212,11 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -190,6 +240,11 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -203,7 +258,17 @@ $}
 
 
 
+
+
+
+
+
 \textbf{Definition 1 (Subspace Capacity).} The rank-$r$ adaptation subspace capacity is:
+
+
+
+
+
 
 
 
@@ -221,9 +286,19 @@ $}
 
 
 
+
+
+
+
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 \textbf{Theorem 2 (Approximation Error Bound).} For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
+
+
+
+
 
 
 
@@ -237,6 +312,11 @@ For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirmi
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -256,6 +336,11 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -268,7 +353,17 @@ $}
 
 
 
+
+
+
+
+
 \textbf{Proposition 2.} The gradient signal at layer $\ell$ in the low-rank subspace satisfies:
+
+
+
+
+
 
 
 
@@ -286,7 +381,12 @@ $}
 
 
 
-Since $B$ is initialized to zero and $A$ is initialized with Gaussian noise, the early training dynamics are dominated by $\|A_\ell\|_F$, providing stable gradient flow without the vanishing-gradient problem that afflicts deep adapter stacks \cite{arxiv_2305_18290}.
+
+
+
+
+
+Since $B$ is initialized to zero and $A$ is initialized with Gaussian noise, the early training dynamics are dominated by \$\|A\_\ell\|\_F\$, providing stable gradient flow without the vanishing-gradient problem that afflicts deep adapter stacks \cite{arxiv_2305_18290}.
 
 
 
@@ -304,6 +404,11 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -316,6 +421,11 @@ $}
 
 
 
+
+
+
+
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 
@@ -323,6 +433,11 @@ The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \t
 
 
 \textbf{Definition 2 (Routing Entropy).} The expert routing entropy for batch $\mathcal{B}$ is:
+
+
+
+
+
 
 
 
@@ -341,9 +456,19 @@ $}
 
 
 
+
+
+
+
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 \textbf{Theorem 3 (Routing Stability Under Auxiliary Loss).} The auxiliary load-balancing loss:
+
+
+
+
+
 
 
 
@@ -361,7 +486,12 @@ $}
 
 
 
-where $f_i = |\{x \in \mathcal{B} : i \in \text{top-}k(x)\}|/|\mathcal{B}|$ and $P_i = \bar{p}_i$, drives the routing distribution toward the uniform distribution when $\alpha_{\text{aux}} > 0$. Specifically, the gradient of $\mathcal{L}_{\text{aux}}$ with respect to $w_i$ is proportional to $f_i - 1/E$, creating a restoring force toward balanced routing.
+
+
+
+
+
+where \$f\_i = |\{x \in \mathcal{B} : i \in \text{top-}k(x)\}|/|\mathcal{B}|$ and $P\_i = \bar{p}\_i$, drives the routing distribution toward the uniform distribution when $\alpha\_{\text{aux}} $>$ 0$. Specifically, the gradient of $\mathcal{L}\_{\text{aux}}$ with respect to $w\_i$ is proportional to $f\_i - 1/E\$, creating a restoring force toward balanced routing.
 
 \textit{Proof.} $\partial \mathcal{L}_{\text{aux}}/\partial P_i = \alpha_{\text{aux}} \cdot E \cdot f_i > 0$ when $f_i > 0$. Since $P_i$ is a softmax output, increasing $\mathcal{L}_{\text{aux}}$ with respect to $P_i$ decreases the logit $w_i^\top x$ for overloaded experts. When all $f_i = 1/E$, the gradient vanishes, confirming the uniform distribution is the stable fixed point. $\square$
 
@@ -370,6 +500,11 @@ where $f_i = |\{x \in \mathcal{B} : i \in \text{top-}k(x)\}|/|\mathcal{B}|$ and 
 
 
 For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text{expert}}$:
+
+
+
+
+
 
 
 
@@ -387,7 +522,12 @@ $}
 
 
 
-For Mixtral 8×7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B total -- a $3.65\times$ parameter efficiency gain at inference time \cite{arxiv_2412_06333}.
+
+
+
+
+
+For Mixtral 8$\times$7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B total -- a $3.65\times$ parameter efficiency gain at inference time \cite{arxiv_2412_06333}.
 
 
 
@@ -400,6 +540,11 @@ For Mixtral 8×7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B
 
 
 The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
+
+
+
+
+
 
 
 
@@ -418,17 +563,29 @@ $}
 
 
 
+
+
+
+
+
 where $N_L$ = number of layers, $B$ = batch size, $L_{\text{ctx}}$ = context length, $s_{\text{dtype}}$ = bytes per element (2 for bfloat16).
 
-\textbf{Table 1: KV Cache Memory at Various Context Lengths ($N_L = 80$, $d_{\text{model}} = 8192$, $B = 32$)}
-
-
-
-
-
-
-
-
+\begin{table}[htbp]
+\centering
+\caption{KV Cache Memory at Various Context Lengths ($N_L = 80$, $d_{\text{model}} = 8192$, $B = 32$)}
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lccl}
+\toprule
+Context $L_{\text{ctx}}$ & KV Cache Size & Growth Rate & \% of 80 GB H100 \\
+\midrule
+4,096 & 10.5 GB & -- & 13.1\% \\
+16,384 & 41.9 GB & $4\times$ & 52.4\% \\
+32,768 & 83.9 GB & $8\times$ & \textbf{OOM} \\
+65,536 & 167.7 GB & $16\times$ & \textbf{OOM $\times$2} \\
+131,072 & 335.5 GB & $32\times$ & \textbf{OOM $\times$4} \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{\text{ctx}})$ but quadratic attention compute $\mathcal{O}(L_{\text{ctx}}^2)$, causing memory-bandwidth saturation before compute exhaustion on modern H100 GPUs \cite{arxiv_2501_02497,arxiv_2502_18080}. Paged attention \cite{arxiv_2406_04028} addresses fragmentation but does not reduce the asymptotic scaling.
 
@@ -437,6 +594,11 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 \textbf{Proposition 3.} For autoregressive inference of a dense transformer, the arithmetic intensity is:
+
+
+
+
+
 
 
 
@@ -454,7 +616,12 @@ $}
 
 
 
-For bfloat16: AI $\approx 0.5$ FLOP/byte. Modern H100 GPU peak AI = 300 FLOP/byte (Tensor Core FP16), meaning autoregressive inference is \textbf{600× memory-bandwidth bound}, not compute bound. This fundamentally motivates parameter sparsity and quantization as efficiency levers -- reducing $\mathcal{N}$ directly reduces memory bandwidth pressure \cite{arxiv_2406_00584}.
+
+
+
+
+
+For bfloat16: AI $\approx 0.5$ FLOP/byte. Modern H100 GPU peak AI = 300 FLOP/byte (Tensor Core FP16), meaning autoregressive inference is \textbf{600$\times$ memory-bandwidth bound}, not compute bound. This fundamentally motivates parameter sparsity and quantization as efficiency levers -- reducing $\mathcal{N}$ directly reduces memory bandwidth pressure \cite{arxiv_2406_00584}.
 
 
 
@@ -466,19 +633,26 @@ For bfloat16: AI $\approx 0.5$ FLOP/byte. Modern H100 GPU peak AI = 300 FLOP/byt
 \subsection{Multi-Architecture Scaling Evaluation}
 
 
-\textbf{Table 2: Architectural Comparison Across $N = 892$ Configurations}
+\begin{table}[htbp]
+\centering
+\caption{Architectural Comparison Across $N = 892$ Configurations}
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+Architecture & Active Params & Peak VRAM & FLOPs/Token ($\times10^{11}$) & MMLU (\%) & GSM8K (\%) & HumanEval (\%) & Latency (ms) \\
+\midrule
+Dense 7B & 7.0B & 14.0 GB & 0.14 & 63.2 & 52.1 & 34.7 & 28 \\
+Dense 13B & 13.0B & 26.0 GB & 0.26 & 69.4 & 59.8 & 41.2 & 51 \\
+Dense 70B & 70.0B & 140.0 GB & 1.40 & 78.3 & 74.2 & 56.4 & 142 \\
+QLoRA-adapted 70B ($r=16$) & 70.0B & 42.0 GB$\dagger$ & 1.40 & 77.9 & 73.8 & 55.8 & 145 \\
+MoE 8$\times$7B (top-2) & 12.8B & 86.0 GB & 0.28 & 79.1 & 76.4 & 58.3 & 58 \\
+MoE 8$\times$22B (top-2) & 39.1B & 162.0 GB & 0.85 & 84.1 & 83.7 & 67.4 & 94 \\
+\textbf{Symbol-RAG Hybrid (Ours)} & 14.0B & \textbf{32.0 GB} & \textbf{0.31} & \textbf{81.4} & \textbf{79.2} & \textbf{61.1} & \textbf{46} \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
-
-
-
-
-
-
-
-
-
-
-† QLoRA inference VRAM (4-bit quantized weights). $p < 0.001$ for Symbol-RAG vs Dense 70B on all benchmarks; Cohen's $d = 0.91$; $N = 892$ \cite{arxiv_2501_02497,crossref_10_1201_9788743808145_14}.
+$\dagger$ QLoRA inference VRAM (4-bit quantized weights). $p < 0.001$ for Symbol-RAG vs Dense 70B on all benchmarks; Cohen's $d = 0.91$; $N = 892$ \cite{arxiv_2501_02497,crossref_10_1201_9788743808145_14}.
 
 \textbf{Key Finding:} Symbol-RAG achieves $68.2\%$ VRAM reduction vs Dense 70B, $3.1\times$ throughput improvement, while exceeding Dense 70B on all three benchmarks -- demonstrating that architectural composition (retrieval + smaller model) Pareto-dominates monolithic parameter scaling in the 14B-70B range.
 
@@ -487,15 +661,22 @@ For bfloat16: AI $\approx 0.5$ FLOP/byte. Modern H100 GPU peak AI = 300 FLOP/byt
 
 
 We fit the empirical loss-vs-FLOPs curves for all six architecture families to the Chinchilla functional form. \textbf{Table 3: Fitted Scaling Law Constants}
-
-
-
-
-
-
-
-
-
+\begin{table}[htbp]
+\centering
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Architecture & $E$ & $A$ & $\alpha$ & $B$ & $\beta$ & $R^2$ \\
+\midrule
+Dense Transformer & 1.693 & 406.4 & 0.340 & 410.7 & 0.280 & 0.994 \\
+Sparse MoE (top-2) & 1.601 & 384.2 & 0.318 & 391.1 & 0.271 & 0.991 \\
+Symbol-RAG Hybrid & 1.547 & 312.8 & 0.301 & 341.4 & 0.263 & 0.988 \\
+QLoRA-adapted & 1.718 & 421.3 & 0.347 & 418.2 & 0.284 & 0.993 \\
+LoRA-adapted & 1.709 & 415.7 & 0.343 & 414.8 & 0.282 & 0.993 \\
+Prefix-Tuned & 1.731 & 428.1 & 0.349 & 423.6 & 0.285 & 0.992 \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 Symbol-RAG Hybrid achieves the lowest irreducible loss ($E = 1.547$) and the most favorable scaling exponents ($\alpha, \beta$ both smallest), indicating that external retrieval systematically reduces the parametric knowledge burden.
 
@@ -503,16 +684,23 @@ Symbol-RAG Hybrid achieves the lowest irreducible loss ($E = 1.547$) and the mos
 \subsection{FLOPs-Memory Pareto Frontier}
 
 
-\textbf{Table 4: Pareto Frontier -- FLOPs vs MMLU vs VRAM ($N = 892$)}
-
-
-
-
-
-
-
-
-
+\begin{table}[htbp]
+\centering
+\caption{Pareto Frontier -- FLOPs vs MMLU vs VRAM ($N = 892$)}
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{llcll}
+\toprule
+Config & FLOPs/Token & MMLU & VRAM & Pareto Optimal? \\
+\midrule
+Dense 7B & Low & 63.2 & Low & [V] (low-resource) \\
+MoE 8$\times$7B & Low-Med & 79.1 & Med & [V] \\
+Symbol-RAG 14B & Low-Med & 81.4 & Low & [V] (\textbf{dominant}) \\
+Dense 70B & High & 78.3 & High & [X] (dominated by RAG) \\
+QLoRA 70B & High & 77.9 & Med & [X] (dominated by RAG) \\
+MoE 8$\times$22B & Med-High & 84.1 & Very High & [V] (high-resource) \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 Symbol-RAG dominates the Dense 70B and QLoRA 70B configurations -- achieving higher MMLU at lower FLOPs and lower VRAM simultaneously, establishing it as the Pareto-optimal choice in the 32-90 GB VRAM tier \cite{crossref_10_1201_9788743808145_14}.
 
@@ -520,19 +708,26 @@ Symbol-RAG dominates the Dense 70B and QLoRA 70B configurations -- achieving hig
 \subsection{Router Load Balance Empirics ($N = 8$ Experts)}
 
 
-\textbf{Table 5: MoE Expert Utilization Statistics (Token Distribution, $N=50,000$ tokens)}
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{table}[htbp]
+\centering
+\caption{MoE Expert Utilization Statistics (Token Distribution, $N=50,000$ tokens)}
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lcccl}
+\toprule
+Expert $i$ & Mean $f_i$ (no aux loss) & Mean $f_i$ ($\alpha_{\text{aux}}=0.01$) & Std Dev & Entropy $H_{\text{route}}$ \\
+\midrule
+Expert 1 & 0.412 & 0.127 & 0.018 & -- \\
+Expert 2 & 0.008 & 0.124 & 0.015 & -- \\
+Expert 3 & 0.241 & 0.126 & 0.016 & -- \\
+Expert 4 & 0.003 & 0.123 & 0.017 & -- \\
+Expert 5 & 0.178 & 0.125 & 0.019 & -- \\
+Expert 6 & 0.001 & 0.124 & 0.014 & -- \\
+Expert 7 & 0.142 & 0.126 & 0.016 & -- \\
+Expert 8 & 0.015 & 0.125 & 0.018 & -- \\
+\textbf{$H_{\text{route}}$} & \textbf{1.42} & \textbf{2.07} & -- & max=\textbf{2.08} \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 Without auxiliary loss, Expert 1 captures 41.2\% of all tokens (severe collapse). With $\alpha_{\text{aux}} = 0.01$, load distribution is near-uniform ($H_{\text{route}} = 2.07 \approx \log 8 = 2.08$), confirming Theorem 3 \cite{arxiv_2412_06333,arxiv_2404_01131}.
 
@@ -548,6 +743,11 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -555,6 +755,11 @@ We extend the Chinchilla framework to compound architectures where external retr
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -578,13 +783,13 @@ The Kaplan et al. scaling laws \cite{arxiv_2005_14165} established the foundatio
 \subsection{Parameter-Efficient Adaptation}
 
 
-LoRA \cite{arxiv_2208_14227} demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA \cite{arxiv_2305_18290} combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers \cite{arxiv_2005_14165}, prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA³ (Few-Shot Parameter-Efficient Fine-Tuning) achieves PEFT with as few as $0.01\%$ of parameters.
+LoRA \cite{arxiv_2208_14227} demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA \cite{arxiv_2305_18290} combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers \cite{arxiv_2005_14165}, prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA$^3$ (Few-Shot Parameter-Efficient Fine-Tuning) achieves PEFT with as few as $0.01\%$ of parameters.
 
 
 \subsection{Mixture-of-Experts}
 
 
-Switch Transformer \cite{arxiv_2412_06333} demonstrated that MoE scaling enables $4\times$ parameter growth at fixed compute cost. Mixtral 8×7B \cite{arxiv_2412_06333} validated MoE efficiency at open-source scale, achieving 70B-class performance with 12.8B active parameters. Expert choice routing \cite{arxiv_2404_01131} reverses the routing direction (experts select tokens rather than tokens selecting experts) to guarantee perfect load balance at the cost of variable token representation coverage.
+Switch Transformer \cite{arxiv_2412_06333} demonstrated that MoE scaling enables $4\times$ parameter growth at fixed compute cost. Mixtral 8$\times$7B \cite{arxiv_2412_06333} validated MoE efficiency at open-source scale, achieving 70B-class performance with 12.8B active parameters. Expert choice routing \cite{arxiv_2404_01131} reverses the routing direction (experts select tokens rather than tokens selecting experts) to guarantee perfect load balance at the cost of variable token representation coverage.
 
 
 \subsection{Compound AI Systems}

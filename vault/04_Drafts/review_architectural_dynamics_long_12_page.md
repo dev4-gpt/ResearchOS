@@ -30,12 +30,22 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
 & + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{\mathcal{D}^\beta}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -70,6 +80,11 @@ The Hoffmann et al. scaling law [[arxiv_2005.14165]] characterizes test cross-en
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
@@ -80,7 +95,17 @@ $$
 
 
 
+
+
+
+
+
 **Theorem 1 (Optimal Compute Allocation).** Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
+
+
+
+
 
 
 
@@ -95,7 +120,17 @@ $$
 
 
 
+
+
+
+
+
 *Proof.* Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
+
+
+
+
 
 
 
@@ -106,6 +141,11 @@ $$
 & + A\mathcal{N}^{-\alpha} + B\left(\frac{6\mathcal{N}}{\mathcal{C}}\right)^\beta
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -121,11 +161,21 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Pass@}k = 1 - (1-p)^k
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -143,6 +193,11 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 W = & W_0 \\
@@ -153,7 +208,17 @@ $$
 
 
 
+
+
+
+
+
 **Definition 1 (Subspace Capacity).** The rank-$r$ adaptation subspace capacity is:
+
+
+
+
+
 
 
 
@@ -167,9 +232,19 @@ $$
 
 
 
+
+
+
+
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 **Theorem 2 (Approximation Error Bound).** For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
+
+
+
+
 
 
 
@@ -180,6 +255,11 @@ $$
 & k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -195,6 +275,11 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \eta_{\text{eff}} = \frac{\gamma}{r} \cdot \eta_{\text{LoRA}}
@@ -204,7 +289,17 @@ $$
 
 
 
+
+
+
+
+
 **Proposition 2.** The gradient signal at layer $\ell$ in the low-rank subspace satisfies:
+
+
+
+
+
 
 
 
@@ -214,6 +309,11 @@ $$
 \|\nabla_{W_\ell}\mathcal{L}\|_F \approx \|\nabla_{B_\ell}\mathcal{L}\|_F \cdot \|A_\ell\|_F + \|B_\ell\|_F \cdot \|\nabla_{A_\ell}\mathcal{L}\|_F
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -231,6 +331,11 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 p_i(x) = \text{Softmax}(W_g x)_i = \frac{\exp(w_i^\top x)}{\sum_{j=1}^E \exp(w_j^\top x)}
@@ -240,11 +345,21 @@ $$
 
 
 
+
+
+
+
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 ### Load Balancing and Routing Entropy
 
 **Definition 2 (Routing Entropy).** The expert routing entropy for batch $\mathcal{B}$ is:
+
+
+
+
+
 
 
 
@@ -259,9 +374,19 @@ $$
 
 
 
+
+
+
+
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 **Theorem 3 (Routing Stability Under Auxiliary Loss).** The auxiliary load-balancing loss:
+
+
+
+
+
 
 
 
@@ -271,6 +396,11 @@ $$
 \mathcal{L}_{\text{aux}} = \alpha_{\text{aux}} \cdot E \sum_{i=1}^E f_i \cdot P_i
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -286,11 +416,21 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \text{ActiveParams} = \mathcal{N}_{\text{attn}} + k \cdot \frac{\mathcal{N}_{\text{total}} - \mathcal{N}_{\text{attn}}}{E}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -308,12 +448,22 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{VRAM}} = & \underbrace{\mathcal{M}_{\text{weights}}}_{\text{model params}} + \underbrace{2 \cdot N_L \cdot d_{\text{model}} \cdot B \cdot L_{\text{ctx}} \cdot s_{\text{dtype}}}_{\text{KV cache}} \\
 & + \underbrace{\mathcal{M}_{\text{activations}}}_{\text{residual streams}} + \underbrace{\mathcal{M}_{\text{cuda}}}_{\text{CUDA overhead}}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -339,11 +489,21 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \text{AI} = \frac{\text{FLOPs/token}}{2\mathcal{N} \cdot s_{\text{dtype}}} \approx \frac{1}{s_{\text{dtype}}} \text{ FLOP/byte}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -429,11 +589,21 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{compound}}(\mathcal{N}, \mathcal{D}, \mathcal{I}_{\text{ext}}) \approx E' + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{(\mathcal{D} + \lambda\mathcal{I}_{\text{ext}})^\beta}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 

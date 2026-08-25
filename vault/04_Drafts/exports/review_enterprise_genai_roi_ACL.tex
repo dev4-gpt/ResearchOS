@@ -37,7 +37,7 @@ However, measuring GenAI ROI presents complex methodological challenges. Traditi
 
 This paper delivers a principal-level literature review and empirical framework addressing:
 \begin{enumerate}
-  \item \textit{Enterprise Risk Governance\textbf{: Operationalizing risk management boundaries to control shadow AI API provisioning, model drift, and proprietary data leakage.}}
+  \item \textbf{Enterprise Risk Governance}: Operationalizing risk management boundaries to control shadow AI API provisioning, model drift, and proprietary data leakage.
 \end{enumerate}
 
 
@@ -62,12 +62,17 @@ Beyond isolated figures, several papers focus on developing robust methodologies
 
 \textbf{Kumar (2026)} introduces a multi-layered Causal ROI Framework specifically tailored for the life sciences industry, addressing the limitations of traditional ROI attribution models such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA) \cite{crossref_10_2139_ssrn_6374778}. These conventional approaches often operate in silos, leading to fragmented or contradictory signals that hinder unified decision-making. The proposed framework aims to:
 \begin{enumerate}
-  \item \textit{Attribute\textbf{ commercial spend across the Healthcare Professional (HCP) engagement journey.}}
-  \item \textit{Optimize\textbf{ marketing budget allocation and HCP targeting.}}
-  \item \textit{Activate\textbf{ GenAI-driven personalization strategies across digital and offline channels.}}
+  \item \textbf{Attribute} commercial spend across the Healthcare Professional (HCP) engagement journey.
+  \item \textbf{Optimize} marketing budget allocation and HCP targeting.
+  \item \textbf{Activate} GenAI-driven personalization strategies across digital and offline channels.
 \end{enumerate}
 
 This framework moves beyond simple correlation, striving for a causal understanding of GenAI's impact \cite{crossref_10_2139_ssrn_6374778,crossref_10_2139_ssrn_5401053,crossref_10_63282_3050_922x_ijeret_v6i3p121}. The general principle of ROI is typically defined as:
+
+
+
+
+
 
 
 
@@ -157,6 +162,16 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -164,6 +179,11 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -209,13 +229,20 @@ These qualitative discussions underscore the various levers through which GenAI 
 
 Given the nascent stage of robust, publicly available quantitative data, a direct statistical meta-analysis with pooled effect sizes is not yet feasible. Instead, we summarize the identified contributions regarding GenAI ROI in Table 1, categorizing them by the type of evidence or framework presented.
 
-\textbf{Table 1: Summary of GenAI ROI Contributions and Measurement Approaches}
-
-
-
-
-
-
+\begin{table}[htbp]
+\centering
+\caption{Summary of GenAI ROI Contributions and Measurement Approaches}
+\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Paper ID / Source & Focus Area & Reported Quantitative Value / Claim & Measurement Approach / Framework & Key Insights \\
+\midrule
+Kumar (2026) & Life Sciences: Marketing \& HCP Targeting & Conceptual "Causal ROI" & Multi-layered Causal ROI Framework; integrates MMM \& MTA & Emphasizes rigorous attribution beyond correlation; aims to optimize spend and personalize engagement for measurable outcomes. \\
+Modi (2026) & GenAI Adoption on Azure Cloud & "Measuring Business ROI" & Platform-specific ROI methodology & Indicates the development of integrated measurement tools within major cloud environments for GenAI investments. \\
+Thukral et al. (2023) & Customer Journey Optimization & "Concrete ROI" \& "Reduced Risk" & Best practices and pitfalls analysis for GenAI deployment & Qualitatively highlights areas of expected financial returns (e.g., conversion rates, customer service costs) through strategic GenAI use. \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 
 \subsection{Statistical Summaries and Identified Gaps}
@@ -232,10 +259,10 @@ The meta-analysis reveals a significant gap between the theoretical recognition 
 \subsection{Limitations, Applicability Boundaries, and Threats to Validity:}
 
 \begin{enumerate}
-  \item \textit{Heterogeneity of Use Cases:\textbf{ GenAI is applied across a vast spectrum of enterprise functions (marketing, customer service, R\&D, operations), making direct comparisons of ROI challenging due to varying baselines, investment scales, and metrics.}}
-  \item \textit{Attribution Complexity:\textbf{ Isolating the precise financial impact of GenAI from other concurrent digital transformation initiatives, changes in market conditions, or other technological interventions is inherently difficult. Causal frameworks like Kumar's are crucial here but require sophisticated data and analytical capabilities.}}
-  \item \textit{Proprietary Nature of Data:\textbf{ Many enterprises consider their GenAI deployment details and ROI figures as competitive intelligence, limiting public disclosure and hindering academic meta-analysis.}}
-  \item \textit{Early Stage of Adoption:\textbf{ The rapid evolution of GenAI technology means that many implementations are still in pilot or early deployment phases, where long-term ROI may not yet be fully realized or measured.}}
+  \item \textbf{Heterogeneity of Use Cases:} GenAI is applied across a vast spectrum of enterprise functions (marketing, customer service, R\&D, operations), making direct comparisons of ROI challenging due to varying baselines, investment scales, and metrics.
+  \item \textbf{Attribution Complexity:} Isolating the precise financial impact of GenAI from other concurrent digital transformation initiatives, changes in market conditions, or other technological interventions is inherently difficult. Causal frameworks like Kumar's are crucial here but require sophisticated data and analytical capabilities.
+  \item \textbf{Proprietary Nature of Data:} Many enterprises consider their GenAI deployment details and ROI figures as competitive intelligence, limiting public disclosure and hindering academic meta-analysis.
+  \item \textbf{Early Stage of Adoption:} The rapid evolution of GenAI technology means that many implementations are still in pilot or early deployment phases, where long-term ROI may not yet be fully realized or measured.
 \end{enumerate}
 
 
@@ -302,6 +329,11 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -310,6 +342,11 @@ C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfe
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 
@@ -467,6 +504,11 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -475,6 +517,11 @@ Y = & \alpha + \tau X_{\text{GenAI}} \\
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
 
 
 

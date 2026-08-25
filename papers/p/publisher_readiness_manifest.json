@@ -265,7 +265,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 11,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -308,7 +308,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 11-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -345,7 +345,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 11,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -587,7 +587,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 8,
+            "total_pages": 9,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -630,7 +630,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 8-page camera-ready layout"
+              "detail": "Valid 9-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -667,7 +667,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 8,
+              "total_pages": 9,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -909,7 +909,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -952,7 +952,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -989,7 +989,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -1231,7 +1231,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -1274,7 +1274,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -1311,7 +1311,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -4267,7 +4267,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 11,
+            "total_pages": 12,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -4310,7 +4310,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 11-page camera-ready layout"
+              "detail": "Valid 12-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -4347,7 +4347,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 11,
+              "total_pages": 12,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -4509,7 +4509,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 10,
+            "total_pages": 11,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -4552,7 +4552,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 10-page camera-ready layout"
+              "detail": "Valid 11-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -4589,7 +4589,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 10,
+              "total_pages": 11,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -4993,7 +4993,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 11,
+            "total_pages": 12,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -5036,7 +5036,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 11-page camera-ready layout"
+              "detail": "Valid 12-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -5073,7 +5073,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 11,
+              "total_pages": 12,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -5235,7 +5235,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -5278,7 +5278,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -5315,7 +5315,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -5477,7 +5477,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -5520,7 +5520,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -5557,7 +5557,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -5719,7 +5719,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -5762,7 +5762,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -5799,7 +5799,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -5961,7 +5961,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -6004,7 +6004,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -6041,7 +6041,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -6203,7 +6203,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -6246,7 +6246,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -6283,7 +6283,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -6445,7 +6445,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -6488,7 +6488,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -6525,7 +6525,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -6687,7 +6687,7 @@
           "checkmate_score": 91.7,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -6730,7 +6730,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -6767,7 +6767,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -6929,7 +6929,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -6972,7 +6972,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -7009,7 +7009,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -7899,7 +7899,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 8,
+            "total_pages": 9,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -7942,7 +7942,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 8-page camera-ready layout"
+              "detail": "Valid 9-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -7979,7 +7979,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 8,
+              "total_pages": 9,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -8847,7 +8847,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -8890,7 +8890,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -8927,7 +8927,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -9321,7 +9321,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -9364,7 +9364,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -9401,7 +9401,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -10269,7 +10269,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -10312,7 +10312,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -10349,7 +10349,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -11217,7 +11217,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -11260,7 +11260,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -11297,7 +11297,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -13935,7 +13935,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 8,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -13978,7 +13978,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 8-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -14015,7 +14015,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 8,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -16026,16 +16026,16 @@
         "substantive_value_passed": true,
         "status": "PASS",
         "metrics": {
-          "word_count": 2939,
+          "word_count": 2895,
           "section_count": 33,
           "citation_signal_count": 22,
-          "numeric_claim_count": 322,
-          "equation_count": 16
+          "numeric_claim_count": 295,
+          "equation_count": 24
         },
         "checks": {
           "minimum_substance": {
             "passed": true,
-            "detail": "2,939 normalized words (minimum 450)"
+            "detail": "2,895 normalized words (minimum 450)"
           },
           "explicit_contribution": {
             "passed": true,
@@ -16215,7 +16215,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -16258,7 +16258,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -16295,7 +16295,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -24189,7 +24189,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -24232,7 +24232,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -24269,7 +24269,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -24921,7 +24921,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -24964,7 +24964,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -25001,7 +25001,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -28743,7 +28743,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -28786,7 +28786,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -28823,7 +28823,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -29613,7 +29613,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 9,
+            "total_pages": 10,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -29656,7 +29656,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 9-page camera-ready layout"
+              "detail": "Valid 10-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -29693,7 +29693,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 9,
+              "total_pages": 10,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -29903,7 +29903,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -29946,7 +29946,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -29983,7 +29983,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -30193,7 +30193,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -30236,7 +30236,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -30273,7 +30273,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -30483,7 +30483,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -30526,7 +30526,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -30563,7 +30563,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -30773,7 +30773,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -30816,7 +30816,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -30853,7 +30853,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -31063,7 +31063,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 5,
+            "total_pages": 6,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -31106,7 +31106,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 5-page camera-ready layout"
+              "detail": "Valid 6-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -31143,7 +31143,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 5,
+              "total_pages": 6,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -31353,7 +31353,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -31396,7 +31396,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -31433,7 +31433,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -31643,7 +31643,7 @@
           "checkmate_score": 91.7,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -31686,7 +31686,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -31723,7 +31723,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -31933,7 +31933,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 6,
+            "total_pages": 7,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -31976,7 +31976,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 6-page camera-ready layout"
+              "detail": "Valid 7-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -32013,7 +32013,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 6,
+              "total_pages": 7,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -32437,7 +32437,7 @@
           "checkmate_score": 100.0,
           "layout_geometry": {
             "passed": true,
-            "total_pages": 8,
+            "total_pages": 9,
             "overflow_count": 0,
             "margin_overflows": [],
             "detail": "0 margin overflows detected"
@@ -32480,7 +32480,7 @@
             "valid_layout": {
               "passed": true,
               "score": 100,
-              "detail": "Valid 8-page camera-ready layout"
+              "detail": "Valid 9-page camera-ready layout"
             },
             "zero_raw_leaks": {
               "passed": true,
@@ -32517,7 +32517,7 @@
               ],
               "missing_sections": [],
               "forbidden_tokens_found": [],
-              "total_pages": 8,
+              "total_pages": 9,
               "max_pages": 20,
               "target_pages": null,
               "registry_gaps": {
@@ -37183,7 +37183,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 11,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -37226,7 +37226,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 11-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -37263,7 +37263,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 11,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -37505,7 +37505,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -37548,7 +37548,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -37585,7 +37585,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -37827,7 +37827,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -37870,7 +37870,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -37907,7 +37907,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -38149,7 +38149,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -38192,7 +38192,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -38229,7 +38229,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -41047,7 +41047,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 11,
+        "total_pages": 12,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -41090,7 +41090,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 11-page camera-ready layout"
+          "detail": "Valid 12-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -41127,7 +41127,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 11,
+          "total_pages": 12,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -41289,7 +41289,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 10,
+        "total_pages": 11,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -41332,7 +41332,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 10-page camera-ready layout"
+          "detail": "Valid 11-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -41369,7 +41369,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 10,
+          "total_pages": 11,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -41773,7 +41773,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 11,
+        "total_pages": 12,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -41816,7 +41816,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 11-page camera-ready layout"
+          "detail": "Valid 12-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -41853,7 +41853,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 11,
+          "total_pages": 12,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -42015,7 +42015,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -42058,7 +42058,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -42095,7 +42095,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -42257,7 +42257,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -42300,7 +42300,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -42337,7 +42337,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -42499,7 +42499,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -42542,7 +42542,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -42579,7 +42579,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -42741,7 +42741,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -42784,7 +42784,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -42821,7 +42821,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -42983,7 +42983,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -43026,7 +43026,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -43063,7 +43063,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -43225,7 +43225,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -43268,7 +43268,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -43305,7 +43305,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -43467,7 +43467,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -43510,7 +43510,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -43547,7 +43547,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -43709,7 +43709,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -43752,7 +43752,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -43789,7 +43789,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -44425,7 +44425,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -44468,7 +44468,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -44505,7 +44505,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -45373,7 +45373,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -45416,7 +45416,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -45453,7 +45453,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -45847,7 +45847,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -45890,7 +45890,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -45927,7 +45927,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -46795,7 +46795,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -46838,7 +46838,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -46875,7 +46875,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -47743,7 +47743,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -47786,7 +47786,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -47823,7 +47823,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -50329,7 +50329,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -50372,7 +50372,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -50409,7 +50409,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -52399,7 +52399,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -52442,7 +52442,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -52479,7 +52479,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -60031,7 +60031,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -60074,7 +60074,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -60111,7 +60111,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -60763,7 +60763,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -60806,7 +60806,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -60843,7 +60843,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -64423,7 +64423,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -64466,7 +64466,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -64503,7 +64503,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -65293,7 +65293,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -65336,7 +65336,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -65373,7 +65373,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -65583,7 +65583,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -65626,7 +65626,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -65663,7 +65663,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -65873,7 +65873,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -65916,7 +65916,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -65953,7 +65953,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -66163,7 +66163,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -66206,7 +66206,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -66243,7 +66243,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -66453,7 +66453,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -66496,7 +66496,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -66533,7 +66533,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -66743,7 +66743,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -66786,7 +66786,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -66823,7 +66823,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -67033,7 +67033,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -67076,7 +67076,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -67113,7 +67113,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -67323,7 +67323,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -67366,7 +67366,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -67403,7 +67403,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -67613,7 +67613,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 6,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -67656,7 +67656,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 6-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -67693,7 +67693,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 6,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -67903,7 +67903,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -67946,7 +67946,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -67983,7 +67983,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
