@@ -195,10 +195,57 @@ class FactCheckerService:
             "uncited_entries": sorted(bibliography_keys - cited),
         }
 
+    @staticmethod
+    def _absolve_measured_claims(metric_report: Dict[str, Any],
+                                 measured_values: List[float]) -> Dict[str, Any]:
+        """Move claims matching a recorded measurement out of `unverified_claims`."""
+        import re as _re
+
+        def numeric(text: str) -> Optional[float]:
+            match = _re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", str(text).replace(",", ""))
+            if not match:
+                return None
+            try:
+                return float(match.group(0))
+            except ValueError:
+                return None
+
+        still_unverified, absolved = [], []
+        for claim in metric_report.get("unverified_claims", []):
+            value = numeric(claim)
+            fraction = _re.search(r"\.(\d+)", str(claim))
+            decimals = len(fraction.group(1)) if fraction else 0
+            hit = value is not None and any(
+                round(m, decimals) == round(value, decimals) for m in measured_values
+            )
+            (absolved if hit else still_unverified).append(claim)
+
+        updated = dict(metric_report)
+        updated["unverified_claims"] = still_unverified
+        updated["unverified_count"] = len(still_unverified)
+        if absolved:
+            updated["measurement_backed_claims"] = absolved
+            total = updated.get("total_numeric_claims") or 1
+            updated["metric_score"] = round(
+                100.0 * (total - len(still_unverified)) / total, 1
+            )
+        return updated
+
     def audit_document(self, content: str, source_texts: Optional[List[str]] = None,
-                       source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
+                       source_records: Optional[Dict[str, str]] = None,
+                       measured_values: Optional[List[float]] = None) -> Dict[str, Any]:
+        """Audit citations and numeric claims.
+
+        ``measured_values`` carries the values a recorded experiment produced for
+        this draft. A claim this service cannot find in the literature but which
+        an experiment measured is grounded, not unverified: without this the
+        provenance gate and this checker disagree about the same manuscript, and
+        a paper whose numbers all trace to artifacts still reports as blocked.
+        """
         citation_report = self.validate_citations(content)
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
+        if measured_values:
+            metric_report = self._absolve_measured_claims(metric_report, measured_values)
         blocking_errors: List[str] = []
         # Only block on citations that are genuinely malformed/non-existent — NOT plausible author-year keys
         if citation_report["broken_links"]:

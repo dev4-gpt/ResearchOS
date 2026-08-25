@@ -136,6 +136,34 @@ def main() -> int:
     print(f"\n    GQA vs MHA at 32k: {gqa_saving:.1f}% smaller cache; "
           f"MQA vs MHA: {mqa_saving:.1f}%")
 
+    # 2b. KV budget for the 70B-shaped configuration the manuscript tabulates --
+    # The manuscript's own table captions batch size 32 while its values correspond
+    # to a single sequence. Recomputing settles which is right.
+    layers_70b, d_model_70b, dtype_bytes = 80, 8192, 2
+    budget_contexts = [4096, 16384, 32768, 65536, 131072]
+    h100_gib = 80.0
+    budget = {}
+    for ctx in budget_contexts:
+        per_seq = 2 * layers_70b * d_model_70b * ctx * dtype_bytes
+        budget[str(ctx)] = {
+            "batch1_gib": per_seq / 2**30,
+            "batch32_gib": per_seq * 32 / 2**30,
+            "pct_of_h100_batch1": 100.0 * (per_seq / 2**30) / h100_gib,
+        }
+    art2b, sha2b = rec.save_artifact("kv_budget_70b.json", {
+        "layers": layers_70b, "d_model": d_model_70b, "dtype_bytes": dtype_bytes,
+        "h100_gib": h100_gib, "by_context": budget,
+    })
+    print("\n  KV budget, 80 layers / d_model 8192 / bf16 (manuscript Table 1 shape):")
+    for ctx in budget_contexts:
+        e = budget[str(ctx)]
+        print(f"    ctx {ctx:>7}: {e['batch1_gib']:8.2f} GiB (batch 1), "
+              f"{e['pct_of_h100_batch1']:6.1f}% of an 80 GiB H100")
+        rec.record(f"kv_budget_gib_ctx{ctx}", round(e["batch1_gib"], 2), "bytes",
+                   art2b, sha2b, "exact KV arithmetic, batch 1, bf16")
+        rec.record(f"kv_budget_pct_h100_ctx{ctx}", round(e["pct_of_h100_batch1"], 1),
+                   "%", art2b, sha2b, "share of an 80 GiB H100, batch 1")
+
     # 3. Low-rank adaptation capacity ---------------------------------------
     d_model = 1024
     base = rng.standard_normal((d_model, d_model)) / np.sqrt(d_model)
@@ -163,6 +191,13 @@ def main() -> int:
               f"{params_pct:5.2f}% of dense parameters")
         rec.record(f"lora_energy_rank{r}", round(captured[r] * 100, 3), "%", art3, sha3,
                    "SVD energy captured by rank-r truncation", n=d_model)
+    # The manuscript also instantiates the capacity fraction at d = k = 8192, r = 16.
+    for d_big, r_big in ((8192, 16),):
+        frac = 100.0 * (2 * d_big * r_big) / (d_big * d_big)
+        rec.record(f"lora_param_fraction_d{d_big}_r{r_big}", round(frac, 2), "%",
+                   art3, sha3, f"2*d*r / d^2 at d=k={d_big}, r={r_big}")
+        print(f"    capacity fraction at d=k={d_big}, r={r_big}: {frac:.2f}%")
+
     rank64_params = 100.0 * (2 * d_model * 64) / (d_model * d_model)
     rec.record("lora_param_fraction_rank64", round(rank64_params, 3), "%", art3, sha3,
                "2*d*r / d^2 at r=64")

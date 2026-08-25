@@ -17,9 +17,15 @@ checkmate_date: "2026-08-12"
 
 ## Executive Abstract
 
-Automated software engineering demands precise context retrieval and domain-specific code reasoning at repository scale [[arxiv_2405.01543]]. We present a rigorously controlled empirical evaluation of **Symbol-Graph Retrieval-Augmented Generation (Symbol-Graph RAG)** versus **Quantized Low-Rank Adaptation (QLoRA)** parameter-efficient fine-tuning on the SWE-bench Lite benchmark comprising 300 real-world GitHub issue resolution tasks [[arxiv_2005.14165]]. Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI: $\Delta = 11.4\% \pm 1.8\%$) [[arxiv_2501.02497]]. Symbol-Graph RAG reduces inference compute costs by $4.2\times$ and eliminates training VRAM overhead entirely (QLoRA requires 160 GB across dual H100 GPUs) [[arxiv_2406.00584]].
+Automated software engineering at repository scale depends on retrieving the right context before any patch is generated [[arxiv_2405.01543]]. This paper asks whether structural retrieval over a symbol graph improves that context beyond lexical matching, and answers it with a controlled retrieval experiment rather than an end-to-end benchmark.
 
-We formalize Symbol-Graph RAG using a heterogeneous graph-theoretic framework grounded in Personalized PageRank diffusion, establish PAC-learning generalization bounds for graph-guided retrieval, and provide an information-theoretic analysis of why parametric compression systematically loses structural locality information irrelevant to fine-tuning objectives. Structured Abstract Syntax Tree (AST) symbol-graph representations provide superior retrieval precision, generalization across repository versions, and zero catastrophic forgetting compared to weight-space adaptation [[crossref_10.1201_9788743808145-14]]. Our ablation across $N = 347$ controlled task variants decomposes performance attributable to graph topology ($+5.5$ pp), call-graph edges ($+3.4$ pp), and semantic embedding quality ($+3.5$ pp). We release our full evaluation harness, graph construction pipeline, and ablation dataset for community reproducibility.
+We build a symbol graph from imports and call references over a corpus of 109 Python modules (360 graph nodes, 683 edges), seed a Personalized PageRank diffusion with BM25 scores, and evaluate against ground truth given by the module that defines each queried symbol. Queries are docstrings with the defining symbol's own name stripped, so a hit cannot come from the answer leaking into the query. Diffusion hyperparameters are selected on a held-out development half and reported on 103 unseen queries.
+
+The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\% against 81.55\%. On this corpus the structural signal adds nothing that lexical matching has not already captured [[arxiv_2501.02497]].
+
+We pair this with a census of SWE-bench Lite's 300 public instances. Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\% single-file), and the problem statement already names the file to edit in 55.33\% of cases (95\% CI [49.67, 60.67]). Retrieval difficulty on that benchmark is therefore lower than a repository-scale framing suggests, which we argue is why retrieval-side gains there are easy to overstate [[crossref_10.1201_9788743808145-14]].
+
+No language model was run in this study. We report no resolved-issue rate, no QLoRA comparison, and no training-cost figure; those require serving a large model and executing the benchmark's test suites.
 
 ---
 
@@ -31,14 +37,14 @@ Two dominant adaptation paradigms have emerged for equipping large language mode
 
 **Context-Augmented Retrieval (Symbol-Graph RAG)** constructs an explicit heterogeneous graph $\mathcal{G} = (V, E)$ over Abstract Syntax Tree (AST) nodes, call graph edges, import dependencies, and type hierarchies, then extracts the minimal relevant subgraph at inference time and injects it directly into the language model's context window [[crossref_10.1145_3689096.3689462], [crossref_10.18653_v1_2026.findings-acl.1933]]. This approach encodes no repository knowledge into model weights, eliminates catastrophic forgetting upon repository updates, and maintains exact symbolic fidelity to the current repository state.
 
-The central empirical question we address is: *which paradigm better supports autonomous issue resolution at scale, and under what resource, latency, and accuracy constraints does one dominate the other?* We design a controlled head-to-head evaluation holding all confounds constant (base model family, decoding strategy, evaluation harness, task set) and varying only the adaptation mechanism [[arxiv_2203.11171]]. Our evaluation spans $N = 300$ SWE-bench Lite tasks with per-task bootstrap resampling ($B = 10{,}000$) for statistical robustness, and $N = 347$ ablation variant tasks.
+The central empirical question we address is: *which paradigm better supports autonomous issue resolution at scale, and under what resource, latency, and accuracy constraints does one dominate the other?* We design a controlled head-to-head evaluation holding all confounds constant (base model family, decoding strategy, evaluation harness, task set) and varying only the adaptation mechanism [[arxiv_2203.11171]]. We answer a narrower question than the one that framing implies: whether structural retrieval improves context selection, measured directly, with no language model in the loop.
 
 ### Principal Contributions
 
 1. A fully reproducible evaluation harness comparing Symbol-Graph RAG and QLoRA on all 300 SWE-bench Lite tasks under identical inference conditions [[arxiv_2405.01543]].
 2. A formal graph-theoretic model of Symbol-Graph RAG grounded in Personalized PageRank and PAC-learning generalization theory.
 3. An information-theoretic lower bound on the structural information loss induced by QLoRA parametric compression relative to explicit graph retrieval.
-4. A decomposed ablation study ($N = 347$ variants) isolating the independent contributions of graph topology, call-graph edges, and embedding quality to resolution performance [[arxiv_2308.12898]].
+4. A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline [[arxiv_2308.12898]].
 5. An empirical cost analysis quantifying training VRAM, inference latency, amortized per-task compute, and carbon-equivalent expenditure [[arxiv_2406.00584]].
 6. A failure-mode taxonomy classifying all unresolved tasks by root cause, enabling targeted improvement roadmaps for both paradigms.
 
@@ -70,12 +76,16 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
+
 
 
 
@@ -105,6 +115,8 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
@@ -120,13 +132,17 @@ $$
 
 
 
-For $|\mathcal{H}| = 100$ (10 values of $K \times 10$ values of $\alpha$) and $\delta = 0.05$: the generalization gap is at most $\sqrt{(4.6 + 3.0)/600} = 0.112$. Since our empirical resolved rate is $38.7\%$, the true population rate is at least $27.6\%$ with 95% probability — strictly exceeding QLoRA's $27.3\%$ empirical rate.
+
+
+The bound is left symbolic. Instantiating it requires an empirical resolved-issue rate, which this study does not measure: our evaluation is of retrieval quality, not end-to-end resolution.
 
 ### Information-Theoretic Lower Bound on Parametric Compression Loss
 
 Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full repository graph $\mathcal{G}$ and the ground-truth patch $P^*$. QLoRA encodes a lossy compression of $\mathcal{G}$ into rank-$r$ weight perturbations $\Delta W = BA$.
 
 **Proposition 1.** The rate-distortion function for compressing $\mathcal{G}$ into $\Delta W$ of rank $r$ satisfies:
+
+
 
 
 
@@ -152,190 +168,69 @@ $$
 
 
 
+
+
 where $\{\sigma_k(\mathcal{G})\}$ are the singular values of the graph adjacency representation. For typical repository graphs ($|V| \sim 5{,}000$ nodes, $r = 16$), this bound is approximately $16 \times \log(1 + 312.5) = 82.6$ bits — representing severe structural information loss relative to the $\mathcal{O}(|V| \log |V|)$ bits of the full graph. Symbol-Graph RAG retains the full graph at inference time, incurring zero compression loss.
 
 ---
 
-## System Architecture and Experimental Protocol
+## Experimental Protocol
 
-### Symbol-Graph RAG: Pipeline Architecture
+### Retrieval Corpus and Ground Truth
 
-Symbol-Graph RAG operates in three sequential phases.
+The retrieval corpus is 109 Python modules drawn from this project's backend and tooling. For each top-level function or class carrying a docstring of at least six words, we form a query from that docstring and take the defining module as the single relevant document. Both the symbol's own name and its module's filename are removed from the query, so lexical overlap with the answer cannot be produced by the identifier itself.
 
-**Phase 1 — Repository Parsing.** We invoke `tree-sitter` parsers across all Python source files to extract the heterogeneous graph $\mathcal{G}$. Node types include: function definitions, class definitions, module-level constants, import statements, and type annotations. Edge types encode: function calls ($\texttt{calls}$), module imports ($\texttt{imports}$), class inheritance ($\texttt{inherits}$), variable references ($\texttt{references}$), and symbol definitions ($\texttt{defines}$). For a median SWE-bench Lite repository, this yields $|V| \approx 4{,}847$ nodes and $|E| \approx 18{,}234$ edges. Graph construction runs in $\mathcal{O}(|F| \cdot L_{\max})$ time where $L_{\max}$ is the maximum file length in lines [[crossref_10.1145_3689096.3689462]].
+205 queries met the length threshold after filtering; 102 form the development split used to select diffusion hyperparameters and 103 the held-out test split on which all reported numbers are computed.
 
-**Phase 2 — Query Grounding.** The issue description is encoded via `microsoft/codebert-base` into $\vec{q} \in \mathbb{R}^{768}$. Node relevance scores are computed per Equation (1), with PPR computed via the `networkx` power-iteration implementation ($\beta = 0.15$, $\epsilon = 10^{-6}$, convergence guaranteed by Theorem 1) [[crossref_10.18653_v1_2026.findings-acl.1933]].
+### Systems Compared
 
-**Phase 3 — Context Injection.** Top-$K = 10$ scored nodes are serialized as structured code blocks in XML-delimited format and injected into the system prompt. The prompt instructs the LLM to produce a minimal unified diff that passes the repository's test suite [[arxiv_2411.15594]].
+1. **BM25** (baseline): Okapi BM25 over module token streams, $k_1 = 1.5$, $b = 0.75$, with identifiers split on underscores and case boundaries.
+2. **Symbol-Graph + PPR**: the same BM25 scores seed a Personalized PageRank diffusion over a symbol graph of 360 nodes and 683 edges, whose edges are `defines`, `defined_in` and cross-module `references`. Diffusion mass is projected back onto modules and re-ranked.
 
-### QLoRA Fine-Tuning Configuration
+Selecting the diffusion's damping factor and seed breadth on the same queries used for reporting would measure the tuning rather than the method, so the sweep runs on the development split only. The selected configuration was $\alpha = 0.15$ with the top 25 BM25 documents as seeds.
 
-QLoRA adapts a frozen `meta-llama/Llama-3.1-70B-Instruct` base model by injecting rank-$r = 16$ trainable matrices into all attention and feed-forward projection layers [[arxiv_2305.18290]]:
+### Metrics
 
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-W' = & W_0 \\
-& + \Delta W = W_0 + BA, \quad B \in \mathbb{R}^{d \times 16},\ A \in \mathbb{R}^{16 \times d}
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-Adapters are initialized with $B = \mathbf{0}$ and $A \sim \mathcal{N}(0, \sigma^2 / r)$ ensuring $\Delta W = 0$ at initialization. Training data: 12,400 (issue, patch) pairs curated from 847 GitHub repositories. Training: 3 epochs, AdamW ($\eta = 2 \times 10^{-4}$, $\lambda_{\text{wd}} = 0.01$, cosine decay), batch size 32, 2× NVIDIA H100 80 GB (160 GB VRAM peak), 68 GPU-hours total [[arxiv_2406.00584]].
-
-### Evaluation Protocol and Statistical Design
-
-Both systems use identical `Llama-3.1-70B-Instruct` inference backbones and are evaluated by SWE-bench's deterministic test execution harness. We report:
-
-1. **Resolved Rate** — fraction of 300 tasks passing all required test cases
-2. **Patch Applicability** — fraction of generated diffs applying cleanly via `git apply`
-3. **Context Precision@K** — fraction of top-$K$ retrieved nodes appearing in the ground-truth oracle patch
-4. **Mean Time to Resolution (TTR)** — wall-clock latency from query submission to patch output
-5. **Carbon Equivalence** — GPU-hours × regional carbon intensity (gCO₂eq/kWh)
-
-Statistical analysis: two-sample $t$-test, bootstrap CI ($B = 10{,}000$), and Mann-Whitney U-test for non-parametric confirmation. Effect size: Cohen's $d$. Significance level: $\alpha = 0.05$ with Bonferroni correction for multiple comparisons [[arxiv_2501.02497]].
+Precision@1, Precision@5 and Mean Reciprocal Rank, each with a percentile bootstrap 95\% confidence interval over 2,000 resamples, plus a Welch $t$-test and Cohen's $d$ on the paired MRR difference.
 
 ---
 
 ## Empirical Results
 
-### Primary Resolution Rate ($N = 300$ Tasks)
+### Table 1: Retrieval Quality on Held-Out Queries ($n = 103$)
 
-**Table 1: Primary Performance Comparison on SWE-bench Lite ($N = 300$ tasks)**
+| System | P@1 (\%) | 95\% CI | P@5 (\%) | 95\% CI | MRR | 95\% CI |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| BM25 | 81.55 | [73.79, 88.35] | 94.17 | [89.32, 98.06] | 0.8739 | [0.8189, 0.9222] |
+| Symbol-Graph + PPR | 80.58 | [72.82, 87.38] | 94.17 | [89.32, 98.06] | 0.8701 | [0.8121, 0.9191] |
 
-| Metric | Base LLM (Zero-Shot) | QLoRA Fine-Tuned | Symbol-Graph RAG | $\Delta$ (RAG − QLoRA) |
-|:---|:---:|:---:|:---:|:---:|
-| **Resolved Rate (%)** | 18.2 | 27.3 | **38.7** | **+11.4 pp** ★★★ |
-| **Patch Applicability (%)** | 62.1 | 81.4 | **94.2** | **+12.8 pp** ★★★ |
-| **Context Precision@5 (%)** | — | — | **76.8** | — |
-| **Context Precision@10 (%)** | — | — | **71.3** | — |
-| **Mean TTR (s/task)** | 14.2 | 18.7 | **7.4** | **−11.3s** (2.5×) |
-| **Training VRAM (GB)** | 0 | 160 | **0** | **−160 GB** |
-| **Inference Cost/Task ($)** | \$0.18 | \$0.42 | **\$0.10** | **−\$0.32 (4.2×)** |
-| **Training Carbon (kgCO₂eq)** | 0 | 38.4 | **0** | **−38.4 kg** |
+Paired difference in MRR: $\Delta = -0.0038$, Cohen's $d = -0.0137$. The confidence intervals overlap across every metric, and the effect size is negligible by any conventional threshold.
 
-★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large effect) [[arxiv_2501.02497], [openalex_W4400578758]].
+![Retrieval accuracy on held-out queries. Error bars are percentile bootstrap 95\% confidence intervals. The intervals overlap on both metrics, so the symbol-graph re-ranker is not separable from the lexical baseline it re-ranks.](figures/p1_retrieval_accuracy.pdf)
 
-### Performance by Task Category ($N = 300$)
 
-**Table 2: Resolved Rate by SWE-bench Task Category**
+The honest reading is that symbol-graph diffusion does not help here. Two properties of the corpus explain why. First, identifier vocabulary is highly discriminative in Python: a docstring describing a function usually shares rare tokens with the module that defines it, and BM25 already exploits that. Second, the graph's strongest edges connect a module to symbols it defines, which reinforces documents BM25 has already ranked highly rather than surfacing new ones. A structural signal should be expected to pay off where lexical overlap is weak -- cross-language repositories, heavily abbreviated identifiers, or queries phrased in user rather than developer vocabulary -- and testing that is the natural next experiment.
 
-| Task Category | $N$ | QLoRA (%) | Symbol-Graph RAG (%) | $\Delta$ | $p$-value |
-|:---|:---:|:---:|:---:|:---:|:---:|
-| Bug Fix (Logic Error) | 112 | 31.2 | **44.6** | +13.4 pp | $< 0.001$ |
-| Bug Fix (Regression) | 67 | 25.4 | **40.3** | +14.9 pp | $< 0.001$ |
-| Feature Addition | 58 | 22.4 | **32.8** | +10.4 pp | $0.003$ |
-| Refactoring | 41 | 17.1 | **22.0** | +4.9 pp | $0.041$ |
-| Documentation/Tests | 22 | 54.5 | **59.1** | +4.6 pp | $0.612$ (n.s.) |
+### Table 2: Retrieval Signal in SWE-bench Lite ($N = 300$ instances)
 
-The smallest differential is observed for Documentation/Tests tasks, where code-structure retrieval provides marginal benefit over parametric knowledge. The largest differential occurs for Bug Fix (Regression) tasks, where the precise identification of the commit-breaking function via call-graph traversal is critical [[arxiv_2308.12898]].
+| Property | Value | Basis |
+|:---|:---:|:---|
+| Instances fetched | 300 | public dataset, live fetch |
+| Mean files per gold patch | 1.000 | parsed from patch headers |
+| Single-file patches | 100.00\% | share touching exactly one file |
+| Problem statement names the gold file | 55.33\% | filename stem appears in the statement |
 
-### Retrieval Precision at Multiple $K$ Values
-
-**Table 3: Context Precision@K for Symbol-Graph RAG ($N = 300$)**
-
-| $K$ | Precision@$K$ (%) | Recall@$K$ (%) | F1@$K$ |
-|:---:|:---:|:---:|:---:|
-| 1 | 91.3 | 28.4 | 0.434 |
-| 3 | 84.7 | 52.1 | 0.645 |
-| 5 | 76.8 | 64.3 | 0.700 |
-| 10 | 71.3 | 78.9 | 0.750 |
-| 20 | 63.1 | 88.2 | 0.737 |
-
-Precision degrades monotonically with $K$ as lower-relevance nodes are included; recall grows. The F1 maximum occurs at $K = 10$, motivating our default configuration [[crossref_10.1145_3689096.3689462]].
+Every gold patch in SWE-bench Lite modifies exactly one file, and in 55.33\% of instances the problem statement already contains that file's name. A retriever that did nothing but extract filenames mentioned in the issue text would therefore locate the correct file for more than half the benchmark. This is a property of the benchmark, not of any system, and it bears directly on how retrieval-side improvements on SWE-bench Lite should be interpreted.
 
 ---
+## Ablation of the Diffusion Configuration
 
-## Ablation Studies ($N = 347$ Variants)
+The hyperparameter sweep in Section 4 is the only ablation this study can support: 20 configurations of damping factor and seed breadth, scored on the development split. We report no ablation over graph topology, call-graph edges or embedding quality, because isolating those contributions requires an end-to-end resolution metric that no run here produced.
 
-### Component Ablation
+Across the sweep the best development MRR was 0.9173, and the configuration achieving it did not separate from BM25 on the held-out split. No configuration tested produced a positive effect large enough to survive its confidence interval.
 
-**Table 4: Symbol-Graph RAG Ablation ($N = 347$ controlled variants)**
+![Development-split MRR across the diffusion sweep. No damping factor or seed breadth lifts the re-ranker above the BM25 baseline (dashed).](figures/p1_ppr_sweep.pdf)
 
-| Configuration | Resolved (%) | Patch Apply (%) | Precision@5 (%) | $\Delta$ vs Full |
-|:---|:---:|:---:|:---:|:---:|
-| **Full Symbol-Graph RAG** ($\alpha=0.65$, $K=10$) | **38.7** | **94.2** | **76.8** | baseline |
-| w/o PageRank centrality ($\alpha = 1.0$) | 33.2 | 88.5 | 68.1 | −5.5 pp ★★★ |
-| w/o Call-Graph Edges (flat AST only) | 29.8 | 84.1 | 61.4 | −8.9 pp ★★★ |
-| w/o Inheritance Edges | 36.1 | 91.7 | 73.2 | −2.6 pp ★★ |
-| w/o Type-Reference Edges | 37.4 | 93.1 | 75.4 | −1.3 pp ★ |
-| Dense Embedding Only (no graph) | 24.5 | 77.3 | 52.0 | −14.2 pp ★★★ |
-| TF-IDF retrieval (no embedding) | 21.3 | 71.8 | 44.7 | −17.4 pp ★★★ |
-| $K = 3$ (reduced context) | 31.6 | 85.2 | 84.7 | −7.1 pp ★★★ |
-| $K = 20$ (extended context) | 37.2 | 93.7 | 63.1 | −1.5 pp ★ |
-
-★ $p < 0.05$; ★★ $p < 0.01$; ★★★ $p < 0.001$. Call-graph edges contribute the largest single component value (+8.9 pp), confirming that inter-function dependency propagation — not available in flat AST or dense-embedding-only systems — is the primary structural advantage of Symbol-Graph RAG [[arxiv_2308.12898], [crossref_10.1145_3689096.3689462]].
-
-### QLoRA Rank Sensitivity ($N = 300$ per configuration)
-
-**Table 5: QLoRA Performance Across Rank Configurations**
-
-| LoRA Rank $r$ | Trainable Params (M) | VRAM (GB) | Train Time (h) | Resolved (%) | $\Delta$ vs $r=16$ |
-|:---:|:---:|:---:|:---:|:---:|:---:|
-| 4 | 40.2 | 92 | 24.1 | 21.3 | −6.0 pp |
-| 8 | 80.4 | 118 | 38.7 | 24.8 | −2.5 pp |
-| 16 | 160.8 | 160 | 68.0 | 27.3 | baseline |
-| 32 | 321.6 | 240† | 127.4 | 28.1 | +0.8 pp (n.s.) |
-| 64 | 643.2 | OOM‡ | — | — | — |
-
-† Requires 4× H100; ‡ Out-of-memory on available hardware. The resolved rate saturates between $r = 16$ and $r = 32$ (+0.8 pp, $p = 0.41$, n.s.), confirming that rank increase beyond 16 yields marginal returns at $2\times$ compute cost. Symbol-Graph RAG dominates all QLoRA configurations [[arxiv_2305.18290]].
-
-### Graph Size vs. Performance
-
-**Table 6: Performance Across Repository Graph Sizes**
-
-| Graph Size ($|V|$) | Median Repo Size | Resolved (%) RAG | Resolved (%) QLoRA | $\Delta$ |
-|:---:|:---:|:---:|:---:|:---:|
-| < 1,000 nodes | Small | 47.3 | 32.1 | +15.2 pp |
-| 1,000–5,000 nodes | Medium | 39.2 | 28.4 | +10.8 pp |
-| 5,000–15,000 nodes | Large | 34.8 | 23.1 | +11.7 pp |
-| > 15,000 nodes | Very Large | 29.4 | 19.8 | +9.6 pp |
-
-Symbol-Graph RAG advantage is consistent across repository scales, though absolute performance decreases for very large repositories due to context window limitations at $K = 10$ [[arxiv_2411.15594]].
-
----
-
-## Error Analysis and Failure Mode Taxonomy
-
-### Symbol-Graph RAG Failure Modes ($N = 184$ unresolved tasks)
-
-**Table 7: Symbol-Graph RAG Failure Mode Distribution**
-
-| Failure Mode | Count | Fraction | Characteristic Example |
-|:---|:---:|:---:|:---|
-| Dynamic runtime deps (not in static graph) | 76 | 41.3% | `importlib.import_module()` calls |
-| Cross-repo / 3rd-party library modification | 53 | 28.8% | Upstream `numpy` API change required |
-| Large-scope refactor (>80 files) | 55 | 29.9% | Module restructuring across entire codebase |
-
-**Root cause analysis:** Dynamic dependency injection (41.3%) represents the fundamental limit of static AST analysis — runtime module loading, monkey-patching, and decorator-based registration create edges invisible to tree-sitter parsing. We estimate that dynamic call graph augmentation via lightweight runtime tracing could recover $\sim$18% of these failures [[arxiv_2501.02842]].
-
-### QLoRA Failure Modes ($N = 218$ unresolved tasks)
-
-**Table 8: QLoRA Failure Mode Distribution**
-
-| Failure Mode | Count | Fraction |
-|:---|:---:|:---:|
-| Parametric confusion (stale API reference) | 137 | 62.8% |
-| Hallucinated function signatures | 48 | 22.0% |
-| Context-window overflow (oversized patch) | 33 | 15.1% |
-
-Parametric confusion (62.8%) confirms catastrophic forgetting: the model generates patches referencing function signatures from repository versions represented in training data but absent from the test-time snapshot. This is an intrinsic limitation of weight-space encoding for evolving codebases [[arxiv_2406.00584]].
 
 ---
 
@@ -371,14 +266,18 @@ Multi-agent software engineering systems [[arxiv_2404.01131], [arxiv_2412.06333]
 
 ### Future Work Directions
 
-1. **Dynamic Call Graph Augmentation:** Integrate lightweight runtime tracing (e.g., `sys.settrace`) to augment static AST graphs with dynamic dependency edges, targeting the 41.3% of failures caused by runtime-injected dependencies.
+1. **Dynamic Call Graph Augmentation:** Integrate lightweight runtime tracing (e.g., `sys.settrace`) to augment static AST graphs with dynamic dependency edges, targeting the an as-yet unmeasured margin of failures caused by runtime-injected dependencies.
 2. **Multi-Hop Graph Reasoning:** Replace PPR diffusion with learned graph neural network traversal, enabling multi-hop reasoning across call chains of depth $> 3$.
 3. **Cross-Language Generalization:** Extend tree-sitter parsing and CodeBERT embeddings to support heterogeneous polyglot repositories (Python + C extensions, Java + Kotlin).
-4. **Context Window Scaling:** Leverage 1M-token context models to increase $K$ for very large repositories, addressing the 29.9% of failures caused by large-scope refactoring.
+4. **Context Window Scaling:** Leverage 1M-token context models to increase $K$ for very large repositories, addressing the an as-yet unmeasured margin of failures caused by large-scope refactoring.
 5. **Hybrid Parametric-Retrieval Systems:** Investigate learned rank allocation strategies that selectively apply QLoRA to language-heavy subtasks and Symbol-Graph RAG to structure-heavy subtasks.
 
 ---
 
 ## Conclusion
 
-Symbol-Graph RAG outperforms QLoRA parameter-efficient fine-tuning by **11.4 percentage points** on SWE-bench Lite ($p < 0.001$, $d = 0.83$) while reducing per-task inference cost by $4.2\times$ and eliminating 160 GB of training VRAM requirements and 38.4 kgCO₂eq of training carbon. The formal graph-theoretic analysis establishes that PPR-guided relevance scoring converges geometrically (Theorem 1), PAC-learning bounds certify generalization beyond the empirical population (Theorem 2), and information-theoretic analysis proves that QLoRA's rank-16 compression incurs $>99.9\%$ structural information loss relative to full graph retention. Component ablations ($N = 347$ variants) attribute +8.9 pp to call-graph edge traversal and +5.5 pp to PPR centrality weighting. Structured symbol-graph indexing provides a scalable, zero-training framework for autonomous software engineering agents at industrial repository scale [[arxiv_2501.02497], [arxiv_2405.01543], [crossref_10.1145_3689096.3689462]].
+We set out to test whether symbol-graph structure improves retrieval for repository-scale program repair, and found that it does not on the corpus we could measure. With hyperparameters selected on a held-out split and reported on 103 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.8701 against BM25's 0.8739 -- a difference of -0.0038 with Cohen's $d = -0.0137$, well inside the noise.
+
+We also find that SWE-bench Lite is an easier retrieval problem than its framing implies: all 300 gold patches are single-file, and 55.33\% of problem statements name the file to be edited. Retrieval gains reported on that benchmark should be read against this baseline.
+
+The theoretical contributions stand independently of the negative empirical result: the heterogeneous graph formulation, the PAC-style bound for graph-guided retrieval, and the information-theoretic argument about structural locality. What we cannot claim is any resolved-issue rate, any comparison against QLoRA fine-tuning, or any inference-cost ratio; those require serving a large model and executing the benchmark's tests, which this study did not do. The retrieval harness and every recorded measurement are released so the negative result can be re-derived or overturned [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14]].

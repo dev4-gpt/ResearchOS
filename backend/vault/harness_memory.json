@@ -1140,8 +1140,217 @@
       "unverified_metrics": 0,
       "duration_seconds": 3.04,
       "timestamp": 1787687395.466272
+    },
+    {
+      "project_id": "project_1787697194",
+      "topic": "test topic",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 3,
+      "unverified_metrics": 0,
+      "duration_seconds": 35.76,
+      "timestamp": 1787697230.42727
+    },
+    {
+      "project_id": "project_1787697230",
+      "topic": "large language models",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.54,
+      "timestamp": 1787697234.019915
+    },
+    {
+      "project_id": "project_1787697234",
+      "topic": "transformers",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.38,
+      "timestamp": 1787697237.447561
+    },
+    {
+      "project_id": "project_1787697237",
+      "topic": "attention mechanisms",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.52,
+      "timestamp": 1787697241.021631
+    },
+    {
+      "project_id": "project_1787697241",
+      "topic": "reinforcement learning",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.54,
+      "timestamp": 1787697244.625536
+    },
+    {
+      "project_id": "project_1787697244",
+      "topic": "neural scaling laws",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.31,
+      "timestamp": 1787697247.984611
+    },
+    {
+      "project_id": "project_1787697248",
+      "topic": "few shot learning",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.42,
+      "timestamp": 1787697251.446974
+    },
+    {
+      "project_id": "project_1787697251",
+      "topic": "knowledge distillation",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 4.16,
+      "timestamp": 1787697255.6673448
+    },
+    {
+      "project_id": "project_1787697255",
+      "topic": "model compression",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.15,
+      "timestamp": 1787697258.892483
+    },
+    {
+      "project_id": "project_1787697258",
+      "topic": "prompt tuning",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.05,
+      "timestamp": 1787697261.997365
+    },
+    {
+      "project_id": "project_1787697262",
+      "topic": "chain of thought",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.19,
+      "timestamp": 1787697265.242016
+    },
+    {
+      "project_id": "project_1787697265",
+      "topic": "in-context learning",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.12,
+      "timestamp": 1787697268.407933
+    },
+    {
+      "project_id": "project_1787697268",
+      "topic": "mixture of experts",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.15,
+      "timestamp": 1787697271.615767
+    },
+    {
+      "project_id": "project_1787697271",
+      "topic": "speculative decoding",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.5,
+      "timestamp": 1787697275.16884
+    },
+    {
+      "project_id": "project_1787697275",
+      "topic": "retrieval augmented generation",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.03,
+      "timestamp": 1787697278.252911
+    },
+    {
+      "project_id": "project_1787697278",
+      "topic": "RLHF",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.13,
+      "timestamp": 1787697281.4368808
+    },
+    {
+      "project_id": "project_1787697281",
+      "topic": "slm efficiency",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.06,
+      "timestamp": 1787697284.544551
+    },
+    {
+      "project_id": "project_1787697284",
+      "topic": "LLM: efficiency & scaling (2024)",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.12,
+      "timestamp": 1787697287.713425
+    },
+    {
+      "project_id": "project_1787697287",
+      "topic": "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ",
+      "fact_check_score": 100.0,
+      "verified_citations": 1,
+      "broken_citations": 0,
+      "grounded_metrics": 0,
+      "unverified_metrics": 0,
+      "duration_seconds": 3.23,
+      "timestamp": 1787697290.994709
     }
   ],
-  "total_runs": 98,
-  "average_fact_check_score": 78.55
+  "total_runs": 117,
+  "average_fact_check_score": 82.03
 }

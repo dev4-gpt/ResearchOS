@@ -1,0 +1,18 @@
+{
+  "with_invariant": {
+    "counterexample_depth": 0,
+    "safety_holds": 1,
+    "seconds": 5.308305844664574e-05,
+    "states": 37,
+    "terminal_states": 10,
+    "transitions": 111
+  },
+  "without_invariant": {
+    "counterexample_depth": 4,
+    "safety_holds": 0,
+    "seconds": 6.349990144371986e-05,
+    "states": 64,
+    "terminal_states": 19,
+    "transitions": 213
+  }
+}

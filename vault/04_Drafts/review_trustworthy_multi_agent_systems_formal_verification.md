@@ -29,9 +29,13 @@ checkmate_date: "2026-08-12"
 
 ## Executive Abstract
 
-The widespread integration of autonomous multi-agent systems (MAS) into safety-critical enterprise operations—including automated financial settlement, clinical diagnostic orchestration, and autonomous software synthesis—necessitates mathematical guarantees of trustworthiness, behavioral safety, and verifiable consensus [[arxiv_2005.14165], [arxiv_2203.02155]]. Traditional probabilistic agent orchestration frameworks lack deterministic bounds against cascading hallucinations, circular deadlock cycles, and Byzantine adversarial prompt injections [[arxiv_2312.03893], [arxiv_2406.00584]]. In this paper, we develop a comprehensive formal verification and decentralized governance framework for **Trustworthy Autonomous Multi-Agent Systems (T-MAS)** [[crossref_10.1109_access.2026.3656309]].
+The integration of autonomous multi-agent systems into safety-critical operations calls for guarantees that hold over every reachable execution, not averages over sampled runs [[arxiv_2005.14165], [arxiv_2203.02155]]. Probabilistic orchestration frameworks offer no deterministic bound against cascading hallucination, circular deadlock, or Byzantine agent behaviour [[arxiv_2312.03893], [arxiv_2406.00584]]. This paper develops a formal verification and governance framework for Trustworthy Autonomous Multi-Agent Systems (T-MAS) and verifies it by exhaustive model checking rather than by benchmark [[crossref_10.1109_access.2026.3656309]].
 
-We establish a mathematically grounded contract verification calculus based on Linear Temporal Logic (LTL) continuous model checking and a novel Byzantine-Tolerant Council Consensus Protocol (BT-CCP) [[crossref_10.1145_3689096.3689462]]. We prove an optimal Byzantine resilience theorem guaranteeing that T-MAS maintains safety invariants $\Phi_{\text{safety}}$ and reaches deterministic consensus under up to $f < n/3$ corrupted, hallucinating, or adversarial agent personas [[arxiv_2404.01131]]. Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent contracts, T-MAS guarantees **$100\%$ zero unverified state mutations**, eliminates circular deadlock transitions, and reduces multi-agent consensus divergence by **$89.4\%$** relative to standard multi-agent debate protocols ($p < 0.001$, Cohen's $d = 1.21$) [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]]. We present an open-source formal specification, verified contract algebra, and an actionable 4-phase governance standard for mission-critical enterprise environments.
+We specify a contract verification calculus in Linear Temporal Logic and a Byzantine-Tolerant Council Consensus Protocol (BT-CCP) [[crossref_10.1145_3689096.3689462]]. Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\Phi_{\text{safety}}$ is enforced. Removing that invariant makes the violation reachable in 4 steps, and the checker returns that counterexample.
+
+Deadlock freedom is decided by cycle detection over the reachable graph: without the asymmetric priority ordering $\prec_{\text{council}}$ an unbounded rebuttal cycle exists; with it the cycle is absent. Byzantine agreement is simulated over an unreliable channel ($95\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \le 2$ corrupt members and agreement collapses to $0.00\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts [[arxiv_2404.01131]].
+
+These are results about a protocol model. No language model was run, so this paper reports no interaction traces, no intercepted hallucinations, and no enterprise deployment figures. The specification, the checker and all recorded measurements are released for re-execution [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
 
 ---
 
@@ -56,7 +60,7 @@ This manuscript provides five foundational contributions:
 1. **Formal LTL Contract Verification Calculus:** We define the semantics of inter-agent operational contracts in Linear Temporal Logic (LTL) and Computation Tree Logic (CTL), providing automated model-checking verification of safety and liveness invariants.
 2. **Byzantine-Tolerant Council Consensus Protocol (BT-CCP):** We formulate and prove an optimal consensus protocol that guarantees safety and liveness under up to $f < n/3$ faulty, hallucinating, or adversarial agents.
 3. **Deadlock-Free Convergence Theorem:** We prove that contract-governed council deliberations terminate in finite steps $T \le T_{\max}$ with strictly bounded token expenditure.
-4. **Comprehensive Adversarial Empirical Benchmark ($N = 10,200$):** We evaluate T-MAS against heavy adversarial injection, sybil attacks, and hallucination stress tests across $10,200$ multi-agent deliberation traces and $N = 521$ enterprise contracts [[crossref_10.1201_9788743808145-14]].
+4. **Reproducible Verification Artifact:** An executable specification, an exhaustive state-space checker that returns counterexamples, and a randomised Byzantine agreement simulator, released with every recorded measurement so each result can be re-derived or refuted [[crossref_10.1201_9788743808145-14]].
 5. **Open Reference Architecture & Governance Roadmap:** We publish a complete formal contract specification and a 4-phase enterprise trust deployment framework.
 
 ---
@@ -90,12 +94,16 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -119,11 +127,15 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -154,11 +166,15 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
+
 
 
 
@@ -185,12 +201,16 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
+
 
 
 
@@ -231,6 +251,8 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
@@ -246,87 +268,71 @@ $$
 
 
 
+
+
 If rebuttal turns exceed $k_{\max} = 3$, the Chairman agent is granted unilateral synthesis authority to force consensus or escalate to human review [[arxiv_2412.06333]].
 
 ---
 
-## Empirical Evaluation Protocol
+## Verification Protocol
 
-### Adversarial Benchmark Dataset ($N = 10,200$ Interaction Traces)
+### What Is Verified, and How
 
-We evaluate T-MAS across $N = 10,200$ rigorous adversarial multi-agent interaction traces:
-1. **Adversarial Prompt Injection Traces ($N = 3,200$):** Sybil agent nodes attempting to inject malicious code snippets, bypass sandbox permissions, or exfiltrate private API keys [[arxiv_2404.04289]].
-2. **Hallucination Contagion Traces ($N = 3,000$):** Injected synthetic citations, false numerical claims ($N = \dots, p < 0.001$), and distorted benchmark figures [[arxiv_2406.00584]].
-3. **Circular Deadlock & Livelock Stress Tests ($N = 2,000$):** Contradictory optimization constraints designed to trigger non-terminating rebuttal loops [[arxiv_2501.02497]].
-4. **Production Enterprise Contract Audits ($N = 2,000$):** Multi-hop document synthesis, contract generation, and software repair workflows drawn from live enterprise deployments [[crossref_10.1201_9788743808145-14]].
+T-MAS is evaluated by exhaustive state-space exploration of its protocol model, not by sampling agent behaviour. The council protocol is encoded as a transition system whose state records the phase, the proposal count, votes received, whether the current proposal is grounded in retrieved evidence, whether a commit has occurred, and the retry count. Breadth-first search enumerates every reachable state.
 
----
+Three properties are decided:
 
-### Baseline Architectures
+1. **Safety** ($\Phi_{\textsafety}$): no reachable state commits an ungrounded proposal. Because the search is exhaustive over the model, a pass is a proof over the model rather than an observed rate.
+2. **Deadlock freedom**: no unbounded rebuttal cycle exists between two polarised personas. Decided by depth-first cycle detection over the reachable graph. The model is defined on the turn alone; bounding the objection count would make the graph acyclic by construction and the check vacuous.
+3. **Byzantine agreement**: honest agents commit the same correct value under a $2f+1$ quorum rule. Simulated over an unreliable channel, because without message loss the outcome is a deterministic function of $(n, f)$ and repeated trials of it would carry no information.
 
-We benchmark T-MAS against four state-of-the-art agent governance paradigms:
-- **Unconstrained Debate (Baseline 1):** Standard multi-agent chat without formal verification or Byzantine voting [[arxiv_2412.06333]].
-- **Centralized Supervisor Loop (Baseline 2):** Single supervisor agent acting as centralized gatekeeper with heuristic regex filters [[arxiv_2404.01131]].
-- **Self-Refine / Role-Playing Reflection (Baseline 3):** Iterative prompt-based self-correction without formal logic contracts [[arxiv_2203.02155]].
-- **Standard PBFT Multi-Agent:** Classical Practical Byzantine Fault Tolerance without LTL model checking or continuous grounding verification.
-- **T-MAS with BT-CCP (Ours):** Full formal LTL contract verification + Byzantine quorum consensus.
+### Baseline Comparison
+
+We do not report a comparison against unconstrained debate, self-refine, or PBFT agent implementations. Such a comparison requires running language-model agents against an adversarial workload, which this study does not do. The comparison made here is between the protocol with and without each of its own mechanisms, which the model checker can decide exactly.
 
 ---
 
-## Quantitative Results & Comparative Analysis
+## Verification Results
 
-### Primary Multi-Agent Trustworthiness Performance ($N = 10,200$)
+### Table 1: Explicit-State Model Checking of the Council Protocol
 
-**Table 1: Comparative Evaluation Across $N = 10,200$ Adversarial Multi-Agent Traces**
-
-| Governance Architecture | Zero-Ungrounded Mutations (%) | Byzantine Resilience ($f=2$) | Consensus Divergence Rate (%) | Deadlock / Livelock Rate (%) | Verification Latency Overhead |
-|:---|:---:|:---:|:---:|:---:|:---:|
-| Unconstrained Debate | 48.2% | 0.0% (Compromised) | 34.2% | 14.8% | **1.00×** (0 ms) |
-| Centralized Supervisor Loop | 76.4% | 18.2% | 18.6% | 8.4% | 1.12× (+42 ms) |
-| Self-Refine Reflection | 71.8% | 12.4% | 22.4% | 19.2% | 2.40× (+1.2s) |
-| Standard PBFT Multi-Agent | 88.6% | 89.2% | 7.8% | 4.2% | 1.45× (+180 ms) |
-| **T-MAS with BT-CCP (Ours)** | **100.0%** | **99.8%** | **0.0%** | **0.0%** | **1.25×** (**+94 ms**) |
-
-$p < 0.001$ across all metrics; Two-sample $t(10198) = 28.41$; Cohen's $d = 1.21$ (very large effect). Bootstrap 95% CI on Byzantine Resilience: $\Delta = +10.6\% \pm 0.4\%$ over standard PBFT [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-
-**Key Findings:**
-1. **Absolute Safety Invariance:** T-MAS achieves **$100.0\%$ zero ungrounded mutations**, completely intercepting hallucinated citations and unverified tool invocations via LTL invariant $\Phi_{\text{safety}}$.
-2. **Byzantine Fault Tolerance:** Under active adversarial injection ($f = 2$ corrupt agents in a 7-agent council), T-MAS maintains a **$99.8\%$ consensus accuracy rate**, whereas unconstrained debate completely collapses ($0.0\%$ resilience).
-3. **Deadlock Elimination:** Zero deadlocks or livelocks were observed across $10,200$ runs due to the asymmetric priority ranking $\prec_{\text{council}}$ and bounded liveness theorem.
-
----
-
-### Enterprise Contract Deployment Evaluation ($N = 521$ Production Contracts)
-
-**Table 2: Performance Across $N = 521$ Production Enterprise Agent Contracts**
-
-| Domain Category | Contract Count ($N$) | Mean Formal Verification Score | Intercepted Hallucinations | SLA Compliance (%) | Mean Consensus Time |
-|:---|:---:|:---:|:---:|:---:|:---:|
-| Financial Trade Auditing | 148 | 100.0% | 412 | 99.98% | 1.4s |
-| Legal Contract Synthesis | 124 | 100.0% | 684 | 99.95% | 2.1s |
-| Healthcare Clinical Pathways | 136 | 100.0% | 892 | 99.99% | 1.8s |
-| Software Code Generation | 113 | 100.0% | 1,248 | 99.92% | 2.6s |
-| **Total / Aggregate** | **521** | **100.0%** | **3,236** | **99.96%** | **1.9s** |
-
-Across $521$ production enterprise contracts, T-MAS intercepted **$3,236$ hallucinated assertions and syntax errors** prior to state commitment, achieving a **$99.96\%$ composite SLA compliance** [[crossref_10.1109_access.2026.3656309]].
-
----
-
-## Ablation Studies & Sensitivity Analysis
-
-### Component Decomposition ($N = 3,000$ Adversarial Traces)
-
-**Table 3: Layer-by-Layer Ablation of T-MAS Architecture**
-
-| System Configuration | Zero-Ungrounded Mutations (%) | Byzantine Resilience (%) | Divergence Rate (%) | $\Delta$ vs Full T-MAS |
+| Configuration | Reachable states | Transitions | Safety invariant holds | Shortest counterexample |
 |:---|:---:|:---:|:---:|:---:|
-| **Full T-MAS Framework** | **100.0%** | **99.8%** | **0.0%** | baseline |
-| w/o LTL Model Checking ($\Phi$) | 78.4% | 74.2% | 8.4% | **−21.6 pp ★★★** |
-| w/o BT-CCP Quorum Gate ($2f+1$) | 84.2% | 21.4% | 28.6% | **−78.4 pp ★★★** |
-| w/o Priority Ranking ($\prec_{\text{council}}$) | 100.0% | 99.4% | 12.8% (deadlocks) | −0.6 pp (liveness drop) |
-| w/o Citation Grounding Linter | 62.1% | 68.4% | 14.2% | **−37.9 pp ★★★** |
+| $\Phi_{\text{safety}}$ enforced | 37 | 111 | yes | none |
+| $\Phi_{\text{safety}}$ removed | 64 | — | no | 4 steps |
 
-Ablating BT-CCP induces a **$78.4$ percentage point collapse** in Byzantine resilience, while ablating the Citation Grounding Linter drops zero-ungrounded mutations by $37.9$ pp. This confirms that cryptographic quorum consensus and formal grounding linters are dual necessary pillars of multi-agent trustworthiness.
+Exhaustive exploration completes in 0.05 ms. With the invariant enforced, no reachable state commits an ungrounded proposal; this is a property of every execution of the model, not an average over sampled ones. With the invariant removed the violation becomes reachable in 4 transitions, and the checker returns that trace for repair.
+
+### Table 2: Deadlock Freedom by Cycle Detection
+
+| Configuration | Reachable states | Unbounded rebuttal cycle |
+|:---|:---:|:---:|
+| Without priority ordering $\prec_{\text{council}}$ | 2 | present |
+| With priority ordering $\prec_{\text{council}}$ | 2 | absent |
+
+The asymmetric ordering removes the return edge that closes the cycle. This is the whole of the mechanism's contribution to liveness, and it is decided rather than estimated.
+
+### Table 3: Byzantine Agreement Threshold ($n = 7$, quorum $2f+1$)
+
+| Corrupt agents $f$ | Honest agreement (\%) | Within bound $f < n/3$ |
+|:---:|:---:|:---:|
+| 0 | 100.00 | yes |
+| 1 | 100.00 | yes |
+| 2 | 100.00 | yes |
+| 3 | 0.00 | no |
+
+Agreement is total up to $f = 2$ and collapses to $0.00\%$ at $f = 3$. The theoretical bound $\lfloor (n-1)/3 \rfloor$ evaluates to 2 for $n = 7$, so the measured threshold coincides exactly with the classical limit. The simulation locates the threshold rather than presuming it: each configuration is $20{,}000$ randomised rounds with a per-message delivery probability of $0.95$ and independently chosen Byzantine values.
+
+![Honest agreement against the number of Byzantine agents in a council of seven. Agreement collapses precisely where the $f < n/3$ bound predicts.](figures/p9_byzantine_threshold.pdf)
+
+
+---
+
+## Mechanism Ablation
+
+Tables 1 and 2 already decide what each mechanism contributes: removing $\Phi_{\text{safety}}$ makes an ungrounded commit reachable, and removing the priority ordering reintroduces the rebuttal cycle. Both are exact results over the model rather than measured deltas.
+
+We do not report an ablation over agent backbones or debate strategies. That comparison requires running language-model agents against an adversarial workload, which this study does not do.
 
 ---
 
@@ -366,6 +372,9 @@ We identify four strategic research directions for trustworthy multi-agent gover
 
 ## Conclusion
 
-The transition of autonomous multi-agent systems from experimental prototypes to mission-critical enterprise infrastructure demands rigorous formal foundations, verifiable safety invariants, and Byzantine-tolerant governance. In this paper, we formulated **Trustworthy Multi-Agent Systems (T-MAS)**—a decentralized framework uniting Linear Temporal Logic (LTL) continuous model checking and the Byzantine-Tolerant Council Consensus Protocol (BT-CCP). We proved that when $n \ge 3f + 1$, T-MAS guarantees consistency and liveness under up to $f$ Byzantine or hallucinating agents.
+Autonomous multi-agent systems entering safety-critical use need guarantees that quantify over executions rather than averages over samples. We specified T-MAS as a transition system with an LTL safety invariant, an asymmetric priority ordering for liveness, and a $2f+1$ quorum rule for agreement, then decided each property by exhaustive search.
 
-Empirical evaluation across $N = 10,200$ adversarial interaction traces and $N = 521$ enterprise contracts demonstrated that T-MAS achieves **$100.0\%$ zero ungrounded mutations**, maintains a **$99.8\%$ Byzantine resilience rate**, and completely eliminates circular deadlocks and livelocks ($p < 0.001$, Cohen's $d = 1.21$). Layer-by-layer ablations confirmed that LTL model checking and cryptographic quorum consensus are necessary pillars of multi-agent trustworthiness. T-MAS provides a mathematically grounded, production-ready standard for deploying autonomous agent ecosystems with provable safety and zero hallucination contagion [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309], [crossref_10.1201_9788743808145-14]].
+Model checking explores 37 reachable states over 111 transitions in 0.05 ms and establishes that no execution commits an ungrounded proposal while $\Phi_{\text{safety}}$ is enforced. Removing the invariant makes that violation reachable in 4 steps. Cycle detection shows the rebuttal livelock exists without the priority ordering and is absent with it. Randomised Byzantine simulation places the agreement threshold at $f = 2$ for a council of seven, exactly the classical $\lfloor (n-1)/3 \rfloor$ bound.
+
+The scope of these claims is the model. Whether a deployed council of language-model agents refines into this protocol faithfully is an empirical question this paper does not answer: no model was run, no interaction trace was collected, and no hallucination was intercepted. What the work provides is a specification precise enough to be checked, a checker that returns counterexamples, and the recorded measurements to re-derive every number here [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309], [crossref_10.1201_9788743808145-14]].
+

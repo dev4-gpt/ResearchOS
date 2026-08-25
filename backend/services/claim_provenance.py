@@ -100,7 +100,8 @@ class ClaimProvenanceService:
         ("test_stat", r"\b[tFUZ]\s*\(\s*[\d,\s]+\)\s*=\s*-?\d+(?:\.\d+)?", ""),
         ("percentage", r"-?\d+(?:\.\d+)?\s*\\?%", "%"),
         ("percentage_points", r"[-+]?\d+(?:\.\d+)?\s*pp\b", "pp"),
-        ("factor", r"\d+(?:\.\d+)?\s*(?:\$\\times\$|×|x)\b", "x"),
+        # Negative lookahead: '8x7B' names a model, it is not an eight-fold factor.
+        ("factor", r"\d+(?:\.\d+)?\s*(?:\$\\times\$|×|x)\b(?!\s*\d)", "x"),
         # Only an escaped '\$' is currency. A bare '$' followed by digits is the
         # opening delimiter of inline math ("$1 - p_k$", "$20{,}000$"), and reading
         # those as prices produced a stream of phantom unbacked claims.
@@ -113,7 +114,11 @@ class ClaimProvenanceService:
     #: "95% CI" / "95% confidence interval" states the interval level, and a trial
     #: or resample count states an experimental parameter. Neither is a measured
     #: finding that needs its own artifact.
-    _INTERVAL_LEVEL = re.compile(r"(?:95|90|99)\s*\\?%\s*(?:CI|confidence)", re.IGNORECASE)
+    _INTERVAL_LEVEL = re.compile(
+        r"(?:95|90|99)\s*\\?%\s*(?:CI\b|confidence|credible|lower\s+bound|"
+        r"upper\s+bound|interval|probability)",
+        re.IGNORECASE,
+    )
 
     _WIKILINK = re.compile(r"\[\[([^\]]+)\]\]")
     _CITE = re.compile(r"\\cite\{([^}]+)\}")

@@ -75,6 +75,8 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -88,9 +90,13 @@ $$
 
 
 
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
 
 
 
@@ -112,9 +118,13 @@ $$
 
 
 
+
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
 
 
 
@@ -136,9 +146,13 @@ $$
 
 
 
+
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
 
 
 
@@ -160,11 +174,15 @@ $$
 
 
 
+
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
+
 
 
 
@@ -187,7 +205,11 @@ $$
 
 
 
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
 
 
 
@@ -209,7 +231,11 @@ $$
 
 
 
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
 
 
 
@@ -223,6 +249,8 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -248,11 +276,15 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -320,7 +352,13 @@ Mesh versus hierarchical tree on cascade containment: Welch $t = 213.39$, $p < 1
 
 The measured exponents confirm the asymptotic separation derived in Section 2.2: the mesh grows quadratically ($k = 2.06$) while the three coordinated topologies grow linearly ($k \approx 1.0$ to $1.06$). At $N = 64$ this is a $96.88\%$ reduction in coordination messages between mesh and hierarchical tree.
 
+![Coordination messages against agent count, log-log. The fitted exponent separates quadratic mesh broadcast from the linear coordinated topologies.](figures/p5_message_scaling.pdf)
+
+
 Two results qualify the naive reading that hierarchy dominates. First, coordination depth moves in the opposite direction: the hierarchical tree has the deepest critical path (6 hops against 1 for a mesh broadcast), so its message savings are paid for in serial latency whenever per-hop cost is non-trivial. Second, contract-net achieves cascade containment within about one percentage point of the hierarchical tree ($4.00\%$ against $2.84\%$) at half the coordination depth, making it the stronger choice when latency is the binding constraint.
+
+![Mean fraction of agents affected by a cascade, with bootstrap 95\% confidence intervals over 20,000 trials per topology.](figures/p5_cascade_containment.pdf)
+
 
 ### Reliability and Availability
 

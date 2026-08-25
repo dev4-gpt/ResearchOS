@@ -410,6 +410,25 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
+        # 1b. Markdown images become real floats. Without this the converter drops
+        # them silently, which is how 108 packages shipped with zero figures.
+        def replace_image(match):
+            caption = self.sanitize_latex(match.group(1).strip())
+            target = match.group(2).strip()
+            label = re.sub(r'[^a-zA-Z0-9]+', '-', os.path.splitext(
+                os.path.basename(target))[0]).strip('-')
+            body = (
+                "\\includegraphics[width=\\columnwidth]{"
+                + os.path.basename(target) + "}"
+            )
+            return (
+                "\n\\begin{figure}[htbp]\n\\centering\n" + body + "\n"
+                + (f"\\caption{{{caption}}}\n" if caption else "")
+                + f"\\label{{fig:{label}}}\n\\end{{figure}}\n"
+            )
+
+        text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', replace_image, text)
+
 
         # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, internal workflow diagrams, and metadata noise
         text = re.sub(r'>\s*ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
@@ -1193,6 +1212,18 @@ This empirical synthesis is subject to primary repository indexing limits and pu
             if os.path.exists(templates_dir):
                 for fname in os.listdir(templates_dir):
                     src_f = os.path.join(templates_dir, fname)
+                    if os.path.isfile(src_f):
+                        shutil.copy(src_f, tmpdir)
+
+            # Figures live beside the drafts and are referenced by basename, so the
+            # build directory needs them too or every \includegraphics fails.
+            figures_dir = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "vault", "04_Drafts", "figures",
+            )
+            if os.path.isdir(figures_dir):
+                for fname in os.listdir(figures_dir):
+                    src_f = os.path.join(figures_dir, fname)
                     if os.path.isfile(src_f):
                         shutil.copy(src_f, tmpdir)
 

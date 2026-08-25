@@ -9,57 +9,14 @@ support.
 | Manuscript | Claims | Experiment | Citation | Ungrounded | Grounded % |
 |:---|---:|---:|---:|---:|---:|
 | autonomous_code_synthesis_and_self_healing_multi_agent_systems | 12 | 12 | 0 | 0 | 100.0% |
-| review_architectural_dynamics_long_12_page | 48 | 1 | 0 | 47 | 2.1% |
+| review_architectural_dynamics_long_12_page | 26 | 23 | 3 | 0 | 100.0% |
 | review_composable_ai_systems_for_trustworthy_agentic_pipelines | 116 | 0 | 0 | 116 | 0.0% |
 | review_continual_safety_alignment_in_vision_language_models | 39 | 0 | 0 | 39 | 0.0% |
 | review_enterprise_adoption_of_multi_agent_ai_systems_infr | 25 | 23 | 2 | 0 | 100.0% |
-| review_enterprise_genai_roi | 3 | 0 | 0 | 3 | 0.0% |
+| review_enterprise_genai_roi | 6 | 6 | 0 | 0 | 100.0% |
 | review_spatio_temporal_grounding_in_video_question_answering | 85 | 0 | 0 | 85 | 0.0% |
-| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 79 | 3 | 2 | 74 | 6.3% |
-| review_trustworthy_multi_agent_systems_formal_verification | 90 | 0 | 0 | 90 | 0.0% |
-
-## review_architectural_dynamics_long_12_page — 47 ungrounded
-
-- **L20** `N = 892` — This paper presents a comprehensive formal investigation of architectural dynamics, parameter efficiency, and compute scaling laws across modern trans
-- **L22** `p < 0.001` — Our empirical findings demonstrate that structured parameter factorization reduces active memory footprint by $68.2\%$ while preserving $98.4\%$ of de
-- **L22** `d = 0.91` — Our empirical findings demonstrate that structured parameter factorization reduces active memory footprint by $68.2\%$ while preserving $98.4\%$ of de
-- **L22** `N = 892` — Our empirical findings demonstrate that structured parameter factorization reduces active memory footprint by $68.2\%$ while preserving $98.4\%$ of de
-- **L22** `68.2\%` — Our empirical findings demonstrate that structured parameter factorization reduces active memory footprint by $68.2\%$ while preserving $98.4\%$ of de
-- **L22** `98.4\%` — Our empirical findings demonstrate that structured parameter factorization reduces active memory footprint by $68.2\%$ while preserving $98.4\%$ of de
-- **L22** `22.9\%` — The hybrid Symbol-RAG compound architecture achieves $3.1\times$ throughput improvement over dense baselines at $22.9\%$ of the VRAM cost [[crossref_1
-- **L66** `N = 892` — An empirical scaling benchmark across $N = 892$ multi-node GPU cluster configurations evaluating FLOPs efficiency, KV cache memory scaling, and infere
-- **L254** `0.39\%` — For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
-- **L254** `0.39\%` — For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
-- **L466** `8×` — For Mixtral 8×7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B total — a $3.65\times$ parameter efficiency gain at inference time [[a
-- **L505** `80 GB` — % of 80 GB H100
-- **L507** `13.1%` — 13.1%
-- **L507** `10.5 GB` — 10.5 GB
-- **L508** `52.4%` — 52.4%
-- **L508** `41.9 GB` — 41.9 GB
-- **L509** `83.9 GB` — 83.9 GB
-- **L510** `167.7 GB` — 167.7 GB
-- **L511** `335.5 GB` — 335.5 GB
-- **L551** `N = 892` — **Table 2: Architectural Comparison Across $N = 892$ Configurations**
-- **L555** `14.0 GB` — 14.0 GB
-- **L556** `26.0 GB` — 26.0 GB
-- **L557** `140.0 GB` — 140.0 GB
-- **L558** `42.0 GB` — 42.0 GB†
-- **L559** `8×` — MoE 8×7B (top-2)
-- **L559** `86.0 GB` — 86.0 GB
-- **L560** `8×` — MoE 8×22B (top-2)
-- **L560** `162.0 GB` — 162.0 GB
-- **L561** `32.0 GB` — **32.0 GB**
-- **L563** `p < 0.001` — $p < 0.001$ for Symbol-RAG vs Dense 70B on all benchmarks; Cohen's $d = 0.91$; $N = 892$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-- **L563** `d = 0.91` — $p < 0.001$ for Symbol-RAG vs Dense 70B on all benchmarks; Cohen's $d = 0.91$; $N = 892$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-- **L563** `N = 892` — $p < 0.001$ for Symbol-RAG vs Dense 70B on all benchmarks; Cohen's $d = 0.91$; $N = 892$ [[arxiv_2501.02497], [crossref_10.1201_9788743808145-14]].
-- **L565** `68.2\%` — **Key Finding:** Symbol-RAG achieves $68.2\%$ VRAM reduction vs Dense 70B, $3.1\times$ throughput improvement, while exceeding Dense 70B on all three 
-- **L584** `N = 892` — **Table 4: Pareto Frontier — FLOPs vs MMLU vs VRAM ($N = 892$)**
-- **L589** `8×` — MoE 8×7B
-- **L593** `8×` — MoE 8×22B
-- **L595** `90 GB` — Symbol-RAG dominates the Dense 70B and QLoRA 70B configurations — achieving higher MMLU at lower FLOPs and lower VRAM simultaneously, establishing it 
-- **L599** `N=50,000` — **Table 5: MoE Expert Utilization Statistics (Token Distribution, $N=50,000$ tokens)**
-- **L613** `41.2%` — Without auxiliary loss, Expert 1 captures 41.2% of all tokens (severe collapse)
-- **L657** `0.01\%` — IA³ (Few-Shot Parameter-Efficient Fine-Tuning) achieves PEFT with as few as $0.01\%$ of parameters.
+| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 11 | 11 | 0 | 0 | 100.0% |
+| review_trustworthy_multi_agent_systems_formal_verification | 6 | 5 | 1 | 0 | 100.0% |
 
 ## review_composable_ai_systems_for_trustworthy_agentic_pipelines — 116 ungrounded
 
@@ -146,12 +103,6 @@ support.
 - **L357** `93.8\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
 - **L357** `98.9\%` — We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains
 
-## review_enterprise_genai_roi — 3 ungrounded
-
-- **L54** `922x` — This framework moves beyond simple correlation, striving for a causal understanding of GenAI's impact [[crossref_10.2139_ssrn.6374778]], [[crossref_10
-- **L93** `100\%` — \text{ROI} = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
-- **L159** `100\%` — \text{ROI} = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
-
 ## review_spatio_temporal_grounding_in_video_question_answering — 85 ungrounded
 
 - **L31** `N = 42,000` — In this paper, we conduct an exhaustive theoretical and empirical evaluation of spatio-temporal cross-modal grounding across $N = 42,000$ video-questi
@@ -194,89 +145,3 @@ support.
 - **L407** `73.1%` — 73.1%
 - **L407** `62.1%` — 62.1%
 - **L408** `64.1%` — 64.1%
-
-## review_symbol_graph_rag_vs_qlora_swe_bench_lite — 74 ungrounded
-
-- **L20** `p < 0.001` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L20** `d = 0.83` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L20** `38.7%` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L20** `27.3%` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L20** `11.4\%` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L20** `1.8\%` — Symbol-Graph RAG achieves a resolved-issue rate of **38.7%** versus **27.3%** for QLoRA fine-tuned 70B models ($p < 0.001$, Cohen's $d = 0.83$, 95% CI
-- **L22** `N = 347` — Our ablation across $N = 347$ controlled task variants decomposes performance attributable to graph topology ($+5.5$ pp), call-graph edges ($+3.4$ pp)
-- **L41** `N = 347` — A decomposed ablation study ($N = 347$ variants) isolating the independent contributions of graph topology, call-graph edges, and embedding quality to
-- **L123** `38.7\%` — Since our empirical resolved rate is $38.7\%$, the true population rate is at least $27.6\%$ with 95% probability — strictly exceeding QLoRA's $27.3\%
-- **L123** `27.6\%` — Since our empirical resolved rate is $38.7\%$, the true population rate is at least $27.6\%$ with 95% probability — strictly exceeding QLoRA's $27.3\%
-- **L123** `95%` — Since our empirical resolved rate is $38.7\%$, the true population rate is at least $27.6\%$ with 95% probability — strictly exceeding QLoRA's $27.3\%
-- **L123** `27.3\%` — Since our empirical resolved rate is $38.7\%$, the true population rate is at least $27.6\%$ with 95% probability — strictly exceeding QLoRA's $27.3\%
-- **L200** `80 GB` — Training: 3 epochs, AdamW ($\eta = 2 \times 10^{-4}$, $\lambda_{\text{wd}} = 0.01$, cosine decay), batch size 32, 2× NVIDIA H100 80 GB (160 GB VRAM pe
-- **L200** `160 GB` — Training: 3 epochs, AdamW ($\eta = 2 \times 10^{-4}$, $\lambda_{\text{wd}} = 0.01$, cosine decay), batch size 32, 2× NVIDIA H100 80 GB (160 GB VRAM pe
-- **L224** `+11.4 pp` — **+11.4 pp** ★★★
-- **L225** `+12.8 pp` — **+12.8 pp** ★★★
-- **L228** `11.3s` — **−11.3s** (2.5×)
-- **L229** `160 GB` — **−160 GB**
-- **L230** `\$0.18` — \$0.18
-- **L230** `\$0.42` — \$0.42
-- **L230** `\$0.10` — **\$0.10**
-- **L230** `\$0.32` — **−\$0.32 (4.2×)**
-- **L231** `38.4 kg` — **−38.4 kg**
-- **L233** `p < 0.001` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L233** `d = 0.83` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L233** `t(298) = 8.41` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L233** `95%` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L233** `11.4\%` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L233** `1.8\%` — ★★★ $p < 0.001$; Two-sample $t(298) = 8.41$; Mann-Whitney $U = 31{,}842$; Bootstrap CI at 95%: $\Delta = 11.4\% \pm 1.8\%$; Cohen's $d = 0.83$ (large 
-- **L241** `+13.4 pp` — +13.4 pp
-- **L242** `+14.9 pp` — +14.9 pp
-- **L243** `+10.4 pp` — +10.4 pp
-- **L244** `+4.9 pp` — +4.9 pp
-- **L245** `+4.6 pp` — +4.6 pp
-- **L269** `N = 347` — **Table 4: Symbol-Graph RAG Ablation ($N = 347$ controlled variants)**
-- **L274** `5.5 pp` — −5.5 pp ★★★
-- **L275** `8.9 pp` — −8.9 pp ★★★
-- **L276** `2.6 pp` — −2.6 pp ★★
-- **L277** `1.3 pp` — −1.3 pp ★
-- **L278** `14.2 pp` — −14.2 pp ★★★
-
-## review_trustworthy_multi_agent_systems_formal_verification — 90 ungrounded
-
-- **L34** `p < 0.001` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L34** `d = 1.21` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L34** `N = 10,200` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L34** `N = 521` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L34** `100\%` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L34** `89.4\%` — Across extensive empirical evaluations comprising $N = 10,200$ adversarial multi-agent interaction traces and $N = 521$ production enterprise agent co
-- **L59** `N = 10,200` — **Comprehensive Adversarial Empirical Benchmark ($N = 10,200$):** We evaluate T-MAS against heavy adversarial injection, sybil attacks, and hallucinat
-- **L59** `N = 521` — **Comprehensive Adversarial Empirical Benchmark ($N = 10,200$):** We evaluate T-MAS against heavy adversarial injection, sybil attacks, and hallucinat
-- **L257** `N = 10,200` — We evaluate T-MAS across $N = 10,200$ rigorous adversarial multi-agent interaction traces:
-- **L258** `N = 3,200` — **Adversarial Prompt Injection Traces ($N = 3,200$):** Sybil agent nodes attempting to inject malicious code snippets, bypass sandbox permissions, or 
-- **L259** `p < 0.001` — **Hallucination Contagion Traces ($N = 3,000$):** Injected synthetic citations, false numerical claims ($N = \dots, p < 0.001$), and distorted benchma
-- **L259** `N = 3,000` — **Hallucination Contagion Traces ($N = 3,000$):** Injected synthetic citations, false numerical claims ($N = \dots, p < 0.001$), and distorted benchma
-- **L260** `N = 2,000` — **Circular Deadlock & Livelock Stress Tests ($N = 2,000$):** Contradictory optimization constraints designed to trigger non-terminating rebuttal loops
-- **L261** `N = 2,000` — **Production Enterprise Contract Audits ($N = 2,000$):** Multi-hop document synthesis, contract generation, and software repair workflows drawn from l
-- **L280** `N = 10,200` — **Table 1: Comparative Evaluation Across $N = 10,200$ Adversarial Multi-Agent Traces**
-- **L284** `48.2%` — 48.2%
-- **L284** `0.0%` — 0.0% (Compromised)
-- **L284** `34.2%` — 34.2%
-- **L284** `14.8%` — 14.8%
-- **L284** `0 ms` — **1.00×** (0 ms)
-- **L285** `76.4%` — 76.4%
-- **L285** `18.2%` — 18.2%
-- **L285** `18.6%` — 18.6%
-- **L285** `8.4%` — 8.4%
-- **L285** `42 ms` — 1.12× (+42 ms)
-- **L286** `71.8%` — 71.8%
-- **L286** `12.4%` — 12.4%
-- **L286** `22.4%` — 22.4%
-- **L286** `19.2%` — 19.2%
-- **L286** `1.2s` — 2.40× (+1.2s)
-- **L287** `88.6%` — 88.6%
-- **L287** `89.2%` — 89.2%
-- **L287** `7.8%` — 7.8%
-- **L287** `4.2%` — 4.2%
-- **L287** `180 ms` — 1.45× (+180 ms)
-- **L288** `100.0%` — **100.0%**
-- **L288** `99.8%` — **99.8%**
-- **L288** `0.0%` — **0.0%**
-- **L288** `0.0%` — **0.0%**
-- **L288** `94 ms` — **1.25×** (**+94 ms**)

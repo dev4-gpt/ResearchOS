@@ -19,230 +19,50 @@ checkmate_date: "2026-08-12"
 ---
 # Executive Abstract
 
-Enterprise adoption of Generative Artificial Intelligence (GenAI) and autonomous multi-agent systems has accelerated rapidly across enterprise software engineering, customer experience, and data operations [[crossref_10.2139_ssrn.7052339]], [[crossref_10.2139_ssrn.7133258]]. However, organizations face significant friction in measuring causal return on investment (ROI), managing token compute budgets, and governing operational risk [[europepmc_PPR1166729]], [[crossref_10.2139_ssrn.6374778]]. In this comprehensive review, we synthesize quantitative findings from enterprise deployments [[crossref_10.2139_ssrn.6323178]], [[crossref_10.1201_9788743808145-14]], establish a multi-tier econometric measurement framework [[openalex_W4400993506]], and evaluate total cost of ownership (TCO) scaling dynamics across cloud infrastructure environments [[crossref_10.36948_ijfmr.2023.v05i01.19579]], [[doaj_1f8a15781bc84c56b7274d1630b4cb88]].
+Enterprise adoption of generative AI has outpaced the evidence base for evaluating it [[crossref_10.2139_ssrn.7052339]]. This review characterises that evidence base by census rather than by meta-analytic pooling, because the primary studies do not report the comparable effect sizes pooling requires.
 
-Enterprise adoption of Generative Artificial Intelligence (GenAI) and autonomous multi-agent systems has accelerated rapidly across enterprise software engineering, customer experience, and data operations. However, organizations face significant friction in measuring causal return on investment (ROI), managing token compute budgets, and governing operational risk. In this comprehensive review, we synthesize quantitative findings from enterprise deployments, establish a multi-tier econometric measurement framework, and evaluate total cost of ownership (TCO) scaling dynamics across cloud infrastructure environments.
+Five search strings against the OpenAlex corpus returned 2000 records, 1893 unique after deduplication and 1779 retaining a usable abstract. The literature is recent and dispersed: 68.63\% appeared in 2023 or later, spread across 714 distinct venues, with median citation count 62 and only 0.51\% uncited.
 
-# Introduction & Executive Synthesis
+The finding that matters for practice is how little of this literature reports data. Abstract-level screening for sample-size and study-design markers classifies 31.76\% as empirical (bootstrap 95\% lower bound 29.57\%); the remainder is conceptual, positional, or descriptive. A field in which roughly two-thirds of the published record reports no measurement cannot yet support the quantitative ROI benchmarks that practitioners ask of it [[crossref_10.2139_ssrn.6374778]].
 
-Enterprise adoption of Generative Artificial Intelligence (GenAI) has transitioned rapidly from experimental proof-of-concept pilots to mission-critical operational deployments. As organizations deploy Large Language Models (LLMs) and autonomous multi-agent systems across software engineering, customer experience, and business intelligence, quantifying return on investment (ROI) has emerged as a central strategic requirement [[crossref_10.2139_ssrn.6374778]]. 
-
-However, measuring GenAI ROI presents complex methodological challenges. Traditional marketing mix modeling (MMM) and multi-touch attribution (MTA) frameworks operate in silos, failing to capture the non-linear interaction between practitioner domain mastery, tool integration depth, and autonomous agent capabilities [[openalex_W4400993506]], [[crossref_10.2139_ssrn.6065919]], [[crossref_10.47363_jaicc_icadccs2026_2026(5)20]]. Furthermore, high compute costs, GPU memory constraints, model drift, and data security risks threaten to erode projected financial gains unless mitigated by mature MLOps governance [[crossref_10.2139_ssrn.6374778]], [[crossref_10.2139_ssrn.6869661]], [[openalex_W4410320336]], [[crossref_10.21203_rs.3.rs-9890887_v1]].
-
-This paper delivers a principal-level literature review and empirical framework addressing:
-3. **Enterprise Risk Governance**: Operationalizing risk management boundaries to control shadow AI API provisioning, model drift, and proprietary data leakage.
-
-## Quantitative Analysis & Empirical Evidence
-
-The assessment of Return on Investment (ROI) for Generative AI (GenAI) initiatives in enterprise settings remains a nascent yet critical area of research. While the transformative potential of GenAI is widely acknowledged, concrete, universally comparable quantitative evidence across diverse industries is still emerging. This section presents a meta-analysis of the available quantitative results and proposed frameworks from surveyed literature, identifying key empirical findings and highlighting the methodologies being developed to substantiate GenAI's business value.
-
-### Empirical Findings: Early Indicators of Value
-
-Quantitative evidence directly attributing specific monetary value to GenAI implementations is currently limited but highly indicative of significant potential. One notable instance of reported business value comes from a practical application demonstrated in a GitHub repository:
-
-This single significant data point, though isolated, serves as an empirical anchor, illustrating that substantial financial benefits are attainable. It likely encompasses a combination of revenue uplift, cost savings, and efficiency gains across various business processes.
-
-### Frameworks for Causal ROI Attribution
-
-Beyond isolated figures, several papers focus on developing robust methodologies and frameworks for attributing and optimizing GenAI's impact, particularly in complex domains like life sciences marketing [[crossref_10.2139_ssrn.6374778]], [[crossref_10.2139_ssrn.5629770]], [[crossref_10.52710_cfs.1082]].
-
-**Kumar (2026)** introduces a multi-layered Causal ROI Framework specifically tailored for the life sciences industry, addressing the limitations of traditional ROI attribution models such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA) [[crossref_10.2139_ssrn.6374778]]. These conventional approaches often operate in silos, leading to fragmented or contradictory signals that hinder unified decision-making. The proposed framework aims to:
-1.  **Attribute** commercial spend across the Healthcare Professional (HCP) engagement journey.
-2.  **Optimize** marketing budget allocation and HCP targeting.
-3.  **Activate** GenAI-driven personalization strategies across digital and offline channels.
-
-This framework moves beyond simple correlation, striving for a causal understanding of GenAI's impact [[crossref_10.2139_ssrn.6374778]], [[crossref_10.2139_ssrn.5401053]], [[crossref_10.63282_3050-922x.ijeret-v6i3p121]]. The general principle of ROI is typically defined as:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-\text{ROI} = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-\text{ROI} = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Similarly, **Modi (2026)** focuses on "Measuring Business ROI of Generative AI Adoption on Azure Cloud Platforms," indicating the development of platform-specific methodologies for ROI assessment [[openalex_W4400993506]]. This highlights a trend towards integrating ROI measurement capabilities directly within cloud ecosystems, potentially leveraging platform-native analytics and financial reporting tools to quantify GenAI's impact on resource utilization, operational efficiency, and revenue generation tied to cloud services.
-
-**Thukral et al. (2023)**, while not providing explicit quantitative figures, strongly emphasizes the potential for "concrete ROI" and "reduced risk" through customer journey optimization using LLMs [[crossref_10.2139_ssrn.6374778]]. Their work outlines best practices for deploying GenAI in marketing and customer experience, implicitly linking successful implementation to quantifiable outcomes such as:
-*   **Increased Conversion Rates:** Through personalized content and proactive engagement.
-*   **Reduced Customer Service Costs:** Via intelligent chatbots and self-service solutions.
-*   **Improved Customer Lifetime Value (CLTV):** By fostering stronger relationships and tailored experiences.
-*   **Accelerated Time-to-Market:** For new marketing campaigns and content creation.
-
-These qualitative discussions underscore the various levers through which GenAI is expected to drive financial returns, guiding organizations in identifying high-value use cases.
-
-### Comparison of Reported ROI & Measurement Approaches
-
-Given the nascent stage of robust, publicly available quantitative data, a direct statistical meta-analysis with pooled effect sizes is not yet feasible. Instead, we summarize the identified contributions regarding GenAI ROI in Table 1, categorizing them by the type of evidence or framework presented.
-
-**Table 1: Summary of GenAI ROI Contributions and Measurement Approaches**
-
-| Paper ID / Source | Focus Area | Reported Quantitative Value / Claim | Measurement Approach / Framework | Key Insights |
-| :---------------- | :---------------------------------- | :-------------------------------- | :------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Kumar (2026) | Life Sciences: Marketing & HCP Targeting | Conceptual "Causal ROI" | Multi-layered Causal ROI Framework; integrates MMM & MTA | Emphasizes rigorous attribution beyond correlation; aims to optimize spend and personalize engagement for measurable outcomes. |
-| Modi (2026) | GenAI Adoption on Azure Cloud | "Measuring Business ROI" | Platform-specific ROI methodology | Indicates the development of integrated measurement tools within major cloud environments for GenAI investments. |
-| Thukral et al. (2023) | Customer Journey Optimization | "Concrete ROI" & "Reduced Risk" | Best practices and pitfalls analysis for GenAI deployment | Qualitatively highlights areas of expected financial returns (e.g., conversion rates, customer service costs) through strategic GenAI use. |
-
-### Statistical Summaries and Identified Gaps
-
-The meta-analysis reveals a significant gap between the theoretical recognition of GenAI's ROI potential and the widespread availability of detailed, transparent empirical studies. The existing literature largely focuses on:
-*   **Framework Development:** Establishing methods for *how* to measure ROI, particularly addressing causality and attribution challenges.
-*   **Qualitative Identification:** Pinpointing areas where GenAI is expected to deliver value (e.g., customer experience, operational efficiency).
-*   **Initial Practical Demonstrations:** Showcasing specific instances of value realization, often without comprehensive methodological detail for external replication or generalization.
-
-### Limitations, Applicability Boundaries, and Threats to Validity:
-1.  **Heterogeneity of Use Cases:** GenAI is applied across a vast spectrum of enterprise functions (marketing, customer service, R&D, operations), making direct comparisons of ROI challenging due to varying baselines, investment scales, and metrics.
-2.  **Attribution Complexity:** Isolating the precise financial impact of GenAI from other concurrent digital transformation initiatives, changes in market conditions, or other technological interventions is inherently difficult. Causal frameworks like Kumar's are crucial here but require sophisticated data and analytical capabilities.
-3.  **Proprietary Nature of Data:** Many enterprises consider their GenAI deployment details and ROI figures as competitive intelligence, limiting public disclosure and hindering academic meta-analysis.
-4.  **Early Stage of Adoption:** The rapid evolution of GenAI technology means that many implementations are still in pilot or early deployment phases, where long-term ROI may not yet be fully realized or measured.
-
-### Future Directions for Empirical Research
-
-To build a more robust quantitative understanding of enterprise GenAI ROI, future research should focus on:
-*   **Standardized Reporting:** Encouraging enterprises to adopt standardized metrics and reporting frameworks for GenAI ROI, enabling better comparability.
-*   **Longitudinal Studies:** Tracking GenAI implementations over extended periods to capture long-term value, including indirect benefits and compounded effects.
-*   **Cross-Industry Benchmarking:** Developing industry-specific benchmarks for GenAI ROI to provide context for individual enterprise performance.
-*   **Case Studies with Detailed Methodology:** Publishing comprehensive case studies that detail the investment, methodology for ROI calculation, and specific outcomes, allowing for validation and generalization.
-*   **Impact on Human Capital:** Quantifying the ROI derived from augmenting human capabilities, such as increased employee productivity, faster skill acquisition, and enhanced decision-making.
-
-[[openalex_W4400993506]]
+We therefore present a measurement framework and a taxonomy of what would need to be reported, rather than a pooled ROI estimate. Where individual studies report returns, those figures belong to the study that measured them and are attributed accordingly. This review conducted no survey of its own and reports no enterprise deployment count [[openalex_W4400993506]].
 
 ---
 
-# Systems & Infrastructure Considerations
+## Review Methodology and Corpus Census
 
-The successful integration and sustained value generation from Generative AI (GenAI) in an enterprise setting extend far beyond model development, critically depending on robust systems and infrastructure. Neglecting these practical concerns can erode potential return on investment (ROI), transform promising initiatives into costly liabilities, and impede scalability. This section analyzes key systems-level considerations, including compute costs, scalability requirements, deployment bottlenecks, governance frameworks, and broader organizational implementation challenges crucial for realizing enterprise GenAI ROI.
+### Search and Screening
 
+The corpus was assembled by querying the OpenAlex API with five search strings covering enterprise adoption, business value, return on investment, multi-agent workflow, and cost of ownership, restricted to publications from 2019 onward. Records were deduplicated by OpenAlex work identifier and screened for a reconstructable abstract and title.
+
+### Table 1: Identification and Screening
+
+| Stage | Records |
+|:---|:---:|
+| Identified across five search strings | 2000 |
+| Unique after deduplication | 1893 |
+| Screened (abstract and title present) | 1779 |
+
+### Table 2: Corpus Characteristics ($n = 1779$)
+
+| Property | Value |
+|:---|:---:|
+| Published 2023 or later (\%) | 68.63 |
+| Distinct venues | 714 |
+| Median citation count | 62 |
+| Uncited share (\%) | 0.51 |
+| Open access share (\%) | 98.54 |
+| Abstracts reporting data (\%) | 31.76 |
+
+### A Sampling Caveat That Changes the Reading
+
+OpenAlex returns results ranked by relevance, so this corpus is the top of each query's ranking rather than a random sample of the literature. Rates computed over it are biased upward: the 98.54\% open-access share and median of 62 citations describe well-indexed, well-cited work and should not be read as properties of the field as a whole. The measure we rely on -- the share of abstracts reporting data -- is biased in the same direction, which makes 31.76\% an optimistic upper estimate. That strengthens rather than weakens the conclusion drawn from it.
+
+### Why No Pooled Effect Size
+
+A meta-analysis requires primary studies reporting comparable outcomes with dispersion estimates. In this corpus most reported returns are single-organisation figures with no variance, no control condition, and no common definition of the denominator. Pooling them would manufacture precision that the underlying studies do not have. We report the census and the measurement framework instead.
+
+---
 ## Compute Costs and Resource Management
 
 The computational demands of GenAI models, particularly Large Language Models (LLMs), represent a significant component of the total cost of ownership (TCO). These costs are multifaceted, encompassing both model training and inference.
@@ -287,12 +107,16 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -436,12 +260,16 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
+
 
 
 

@@ -88,6 +88,8 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -115,6 +117,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -122,6 +128,10 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -170,6 +180,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -178,6 +192,10 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -217,6 +235,8 @@ $}
 
 
 
+
+
 \textbf{Proposition 1 (Closure Under Grammar).} For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 \textit{Proof.} Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -237,6 +257,8 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -244,6 +266,10 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -291,6 +317,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -318,6 +348,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -325,6 +359,8 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -368,6 +404,8 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -376,6 +414,8 @@ V(T) = & d_{\text{AST}}(T, \\
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -401,6 +441,8 @@ the tree-edit distance from the current state $T$ to the target state $T^*$ unde
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -408,6 +450,8 @@ k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rflo
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -447,6 +491,8 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -454,6 +500,8 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -599,6 +647,16 @@ Z3-SMT reachability & 506 & 0 & 0.00 \\
 
 Across 93 integer guards submitted to the solver, Z3 rejected no candidate that the binding check had already passed. The marginal value of the symbolic stage on this corpus is zero.
 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\columnwidth]{p3\_prefilter\_stages.pdf}
+\caption{Candidates entering each pre-filter stage and the share rejected there. Static name binding carries the filter; the SMT stage rejects nothing.}
+\label{fig:p3-prefilter-stages}
+\end{figure}
+
+
+
 This is the paper's most consequential result and it runs against our starting premise. Two explanations are consistent with it. First, the mutation operators that most often produce invalid code do so by breaking name bindings, which stage 2 catches completely and more cheaply. Second, guards that survive mutation tend to remain satisfiable: mutating a comparison operator usually yields another reachable branch rather than a contradiction, so there is little for a reachability check to find. A solver stage would be expected to pay for itself on defect classes built around numeric contradiction -- array bounds, division by zero, interval invariants -- which this operator set does not generate. We report the negative result rather than substitute a corpus chosen to produce a positive one.
 
 
@@ -618,6 +676,16 @@ Worst-case repair steps observed & 19 & $n = 300$ seeded defects \\
 \end{table}
 
 The empirical convergence profile is consistent with Theorem 1: the node-multiset distance decreases monotonically across accepted repair actions and reaches zero in finite steps in every one of the 300 trials, with a worst case of 19 steps.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\columnwidth]{p3\_repair\_convergence.pdf}
+\caption{Accepted repair steps to convergence over 300 seeded defects. Every trial terminated, with a worst case well inside the theoretical bound.}
+\label{fig:p3-repair-convergence}
+\end{figure}
+
+
 
 
 
@@ -647,6 +715,8 @@ What the staged measurement does establish is an ordering argument for filter de
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -654,6 +724,8 @@ What the staged measurement does establish is an ordering argument for filter de
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 

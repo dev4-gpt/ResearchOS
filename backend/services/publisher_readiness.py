@@ -207,6 +207,30 @@ class PublisherReadinessService:
         match = re.search(r"^#{1,6}\s*(?:\d+[.\s]*)?(?:executive\s+)?abstract\s*$([\s\S]*?)(?=^#{1,6}\s|\Z)", content, re.I | re.M)
         return match.group(1).strip() if match else "Executive Abstract"
 
+    @staticmethod
+    def _recorded_measurements(draft_filename: str) -> List[float]:
+        """Values recorded by the experiment bound to this draft, if any."""
+        import json as _json
+
+        stem = draft_filename[:-3] if draft_filename.endswith(".md") else draft_filename
+        path = os.path.join("runs", f"draft-{stem}", "measurements.jsonl")
+        if not os.path.exists(path):
+            return []
+        values: List[float] = []
+        with open(path, "r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = _json.loads(line)
+                    values.append(float(row["value"]))
+                    for bound in row.get("ci95") or []:
+                        values.append(float(bound))
+                except (ValueError, KeyError, TypeError):
+                    continue
+        return values
+
     def run(self, target_filename: Optional[str] = None, venues: Optional[List[str]] = None) -> Dict[str, Any]:
         requested_venues = venues or DEFAULT_PUBLISHER_VENUES
         test_venues = [venue for venue in requested_venues if venue in VENUE_PROFILES]
@@ -262,10 +286,14 @@ class PublisherReadinessService:
             title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
             authors = meta.get("authors", ["Aryaman Dev"])
             value_report = value_reports[filename]
+            # Values this draft's own experiment recorded. Without them the fact
+            # checker flags measured results as unverified simply because they are
+            # not in the literature corpus, contradicting the provenance gate.
             evidence_report = self.fact_checker.audit_document(
                 content,
                 source_texts=source_texts,
                 source_records=source_records,
+                measured_values=self._recorded_measurements(filename),
             )
             originality_report = originality["per_file"].get(filename, {"passed": True, "status": "PASS", "max_five_gram_overlap_pct": 0.0})
             venue_results: Dict[str, Any] = {}

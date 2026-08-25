@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 13,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 13-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 13,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -110,30 +110,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -152,25 +137,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -184,30 +154,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -226,25 +181,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -265,7 +205,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 11,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -308,7 +248,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 11-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -345,7 +285,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 11,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -360,30 +300,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -402,25 +327,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -434,30 +344,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -476,25 +371,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -515,7 +395,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -558,7 +438,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -595,7 +475,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -610,30 +490,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -652,25 +517,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -684,30 +534,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -726,25 +561,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -765,7 +585,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 13,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -808,7 +628,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 13-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -845,7 +665,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 13,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -860,30 +680,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -902,25 +707,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -934,30 +724,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -976,25 +751,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -1012,10 +772,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1046,9 +806,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -1058,7 +818,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1095,7 +855,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1110,30 +870,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -1152,25 +897,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -1184,30 +914,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -1226,25 +941,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -1262,10 +962,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1296,9 +996,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -1308,7 +1008,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1345,7 +1045,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1360,30 +1060,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -1402,25 +1087,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -1434,30 +1104,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -1476,25 +1131,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -1512,10 +1152,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1546,9 +1186,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -1558,7 +1198,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1595,7 +1235,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1610,30 +1250,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -1652,25 +1277,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -1684,30 +1294,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -1726,25 +1321,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -1762,10 +1342,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1796,9 +1376,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -1808,7 +1388,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1845,7 +1425,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1860,30 +1440,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -1902,25 +1467,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -1934,30 +1484,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -1976,25 +1511,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -2012,10 +1532,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2046,9 +1566,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -2058,7 +1578,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2095,7 +1615,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2110,30 +1630,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -2152,25 +1657,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -2184,30 +1674,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -2226,25 +1701,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -2262,10 +1722,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2296,9 +1756,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -2308,7 +1768,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2345,7 +1805,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2360,30 +1820,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -2402,25 +1847,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -2434,30 +1864,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -2476,25 +1891,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -2512,10 +1912,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 91.7,
+      "checkmate_score": 83.3,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2546,9 +1946,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -2558,7 +1958,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2595,7 +1995,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2610,30 +2010,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -2652,25 +2037,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -2684,30 +2054,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -2726,25 +2081,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],
@@ -2762,10 +2102,10 @@
       "checkmate_passed": true,
       "layout_passed": true,
       "publish_ready": true,
-      "checkmate_score": 100.0,
+      "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 7,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2796,9 +2136,9 @@
           "detail": "Author explicitly attributed"
         },
         "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
+          "passed": false,
+          "score": 0,
+          "detail": "Abstract is truncated mid-sentence"
         },
         "real_bibliography": {
           "passed": true,
@@ -2808,7 +2148,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 7-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2845,7 +2185,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 7,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2860,30 +2200,15 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 20,
-              "verified_count": 20,
+              "total_citations": 5,
+              "verified_count": 5,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_links": [],
@@ -2902,25 +2227,10 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_21203_rs_3_rs_9890887_v1",
-                "crossref_10_2139_ssrn_5401053",
-                "crossref_10_2139_ssrn_5629770",
-                "crossref_10_2139_ssrn_6065919",
-                "crossref_10_2139_ssrn_6323178",
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_6869661",
                 "crossref_10_2139_ssrn_7052339",
-                "crossref_10_2139_ssrn_7133258",
-                "crossref_10_36948_ijfmr_2023_v05i01_19579",
-                "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-                "crossref_10_52710_cfs_1082",
-                "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-                "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-                "europepmc_ppr1166729",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
-                "openalex_w4410320336",
                 "openalex_w7138188291"
               ],
               "broken_citations": [],
@@ -2934,30 +2244,15 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 20,
-          "verified_count": 20,
+          "total_citations": 5,
+          "verified_count": 5,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_links": [],
@@ -2976,25 +2271,10 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_21203_rs_3_rs_9890887_v1",
-            "crossref_10_2139_ssrn_5401053",
-            "crossref_10_2139_ssrn_5629770",
-            "crossref_10_2139_ssrn_6065919",
-            "crossref_10_2139_ssrn_6323178",
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_6869661",
             "crossref_10_2139_ssrn_7052339",
-            "crossref_10_2139_ssrn_7133258",
-            "crossref_10_36948_ijfmr_2023_v05i01_19579",
-            "crossref_10_47363_jaicc_icadccs2026_2026_5_20",
-            "crossref_10_52710_cfs_1082",
-            "crossref_10_63282_3050_922x_ijeret_v6i3p121",
-            "doaj_1f8a15781bc84c56b7274d1630b4cb88",
-            "europepmc_ppr1166729",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
-            "openalex_w4410320336",
             "openalex_w7138188291"
           ],
           "broken_citations": [],

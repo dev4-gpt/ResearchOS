@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_trustworthy_multi_agent_systems_formal_verification",
+  "paper": "p9",
+  "description": "Explicit-state model checking of a council protocol, deadlock freedom by cycle detection, and the Byzantine agreement threshold under a 2f+1 quorum rule.",
+  "seed": 20260825,
+  "measurement_count": 12,
+  "recorded_at": "2026-08-25T18:08:42-0400",
+  "duration_s": 0.922,
+  "git_commit": "af99c4e721088b331f28b637ce27bcc74099e5e2",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p9*.py"
+}

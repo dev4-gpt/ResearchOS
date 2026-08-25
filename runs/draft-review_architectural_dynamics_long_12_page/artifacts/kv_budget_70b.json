@@ -1,0 +1,33 @@
+{
+  "by_context": {
+    "131072": {
+      "batch1_gib": 320.0,
+      "batch32_gib": 10240.0,
+      "pct_of_h100_batch1": 400.0
+    },
+    "16384": {
+      "batch1_gib": 40.0,
+      "batch32_gib": 1280.0,
+      "pct_of_h100_batch1": 50.0
+    },
+    "32768": {
+      "batch1_gib": 80.0,
+      "batch32_gib": 2560.0,
+      "pct_of_h100_batch1": 100.0
+    },
+    "4096": {
+      "batch1_gib": 10.0,
+      "batch32_gib": 320.0,
+      "pct_of_h100_batch1": 12.5
+    },
+    "65536": {
+      "batch1_gib": 160.0,
+      "batch32_gib": 5120.0,
+      "pct_of_h100_batch1": 200.0
+    }
+  },
+  "d_model": 8192,
+  "dtype_bytes": 2,
+  "h100_gib": 80.0,
+  "layers": 80
+}
