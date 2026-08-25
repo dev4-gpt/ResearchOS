@@ -1,0 +1,53 @@
+{
+  "allocations": [
+    {
+      "flops": 1e+19,
+      "loss": 2.9857405963573513,
+      "optimal_params": 227949928.26386192,
+      "optimal_tokens": 7311547230.396263,
+      "tokens_per_param": 32.07523374138916
+    },
+    {
+      "flops": 1e+20,
+      "loss": 2.5998497625517105,
+      "optimal_params": 644469398.6610783,
+      "optimal_tokens": 25861067571.699467,
+      "tokens_per_param": 40.12768895688034
+    },
+    {
+      "flops": 1e+21,
+      "loss": 2.328882982343454,
+      "optimal_params": 1822070351.0368965,
+      "optimal_tokens": 91471038191.15474,
+      "tokens_per_param": 50.20170496660613
+    },
+    {
+      "flops": 1e+22,
+      "loss": 2.1386141115445443,
+      "optimal_params": 5166284215.610403,
+      "optimal_tokens": 322604525246.72955,
+      "tokens_per_param": 62.44420782580066
+    },
+    {
+      "flops": 1e+23,
+      "loss": 2.0050101326211074,
+      "optimal_params": 14606330903.919403,
+      "optimal_tokens": 1141057721908.409,
+      "tokens_per_param": 78.12076348360848
+    },
+    {
+      "flops": 1e+24,
+      "loss": 1.9111954199215146,
+      "optimal_params": 41295618586.013695,
+      "optimal_tokens": 4035940672968.017,
+      "tokens_per_param": 97.73290269430518
+    }
+  ],
+  "coefficients": {
+    "A": 406.4,
+    "B": 410.7,
+    "E": 1.69,
+    "alpha": 0.34,
+    "beta": 0.28
+  }
+}

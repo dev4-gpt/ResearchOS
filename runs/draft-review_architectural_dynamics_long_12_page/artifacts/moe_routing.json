@@ -1,0 +1,27 @@
+{
+  "n_experts": 64,
+  "n_tokens": 200000,
+  "results": {
+    "load_balanced": {
+      "dead_experts": 0,
+      "entropy_nats": 3.411819667469061,
+      "max_entropy_nats": 4.1588830833596715,
+      "max_expert_share": 0.081925,
+      "normalised_entropy": 0.8203692191108412
+    },
+    "noisy_topk": {
+      "dead_experts": 0,
+      "entropy_nats": 2.7180270559301816,
+      "max_entropy_nats": 4.1588830833596715,
+      "max_expert_share": 0.10991,
+      "normalised_entropy": 0.6535473590987504
+    },
+    "uncorrected": {
+      "dead_experts": 0,
+      "entropy_nats": 2.4539285403924227,
+      "max_entropy_nats": 4.1588830833596715,
+      "max_expert_share": 0.118245,
+      "normalised_entropy": 0.5900450893200068
+    }
+  }
+}

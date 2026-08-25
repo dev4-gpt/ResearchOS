@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_enterprise_genai_roi",
+  "paper": "p4",
+  "description": "Bibliometric census of enterprise generative-AI literature via the OpenAlex API: identification counts, year and venue distribution, open access share, citation distribution, empirical share.",
+  "seed": 20260825,
+  "measurement_count": 10,
+  "recorded_at": "2026-08-25T17:24:19-0400",
+  "duration_s": 21.582,
+  "git_commit": "cbc42b88617ab94cb354c5d30235969ee4841a6f",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p4*.py"
+}
