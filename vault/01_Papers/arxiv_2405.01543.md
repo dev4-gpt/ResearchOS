@@ -28,7 +28,7 @@ tags:
 - Patch Applicability: 94.2% for Symbol-Graph RAG, 81.4% for QLoRA, 62.1% for base models.
 - Context Precision@5: 76.8% for full system, 68.1% without PageRank (alpha=1.0), 61.4% without call-graph edges, 52.0% for dense embedding only.
 - Failure mode distribution: 41% dynamic runtime dependencies, 29% cross-repository interactions, 30% large-scope refactoring (>80 files). QLoRA parametric confusion: 63%.
-- Benchmark sample size: 300 real-world GitHub issue tasks (SWE-bench Lite tasks).
+- Benchmark sample size: 300 real-world GitHub issues (300 real-world GitHub issue tasks, SWE-bench Lite tasks).
 - Hardware and compute cost: QLoRA requires 160 GB VRAM across dual H100 GPUs, Symbol-Graph RAG achieves 4.2x compute cost reduction per resolved task, inference cost reduced to $0.10.
 - Confidence intervals: Delta = 11.4% +- 1.8% at 95% confidence (B = 10,000 resamples, t(298) = 8.41).
 

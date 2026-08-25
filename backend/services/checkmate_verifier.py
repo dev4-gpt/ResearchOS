@@ -119,8 +119,9 @@ class CheckmateVerifierService:
         author_passed = not has_unspecified_author
 
         # 5. Complete Abstract & Text Continuity Check
-        abstract_match = re.search(r'Abstract[—\-\s]+(.*?)(?=Index\s+Terms|\n[1-9]\s+[A-Z]{3,}|\n\d+\s+[A-Z]|\Z)', page1_text, re.DOTALL | re.IGNORECASE)
-        abstract_text = abstract_match.group(1).strip() if abstract_match else page1_text[:500]
+        abstract_search_text = page1_text if len(page1_text) > 200 else full_pdf_text[:3000]
+        abstract_match = re.search(r'Abstract[—\-\s]+(.*?)(?=Index\s+Terms|\n[1-9]\s+[A-Z]{3,}|\n\d+\s+[A-Z]|\Z)', abstract_search_text, re.DOTALL | re.IGNORECASE)
+        abstract_text = abstract_match.group(1).strip() if abstract_match else abstract_search_text[:500]
         abstract_incomplete = abstract_text.endswith(("the", "a", "an", "and", "or", "during", "for", "with", "in", "of"))
         abstract_passed = not abstract_incomplete and len(abstract_text) > 20
 
@@ -177,7 +178,7 @@ class CheckmateVerifierService:
                 tex_syntax_errors.append('Unescaped begin/end')
             if re.search(r'(?<!\\)\bblacksquare\b', tex_source):
                 tex_syntax_errors.append('Unescaped blacksquare')
-            if re.search(r'(?<!\\)eta[0-9_]', tex_source):
+            if re.search(r'(?<![\\a-zA-Z])eta[0-9_]', tex_source):
                 tex_syntax_errors.append('Unescaped eta')
             begins_eq = len(re.findall(r'\\begin\{equation\*?\}', tex_source))
             ends_eq = len(re.findall(r'\\end\{equation\*?\}', tex_source))

@@ -58,7 +58,10 @@ publisher_readiness_jobs = PublisherReadinessJobManager(publisher_readiness_serv
 from services.error_ledger import ErrorLedgerService
 error_ledger_service = ErrorLedgerService()
 
-# In-memory log store for streaming active research runs
+from agents.meta_review_council import MetaReviewCouncil
+meta_review_council = MetaReviewCouncil(vault_path)
+
+# In-memory log store for streaming active research runs and meta-reviews
 # key: project_id, value: asyncio.Queue containing log dicts
 log_queues: Dict[str, asyncio.Queue] = {}
 
@@ -845,6 +848,136 @@ async def stream_research_logs(project_id: str):
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
         finally:
             # Clean up queue when client disconnects or stream ends
+            if project_id in log_queues:
+                del log_queues[project_id]
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+
+class MetaReviewRequest(BaseModel):
+    filename: str
+    target_venue: Optional[str] = "IEEEtran"
+    target_length: Optional[str] = "full_journal"
+    save_to_vault: Optional[bool] = True
+
+
+@app.get("/api/vault/drafts")
+def list_vault_drafts():
+    """Lists all available markdown drafts in vault/04_Drafts with metadata."""
+    drafts = []
+    files = vault_manager.list_files("drafts")
+    for item in files:
+        fname = item["filename"] if isinstance(item, dict) else item
+        if fname.endswith(".md"):
+            try:
+                doc = vault_manager.read_markdown("drafts", fname)
+                meta = doc.get("frontmatter", {}) or {}
+                content = doc.get("content", "")
+                words = len(content.split())
+                citations = len(set(re.findall(r'\[\[([^\]]+)\]\]', content)))
+                tables = len(re.findall(r'\\begin\{tabular\}', content))
+                equations = len(re.findall(r'\\begin\{equation\}|\$\$', content))
+                drafts.append({
+                    "filename": fname,
+                    "title": meta.get("title", fname.replace(".md", "").replace("_", " ").title()),
+                    "target_venue": meta.get("target_venue", "IEEEtran"),
+                    "target_length": meta.get("target_length", "full_journal"),
+                    "words": words,
+                    "citations": citations,
+                    "tables": tables,
+                    "equations": equations,
+                    "status": meta.get("status", "draft"),
+                    "frontmatter": meta
+                })
+            except Exception:
+                continue
+    return {"drafts": drafts}
+
+
+def run_meta_review_sync(filename: str, target_venue: str, target_length: str, save_to_vault: bool, project_id: str, loop: asyncio.AbstractEventLoop):
+    def log_callback(stage: str, agent: str, message: str, data: Optional[Dict[str, Any]] = None):
+        log_entry = {
+            "projectId": project_id,
+            "timestamp": int(time.time() * 1000),
+            "stage": stage,
+            "agent": agent,
+            "message": message,
+            "data": data
+        }
+        if project_id in log_queues:
+            asyncio.run_coroutine_threadsafe(
+                log_queues[project_id].put(log_entry),
+                loop
+            )
+
+    try:
+        meta, content = vault_manager.read_markdown("drafts", filename)
+        result = meta_review_council.run_alignment_cycle(
+            draft_content=content,
+            target_venue=target_venue,
+            target_length=target_length,
+            log_callback=log_callback,
+            is_dry_run=orchestrator.is_dry_run
+        )
+
+        if save_to_vault and result.get("success"):
+            updated_meta = dict(meta)
+            updated_meta.update({
+                "target_venue": target_venue,
+                "target_length": target_length,
+                "tier_2_meta_reviewed": True,
+                "meta_review_decision": result.get("decision", "STRONG ACCEPT"),
+                "citations_count": result.get("final_citations", 0),
+                "words_count": result.get("final_words", 0)
+            })
+            vault_manager.save_markdown("drafts", filename, result["revised_draft"], frontmatter=updated_meta)
+            log_callback("Storage", "Cross-Venue Publisher & Sanitizer", f"Saved revised release manuscript to vault/04_Drafts/{filename}")
+
+    except Exception as e:
+        log_callback("Error", "Meta-Review Council Chair", f"Tier 2 alignment error: {str(e)}")
+    finally:
+        if project_id in log_queues:
+            asyncio.run_coroutine_threadsafe(
+                log_queues[project_id].put(None),
+                loop
+            )
+
+
+@app.post("/api/research/meta-review")
+async def start_meta_review(request: MetaReviewRequest, background_tasks: BackgroundTasks):
+    """Triggers the Tier 2 Meta-Review and Cross-Venue Alignment Council."""
+    project_id = f"meta_{int(time.time())}"
+    log_queues[project_id] = asyncio.Queue()
+    loop = asyncio.get_running_loop()
+
+    thread = threading.Thread(
+        target=run_meta_review_sync,
+        args=(request.filename, request.target_venue, request.target_length, request.save_to_vault, project_id, loop)
+    )
+    thread.daemon = True
+    thread.start()
+
+    return {"status": "started", "project_id": project_id}
+
+
+@app.get("/api/research/meta-review/stream/{project_id}")
+async def stream_meta_review_logs(project_id: str):
+    """Server-Sent Events endpoint streaming real-time Tier 2 meta-review logs."""
+    if project_id not in log_queues:
+        raise HTTPException(status_code=404, detail="Active meta-review stream not found")
+
+    async def event_generator():
+        queue = log_queues[project_id]
+        try:
+            while True:
+                log_data = await queue.get()
+                if log_data is None:
+                    yield "event: end\ndata: EOF\n\n"
+                    break
+                yield f"data: {json.dumps(log_data)}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        finally:
             if project_id in log_queues:
                 del log_queues[project_id]
 

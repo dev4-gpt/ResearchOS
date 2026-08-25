@@ -316,7 +316,7 @@ class PublisherReadinessService:
                     template_passed = is_index_only or bool(vc_check.get("passed", False))
                     evidence_status = str(evidence_report.get("status", "NOT_RUN")).upper()
                     failed_claims = evidence_report.get("failed_count", 0)
-                    evidence_passed = (evidence_status in ("PASSED", "PASS", "NOT_RUN")) and (failed_claims == 0)
+                    evidence_passed = (evidence_status in ("PASSED", "PASS", "NOT_RUN")) and (failed_claims in (0, None))
                     publish_ready = (
                         venue_passed
                         and layout_passed

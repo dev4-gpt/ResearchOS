@@ -440,7 +440,7 @@ class LaTeXExporterService:
             return token
 
         protected_text = re.sub(
-            r'\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$',
+            r'\\begin\{(?:table|figure|equation|align|aligned|tabular|tabularx|algorithmic)\*?\}[\s\S]*?\\end\{(?:table|figure|equation|align|aligned|tabular|tabularx|algorithmic)\*?\}|\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$',
             hold_math,
             text,
         )

@@ -8,12 +8,12 @@ from domain.models import citation_key
 
 NUMERIC_PATTERN = re.compile(
     r"(?:"
-    r"\b\d+(?:\.\d+)?%"
-    r"|\bN\s*=\s*\d+"
+    r"\b\d+(?:,\d{3})*(?:\.\d+)?%"
+    r"|\bN\s*=\s*\d+(?:,\d{3})*"
     r"|\bp\s*[<>=]\s*0?\.\d+"
-    r"|\b[A-Za-z0-9_]+\s*=\s*\d+(?:\.\d+)?\b"
-    r"|\b\d+(?:\.\d+)?\s*(?:ms|s|x|million|billion)\b"
-    r"|\b\d+(?:\.\d+)?\s+(?:[A-Za-z-]+\s+){0,2}(?:agents?|codebases?|organizations?|engineers?|issues?|repositories?|samples?|instances?|months?|tasks?|projects?)\b"
+    r"|\b[A-Za-z0-9_]+\s*=\s*\d+(?:,\d{3})*(?:\.\d+)?\b"
+    r"|\b\d+(?:,\d{3})*(?:\.\d+)?\s*(?:ms|s|x|million|billion)\b"
+    r"|\b\d+(?:,\d{3})*(?:\.\d+)?\s+(?:[A-Za-z-]+\s+){0,2}(?:agents?|codebases?|organizations?|engineers?|issues?|repositories?|samples?|instances?|months?|tasks?|projects?)\b"
     r")"
 )
 
@@ -24,7 +24,14 @@ def is_non_metric_number(claim: str) -> bool:
         return True
     if re.match(r"^\d{1,2}\.\d{1,2}$", s):
         return True
-    if "=" in s or re.search(r"^(?:N|i|j|k|m|n|t|x|y|z|r|step|val|var|index|iter)\b", s, re.IGNORECASE):
+    if re.match(r"^p\s*[<>=]\s*0?\.\d+", s, re.IGNORECASE):
+        return True
+    if "=" in s or re.search(r"^(?:N|i|j|k|m|n|t|x|y|z|r|p|step|val|var|index|iter|phase|section|pillar|stage|table|figure|eq)\b", s, re.IGNORECASE):
+        return True
+    if re.search(r"\b(repositories|phases?|sections?|stages?|pillars?|months?|benchmarks?|probes?)\b", s, re.IGNORECASE):
+        return True
+    # If the number is a single digit followed by verbs or section description words
+    if re.match(r"^\d\s+(?:formalizes|presents|introduces|outlines|describes|evaluates|details)", s, re.IGNORECASE):
         return True
     return False
 

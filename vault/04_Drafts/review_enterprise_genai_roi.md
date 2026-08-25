@@ -74,6 +74,11 @@ This framework moves beyond simple correlation, striving for a causal understand
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 \text{ROI} = \frac{\text{Net Profit attributable to GenAI}}{\text{Cost of GenAI Investment}} \times 100\%
@@ -112,11 +117,26 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{ROI} = \frac{(\Delta R + \Delta C) - I}{I} \times 100\%
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -217,12 +237,22 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
+
+
+
+
 
 
 
@@ -338,12 +368,22 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
+
+
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
+
+
+
+
 
 
 

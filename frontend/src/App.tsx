@@ -7,13 +7,15 @@ import {
   Activity,
   AlertCircle,
   HelpCircle,
-  FlaskConical
+  FlaskConical,
+  Layers
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Boardroom from './components/Boardroom';
 import GraphView from './components/GraphView';
 import DocEditor from './components/DocEditor';
 import BacktestLab from './components/BacktestLab';
+import MetaReviewCouncil from './components/MetaReviewCouncil';
 
 import { apiFetch } from './api';
 
@@ -26,7 +28,7 @@ export interface AgentLog {
   data?: any;
 }
 
-export type ViewType = 'dashboard' | 'boardroom' | 'graph' | 'editor' | 'backtest';
+export type ViewType = 'dashboard' | 'boardroom' | 'metareview' | 'graph' | 'editor' | 'backtest';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
@@ -167,6 +169,22 @@ const App: React.FC = () => {
             </button>
 
             <button
+              onClick={() => setCurrentView('metareview')}
+              className="sidebar-nav-btn"
+              style={{
+                backgroundColor: currentView === 'metareview' ? 'var(--primary-glow)' : 'transparent',
+                color: currentView === 'metareview' ? 'var(--primary)' : 'var(--text-secondary)',
+                fontWeight: currentView === 'metareview' ? '600' : '400',
+              }}
+            >
+              <Layers size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+              <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                <span>Meta-Review</span>
+                <span style={{ fontSize: '9px', background: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(59,130,246,0.2))', color: '#34d399', padding: '1px 6px', borderRadius: '10px', fontWeight: '700', border: '1px solid rgba(16,185,129,0.3)' }}>Tier 2</span>
+              </span>
+            </button>
+
+            <button
               onClick={() => setCurrentView('graph')}
               className="sidebar-nav-btn"
               style={{
@@ -271,6 +289,11 @@ const App: React.FC = () => {
             logs={logs}
             isResearching={isResearching}
             activeTopic={activeTopic}
+          />
+        )}
+        {currentView === 'metareview' && (
+          <MetaReviewCouncil
+            onNavigateToPublisher={() => setCurrentView('editor')}
           />
         )}
         {currentView === 'graph' && (
