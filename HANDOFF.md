@@ -153,7 +153,17 @@ Ranked by what actually moves the needle:
    modelling. One paper with a genuine SWE-bench Lite run behind it is worth more than
    nine analytical ones. This needs GPU access or cloud credits, and it is the single
    highest-value thing outstanding.
-2. ~~Wire the gate into CI.~~ **Done** — `.github/workflows/integrity.yml` runs the
+2. ~~Wire the gate into CI.~~ **Done, but it does not yet *block* anything.**
+   `main` is unprotected and this is a **public** repo, so required status checks are
+   available for free. Until a PR + branch protection requiring the `integrity` check
+   exists, CI reports and nobody is stopped. That is the remaining half of this item.
+
+   **Runs can take ~20 minutes to appear.** A push registers a PushEvent immediately
+   and the workflow run is created much later; polling within a minute shows nothing
+   and looks like a failure to trigger. It is not. Wait, or use
+   `gh workflow run integrity --ref <branch>` to get an immediate one.
+
+   Original entry: — `.github/workflows/integrity.yml` runs the
    gate, the draft/run agreement check, the tests and a sync-conflict-copy check on
    every push. Dependencies are pinned in `requirements-ci.txt`.
 3. **Retire the rest of the legacy audit chain.** FactCheckerService is fixed (ERR-075:
