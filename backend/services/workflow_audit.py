@@ -22,6 +22,36 @@ REQUIRED_WORKFLOW_STAGES = (
 )
 
 
+# The target sits in a lookahead so that consecutive edges in a chain --
+# "[Scout] --> [Analyst] --> {...}" -- are all seen; consuming the target would
+# swallow the next edge's source.
+_EDGE = re.compile(
+    r"\[([^\[\]]{1,40})\]\s*(?:-{1,2}|={1,2})>\s*(?=(\{[^{}]{0,240}\}|\[[^\[\]]{1,40}\]))"
+)
+
+
+def _has_parallel_fanout(text: str) -> bool:
+    """True when the described graph actually branches.
+
+    The previous implementation accepted the bare substring "parallel" anywhere
+    in the manuscript, so a sentence asserting that *nothing* runs in parallel
+    satisfied the parallel-fan-out requirement. A fan-out is a structural
+    property of the workflow graph -- one stage with two or more concurrent
+    successors -- so read the edges rather than the vocabulary.
+    """
+    successors: Dict[str, set] = {}
+    for source, target in _EDGE.findall(text):
+        stages = re.findall(r"\[([^\[\]]{1,40})\]", target)
+        if not stages:
+            stages = [target.strip("{} ")]
+        if len(stages) >= 2:
+            return True
+        successors.setdefault(source.strip().lower(), set()).update(
+            stage.strip().lower() for stage in stages
+        )
+    return any(len(targets) >= 2 for targets in successors.values())
+
+
 def audit_researchingos_workflow(manuscript_markdown: str) -> Dict[str, Any]:
     """Fail closed when a paper presents an incomplete or stale internal workflow."""
     text = manuscript_markdown or ""
@@ -55,7 +85,7 @@ def audit_researchingos_workflow(manuscript_markdown: str) -> Dict[str, Any]:
         r"\[?engineer(?: node| agent)?\]?\s*[-=]+>\s*\[?statistician\]?",
         lower,
     ))
-    has_fanout = "||" in text or "parallel" in lower or "fan-out" in lower or "fanout" in lower
+    has_fanout = _has_parallel_fanout(text)
     passed = not missing and not stale_linear_claim and has_fanout
     problems = []
     if missing:

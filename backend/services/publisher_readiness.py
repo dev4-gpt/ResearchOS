@@ -307,7 +307,8 @@ class PublisherReadinessService:
                 try:
                     tex_code = self.exporter.markdown_to_venue_latex(
                         venue, title, authors, self._abstract(content), content,
-                        author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", "")},
+                        author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", ""),
+                                      "country": meta.get("country", "")},
                         anonymize=VENUE_PROFILES[venue].anonymized_review,
                     )
                     pdf_bytes = self.exporter.compile_pdflatex(

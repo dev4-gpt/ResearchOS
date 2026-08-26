@@ -4,6 +4,7 @@ authors:
   - "Aryaman Singh Dev"
 affiliation: "Pennsylvania State University"
 email: "asd5520@psu.edu"
+country: "USA"
 publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"

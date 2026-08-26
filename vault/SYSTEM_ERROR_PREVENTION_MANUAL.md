@@ -1,19 +1,19 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 00:37:30
-**Total Tracked Incidents:** 77
-**Resolved & Verified:** 73
+**Last Updated:** 2026-08-26 11:50:44
+**Total Tracked Incidents:** 81
+**Resolved & Verified:** 77
 **Open / Unresolved:** 4
-**Active Prevention Rules:** 77
+**Active Prevention Rules:** 81
 
 ---
 
 ## ⚠️ Open Defects — NOT resolved
 
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
-- **[ERR-046]** `OPEN_NOT_FIXED` — The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
 - **[ERR-062]** `PARTIALLY_RESOLVED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
 - **[ERR-063]** `PARTIALLY_RESOLVED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
+- **[ERR-079]** `PARTIALLY_RESOLVED` — backend/templates/acmart.cls is a 31-line stub that does \LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.
 
 ---
 
@@ -96,6 +96,10 @@
 - **[R75]**: A grader may not accept a claim because of the words near it. If a claim is ours it is absolved by a recorded measurement; if it is someone else's it is absolved by the cited source containing it. There is no third category, and any heuristic that invents one exists to make the report green.
 - **[R76]**: Naming a work in prose is a claim about that work, and it must match the key beside it. This is checkable without judgement and belongs in CI. Removing a false attribution needs no literature search; choosing the right source does, and stays with the author.
 - **[R77]**: A check that only runs when someone remembers is not a check. Pin the dependency versions the recorded results were produced under, and keep the credentials out: an integrity check that needs a key is one that gets skipped.
+- **[R78]**: An audit must assert that the good thing is present, not merely that a known bad thing is absent, and it must fail when its evidence is missing. A score threshold that lets a failed check through is not a threshold, it is a waiver.
+- **[R79]**: A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.
+- **[R80]**: A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.
+- **[R81]**: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.
 
 ---
 
@@ -506,14 +510,14 @@
 - **Prevention Rule:** `R45: Manuscript readiness must assert word count against the venue target, citation count and topical relevance of each citation, and at least one figure, before a draft is marked publisher-ready.`
 - **Status:** ⚠️ `PARTIALLY_RESOLVED`
 
-### ⚠️ [ERR-046] The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
+### ❌ [ERR-046] The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
 - **Timestamp:** `2026-08-25 15:51:36`
 - **Component:** `LaTeXExporterService ACM template branch` (markdown_to_venue_latex)
 - **Error Type:** `Missing Author Metadata`
 - **Root Cause:** The ACM branch was written with a minimal top matter block and never extended when affiliation handling was added to the other venues.
-- **Resolution:** OPEN. Needs a proper acmart \author/\affiliation block.
+- **Resolution:** The acmart branch now emits \author, \affiliation{\institution{...}\country{...}} and \email for every author, sourced from draft frontmatter through publisher_readiness, and verified by compiling against the real acmart class and extracting the PDF text. Two worse defects surfaced alongside it: the abstract was being dropped from ACM topmatter entirely because acmart requires it before \maketitle, and an amssymb/newtxmath \Bbbk clash made the package fail to compile against real acmart at all. country: "USA" added to all nine drafts, which acmart requires.
 - **Prevention Rule:** `R46: Every venue branch must emit the full author block that venue's document class requires; a branch that omits metadata must fail its venue contract test rather than compile quietly.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ✅ `VERIFIED_RESOLVED`
 
 ### ❌ [ERR-047] 27 citations named a specific system in prose while the key resolved to an unrelated paper: 'Vision Transformers' pointed at network topology self-healing, 'LoRA' at contrastive domain adaptation, 'MM-SafetyBench' at 'Target search by active particles', 'MetaGPT' at a Hanabi study.
 - **Timestamp:** `2026-08-25 19:49:54`
@@ -792,4 +796,40 @@
 - **Root Cause:** The checks were written as tools, not as gates.
 - **Resolution:** A workflow runs the submission gate, resync_manuscripts.py --check, the test suite and a tracked-sync-conflict-copy check on every push. --check was added for this: the re-sync pass previously always exited 0. requirements-ci.txt pins the versions the recorded measurements were produced under and omits the model-calling dependencies, so no check needs an API key.
 - **Prevention Rule:** `R77: A check that only runs when someone remembers is not a check. Pin the dependency versions the recorded results were produced under, and keep the credentials out: an integrity check that needs a key is one that gets skipped.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-078] Every one of Checkmate's twelve checks looked for a bad substring and treated its absence as a pass. Nothing asserted the artifact contained a manuscript. An 8-line PDF whose entire body was 'Things are important. We studied them. They got better.' plus one fabricated number scored 100.0, PASSED, APPROVED_FOR_HUMAN_REVIEW -- with real_bibliography reporting '100% verified real academic publications' for a document containing no references at all. evidence_grounding returned passed for a report that said 726 of 728 claims were unbacked, because absent-or-'not_run' was coded as success and 'not_run' is a status fact_checker.py never emits. A separate 85% threshold certified packages whose own audit had failed: leaked '[Chairman Synthesis]' meta tags and a fabricated bibliography both scored 91.7 and were approved.
+- **Timestamp:** `2026-08-26 11:50:44`
+- **Component:** `CheckmateVerifierService.audit_pdf` (release_audit)
+- **Error Type:** `Audit Of Absence`
+- **Root Cause:** The checks were written to detect known past defects by name rather than to assert the properties a finished manuscript must have. A check for the absence of a bad thing cannot see a missing good thing, which is exactly why 96 packages with zero tables scored 100.0.
+- **Resolution:** New artifact_fidelity check: minimum extractable text plus every source markdown table must be findable in the rendered PDF. evidence_grounding fails closed on an absent or failing report. The 85% threshold is gone -- checkmate_passed is now 'no check failed'. Calibrated against all 108 shipped packages: 108 pass, 0 false positives. 12 new tests, each failing against the pre-fix code.
+- **Prevention Rule:** `R78: An audit must assert that the good thing is present, not merely that a known bad thing is absent, and it must fail when its evidence is missing. A score threshold that lets a failed check through is not a threshold, it is a waiver.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ⚠️ [ERR-079] backend/templates/acmart.cls is a 31-line stub that does \LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.
+- **Timestamp:** `2026-08-26 11:50:44`
+- **Component:** `backend/templates/acmart.cls + LaTeXExporter.compile_pdflatex` (venue_rendering)
+- **Error Type:** `Validated Against A Substitute`
+- **Root Cause:** A fallback class added so builds would not fail without acmart installed was copied unconditionally, so it shadowed the real class once that was available. Nothing compared the two.
+- **Resolution:** OPEN. The ACM author block, abstract ordering and an amssymb/newtxmath clash are fixed and verified against real acmart. Retiring the stub is not done: it roughly doubles ACM page counts and is an authoring decision about length compliance, not a cleanup.
+- **Prevention Rule:** `R79: A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.`
+- **Status:** ⚠️ `PARTIALLY_RESOLVED`
+
+### ❌ [ERR-080] CouncilOrchestrator hardcoded ContinualMemoryManager() with no path, so it always wrote to the production vault/harness_memory.json regardless of the vault_path it was given. test_council.py calls run_research 18 times, and 18 'test topic' entries were already committed to that tracked file, which had grown from test runs nobody attributed.
+- **Timestamp:** `2026-08-26 11:50:44`
+- **Component:** `CouncilOrchestrator.__init__` (test_isolation)
+- **Error Type:** `Tests Mutate Project Data`
+- **Root Cause:** A collaborator was constructed inside the object that uses it, with a production default, so there was no seam through which a test could redirect it.
+- **Resolution:** An injection seam on the constructor; production default unchanged. Tests pass tmp_path. An autouse conftest guard redirects any default-path manager and fails the test if the real file is written, so a future test cannot reintroduce it. CI now fails if the suite leaves the tree dirty.
+- **Prevention Rule:** `R80: A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-081] The submission gate audits the drafts. What a human submits is a PDF under papers/. Nothing compared them. Every package was built at 22:52 on 2026-08-25 and the drafts were corrected until 00:35 the next morning, so 48 of 192 built packages contained values no recorded run supports -- p1's shipped PDFs still reported MRR 0.8701 against 0.8739 over 103 queries, the numbers from the corpus contaminated with sync-conflict duplicates, whose headline delta had the opposite sign from the corrected run.
+- **Timestamp:** `2026-08-26 11:50:44`
+- **Component:** `papers/ release packages vs vault/04_Drafts` (release_consistency)
+- **Error Type:** `Gate Protects The Source, Not The Artifact`
+- **Root Cause:** The pipeline's consistency was enforced on the measurements-to-manuscript edge and simply not modelled on the manuscript-to-artifact edge.
+- **Resolution:** scripts/check_release_freshness.py applies the provenance check to the built .tex and exits non-zero when a package disagrees with its run. Wired into CI.
+- **Prevention Rule:** `R81: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -10,6 +10,87 @@ import os
 from typing import Dict, Any, List, Optional
 import pypdf
 
+
+# Floor for extractable text in a rendered manuscript PDF. Every package this
+# repository has shipped extracts at least 23,875 characters, so this threshold
+# only fires on an artifact that is not a manuscript at all.
+MIN_RENDERED_CHARS = 2000
+
+# Fraction of a source table's distinctive cells that must be findable in the
+# rendered PDF for the table to count as rendered. Measured coverage across the
+# shipped corpus is 0.71-1.00; a stripped table scores 0.00.
+MIN_TABLE_CELL_COVERAGE = 0.5
+
+
+def _normalize(text: str) -> str:
+    """Collapse to comparable alphanumerics: PDF extraction re-flows whitespace."""
+    return re.sub(r'[^a-z0-9]', '', (text or "").lower())
+
+
+_TABLE_DELIMITER = re.compile(r'^\|[\s|:\-]+\|$')
+
+
+def extract_markdown_tables(markdown: str) -> List[List[str]]:
+    """Return each markdown pipe table.
+
+    Fenced code blocks are skipped and a delimiter row is required, so ASCII
+    architecture diagrams drawn with pipe characters are not mistaken for
+    tables.
+    """
+    tables: List[List[str]] = []
+    current: List[str] = []
+    in_fence = False
+
+    def flush() -> None:
+        if len(current) >= 2 and any(_TABLE_DELIMITER.match(row) for row in current):
+            tables.append(list(current))
+        current.clear()
+
+    for line in (markdown or "").splitlines():
+        stripped = line.strip()
+        if stripped.startswith('```') or stripped.startswith('~~~'):
+            in_fence = not in_fence
+            flush()
+            continue
+        if in_fence:
+            continue
+        if stripped.startswith('|') and stripped.count('|') >= 2:
+            current.append(stripped)
+        else:
+            flush()
+    flush()
+    return tables
+
+
+def missing_rendered_tables(markdown: str, pdf_text: str) -> List[str]:
+    """Name every source table whose content did not survive into the PDF.
+
+    This is the check that would have caught the table-stripping regex: a
+    manuscript with tables whose PDF has none is a rendering failure, and no
+    absence-based check can see it.
+    """
+    rendered = _normalize(pdf_text)
+    missing: List[str] = []
+    for index, rows in enumerate(extract_markdown_tables(markdown), start=1):
+        cells: List[str] = []
+        for row in rows:
+            if re.fullmatch(r'[\s|:\-]+', row):
+                continue
+            for cell in row.strip('|').split('|'):
+                cell = cell.strip()
+                if len(_normalize(cell)) >= 4:
+                    cells.append(cell)
+        sample = cells[:12]
+        if not sample:
+            continue
+        hits = sum(1 for cell in sample if _normalize(cell) in rendered)
+        coverage = hits / len(sample)
+        if coverage < MIN_TABLE_CELL_COVERAGE:
+            label = re.sub(r'\s+', ' ', rows[0])[:60]
+            missing.append(f"table {index} ({label}) coverage {coverage:.0%}")
+    return missing
+
+
 class CheckmateVerifierService:
     def __init__(self, vault_manager=None):
         self.vault_manager = vault_manager
@@ -120,9 +201,25 @@ class CheckmateVerifierService:
 
         # 5. Complete Abstract & Text Continuity Check
         abstract_search_text = page1_text if len(page1_text) > 200 else full_pdf_text[:3000]
-        abstract_match = re.search(r'Abstract[—\-\s]+(.*?)(?=Index\s+Terms|\n[1-9]\s+[A-Z]{3,}|\n\d+\s+[A-Z]|\Z)', abstract_search_text, re.DOTALL | re.IGNORECASE)
+        # The section terminators are deliberately case-sensitive. Compiling the
+        # whole pattern with IGNORECASE made [A-Z] match lowercase, so the
+        # abstract was cut short at any line beginning with a number -- "68.63%
+        # appeared in\n2023 or later" -- and eight shipped packages were reported
+        # as having a mid-sentence abstract that is not truncated at all.
+        abstract_match = re.search(
+            r'(?i:Abstract)[—\-\s]+(.*?)(?=(?i:Index\s+Terms)|\n[1-9]\s+[A-Z]{3,}|\n\d+\s+[A-Z]|\Z)',
+            abstract_search_text,
+            re.DOTALL,
+        )
         abstract_text = abstract_match.group(1).strip() if abstract_match else abstract_search_text[:500]
-        abstract_incomplete = abstract_text.endswith(("the", "a", "an", "and", "or", "during", "for", "with", "in", "of"))
+        # Compare the final word, not the final characters: endswith("a") also
+        # matched "data", "criteria", and every other word ending in a vowel.
+        trailing_words = re.findall(r"[A-Za-z]+", abstract_text)
+        last_word = trailing_words[-1].lower() if trailing_words else ""
+        ends_mid_sentence = not abstract_text.rstrip().endswith((".", "?", "!"))
+        abstract_incomplete = ends_mid_sentence and last_word in (
+            "the", "a", "an", "and", "or", "during", "for", "with", "in", "of"
+        )
         abstract_passed = not abstract_incomplete and len(abstract_text) > 20
 
         # 6. Real Bibliography Check
@@ -168,8 +265,15 @@ class CheckmateVerifierService:
         zero_raw_leaks_passed = len(raw_code_matches) == 0
 
         # 9. Clean TeX Syntax and Math Environment Balance Check
+        #
+        # An absent TeX source is not a clean TeX source. Reporting "100% sound
+        # and balanced" for a source that was never supplied is precisely the
+        # kind of vacuous pass this audit exists to prevent, so missing input
+        # fails instead of skipping.
         tex_syntax_errors = []
-        if tex_source:
+        if not tex_source:
+            tex_syntax_errors.append('No TeX source supplied; syntax could not be verified')
+        else:
             if re.search(r'\\+b\\+([a-zA-Z]+)', tex_source):
                 tex_syntax_errors.append('Stray \\b\\ command prefix detected')
             if re.search(r'\\*(begin|end)\{\\+([a-zA-Z]+)\}', tex_source):
@@ -185,6 +289,50 @@ class CheckmateVerifierService:
             if begins_eq != ends_eq:
                 tex_syntax_errors.append(f'Unbalanced equation environments ({begins_eq} vs {ends_eq})')
         clean_tex_syntax_passed = len(tex_syntax_errors) == 0
+
+        # 10. Artifact Fidelity Check
+        #
+        # Checks 1-9 are all absence checks: they look for bad substrings and
+        # treat their absence as a pass. Nothing above asserts that the artifact
+        # actually contains the manuscript, so an empty or gutted PDF scores
+        # 100/100 on every one of them -- which is how 96 packages once shipped
+        # with every table silently stripped and were certified defect-free.
+        # This check asserts positively that the manuscript's content survived
+        # into the rendered PDF.
+        fidelity_errors: List[str] = []
+        rendered_text = full_pdf_text.strip()
+        if len(rendered_text) < MIN_RENDERED_CHARS:
+            fidelity_errors.append(
+                f"rendered PDF carries only {len(rendered_text)} characters of extractable text "
+                f"(minimum {MIN_RENDERED_CHARS})"
+            )
+        missing_tables = missing_rendered_tables(manuscript_markdown, full_pdf_text)
+        if missing_tables:
+            fidelity_errors.append(
+                f"{len(missing_tables)} source table(s) missing from the rendered PDF: "
+                + "; ".join(missing_tables[:3])
+            )
+        artifact_fidelity_passed = len(fidelity_errors) == 0
+
+        # Evidence grounding. An evidence report that was never produced is not
+        # a passing evidence report: absence fails closed, and a report that
+        # carries failed claims fails regardless of the status string it sets.
+        evidence_status = str((evidence_report or {}).get("status", "")).lower()
+        evidence_failed_claims = (evidence_report or {}).get("failed_count") or 0
+        evidence_passed = (
+            evidence_report is not None
+            and evidence_status in ("passed", "pass")
+            and evidence_failed_claims == 0
+        )
+        if evidence_report is None:
+            evidence_detail = "Evidence audit was not run; grounding is unverified"
+        elif evidence_passed:
+            evidence_detail = "Evidence and citation grounding passed"
+        else:
+            evidence_detail = "; ".join(evidence_report.get("blocking_errors", []) or []) or (
+                f"Evidence audit status {evidence_status.upper() or 'UNKNOWN'} "
+                f"with {evidence_failed_claims} failed claim(s)"
+            )
 
         checks = {
             "zero_placeholders": {
@@ -245,31 +393,35 @@ class CheckmateVerifierService:
                 "detail": venue_report["detail"],
                 **venue_report,
             },
+            "artifact_fidelity": {
+                "passed": artifact_fidelity_passed,
+                "score": 100 if artifact_fidelity_passed else 0,
+                "detail": "Manuscript content is present in the rendered artifact" if artifact_fidelity_passed else "; ".join(fidelity_errors),
+                "missing_tables": missing_tables,
+                "rendered_chars": len(rendered_text),
+            },
             "evidence_grounding": {
-                "passed": evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run"),
-                "score": 100 if (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run")) else (evidence_report or {}).get("fact_check_score", 0),
-                "detail": "Evidence and citation grounding passed" if (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run")) else "; ".join((evidence_report or {}).get("blocking_errors", [])) or "Evidence audit was not run",
+                "passed": evidence_passed,
+                "score": 100 if evidence_passed else (evidence_report or {}).get("fact_check_score", 0),
+                "detail": evidence_detail,
                 "report": evidence_report or {"status": "NOT_RUN"},
             }
         }
 
-        passed_count = sum(1 for c in checks.values() if c["passed"])
+        failed_checks = [name for name, check in checks.items() if not check["passed"]]
+        passed_count = len(checks) - len(failed_checks)
         score = round((passed_count / len(checks)) * 100.0, 1)
-        checkmate_passed = (
-            score >= 85.0
-            and zero_placeholders_passed
-            and clean_numbering_passed
-            and zero_raw_leaks_passed
-            and clean_tex_syntax_passed
-            and workflow_report["passed"]
-            and venue_report["passed"]
-            and (evidence_report is None or str(evidence_report.get("status", "")).lower() in ("passed", "pass", "not_run"))
-        )
+        # A defect the audit itself detected is still a defect. The previous gate
+        # certified anything scoring >= 85, which approved manuscripts whose own
+        # report already flagged leaked meta-prompt tags or a synthetic
+        # bibliography. Every check is now load-bearing.
+        checkmate_passed = not failed_checks
 
         return {
             "checkmate_passed": checkmate_passed,
             "score": score,
             "status": "PASSED" if checkmate_passed else "NEEDS_REMEDIATION",
+            "failed_checks": failed_checks,
             "total_pages": total_pages,
             "venue_key": venue_key,
             "checks": checks,
@@ -521,6 +673,7 @@ class CheckmateVerifierService:
         """Rule R22: Enforces pairwise dissimilarity (< 35% vocabulary overlap) across all Vault draft files."""
         draft_files = self.vault_manager.list_files("drafts")
         docs = {}
+        unreadable: List[str] = []
         for d in draft_files:
             fname = d["filename"]
             if fname.startswith("exports") or fname.endswith(".pdf"): continue
@@ -529,11 +682,35 @@ class CheckmateVerifierService:
                 content = note.get("content", "") if isinstance(note, dict) else str(note)
                 docs[fname] = set(re.findall(r'\b[a-zA-Z]{4,}\b', content.lower()))
             except Exception:
-                continue
+                unreadable.append(fname)
 
         fnames = sorted(list(docs.keys()))
         flagged_pairs = []
         max_overlap_observed = 0.0
+
+        # A draft that could not be read was not shown to be dissimilar to
+        # anything. Silently dropping it turned an unreadable vault into a clean
+        # bill of health, and with fewer than two readable drafts the pairwise
+        # loop below compares nothing and reports 0% overlap.
+        if unreadable:
+            return {
+                "passed": False,
+                "max_overlap_observed_pct": 0.0,
+                "max_allowed_jaccard_overlap": max_allowed_jaccard_overlap,
+                "flagged_pairs": [],
+                "unreadable_drafts": unreadable,
+                "detail": "could not read " + ", ".join(sorted(unreadable)),
+            }
+        if len(fnames) < 2:
+            return {
+                "passed": True,
+                "status": "NOT_APPLICABLE",
+                "max_overlap_observed_pct": 0.0,
+                "max_allowed_jaccard_overlap": max_allowed_jaccard_overlap,
+                "flagged_pairs": [],
+                "unreadable_drafts": [],
+                "detail": f"only {len(fnames)} readable draft(s); no pair to compare",
+            }
 
         for i in range(len(fnames)):
             for j in range(i + 1, len(fnames)):
@@ -555,5 +732,6 @@ class CheckmateVerifierService:
             "passed": passed,
             "max_overlap_observed_pct": round(max_overlap_observed, 1),
             "max_allowed_jaccard_overlap": max_allowed_jaccard_overlap,
-            "flagged_pairs": flagged_pairs
+            "flagged_pairs": flagged_pairs,
+            "unreadable_drafts": [],
         }

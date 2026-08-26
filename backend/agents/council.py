@@ -136,13 +136,20 @@ from domain.models import BuildDecision, SourceRecord
 from services.evidence_ledger import EvidenceLedger
 
 class CouncilOrchestrator:
-    def __init__(self, vault_path: str = "../vault"):
+    def __init__(self, vault_path: str = "../vault", memory_file_path: Optional[str] = None):
         global legacy_genai
         self.vault = VaultManager(vault_path)
         self.search_service = AcademicSearchService()
         self.fact_checker = FactCheckerService(self.vault)
         self.pdf_extractor = PDFExtractionService(self.vault)
-        self.continual_memory = ContinualMemoryManager()
+        # `memory_file_path` is an injection seam so callers (notably tests) can
+        # redirect harness telemetry away from the shared durable memory file.
+        # Passing None keeps ContinualMemoryManager's own default path.
+        self.continual_memory = (
+            ContinualMemoryManager()
+            if memory_file_path is None
+            else ContinualMemoryManager(memory_file_path=memory_file_path)
+        )
         self.rlm = RLMContextPartitioning()
         self.harness_controller = AutonomousHarnessController()
         self.evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(self.vault.vault_path), "runs"))

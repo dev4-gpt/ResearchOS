@@ -29,7 +29,12 @@ def make_orchestrator(tmp_path):
     for k in ["GEMINI_API_KEY", "NVIDIA_NIM_API_KEY", "NVIDIA_API_KEY", "OPENROUTER_API_KEY", "GROQ_API_KEY"]:
         os.environ.pop(k, None)
     from agents.council import CouncilOrchestrator
-    orch = CouncilOrchestrator(str(tmp_path))
+    # run_research() records harness telemetry; keep it inside tmp_path so the
+    # real vault/harness_memory.json is never touched by the test suite.
+    orch = CouncilOrchestrator(
+        str(tmp_path),
+        memory_file_path=str(tmp_path / "harness_memory.json"),
+    )
     orch.api_key = None
     orch.nim_api_key = None
     orch.is_dry_run = True
@@ -68,7 +73,10 @@ class TestCouncilOrchestratorInit:
         # Patch modern google.genai.Client to avoid real API setup
         with patch("google.genai.Client"):
             from agents.council import CouncilOrchestrator
-            orch = CouncilOrchestrator(str(tmp_path))
+            orch = CouncilOrchestrator(
+                str(tmp_path),
+                memory_file_path=str(tmp_path / "harness_memory.json"),
+            )
         assert orch.is_dry_run is False
 
 
@@ -289,7 +297,10 @@ class TestRunResearchNoPapers:
         pipeline must return success=False gracefully."""
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
         from agents.council import CouncilOrchestrator
-        orch = CouncilOrchestrator(str(tmp_path))
+        orch = CouncilOrchestrator(
+            str(tmp_path),
+            memory_file_path=str(tmp_path / "harness_memory.json"),
+        )
 
         # Override the dry-run mock papers with an empty list
         original_run = orch.run_research

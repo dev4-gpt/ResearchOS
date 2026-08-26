@@ -55,7 +55,11 @@ VENUE_SPECS = {
         "format": "Two-column ACM article format",
         "page_limit": "12 - 20+ pages",
         "doc_class": "\\documentclass[manuscript,review]{acmart}",
-        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
+        # \\let\\Bbbk\\relax: the real acmart loads newtxmath, which already defines
+        # \\Bbbk, so a plain \\usepackage{amssymb} after it aborts the build with
+        # "Command \\Bbbk already defined". Without this the package compiles only
+        # against the local acmart stub, never against ACM's own class.
+        "packages": "\\usepackage{booktabs}\n\\let\\Bbbk\\relax\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
         "template_style": "acm",
         "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
     },
@@ -796,6 +800,48 @@ class LaTeXExporterService:
             acl_author_parts.append(contact_line)
         acl_author_block = " \\\\\n".join(acl_author_parts)
 
+        # ACM (acmart) author block. acmart does not accept a bare \author{}: each
+        # author must be followed by its OWN \affiliation{\institution{...}} and
+        # \email{...}, in that order, before \maketitle. Emitting only the name
+        # silently drops the affiliation and contact metadata every ACM venue
+        # requires (ERR-046) — the build succeeds and the topmatter is simply blank.
+        acm_affiliation_extras = []
+        for detail_key, acm_macro in (
+            ("position", "position"),
+            ("department", "department"),
+            ("street_address", "streetaddress"),
+            ("city", "city"),
+            ("state", "state"),
+            ("postcode", "postcode"),
+            ("country", "country"),
+        ):
+            raw_value = details.get(detail_key)
+            if not is_anonymous and raw_value and not self.is_placeholder_identity(raw_value):
+                clean_value = self.sanitize_latex(str(raw_value).strip())
+                acm_affiliation_extras.append("  \\" + acm_macro + "{" + clean_value + "}")
+        # acmart raises a hard class Error on an affiliation with no \country, so the
+        # field is emitted unconditionally; an unset one shows the marker rather than
+        # aborting the ACM build.
+        if not is_anonymous and not any(x.startswith("  \\country") for x in acm_affiliation_extras):
+            acm_affiliation_extras.append(
+                "  \\country{"
+                + self.sanitize_latex(self._resolve_identity_field(details.get("country"), "COUNTRY"))
+                + "}"
+            )
+
+        acm_author_entries = []
+        for person in authors_list:
+            entry = ["\\author{" + person + "}"]
+            if affiliation:
+                affil_lines = ["\\affiliation{%", "  \\institution{" + affiliation + "}"]
+                affil_lines.extend(acm_affiliation_extras)
+                affil_lines.append("}")
+                entry.append("\n".join(affil_lines))
+            if email:
+                entry.append("\\email{" + email + "}")
+            acm_author_entries.append("\n".join(entry))
+        acm_author_block = "\n\n".join(acm_author_entries)
+
         # IEEE author block
         ieee_authors = " \\and ".join(authors_list)
         ieee_affiliation_parts = []
@@ -952,13 +998,13 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 
 \\title{{{clean_title}}}
 
-\\author{{{authors_list[0]}}}
-
-\\maketitle
+{acm_author_block}
 
 \\begin{{abstract}}
 {clean_abstract}
 \\end{{abstract}}
+
+\\maketitle
 
 {latex_body}
 

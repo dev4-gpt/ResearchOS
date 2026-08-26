@@ -61,6 +61,29 @@ jobs:
       - name: Tests
         run: python -m pytest backend/tests/ -q
 
+      # Running the suite used to append to vault/harness_memory.json, a tracked
+      # file, and 18 "test topic" entries had already been committed that way
+      # before anyone noticed. A test that writes into project data is a test
+      # whose results depend on how many times it has been run.
+      - name: Tests left the tree clean
+        run: |
+          dirty=$(git status --porcelain)
+          if [ -n "$dirty" ]; then
+            echo "::error::The test suite modified tracked files."
+            echo "$dirty"
+            git diff --stat
+            exit 1
+          fi
+          echo "Clean."
+
+      # The gate audits vault/04_Drafts. What a human submits is a PDF under
+      # papers/. Nothing checked that those agreed, and they did not: every
+      # package predated the corrections in its manuscript, so p1's shipped PDFs
+      # still carried the numbers from a corpus contaminated with sync-conflict
+      # duplicates -- including a headline result of the opposite sign (ERR-071).
+      - name: Built packages agree with their manuscripts
+        run: python scripts/check_release_freshness.py --check
+
       # Cheap, and it catches the specific accident that started all of this:
       # iCloud writes "<stem> 2.py" beside a file it cannot merge, and those
       # duplicates were being admitted to p1's and p3's experimental corpora,

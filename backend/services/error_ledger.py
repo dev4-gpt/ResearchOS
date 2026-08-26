@@ -21,11 +21,18 @@ class ErrorLedgerService:
 
     def _load_or_init_ledger(self) -> None:
         if self.ledger_path.exists():
+            # An unreadable ledger is a corrupted record, not an empty one.
+            # Silently substituting the initial schema discarded every recorded
+            # incident and then wrote that empty schema back over the file on
+            # the next record_error call. Fail loudly and leave the file alone.
             try:
                 with open(self.ledger_path, "r", encoding="utf-8") as f:
                     self.data = json.load(f)
-            except Exception:
-                self.data = self._initial_schema()
+            except Exception as exc:
+                raise RuntimeError(
+                    f"Error ledger at {self.ledger_path} could not be read and will not be "
+                    f"reinitialised over: {exc}"
+                ) from exc
         else:
             self.data = self._initial_schema()
             self._save()
