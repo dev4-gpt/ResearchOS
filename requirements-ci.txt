@@ -1,20 +1,27 @@
 # Dependencies for the integrity checks in .github/workflows/integrity.yml.
 #
-# Deliberately narrower than the development environment. CI's job is to run the
-# submission gate, confirm every draft still agrees with its recorded run, and
-# run the test suite -- none of which calls a language model.
+# This list is not reasoned about, it is measured. Build a clean venv from it and
+# run `pytest backend/tests/` -- that is the only check that tells you whether it
+# is complete, and it is how the entries below were arrived at.
 #
-# Note the distinction that the first version of this file got wrong. What CI can
-# do without is *credentials*: no check here needs an API key, and one that did
-# would be a check that gets skipped. What it cannot do without is the *imports*.
-# test_council.py and test_api.py are dry-run tests -- they assert that no model
-# is called -- but they import google.genai at module scope to do it, so leaving
-# google-genai out failed 28 tests and errored 26 more on something that has
-# nothing to do with reaching Google. Absent module, not absent key.
+# Two earlier versions were assembled by reasoning instead, and both were wrong in
+# the same way. The argument was that CI runs the submission gate, the draft/run
+# agreement check and the tests, none of which calls a language model, so the
+# model libraries could be left out. What that missed is the difference between a
+# *credential* and an *import*. No check here needs an API key, and one that did
+# would be a check that quietly gets skipped -- that part was right. But
+# test_council.py and test_api.py are dry-run tests: they assert that no model is
+# called, and they import google.genai, langgraph and dspy at module scope in
+# order to assert it. Absent module, not absent key.
 #
-# Pinned to the versions the measurements in runs/ were produced under. z3-solver
-# in particular decides p3's numbers, so a float here would let CI disagree with
-# the recorded run for reasons that have nothing to do with the manuscripts.
+# CI reports only the first missing module per file, so a red run names one gap
+# and hides the rest behind it. Three pushes found three modules one at a time
+# before this was verified locally instead.
+#
+# Versions are pinned to those the measurements in runs/ were produced under.
+# z3-solver in particular decides p3's numbers, so a float here would let CI
+# disagree with the recorded run for reasons that have nothing to do with the
+# manuscripts.
 
 # Experiments and figures
 networkx==3.6.1
@@ -23,9 +30,13 @@ scipy==1.18.1
 matplotlib==3.11.1
 z3-solver==5.1.0.0
 
-# Backend service tests. google-genai is here for importability only; the dry-run
-# tests assert that it is never actually called.
+# Imported at module scope by the dry-run tests, which assert these are never
+# actually called. openai arrives transitively via dspy-ai and needs no entry.
 google-genai==2.17.0
+langgraph==1.2.11
+dspy-ai==3.3.0
+
+# Backend service tests
 fastapi==0.136.3
 httpx==0.28.1
 pydantic==2.13.4
@@ -34,7 +45,7 @@ python-dotenv==1.2.2
 
 # Literature ingestion touched by the vault tests. PyPDF2 is deliberately absent:
 # the scripts that want it fall back to it only when pypdf is missing, and pypdf
-# is here.
+# is here. pymupdf is absent because no test imports it.
 pypdf==6.14.2
 
 # Test runner
