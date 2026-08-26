@@ -56,7 +56,7 @@ This manuscript provides five principal contributions to the field of trustworth
 1. **4-Tier Composable Abstraction Hierarchy:** We establish a formal layered architecture decoupling agent pipelines into Perceptual Routing, Memory Synthesis, Contract Enforcement, and Consensus Governance layers.
 2. **Formal Contract Algebra and SMT Verification:** We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers [[arxiv_2404.01131]].
 3. **Lyapunov Stability and Error Propagation Theorems:** We prove that contract-gated verification graphs guarantee bounded state error variance $\mathbb{E}[\|\mathbf{e}_t\|^2] \le \sigma_{\max}^2 / (1 - \rho^2)$, eliminating compounding divergence [[arxiv_2501.02497]].
-4. **Large-Scale Multi-Domain Empirical Benchmark:** We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demonstrating statistically significant gains in reliability, execution determinism, and compute efficiency ($p < 0.001$) [[crossref_10.1201_9788743808145-14]].
+4. **Large-Scale Multi-Domain Empirical Benchmark:** We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demonstrating statistically significant gains in reliability, execution determinism, and compute efficiency ($p < 0.001$).
 5. **Ablation and Fault-Tolerance Analysis:** We quantify the isolated contributions of contract verification, state immutability, and consensus routing under induced network delays and adversarial hallucinations.
 
 ---
@@ -72,6 +72,8 @@ Let a Composable Agentic System be modeled as a directed attributed execution hy
 - $\mathcal{M}_{\text{state}}$ is an append-only, cryptographic state ledger ensuring verifiable state transitions.
 
 The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
+
+
 
 
 
@@ -106,11 +108,15 @@ $$
 
 
 
+
+
 where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vector, $\mathbf{m}_{ij}^{(t)}$ is the raw output message emitted by upstream node $v_i$, and $\Pi_{c_{ij}}: \mathcal{M} \to \mathcal{M} \cup \{\bot\}$ is the contract validation projection operator that maps invalid or ungrounded messages to an explicit error token $\bot$.
 
 ### Algebraic Structure of Behavioral Contracts
 
 **Definition 1 (Agent Behavioral Contract).** A contract $c_{ij} \in \mathcal{C}$ on edge $(v_i, v_j)$ is a 5-tuple:
+
+
 
 
 
@@ -131,6 +137,8 @@ c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
+
 
 
 
@@ -167,11 +175,15 @@ where:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
 \end{aligned}
 $$
+
+
 
 
 
@@ -207,6 +219,8 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \lambda_{\min}(\mathbf{P}) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \text{Tr}(\mathbf{P})
@@ -226,7 +240,11 @@ $$
 
 
 
+
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
+
 
 
 
@@ -260,7 +278,11 @@ $$
 
 
 
+
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
 
 
 
@@ -294,7 +316,11 @@ $$
 
 
 
+
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
+
 
 
 
@@ -314,6 +340,8 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
+
 
 
 
@@ -382,9 +410,9 @@ For critical decisions (e.g., executing code in production, committing financial
 ### Benchmark Datasets & Workload Characterization ($N = 8,600$)
 
 We evaluate the CAS framework across four distinct enterprise task suites totaling $N = 8,600$ multi-step workflows:
-1. **SWE-bench Multi-Repo Repair ($N = 2,400$):** Multi-file issue resolution requiring AST parsing, patch generation, and regression testing [[arxiv_2405.01543]].
+1. **SWE-bench Multi-Repo Repair ($N = 2,400$):** Multi-file issue resolution requiring AST parsing, patch generation, and regression testing.
 2. **Financial Compliance & Regulatory Auditing ($N = 2,200$):** Multi-hop document extraction requiring strict numerical grounding and SEC filing invariant checks [[arxiv_2501.02497]].
-3. **Distributed Clinical Pathway Synthesis ($N = 2,000$):** Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-interaction contract checks [[crossref_10.1201_9788743808145-14]].
+3. **Distributed Clinical Pathway Synthesis ($N = 2,000$):** Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-interaction contract checks.
 4. **Autonomous Cloud Infrastructure Remediation ($N = 2,000$):** Live Kubernetes microservice incident triage requiring root-cause diagnosis and non-destructive mitigation scripts [[arxiv_2406.00584]].
 
 ### Baseline Architectures

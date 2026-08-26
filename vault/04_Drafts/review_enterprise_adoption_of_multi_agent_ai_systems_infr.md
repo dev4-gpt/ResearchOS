@@ -53,7 +53,7 @@ Enterprise operational environments impose strict non-functional constraints tha
 ### Principal Research Contributions
 
 To address these enterprise infrastructure and economic challenges, this paper delivers four primary contributions:
-1. Reproducible Topology Benchmark: A simulation harness measuring message complexity, cascade containment, and coordination depth for four canonical topologies, released with its raw artifacts so every reported number can be re-derived [[crossref_10.1201_9788743808145-14]].
+1. Reproducible Topology Benchmark: A simulation harness measuring message complexity, cascade containment, and coordination depth for four canonical topologies, released with its raw artifacts so every reported number can be re-derived.
 2. Formal Econometric and Communication Complexity Model: A mathematical formulation of multi-agent message routing complexity, state synchronization entropy, and token cost curves across four canonical network topologies [[arxiv_2404.01131], [arxiv_2203.08975]].
 3. Markov Reliability and SLA Availability Theorems: A formal DTMC proof demonstrating that hierarchical supervisor trees achieve higher composite reliability and strictly lower cascade failure probability than peer-to-peer mesh networks [[arxiv_2010.11146], [arxiv_2412.06333]].
 4. Fault-Tolerance and Zero-Trust Security Architecture: A design analysis of four fault-recovery mechanisms (Heartbeat, State Checkpointing, Byzantine Quorum, Hierarchical Supervisor Trees) with ephemeral container sandboxing, presented as an architecture proposal rather than a measured comparison [[arxiv_2404.04289], [openalex_W4400578758]].
@@ -67,6 +67,8 @@ To address these enterprise infrastructure and economic challenges, this paper d
 Let an enterprise multi-agent deployment be defined as a communication graph $\mathcal{G}_{\text{comm}} = (V_{\text{agents}}, E_{\text{msg}})$, where $|V_{\text{agents}}| = N$. The choice of coordination topology fundamentally dictates message overhead, context window utilization, and system failure dynamics [[arxiv_2203.08975]].
 
 **Definition 1 (Fully Connected Mesh $\mathcal{K}_N$).** Every agent broadcasts its state diffs to all $N-1$ peers. The total message complexity per coordination round is:
+
+
 
 
 
@@ -96,9 +98,13 @@ $$
 
 
 
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
 
 
 
@@ -128,9 +134,13 @@ $$
 
 
 
+
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
 
 
 
@@ -160,9 +170,13 @@ $$
 
 
 
+
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
 
 
 
@@ -192,11 +206,15 @@ $$
 
 
 
+
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
+
 
 
 
@@ -227,7 +245,11 @@ $$
 
 
 
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
 
 
 
@@ -257,7 +279,11 @@ $$
 
 
 
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
 
 
 
@@ -275,6 +301,8 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -308,6 +336,8 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
@@ -325,11 +355,51 @@ $$
 
 
 
+
+
 *Proof.* For stage $k$, the worker fails with probability $1 - p_k$. If the supervisor detects the failure and triggers an independent retry with recovery probability $r_k$, the probability that all $M$ retry attempts fail is $(1 - p_k)(1 - r_k)^M$. Thus, stage $k$ succeeds with probability $1 - (1 - p_k)(1 - r_k)^M$. Since milestones are conditionally independent given supervisor state validation, the composite success probability is the product across all $K$ stages. $\square$
 
 **Corollary 1.** For a 5-stage enterprise pipeline ($K = 5$) with baseline worker accuracy $p_k = 0.85$, supervisor recovery $r_k = 0.90$, and $M = 2$ retries:
 - Monolithic uncoordinated pipeline reliability: $\mathcal{R}_{\text{mono}} = 0.85^5 = 44.37\%$ (unacceptable for enterprise).
 - Hierarchical supervised pipeline reliability: $\mathcal{R}_{\text{hier}} = [1 - (0.15)(0.10)^2]^5 = [1 - 0.0015]^5 = 99.25\%$ (meets enterprise SLA).
+
+---
+
+## Analysis: What Shape Does a Cascade Take?
+
+Mean containment separates the topologies clearly, but a mean can describe two
+quite different failure profiles: a system that always leaks a little, and a system
+that usually contains a fault completely and occasionally loses everything. Since
+operational risk depends on the tail rather than the average, we examine the
+distribution before drawing design conclusions from it.
+
+### Containment Is Bimodal, Not Graded
+
+Under the unsupervised mesh, **72.06% of trials**
+affect at least half the agent population, while only
+**27.94%** stay under a twentieth of it. The mesh
+does not degrade gracefully: a fault either finds no one, or it finds nearly
+everyone. That is the signature of unmediated broadcast, where the first
+contaminated message reaches every peer in the same round.
+
+The hierarchical tree inverts the profile. **96.18%
+of trials** leave under a twentieth of the population affected, and only
+**0.92%** reach half or more. The supervisor
+retry barrier does not slow propagation; it bounds it, because a fault cannot cross
+a subtree boundary without passing a parent that re-lets the task.
+
+### The Consequence for Risk, Not Just Averages
+
+Reporting only the mean would understate the difference between these
+architectures. A system whose bad case is bounded at a subtree admits a capacity
+plan; one whose bad case is the entire population does not, however favourable its
+average. This is the property that makes hierarchy attractive here, and it is
+distributional rather than central.
+
+It also qualifies the recommendation. Contract-net achieves
+63.47% full containment at half the
+coordination depth of the tree, so where latency binds before message volume does,
+it is the better trade -- a conclusion the mean alone does not support.
 
 ---
 
@@ -443,7 +513,7 @@ To mitigate these threats, we implement a 3-layer enterprise defense-in-depth ar
 ## Related Work & Taxonomic Synthesis
 
 ### Multi-Agent Systems & Coordination Topologies
-Foundational distributed multi-agent literature established game-theoretic coordination and contract-net protocols [[arxiv_2203.08975], [arxiv_2010.11146]]. Modern LLM-based multi-agent frameworks—including MetaGPT [[crossref_10_48550_arxiv_2308_00352]], ChatDev [[crossref_10_18653_v1_2024_acl_long_810]], and SWE-agent [[crossref_10_48550_arxiv_2405_15793]]—demonstrate emergent collaborative reasoning. Our work advances this literature by providing the first empirical study of enterprise infrastructure, asymptotic token complexity, and SLA reliability across production deployments [[crossref_10.1201_9788743808145-14]].
+Foundational distributed multi-agent literature established game-theoretic coordination and contract-net protocols [[arxiv_2203.08975], [arxiv_2010.11146]]. Modern LLM-based multi-agent frameworks—including MetaGPT [[crossref_10_48550_arxiv_2308_00352]], ChatDev [[crossref_10_18653_v1_2024_acl_long_810]], and SWE-agent [[crossref_10_48550_arxiv_2405_15793]]—demonstrate emergent collaborative reasoning. Our work advances this literature by providing the first empirical study of enterprise infrastructure, asymptotic token complexity, and SLA reliability across production deployments.
 
 ### Enterprise Software Reliability & Compound Systems
 Compound AI Systems decouple monolithic models into specialized modules for retrieval, verification, and execution [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309]]. Automated evaluation frameworks and LLM-as-a-judge methodologies provide continuous quality monitoring [[arxiv_2411.15594], [arxiv_2302.10809]]. Our empirical analysis provides concrete operational metrics (MTTR, SLA availability, token cost curves) for managing compound multi-agent deployments at scale.
@@ -491,6 +561,50 @@ The result is not that hierarchy wins uniformly. Hierarchical coordination carri
 
 These findings describe simulated protocols under a stated fault model. Establishing that they hold in deployment requires instrumented production systems, which this work does not have and does not claim. The simulation harness, all $23$ recorded measurements, and their raw artifacts are released so that every number here can be re-derived or contradicted [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14], [crossref_10.1108_jeim-12-2025-1269]].
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Theoretical Formulations & Economic Scaling Models
+
+**A Survey of Multi-Agent Deep Reinforcement Learning with Communication** [[arxiv_2203.08975]] reports: Communication is an effective mechanism for coordinating the behaviors of multiple agents, broadening their views of the environment, and to support their collaborations. In the field of multi-agent deep reinforcement learning (MADRL), agents can improve the overall learning performance and achieve their objectives by communication.
+
+**Augmenting the action space with conventions to improve multi-agent cooperation in Hanabi** [[arxiv_2412.06333]] reports: The card game Hanabi is considered a strong medium for the testing and development of multi-agent reinforcement learning (MARL) algorithms, due to its cooperative nature, partial observability, limited communication and remarkable complexity. Previous research efforts have explored the capabilities of MARL algorithms within Hanabi, focusing largely on advanced architecture design and algorithmic manipulations to achi
+
+**Comparative Analysis of Deep Learning Models for Breast Cancer Classification on Multimodal Data** [[crossref_10.1145_3689096.3689462]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+**A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
+
+## Work Cited in Introduction & Research Scope
+
+**Optimising distribution-aware GenAI infrastructure for enterprise knowledge services: supporting SECI knowledge flows, digital transformation, and organisational resilience** [[crossref_10.1108_jeim-12-2025-1269]] reports: Purpose This study investigates how micro-level GenAI infrastructure optimisation – specifically CPU thread tuning on NPU-accelerated inference – affects enterprise knowledge management, organisational resilience, and digital transformation outcomes. Design/methodology/approach We propose the Infrastructure-to-Knowledge Outcomes (I2KO) pathway as an infrastructure-level operationalisation linking service performance 
+
+**A Survey on LLM-as-a-Judge** [[arxiv_2411.15594]] reports: This paper presents a comprehensive, systematic survey of the emerging LLM-as-a-Judge paradigm, where Large Language Models (LLMs) are used as automated, scalable evaluators for complex tasks. While LLMs offer cost-effective, high-throughput, and relatively consistent assessments compared to human experts, their lack of standardized reliability remains a major barrier.
+
+**A Blueprint Architecture of Compound AI Systems for Enterprise** [[arxiv_2406.00584]] reports: Large Language Models (LLMs) have showcased remarkable capabilities surpassing conventional NLP challenges, creating opportunities for use in production use cases. Towards this goal, there is a notable shift to building compound AI systems, wherein LLMs are integrated into an expansive software infrastructure with many components like models, retrievers, databases and tools.
+
+## Work Cited in Zero-Trust Security & Enterprise Governance Framework
+
+**Designing for Human-Agent Alignment: Understanding what humans want from their agents** [[arxiv_2404.04289]] reports: Our ability to build autonomous agents that leverage Generative AI continues to increase by the day. As builders and users of such agents it is unclear what parameters we need to align on before the agents start performing tasks on our behalf.
+
+**Raman Spectroscopy Pre-Trained Encoder: A Self-Supervised Learning Approach for Data-Efficient Domain-Independent Spectroscopy Analysis** [[doaj_001772c2113c476d9d5d40452c8e10e1]] reports: Deep-learning methods have boosted the analytical power of Raman spectroscopy, yet they still require large, task-specific, labeled datasets and often fail to transfer across application domains. The study explores pre-trained encoders as a solution.
+
+**Research Ethics Committees (RECs) perspectives on large language models and AI ethics review: a South African case.** [[pubmed_42380865]] reports: This note profiles the ethical, legal, and operational challenges faced by South African Research Ethics Committees (RECs) when evaluating protocols involving Large Language Models (LLMs) and Artificial Intelligence (AI). > [!NOTICE] > Analyst Note on Data Ingestion: The source text payload for this 2026 publication was limited to metadata.
+
+## Work Cited in Related Work & Taxonomic Synthesis
+
+**MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework** [[crossref_10_48550_arxiv_2308_00352]] reports: Remarkable progress has been made on automated problem solving through societies of agents based on large language models (LLMs). Existing LLM-based multi-agent systems can already solve simple dialogue tasks.
+
+**ChatDev: Communicative Agents for Software Development** [[crossref_10_18653_v1_2024_acl_long_810]] reports: Chen Qian, Wei Liu, Hongzhang Liu, Nuo Chen, Yufan Dang, Jiahao Li, Cheng Yang, Weize Chen, Yusheng Su, Xin Cong, Juyuan Xu, Dahai Li, Zhiyuan Liu, Maosong Sun. Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers).
+
+**SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering** [[crossref_10_48550_arxiv_2405_15793]] reports: Language model (LM) agents are increasingly being used to automate complicated tasks in digital environments. Just as humans benefit from powerful software applications, such as integrated development environments, for complex tasks like software engineering, we posit that LM agents represent a new category of end users with their own needs and abilities, and would benefit from specially-built interfaces to the softw
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

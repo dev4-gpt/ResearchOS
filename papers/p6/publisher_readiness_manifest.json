@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -110,8 +110,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -123,7 +123,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -158,7 +157,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -180,8 +178,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -193,7 +191,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -228,7 +225,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -352,8 +348,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -365,7 +361,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -400,7 +395,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -422,8 +416,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -435,7 +429,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -470,7 +463,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -594,8 +586,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -607,7 +599,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -642,7 +633,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -664,8 +654,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -677,7 +667,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -712,7 +701,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -741,7 +729,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 9,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -784,7 +772,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 9-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -821,7 +809,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 9,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -836,8 +824,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -849,7 +837,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -884,7 +871,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -906,8 +892,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -919,7 +905,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -954,7 +939,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1078,8 +1062,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1091,7 +1075,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1126,7 +1109,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1148,8 +1130,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1161,7 +1143,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1196,7 +1177,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1320,8 +1300,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1333,7 +1313,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1368,7 +1347,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1390,8 +1368,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1403,7 +1381,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1438,7 +1415,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1562,8 +1538,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1575,7 +1551,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1610,7 +1585,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1632,8 +1606,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1645,7 +1619,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1680,7 +1653,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1804,8 +1776,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1817,7 +1789,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1852,7 +1823,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -1874,8 +1844,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1887,7 +1857,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -1922,7 +1891,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2046,8 +2014,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2059,7 +2027,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2094,7 +2061,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2116,8 +2082,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2129,7 +2095,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2164,7 +2129,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2288,8 +2252,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2301,7 +2265,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2336,7 +2299,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2358,8 +2320,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2371,7 +2333,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2406,7 +2367,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2530,8 +2490,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2543,7 +2503,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2578,7 +2537,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2600,8 +2558,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2613,7 +2571,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2648,7 +2605,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2772,8 +2728,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 16,
-              "verified_count": 16,
+              "total_citations": 15,
+              "verified_count": 15,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2785,7 +2741,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2820,7 +2775,6 @@
                 "arxiv_2311_17854",
                 "arxiv_2312_03893",
                 "arxiv_2404_01131",
-                "arxiv_2405_01543",
                 "arxiv_2406_00584",
                 "arxiv_2406_04028",
                 "arxiv_2501_02497",
@@ -2842,8 +2796,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 16,
-          "verified_count": 16,
+          "total_citations": 15,
+          "verified_count": 15,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2855,7 +2809,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",
@@ -2890,7 +2843,6 @@
             "arxiv_2311_17854",
             "arxiv_2312_03893",
             "arxiv_2404_01131",
-            "arxiv_2405_01543",
             "arxiv_2406_00584",
             "arxiv_2406_04028",
             "arxiv_2501_02497",

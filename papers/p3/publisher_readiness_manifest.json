@@ -15,13 +15,255 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 14,
+        "total_pages": 16,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
       },
       "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.pdf",
       "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.tex",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "blocking_reasons": [],
+      "checks": {
+        "zero_placeholders": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 placeholder stubs detected"
+        },
+        "clean_section_numbering": {
+          "passed": true,
+          "score": 100,
+          "detail": "Clean LaTeX section hierarchy"
+        },
+        "zero_meta_leakage": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 internal persona/prompt tags leaked"
+        },
+        "verified_author": {
+          "passed": true,
+          "score": 100,
+          "detail": "Author explicitly attributed"
+        },
+        "complete_abstract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Abstract contains full, terminal-punctuated synthesis"
+        },
+        "real_bibliography": {
+          "passed": true,
+          "score": 100,
+          "detail": "100% verified real academic publications"
+        },
+        "valid_layout": {
+          "passed": true,
+          "score": 100,
+          "detail": "Valid 16-page camera-ready layout"
+        },
+        "zero_raw_leaks": {
+          "passed": true,
+          "score": 100,
+          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
+        },
+        "clean_tex_syntax": {
+          "passed": true,
+          "score": 100,
+          "detail": "TeX source syntax is 100% sound and balanced"
+        },
+        "workflow_fidelity": {
+          "passed": true,
+          "score": 100,
+          "detail": "No ResearchingOS internal workflow claim detected",
+          "missing_stages": [],
+          "stale_linear_claim": false
+        },
+        "venue_contract": {
+          "passed": true,
+          "score": 100,
+          "detail": "Venue contract satisfied",
+          "template_passed": true,
+          "policy_passed": true,
+          "page_passed": true,
+          "status": "PASS",
+          "venue": "NeurIPS",
+          "template_configured": true,
+          "index_only": false,
+          "package_fallback_used": false,
+          "missing_template_markers": [],
+          "required_sections": [
+            "Abstract"
+          ],
+          "missing_sections": [],
+          "forbidden_tokens_found": [],
+          "total_pages": 16,
+          "max_pages": 20,
+          "target_pages": null,
+          "registry_gaps": {
+            "missing_contracts": [],
+            "orphan_contracts": []
+          }
+        },
+        "evidence_grounding": {
+          "passed": true,
+          "score": 100,
+          "detail": "Evidence and citation grounding passed",
+          "report": {
+            "fact_check_score": 100.0,
+            "citation_report": {
+              "total_citations": 10,
+              "verified_count": 10,
+              "broken_count": 0,
+              "unresolved_count": 0,
+              "verified_links": [
+                "arxiv_2005_14165",
+                "arxiv_2010_11146",
+                "arxiv_2404_01131",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_18653_v1_2026_findings_acl_1933",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793"
+              ],
+              "broken_links": [],
+              "unresolved_links": [],
+              "citation_score": 100.0
+            },
+            "metric_report": {
+              "total_numeric_claims": 8,
+              "grounded_count": 4,
+              "unverified_count": 0,
+              "grounded_claims": [
+                "10.293 s",
+                "100%",
+                "4.09 ms",
+                "95%"
+              ],
+              "unverified_claims": [],
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
+            },
+            "status": "passed",
+            "blocking_errors": [],
+            "verification_matrix": {
+              "verified_citations": [
+                "arxiv_2005_14165",
+                "arxiv_2010_11146",
+                "arxiv_2404_01131",
+                "arxiv_2412_06333",
+                "arxiv_2501_02497",
+                "crossref_10_1145_3689096_3689462",
+                "crossref_10_18653_v1_2024_acl_long_810",
+                "crossref_10_18653_v1_2026_findings_acl_1933",
+                "crossref_10_48550_arxiv_2308_00352",
+                "crossref_10_48550_arxiv_2405_15793"
+              ],
+              "broken_citations": [],
+              "unresolved_citations": [],
+              "grounded_metrics": [
+                "10.293 s",
+                "100%",
+                "4.09 ms",
+                "95%"
+              ],
+              "unverified_metrics": []
+            }
+          }
+        }
+      },
+      "evidence_report": {
+        "fact_check_score": 100.0,
+        "citation_report": {
+          "total_citations": 10,
+          "verified_count": 10,
+          "broken_count": 0,
+          "unresolved_count": 0,
+          "verified_links": [
+            "arxiv_2005_14165",
+            "arxiv_2010_11146",
+            "arxiv_2404_01131",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_18653_v1_2026_findings_acl_1933",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793"
+          ],
+          "broken_links": [],
+          "unresolved_links": [],
+          "citation_score": 100.0
+        },
+        "metric_report": {
+          "total_numeric_claims": 8,
+          "grounded_count": 4,
+          "unverified_count": 0,
+          "grounded_claims": [
+            "10.293 s",
+            "100%",
+            "4.09 ms",
+            "95%"
+          ],
+          "unverified_claims": [],
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
+        },
+        "status": "passed",
+        "blocking_errors": [],
+        "verification_matrix": {
+          "verified_citations": [
+            "arxiv_2005_14165",
+            "arxiv_2010_11146",
+            "arxiv_2404_01131",
+            "arxiv_2412_06333",
+            "arxiv_2501_02497",
+            "crossref_10_1145_3689096_3689462",
+            "crossref_10_18653_v1_2024_acl_long_810",
+            "crossref_10_18653_v1_2026_findings_acl_1933",
+            "crossref_10_48550_arxiv_2308_00352",
+            "crossref_10_48550_arxiv_2405_15793"
+          ],
+          "broken_citations": [],
+          "unresolved_citations": [],
+          "grounded_metrics": [
+            "10.293 s",
+            "100%",
+            "4.09 ms",
+            "95%"
+          ],
+          "unverified_metrics": []
+        }
+      }
+    },
+    {
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "venue": "ICML",
+      "compiled": true,
+      "checkmate_passed": true,
+      "layout_passed": true,
+      "publish_ready": true,
+      "checkmate_score": 100.0,
+      "layout_geometry": {
+        "passed": true,
+        "total_pages": 14,
+        "overflow_count": 0,
+        "margin_overflows": [],
+        "detail": "0 margin overflows detected"
+      },
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.pdf",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.tex",
       "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
       "blocking_reasons": [],
       "checks": {
@@ -85,7 +327,7 @@
           "policy_passed": true,
           "page_passed": true,
           "status": "PASS",
-          "venue": "NeurIPS",
+          "venue": "ICML",
           "template_configured": true,
           "index_only": false,
           "package_fallback_used": false,
@@ -110,8 +352,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -121,7 +363,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -132,7 +373,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -142,7 +383,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -154,7 +401,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -176,8 +422,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -187,7 +433,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -198,7 +443,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -208,7 +453,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -220,241 +471,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
-          ],
-          "broken_citations": [],
-          "unresolved_citations": [],
-          "grounded_metrics": [
-            "10.293 s",
-            "100%",
-            "4.09 ms",
-            "95%"
-          ],
-          "unverified_metrics": []
-        }
-      }
-    },
-    {
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
-      "venue": "ICML",
-      "compiled": true,
-      "checkmate_passed": true,
-      "layout_passed": true,
-      "publish_ready": true,
-      "checkmate_score": 100.0,
-      "layout_geometry": {
-        "passed": true,
-        "total_pages": 12,
-        "overflow_count": 0,
-        "margin_overflows": [],
-        "detail": "0 margin overflows detected"
-      },
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.pdf",
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.tex",
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
-      "blocking_reasons": [],
-      "checks": {
-        "zero_placeholders": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 placeholder stubs detected"
-        },
-        "clean_section_numbering": {
-          "passed": true,
-          "score": 100,
-          "detail": "Clean LaTeX section hierarchy"
-        },
-        "zero_meta_leakage": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 internal persona/prompt tags leaked"
-        },
-        "verified_author": {
-          "passed": true,
-          "score": 100,
-          "detail": "Author explicitly attributed"
-        },
-        "complete_abstract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Abstract contains full, terminal-punctuated synthesis"
-        },
-        "real_bibliography": {
-          "passed": true,
-          "score": 100,
-          "detail": "100% verified real academic publications"
-        },
-        "valid_layout": {
-          "passed": true,
-          "score": 100,
-          "detail": "Valid 12-page camera-ready layout"
-        },
-        "zero_raw_leaks": {
-          "passed": true,
-          "score": 100,
-          "detail": "0 raw LaTeX macros or unrendered markdown leaked"
-        },
-        "clean_tex_syntax": {
-          "passed": true,
-          "score": 100,
-          "detail": "TeX source syntax is 100% sound and balanced"
-        },
-        "workflow_fidelity": {
-          "passed": true,
-          "score": 100,
-          "detail": "No ResearchingOS internal workflow claim detected",
-          "missing_stages": [],
-          "stale_linear_claim": false
-        },
-        "venue_contract": {
-          "passed": true,
-          "score": 100,
-          "detail": "Venue contract satisfied",
-          "template_passed": true,
-          "policy_passed": true,
-          "page_passed": true,
-          "status": "PASS",
-          "venue": "ICML",
-          "template_configured": true,
-          "index_only": false,
-          "package_fallback_used": false,
-          "missing_template_markers": [],
-          "required_sections": [
-            "Abstract"
-          ],
-          "missing_sections": [],
-          "forbidden_tokens_found": [],
-          "total_pages": 12,
-          "max_pages": 20,
-          "target_pages": null,
-          "registry_gaps": {
-            "missing_contracts": [],
-            "orphan_contracts": []
-          }
-        },
-        "evidence_grounding": {
-          "passed": true,
-          "score": 100,
-          "detail": "Evidence and citation grounding passed",
-          "report": {
-            "fact_check_score": 100.0,
-            "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
-              "broken_count": 0,
-              "unresolved_count": 0,
-              "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2404_01131",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
-              ],
-              "broken_links": [],
-              "unresolved_links": [],
-              "citation_score": 100.0
-            },
-            "metric_report": {
-              "total_numeric_claims": 4,
-              "grounded_count": 4,
-              "unverified_count": 0,
-              "grounded_claims": [
-                "10.293 s",
-                "100%",
-                "4.09 ms",
-                "95%"
-              ],
-              "unverified_claims": [],
-              "metric_score": 100.0
-            },
-            "status": "passed",
-            "blocking_errors": [],
-            "verification_matrix": {
-              "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2404_01131",
-                "arxiv_2412_06333",
-                "arxiv_2501_02497",
-                "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
-              ],
-              "broken_citations": [],
-              "unresolved_citations": [],
-              "grounded_metrics": [
-                "10.293 s",
-                "100%",
-                "4.09 ms",
-                "95%"
-              ],
-              "unverified_metrics": []
-            }
-          }
-        }
-      },
-      "evidence_report": {
-        "fact_check_score": 100.0,
-        "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
-          "broken_count": 0,
-          "unresolved_count": 0,
-          "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2404_01131",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
-          ],
-          "broken_links": [],
-          "unresolved_links": [],
-          "citation_score": 100.0
-        },
-        "metric_report": {
-          "total_numeric_claims": 4,
-          "grounded_count": 4,
-          "unverified_count": 0,
-          "grounded_claims": [
-            "10.293 s",
-            "100%",
-            "4.09 ms",
-            "95%"
-          ],
-          "unverified_claims": [],
-          "metric_score": 100.0
-        },
-        "status": "passed",
-        "blocking_errors": [],
-        "verification_matrix": {
-          "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2404_01131",
-            "arxiv_2412_06333",
-            "arxiv_2501_02497",
-            "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -483,7 +499,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -526,7 +542,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -563,7 +579,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -578,8 +594,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -589,7 +605,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -600,7 +615,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -610,7 +625,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -622,7 +643,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -644,8 +664,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -655,7 +675,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -666,7 +685,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -676,7 +695,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -688,7 +713,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -717,7 +741,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 13,
+        "total_pages": 15,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -760,7 +784,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 13-page camera-ready layout"
+          "detail": "Valid 15-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -797,7 +821,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 13,
+          "total_pages": 15,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -812,8 +836,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -823,7 +847,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -834,7 +857,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -844,7 +867,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -856,7 +885,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -878,8 +906,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -889,7 +917,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -900,7 +927,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -910,7 +937,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -922,7 +955,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -951,7 +983,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -994,7 +1026,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1031,7 +1063,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1046,8 +1078,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1057,7 +1089,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1068,7 +1099,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -1078,7 +1109,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1090,7 +1127,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1112,8 +1148,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1123,7 +1159,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1134,7 +1169,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -1144,7 +1179,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1156,7 +1197,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1185,7 +1225,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1228,7 +1268,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1265,7 +1305,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1280,8 +1320,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1291,7 +1331,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1302,7 +1341,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -1312,7 +1351,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1324,7 +1369,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1346,8 +1390,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1357,7 +1401,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1368,7 +1411,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -1378,7 +1421,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1390,7 +1439,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1419,7 +1467,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1462,7 +1510,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1499,7 +1547,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1514,8 +1562,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1525,7 +1573,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1536,7 +1583,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -1546,7 +1593,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1558,7 +1611,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1580,8 +1632,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1591,7 +1643,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1602,7 +1653,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -1612,7 +1663,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1624,7 +1681,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1653,7 +1709,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1696,7 +1752,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1733,7 +1789,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1748,8 +1804,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1759,7 +1815,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1770,7 +1825,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -1780,7 +1835,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1792,7 +1853,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -1814,8 +1874,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1825,7 +1885,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1836,7 +1895,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -1846,7 +1905,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1858,7 +1923,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -1887,7 +1951,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1930,7 +1994,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1967,7 +2031,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1982,8 +2046,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1993,7 +2057,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2004,7 +2067,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -2014,7 +2077,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2026,7 +2095,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2048,8 +2116,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2059,7 +2127,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2070,7 +2137,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -2080,7 +2147,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2092,7 +2165,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2121,7 +2193,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2164,7 +2236,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2201,7 +2273,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2216,8 +2288,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2227,7 +2299,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2238,7 +2309,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -2248,7 +2319,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2260,7 +2337,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2282,8 +2358,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2293,7 +2369,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2304,7 +2379,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -2314,7 +2389,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2326,7 +2407,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2355,7 +2435,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2398,7 +2478,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2435,7 +2515,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2450,8 +2530,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2461,7 +2541,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2472,7 +2551,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -2482,7 +2561,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2494,7 +2579,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2516,8 +2600,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2527,7 +2611,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2538,7 +2621,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -2548,7 +2631,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2560,7 +2649,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2589,7 +2677,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2632,7 +2720,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2669,7 +2757,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2684,8 +2772,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 11,
-              "verified_count": 11,
+              "total_citations": 10,
+              "verified_count": 10,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2695,7 +2783,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2706,7 +2793,7 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 8,
               "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
@@ -2716,7 +2803,13 @@
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.64%",
+                "35.26%",
+                "64.62%",
+                "97.89%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2728,7 +2821,6 @@
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_18653_v1_2026_findings_acl_1933",
                 "crossref_10_48550_arxiv_2308_00352",
@@ -2750,8 +2842,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 11,
-          "verified_count": 11,
+          "total_citations": 10,
+          "verified_count": 10,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2761,7 +2853,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",
@@ -2772,7 +2863,7 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 8,
           "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
@@ -2782,7 +2873,13 @@
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.64%",
+            "35.26%",
+            "64.62%",
+            "97.89%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2794,7 +2891,6 @@
             "arxiv_2412_06333",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_18653_v1_2026_findings_acl_1933",
             "crossref_10_48550_arxiv_2308_00352",

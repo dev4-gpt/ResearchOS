@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 14,
+        "total_pages": 17,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 14-page camera-ready layout"
+          "detail": "Valid 17-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 14,
+          "total_pages": 17,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -110,8 +110,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -124,7 +124,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -136,15 +135,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -159,7 +165,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -170,6 +175,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -180,8 +187,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -194,7 +201,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -206,15 +212,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -229,7 +242,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -240,6 +252,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -257,7 +271,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 12,
+        "total_pages": 14,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -300,7 +314,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 12-page camera-ready layout"
+          "detail": "Valid 14-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -337,7 +351,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 12,
+          "total_pages": 14,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -352,8 +366,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -366,7 +380,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -378,15 +391,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -401,7 +421,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -412,6 +431,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -422,8 +443,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -436,7 +457,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -448,15 +468,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -471,7 +498,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -482,6 +508,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -499,7 +527,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -542,7 +570,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -579,7 +607,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -594,8 +622,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -608,7 +636,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -620,15 +647,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -643,7 +677,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -654,6 +687,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -664,8 +699,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -678,7 +713,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -690,15 +724,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -713,7 +754,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -724,6 +764,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -741,7 +783,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 14,
+        "total_pages": 16,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -784,7 +826,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 14-page camera-ready layout"
+          "detail": "Valid 16-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -821,7 +863,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 14,
+          "total_pages": 16,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -836,8 +878,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -850,7 +892,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -862,15 +903,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -885,7 +933,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -896,6 +943,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -906,8 +955,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -920,7 +969,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -932,15 +980,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -955,7 +1010,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -966,6 +1020,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -983,7 +1039,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1026,7 +1082,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1063,7 +1119,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1078,8 +1134,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1092,7 +1148,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1104,15 +1159,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1127,7 +1189,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1138,6 +1199,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -1148,8 +1211,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1162,7 +1225,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1174,15 +1236,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1197,7 +1266,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1208,6 +1276,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -1225,7 +1295,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1268,7 +1338,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1305,7 +1375,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1320,8 +1390,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1334,7 +1404,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1346,15 +1415,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1369,7 +1445,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1380,6 +1455,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -1390,8 +1467,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1404,7 +1481,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1416,15 +1492,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1439,7 +1522,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1450,6 +1532,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -1467,7 +1551,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1510,7 +1594,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1547,7 +1631,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1562,8 +1646,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1576,7 +1660,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1588,15 +1671,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1611,7 +1701,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1622,6 +1711,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -1632,8 +1723,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1646,7 +1737,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1658,15 +1748,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1681,7 +1778,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1692,6 +1788,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -1709,7 +1807,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1752,7 +1850,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -1789,7 +1887,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -1804,8 +1902,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1818,7 +1916,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1830,15 +1927,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -1853,7 +1957,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -1864,6 +1967,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -1874,8 +1979,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1888,7 +1993,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1900,15 +2004,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -1923,7 +2034,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -1934,6 +2044,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -1951,7 +2063,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 8,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -1994,7 +2106,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 8-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2031,7 +2143,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 8,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2046,8 +2158,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2060,7 +2172,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2072,15 +2183,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2095,7 +2213,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2106,6 +2223,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -2116,8 +2235,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2130,7 +2249,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2142,15 +2260,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2165,7 +2290,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2176,6 +2300,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -2193,7 +2319,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2236,7 +2362,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2273,7 +2399,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2288,8 +2414,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2302,7 +2428,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2314,15 +2439,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2337,7 +2469,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2348,6 +2479,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -2358,8 +2491,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2372,7 +2505,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2384,15 +2516,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2407,7 +2546,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2418,6 +2556,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -2435,7 +2575,7 @@
       "checkmate_score": 91.7,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2478,7 +2618,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2515,7 +2655,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2530,8 +2670,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2544,7 +2684,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2556,15 +2695,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2579,7 +2725,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2590,6 +2735,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -2600,8 +2747,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2614,7 +2761,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2626,15 +2772,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2649,7 +2802,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2660,6 +2812,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []
@@ -2677,7 +2831,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -2720,7 +2874,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -2757,7 +2911,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -2772,8 +2926,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 14,
+              "verified_count": 14,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2786,7 +2940,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2798,15 +2951,22 @@
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 2,
-              "grounded_count": 2,
+              "total_numeric_claims": 7,
+              "grounded_count": 4,
               "unverified_count": 0,
               "grounded_claims": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_claims": [],
-              "metric_score": 100.0
+              "metric_score": 100.0,
+              "measurement_backed_claims": [
+                "0.92%",
+                "63.47%",
+                "96.18%"
+              ]
             },
             "status": "passed",
             "blocking_errors": [],
@@ -2821,7 +2981,6 @@
                 "crossref_10_1108_jeim_12_2025_1269",
                 "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "crossref_10_18653_v1_2024_acl_long_810",
                 "crossref_10_48550_arxiv_2308_00352",
                 "crossref_10_48550_arxiv_2405_15793",
@@ -2832,6 +2991,8 @@
               "unresolved_citations": [],
               "grounded_metrics": [
                 "2.877 s",
+                "27.94%",
+                "72.06%",
                 "95%"
               ],
               "unverified_metrics": []
@@ -2842,8 +3003,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 14,
+          "verified_count": 14,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2856,7 +3017,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2868,15 +3028,22 @@
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 2,
-          "grounded_count": 2,
+          "total_numeric_claims": 7,
+          "grounded_count": 4,
           "unverified_count": 0,
           "grounded_claims": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_claims": [],
-          "metric_score": 100.0
+          "metric_score": 100.0,
+          "measurement_backed_claims": [
+            "0.92%",
+            "63.47%",
+            "96.18%"
+          ]
         },
         "status": "passed",
         "blocking_errors": [],
@@ -2891,7 +3058,6 @@
             "crossref_10_1108_jeim_12_2025_1269",
             "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "crossref_10_18653_v1_2024_acl_long_810",
             "crossref_10_48550_arxiv_2308_00352",
             "crossref_10_48550_arxiv_2405_15793",
@@ -2902,6 +3068,8 @@
           "unresolved_citations": [],
           "grounded_metrics": [
             "2.877 s",
+            "27.94%",
+            "72.06%",
             "95%"
           ],
           "unverified_metrics": []

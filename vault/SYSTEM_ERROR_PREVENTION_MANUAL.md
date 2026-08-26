@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-25 19:50:15
-**Total Tracked Incidents:** 63
-**Resolved & Verified:** 57
+**Last Updated:** 2026-08-25 20:16:53
+**Total Tracked Incidents:** 66
+**Resolved & Verified:** 60
 **Open / Unresolved:** 6
-**Active Prevention Rules:** 63
+**Active Prevention Rules:** 66
 
 ---
 
@@ -84,6 +84,9 @@
 - **[R61]**: A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.
 - **[R62]**: Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.
 - **[R63]**: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.
+- **[R64]**: A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.
+- **[R65]**: A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.
+- **[R66]**: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.
 
 ---
 
@@ -655,3 +658,30 @@
 - **Resolution:** OPEN. Reported, not deleted: removing files and rotating keys is the owner's decision.
 - **Prevention Rule:** `R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.`
 - **Status:** ⚠️ `OPEN_NOT_FIXED`
+
+### ❌ [ERR-064] 16 vault notes contain composed rather than ingested content, presented as the paper's abstract. arxiv_2405.01543's note carries this project's own invented benchmark numbers ('Resolved Rate: 38.7% ... versus 27.3%'), and crossref_10.1201_9788743808145-14 states outright that the source abstract was never provided and the note was compiled from metadata.
+- **Timestamp:** `2026-08-25 20:10:28`
+- **Component:** `Vault paper notes (vault/01_Papers)` (literature_ingestion)
+- **Error Type:** `Fabricated Source Content`
+- **Root Cause:** An ingestion path wrote generated summaries into paper notes when full text was unavailable, with no field distinguishing ingested text from composed text.
+- **Resolution:** CitationRelevanceService flags synthesized notes; related-work generation skips them; 25 citations to such notes removed across all 9 manuscripts.
+- **Prevention Rule:** `R64: A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-065] The retired-claim guard checked for the LaTeX-escaped form '38.7\\%' only, so the unescaped '38.7%' survived in p1 and resurfaced when Appendix A was generated from a contaminated note.
+- **Timestamp:** `2026-08-25 20:10:28`
+- **Component:** `ManuscriptEditor.assert_absent` (manuscript_sync)
+- **Error Type:** `Incomplete Guard`
+- **Root Cause:** The guard was written against the escaped spelling that appears in exported .tex rather than the plain spelling used in the Markdown source.
+- **Resolution:** Guard now checks both spellings; the resurfaced claim was traced and removed.
+- **Prevention Rule:** `R65: A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-066] Summaries copied from vault note bodies carried the notes' own wikilinks into the manuscripts, creating the citation [[Chain-of-Thought Prompting]], which resolves to nothing and failed all 12 p1 builds with 'Broken paper citations'.
+- **Timestamp:** `2026-08-25 20:16:53`
+- **Component:** `generate_related_work.py` (appendix_generation)
+- **Error Type:** `Invented Citation Key`
+- **Root Cause:** Text extracted from one document was inserted into another without neutralising markup that carries meaning in the destination.
+- **Resolution:** Wikilinks and emphasis markers are flattened to plain text before insertion.
+- **Prevention Rule:** `R66: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.`
+- **Status:** ✅ `VERIFIED_RESOLVED`

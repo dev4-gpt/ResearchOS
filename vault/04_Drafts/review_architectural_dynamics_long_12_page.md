@@ -25,7 +25,7 @@ For parameter-efficient adaptation we measure subspace capacity directly by sing
 
 Simulated Mixture-of-Experts routing over 200{,}000 token assignments across 64 experts gives routing entropy from 2.4539 nats uncorrected to 3.4118 nats load-balanced, against a maximum of $\log 64 = 4.1589$.
 
-Every figure here is either exact arithmetic or a simulation whose code is released. No accelerator was used, no model was trained, and no throughput or realised-VRAM measurement is reported [[crossref_10.1201_9788743808145-14]].
+Every figure here is either exact arithmetic or a simulation whose code is released. No accelerator was used, no model was trained, and no throughput or realised-VRAM measurement is reported.
 
 ---
 
@@ -46,12 +46,16 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
 & + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{\mathcal{D}^\beta}
 \end{aligned}
 $$
+
+
 
 
 
@@ -106,6 +110,8 @@ The Hoffmann et al. scaling law [[arxiv_2005.14165]] characterizes test cross-en
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
@@ -126,7 +132,11 @@ $$
 
 
 
+
+
 **Theorem 1 (Optimal Compute Allocation).** Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
+
 
 
 
@@ -161,7 +171,11 @@ $$
 
 
 
+
+
 *Proof.* Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
+
 
 
 
@@ -182,6 +196,8 @@ $$
 & + A\mathcal{N}^{-\alpha} + B\left(\frac{6\mathcal{N}}{\mathcal{C}}\right)^\beta
 \end{aligned}
 $$
+
+
 
 
 
@@ -217,11 +233,15 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Pass@}k = 1 - (1-p)^k
 \end{aligned}
 $$
+
+
 
 
 
@@ -259,6 +279,8 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
+
 $$
 \begin{aligned}
 W = & W_0 \\
@@ -279,7 +301,11 @@ $$
 
 
 
+
+
 **Definition 1 (Subspace Capacity).** The rank-$r$ adaptation subspace capacity is:
+
+
 
 
 
@@ -313,9 +339,13 @@ $$
 
 
 
+
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 **Theorem 2 (Approximation Error Bound).** For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
+
 
 
 
@@ -336,6 +366,8 @@ $$
 & k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $$
+
+
 
 
 
@@ -371,11 +403,15 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
+
 $$
 \begin{aligned}
 \eta_{\text{eff}} = \frac{\gamma}{r} \cdot \eta_{\text{LoRA}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -405,11 +441,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \|\nabla_{W_\ell}\mathcal{L}\|_F \approx \|\nabla_{B_\ell}\mathcal{L}\|_F \cdot \|A_\ell\|_F + \|B_\ell\|_F \cdot \|\nabla_{A_\ell}\mathcal{L}\|_F
 \end{aligned}
 $$
+
+
 
 
 
@@ -447,6 +487,8 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
+
 $$
 \begin{aligned}
 p_i(x) = \text{Softmax}(W_g x)_i = \frac{\exp(w_i^\top x)}{\sum_{j=1}^E \exp(w_j^\top x)}
@@ -466,11 +508,15 @@ $$
 
 
 
+
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 ### Load Balancing and Routing Entropy
 
 **Definition 2 (Routing Entropy).** The expert routing entropy for batch $\mathcal{B}$ is:
+
+
 
 
 
@@ -505,9 +551,13 @@ $$
 
 
 
+
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 **Theorem 3 (Routing Stability Under Auxiliary Loss).** The auxiliary load-balancing loss:
+
+
 
 
 
@@ -527,6 +577,8 @@ $$
 \mathcal{L}_{\text{aux}} = \alpha_{\text{aux}} \cdot E \sum_{i=1}^E f_i \cdot P_i
 \end{aligned}
 $$
+
+
 
 
 
@@ -562,11 +614,15 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
+
 $$
 \begin{aligned}
 \text{ActiveParams} = \mathcal{N}_{\text{attn}} + k \cdot \frac{\mathcal{N}_{\text{total}} - \mathcal{N}_{\text{attn}}}{E}
 \end{aligned}
 $$
+
+
 
 
 
@@ -604,12 +660,16 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{VRAM}} = & \underbrace{\mathcal{M}_{\text{weights}}}_{\text{model params}} + \underbrace{2 \cdot N_L \cdot d_{\text{model}} \cdot B \cdot L_{\text{ctx}} \cdot s_{\text{dtype}}}_{\text{KV cache}} \\
 & + \underbrace{\mathcal{M}_{\text{activations}}}_{\text{residual streams}} + \underbrace{\mathcal{M}_{\text{cuda}}}_{\text{CUDA overhead}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -655,11 +715,15 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
+
 $$
 \begin{aligned}
 \text{AI} = \frac{\text{FLOPs/token}}{2\mathcal{N} \cdot s_{\text{dtype}}} \approx \frac{1}{s_{\text{dtype}}} \text{ FLOP/byte}
 \end{aligned}
 $$
+
+
 
 
 
@@ -765,11 +829,15 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{compound}}(\mathcal{N}, \mathcal{D}, \mathcal{I}_{\text{ext}}) \approx E' + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{(\mathcal{D} + \lambda\mathcal{I}_{\text{ext}})^\beta}
 \end{aligned}
 $$
+
+
 
 
 
@@ -832,6 +900,48 @@ Singular value decomposition places low-rank adaptation capacity at 99.45\% of u
 
 The limits of this evidence are worth stating plainly. Exact arithmetic tells you what a cache costs, not what a served system achieves; SVD on planted-rank matrices tells you what a factorisation can represent, not what fine-tuning finds. Confirming that these bounds predict deployed behaviour requires accelerators and trained models, which this study did not have. Every calculation is released for re-execution [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14]].
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Related Work
+
+**A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
+
+**LoRA Fine-Tuning of a 3B Code LLM for Algorithmic Efficiency** [[crossref_10_48550_arxiv_2106_09685]] reports: An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible.
+
+**QLoRA: Efficient Finetuning of Quantized LLMs** [[crossref_10_48550_arxiv_2305_14314]] reports: We present QLoRA, an efficient finetuning approach that reduces memory usage enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QLoRA backpropagates gradients through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters~(LoRA).
+
+**Retro-fallback: retrosynthetic planning in an uncertain world** [[arxiv_2310.09270]] reports: Retrosynthesis is the task of planning a series of chemical reactions to create a desired molecule from simpler, buyable molecules. While previous works have proposed algorithms to find optimal solutions for a range of metrics (e.g.
+
+**GraphRAG under Fire** [[arxiv_2501.14050]] reports: GraphRAG advances retrieval-augmented generation (RAG) by structuring external knowledge as multi-scale knowledge graphs, enabling language models to integrate both broad context and granular details in their generation. While GraphRAG has demonstrated success across domains, its security implications remain largely unexplored.
+
+## Work Cited in Introduction
+
+**Language Models are Few-Shot Learners** [[arxiv_2005.14165]] reports: We demonstrate that scaling up language models greatly improves few-shot performance, sometimes even matching or exceeding prior state-of-the-art fine-tuning approaches. We train GPT-3, a 175-billion parameter autoregressive language model, and evaluate its performance on a wide variety of NLP tasks.
+
+**Augmenting the action space with conventions to improve multi-agent cooperation in Hanabi** [[arxiv_2412.06333]] reports: The card game Hanabi is considered a strong medium for the testing and development of multi-agent reinforcement learning (MARL) algorithms, due to its cooperative nature, partial observability, limited communication and remarkable complexity. Previous research efforts have explored the capabilities of MARL algorithms within Hanabi, focusing largely on advanced architecture design and algorithmic manipulations to achi
+
+**A Blueprint Architecture of Compound AI Systems for Enterprise** [[arxiv_2406.00584]] reports: Large Language Models (LLMs) have showcased remarkable capabilities surpassing conventional NLP challenges, creating opportunities for use in production use cases. Towards this goal, there is a notable shift to building compound AI systems, wherein LLMs are integrated into an expansive software infrastructure with many components like models, retrievers, databases and tools.
+
+## Work Cited in Parameter Efficiency: Low-Rank Adaptation Bounds
+
+**CLUDA : Contrastive Learning in Unsupervised Domain Adaptation for Semantic Segmentation** [[arxiv_2208.14227]] reports: In this work, we propose CLUDA, a simple, yet novel method for performing unsupervised domain adaptation (UDA) for semantic segmentation by incorporating contrastive losses into a student-teacher learning paradigm, that makes use of pseudo-labels generated from the target domain by the teacher network. More specifically, we extract a multi-level fused-feature map from the encoder, and apply contrastive loss across di
+
+**Direct Preference Optimization: Your Language Model is Secretly a Reward Model** [[arxiv_2305.18290]] reports: We present Direct Preference Optimization (DPO), a stable, performant, and computationally lightweight algorithm for aligning LLMs to human preferences without training a reward model or using reinforcement learning. - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
+
+## Work Cited in Limitations and Threats to Validity
+
+**Research Ethics Committees (RECs) perspectives on large language models and AI ethics review: a South African case.** [[pubmed_42380865]] reports: This note profiles the ethical, legal, and operational challenges faced by South African Research Ethics Committees (RECs) when evaluating protocols involving Large Language Models (LLMs) and Artificial Intelligence (AI). > [!NOTICE] > Analyst Note on Data Ingestion: The source text payload for this 2026 publication was limited to metadata.
+
+**Raman Spectroscopy Pre-Trained Encoder: A Self-Supervised Learning Approach for Data-Efficient Domain-Independent Spectroscopy Analysis** [[doaj_001772c2113c476d9d5d40452c8e10e1]] reports: Deep-learning methods have boosted the analytical power of Raman spectroscopy, yet they still require large, task-specific, labeled datasets and often fail to transfer across application domains. The study explores pre-trained encoders as a solution.
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

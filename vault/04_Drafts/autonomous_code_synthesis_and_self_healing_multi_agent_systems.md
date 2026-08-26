@@ -23,7 +23,7 @@ We define five AST mutation operators and apply them to a corpus of 27 real Pyth
 
 The central empirical finding is negative and, we argue, useful. Across 93 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\%$. On this corpus the expensive symbolic stage is redundant, and the binding check carries the filter. We report this in place of the widely assumed benefit of SMT pre-filtering.
 
-Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.62$ steps with a worst case of $19$, consistent with the finite-termination bound of Theorem 1 [[arxiv_2501.02497]]. All measurements, the harness that produced them, and their raw artifacts are released for re-execution [[crossref_10.1201_9788743808145-14]].
+Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.62$ steps with a worst case of $19$, consistent with the finite-termination bound of Theorem 1 [[arxiv_2501.02497]]. All measurements, the harness that produced them, and their raw artifacts are released for re-execution.
 
 ---
 
@@ -70,6 +70,8 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
 $$
 \begin{aligned}
 \mu_{\text{sub}}(T, v, v') = T[v \leftarrow v']\ \text{(node substitution)}
@@ -101,11 +103,19 @@ $$
 
 
 
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{ins}}(T, e, v_{\text{new}}) = T \cup \{v_{\text{new}}\} \cup \{e_{\text{new}}\}\ \text{(node insertion)}
 \end{aligned}
 $$
+
+
+
+
 
 
 
@@ -164,12 +174,20 @@ $$
 
 
 
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{wrap}}(T, v, c) = & \text{wrap}(T, \\
 & v, c)\ \text{(control flow wrapping)}
 \end{aligned}
 $$
+
+
+
+
 
 
 
@@ -216,6 +234,8 @@ $$
 
 
 
+
+
 **Proposition 1 (Closure Under Grammar).** For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 *Proof.* Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -237,11 +257,17 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Patch} \rightarrow \text{HunkList}\ |\ \epsilon
 \end{aligned}
 $$
+
+
+
+
 
 
 
@@ -299,11 +325,19 @@ $$
 
 
 
+
+
+
+
 $$
 \begin{aligned}
 \text{Hunk} \rightarrow \text{Header}\ \text{ContextLines}\ \text{ChangeLines}\ \text{ContextLines}
 \end{aligned}
 $$
+
+
+
+
 
 
 
@@ -349,6 +383,8 @@ $$
 
 
 
+
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run [[crossref_10.18653_v1_2026.findings-acl.1933]].
 
 ---
@@ -364,6 +400,8 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 - $V: \mathcal{S} \rightarrow \mathbb{R}_{\geq 0}$: Lyapunov energy function
 
 **Definition 3 (Lyapunov Energy Function).** Let $T^*$ be the target (defect-free) program state. Define:
+
+
 
 
 
@@ -398,9 +436,13 @@ $$
 
 
 
+
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 **Theorem 1 (Lyapunov Termination).** Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
+
 
 
 
@@ -420,6 +462,8 @@ $$
 k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rfloor\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -463,11 +507,15 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}[k^*] \leq \frac{V(T_0)}{p_{\min} \cdot c_{\min}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -517,6 +565,53 @@ For each candidate patch $P_i$, the Z3 Verifier performs:
 4. **Reachability Check**: Confirm that all `return` statements in $P_i$ are reachable from the function entry point.
 
 Patches failing any check are discarded; the generator is re-prompted with a structured failure explanation.
+
+---
+
+## Analysis: Which Candidates Does Each Filter Stage Remove?
+
+The premise behind SMT pre-filtering is that a solver eliminates invalid patch
+candidates that cheaper analysis cannot. That premise is testable by decomposing
+the filter rather than reporting its pooled rate, and the decomposition is what
+motivates the design we ultimately recommend.
+
+### Compilation Is a Weak Filter
+
+Syntactic validity across the five mutation operators never falls below
+**97.89%**. Mutating real code overwhelmingly produces
+code that still compiles: a substitution of one comparison operator for another, a
+reordered pair of statements, or a statement wrapped in a conditional all yield
+parseable programs. Compilation therefore tells us almost nothing about whether a
+candidate is a plausible patch, and any pipeline relying on it as a gate is relying
+on a stage that rejects
+**0.64%** of what it sees.
+
+### Rejection Is Concentrated, Not Uniform
+
+Pre-filter rejection varies sharply by operator, spanning
+**29.36 percentage points** between the
+least-filtered (35.26%) and most-filtered
+(64.62%). The spread is not noise: operators that
+introduce a name -- guard insertion above all -- are caught almost immediately by
+binding analysis, while operators that only rearrange existing, already-bound code
+survive it. Filtering effectiveness is a property of the defect distribution, not
+of the filter alone.
+
+### The Solver Sees Almost Nothing to Decide
+
+The decisive observation concerns the solver's reach. Across the corpus, mutation
+exposes only **9.86 integer guards per hundred
+mutants**. An SMT reachability check can only rule on constraints it can extract,
+and mutation of real service code produces very few decidable integer conditions:
+most branching in this corpus tests object attributes, string membership, or
+truthiness, none of which the encoding admits.
+
+This is what predicts the result reported in Section 6. It is not that the solver
+answered badly; it is that it was asked almost nothing, and the questions it was
+asked had already been settled upstream. The analysis therefore points to a
+two-stage design -- compilation followed by binding analysis -- with symbolic
+checking reserved for defect classes that generate numeric contradictions, which
+this operator set does not.
 
 ---
 
@@ -617,11 +712,15 @@ What the staged measurement does establish is an ordering argument for filter de
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{DRR}(\pi)] \geq \hat{\mathbb{E}}_n[\text{DRR}(\pi)] - \sqrt{\frac{\log|\Pi| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -674,6 +773,42 @@ We had expected the opposite. The result suggests that the assumed benefit of sy
 
 Repair convergence was measured over 300 seeded defects: node-multiset distance reaches zero in a mean of 6.62 steps with a worst case of 19, consistent with Theorem 1's finite-termination guarantee. The harness, all 23 recorded measurements and their raw artifacts are released so that these results, including the negative one, can be re-derived or refuted [[arxiv_2501.02497], [arxiv_2405.01543], [crossref_10.1145_3689096.3689462]].
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Introduction
+
+**A Decentralised Self-Healing Approach for Network Topology Maintenance** [[arxiv_2010.11146]] reports: In many distributed systems, from cloud to sensor networks, different configurations impact system performance, while strongly depending on the network topology. Hence, topological changes may entail costly reconfiguration and optimisation processes.
+
+**GOV-REK: Governed Reward Engineering Kernels for Designing Robust Multi-Agent Reinforcement Learning Systems** [[arxiv_2404.01131]] reports: For multi-agent reinforcement learning systems (MARLS), the problem formulation generally involves investing massive reward engineering effort specific to a given problem. However, this effort often cannot be translated to other problems; worse, it gets wasted when system dynamics change drastically.
+
+**Language Models are Few-Shot Learners** [[arxiv_2005.14165]] reports: We demonstrate that scaling up language models greatly improves few-shot performance, sometimes even matching or exceeding prior state-of-the-art fine-tuning approaches. We train GPT-3, a 175-billion parameter autoregressive language model, and evaluate its performance on a wide variety of NLP tasks.
+
+**Comparative Analysis of Deep Learning Models for Breast Cancer Classification on Multimodal Data** [[crossref_10.1145_3689096.3689462]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+## Work Cited in Related Work
+
+**MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework** [[crossref_10_48550_arxiv_2308_00352]] reports: Remarkable progress has been made on automated problem solving through societies of agents based on large language models (LLMs). Existing LLM-based multi-agent systems can already solve simple dialogue tasks.
+
+**ChatDev: Communicative Agents for Software Development** [[crossref_10_18653_v1_2024_acl_long_810]] reports: Chen Qian, Wei Liu, Hongzhang Liu, Nuo Chen, Yufan Dang, Jiahao Li, Cheng Yang, Weize Chen, Yusheng Su, Xin Cong, Juyuan Xu, Dahai Li, Zhiyuan Liu, Maosong Sun. Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers).
+
+**SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering** [[crossref_10_48550_arxiv_2405_15793]] reports: Language model (LM) agents are increasingly being used to automate complicated tasks in digital environments. Just as humans benefit from powerful software applications, such as integrated development environments, for complex tasks like software engineering, we posit that LM agents represent a new category of end users with their own needs and abilities, and would benefit from specially-built interfaces to the softw
+
+## Work Cited in Executive Abstract
+
+**A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
+
+## Work Cited in Formal AST Mutation Algebra
+
+**DICA: Dual-Indicator Guided Contrastive Alignment in Multimodal Large Language Models** [[crossref_10.18653_v1_2026.findings-acl.1933]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

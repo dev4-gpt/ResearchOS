@@ -19,7 +19,7 @@ checkmate_date: "2026-08-12"
 ---
 # Executive Abstract
 
-Enterprise adoption of generative AI has outpaced the evidence base for evaluating it [[crossref_10.2139_ssrn.7052339]]. This review characterises that evidence base by census rather than by meta-analytic pooling, because the primary studies do not report the comparable effect sizes pooling requires.
+Enterprise adoption of generative AI has outpaced the evidence base for evaluating it. This review characterises that evidence base by census rather than by meta-analytic pooling, because the primary studies do not report the comparable effect sizes pooling requires.
 
 Five search strings against the OpenAlex corpus returned 2000 records, 1893 unique after deduplication and 1779 retaining a usable abstract. The literature is recent and dispersed: 68.63\% appeared in 2023 or later, spread across 714 distinct venues, with median citation count 62 and only 0.51\% uncited.
 
@@ -111,12 +111,16 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -268,12 +272,16 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
+
 
 
 
@@ -392,6 +400,22 @@ In conclusion, while the promise of GenAI ROI is substantial, a thorough academi
 
 \
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Background
+
+**A Causal ROI Framework for Life Sciences Budget Allocation, HCP Targeting, and GenAI-Driven Personalization** [[crossref_10.2139_ssrn.6374778]] reports: In the life sciences industry, commercial effectiveness hinges on the ability to allocate marketing spend efficiently, target the right healthcare professionals (HCPs), and drive measurable outcomes across both digital and offline channels. Traditional approaches to ROI attribution-such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA)-typically operate in isolation from each other and from downstrea
+
+**Customer journey optimisation using large language models: Best practices and pitfalls in generative AI** [[openalex_W4400993506]] reports: Today's business environment is moving faster than ever, and the expressive and adaptive capabilities of generative AI (GenAI) and large language models (LLMs) are redefining the enterprise rails of tomorrow. Given the abundance of industry hype, investor expectations and leadership pressure, the initial impulse is to ‘get in the game’.
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

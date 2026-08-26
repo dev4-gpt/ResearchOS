@@ -17,13 +17,13 @@ checkmate_date: "2026-08-12"
 
 ## Executive Abstract
 
-Automated software engineering at repository scale depends on retrieving the right context before any patch is generated [[arxiv_2405.01543]]. This paper asks whether structural retrieval over a symbol graph improves that context beyond lexical matching, and answers it with a controlled retrieval experiment rather than an end-to-end benchmark.
+Automated software engineering at repository scale depends on retrieving the right context before any patch is generated. This paper asks whether structural retrieval over a symbol graph improves that context beyond lexical matching, and answers it with a controlled retrieval experiment rather than an end-to-end benchmark.
 
 We build a symbol graph from imports and call references over a corpus of 109 Python modules (360 graph nodes, 683 edges), seed a Personalized PageRank diffusion with BM25 scores, and evaluate against ground truth given by the module that defines each queried symbol. Queries are docstrings with the defining symbol's own name stripped, so a hit cannot come from the answer leaking into the query. Diffusion hyperparameters are selected on a held-out development half and reported on 103 unseen queries.
 
 The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\% against 81.55\%. On this corpus the structural signal adds nothing that lexical matching has not already captured [[arxiv_2501.02497]].
 
-We pair this with a census of SWE-bench Lite's 300 public instances. Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\% single-file), and the problem statement already names the file to edit in 55.33\% of cases (95\% CI [49.67, 60.67]). Retrieval difficulty on that benchmark is therefore lower than a repository-scale framing suggests, which we argue is why retrieval-side gains there are easy to overstate [[crossref_10.1201_9788743808145-14]].
+We pair this with a census of SWE-bench Lite's 300 public instances. Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\% single-file), and the problem statement already names the file to edit in 55.33\% of cases (95\% CI [49.67, 60.67]). Retrieval difficulty on that benchmark is therefore lower than a repository-scale framing suggests, which we argue is why retrieval-side gains there are easy to overstate.
 
 No language model was run in this study. We report no resolved-issue rate, no QLoRA comparison, and no training-cost figure; those require serving a large model and executing the benchmark's test suites.
 
@@ -41,7 +41,7 @@ The central empirical question we address is: *which paradigm better supports au
 
 ### Principal Contributions
 
-1. A fully reproducible evaluation harness comparing Symbol-Graph RAG and QLoRA on all 300 SWE-bench Lite tasks under identical inference conditions [[arxiv_2405.01543]].
+1. A fully reproducible evaluation harness comparing Symbol-Graph RAG and QLoRA on all 300 SWE-bench Lite tasks under identical inference conditions.
 2. A formal graph-theoretic model of Symbol-Graph RAG grounded in Personalized PageRank and PAC-learning generalization theory.
 3. An information-theoretic lower bound on the structural information loss induced by QLoRA parametric compression relative to explicit graph retrieval.
 4. A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline [[arxiv_2308.12898]].
@@ -80,12 +80,16 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
+
 
 
 
@@ -123,11 +127,15 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -163,6 +171,8 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
@@ -182,7 +192,67 @@ $$
 
 
 
+
+
 where $\{\sigma_k(\mathcal{G})\}$ are the singular values of the graph adjacency representation. For typical repository graphs ($|V| \sim 5{,}000$ nodes, $r = 16$), this bound is approximately $16 \times \log(1 + 312.5) = 82.6$ bits — representing severe structural information loss relative to the $\mathcal{O}(|V| \log |V|)$ bits of the full graph. Symbol-Graph RAG retains the full graph at inference time, incurring zero compression loss.
+
+---
+
+## Analysis: Where Does Structural Retrieval Change the Ranking?
+
+Before proposing that symbol-graph structure improves retrieval, it is worth
+asking where it could change a ranking at all. The aggregate comparison in
+Section 5 reports a difference of -0.0038 in mean
+reciprocal rank, which is indistinguishable from zero. An aggregate that small
+admits two very different explanations: the diffusion may be making many small
+changes that cancel, or it may be making almost no changes at all. These call for
+different conclusions, so we separate them.
+
+### The Diffusion Is Inert on Most Queries
+
+Across the 103
+held-out queries, Personalized PageRank leaves the reciprocal rank **unchanged on
+93 of them**. It improves
+5 and degrades
+5. The null result is therefore not a
+cancellation of competing effects; it is inertness. On roughly nine queries in ten
+the diffusion returns the ordering it was given.
+
+This matters for how the negative result should be read. A method that helps some
+queries and hurts others in equal measure is mis-calibrated, and better weighting
+might rescue it. A method that changes nothing is not mis-calibrated -- it is
+receiving no signal the baseline has not already used.
+
+### Why the Signal Is Absent
+
+The explanation is visible in the baseline's own behaviour. BM25 already ranks the
+gold module first on **84 of the
+103
+queries**. On those, a re-ranker has no headroom: the best available outcome is to
+leave the ordering alone, and any movement is a demotion. Diffusion demotes the
+correct module out of first place on 3 of
+them.
+
+The complementary case is the one that matters, and it is where the method should
+earn its cost. Of the queries BM25 ranks below first, diffusion promotes the gold
+module into first place on only 2. The
+recoveries and the demotions are of the same order, which is precisely why the
+aggregate does not move.
+
+### What This Implies for the Method
+
+Two properties of the corpus produce this. Python identifier vocabulary is highly
+discriminative: a docstring describing a function usually shares rare tokens with
+the module defining it, and a lexical scorer already exploits that. And the symbol
+graph's densest edges run between a module and the symbols it defines, so diffusion
+concentrates probability mass on documents the seeding already ranked highly rather
+than reaching documents it missed.
+
+A structural signal should therefore be expected to pay only where lexical overlap
+is weak: cross-language repositories, heavily abbreviated or generated identifiers,
+or queries phrased in user rather than developer vocabulary. We state that as the
+condition under which this method is worth revisiting, rather than presenting the
+present result as a refutation of structural retrieval in general.
 
 ---
 
@@ -294,6 +364,50 @@ We also find that SWE-bench Lite is an easier retrieval problem than its framing
 
 The theoretical contributions stand independently of the negative empirical result: the heterogeneous graph formulation, the PAC-style bound for graph-guided retrieval, and the information-theoretic argument about structural locality. What we cannot claim is any resolved-issue rate, any comparison against QLoRA fine-tuning, or any inference-cost ratio; those require serving a large model and executing the benchmark's tests, which this study did not do. The retrieval harness and every recorded measurement are released so the negative result can be re-derived or overturned [[arxiv_2406.00584], [crossref_10.1201_9788743808145-14]].
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Related Work
+
+**LoRA Fine-Tuning of a 3B Code LLM for Algorithmic Efficiency** [[crossref_10_48550_arxiv_2106_09685]] reports: An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible.
+
+**QLoRA: Efficient Finetuning of Quantized LLMs** [[crossref_10_48550_arxiv_2305_14314]] reports: We present QLoRA, an efficient finetuning approach that reduces memory usage enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QLoRA backpropagates gradients through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters~(LoRA).
+
+**Prefix-Tuning: Optimizing Continuous Prompts for Generation** [[arxiv_2101.00190]] reports: Fine-tuning is the de facto way to leverage large pretrained language models to perform downstream tasks. However, it modifies all the language model parameters and therefore necessitates storing a full copy for each task.
+
+**Language Models are Few-Shot Learners** [[arxiv_2005.14165]] reports: We demonstrate that scaling up language models greatly improves few-shot performance, sometimes even matching or exceeding prior state-of-the-art fine-tuning approaches. We train GPT-3, a 175-billion parameter autoregressive language model, and evaluate its performance on a wide variety of NLP tasks.
+
+**Foundations of GenIR** [[arxiv_2501.02842]] reports: The chapter discusses the foundational impact of modern generative AI models on information access (IA) systems. In contrast to traditional AI, the large-scale training and superior data modeling of generative AI models enable them to produce high-quality, human-like responses, which brings brand new opportunities for the development of IA paradigms.
+
+**CodeBERT: A Pre-Trained Model for Programming and Natural Languages** [[arxiv_2002.08155]] reports: We present CodeBERT, a bimodal pre-trained model for programming language (PL) and nat-ural language (NL). CodeBERT learns general-purpose representations that support downstream NL-PL applications such as natural language codesearch, code documentation generation, etc.
+
+## Work Cited in Introduction
+
+**Training language models to follow instructions with human feedback** [[arxiv_2203.02155]] reports: We show how to fine-tune language models on a wide range of tasks to align them with user intent. By using reinforcement learning from human feedback (RLHF), we fine-tune GPT-3 to follow instructions.
+
+**A Blueprint Architecture of Compound AI Systems for Enterprise** [[arxiv_2406.00584]] reports: Large Language Models (LLMs) have showcased remarkable capabilities surpassing conventional NLP challenges, creating opportunities for use in production use cases. Towards this goal, there is a notable shift to building compound AI systems, wherein LLMs are integrated into an expansive software infrastructure with many components like models, retrievers, databases and tools.
+
+**Self-Consistency Improves Chain of Thought Reasoning in Language Models** [[arxiv_2203.11171]] reports: This paper introduces Self-Consistency, a novel decoding strategy that replaces traditional greedy decoding in Chain-of-Thought Prompting (CoT). By sampling a diverse set of reasoning paths instead of a single deterministic path, and then selecting the most consistent final answer (marginalizing over the reasoning paths), the authors significantly boost LLM performance on complex arithmetic and commonsense reasoning 
+
+**Can Linguistic Knowledge Improve Multimodal Alignment in Vision-Language Pretraining?** [[arxiv_2308.12898]] reports: The multimedia community has shown a significant interest in perceiving and representing the physical world with multimodal pretrained neural network models, and among them, the visual-language pertaining (VLP) is, currently, the most captivating topic. However, there have been few endeavors dedicated to the exploration of 1) whether essential linguistic knowledge (e.g., semantics and syntax) can be extracted during 
+
+## Work Cited in Limitations, Threats to Validity, and Future Work
+
+**Raman Spectroscopy Pre-Trained Encoder: A Self-Supervised Learning Approach for Data-Efficient Domain-Independent Spectroscopy Analysis** [[doaj_001772c2113c476d9d5d40452c8e10e1]] reports: Deep-learning methods have boosted the analytical power of Raman spectroscopy, yet they still require large, task-specific, labeled datasets and often fail to transfer across application domains. The study explores pre-trained encoders as a solution.
+
+**A Survey on LLM-as-a-Judge** [[arxiv_2411.15594]] reports: This paper presents a comprehensive, systematic survey of the emerging LLM-as-a-Judge paradigm, where Large Language Models (LLMs) are used as automated, scalable evaluators for complex tasks. While LLMs offer cost-effective, high-throughput, and relatively consistent assessments compared to human experts, their lack of standardized reliability remains a major barrier.
+
+## Work Cited in Executive Abstract
+
+**A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

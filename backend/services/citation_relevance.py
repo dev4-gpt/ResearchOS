@@ -69,6 +69,25 @@ class CitationRelevanceService:
     IRRELEVANT_THRESHOLD = 0.10
     WEAK_THRESHOLD = 0.25
 
+    #: Phrases that mark a note whose body was composed rather than ingested. One
+    #: such note carries this project's own fabricated benchmark numbers inside what
+    #: is presented as a paper's abstract; citing it cites a fabrication.
+    _SYNTHESIZED_MARKERS = (
+        "ingestion notice",
+        "synthesized under",
+        "were not provided",
+        "compiled based on the provided metadata",
+        "high-density academic analysis rules",
+        "methodology extraction & full-text ingestion",
+        "the following structured note has been compiled",
+        "not provided in the raw prompt",
+    )
+
+    @classmethod
+    def _is_synthesized(cls, body: str) -> bool:
+        lowered = (body or "").lower()
+        return any(marker in lowered for marker in cls._SYNTHESIZED_MARKERS)
+
     _WIKILINK = re.compile(r"\[\[([^\]]+)\]\]")
 
     def __init__(self, vault_path: str = "vault") -> None:
@@ -107,6 +126,7 @@ class CitationRelevanceService:
             # topic slug, which matches any manuscript on that topic regardless of
             # what the paper is actually about. The abstract is the real signal.
             entry = {"title": title, "tags": tags, "body": body,
+                     "synthesized": self._is_synthesized(body),
                      "tokens": tokenize(title) | tokenize(body)}
             for key in self._candidate_keys(name, paper_id):
                 notes.setdefault(key, entry)

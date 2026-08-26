@@ -110,8 +110,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -121,7 +121,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -187,7 +186,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -242,8 +240,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -253,7 +251,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -319,7 +316,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -476,8 +472,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -487,7 +483,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -553,7 +548,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -608,8 +602,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -619,7 +613,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -685,7 +678,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -842,8 +834,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -853,7 +845,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -919,7 +910,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -974,8 +964,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -985,7 +975,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -1051,7 +1040,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -1208,8 +1196,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1219,7 +1207,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -1285,7 +1272,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -1340,8 +1326,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1351,7 +1337,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -1417,7 +1402,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -1574,8 +1558,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1585,7 +1569,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -1651,7 +1634,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -1706,8 +1688,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -1717,7 +1699,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -1783,7 +1764,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -1940,8 +1920,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -1951,7 +1931,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -2017,7 +1996,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -2072,8 +2050,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2083,7 +2061,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -2149,7 +2126,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -2306,8 +2282,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2317,7 +2293,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -2383,7 +2358,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -2438,8 +2412,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2449,7 +2423,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -2515,7 +2488,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -2672,8 +2644,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -2683,7 +2655,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -2749,7 +2720,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -2804,8 +2774,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -2815,7 +2785,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -2881,7 +2850,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -3038,8 +3006,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -3049,7 +3017,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -3115,7 +3082,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -3170,8 +3136,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -3181,7 +3147,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -3247,7 +3212,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -3404,8 +3368,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -3415,7 +3379,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -3481,7 +3444,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -3536,8 +3498,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -3547,7 +3509,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -3613,7 +3574,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -3770,8 +3730,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -3781,7 +3741,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -3847,7 +3806,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -3902,8 +3860,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -3913,7 +3871,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -3979,7 +3936,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],
@@ -4136,8 +4092,8 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 8,
-              "verified_count": 8,
+              "total_citations": 7,
+              "verified_count": 7,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
@@ -4147,7 +4103,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_links": [],
@@ -4213,7 +4168,6 @@
                 "arxiv_2406_00584",
                 "arxiv_2501_02497",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_1201_9788743808145_14",
                 "doaj_001772c2113c476d9d5d40452c8e10e1"
               ],
               "broken_citations": [],
@@ -4268,8 +4222,8 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 8,
-          "verified_count": 8,
+          "total_citations": 7,
+          "verified_count": 7,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
@@ -4279,7 +4233,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_links": [],
@@ -4345,7 +4298,6 @@
             "arxiv_2406_00584",
             "arxiv_2501_02497",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_1201_9788743808145_14",
             "doaj_001772c2113c476d9d5d40452c8e10e1"
           ],
           "broken_citations": [],

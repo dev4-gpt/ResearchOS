@@ -45,7 +45,7 @@ To achieve reliable operation, contemporary systems follow a sequential four-pha
   \item Pre-Training ($\mathcal{D}_{\text{pre}}$): Self-supervised contrastive and generative alignment over billions of image-text pairs, instilling broad world representations \cite{arxiv_2010_11146}.
   \item Supervised Fine-Tuning (SFT, $\mathcal{D}_{\text{sft}}$): High-quality visual instruction tuning optimizing cross-modal conversational capability \cite{arxiv_2305_18290}.
   \item Safety Alignment ($\mathcal{D}_{\text{safe}}$): Reinforcement Learning from Human Feedback (RLHF), Direct Preference Optimization (DPO \cite{arxiv_2305_18290}), or multimodal safety instruction tuning establishing strict guardrails against harmful queries \cite{arxiv_2406_00584}.
-  \item Downstream Task Fine-Tuning ($\mathcal{D}_{\text{task}}$): Domain-specific specialization on user tasks such as visual question answering, document parsing, or robotics \cite{arxiv_2405_01543}.
+  \item Downstream Task Fine-Tuning ($\mathcal{D}_{\text{task}}$): Domain-specific specialization on user tasks such as visual question answering, document parsing, or robotics.
 \end{enumerate}
 
 Despite rigorous safety alignment in Phase 3, standard downstream fine-tuning in Phase 4 introduces a severe failure mode known as alignment drift \cite{arxiv_2604_17215}. When a safety-aligned model is adapted to new task distributions, the acquired safety behaviors rapidly degrade--even when the downstream training corpus contains zero toxic or malicious samples \cite{arxiv_2501_02497}.
@@ -121,6 +121,8 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -148,13 +150,15 @@ $}
 
 
 
+
+
 \subsection{Key Assumptions and Scope Boundaries}
 
 Throughout this synthesis, we operate under three fundamental assumptions verified across empirical literature:
 \begin{itemize}
   \item Assumption 1 (Subspace Orthogonality Deficit): Safety representations and task-specific capability representations share overlapping parameter subspaces in high-dimensional transformer layers, preventing trivial parameter partitioning \cite{arxiv_2406_00584}.
   \item Assumption 2 (Gradient Norm Heterogeneity): Downstream training instances exhibit non-uniform gradient distributions; sample gradient norms \$\|\nabla\_\Theta \mathcal{L}\_i\|\_2\$ follow heavy-tailed distributions where a minority of samples induce the majority of parameter displacement \cite{arxiv_2604_17215}.
-  \item Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins \cite{arxiv_2405_01543}.
+  \item Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins.
 \end{itemize}
 
 
@@ -187,6 +191,8 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -194,6 +200,8 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 

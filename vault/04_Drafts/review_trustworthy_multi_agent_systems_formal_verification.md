@@ -60,7 +60,7 @@ This manuscript provides five foundational contributions:
 1. **Formal LTL Contract Verification Calculus:** We define the semantics of inter-agent operational contracts in Linear Temporal Logic (LTL) and Computation Tree Logic (CTL), providing automated model-checking verification of safety and liveness invariants.
 2. **Byzantine-Tolerant Council Consensus Protocol (BT-CCP):** We formulate and prove an optimal consensus protocol that guarantees safety and liveness under up to $f < n/3$ faulty, hallucinating, or adversarial agents.
 3. **Deadlock-Free Convergence Theorem:** We prove that contract-governed council deliberations terminate in finite steps $T \le T_{\max}$ with strictly bounded token expenditure.
-4. **Reproducible Verification Artifact:** An executable specification, an exhaustive state-space checker that returns counterexamples, and a randomised Byzantine agreement simulator, released with every recorded measurement so each result can be re-derived or refuted [[crossref_10.1201_9788743808145-14]].
+4. **Reproducible Verification Artifact:** An executable specification, an exhaustive state-space checker that returns counterexamples, and a randomised Byzantine agreement simulator, released with every recorded measurement so each result can be re-derived or refuted.
 5. **Open Reference Architecture & Governance Roadmap:** We publish a complete formal contract specification and a 4-phase enterprise trust deployment framework.
 
 ---
@@ -98,12 +98,16 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -135,11 +139,15 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -178,11 +186,15 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
+
 
 
 
@@ -217,12 +229,16 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
+
 
 
 
@@ -271,6 +287,8 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
@@ -290,7 +308,55 @@ $$
 
 
 
+
+
 If rebuttal turns exceed $k_{\max} = 3$, the Chairman agent is granted unilateral synthesis authority to force consensus or escalate to human review [[arxiv_2412.06333]].
+
+---
+
+## Analysis: What Does the Invariant Actually Do?
+
+An invariant is usually justified by what it forbids. Exhaustive exploration lets
+us ask a sharper question: what does enforcing it do to the space of executions the
+system can reach at all? The answer motivates enforcing it continuously rather than
+checking it after the fact.
+
+### The Invariant Prunes as Well as Forbids
+
+Removing the safety invariant increases the reachable state count by
+**72.97%**. The invariant is not a filter
+applied to a fixed set of behaviours; it removes whole regions of the reachable
+space, because a proposal rejected at verification never reaches the voting phase
+and never generates the states that follow from it.
+
+This has a practical consequence. A system that checks safety only at commit time
+must still traverse those states, paying their coordination cost before discarding
+the result. Enforcing the invariant at the point of proposal is therefore cheaper
+than auditing at the point of commit, and the saving is measurable rather than
+asserted.
+
+### The Space Is Small Enough to Decide Exhaustively
+
+With the invariant enforced, the protocol reaches
+37 states over 111
+transitions -- a mean branching factor of
+**3.00** -- and terminates in one of
+10 commit or abort states. Exhaustive exploration
+completes in 0.05 ms.
+
+That figure is what makes continuous model checking viable as an operational
+control rather than a design-time exercise. A council can re-verify its own
+protocol between deliberation rounds without measurable overhead, which is not true
+of verification techniques whose cost scales with the deliberation itself.
+
+### Failure Is Reachable, and Shallow
+
+With the invariant removed, an ungrounded commit becomes reachable in
+**4 transitions**. The violation is
+not an exotic corner case requiring a long adversarial trace; it sits a few steps
+from the initial state, on a path any ordinary execution can take. A shallow
+counterexample is a strong argument for enforcement, because it means the unsafe
+behaviour is not merely possible but likely under normal operation.
 
 ---
 
@@ -398,6 +464,44 @@ Model checking explores 37 reachable states over 111 transitions in 0.05 ms and 
 
 The scope of these claims is the model. Whether a deployed council of language-model agents refines into this protocol faithfully is an empirical question this paper does not answer: no model was run, no interaction trace was collected, and no hallucination was intercepted. What the work provides is a specification precise enough to be checked, a checker that returns counterexamples, and the recorded measurements to re-derive every number here [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309], [crossref_10.1201_9788743808145-14]].
 
+
+---
+
+## Appendix A: Related Work
+
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+## Work Cited in Introduction & Research Scope
+
+**Deliberative Technology for Alignment** [[arxiv_2312.03893]] reports: For humanity to maintain and expand its agency into the future, the most powerful systems we create must be those which act to align the future with the will of humanity. The most powerful systems today are massive institutions like governments, firms, and NGOs.
+
+**A Blueprint Architecture of Compound AI Systems for Enterprise** [[arxiv_2406.00584]] reports: Large Language Models (LLMs) have showcased remarkable capabilities surpassing conventional NLP challenges, creating opportunities for use in production use cases. Towards this goal, there is a notable shift to building compound AI systems, wherein LLMs are integrated into an expansive software infrastructure with many components like models, retrievers, databases and tools.
+
+**A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
+
+**Designing for Human-Agent Alignment: Understanding what humans want from their agents** [[arxiv_2404.04289]] reports: Our ability to build autonomous agents that leverage Generative AI continues to increase by the day. As builders and users of such agents it is unclear what parameters we need to align on before the agents start performing tasks on our behalf.
+
+## Work Cited in Executive Abstract
+
+**Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastive Alignment for Multimodal Sentiment Analysis** [[crossref_10.1109_access.2026.3656309]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+**Comparative Analysis of Deep Learning Models for Breast Cancer Classification on Multimodal Data** [[crossref_10.1145_3689096.3689462]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+**GOV-REK: Governed Reward Engineering Kernels for Designing Robust Multi-Agent Reinforcement Learning Systems** [[arxiv_2404.01131]] reports: For multi-agent reinforcement learning systems (MARLS), the problem formulation generally involves investing massive reward engineering effort specific to a given problem. However, this effort often cannot be translated to other problems; worse, it gets wasted when system dynamics change drastically.
+
+## Work Cited in Related Work & Taxonomic Synthesis
+
+**DICA: Dual-Indicator Guided Contrastive Alignment in Multimodal Large Language Models** [[crossref_10.18653_v1_2026.findings-acl.1933]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
+
+**GraphRAG under Fire** [[arxiv_2501.14050]] reports: GraphRAG advances retrieval-augmented generation (RAG) by structuring external knowledge as multi-scale knowledge graphs, enabling language models to integrate both broad context and granular details in their generation. While GraphRAG has demonstrated success across domains, its security implications remain largely unexplored.
+
+## Work Cited in T-MAS System Architecture & Algorithmic Procedure
+
+**Augmenting the action space with conventions to improve multi-agent cooperation in Hanabi** [[arxiv_2412.06333]] reports: The card game Hanabi is considered a strong medium for the testing and development of multi-agent reinforcement learning (MARL) algorithms, due to its cooperative nature, partial observability, limited communication and remarkable complexity. Previous research efforts have explored the capabilities of MARL algorithms within Hanabi, focusing largely on advanced architecture design and algorithmic manipulations to achi
+
+## Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
 ---
 

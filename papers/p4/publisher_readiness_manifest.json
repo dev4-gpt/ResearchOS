@@ -110,13 +110,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -141,7 +140,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -160,13 +158,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -191,7 +188,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -312,13 +308,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -343,7 +338,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -362,13 +356,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -393,7 +386,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -514,13 +506,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -545,7 +536,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -564,13 +554,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -595,7 +584,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -716,13 +704,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -747,7 +734,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -766,13 +752,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -797,7 +782,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -918,13 +902,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -949,7 +932,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -968,13 +950,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -999,7 +980,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1120,13 +1100,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1151,7 +1130,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1170,13 +1148,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1201,7 +1178,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1322,13 +1298,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1353,7 +1328,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1372,13 +1346,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1403,7 +1376,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1524,13 +1496,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1555,7 +1526,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1574,13 +1544,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1605,7 +1574,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1726,13 +1694,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1757,7 +1724,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1776,13 +1742,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1807,7 +1772,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -1928,13 +1892,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1959,7 +1922,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -1978,13 +1940,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -2009,7 +1970,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -2130,13 +2090,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -2161,7 +2120,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -2180,13 +2138,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -2211,7 +2168,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -2332,13 +2288,12 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 5,
-              "verified_count": 5,
+              "total_citations": 4,
+              "verified_count": 4,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -2363,7 +2318,6 @@
             "verification_matrix": {
               "verified_citations": [
                 "crossref_10_2139_ssrn_6374778",
-                "crossref_10_2139_ssrn_7052339",
                 "github_ankitakapoor980_genai_roi_powerbi_dashboard",
                 "openalex_w4400993506",
                 "openalex_w7138188291"
@@ -2382,13 +2336,12 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 5,
-          "verified_count": 5,
+          "total_citations": 4,
+          "verified_count": 4,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"
@@ -2413,7 +2366,6 @@
         "verification_matrix": {
           "verified_citations": [
             "crossref_10_2139_ssrn_6374778",
-            "crossref_10_2139_ssrn_7052339",
             "github_ankitakapoor980_genai_roi_powerbi_dashboard",
             "openalex_w4400993506",
             "openalex_w7138188291"

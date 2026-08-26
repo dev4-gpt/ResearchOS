@@ -41,7 +41,7 @@ To achieve reliable operation, contemporary systems follow a sequential four-pha
 1. Pre-Training ($\mathcal{D}_{\text{pre}}$): Self-supervised contrastive and generative alignment over billions of image-text pairs, instilling broad world representations [[arxiv_2010.11146]].
 2. Supervised Fine-Tuning (SFT, $\mathcal{D}_{\text{sft}}$): High-quality visual instruction tuning optimizing cross-modal conversational capability [[arxiv_2305.18290]].
 3. Safety Alignment ($\mathcal{D}_{\text{safe}}$): Reinforcement Learning from Human Feedback (RLHF), Direct Preference Optimization (DPO [[arxiv_2305.18290]]), or multimodal safety instruction tuning establishing strict guardrails against harmful queries [[arxiv_2406.00584]].
-4. Downstream Task Fine-Tuning ($\mathcal{D}_{\text{task}}$): Domain-specific specialization on user tasks such as visual question answering, document parsing, or robotics [[arxiv_2405.01543]].
+4. Downstream Task Fine-Tuning ($\mathcal{D}_{\text{task}}$): Domain-specific specialization on user tasks such as visual question answering, document parsing, or robotics.
 
 Despite rigorous safety alignment in Phase 3, standard downstream fine-tuning in Phase 4 introduces a severe failure mode known as alignment drift [[arxiv_2604.17215]]. When a safety-aligned model is adapted to new task distributions, the acquired safety behaviors rapidly degrade—even when the downstream training corpus contains zero toxic or malicious samples [[arxiv_2501.02497]].
 
@@ -103,6 +103,8 @@ Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, a
 
 
 
+
+
 $$
 \begin{aligned}
 \Delta_{\text{drift}} = \mathcal{M}_{\text{safe}}(\Theta_{\text{aligned}}) - \mathcal{M}_{\text{safe}}(\Theta_{\text{task}})
@@ -126,11 +128,13 @@ $$
 
 
 
+
+
 ### Key Assumptions and Scope Boundaries
 Throughout this synthesis, we operate under three fundamental assumptions verified across empirical literature:
 - Assumption 1 (Subspace Orthogonality Deficit): Safety representations and task-specific capability representations share overlapping parameter subspaces in high-dimensional transformer layers, preventing trivial parameter partitioning [[arxiv_2406.00584]].
 - Assumption 2 (Gradient Norm Heterogeneity): Downstream training instances exhibit non-uniform gradient distributions; sample gradient norms $\|\nabla_\Theta \mathcal{L}_i\|_2$ follow heavy-tailed distributions where a minority of samples induce the majority of parameter displacement [[arxiv_2604.17215]].
-- Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins [[arxiv_2405.01543]].
+- Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins.
 
 ---
 
@@ -157,11 +161,15 @@ The search protocol executed Boolean queries spanning primary keyword combinatio
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Query} = (\text{VLM} \lor \text{"Vision-Language"}) \land (\text{"Safety Alignment"} \lor \text{"Alignment Drift"}) \land (\text{"Continual Learning"} \lor \text{"Fine-Tuning"})
 \end{aligned}
 $$
+
+
 
 
 
@@ -384,7 +392,7 @@ Continual adaptation of Vision-Language Models without catastrophic safety decay
 - [[arxiv_2311.17854]] X. Liu et al., "MM-SafetyBench: A Benchmark for Multimodal Large Language Model Safety," *arXiv preprint arXiv:2311.17854*, 2023.
 - [[arxiv_2312.03893]] H. Touvron et al., "Llama 2: Open Foundation and Fine-Tuned Chat Models," *arXiv preprint arXiv:2307.09288*, 2023.
 - [[arxiv_2404.01131]] C. Anil et al., "Many-Shot Jailbreaking," *Anthropic Technical Report*, 2024.
-- [[arxiv_2405.01543]] Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," *arXiv preprint arXiv:2212.08073*, 2022.
+-Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," *arXiv preprint arXiv:2212.08073*, 2022.
 - [[arxiv_2406.00584]] Z. Gou et al., "VLGuard: A Benchmark and Safeguard for Vision-Language Models," *arXiv preprint arXiv:2406.00584*, 2024.
 - [[arxiv_2406.04028]] P. Buzzega et al., "Dark Experience for General Continual Learning: a Strong, Simple Baseline," *NeurIPS*, 2020.
 - [[arxiv_2501.02497]] S. Zhang et al., "Mitigating Alignment Drift in Continual Instruction Tuning," *ICML*, 2025.

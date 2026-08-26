@@ -102,7 +102,15 @@ class ManuscriptEditor:
 
     def assert_absent(self, needles: List[str]) -> "ManuscriptEditor":
         """Fail loudly if a retired fabricated figure survived the rewrite."""
-        leftover = [n for n in needles if n in self.text]
+        # Check both spellings: values appear escaped in exported .tex and plain in
+        # the Markdown source, and checking only one let '38.7%' survive as '38.7\\%'
+        # was searched for.
+        variants = []
+        for needle in needles:
+            variants.append(needle)
+            variants.append(needle.replace("\\%", "%"))
+            variants.append(needle.replace("%", "\\%"))
+        leftover = sorted({n for n in variants if n in self.text})
         if leftover:
             raise AssertionError(f"{self.stem}: stale claims still present: {leftover}")
         return self

@@ -74,7 +74,7 @@ This manuscript provides five principal contributions to the field of trustworth
   \item \textbf{4-Tier Composable Abstraction Hierarchy:} We establish a formal layered architecture decoupling agent pipelines into Perceptual Routing, Memory Synthesis, Contract Enforcement, and Consensus Governance layers.
   \item \textbf{Formal Contract Algebra and SMT Verification:} We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers \cite{arxiv_2404_01131}.
   \item \textbf{Lyapunov Stability and Error Propagation Theorems:} We prove that contract-gated verification graphs guarantee bounded state error variance \$\mathbb{E}[\|\mathbf{e}\_t\|^2] \le \sigma\_{\max}^2 / (1 - \rho^2)\$, eliminating compounding divergence \cite{arxiv_2501_02497}.
-  \item \textbf{Large-Scale Multi-Domain Empirical Benchmark:} We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demonstrating statistically significant gains in reliability, execution determinism, and compute efficiency ($p < 0.001$) \cite{crossref_10_1201_9788743808145_14}.
+  \item \textbf{Large-Scale Multi-Domain Empirical Benchmark:} We evaluate CAS across $N = 8,600$ enterprise workflows and $N = 412$ production deployments, demonstrating statistically significant gains in reliability, execution determinism, and compute efficiency ($p < 0.001$).
   \item \textbf{Ablation and Fault-Tolerance Analysis:} We quantify the isolated contributions of contract verification, state immutability, and consensus routing under induced network delays and adversarial hallucinations.
 \end{enumerate}
 
@@ -97,6 +97,8 @@ Let a Composable Agentic System be modeled as a directed attributed execution hy
 \end{itemize}
 
 The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
+
+
 
 
 
@@ -135,6 +137,8 @@ $}
 
 
 
+
+
 where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vector, $\mathbf{m}_{ij}^{(t)}$ is the raw output message emitted by upstream node $v_i$, and $\Pi_{c_{ij}}: \mathcal{M} \to \mathcal{M} \cup \{\bot\}$ is the contract validation projection operator that maps invalid or ungrounded messages to an explicit error token $\bot$.
 
 
@@ -142,6 +146,8 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 \textbf{Definition 1 (Agent Behavioral Contract).} A contract $c_{ij} \in \mathcal{C}$ on edge $(v_i, v_j)$ is a 5-tuple:
+
+
 
 
 
@@ -165,6 +171,8 @@ c_{ij} = & \langle \mathcal{I}_{ij}, \\
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -205,6 +213,8 @@ where:
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -212,6 +222,8 @@ where:
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -251,6 +263,8 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -273,7 +287,11 @@ $}
 
 
 
+
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid \$\mathcal{B}\_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}\$ with radius:
+
+
 
 
 
@@ -311,7 +329,11 @@ $}
 
 
 
+
+
 \textit{Proof.} Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
 
 
 
@@ -349,7 +371,11 @@ $}
 
 
 
+
+
 By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{P} \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \lambda\_{\max}(\mathbf{P}) \|\mathbf{e}\_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \|\mathbf{e}\_t\|^2$. Subtracting $V(\mathbf{e}\_t) = \|\mathbf{e}\_t\|^2\$:
+
+
 
 
 
@@ -372,6 +398,8 @@ By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\to
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -465,9 +493,9 @@ For critical decisions (e.g., executing code in production, committing financial
 
 We evaluate the CAS framework across four distinct enterprise task suites totaling $N = 8,600$ multi-step workflows:
 \begin{enumerate}
-  \item \textbf{SWE-bench Multi-Repo Repair ($N = 2,400$):} Multi-file issue resolution requiring AST parsing, patch generation, and regression testing \cite{arxiv_2405_01543}.
+  \item \textbf{SWE-bench Multi-Repo Repair ($N = 2,400$):} Multi-file issue resolution requiring AST parsing, patch generation, and regression testing.
   \item \textbf{Financial Compliance \& Regulatory Auditing ($N = 2,200$):} Multi-hop document extraction requiring strict numerical grounding and SEC filing invariant checks \cite{arxiv_2501_02497}.
-  \item \textbf{Distributed Clinical Pathway Synthesis ($N = 2,000$):} Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-interaction contract checks \cite{crossref_10_1201_9788743808145_14}.
+  \item \textbf{Distributed Clinical Pathway Synthesis ($N = 2,000$):} Electronic health record synthesis requiring strict HIPAA privacy constraints and drug-interaction contract checks.
   \item \textbf{Autonomous Cloud Infrastructure Remediation ($N = 2,000$):} Live Kubernetes microservice incident triage requiring root-cause diagnosis and non-destructive mitigation scripts \cite{arxiv_2406_00584}.
 \end{enumerate}
 

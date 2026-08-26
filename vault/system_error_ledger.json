@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-25 19:50:15",
+  "last_updated": "2026-08-25 20:16:53",
   "stats": {
-    "total_errors_recorded": 63,
-    "resolved_count": 57,
-    "active_prevention_rules": 63,
+    "total_errors_recorded": 66,
+    "resolved_count": 60,
+    "active_prevention_rules": 66,
     "open_count": 6
   },
   "history": [
@@ -765,6 +765,42 @@
       "resolution": "OPEN. Reported, not deleted: removing files and rotating keys is the owner's decision.",
       "prevention_rule": "R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.",
       "status": "OPEN_NOT_FIXED"
+    },
+    {
+      "error_id": "ERR-064",
+      "timestamp": "2026-08-25 20:10:28",
+      "component": "Vault paper notes (vault/01_Papers)",
+      "stage": "literature_ingestion",
+      "error_type": "Fabricated Source Content",
+      "summary": "16 vault notes contain composed rather than ingested content, presented as the paper's abstract. arxiv_2405.01543's note carries this project's own invented benchmark numbers ('Resolved Rate: 38.7% ... versus 27.3%'), and crossref_10.1201_9788743808145-14 states outright that the source abstract was never provided and the note was compiled from metadata.",
+      "root_cause": "An ingestion path wrote generated summaries into paper notes when full text was unavailable, with no field distinguishing ingested text from composed text.",
+      "resolution": "CitationRelevanceService flags synthesized notes; related-work generation skips them; 25 citations to such notes removed across all 9 manuscripts.",
+      "prevention_rule": "R64: A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-065",
+      "timestamp": "2026-08-25 20:10:28",
+      "component": "ManuscriptEditor.assert_absent",
+      "stage": "manuscript_sync",
+      "error_type": "Incomplete Guard",
+      "summary": "The retired-claim guard checked for the LaTeX-escaped form '38.7\\\\%' only, so the unescaped '38.7%' survived in p1 and resurfaced when Appendix A was generated from a contaminated note.",
+      "root_cause": "The guard was written against the escaped spelling that appears in exported .tex rather than the plain spelling used in the Markdown source.",
+      "resolution": "Guard now checks both spellings; the resurfaced claim was traced and removed.",
+      "prevention_rule": "R65: A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-066",
+      "timestamp": "2026-08-25 20:16:53",
+      "component": "generate_related_work.py",
+      "stage": "appendix_generation",
+      "error_type": "Invented Citation Key",
+      "summary": "Summaries copied from vault note bodies carried the notes' own wikilinks into the manuscripts, creating the citation [[Chain-of-Thought Prompting]], which resolves to nothing and failed all 12 p1 builds with 'Broken paper citations'.",
+      "root_cause": "Text extracted from one document was inserted into another without neutralising markup that carries meaning in the destination.",
+      "resolution": "Wikilinks and emphasis markers are flattened to plain text before insertion.",
+      "prevention_rule": "R66: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -830,6 +866,9 @@
     "R60": "Span replacement must be bounded and verified: assert the retired content is absent before writing, and make every rewrite idempotent.",
     "R61": "A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.",
     "R62": "Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.",
-    "R63": "Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split."
+    "R63": "Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.",
+    "R64": "A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.",
+    "R65": "A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.",
+    "R66": "Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting."
   }
 }
