@@ -95,7 +95,9 @@ class ClaimProvenanceService:
     # such as 'p < 0.001' is not also harvested as a bare decimal.
     _PATTERNS: Tuple[Tuple[str, str, str], ...] = (
         ("p_value", r"p\s*[<>=]\s*0?\.\d+", ""),
-        ("effect_size", r"(?:Cohen's\s*)?\bd\s*=\s*-?\d+(?:\.\d+)?", ""),
+        # Cohen's d is a small standardised quantity; 'd = 512' is a dimension.
+        # Requiring a decimal and a plausible magnitude keeps the two apart.
+        ("effect_size", r"(?:Cohen's\s*)?\bd\s*=\s*-?[0-9](?:\.\d+)", ""),
         ("sample_size", r"\bN\s*=\s*\d[\d,{}\\]*", "n"),
         ("test_stat", r"\b[tFUZ]\s*\(\s*[\d,\s]+\)\s*=\s*-?\d+(?:\.\d+)?", ""),
         ("percentage", r"-?\d+(?:\.\d+)?\s*\\?%", "%"),

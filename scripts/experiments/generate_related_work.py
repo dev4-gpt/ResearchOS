@@ -34,6 +34,7 @@ TARGETS = [
     "review_enterprise_genai_roi",
     "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
     "review_trustworthy_multi_agent_systems_formal_verification",
+    "review_continual_safety_alignment_in_vision_language_models",
 ]
 
 

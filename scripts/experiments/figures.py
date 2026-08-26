@@ -227,9 +227,43 @@ def figures_p9() -> List[str]:
     return out
 
 
+def figures_p6() -> List[str]:
+    run = "draft-review_continual_safety_alignment_in_vision_language_models"
+    out = []
+    leak = load_artifact(run, "leakage_effect.json")["mean_drift_deg"]
+    drift = load_artifact(run, "drift_by_norm.json")
+
+    fig, ax = plt.subplots(figsize=(3.3, 2.2))
+    xs = sorted(float(k) for k in leak)
+    ax.plot(xs, [leak[str(x)] for x in xs], marker="o", ms=4, lw=1.4, color=PALETTE[1],
+            label="varying leakage, fixed norm")
+    ax.axhline(drift["mean_drift_deg"]["0.4"], ls="--", lw=1, color=PALETTE[0],
+               label="isotropic update, same norm")
+    ax.set_xlabel("Orthogonal leakage")
+    ax.set_ylabel("Subspace drift (degrees)")
+    ax.legend(fontsize=6)
+    ax.set_title("Direction, not magnitude, moves the subspace", fontsize=8)
+    out.append(_save(fig, "p6_leakage_vs_drift"))
+
+    comp = load_artifact(run, "filter_comparison.json")["comparison"]
+    fig, ax = plt.subplots(figsize=(3.3, 2.2))
+    keeps = sorted(comp, key=float, reverse=True)
+    x = np.arange(len(keeps)); width = 0.36
+    ax.bar(x - width / 2, [100 * (1 - comp[k]["drift_retained_norm_filter"]) for k in keeps],
+           width, label="magnitude rule", color=PALETTE[0])
+    ax.bar(x + width / 2, [100 * (1 - comp[k]["drift_retained_leakage_filter"]) for k in keeps],
+           width, label="leakage rule", color=PALETTE[1])
+    ax.set_xticks(x); ax.set_xticklabels([f"keep {float(k)*100:.0f}%" for k in keeps])
+    ax.set_ylabel("Drift removed (%)")
+    ax.legend(fontsize=7)
+    ax.set_title("Dispersion beats mechanism", fontsize=8)
+    out.append(_save(fig, "p6_filter_comparison"))
+    return out
+
+
 GENERATORS = {
     "p1": figures_p1, "p2": figures_p2, "p3": figures_p3,
-    "p5": figures_p5, "p9": figures_p9,
+    "p5": figures_p5, "p6": figures_p6, "p9": figures_p9,
 }
 
 

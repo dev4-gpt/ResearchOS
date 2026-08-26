@@ -38,6 +38,8 @@ SCRIPTS = {
         "p5_coordination_topologies.py",
     "review_trustworthy_multi_agent_systems_formal_verification":
         "p9_formal_verification.py",
+    "review_continual_safety_alignment_in_vision_language_models":
+        "p6_alignment_geometry.py",
 }
 
 

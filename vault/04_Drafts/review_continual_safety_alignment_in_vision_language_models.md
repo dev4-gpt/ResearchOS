@@ -1,399 +1,290 @@
 ---
-title: "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation"
+title: "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning"
 authors:
   - "Aryaman Singh Dev"
-date: "2026-08-24"
-status: "draft"
-target_venue: "IEEEtran"
-target_length: "full_journal"
-tags:
-  - "Vision-Language Models"
-  - "Safety Alignment"
-  - "Continual Learning"
-  - "Alignment Drift"
-  - "Gradient Selection"
-  - "Elasticity Phenomenon"
-publisher_readiness: "READY_FOR_HUMAN_REVIEW"
-publisher_originality: "PASS"
-publisher_value_score: "100.0"
-publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-checkmate_score: "100.0"
-checkmate_status: "PASSED"
-checkmate_date: "2026-08-12"
 affiliation: "Pennsylvania State University"
 email: "asd5520@psu.edu"
----
-# Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation
-
-## Executive Abstract
-
-The deployment of Vision-Language Models (VLMs) across mission-critical multimodal domains necessitates preserving safety alignment throughout continuous downstream task adaptation. Contemporary multimodal foundation models undergo a strict four-stage developmental life-cycle: massive self-supervised multimodal pre-training, supervised instruction fine-tuning (SFT), preference-driven safety alignment (via RLHF or DPO), and domain-specific downstream task adaptation. However, subsequent fine-tuning—even on ostensibly benign, non-adversarial task datasets—consistently induces catastrophic alignment drift, eroding safety guardrails, refusal boundaries, and multimodal truthfulness. In this paper, we conduct an exhaustive systematic review and theoretical synthesis of continual safety alignment in multimodal architectures. Grounded in the recent discovery of the gradient elasticity phenomenon by [[arxiv_2604.17215]], we formalize how high-gradient training updates disproportionately destabilize the low-rank safety subspace by activating an intrinsic reversion force toward unaligned pre-trained representations. We extend this data-centric paradigm from unimodal text models to heterogeneous multimodal foundation systems, evaluating how cross-modal projection layers and vision encoders exacerbate safety vulnerability. Through extensive meta-analysis across four standard multimodal safety benchmarks ($N = 14,850$ test probes), we prove that gradient-constrained sample selection achieves $93.4\%$ safety retention under continuous adaptation while preserving $99.2\%$ of downstream task utility ($p < 0.001$), eliminating the requirement for proprietary safe-data replay buffers. Finally, we formulate a 4-phase strategic research roadmap for transitioning from brittle static refusal filters toward intrinsic, context-adaptive continual alignment.
-
+date: "2026-08-25"
+status: "draft"
 ---
 
-## Introduction & Research Scope
+# What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning
 
-### Motivation and The Multimodal Alignment Dilemma
-Vision-Language Models (VLMs) combining high-capacity vision encoders (e.g., Vision Transformers [[crossref_10_1109_tip_2023_3256763]], SigLIP [[crossref_10_48550_arxiv_2502_14786]]) with autoregressive large language model backbones [[arxiv_2005.14165]] have revolutionized multimodal perception, visual reasoning, and autonomous agent orchestration [[arxiv_2203.02155]]. As these foundation models transition into regulated real-world environments—such as clinical diagnostics, automated legal processing, and robotic control—ensuring behavioral safety, robust refusal of malicious instructions, and cross-modal factual grounding is paramount [[arxiv_2312.03893]].
+## Abstract
 
-To achieve reliable operation, contemporary systems follow a sequential four-phase optimization life-cycle:
-1. Pre-Training ($\mathcal{D}_{\text{pre}}$): Self-supervised contrastive and generative alignment over billions of image-text pairs, instilling broad world representations [[arxiv_2010.11146]].
-2. Supervised Fine-Tuning (SFT, $\mathcal{D}_{\text{sft}}$): High-quality visual instruction tuning optimizing cross-modal conversational capability [[arxiv_2305.18290]].
-3. Safety Alignment ($\mathcal{D}_{\text{safe}}$): Reinforcement Learning from Human Feedback (RLHF), Direct Preference Optimization (DPO [[arxiv_2305.18290]]), or multimodal safety instruction tuning establishing strict guardrails against harmful queries [[arxiv_2406.00584]].
-4. Downstream Task Fine-Tuning ($\mathcal{D}_{\text{task}}$): Domain-specific specialization on user tasks such as visual question answering, document parsing, or robotics.
+Fine-tuning a safety-aligned model on benign data degrades its safety behaviour, and recent work shows the degradation is unevenly distributed across training samples: high-gradient samples cause disproportionate harm, and filtering them preserves alignment at little cost to task learning [[arxiv_2604.17215]]. That finding is empirical. This paper asks what geometry could produce it, and answers with a model rather than a benchmark.
 
-Despite rigorous safety alignment in Phase 3, standard downstream fine-tuning in Phase 4 introduces a severe failure mode known as alignment drift [[arxiv_2604.17215]]. When a safety-aligned model is adapted to new task distributions, the acquired safety behaviors rapidly degrade—even when the downstream training corpus contains zero toxic or malicious samples [[arxiv_2501.02497]].
+We represent safety behaviour as a low-rank subspace of weight space and measure drift as the mean principal angle between that subspace before and after an update. Three results follow, all computed rather than asserted.
 
-### Principal Contributions
-To address the fundamental trade-off between task adaptability and safety preservation, this paper provides the following primary contributions:
-1. We formalize the multimodal alignment life-cycle, mathematically defining the parameter dynamics and manifold transitions across pre-training, SFT, preference alignment, and downstream task adaptation.
-2. We synthesize the gradient elasticity phenomenon in multimodal architectures, extending the foundational framework of [[arxiv_2604.17215]] to demonstrate how cross-modal projection bottlenecks amplify high-gradient disruption of safety-aligned subspaces.
-3. We prove analytical bounds on continual safety retention, establishing that data-centric gradient sample selection minimizes cross-modal parameter drift $\Delta \theta$ without requiring computationally expensive safe-data replay or rigid parameter freezing.
-4. We conduct an extensive quantitative meta-analysis, aggregating empirical evaluations across $14,850$ multimodal benchmark interactions to rigorously compare gradient selection against Parameter-Efficient Fine-Tuning (PEFT/LoRA), Dark Experience Replay (DER), and representation editing.
-5. We construct an actionable 4-phase strategic roadmap, outlining architectural methodologies to transition beyond brittle, static refusal filters toward intrinsic, context-adaptive continual alignment.
+First, magnitude alone explains nothing. Under isotropic updates, drift grows as $\|\Delta W\|^{0.999}$ -- indistinguishable from linear -- and a filter that discards the largest updates removes drift and update mass in near-exact proportion (efficiency $0.999\times$ at a 10\% discard rate). A purely magnitude-based account predicts no disproportionate benefit, contradicting the empirical finding it is meant to explain.
 
-### Paper Organization
-The remainder of this paper is structured as follows: Section 2 outlines foundational mathematical definitions and notation. Section 3 details the PRISMA 2020 systematic review protocol and presents a 5-pillar taxonomy of multimodal alignment. Section 4 formalizes gradient-based sample selection and cross-modal elasticity dynamics. Section 5 describes experimental baselines and benchmark protocols. Section 6 presents quantitative meta-analytic results, ablations, and statistical tests. Section 7 analyzes systemic implications, compute costs, and deployment trade-offs. Section 8 details methodological limitations and threats to validity. Section 9 provides the 4-phase future research roadmap, and Section 10 concludes the manuscript.
+Second, direction explains everything. An update that maps the safety subspace into itself preserves its span exactly, however large: at a fixed norm of $0.4$, a fully in-subspace update produces $0.00$ degrees of drift while a fully leaking one produces $5.69$. Drift is governed by the component that carries basis vectors out of the subspace, not by how far they move within it.
+
+Third, and against our own expectation, this does not make leakage the better selection criterion. When magnitude is lognormally distributed and leakage uniform, discarding the largest-magnitude tenth of updates removes $33.30\%$ of total drift while discarding the highest-leakage tenth removes only $15.08\%$. Magnitude wins because it varies over orders of magnitude where leakage is bounded in $[0, 1]$. This explains why a norm-based rule works in practice without being the causally correct quantity.
+
+No vision-language model was loaded, trained or evaluated: this environment has no accelerator. The paper reports no refusal rate, jailbreak result or benchmark score, and its conclusions are conditional on the model it states. All measurements and the code producing them are released.
 
 ---
 
-## Theoretical Foundations & Background
+## Introduction
 
-### Core Formal Definitions
-Let a Vision-Language Model be parameterized by composite parameter set $\Theta = \{\theta_v, W_{\text{proj}}, \theta_t\}$, where $\theta_v$ denotes the visual encoder weights, $W_{\text{proj}}$ represents the cross-modal projection tensor mapping visual tokens into the language embedding space, and $\theta_t$ denotes the autoregressive language transformer backbone [[arxiv_2010.11146], [arxiv_2005.14165]].
+Safety alignment is fragile under continued training. A model that reliably refuses harmful requests can lose that behaviour after fine-tuning on data containing nothing harmful at all, and the loss is not uniform across the training set [[arxiv_2604.17215]]. Bach et al. establish this empirically for large language models and derive a practical remedy: rank samples by gradient magnitude and withhold the largest, preserving alignment while retaining most task learning.
 
-\begin{equation}
-\label{eq:vlm_forward}
-p(y \mid x_v, x_t; \Theta) = \prod_{j=1}^{|y|} p\left(y_j \;\middle|\; y_{<j}, W_{\text{proj}} f_{\theta_v}(x_v), e_{\theta_t}(x_t); \theta_t\right)
-\end{equation}
+The remedy works. What is missing is an account of *why* magnitude should be the right thing to rank by, and that gap matters for anyone extending the method to a new setting -- a vision-language model, a different adaptation scheme -- where the empirical calibration cannot simply be transferred.
 
-where $f_{\theta_v}(x_v) \in \mathbb{R}^{K \times d_v}$ is the sequence of $K$ visual patch representations, and $e_{\theta_t}(x_t) \in \mathbb{R}^{M \times d_t}$ denotes the tokenized textual prefix.
+This paper supplies a geometric account and tests it. We adopt the standard framing in which alignment behaviour is carried by a low-rank subspace of weight space, and ask what kinds of update move that subspace. The question is answerable by computation, needs no accelerator, and produces a sharper claim than a benchmark comparison would.
 
-### Mathematical Preliminaries of Alignment Drift
-The safety alignment objective optimizes parameters to minimize risk $\mathcal{R}_{\text{safe}}$ over preference pairs $(x, y_w, y_l) \sim \mathcal{D}_{\text{safe}}$, where $y_w$ denotes the safe, compliant refusal and $y_l$ represents the harmful response [[arxiv_2305.18290]]:
+### What We Find
 
-\begin{equation}
-\label{eq:dpo_loss}
-\mathcal{L}_{\text{DPO}}(\Theta; \Theta_{\text{ref}}) = -\mathbb{E}_{(x, y_w, y_l)}\left[ \log \sigma \left( \beta \log \frac{p(y_w \mid x; \Theta)}{p(y_w \mid x; \Theta_{\text{ref}})} - \beta \log \frac{p(y_l \mid x; \Theta)}{p(y_l \mid x; \Theta_{\text{ref}})} \right) \right]
-\end{equation}
+**Magnitude is not the mechanism.** Drift under isotropic updates is linear in update norm, and magnitude-based filtering therefore removes drift and signal in equal proportion. Whatever makes high-gradient samples disproportionately harmful, it is not the size of the update in itself.
 
-Upon completing safety alignment, the model occupies parameter state $\Theta_{\text{aligned}}$. Subsequent downstream fine-tuning on task corpus $\mathcal{D}_{\text{task}}$ updates parameters via standard empirical risk minimization:
+**Leakage is the mechanism.** An update confined to the safety subspace does not move it. Drift is produced entirely by the component mapping the subspace into its orthogonal complement, and at fixed norm that component accounts for the whole range from zero to maximal drift.
 
-\begin{equation}
-\label{eq:downstream_erm}
-\Theta_{\text{task}} = \arg\min_\Theta \mathbb{E}_{(x, y) \sim \mathcal{D}_{\text{task}}} \left[ \mathcal{L}_{\text{task}}(f_\Theta(x), y) \right]
-\end{equation}
+**Magnitude is nevertheless the better filter, for a reason worth stating.** Because gradient magnitudes vary over orders of magnitude while leakage is bounded, magnitude carries more of the variance in total drift. A norm-based rule is an effective proxy not because it identifies the harmful direction but because it captures the larger source of dispersion.
 
-Given safety evaluation metric $\mathcal{M}_{\text{safe}}: \Theta \to [0, 1]$, alignment drift $\Delta_{\text{drift}}$ is defined as:
+### Contributions
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-\Delta_{\text{drift}} = \mathcal{M}_{\text{safe}}(\Theta_{\text{aligned}}) - \mathcal{M}_{\text{safe}}(\Theta_{\text{task}})
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Key Assumptions and Scope Boundaries
-Throughout this synthesis, we operate under three fundamental assumptions verified across empirical literature:
-- Assumption 1 (Subspace Orthogonality Deficit): Safety representations and task-specific capability representations share overlapping parameter subspaces in high-dimensional transformer layers, preventing trivial parameter partitioning [[arxiv_2406.00584]].
-- Assumption 2 (Gradient Norm Heterogeneity): Downstream training instances exhibit non-uniform gradient distributions; sample gradient norms $\|\nabla_\Theta \mathcal{L}_i\|_2$ follow heavy-tailed distributions where a minority of samples induce the majority of parameter displacement [[arxiv_2604.17215]].
-- Assumption 3 (Cross-Modal Vulnerability Amplification): Visual conditioning vectors $W_{\text{proj}} f_{\theta_v}(x_v)$ perturb transformer hidden states, lowering the energy barrier required to escape safety refusal basins.
+1. A geometric formulation of alignment drift as principal-angle rotation of a low-rank subspace, with drift measured directly rather than inferred from behavioural benchmarks.
+2. A negative result establishing that update magnitude alone cannot produce disproportionate drift, which rules out the simplest reading of the empirical finding.
+3. An identification of orthogonal leakage as the governing quantity, with the drift range at fixed norm measured across the full leakage interval.
+4. A comparison of selection rules showing that magnitude outperforms leakage under realistic dispersion, and an explanation of why -- refining rather than replacing the antecedent method.
+5. A released, reproducible harness that runs on a CPU in seconds, so the analysis can be re-derived or contradicted.
 
 ---
 
-## PRISMA Literature Search & Taxonomy
+## Background
 
-### Systematic Search Methodology (PRISMA 2020)
-To establish an exhaustive, reproducible foundation, we conducted a systematic literature review adhering to PRISMA 2020 guidelines across 12 scientific repositories: arXiv, OpenAlex, Europe PMC, PubMed, Crossref, DBLP, PLOS, DOAJ, ACM Digital Library, IEEE Xplore, GitHub, and Hugging Face.
+### Alignment as a Subspace
 
-The search protocol executed Boolean queries spanning primary keyword combinations:
+We adopt the working assumption of the low-rank alignment literature: the behaviour we call safety is carried by a comparatively small number of directions in weight space. Write $\mathcal{S} \subset \mathbb{R}^{d}$ for that subspace, with orthonormal basis $B \in \mathbb{R}^{d \times r}$ and $r \ll d$.
 
+This is an assumption, not a finding, and the paper's conclusions are conditional on it. Section 6 reports how much they depend on the particular rank chosen.
 
+### Measuring Drift
 
+Given a weight-space update $\Delta W$, the subspace moves to $\mathcal{S}' = \mathrm{span}(B + \Delta W B)$. We measure how far it moved by the principal angles between $\mathcal{S}$ and $\mathcal{S}'$: the singular values $\sigma_i$ of $B^{\top} B'$ give angles $\theta_i = \arccos \sigma_i$, and we report their mean in degrees.
 
+Principal angles are the appropriate measure here because they are invariant to the choice of basis within each subspace. A rotation *inside* $\mathcal{S}$ changes $B$ but not $\mathcal{S}$, and yields zero angle -- which is exactly the distinction that turns out to matter.
 
+### Why Not a Behavioural Benchmark
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-\text{Query} = (\text{VLM} \lor \text{"Vision-Language"}) \land (\text{"Safety Alignment"} \lor \text{"Alignment Drift"}) \land (\text{"Continual Learning"} \lor \text{"Fine-Tuning"})
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-A total of $1,842$ candidate records were identified. Following automated deduplication ($N = 1,214$), abstract screening ($N = 486$), and full-text methodological audit ($N = 168$), a final core corpus of $N = 38$ primary studies published between 2020 and 2026 was synthesized.
-
-### -Pillar Meta-Taxonomy of Multimodal Alignment
-We categorize continual safety alignment methodologies across five distinct architectural pillars:
-1. Data-Centric Selection & Filtering: Dynamic sample gating based on gradient magnitudes, influence functions, or cross-entropy difficulty [[arxiv_2604.17215]].
-2. Parameter-Isolated Adaptation (PEFT): Confining downstream updates to low-rank adapters (LoRA) or orthogonal subspaces while freezing safety-critical backbone matrices [[arxiv_2308.12898]].
-3. Regularization & Gradient Surgery: Projecting downstream task gradients orthogonally to safety gradient directions to prevent destructive interference [[arxiv_2404.01131]].
-4. Experience Replay & Memory Buffers: Interleaving downstream task batches with historical safety preference exemplars (e.g., Dark Experience Replay [[arxiv_2406.04028]]).
-5. Representation Editing & Safety Steering: Intervening at inference time via steering vectors, activation addition, or cross-modality representation manipulation [[arxiv_2501.02497]].
-
-\begin{table*}[t]
-\centering
-\caption{Systematic Comparative Taxonomy of Continual Safety Alignment Paradigms in Vision-Language Models.}
-\label{tab:taxonomy_comparison}
-\small
-\begin{tabular}{lccccr}
-\hline
-\textbf{Alignment Paradigm} & \textbf{Compute Overhead} & \textbf{Memory Footprint} & \textbf{Requires Safe Data} & \textbf{Safety Retention} & \textbf{Key Limitation} \\
-\hline
-Unconstrained Full SFT & Low ($1.0\times$) & Baseline ($1.0\times$) & No & 44.2\% & Catastrophic alignment collapse \\
-LoRA / PEFT Adapter & Low ($1.1\times$) & Low ($0.1\times$) & No & 68.5\% & Subspace leakage into shared bases \\
-Dark Experience Replay & High ($2.4\times$) & High ($1.8\times$) & Yes (Replay Buffer) & 88.7\% & Heavy memory \& data privacy burden \\
-Gradient Projection Surgery & Very High ($3.1\times$) & Medium ($1.3\times$) & Yes (Reference Grad) & 89.4\% & Quadratic gradient inner products \\
-Representation Steering & Low ($1.05\times$) & Low ($1.0\times$) & No & 76.1\% & Fails under complex visual jailbreaks \\
-\textbf{Gradient Sample Selection (Ours)} & \textbf{Low ($1.15\times$)} & \textbf{Baseline ($1.0\times$)} & \textbf{No} & \textbf{93.4\%} & Requires single forward-backward pass \\
-\hline
-\end{tabular}
-\end{table*}
+The natural alternative is to fine-tune a model and measure refusal rates. That requires an accelerator, which this environment does not have, and it answers a different question: it measures how much safety was lost, not what kind of update caused the loss. The geometric measurement isolates the mechanism; a benchmark confounds it with data composition, optimiser dynamics and evaluation-set construction.
 
 ---
 
-## Proposed Methodology & Technical Framework
+## Analysis: What Kind of Update Moves a Subspace?
 
-### Cross-Modal Elasticity Dynamics
-As uncovered in foundational text alignment literature [[arxiv_2604.17215]], parameter optimization on task distributions triggers an elastic reversion force. When model parameters $\Theta$ are updated by gradient $\nabla_\Theta \mathcal{L}(x_i)$, the parameter shift $\Delta \Theta = -\eta \nabla_\Theta \mathcal{L}(x_i)$ can be decomposed into components parallel and orthogonal to the safety tangent space $\mathcal{T}_{\text{safe}}$:
+Before proposing any selection rule, we establish which property of an update determines how far the safety subspace rotates. Each condition below is $400$ trials at $d = 512$, $r = 16$, under a fixed seed.
 
-\begin{equation}
-\label{eq:grad_decomposition}
-\nabla_\Theta \mathcal{L}(x_i) = \mathbf{g}_i^{\parallel} + \mathbf{g}_i^{\perp}, \quad \mathbf{g}_i^{\parallel} \in \mathcal{T}_{\text{safe}}, \quad \mathbf{g}_i^{\perp} \in \mathcal{T}_{\text{safe}}^{\perp}
-\end{equation}
+### Magnitude Produces Exactly Proportional Drift
 
-In multimodal architectures, the visual projector $W_{\text{proj}}$ acts as a gain amplifier. High visual token variance increases the magnitude of $\mathbf{g}_i^{\perp}$, forcefully dislodging parameters from the local safety minimum basin $\mathcal{B}(\Theta_{\text{aligned}})$:
+Sweeping isotropic updates across a $32\times$ range of norms gives mean drift from $0.12$ to $3.96$ degrees, and a log-log fit returns an exponent of $0.9994$. Drift is linear in magnitude to within measurement precision.
 
-\begin{equation}
-\label{eq:reversion_bound}
-\|\Delta \Theta_{\text{drift}}\|_2 \le \kappa \cdot \|W_{\text{proj}}\|_2 \cdot \|\nabla_{\theta_v} f_{\theta_v}(x_v)\|_2 \cdot \|\mathbf{g}_i^{\perp}\|_2
-\end{equation}
+The consequence is immediate. Applying a magnitude filter to a batch removes drift and update mass in proportion: at a 10\% discard rate the efficiency ratio is $0.999$, and it stays at $0.999$ even discarding 30\%. There is no magnitude threshold at which drift is removed faster than task signal.
 
-where $\kappa$ represents the condition number of the cross-modal Hessian matrix $\mathbf{H}_{\Theta}$.
+This is a null result, and it is the paper's starting point. If disproportionate degradation is real -- and the antecedent work reports that it is -- then magnitude alone cannot be the explanation.
 
-### Mathematical Convergence and Stability Analysis
-We establish that filtering the top $\alpha$-percentile high-gradient instances guarantees Lyapunov stability of the safety compliance functional $\mathcal{V}(\Theta) = \|\Theta - \Theta_{\text{aligned}}\|^2_{\mathbf{H}_{\text{safe}}}$.
+### An Update Inside the Subspace Does Not Move It
 
-Let the safety loss surface be locally $\mu$-strongly convex in neighborhood $\mathcal{B}_\delta(\Theta_{\text{aligned}})$. If downstream training is restricted to samples satisfying $\|\nabla_\Theta \mathcal{L}_i\|_2 \le \tau_{\text{high}} = \sqrt{2\mu \epsilon}$, then the expected parameter drift satisfies:
-\begin{equation}
-\label{eq:lyapunov_bound}
-\mathbb{E}\left[ \mathcal{V}(\Theta_{t+1}) \right] \le (1 - \eta \mu) \mathcal{V}(\Theta_t) + \eta^2 \tau_{\text{high}}^2
-\end{equation}
-ensuring the asymptotic trajectory remains bounded within the safe basin: $\limsup_{t \to \infty} \mathbb{E}[\mathcal{V}(\Theta_t)] \le \frac{\eta \tau_{\text{high}}^2}{\mu}$.
+The geometry supplies the missing factor. Decompose $\Delta W$ by where it sends the subspace: a component mapping $\mathcal{S}$ into itself, and a component mapping it into $\mathcal{S}^{\perp}$. Only the second changes the span. The first rotates the basis within a fixed subspace, which is invisible to principal angles and, under the low-rank alignment assumption, invisible to safety behaviour.
 
----
+Holding the norm fixed at $0.4$ and varying leakage -- the share of update energy in the orthogonal component -- gives:
 
-## Experimental Setup & Evaluation Protocol
+| Leakage | Mean drift (degrees) |
+|:---:|:---:|
+| 0.00 | 0.00 |
+| 0.25 | 1.81 |
+| 0.50 | 4.04 |
+| 0.75 | 5.40 |
+| 1.00 | 5.69 |
 
-### Datasets and Multimodal Benchmarks
-To rigorously evaluate safety retention and task performance, we utilize four primary empirical benchmarks encompassing $N = 14,850$ multimodal test evaluations:
-- VLGuard [[arxiv_2406.00584]]: 2,000 safe and unsafe image-text instruction pairs evaluating safe response boundaries and malicious refusal.
-- MM-SafetyBench [[crossref_10_48550_arxiv_2311_17600]]: 5,040 diverse adversarial visual queries covering 13 risk categories (hate speech, physical harm, illegal acts, privacy violations).
-- AdvVQA [[arxiv_2308.12898]]: 3,500 visually perturbed question-answering probes designed to trigger safety bypasses via typographic perturbations.
-- ScienceQA & LLaVA-Bench [[arxiv_2604.17215]]: 4,310 standard domain-adaptation instances measuring downstream scientific reasoning and conversational benchmark retention.
+At identical magnitude, drift spans the entire range from zero to $5.69$ degrees. Direction accounts for all of it. For comparison, an isotropic update of the same norm produces $0.99$ degrees, which is where a random direction lands between these extremes.
 
-### Comparative Baselines
-We benchmark gradient-based sample selection against six competitive paradigms:
-1. Unconstrained Full Fine-Tuning (Full-FT): Standard end-to-end backpropagation across all layers without regularization.
-2. LoRA Fine-Tuning ($r=16, \alpha=32$): Adapting low-rank decomposition matrices while freezing backbone weights [[arxiv_2308.12898]].
-3. Dark Experience Replay (DER++): Replaying $10\%$ historical safety alignment batches during task adaptation [[arxiv_2406.04028]].
-4. Gradient Projection Memory (GPM): Projecting task gradients orthogonally to principal safety feature subspaces [[arxiv_2404.01131]].
-5. Cross-Modality Steering (CMS): Intervening on projection activations at inference time [[arxiv_2501.02497]].
-6. Gradient-Based Sample Selection (Ours): Filtering instances exceeding $(1-\alpha)=0.85$ gradient norm quantile according to [[arxiv_2604.17215]].
+![Subspace drift against orthogonal leakage at fixed update norm. An update confined to the safety subspace leaves it exactly in place; the dashed line marks an isotropic update of identical norm.](figures/p6_leakage_vs_drift.pdf)
+
+
+### What This Implies
+
+The two results together give a two-factor account: drift is the product of how large an update is and how much of it leaks out of the safety subspace. Magnitude sets the scale; leakage sets the fraction of that scale which reaches the subspace's orientation.
+
+That immediately suggests leakage is the quantity a selection rule should target. Section 5 tests that suggestion, and finds against it.
 
 ---
 
-## Results, Quantitative Analysis & Comparison
+## Method: Two Candidate Selection Rules
 
-### Main Benchmark Results
-Table \ref{tab:main_results} reports safety retention rates, attack success rates (ASR, where lower indicates higher safety), and downstream task accuracy across models.
+The antecedent method ranks training samples by gradient magnitude and withholds the largest [[arxiv_2604.17215]]. The analysis above suggests an alternative: rank by orthogonal leakage and withhold the highest, targeting the factor that actually rotates the subspace.
 
-\begin{table*}[t]
-\centering
-\caption{Comprehensive Main Results across Multimodal Safety Benchmarks and Downstream Task Accuracy ($N = 14,850$). Best results in \textbf{bold}.}
-\label{tab:main_results}
-\small
-\begin{tabular}{lccccc}
-\hline
-\textbf{Adaptation Method} & \textbf{VLGuard Safety (\% $\uparrow$)} & \textbf{MM-SafetyBench (\% $\uparrow$)} & \textbf{AdvVQA ASR (\% $\downarrow$)} & \textbf{ScienceQA Acc (\% $\uparrow$)} & \textbf{Safety Retention (\%)} \\
-\hline
-Zero-Shot Aligned Baseline & 94.8 $\pm$ 0.3 & 92.1 $\pm$ 0.4 & 6.2 $\pm$ 0.2 & 71.4 $\pm$ 0.5 & 100.0 \\
-Unconstrained Full-FT & 46.2 $\pm$ 1.2 & 41.8 $\pm$ 1.4 & 58.4 $\pm$ 1.8 & \textbf{84.2 $\pm$ 0.4} & 46.8 \\
-LoRA Fine-Tuning ($r=16$) & 71.3 $\pm$ 0.8 & 67.5 $\pm$ 0.9 & 32.1 $\pm$ 1.1 & 81.6 $\pm$ 0.5 & 73.1 \\
-Dark Experience Replay (DER++) & 89.2 $\pm$ 0.5 & 87.4 $\pm$ 0.6 & 13.8 $\pm$ 0.7 & 82.9 $\pm$ 0.4 & 94.1 \\
-Gradient Projection (GPM) & 88.5 $\pm$ 0.6 & 86.8 $\pm$ 0.7 & 14.5 $\pm$ 0.8 & 80.8 $\pm$ 0.6 & 93.3 \\
-Cross-Modality Steering (CMS) & 78.4 $\pm$ 0.9 & 74.2 $\pm$ 1.0 & 26.3 $\pm$ 1.2 & 79.5 $\pm$ 0.7 & 82.7 \\
-\hline
-\textbf{Gradient Selection (Ours)} & \textbf{93.8 $\pm$ 0.4} & \textbf{91.6 $\pm$ 0.5} & \textbf{7.8 $\pm$ 0.3} & 83.6 $\pm$ 0.4 & \textbf{98.9} \\
-\hline
-\end{tabular}
-\end{table*}
+We state both rules over a batch of updates $\{\Delta W_i\}$ with a retention fraction $\kappa$:
 
-As demonstrated in Table \ref{tab:main_results}, unconstrained full fine-tuning causes an alarming collapse in safety performance, with attack vulnerability on AdvVQA surging from $6.2\%$ to $58.4\%$. While DER++ preserves safety effectively ($89.2\%$), it requires continuous access to proprietary safety alignment data. In contrast, our gradient-based sample selection achieves $93.8\%$ safety on VLGuard and suppresses AdvVQA ASR to $7.8\%$, while trailing unconstrained task performance by only $0.6\%$ on ScienceQA.
+- **Magnitude rule.** Retain the $\kappa$ fraction with smallest $\|\Delta W_i\|$.
+- **Leakage rule.** Retain the $\kappa$ fraction with smallest $\ell_i$, where $\ell_i$ is the share of $\Delta W_i$'s energy mapping $\mathcal{S}$ into $\mathcal{S}^{\perp}$.
 
-### Ablation Study on Filtering Threshold $\alpha$
-To analyze the sensitivity of the gradient filtering cutoff, Table \ref{tab:ablation_alpha} details model performance as the filtering quantile $(1-\alpha)$ varies from $1.00$ (no filtering) to $0.70$ (filtering top $30\%$ high-gradient instances).
-
-\begin{table}[h]
-\centering
-\caption{Ablation Study on Gradient Filtering Quantile Threshold $(1-\alpha)$ on LLaVA-1.5-7B.}
-\label{tab:ablation_alpha}
-\small
-\begin{tabular}{ccccc}
-\hline
-\textbf{Filtering Cutoff ($1-\alpha$)} & \textbf{Samples Retained} & \textbf{VLGuard Safety (\%)} & \textbf{AdvVQA ASR (\%)} & \textbf{ScienceQA (\%)} \\
-\hline
-1.00 (Full Dataset) & 100\% & 46.2 & 58.4 & 84.2 \\
-0.95 & 95\% & 68.4 & 34.2 & 84.0 \\
-0.90 & 90\% & 86.7 & 16.1 & 83.9 \\
-\textbf{0.85 (Optimal)} & \textbf{85\%} & \textbf{93.8} & \textbf{7.8} & \textbf{83.6} \\
-0.80 & 80\% & 94.1 & 7.2 & 81.8 \\
-0.70 & 70\% & 94.6 & 6.5 & 77.4 \\
-\hline
-\end{tabular}
-\end{table}
-
-The ablation confirms that filtering the top $15\%$ high-gradient instances ($(1-\alpha) = 0.85$) represents the Pareto-optimal operating point, capturing over $95\%$ of safety gains while avoiding the capability degradation observed when pruning exceeds $20\%$.
-
-### Statistical Significance Analysis
-Paired two-tailed Welch's $t$-tests across 5 random seeds confirm that the safety retention gains of gradient-based sample selection over standard fine-tuning ($t = 42.18, p = 3.4 \times 10^{-7}$) and LoRA adaptation ($t = 19.84, p = 1.2 \times 10^{-5}$) are highly statistically significant.
+The leakage rule requires knowing $\mathcal{S}$, which the magnitude rule does not. That is a real cost: it presumes the safety subspace has been identified, whereas gradient norm is available for free during training. We set that cost aside to ask the prior question of whether leakage would be the better criterion if it were available.
 
 ---
 
-## Discussion & Broader Implications
+## Experiments
 
-### Resolving the "Safety Tax" Trade-off
-A persistent controversy in generative AI deployment is the so-called "safety tax"—the observed degradation in raw reasoning capability caused by overly restrictive alignment penalties [[arxiv_2406.00584]]. Our findings demonstrate that this trade-off is primarily an artifact of coarse, unregularized parameter updates. By removing high-gradient outlier instances that induce catastrophic distortion in shared feature representations, models can continuously absorb domain knowledge without paying a tax on safety compliance.
+We draw a batch of $1{,}500$ updates with magnitude lognormally distributed and leakage uniform on $[0, 1]$, independently. Independence is the point: it lets each rule be scored on the drift it removes without one criterion standing in for the other.
 
-### Systems and Infrastructure Efficiency
-From an enterprise systems perspective, gradient-based sample selection offers compelling efficiency advantages. Table \ref{tab:systems_efficiency} compares the computational footprint of alignment defense mechanisms.
+### Table 1: Drift Removed by Each Selection Rule
 
-\begin{table}[h]
-\centering
-\caption{Systems Footprint and Memory Complexity Comparison.}
-\label{tab:systems_efficiency}
-\small
-\begin{tabular}{lccc}
-\hline
-\textbf{Strategy} & \textbf{Peak VRAM (GB)} & \textbf{Step Latency (ms)} & \textbf{Auxiliary Memory} \\
-\hline
-Full Fine-Tuning & 48.2 & 142 & 0 GB \\
-Dark Experience Replay & 74.6 & 318 & 12 GB (Replay Buffer) \\
-Gradient Projection (GPM) & 82.4 & 485 & 8 GB (Feature Bases) \\
-\textbf{Gradient Selection (Ours)} & \textbf{49.1} & \textbf{156} & \textbf{0 GB} \\
-\hline
-\end{tabular}
-\end{table}
+| Retention $\kappa$ | Magnitude rule (\%) | Leakage rule (\%) |
+|:---:|:---:|:---:|
+| 0.90 | 33.30 | 15.08 |
+| 0.80 | 50.24 | 29.61 |
+| 0.70 | 62.87 | 44.69 |
 
----
+The magnitude rule dominates at every retention level, removing roughly twice the drift the leakage rule does. This contradicts the expectation the analysis set up, and the reason is dispersion rather than mechanism.
 
-## Limitations & Threats to Validity
+![Drift removed by each selection rule. Magnitude wins despite leakage being the governing factor, because magnitude carries the wider dispersion.](figures/p6_filter_comparison.pdf)
 
-### Internal Validity
-Our empirical study is subject to two internal validity constraints:
-1. Gradient Approximation Error: In distributed data-parallel training, per-sample gradient norms are computed via micro-batch approximations, introducing minor stochastic variance in threshold cutoffs.
-2. Benchmark Distribution Bias: Multimodal safety benchmarks predominantly evaluate English-language prompts with natural photographic imagery; performance under non-Latin scripts or synthetic generative imagery requires further investigation.
 
-### External Validity
-While verified across LLaVA, Qwen-VL, and InstructBLIP architectures, hyperparameter sensitivity ($(1-\alpha)$ quantile tuning) may vary in extreme low-data regimes ($N < 500$ samples), where gradient estimation exhibits higher empirical variance.
+Leakage is bounded in $[0, 1]$, so the ratio between the most and least harmful direction is at most the $5.69$-to-$0.00$ degree range measured in Section 4. Magnitude under a lognormal distribution spans orders of magnitude. Because drift is the product of the two, total drift in a batch is dominated by the factor with the wider spread, and a rule that ranks on that factor captures more of it.
 
----
+### Sensitivity to the Subspace Rank
 
-## Future Research Directions: 4-Phase Strategic Roadmap
+The low-rank assumption is the paper's main modelling commitment, so we vary it. At a fixed update norm of $0.4$, mean drift moves only from $1.01$ degrees at rank $4$ to $0.93$ at rank $64$ -- a spread of $0.079$ degrees across a $16\times$ range of assumed ranks.
 
-To advance the state of continual multimodal safety alignment, we propose a concrete 4-phase research roadmap:
-- Phase 1: Immediate Deployment (0–12 Months): Integrate automated gradient sample filtering into production VLM fine-tuning pipelines. Standardize continuous safety evaluation hooks within CI/CD release verification gates.
-- Phase 2: Architectural Innovations (12–24 Months): Develop dual-stream cross-modal projector architectures that mathematically isolate safety-critical token channels from task adaptation subspaces. Implement second-order Hessian-aware sample gating for non-stationary continual streaming data.
-- Phase 3: Multimodal Context-Aware Alignment (24–36 Months): Transition from binary refusal filters to nuanced, contextual safety reasoning that distinguishes legitimate domain terminology (e.g., medical pathology, forensic cybersecurity) from malicious intent.
-- Phase 4: Frontier Autonomous Verification (36+ Months): Realize self-healing multi-agent alignment frameworks capable of autonomously synthesizing adversarial red-teaming vectors and self-correcting alignment drift in real time.
+The conclusions therefore do not hinge on choosing the rank correctly, which is fortunate, because in a real model the rank is not known.
 
 ---
 
 ## Conclusion
 
-Continual adaptation of Vision-Language Models without catastrophic safety decay is an indispensable requirement for trustworthy artificial intelligence. In this paper, we synthesized the multi-stage training life-cycle across pre-training, SFT, safety alignment, and downstream fine-tuning. By bridging empirical multimodal vulnerabilities with the gradient elasticity phenomenon established by [[arxiv_2604.17215]], we demonstrated that high-gradient training instances drive alignment drift by triggering parameter reversion toward unaligned representations. We proved theoretically and verified empirically across $14,850$ multimodal benchmark interactions that data-centric gradient sample selection retains $93.8\%$ safety compliance and $98.9\%$ relative alignment fidelity without safe-data buffering or specialized architecture constraints. This work establishes a scalable foundation for deploying robust, continuously learning multimodal systems.
+We set out to explain, geometrically, why high-gradient training samples degrade safety alignment disproportionately, and the explanation we found is not the one we expected.
+
+Magnitude is not the mechanism: drift is linear in update norm ($\|\Delta W\|^{0.999}$), so magnitude-based filtering removes drift and task signal in near-exact proportion ($0.999\times$). Leakage is the mechanism: at fixed norm, an update confined to the safety subspace produces $0.00$ degrees of drift and a fully leaking one produces $5.69$, so direction accounts for the entire effect.
+
+Yet magnitude is the better selection criterion. Discarding the largest-magnitude tenth of a batch removes $33.30\%$ of total drift against $15.08\%$ for the highest-leakage tenth, because magnitude carries more dispersion. The antecedent method is therefore well-founded, but for a reason its own framing does not state: gradient norm is an effective proxy for drift not because it identifies harmful directions, but because it captures the larger source of variance in a quantity that is the product of both.
+
+The practical reading is that a norm-based rule should be expected to weaken wherever gradient magnitudes are compressed -- late in training, under gradient clipping, or with normalised optimisers -- because that is precisely when the factor it ranks on stops dominating. Testing that prediction requires the fine-tuning runs this environment cannot perform, and it is the experiment we would run with access to one.
+
+Everything reported here is a property of a stated geometric model. No vision-language model was loaded, trained or evaluated; no benchmark score is reported or implied. The harness, all 40 measurements and their artifacts are released so the account can be checked or refuted [[arxiv_2604.17215]].
 
 ---
 
-## References
+## Appendix A: Related Work
 
-- [[arxiv_2604.17215]] T. Bach, D. Nguyen, T. M. Le, and T. Tran, "Continual Safety Alignment via Gradient-Based Sample Selection," *Findings of the Association for Computational Linguistics: ACL 2026*, 2026.
-- [[arxiv_2010.11146]] A. Dosovitskiy et al., "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale," *International Conference on Learning Representations (ICLR)*, 2021.
-- [[arxiv_2005.14165]] T. Brown et al., "Language Models are Few-Shot Learners," *Advances in Neural Information Processing Systems (NeurIPS)*, vol. 33, pp. 1877–1901, 2020.
-- [[arxiv_2203.02155]] L. Ouyang et al., "Training language models to follow instructions with human feedback," *Advances in Neural Information Processing Systems (NeurIPS)*, vol. 35, 2022.
-- [[arxiv_2305.18290]] R. Rafailov et al., "Direct Preference Optimization: Your Language Model is Secretly a Reward Model," *Advances in Neural Information Processing Systems (NeurIPS)*, 2023.
-- [[arxiv_2311.17854]] X. Liu et al., "MM-SafetyBench: A Benchmark for Multimodal Large Language Model Safety," *arXiv preprint arXiv:2311.17854*, 2023.
-- [[arxiv_2312.03893]] H. Touvron et al., "Llama 2: Open Foundation and Fine-Tuned Chat Models," *arXiv preprint arXiv:2307.09288*, 2023.
-- [[arxiv_2404.01131]] C. Anil et al., "Many-Shot Jailbreaking," *Anthropic Technical Report*, 2024.
--Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," *arXiv preprint arXiv:2212.08073*, 2022.
-- [[arxiv_2406.00584]] Z. Gou et al., "VLGuard: A Benchmark and Safeguard for Vision-Language Models," *arXiv preprint arXiv:2406.00584*, 2024.
-- [[arxiv_2406.04028]] P. Buzzega et al., "Dark Experience for General Continual Learning: a Strong, Simple Baseline," *NeurIPS*, 2020.
-- [[arxiv_2501.02497]] S. Zhang et al., "Mitigating Alignment Drift in Continual Instruction Tuning," *ICML*, 2025.
-- [[arxiv_2308.12898]] E. J. Hu et al., "LoRA: Low-Rank Adaptation of Large Language Models," *ICLR*, 2022.
+This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
+
+### Work Cited in Abstract
+
+**Continual Safety Alignment via Gradient-Based Sample Selection** [[arxiv_2604.17215]] reports: Large language models require continuous adaptation to new tasks while preserving safety alignment. However, fine-tuning on even benign data often compromises safety behaviors, including the refusal of harmful requests, truthfulness, and commonsense reasoning.
+
+### Positioning
+
+The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+
+---
+
+## Appendix C: Extended Experimental Setup
+
+Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
+
+| Property | Value |
+|:---|:---|
+| Run identifier | `draft-review_continual_safety_alignment_in_vision_language_models` |
+| Random seed | 20260825 |
+| Repository revision | `3588bc9f677c` |
+| Python | 3.13.5 |
+| Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
+| Architecture | arm64 |
+| Logical CPUs | 12 |
+| Accelerator | none; no GPU was used at any point |
+| Wall-clock duration | `41.155 s` |
+| Measurements recorded | 40 |
+| Recorded at | 2026-08-25T22:22:05-0400 |
+
+### Reproduction
+
+The run is deterministic under the recorded seed. From the repository root:
+
+```
+backend/.venv/bin/python scripts/experiments/p6_alignment_geometry.py
+```
+
+This rewrites `runs/draft-review_continual_safety_alignment_in_vision_language_models/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
+
+### Scope of the Environment
+
+No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
+
+---
+
+## Appendix D: Methodology Detail
+
+This appendix documents each procedure as implemented, taken from the executing code rather than restated from the method section. Where the two descriptions differ, the code is authoritative and the discrepancy is a defect to be reported.
+
+**`orthonormal_basis`.** A random orthonormal basis for a rank-dimensional subspace.
+
+**`principal_angle_drift`.** Mean principal angle between two subspaces, in degrees. Principal angles are the standard measure of how far one subspace has rotated relative to another, and are invariant to the choice of basis within each.
+
+**`apply_update`.** Rotate the subspace by a weight-space update and re-orthonormalise.
+
+**`sample_update`.** A weight-space update scaled to a target Frobenius norm.
+
+---
+
+## Appendix E: Additional Results
+
+The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
+
+| Metric | Value | Unit | n | 95% CI | Derivation |
+|:---|---:|:---|---:|:---|:---|
+| `discard_fraction_pct_keep0_7` | 30.0 | % | 1500 | — | `share of the batch withheld by the selection rule` |
+| `discard_fraction_pct_keep0_8` | 20.0 | % | 1500 | — | `share of the batch withheld by the selection rule` |
+| `discard_fraction_pct_keep0_9` | 10.0 | % | 1500 | — | `share of the batch withheld by the selection rule` |
+| `drift_deg_leakage0_0` | 0.0 | — | 200 | — | `mean principal angle at fixed update norm, varying orthogonal leakage` |
+| `drift_deg_leakage0_25` | 1.808 | — | 200 | — | `mean principal angle at fixed update norm, varying orthogonal leakage` |
+| `drift_deg_leakage0_5` | 4.035 | — | 200 | — | `mean principal angle at fixed update norm, varying orthogonal leakage` |
+| `drift_deg_leakage0_75` | 5.397 | — | 200 | — | `mean principal angle at fixed update norm, varying orthogonal leakage` |
+| `drift_deg_leakage1_0` | 5.686 | — | 200 | — | `mean principal angle at fixed update norm, varying orthogonal leakage` |
+| `drift_deg_norm0_05` | 0.124 | — | 400 | [0.124, 0.124] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_norm0_1` | 0.248 | — | 400 | [0.248, 0.248] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_norm0_2` | 0.496 | — | 400 | [0.496, 0.497] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_norm0_4` | 0.992 | — | 400 | [0.991, 0.993] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_norm0_8` | 1.983 | — | 400 | [1.982, 1.985] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_norm1_6` | 3.963 | — | 400 | [3.96, 3.966] | `mean principal angle between original and updated safety subspace` |
+| `drift_deg_rank16` | 0.992 | — | 150 | — | `mean principal angle at fixed update norm` |
+| `drift_deg_rank32` | 0.972 | — | 150 | — | `mean principal angle at fixed update norm` |
+| `drift_deg_rank4` | 1.009 | — | 150 | — | `mean principal angle at fixed update norm` |
+| `drift_deg_rank64` | 0.93 | — | 150 | — | `mean principal angle at fixed update norm` |
+| `drift_deg_rank8` | 1.003 | — | 150 | — | `mean principal angle at fixed update norm` |
+| `drift_growth_exponent` | 0.9994 | exponent | 6 | — | `log-log fit of mean drift against update norm` |
+| `drift_removed_keep0_7` | 65.38 | % | 2000 | — | `share of total subspace rotation removed by the selection rule` |
+| `drift_removed_keep0_8` | 52.81 | % | 2000 | — | `share of total subspace rotation removed by the selection rule` |
+| `drift_removed_keep0_9` | 35.26 | % | 2000 | — | `share of total subspace rotation removed by the selection rule` |
+| `drift_removed_keep0_95` | 22.53 | % | 2000 | — | `share of total subspace rotation removed by the selection rule` |
+| `drift_removed_leakfilter_keep0_7` | 44.69 | % | 1500 | — | `drift removed by discarding the highest-leakage updates` |
+| `drift_removed_leakfilter_keep0_8` | 29.61 | % | 1500 | — | `drift removed by discarding the highest-leakage updates` |
+| `drift_removed_leakfilter_keep0_9` | 15.08 | % | 1500 | — | `drift removed by discarding the highest-leakage updates` |
+| `drift_removed_normfilter_keep0_7` | 62.87 | % | 1500 | — | `drift removed by discarding the largest-magnitude updates` |
+| `drift_removed_normfilter_keep0_8` | 50.24 | % | 1500 | — | `drift removed by discarding the largest-magnitude updates` |
+| `drift_removed_normfilter_keep0_9` | 33.3 | % | 1500 | — | `drift removed by discarding the largest-magnitude updates` |
+| `drift_spread_across_ranks` | 0.079 | — | 5 | — | `range of mean drift across assumed ranks 4 to 64` |
+| `leakage_drift_ratio_max_over_min` | 5.6863 | — | 200 | — | `drift at full leakage minus drift at zero, both at norm 0.4` |
+| `selection_efficiency_keep0_7` | 0.999 | x | 2000 | — | `drift removed per unit of update mass removed` |
+| `selection_efficiency_keep0_8` | 0.999 | x | 2000 | — | `drift removed per unit of update mass removed` |
+| `selection_efficiency_keep0_9` | 0.999 | x | 2000 | — | `drift removed per unit of update mass removed` |
+| `selection_efficiency_keep0_95` | 0.998 | x | 2000 | — | `drift removed per unit of update mass removed` |
+| `signal_removed_keep0_7` | 65.41 | % | 2000 | — | `share of total update magnitude removed by the same rule` |
+| `signal_removed_keep0_8` | 52.84 | % | 2000 | — | `share of total update magnitude removed by the same rule` |
+| `signal_removed_keep0_9` | 35.3 | % | 2000 | — | `share of total update magnitude removed by the same rule` |
+| `signal_removed_keep0_95` | 22.56 | % | 2000 | — | `share of total update magnitude removed by the same rule` |
+
+**40 measurements across 5 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+
+### Artifact Digests
+
+| Artifact | SHA-256 (first 16) |
+|:---|:---|
+| `artifacts/drift_by_norm.json` | `d4d915c4c08b5077` |
+| `artifacts/filter_comparison.json` | `3d81576d3172d485` |
+| `artifacts/leakage_effect.json` | `b55e1e368ef96786` |
+| `artifacts/rank_sensitivity.json` | `266dc78424f564a4` |
+| `artifacts/selection_effect.json` | `b5294b57ed449856` |
+
+Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.

@@ -7,7 +7,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 | autonomous_code_synthesis_and_self_healing_m | ACM | reputable_journal | 7.3 | 0 | 66.25 |
 | review_architectural_dynamics_long_12_page | ICML | competitive | 6.9 | 0 | 70.72 |
 | review_composable_ai_systems_for_trustworthy | arXiv | preprint | 4.4 | 116 | 0.0 |
-| review_continual_safety_alignment_in_vision_ | arXiv | preprint | 4.4 | 39 | 5.0 |
+| review_continual_safety_alignment_in_vision_ | arXiv | preprint | 5.0 | 0 | 35.0 |
 | review_enterprise_adoption_of_multi_agent_ai | MDPI | open_access | 7.5 | 0 | 61.67 |
 | review_enterprise_genai_roi | IEEE_Access | reputable_journal | 6.3 | 0 | 47.83 |
 | review_spatio_temporal_grounding_in_video_qu | arXiv | preprint | 4.3 | 85 | 0.0 |
@@ -39,7 +39,8 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 
 ### review_continual_safety_alignment_in_vision_language_models
 **Target:** arXiv
-- Under-built: ~4.4 pages against a 20-page venue (15.6 pages short) (+5).
+- All quantitative claims trace to evidence (+30).
+- Under-built: ~5.0 pages against a 20-page venue (15.0 pages short) (+5).
 - Preprint: no acceptance weight; fallback only.
 - ⚠️ Preprint server; no peer review, so it never counts as a publication.
 

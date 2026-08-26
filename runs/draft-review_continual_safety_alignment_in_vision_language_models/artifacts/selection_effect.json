@@ -1,0 +1,31 @@
+{
+  "batch": 2000,
+  "distribution": "lognormal(mu=-1.2, sigma=0.9)",
+  "results": {
+    "0.7": {
+      "kept_fraction": 0.7,
+      "total_drift": 798.4872113965665,
+      "total_magnitude": 321.83038070089685
+    },
+    "0.8": {
+      "kept_fraction": 0.8,
+      "total_drift": 1088.3348417697166,
+      "total_magnitude": 438.8038321227503
+    },
+    "0.9": {
+      "kept_fraction": 0.9,
+      "total_drift": 1493.0595028118646,
+      "total_magnitude": 602.0556799854292
+    },
+    "0.95": {
+      "kept_fraction": 0.95,
+      "total_drift": 1786.7085063069703,
+      "total_magnitude": 720.5230088336947
+    },
+    "1.0": {
+      "kept_fraction": 1.0,
+      "total_drift": 2306.175279233991,
+      "total_magnitude": 930.4754439430669
+    }
+  }
+}
