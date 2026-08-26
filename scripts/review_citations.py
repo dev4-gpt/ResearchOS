@@ -40,6 +40,7 @@ import json
 import os
 import re
 import sys
+from typing import Tuple
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(REPO_ROOT, "backend"))
@@ -121,10 +122,47 @@ def strip_citation(line: str, name: str, key: str) -> str:
     return re.sub(r" {2,}", " ", out).replace(" .", ".").replace(" ,", ",")
 
 
+
+def strip_key_everywhere(key: str) -> Tuple[int, int]:
+    """Remove every '[[key]]' from every draft. Returns (occurrences, drafts touched).
+
+    Deleting the *citation* is the correct operation. Deleting the vault note is
+    not: nothing treats a missing note as a broken link, so the manuscript would
+    go on citing a source that no longer exists and the bibliography would render
+    an empty entry. The note is a record of a paper that does exist; the defect is
+    that a sentence points at it.
+    """
+    removed = drafts = 0
+    pattern = re.compile(r"\s*\[\[" + re.escape(key) + r"\]\]")
+    for path in sorted(glob.glob(os.path.join(DRAFTS, "*.md"))):
+        text = open(path, encoding="utf-8").read()
+        hits = len(pattern.findall(text))
+        if not hits:
+            continue
+        text = pattern.sub("", text)
+        text = re.sub(r" {2,}", " ", text).replace(" .", ".").replace(" ,", ",")
+        open(path, "w", encoding="utf-8").write(text)
+        removed += hits
+        drafts += 1
+    return removed, drafts
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--remove-misattributions", action="store_true",
                         help="strip citations whose prose names a different work")
+    parser.add_argument("--remove-key", metavar="KEY", nargs="*", default=[],
+                        help="strip every occurrence of these citation keys from every "
+                             "draft. The unit of decision is the key, not the occurrence: "
+                             "28 keys carry all 83 flagged citations, and a source that "
+                             "does not belong in this corpus does not belong in it 13 "
+                             "times over.")
+    parser.add_argument("--keep-key", metavar="KEY", nargs="*", default=[],
+                        help="record these keys as reviewed-and-kept, retiring their "
+                             "flags without touching the drafts")
+    parser.add_argument("--by-key", action="store_true",
+                        help="list the open flags grouped by cited work, which is the "
+                             "shape the decision actually has")
     parser.add_argument("--apply", action="store_true", help="write the drafts and the record")
     args = parser.parse_args()
 
@@ -171,6 +209,47 @@ def main() -> int:
             json.dump(record, open(DECISIONS, "w", encoding="utf-8"),
                       indent=2, sort_keys=True)
             print(f"Decisions recorded in {os.path.relpath(DECISIONS, REPO_ROOT)}")
+
+    if args.by_key:
+        results_ = service.audit_all(DRAFTS)
+        flagged_ = [(st, u) for st, us in results_.items() for u in us
+                    if u.verdict not in ("relevant", "strong")]
+        groups: dict = {}
+        for st, u in flagged_:
+            groups.setdefault((u.key, u.title), []).append((st, u))
+        print(f"\n=== {len(flagged_)} open flag(s) across {len(groups)} cited work(s) ===")
+        for (key, title), rows in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+            where = sorted({st[:30] for st, _ in rows})
+            print(f"\n[{len(rows):>2}x] {title[:62]}")
+            print(f"       {key}")
+            print(f"       in: {', '.join(where)}")
+            print(f"       e.g. {' '.join(rows[0][1].context.split())[:100]}")
+        print("\nDecide per key:")
+        print("  --remove-key <KEY> ... --apply     strip it from every draft")
+        print("  --keep-key   <KEY> ... --apply     record it as reviewed, change nothing")
+
+    for key in args.remove_key:
+        removed, drafts = (strip_key_everywhere(key) if args.apply else (0, 0))
+        note = (f"{removed} occurrence(s) in {drafts} draft(s)" if args.apply
+                else "(dry run; add --apply)")
+        print(f"  remove-key {key}: {note}")
+        if args.apply:
+            record["decisions"][f"key::{key}"] = {
+                "decision": "removed", "draft": "*", "key": key, "name": "(whole key)",
+                "title": "", "reason": "removed from every draft by author decision",
+            }
+
+    for key in args.keep_key:
+        print(f"  keep-key {key}: recorded as reviewed")
+        if args.apply:
+            record["decisions"][f"key::{key}"] = {
+                "decision": "keep", "draft": "*", "key": key, "name": "(whole key)",
+                "title": "", "reason": "reviewed and kept by author decision",
+            }
+
+    if args.apply and (args.remove_key or args.keep_key):
+        os.makedirs(os.path.dirname(DECISIONS), exist_ok=True)
+        json.dump(record, open(DECISIONS, "w", encoding="utf-8"), indent=2, sort_keys=True)
 
     # What is left for a human. Removed occurrences are gone from the drafts, so
     # they simply do not appear here any more; the record exists so the same call
