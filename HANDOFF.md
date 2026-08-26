@@ -111,8 +111,10 @@ The **integrity** problem is solved. The **contribution** problem is not.
 
 **Blocking:**
 
-1. **Main bodies are 1,500–3,000 words under target.** Appendices are well-provisioned;
-   the argument sections are thin. p6 is 2,093 words against 5,182.
+1. **Main bodies are 200–2,300 words under target.** Appendices are well-provisioned;
+   the argument sections are thin. p3 (composable AI) is 2,871 against 5,182; p5
+   (enterprise adoption) is nearly there at 4,955. Run `paper_template.py` for current
+   gaps — they move whenever a draft is re-synced.
 2. **85 citations remain flagged** as topically weak (`vault/00_System/CITATION_REVIEW.md`).
    These need author judgement — do **not** auto-replace. A previous attempt proposed
    swapping InstructGPT for *"Automated Fracture Image Captioning."*
@@ -124,10 +126,18 @@ The **integrity** problem is solved. The **contribution** problem is not.
    strong-acceptance papers at a top conference, and nobody should tell the user they are.
 5. **p8 reports no results at all** — correctly, since it needs GPUs.
 
-**Also open:** ERR-044 (FactChecker numeric detection broken, 1 failing test),
-ERR-046 (ACM branch emits no author metadata), ERR-063 (**API keys sitting in iCloud
-sync-conflict folders `Projects 2` and `Projects 4` — the user should delete these and
-rotate the keys**).
+**Also open:** ERR-044 (FactChecker numeric detection broken, 2 failing tests),
+ERR-046 (ACM branch emits no author metadata), ERR-063 (`Projects 2` and `Projects 4`
+are in the Trash; **the four API keys they held are the live ones and still need
+rotating** — that part is the owner's).
+
+**The corpus is the repository, so working on it moves the numbers.** p1 globs
+`backend/**` and `scripts/**`; adding two files to this repo changed its corpus from
+122 to 125 modules and moved every retrieval metric. p3 is narrower (`backend/services`)
+but has the same property. Re-run the experiments and re-sync immediately before
+submitting, not before editing. ERR-073 covers the pin that was claimed but never
+enforced; implementing a real one (read the corpus from a git ref rather than the
+working tree) is the standing fix and has not been done.
 
 ---
 
@@ -152,9 +162,19 @@ Ranked by what actually moves the needle:
 
 ## Rules that will save you time
 
-- **Never write a number into a manuscript by hand.** Generate it from
-  `measurements.jsonl` (`manuscript_sync.py`). A hand-typed value drifted 940→943
-  between two runs of the same script and nobody noticed (ERR-052).
+- **Never write a number into a manuscript by hand.** Re-sync it from
+  `measurements.jsonl` with `resync_manuscripts.py`, which is idempotent and refuses
+  ambiguous cases rather than guessing. The older generators (`rewrite_p1_p2_p4.py`,
+  `generate_appendices.py`) are one-shot and will answer "already rewritten, skipping"
+  (ERR-072). A hand-typed value drifted 940→943 between two runs of the same script and
+  nobody noticed (ERR-052).
+- **After re-running any experiment:** `resync_manuscripts.py --apply`, then
+  `run_submission_gate.py`. The two check different things — the first keeps the draft
+  equal to the run, the second checks each number resolves to a hashed artifact. A value
+  the re-sync declines to touch is exactly one the gate should then refuse.
+- **A claim about method is still a claim.** p3 said its corpus was "pinned at commit
+  90967292066d" while globbing the working tree, for five re-runs (ERR-073). The gate
+  checks quantities, not sentences about procedure — those are on you.
 - **Never auto-replace a citation.** Lexical similarity cannot judge whether a source
   supports a claim (ERR-062).
 - **A failed run must never overwrite `measurements.jsonl`.** It destroyed 10 of p4's
