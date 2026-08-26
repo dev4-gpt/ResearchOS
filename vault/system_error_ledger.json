@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-26 11:50:44",
+  "last_updated": "2026-08-26 12:00:37",
   "stats": {
-    "total_errors_recorded": 81,
-    "resolved_count": 77,
-    "active_prevention_rules": 81,
+    "total_errors_recorded": 82,
+    "resolved_count": 78,
+    "active_prevention_rules": 82,
     "open_count": 4
   },
   "history": [
@@ -562,7 +562,7 @@
       "resolution": "The acmart branch now emits \\author, \\affiliation{\\institution{...}\\country{...}} and \\email for every author, sourced from draft frontmatter through publisher_readiness, and verified by compiling against the real acmart class and extracting the PDF text. Two worse defects surfaced alongside it: the abstract was being dropped from ACM topmatter entirely because acmart requires it before \\maketitle, and an amssymb/newtxmath \\Bbbk clash made the package fail to compile against real acmart at all. country: \"USA\" added to all nine drafts, which acmart requires.",
       "prevention_rule": "R46: Every venue branch must emit the full author block that venue's document class requires; a branch that omits metadata must fail its venue contract test rather than compile quietly.",
       "status": "VERIFIED_RESOLVED",
-      "resolved_at": "2026-08-26 11:50:44"
+      "resolved_at": "2026-08-26 12:00:37"
     },
     {
       "error_id": "ERR-047",
@@ -987,6 +987,18 @@
       "resolution": "scripts/check_release_freshness.py applies the provenance check to the built .tex and exits non-zero when a package disagrees with its run. Wired into CI.",
       "prevention_rule": "R81: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-082",
+      "timestamp": "2026-08-26 12:00:37",
+      "component": "Reproducibility table / PublisherReadinessService._recorded_measurements",
+      "stage": "run_metadata_consistency",
+      "error_type": "Metadata Nobody Projected",
+      "summary": "Eight drafts carry a Reproducibility table stating the run's wall-clock duration, commit, timestamp and measurement count. Those live in experiment_manifest.json, not measurements.jsonl, so the re-sync pass could not see them and the provenance gate does not check them -- p3's table claimed 10.293 s and revision 90967292066d several runs after both stopped being true, while the gate called the manuscript fully grounded. Once corrected, FactCheckerService then blocked all 12 venues with 'Unverified numeric claims: 10.575 s', because it too reads only measurements.jsonl.",
+      "root_cause": "Run metadata is recorded evidence but lives in a different file from the measurements, and every consumer had been written against measurements only. The second half is ERR-056 recurring: two graders judging one property against different evidence sources.",
+      "resolution": "resync_manuscripts.sync_reproducibility_table projects the manifest into the table, anchored on each row's label rather than its current value -- which is what makes it safe to rewrite the commit hash and timestamp as well as the numbers. _recorded_measurements now also reads the manifest, so the fact checker and the gate share evidence. p1 and p3 rebuilt: 12/12 publish-ready under the stricter Checkmate, and the shipped PDFs now carry the corrected values with none of the stale ones.",
+      "prevention_rule": "R82: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -1070,6 +1082,7 @@
     "R78": "An audit must assert that the good thing is present, not merely that a known bad thing is absent, and it must fail when its evidence is missing. A score threshold that lets a failed check through is not a threshold, it is a waiver.",
     "R79": "A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.",
     "R80": "A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.",
-    "R81": "Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim."
+    "R81": "Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.",
+    "R82": "Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another."
   }
 }

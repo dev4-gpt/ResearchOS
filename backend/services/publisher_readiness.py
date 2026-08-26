@@ -229,6 +229,27 @@ class PublisherReadinessService:
                         values.append(float(bound))
                 except (ValueError, KeyError, TypeError):
                     continue
+
+        # The run manifest is recorded evidence too. Each draft's Reproducibility
+        # table states the run's wall-clock duration, seed and measurement count,
+        # and those are facts about the run rather than claims about the world --
+        # so they are absent from measurements.jsonl by design. Without them here,
+        # FactCheckerService reported "Unverified numeric claims: 10.575 s" and
+        # blocked all 12 venues for a number taken verbatim from the manifest,
+        # while the provenance gate called the same manuscript fully grounded.
+        # That is ERR-056 again: two graders judging one property against
+        # different evidence, which is a defect in the graders (R56).
+        manifest_path = os.path.join("runs", f"draft-{stem}", "experiment_manifest.json")
+        if os.path.exists(manifest_path):
+            try:
+                with open(manifest_path, "r", encoding="utf-8") as handle:
+                    manifest = _json.load(handle)
+                for field in ("duration_s", "seed", "measurement_count"):
+                    value = manifest.get(field)
+                    if isinstance(value, (int, float)) and not isinstance(value, bool):
+                        values.append(float(value))
+            except (ValueError, OSError):
+                pass
         return values
 
     def run(self, target_filename: Optional[str] = None, venues: Optional[List[str]] = None) -> Dict[str, Any]:

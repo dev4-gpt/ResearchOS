@@ -144,6 +144,39 @@ def load_measurements(run_id: str, text: Optional[str] = None) -> Dict[str, dict
     return out
 
 
+def manifest_rows(run_id: str, text: Optional[str] = None) -> Dict[str, dict]:
+    """Run metadata, shaped like measurements so the same machinery projects it.
+
+    Eight drafts carry a "Reproducibility" table stating the wall-clock duration,
+    the commit, the timestamp and the measurement count of the run that produced
+    them. Those live in experiment_manifest.json, not measurements.jsonl, so this
+    pass could not see them and nothing else re-synced them either -- p3's table
+    claimed 10.293 s and revision 90967292066d several runs after both stopped
+    being true. The provenance gate does not catch it because the gate only
+    resolves claims against measurements; the stricter fact checker does, which is
+    how it was found.
+
+    Only numeric fields are returned. The commit hash and the timestamp are text,
+    and substituting text by literal match is a different and more dangerous
+    operation than substituting a number -- those stay a reported gap.
+    """
+    if text is None:
+        path = os.path.join(RUNS, run_id, "experiment_manifest.json")
+        if not os.path.exists(path):
+            return {}
+        text = open(path, encoding="utf-8").read()
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        return {}
+    out: Dict[str, dict] = {}
+    for field in ("duration_s", "measurement_count", "seed"):
+        value = data.get(field)
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            out[f"manifest_{field}"] = {"metric": f"manifest_{field}", "value": value}
+    return out
+
+
 def measurements_at_ref(run_id: str, ref: str) -> Dict[str, dict]:
     """Read one run's measurements as of *ref*, for seeding against a stale draft."""
     rel = os.path.relpath(os.path.join(RUNS, run_id, "measurements.jsonl"), REPO_ROOT)
@@ -353,6 +386,65 @@ def resync(stem: str, anchors: List[dict],
     return text, changes, blocked
 
 
+REPRODUCIBILITY_ROWS = {
+    "Run identifier": lambda m: m.get("run_id"),
+    "Random seed": lambda m: m.get("seed"),
+    "Repository revision": lambda m: (m.get("git_commit") or "")[:12] or None,
+    "Wall-clock duration": lambda m: (f"{m['duration_s']:.3f} s"
+                                      if isinstance(m.get("duration_s"), (int, float)) else None),
+    "Measurements recorded": lambda m: m.get("measurement_count"),
+    "Recorded at": lambda m: m.get("recorded_at"),
+}
+
+
+def sync_reproducibility_table(run_id: str, text: str) -> Tuple[str, List[dict]]:
+    """Rewrite the Reproducibility table's rows from the run manifest.
+
+    These rows are anchored on their label -- '| Wall-clock duration | ... |' --
+    rather than on the value they currently hold. That is the right anchor here
+    and the wrong one everywhere else: a label makes the row unambiguous, which
+    is what lets this safely rewrite the commit hash and the timestamp as well as
+    the numbers. Literal matching could not do that, and literal matching is also
+    why these rows went stale in the first place -- the values live in
+    experiment_manifest.json, so the measurement-driven pass never saw them.
+
+    p3's table claimed a wall-clock of 10.293 s and revision 90967292066d, both
+    several runs out of date, while the provenance gate reported the manuscript
+    fully grounded. The gate resolves claims against measurements and this is not
+    a measurement; it is a statement about the run, and it was simply never
+    checked by anything.
+    """
+    path = os.path.join(RUNS, run_id, "experiment_manifest.json")
+    if not os.path.exists(path):
+        return text, []
+    try:
+        manifest = json.load(open(path, encoding="utf-8"))
+    except json.JSONDecodeError:
+        return text, []
+
+    changes: List[dict] = []
+    lines = text.splitlines(keepends=True)
+    for idx, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        if len(cells) != 2 or cells[0] not in REPRODUCIBILITY_ROWS:
+            continue
+        wanted = REPRODUCIBILITY_ROWS[cells[0]](manifest)
+        if wanted is None:
+            continue
+        # Preserve the row's own backtick convention rather than imposing one.
+        ticked = cells[1].startswith("`") and cells[1].endswith("`")
+        rendered = f"`{wanted}`" if ticked else str(wanted)
+        if rendered == cells[1]:
+            continue
+        lines[idx] = line.replace(cells[1], rendered, 1)
+        changes.append({"metric": f"manifest:{cells[0]}", "was": cells[1],
+                        "now": rendered, "lines": [idx + 1]})
+    return "".join(lines), changes
+
+
 def stale_prose(text: str, changes: List[dict]) -> List[str]:
     """Sentences whose wording may no longer follow from the numbers around them.
 
@@ -445,6 +537,10 @@ def main() -> int:
             continue
 
         updated, changes, blocked = resync(stem, anchors, new)
+        # Run metadata is anchored on its row label, not on its current value, so
+        # it is projected separately from the measurement-driven substitutions.
+        updated, meta_changes = sync_reproducibility_table(run_id, updated)
+        changes = changes + meta_changes
         total_changes += len(changes)
         total_unresolved += len(blocked)
 

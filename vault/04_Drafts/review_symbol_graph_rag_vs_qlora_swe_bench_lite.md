@@ -87,12 +87,18 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -142,11 +148,17 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -194,11 +206,17 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -444,6 +462,9 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
+
+
 $$
 \begin{aligned}
 \mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
@@ -451,6 +472,9 @@ $$
 & + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -476,11 +500,17 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
+
+
 $$
 \begin{aligned}
 \boldsymbol{\pi} = \alpha P^{\top} \boldsymbol{\pi} + (1 - \alpha)\mathbf{s}
 \end{aligned}
 $$
+
+
+
 
 
 
@@ -508,15 +538,15 @@ Every number reported in this paper was produced by a single scripted run whose 
 |:---|:---|
 | Run identifier | `draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite` |
 | Random seed | 20260825 |
-| Repository revision | `cbc42b88617a` |
+| Repository revision | `01f46675e9f8` |
 | Python | 3.13.5 |
 | Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
 | Architecture | arm64 |
 | Logical CPUs | 12 |
 | Accelerator | none; no GPU was used at any point |
-| Wall-clock duration | `6.643 s` |
-| Measurements recorded | 12 |
-| Recorded at | 2026-08-25T17:22:17-0400 |
+| Wall-clock duration | `7.565 s` |
+| Measurements recorded | 19 |
+| Recorded at | 2026-08-26T00:33:46-0400 |
 
 ## Reproduction
 

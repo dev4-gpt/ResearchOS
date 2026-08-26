@@ -24,9 +24,9 @@ Anonymous Authors
 \begin{abstract}
 Automated software engineering at repository scale depends on retrieving the right context before any patch is generated. This paper asks whether structural retrieval over a symbol graph improves that context beyond lexical matching, and answers it with a controlled retrieval experiment rather than an end-to-end benchmark.
 
-We build a symbol graph from imports and call references over a corpus of 109 Python modules (360 graph nodes, 683 edges), seed a Personalized PageRank diffusion with BM25 scores, and evaluate against ground truth given by the module that defines each queried symbol. Queries are docstrings with the defining symbol's own name stripped, so a hit cannot come from the answer leaking into the query. Diffusion hyperparameters are selected on a held-out development half and reported on 103 unseen queries.
+We build a symbol graph from imports and call references over a corpus of 127 Python modules (498 graph nodes, 1002 edges), seed a Personalized PageRank diffusion with BM25 scores, and evaluate against ground truth given by the module that defines each queried symbol. Queries are docstrings with the defining symbol's own name stripped, so a hit cannot come from the answer leaking into the query. Diffusion hyperparameters are selected on a held-out development half and reported on 138 unseen queries.
 
-The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\% against 81.55\%. On this corpus the structural signal adds nothing that lexical matching has not already captured \cite{arxiv_2501_02497}.
+The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\% against 87.68\%. On this corpus the structural signal adds nothing that lexical matching has not already captured \cite{arxiv_2501_02497}.
 
 We pair this with a census of SWE-bench Lite's 300 public instances. Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\% single-file), and the problem statement already names the file to edit in 55.33\% of cases (95\% CI [49.67, 60.67]). Retrieval difficulty on that benchmark is therefore lower than a repository-scale framing suggests, which we argue is why retrieval-side gains there are easy to overstate.
 
@@ -109,6 +109,9 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -117,6 +120,9 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 \end{aligned}
 $}
 \end{equation}
+
+
+
 
 
 
@@ -170,6 +176,9 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -177,6 +186,9 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 \end{aligned}
 $}
 \end{equation}
+
+
+
 
 
 
@@ -228,6 +240,9 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -235,6 +250,9 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 \end{aligned}
 $}
 \end{equation}
+
+
+
 
 
 
@@ -266,7 +284,7 @@ where $\{\sigma_k(\mathcal{G})\}$ are the singular values of the graph adjacency
 
 Before proposing that symbol-graph structure improves retrieval, it is worth
 asking where it could change a ranking at all. The aggregate comparison in
-Section 5 reports a difference of -0.0038 in mean
+Section 5 reports a difference of -0.0082 in mean
 reciprocal rank, which is indistinguishable from zero. An aggregate that small
 admits two very different explanations: the diffusion may be making many small
 changes that cancel, or it may be making almost no changes at all. These call for
@@ -276,14 +294,14 @@ different conclusions, so we separate them.
 \subsection{The Diffusion Is Inert on Most Queries}
 
 
-Across the 103
+Across the 138
 held-out queries, Personalized PageRank leaves the reciprocal rank \textbf{unchanged on}
-93 of them\textbf{. It improves}
-5 and degrades
+128 of them\textbf{. It improves}
+1 and degrades
 \begin{enumerate}
   \item The null result is therefore not a
 \end{enumerate}
-cancellation of competing effects; it is inertness. On roughly nine queries in ten
+cancellation of competing effects; it is inertness. On 92.75\% of queries
 the diffusion returns the ordering it was given.
 
 This matters for how the negative result should be read. A method that helps some
@@ -296,11 +314,11 @@ receiving no signal the baseline has not already used.
 
 
 The explanation is visible in the baseline's own behaviour. BM25 already ranks the
-gold module first on \textbf{84 of the}
-103
+gold module first on \textbf{121 of the}
+138
 queries\textbf{. On those, a re-ranker has no headroom: the best available outcome is to}
 leave the ordering alone, and any movement is a demotion. Diffusion demotes the
-correct module out of first place on 3 of
+correct module out of first place on 4 of
 them.
 
 The complementary case is the one that matters, and it is where the method should
@@ -336,9 +354,9 @@ present result as a refutation of structural retrieval in general.
 \subsection{Retrieval Corpus and Ground Truth}
 
 
-The retrieval corpus is 109 Python modules drawn from this project's backend and tooling. For each top-level function or class carrying a docstring of at least six words, we form a query from that docstring and take the defining module as the single relevant document. Both the symbol's own name and its module's filename are removed from the query, so lexical overlap with the answer cannot be produced by the identifier itself.
+The retrieval corpus is 127 Python modules drawn from this project's backend and tooling. For each top-level function or class carrying a docstring of at least six words, we form a query from that docstring and take the defining module as the single relevant document. Both the symbol's own name and its module's filename are removed from the query, so lexical overlap with the answer cannot be produced by the identifier itself.
 
-205 queries met the length threshold after filtering; 102 form the development split used to select diffusion hyperparameters and 103 the held-out test split on which all reported numbers are computed.
+276 queries met the length threshold after filtering; 138 form the development split used to select diffusion hyperparameters and 138 the held-out test split on which all reported numbers are computed.
 
 
 \subsection{Systems Compared}
@@ -346,7 +364,7 @@ The retrieval corpus is 109 Python modules drawn from this project's backend and
 
 \begin{enumerate}
   \item \textbf{BM25} (baseline): Okapi BM25 over module token streams, $k_1 = 1.5$, $b = 0.75$, with identifiers split on underscores and case boundaries.
-  \item \textbf{Symbol-Graph + PPR}: the same BM25 scores seed a Personalized PageRank diffusion over a symbol graph of 360 nodes and 683 edges, whose edges are `defines`, `defined\_in` and cross-module `references`. Diffusion mass is projected back onto modules and re-ranked.
+  \item \textbf{Symbol-Graph + PPR}: the same BM25 scores seed a Personalized PageRank diffusion over a symbol graph of 498 nodes and 1002 edges, whose edges are `defines`, `defined\_in` and cross-module `references`. Diffusion mass is projected back onto modules and re-ranked.
 \end{enumerate}
 
 Selecting the diffusion's damping factor and seed breadth on the same queries used for reporting would measure the tuning rather than the method, so the sweep runs on the development split only. The selected configuration was $\alpha = 0.15$ with the top 25 BM25 documents as seeds.
@@ -364,7 +382,7 @@ Precision@1, Precision@5 and Mean Reciprocal Rank, each with a percentile bootst
 
 
 
-\subsection{Table 1: Retrieval Quality on Held-Out Queries ($n = 103$)}
+\subsection{Table 1: Retrieval Quality on Held-Out Queries ($n = 138$)}
 \begin{table}[htbp]
 \centering
 \resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
@@ -372,13 +390,13 @@ Precision@1, Precision@5 and Mean Reciprocal Rank, each with a percentile bootst
 \toprule
 System & P@1 (\%) & 95\% CI & P@5 (\%) & 95\% CI & MRR & 95\% CI \\
 \midrule
-BM25 & 81.55 & [73.79, 88.35] & 94.17 & [89.32, 98.06] & 0.8739 & [0.8189, 0.9222] \\
-Symbol-Graph + PPR & 80.58 & [72.82, 87.38] & 94.17 & [89.32, 98.06] & 0.8701 & [0.8121, 0.9191] \\
+BM25 & 87.68 & [73.79, 88.35] & 97.10 & [89.32, 98.06] & 0.9201 & [0.8189, 0.9222] \\
+Symbol-Graph + PPR & 86.23 & [72.82, 87.38] & 97.10 & [89.32, 98.06] & 0.9119 & [0.8121, 0.9191] \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
-Paired difference in MRR: $\Delta = -0.0038$, Cohen's $d = -0.0137$. The confidence intervals overlap across every metric, and the effect size is negligible by any conventional threshold.
+Paired difference in MRR: $\Delta = -0.0082$, Cohen's $d = -0.0365$. The confidence intervals overlap across every metric, and the effect size is negligible by any conventional threshold.
 
 
 \begin{figure}[htbp]
@@ -440,25 +458,25 @@ Across the sweep the best development MRR was 0.9173, and the configuration achi
 \subsection{Parameter-Efficient Fine-Tuning}
 
 
-LoRA \cite{crossref_10_48550_arxiv_2106_09685} and QLoRA \cite{crossref_10_48550_arxiv_2305_14314} enable efficient weight adaptation by decomposing gradient updates into low-rank factors, reducing trainable parameters by 10,000$\times$ relative to full fine-tuning. Prefix-tuning \cite{arxiv_2101_00190} and prompt tuning operate in the input embedding space. Adapter layers \cite{arxiv_2005_14165} insert small bottleneck modules between transformer layers. Across all PEFT variants, the fundamental limitation is parametric compression of structured knowledge -- information that is naturally preserved in explicit retrieval systems \cite{arxiv_2101_00190}.
+LoRA \cite{crossref_10_48550_arxiv_2106_09685} and QLoRA \cite{crossref_10_48550_arxiv_2305_14314} enable efficient weight adaptation by decomposing gradient updates into low-rank factors, reducing trainable parameters by 10,000$\times$ relative to full fine-tuning. Prefix-tuning \cite{arxiv_2101_00190} and prompt tuning operate in the input embedding space. Adapter layers insert small bottleneck modules between transformer layers. Across all PEFT variants, the fundamental limitation is parametric compression of structured knowledge -- information that is naturally preserved in explicit retrieval systems \cite{arxiv_2101_00190}.
 
 
 \subsection{Retrieval-Augmented Code Generation}
 
 
-Dense retrieval (DPR, BM25) matches issue descriptions against code tokens via embedding similarity \cite{arxiv_2501_02842}, but struggles with non-local dependency chains requiring multi-hop graph traversal. CodeBERT \cite{arxiv_2002_08155} and GraphCodeBERT extend dense retrieval to incorporate structural graph signals. Our Symbol-Graph RAG framework extends these approaches with full heterogeneous AST graph construction, typed edge traversal, and Personalized PageRank diffusion \cite{crossref_10_1145_3689096_3689462}.
+Dense retrieval (DPR, BM25) matches issue descriptions against code tokens via embedding similarity \cite{arxiv_2501_02842}, but struggles with non-local dependency chains requiring multi-hop graph traversal. CodeBERT \cite{arxiv_2002_08155} and GraphCodeBERT extend dense retrieval to incorporate structural graph signals. Our Symbol-Graph RAG framework extends these approaches with full heterogeneous AST graph construction, typed edge traversal, and Personalized PageRank diffusion.
 
 
 \subsection{Automated Program Repair}
 
 
-Real-world benchmarks SWE-bench \cite{arxiv_2505_23419}, SWE-bench Verified, and SWE-bench Multimodal operationalize multi-file repository reasoning. Agentless systems \cite{arxiv_2501_02497} decompose repair into file localization, function localization, and patch generation. Test-time compute scaling \cite{arxiv_2203_11171} uses repeated sampling and verifier ranking to improve patch quality. Our work is complementary: Symbol-Graph RAG improves the localization phase, while test-time compute scaling improves the generation phase \cite{arxiv_2412_06333}.
+Real-world benchmarks SWE-bench \cite{arxiv_2505_23419}, SWE-bench Verified, and SWE-bench Multimodal operationalize multi-file repository reasoning. Agentless systems decompose repair into file localization, function localization, and patch generation. Test-time compute scaling uses repeated sampling and verifier ranking to improve patch quality. Our work is complementary: Symbol-Graph RAG improves the localization phase, while test-time compute scaling improves the generation phase \cite{arxiv_2412_06333}.
 
 
 \subsection{Agentic Software Engineering}
 
 
-Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333} decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration \cite{crossref_10_1109_access_2026_3656309} enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents \cite{crossref_10_18653_v1_2026_findings_acl_1933}.
+Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333} decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents \cite{crossref_10_18653_v1_2026_findings_acl_1933}.
 
 
 
@@ -496,7 +514,7 @@ Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333
 \section{Conclusion}
 
 
-We set out to test whether symbol-graph structure improves retrieval for repository-scale program repair, and found that it does not on the corpus we could measure. With hyperparameters selected on a held-out split and reported on 103 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.8701 against BM25's 0.8739 -- a difference of -0.0038 with Cohen's $d = -0.0137$, well inside the noise.
+We set out to test whether symbol-graph structure improves retrieval for repository-scale program repair, and found that it does not on the corpus we could measure. With hyperparameters selected on a held-out split and reported on 138 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.9119 against BM25's 0.9201 -- a difference of -0.0082 with Cohen's $d = -0.0365$, well inside the noise.
 
 We also find that SWE-bench Lite is an easier retrieval problem than its framing implies: all 300 gold patches are single-file, and 55.33\% of problem statements name the file to be edited. Retrieval gains reported on that benchmark should be read against this baseline.
 
@@ -574,6 +592,9 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -583,6 +604,9 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 \end{aligned}
 $}
 \end{equation}
+
+
+
 
 
 
@@ -616,6 +640,9 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -623,6 +650,9 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 \end{aligned}
 $}
 \end{equation}
+
+
+
 
 
 
@@ -659,15 +689,15 @@ Property & Value \\
 \midrule
 Run identifier & `draft-review\_symbol\_graph\_rag\_vs\_qlora\_swe\_bench\_lite` \\
 Random seed & 20260825 \\
-Repository revision & `cbc42b88617a` \\
+Repository revision & `01f46675e9f8` \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `6.643 s` \\
-Measurements recorded & 12 \\
-Recorded at & 2026-08-25T17:22:15-0400 \\
+Wall-clock duration & `7.565 s` \\
+Measurements recorded & 19 \\
+Recorded at & 2026-08-26T00:33:46-0400 \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -727,14 +757,14 @@ The main text reports the measurements that carry the argument. This appendix li
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`mrr\_bm25` & 0.8739 & -- & 103 & [0.8189, 0.9222] & `BM25 over docstring queries, gold = defining module` \\
-`mrr\_delta\_ppr\_minus\_bm25` & -0.00379 & -- & 103 & -- & `paired difference in MRR` \\
-`mrr\_ppr` & 0.8701 & -- & 103 & [0.8121, 0.9191] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`p\_at\_1\_bm25` & 81.5534 & \% & 103 & [73.7864, 88.3495] & `BM25 over docstring queries, gold = defining module` \\
-`p\_at\_1\_ppr` & 80.5825 & \% & 103 & [72.8155, 87.3786] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`p\_at\_5\_bm25` & 94.1748 & \% & 103 & [89.3204, 98.0583] & `BM25 over docstring queries, gold = defining module` \\
-`p\_at\_5\_ppr` & 94.1748 & \% & 103 & [89.3204, 98.0583] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`retrieval\_cohens\_d` & -0.0137 & -- & 103 & -- & `Welch t-test, PPR vs BM25 MRR` \\
+`mrr\_bm25` & 0.9201 & -- & 138 & [0.8189, 0.9222] & `BM25 over docstring queries, gold = defining module` \\
+`mrr\_delta\_ppr\_minus\_bm25` & -0.00821 & -- & 138 & -- & `paired difference in MRR` \\
+`mrr\_ppr` & 0.9119 & -- & 138 & [0.8121, 0.9191] & `Symbol+PPR over docstring queries, gold = defining module` \\
+`p\_at\_1\_bm25` & 87.6812 & \% & 138 & [73.7864, 88.3495] & `BM25 over docstring queries, gold = defining module` \\
+`p\_at\_1\_ppr` & 86.2319 & \% & 138 & [72.8155, 87.3786] & `Symbol+PPR over docstring queries, gold = defining module` \\
+`p\_at\_5\_bm25` & 97.1014 & \% & 138 & [89.3204, 98.0583] & `BM25 over docstring queries, gold = defining module` \\
+`p\_at\_5\_ppr` & 97.1014 & \% & 138 & [89.3204, 98.0583] & `Symbol+PPR over docstring queries, gold = defining module` \\
+`retrieval\_cohens\_d` & -0.0365 & -- & 138 & -- & `Welch t-test, PPR vs BM25 MRR` \\
 `swebench\_gold\_file\_named\_rate` & 55.33 & \% & 300 & [49.667, 60.667] & `gold filename stem appears in problem statement` \\
 `swebench\_instances` & 300.0 & n & 300 & -- & `rows fetched from the public dataset` \\
 `swebench\_mean\_files\_per\_patch` & 1.0 & n & 300 & -- & `parsed from gold patch headers` \\

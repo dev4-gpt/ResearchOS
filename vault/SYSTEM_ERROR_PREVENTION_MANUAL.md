@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 11:50:44
-**Total Tracked Incidents:** 81
-**Resolved & Verified:** 77
+**Last Updated:** 2026-08-26 12:00:37
+**Total Tracked Incidents:** 82
+**Resolved & Verified:** 78
 **Open / Unresolved:** 4
-**Active Prevention Rules:** 81
+**Active Prevention Rules:** 82
 
 ---
 
@@ -100,6 +100,7 @@
 - **[R79]**: A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.
 - **[R80]**: A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.
 - **[R81]**: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.
+- **[R82]**: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.
 
 ---
 
@@ -832,4 +833,13 @@
 - **Root Cause:** The pipeline's consistency was enforced on the measurements-to-manuscript edge and simply not modelled on the manuscript-to-artifact edge.
 - **Resolution:** scripts/check_release_freshness.py applies the provenance check to the built .tex and exits non-zero when a package disagrees with its run. Wired into CI.
 - **Prevention Rule:** `R81: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-082] Eight drafts carry a Reproducibility table stating the run's wall-clock duration, commit, timestamp and measurement count. Those live in experiment_manifest.json, not measurements.jsonl, so the re-sync pass could not see them and the provenance gate does not check them -- p3's table claimed 10.293 s and revision 90967292066d several runs after both stopped being true, while the gate called the manuscript fully grounded. Once corrected, FactCheckerService then blocked all 12 venues with 'Unverified numeric claims: 10.575 s', because it too reads only measurements.jsonl.
+- **Timestamp:** `2026-08-26 12:00:37`
+- **Component:** `Reproducibility table / PublisherReadinessService._recorded_measurements` (run_metadata_consistency)
+- **Error Type:** `Metadata Nobody Projected`
+- **Root Cause:** Run metadata is recorded evidence but lives in a different file from the measurements, and every consumer had been written against measurements only. The second half is ERR-056 recurring: two graders judging one property against different evidence sources.
+- **Resolution:** resync_manuscripts.sync_reproducibility_table projects the manifest into the table, anchored on each row's label rather than its current value -- which is what makes it safe to rewrite the commit hash and timestamp as well as the numbers. _recorded_measurements now also reads the manifest, so the fact checker and the gate share evidence. p1 and p3 rebuilt: 12/12 publish-ready under the stricter Checkmate, and the shipped PDFs now carry the corrected values with none of the stale ones.
+- **Prevention Rule:** `R82: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

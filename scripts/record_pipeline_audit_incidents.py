@@ -154,3 +154,51 @@ upd = ledger.resolve_error(
     status="VERIFIED_RESOLVED",
 )
 print(f"  ERR-046 -> {upd['status'] if upd else 'NOT FOUND'}")
+
+
+# --- appended: found while rebuilding the packages the audit had just unblocked ---
+LATE = [{
+    "component": "Reproducibility table / PublisherReadinessService._recorded_measurements",
+    "stage": "run_metadata_consistency",
+    "error_type": "Metadata Nobody Projected",
+    "summary": (
+        "Eight drafts carry a Reproducibility table stating the run's wall-clock "
+        "duration, commit, timestamp and measurement count. Those live in "
+        "experiment_manifest.json, not measurements.jsonl, so the re-sync pass could "
+        "not see them and the provenance gate does not check them -- p3's table "
+        "claimed 10.293 s and revision 90967292066d several runs after both stopped "
+        "being true, while the gate called the manuscript fully grounded. Once "
+        "corrected, FactCheckerService then blocked all 12 venues with 'Unverified "
+        "numeric claims: 10.575 s', because it too reads only measurements.jsonl."
+    ),
+    "root_cause": (
+        "Run metadata is recorded evidence but lives in a different file from the "
+        "measurements, and every consumer had been written against measurements only. "
+        "The second half is ERR-056 recurring: two graders judging one property "
+        "against different evidence sources."
+    ),
+    "resolution": (
+        "resync_manuscripts.sync_reproducibility_table projects the manifest into the "
+        "table, anchored on each row's label rather than its current value -- which is "
+        "what makes it safe to rewrite the commit hash and timestamp as well as the "
+        "numbers. _recorded_measurements now also reads the manifest, so the fact "
+        "checker and the gate share evidence. p1 and p3 rebuilt: 12/12 publish-ready "
+        "under the stricter Checkmate, and the shipped PDFs now carry the corrected "
+        "values with none of the stale ones."
+    ),
+    "prevention_rule": (
+        "Evidence is not one file. Any value a manuscript states about its own run "
+        "must be projected from the artifact that recorded it, and every grader that "
+        "judges grounding must read the same set of artifacts -- otherwise correcting "
+        "a value in one place turns into a block in another."
+    ),
+}]
+
+ledger2 = ErrorLedgerService()
+seen2 = {e.get("summary") for e in ledger2.data.get("history", [])}
+for inc in LATE:
+    if inc["summary"] in seen2:
+        print(f"  already recorded: {inc['error_type']}")
+    else:
+        e = ledger2.record_error(**inc)
+        print(f"  {e['error_id']} [{e['status']}] {e['error_type']}")
