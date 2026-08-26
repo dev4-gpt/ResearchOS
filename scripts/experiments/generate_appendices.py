@@ -40,6 +40,8 @@ SCRIPTS = {
         "p9_formal_verification.py",
     "review_continual_safety_alignment_in_vision_language_models":
         "p6_alignment_geometry.py",
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines":
+        "p7_contract_composition.py",
 }
 
 

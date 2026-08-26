@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-25 20:16:53
-**Total Tracked Incidents:** 66
-**Resolved & Verified:** 60
-**Open / Unresolved:** 6
-**Active Prevention Rules:** 66
+**Last Updated:** 2026-08-25 22:33:22
+**Total Tracked Incidents:** 69
+**Resolved & Verified:** 64
+**Open / Unresolved:** 5
+**Active Prevention Rules:** 69
 
 ---
 
@@ -13,7 +13,6 @@
 - **[ERR-044]** `OPEN_NOT_FIXED` — Numeric claim detection under-counts and returns no unverified claims: tests/test_fact_checker.py::test_validate_numeric_claims finds 1 claim where 2 are asserted, and test_fact_checker_catches_unsupported_scale_claims gets an empty unverified_claims list for '500 enterprise codebases'.
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-046]** `OPEN_NOT_FIXED` — The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
-- **[ERR-061]** `OPEN_NOT_FIXED` — p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.
 - **[ERR-062]** `OPEN_NOT_FIXED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
 - **[ERR-063]** `OPEN_NOT_FIXED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 
@@ -87,6 +86,9 @@
 - **[R64]**: A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.
 - **[R65]**: A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.
 - **[R66]**: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.
+- **[R67]**: When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.
+- **[R68]**: A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.
+- **[R69]**: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.
 
 ---
 
@@ -632,14 +634,14 @@
 - **Prevention Rule:** `R60: Span replacement must be bounded and verified: assert the retired content is absent before writing, and make every rewrite idempotent.`
 - **Status:** ✅ `VERIFIED_RESOLVED`
 
-### ⚠️ [ERR-061] p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.
+### ❌ [ERR-061] p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.
 - **Timestamp:** `2026-08-25 19:49:54`
 - **Component:** `Manuscript corpus (p6, p7, p8)` (manuscript_authoring)
 - **Error Type:** `Ungrounded Empirical Claims`
 - **Root Cause:** The claims describe experiments that were never run and cannot be run here.
-- **Resolution:** OPEN. p7's formal core is groundable on CPU as p9's was. p6 and p8 need GPU access or must be reframed with their empirical claims removed.
+- **Resolution:** RESOLVED. p6 rebuilt as an analytical geometry study (7/7 grounded), p7 rebuilt on a contract-algebra harness (9/9 grounded), p8 reframed as a theory and protocol paper reporting no results. All nine manuscripts now pass the provenance gate.
 - **Prevention Rule:** `R61: A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ✅ `VERIFIED_RESOLVED`
 
 ### ⚠️ [ERR-062] 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
 - **Timestamp:** `2026-08-25 19:49:54`
@@ -684,4 +686,31 @@
 - **Root Cause:** Text extracted from one document was inserted into another without neutralising markup that carries meaning in the destination.
 - **Resolution:** Wikilinks and emphasis markers are flattened to plain text before insertion.
 - **Prevention Rule:** `R66: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-067] Composition validity was first measured over independently drawn contracts, which failed at the first stage in most trials because the initial state could not satisfy a random requirement. The reported 4-18% validity described the generator, not composition.
+- **Timestamp:** `2026-08-25 22:27:25`
+- **Component:** `p7 experiment: contract generator` (experiment_design)
+- **Error Type:** `Generator Artifact`
+- **Root Cause:** Random contracts were drawn without reference to what the pipeline makes available, so almost no generated pipeline was valid in any order.
+- **Resolution:** Pipelines are now generated valid by construction and then permuted, which measures what reassembly costs -- the question a composable architecture faces.
+- **Prevention Rule:** `R67: When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-068] p6 (39 claims), p7 (116) and p8 (85) asserted results from VLM fine-tuning, agent workloads and video benchmarks that were never run.
+- **Timestamp:** `2026-08-25 22:27:25`
+- **Component:** `Manuscript corpus (p6, p7, p8)` (manuscript_authoring)
+- **Error Type:** `Ungrounded Empirical Claims`
+- **Root Cause:** Drafting produced empirical claims with no means of measurement available.
+- **Resolution:** p6 rebuilt as a geometric study (7/7 grounded); p7 rebuilt on a contract algebra harness (9/9); p8 reframed as theory with an explicit falsifiable evaluation protocol and no results, since it needs accelerators. All nine manuscripts now report zero ungrounded claims.
+- **Prevention Rule:** `R68: A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-069] The p6 rebuild replaced the manuscript wholesale and omitted a limitations section, failing the substantive-value gate on all 12 venues with SUBSTANTIVE_VALUE_REVIEW while the provenance gate reported it fully grounded.
+- **Timestamp:** `2026-08-25 22:33:22`
+- **Component:** `p6 rebuild / PublisherReadinessService` (manuscript_authoring)
+- **Error Type:** `Required Section Dropped In Rewrite`
+- **Root Cause:** A full-document rewrite reconstructed the sections the new argument needed and silently dropped one the release gate requires.
+- **Resolution:** Appendix F added, stating the model's three load-bearing assumptions, what would falsify the account, and what the paper does not contain. Substantive value back to 100.
+- **Prevention Rule:** `R69: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -1,12 +1,12 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-25 20:16:53",
+  "last_updated": "2026-08-25 22:33:22",
   "stats": {
-    "total_errors_recorded": 66,
-    "resolved_count": 60,
-    "active_prevention_rules": 66,
-    "open_count": 6
+    "total_errors_recorded": 69,
+    "resolved_count": 64,
+    "active_prevention_rules": 69,
+    "open_count": 5
   },
   "history": [
     {
@@ -738,9 +738,10 @@
       "error_type": "Ungrounded Empirical Claims",
       "summary": "p6 (39 claims), p7 (116) and p8 (85) remain entirely ungrounded. Their results require VLM fine-tuning and video-model evaluation on hardware this project does not have.",
       "root_cause": "The claims describe experiments that were never run and cannot be run here.",
-      "resolution": "OPEN. p7's formal core is groundable on CPU as p9's was. p6 and p8 need GPU access or must be reframed with their empirical claims removed.",
+      "resolution": "RESOLVED. p6 rebuilt as an analytical geometry study (7/7 grounded), p7 rebuilt on a contract-algebra harness (9/9 grounded), p8 reframed as a theory and protocol paper reporting no results. All nine manuscripts now pass the provenance gate.",
       "prevention_rule": "R61: A manuscript must not be drafted with empirical claims the project has no means of producing. Feasibility of measurement is a drafting precondition.",
-      "status": "OPEN_NOT_FIXED"
+      "status": "VERIFIED_RESOLVED",
+      "resolved_at": "2026-08-25 22:27:25"
     },
     {
       "error_id": "ERR-062",
@@ -800,6 +801,42 @@
       "root_cause": "Text extracted from one document was inserted into another without neutralising markup that carries meaning in the destination.",
       "resolution": "Wikilinks and emphasis markers are flattened to plain text before insertion.",
       "prevention_rule": "R66: Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-067",
+      "timestamp": "2026-08-25 22:27:25",
+      "component": "p7 experiment: contract generator",
+      "stage": "experiment_design",
+      "error_type": "Generator Artifact",
+      "summary": "Composition validity was first measured over independently drawn contracts, which failed at the first stage in most trials because the initial state could not satisfy a random requirement. The reported 4-18% validity described the generator, not composition.",
+      "root_cause": "Random contracts were drawn without reference to what the pipeline makes available, so almost no generated pipeline was valid in any order.",
+      "resolution": "Pipelines are now generated valid by construction and then permuted, which measures what reassembly costs -- the question a composable architecture faces.",
+      "prevention_rule": "R67: When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-068",
+      "timestamp": "2026-08-25 22:27:25",
+      "component": "Manuscript corpus (p6, p7, p8)",
+      "stage": "manuscript_authoring",
+      "error_type": "Ungrounded Empirical Claims",
+      "summary": "p6 (39 claims), p7 (116) and p8 (85) asserted results from VLM fine-tuning, agent workloads and video benchmarks that were never run.",
+      "root_cause": "Drafting produced empirical claims with no means of measurement available.",
+      "resolution": "p6 rebuilt as a geometric study (7/7 grounded); p7 rebuilt on a contract algebra harness (9/9); p8 reframed as theory with an explicit falsifiable evaluation protocol and no results, since it needs accelerators. All nine manuscripts now report zero ungrounded claims.",
+      "prevention_rule": "R68: A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-069",
+      "timestamp": "2026-08-25 22:33:22",
+      "component": "p6 rebuild / PublisherReadinessService",
+      "stage": "manuscript_authoring",
+      "error_type": "Required Section Dropped In Rewrite",
+      "summary": "The p6 rebuild replaced the manuscript wholesale and omitted a limitations section, failing the substantive-value gate on all 12 venues with SUBSTANTIVE_VALUE_REVIEW while the provenance gate reported it fully grounded.",
+      "root_cause": "A full-document rewrite reconstructed the sections the new argument needed and silently dropped one the release gate requires.",
+      "resolution": "Appendix F added, stating the model's three load-bearing assumptions, what would falsify the account, and what the paper does not contain. Substantive value back to 100.",
+      "prevention_rule": "R69: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.",
       "status": "VERIFIED_RESOLVED"
     }
   ],
@@ -869,6 +906,9 @@
     "R63": "Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.",
     "R64": "A paper note must record whether its body was ingested or composed, and composed content must never be presented as a source abstract. Citing a note whose content was generated is citing a fabrication, not a weak source.",
     "R65": "A content guard must check every spelling a value can take across the pipeline's representations -- escaped and unescaped, with and without markup.",
-    "R66": "Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting."
+    "R66": "Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.",
+    "R67": "When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.",
+    "R68": "A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.",
+    "R69": "A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete."
   }
 }

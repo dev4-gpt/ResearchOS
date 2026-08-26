@@ -113,12 +113,16 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -274,12 +278,16 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
+
 
 
 

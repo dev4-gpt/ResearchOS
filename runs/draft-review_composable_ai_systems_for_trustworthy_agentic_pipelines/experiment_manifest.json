@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+  "paper": "p7",
+  "description": "Contract algebra over agentic pipeline stages: composition validity by depth, failure position, error propagation against the contraction bound, and checking cost. No language model was invoked.",
+  "seed": 20260825,
+  "measurement_count": 17,
+  "recorded_at": "2026-08-25T22:24:31-0400",
+  "duration_s": 2.328,
+  "git_commit": "0eb205cacfde5c4f0e828335514b2d90ee96a5c6",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p7*.py"
+}

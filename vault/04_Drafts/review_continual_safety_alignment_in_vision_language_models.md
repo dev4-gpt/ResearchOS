@@ -6,8 +6,12 @@ affiliation: "Pennsylvania State University"
 email: "asd5520@psu.edu"
 date: "2026-08-25"
 status: "draft"
+publisher_readiness: "READY_FOR_HUMAN_REVIEW"
+publisher_originality: "PASS"
+publisher_value_score: "100.0"
+publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 ---
-
 # What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning
 
 ## Abstract
@@ -169,14 +173,38 @@ Everything reported here is a property of a stated geometric model. No vision-la
 
 This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
 
-### Work Cited in Abstract
+## Work Cited in Abstract
 
 **Continual Safety Alignment via Gradient-Based Sample Selection** [[arxiv_2604.17215]] reports: Large language models require continuous adaptation to new tasks while preserving safety alignment. However, fine-tuning on even benign data often compromises safety behaviors, including the refusal of harmful requests, truthfulness, and commonsense reasoning.
 
-### Positioning
+## Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
 
+
+---
+
+## Appendix F: Limitations and Future Work
+
+## The Model Is the Main Limitation
+
+Every result here is a property of a stated geometric model, and three of its assumptions carry the conclusions.
+
+**Safety behaviour is carried by a low-rank subspace.** This is the standard framing in the alignment-geometry literature, but it is an assumption we adopt rather than a finding we establish. If safety is instead distributed across many low-magnitude directions, principal angles over a rank-$r$ basis are the wrong instrument and the analysis does not transfer. Section 6 shows the conclusions are stable across a $16\times$ range of assumed ranks -- drift moves only 0.079 degrees -- which addresses the choice of $r$ but not the premise that such a subspace exists.
+
+**Updates are drawn, not observed.** The batches are synthetic: magnitudes lognormal, leakage uniform, the two independent. Real fine-tuning gradients are none of these. In particular, magnitude and leakage are almost certainly correlated in practice, and the comparison in Section 5 depends on their being independent -- it isolates each rule's contribution precisely by removing the correlation that would let one stand in for the other. A correlated regime would narrow the gap we report, possibly to nothing.
+
+**Drift is measured geometrically, not behaviourally.** Principal-angle rotation of a subspace is not the same thing as a model refusing fewer harmful requests. The link between the two is the low-rank premise above, and it is exactly what an accelerator-equipped study would test.
+
+## What Would Falsify This
+
+The prediction most worth testing is the one in the conclusion: a norm-based selection rule should weaken wherever gradient-magnitude dispersion is compressed. Gradient clipping, normalised optimisers, and late-training regimes all compress it. If magnitude-based filtering retains its advantage under clipping, the dispersion explanation is wrong and the mechanism lies elsewhere.
+
+Measuring gradient leakage directly against a candidate safety subspace during fine-tuning would test the geometric account itself. That requires identifying the subspace, which is an open problem in its own right and one this paper does not address.
+
+## What This Paper Does Not Contain
+
+No vision-language model was loaded, trained or evaluated; this environment has no accelerator. There is no refusal rate, no jailbreak success rate, no benchmark accuracy, and no comparison against LLaVA, MM-SafetyBench, AdvVQA or any other evaluation suite. Earlier drafts of this manuscript reported such figures. They described experiments that were never run and have been removed rather than revised.
 
 ---
 
@@ -198,7 +226,7 @@ Every number reported in this paper was produced by a single scripted run whose 
 | Measurements recorded | 40 |
 | Recorded at | 2026-08-25T22:22:05-0400 |
 
-### Reproduction
+## Reproduction
 
 The run is deterministic under the recorded seed. From the repository root:
 
@@ -208,7 +236,7 @@ backend/.venv/bin/python scripts/experiments/p6_alignment_geometry.py
 
 This rewrites `runs/draft-review_continual_safety_alignment_in_vision_language_models/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
 
-### Scope of the Environment
+## Scope of the Environment
 
 No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
 
@@ -277,7 +305,7 @@ The main text reports the measurements that carry the argument. This appendix li
 
 **40 measurements across 5 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
-### Artifact Digests
+## Artifact Digests
 
 | Artifact | SHA-256 (first 16) |
 |:---|:---|

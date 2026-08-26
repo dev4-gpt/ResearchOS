@@ -6,7 +6,7 @@
   "results": [
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "NeurIPS",
       "compiled": true,
       "checkmate_passed": true,
@@ -15,7 +15,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 10,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -58,7 +58,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 10-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -95,7 +95,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 10,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -110,37 +110,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -149,26 +136,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -178,37 +152,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -217,26 +178,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -244,7 +192,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "ICML",
       "compiled": true,
       "checkmate_passed": true,
@@ -253,7 +201,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 7,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -296,7 +244,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 7-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -333,7 +281,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 7,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -348,37 +296,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -387,26 +322,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -416,37 +338,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -455,26 +364,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -482,7 +378,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "CVPR",
       "compiled": true,
       "checkmate_passed": true,
@@ -491,7 +387,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 5,
+        "total_pages": 6,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -534,7 +430,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 5-page camera-ready layout"
+          "detail": "Valid 6-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -571,7 +467,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 5,
+          "total_pages": 6,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -586,37 +482,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -625,26 +508,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -654,37 +524,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -693,26 +550,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -720,7 +564,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "ACL",
       "compiled": true,
       "checkmate_passed": true,
@@ -729,7 +573,7 @@
       "checkmate_score": 100.0,
       "layout_geometry": {
         "passed": true,
-        "total_pages": 8,
+        "total_pages": 9,
         "overflow_count": 0,
         "margin_overflows": [],
         "detail": "0 margin overflows detected"
@@ -772,7 +616,7 @@
         "valid_layout": {
           "passed": true,
           "score": 100,
-          "detail": "Valid 8-page camera-ready layout"
+          "detail": "Valid 9-page camera-ready layout"
         },
         "zero_raw_leaks": {
           "passed": true,
@@ -809,7 +653,7 @@
           ],
           "missing_sections": [],
           "forbidden_tokens_found": [],
-          "total_pages": 8,
+          "total_pages": 9,
           "max_pages": 20,
           "target_pages": null,
           "registry_gaps": {
@@ -824,37 +668,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -863,26 +694,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -892,37 +710,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -931,26 +736,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -958,7 +750,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "IEEEtran",
       "compiled": true,
       "checkmate_passed": true,
@@ -1062,37 +854,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -1101,26 +880,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -1130,37 +896,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -1169,26 +922,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -1196,7 +936,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "ACM",
       "compiled": true,
       "checkmate_passed": true,
@@ -1300,37 +1040,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -1339,26 +1066,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -1368,37 +1082,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -1407,26 +1108,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -1434,7 +1122,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "IEEE_Access",
       "compiled": true,
       "checkmate_passed": true,
@@ -1538,37 +1226,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -1577,26 +1252,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -1606,37 +1268,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -1645,26 +1294,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -1672,7 +1308,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "SpringerOpen",
       "compiled": true,
       "checkmate_passed": true,
@@ -1776,37 +1412,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -1815,26 +1438,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -1844,37 +1454,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -1883,26 +1480,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -1910,7 +1494,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "Femington",
       "compiled": true,
       "checkmate_passed": true,
@@ -2014,37 +1598,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -2053,26 +1624,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -2082,37 +1640,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -2121,26 +1666,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -2148,7 +1680,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "MDPI",
       "compiled": true,
       "checkmate_passed": true,
@@ -2252,37 +1784,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -2291,26 +1810,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -2320,37 +1826,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -2359,26 +1852,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -2386,7 +1866,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "DOAJ",
       "compiled": true,
       "checkmate_passed": true,
@@ -2490,37 +1970,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -2529,26 +1996,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -2558,37 +2012,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -2597,26 +2038,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }
@@ -2624,7 +2052,7 @@
     },
     {
       "filename": "review_continual_safety_alignment_in_vision_language_models.md",
-      "title": "Continual Safety Alignment in Vision-Language Models: Mitigating Multi-Stage Drift Across Pre-Training, Supervised Fine-Tuning, and Task Adaptation",
+      "title": "What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning",
       "venue": "arXiv",
       "compiled": true,
       "checkmate_passed": true,
@@ -2728,37 +2156,24 @@
           "report": {
             "fact_check_score": 100.0,
             "citation_report": {
-              "total_citations": 15,
-              "verified_count": 15,
+              "total_citations": 1,
+              "verified_count": 1,
               "broken_count": 0,
               "unresolved_count": 0,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_links": [],
               "unresolved_links": [],
               "citation_score": 100.0
             },
             "metric_report": {
-              "total_numeric_claims": 1,
-              "grounded_count": 1,
+              "total_numeric_claims": 2,
+              "grounded_count": 2,
               "unverified_count": 0,
               "grounded_claims": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_claims": [],
               "metric_score": 100.0
@@ -2767,26 +2182,13 @@
             "blocking_errors": [],
             "verification_matrix": {
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
-                "arxiv_2203_02155",
-                "arxiv_2305_18290",
-                "arxiv_2308_12898",
-                "arxiv_2311_17854",
-                "arxiv_2312_03893",
-                "arxiv_2404_01131",
-                "arxiv_2406_00584",
-                "arxiv_2406_04028",
-                "arxiv_2501_02497",
-                "arxiv_2604_17215",
-                "crossref_10_1109_tip_2023_3256763",
-                "crossref_10_48550_arxiv_2311_17600",
-                "crossref_10_48550_arxiv_2502_14786"
+                "arxiv_2604_17215"
               ],
               "broken_citations": [],
               "unresolved_citations": [],
               "grounded_metrics": [
-                "4,310 standard domain-adaptation instances"
+                "41.155 s",
+                "95%"
               ],
               "unverified_metrics": []
             }
@@ -2796,37 +2198,24 @@
       "evidence_report": {
         "fact_check_score": 100.0,
         "citation_report": {
-          "total_citations": 15,
-          "verified_count": 15,
+          "total_citations": 1,
+          "verified_count": 1,
           "broken_count": 0,
           "unresolved_count": 0,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_links": [],
           "unresolved_links": [],
           "citation_score": 100.0
         },
         "metric_report": {
-          "total_numeric_claims": 1,
-          "grounded_count": 1,
+          "total_numeric_claims": 2,
+          "grounded_count": 2,
           "unverified_count": 0,
           "grounded_claims": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_claims": [],
           "metric_score": 100.0
@@ -2835,26 +2224,13 @@
         "blocking_errors": [],
         "verification_matrix": {
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
-            "arxiv_2203_02155",
-            "arxiv_2305_18290",
-            "arxiv_2308_12898",
-            "arxiv_2311_17854",
-            "arxiv_2312_03893",
-            "arxiv_2404_01131",
-            "arxiv_2406_00584",
-            "arxiv_2406_04028",
-            "arxiv_2501_02497",
-            "arxiv_2604_17215",
-            "crossref_10_1109_tip_2023_3256763",
-            "crossref_10_48550_arxiv_2311_17600",
-            "crossref_10_48550_arxiv_2502_14786"
+            "arxiv_2604_17215"
           ],
           "broken_citations": [],
           "unresolved_citations": [],
           "grounded_metrics": [
-            "4,310 standard domain-adaptation instances"
+            "41.155 s",
+            "95%"
           ],
           "unverified_metrics": []
         }

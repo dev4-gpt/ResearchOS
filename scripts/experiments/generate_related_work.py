@@ -35,6 +35,8 @@ TARGETS = [
     "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
     "review_trustworthy_multi_agent_systems_formal_verification",
     "review_continual_safety_alignment_in_vision_language_models",
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+    "review_spatio_temporal_grounding_in_video_question_answering",
 ]
 
 

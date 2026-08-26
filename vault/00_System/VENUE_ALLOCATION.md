@@ -6,11 +6,11 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 |:---|:---|:---|---:|---:|---:|
 | autonomous_code_synthesis_and_self_healing_m | ACM | reputable_journal | 7.3 | 0 | 66.25 |
 | review_architectural_dynamics_long_12_page | ICML | competitive | 6.9 | 0 | 70.72 |
-| review_composable_ai_systems_for_trustworthy | arXiv | preprint | 4.4 | 116 | 0.0 |
+| review_composable_ai_systems_for_trustworthy | ACM | reputable_journal | 6.1 | 0 | 35.75 |
 | review_continual_safety_alignment_in_vision_ | arXiv | preprint | 5.0 | 0 | 35.0 |
 | review_enterprise_adoption_of_multi_agent_ai | MDPI | open_access | 7.5 | 0 | 61.67 |
 | review_enterprise_genai_roi | IEEE_Access | reputable_journal | 6.3 | 0 | 47.83 |
-| review_spatio_temporal_grounding_in_video_qu | arXiv | preprint | 4.3 | 85 | 0.0 |
+| review_spatio_temporal_grounding_in_video_qu | MDPI | open_access | 3.7 | 0 | 28.67 |
 | review_symbol_graph_rag_vs_qlora_swe_bench_l | SpringerOpen | reputable_journal | 6.5 | 0 | 41.75 |
 | review_trustworthy_multi_agent_systems_forma | IEEEtran | reputable_journal | 6.3 | 0 | 47.83 |
 
@@ -31,11 +31,12 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 - Acceptance weight +4.1.
 
 ### review_composable_ai_systems_for_trustworthy_agentic_pipelines
-**Target:** arXiv
-- Under-built: ~4.4 pages against a 20-page venue (15.6 pages short) (+5).
-- Preprint: no acceptance weight; fallback only.
+**Target:** ACM
+- All quantitative claims trace to evidence (+30).
+- Scope fit 0/25 (matched: none).
+- Length fits: ~6.1 of 10 pages (+20).
+- Acceptance weight +3.8.
 - Already used by another manuscript in this batch (-18).
-- ⚠️ Preprint server; no peer review, so it never counts as a publication.
 
 ### review_continual_safety_alignment_in_vision_language_models
 **Target:** arXiv
@@ -59,11 +60,12 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 - Acceptance weight +4.5.
 
 ### review_spatio_temporal_grounding_in_video_question_answering
-**Target:** arXiv
-- Under-built: ~4.3 pages against a 20-page venue (15.7 pages short) (+5).
-- Preprint: no acceptance weight; fallback only.
+**Target:** MDPI
+- All quantitative claims trace to evidence (+30).
+- Scope fit 4/25 (matched: analysis).
+- Under-built: ~3.7 pages against a 12-page venue (8.3 pages short) (+5).
+- Acceptance weight +7.5.
 - Already used by another manuscript in this batch (-18).
-- ⚠️ Preprint server; no peer review, so it never counts as a publication.
 
 ### review_symbol_graph_rag_vs_qlora_swe_bench_lite
 **Target:** SpringerOpen

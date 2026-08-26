@@ -261,7 +261,22 @@ def figures_p6() -> List[str]:
     return out
 
 
+def figures_p7() -> List[str]:
+    run = "draft-review_composable_ai_systems_for_trustworthy_agentic_pipelines"
+    data = load_artifact(run, "composition_validity.json")
+    fig, ax = plt.subplots(figsize=(3.3, 2.2))
+    depths = data["depths"]
+    ax.plot(depths, [data["valid_pct"][str(d)] for d in depths], marker="o", ms=4,
+            lw=1.4, color=PALETTE[0])
+    ax.set_xlabel("Pipeline depth (stages)")
+    ax.set_ylabel("Permutations remaining sound (%)")
+    ax.set_ylim(0, 100)
+    ax.set_title("Composability is not inherited from the parts", fontsize=8)
+    return [_save(fig, "p7_composition_validity")]
+
+
 GENERATORS = {
+    "p7": figures_p7,
     "p1": figures_p1, "p2": figures_p2, "p3": figures_p3,
     "p5": figures_p5, "p6": figures_p6, "p9": figures_p9,
 }
