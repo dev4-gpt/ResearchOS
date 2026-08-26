@@ -11,15 +11,15 @@
       "claims": [
         {
           "claim_id": "C0001",
-          "raw": "97.93\\%",
-          "value": 97.93,
+          "raw": "97.94\\%",
+          "value": 97.94,
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "Syntactic validity is high across operators ($97.93\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "sentence": "Syntactic validity is high across operators ($97.94\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0002",
@@ -28,22 +28,22 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "Syntactic validity is high across operators ($97.93\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "sentence": "Syntactic validity is high across operators ($97.94\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0003",
-          "raw": "43.96\\%",
-          "value": 43.96,
+          "raw": "44.78\\%",
+          "value": 44.78,
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $43.96\\%$ of candidates at a mean cost of $4.35$ ms each.",
+          "sentence": "A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $44.78\\%$ of candidates at a mean cost of $4.07$ ms each.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0004",
@@ -52,82 +52,82 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Across 121 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\\%$",
+          "sentence": "Across 128 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\\%$",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0005",
-          "raw": "97.93%",
-          "value": 97.93,
+          "raw": "97.94%",
+          "value": 97.94,
           "unit": "%",
           "kind": "percentage",
           "line_no": 677,
-          "sentence": "**97.93%**",
+          "sentence": "**97.94%**",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0006",
-          "raw": "0.74%",
-          "value": 0.74,
+          "raw": "0.64%",
+          "value": 0.64,
           "unit": "%",
           "kind": "percentage",
           "line_no": 683,
-          "sentence": "**0.74%** of what it sees.",
+          "sentence": "**0.64%** of what it sees.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0007",
-          "raw": "33.72%",
-          "value": 33.72,
+          "raw": "34.55%",
+          "value": 34.55,
           "unit": "%",
           "kind": "percentage",
           "line_no": 689,
-          "sentence": "least-filtered (33.72%) and most-filtered",
+          "sentence": "least-filtered (34.55%) and most-filtered",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0008",
-          "raw": "67.18%",
-          "value": 67.18,
+          "raw": "64.92%",
+          "value": 64.92,
           "unit": "%",
           "kind": "percentage",
           "line_no": 690,
-          "sentence": "(67.18%)",
+          "sentence": "(64.92%)",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0009",
-          "raw": "4.35 ms",
-          "value": 4.35,
+          "raw": "4.07 ms",
+          "value": 4.07,
           "unit": "time",
           "kind": "duration",
           "line_no": 775,
-          "sentence": "4.35 ms/candidate",
+          "sentence": "4.07 ms/candidate",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
         },
         {
           "claim_id": "C0010",
-          "raw": "43.54\\%",
-          "value": 43.54,
+          "raw": "44.42\\%",
+          "value": 44.42,
           "unit": "%",
           "kind": "percentage",
           "line_no": 790,
-          "sentence": "Static name binding rejects 43.54\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "sentence": "Static name binding rejects 44.42\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0011",
@@ -136,46 +136,46 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 790,
-          "sentence": "Static name binding rejects 43.54\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "sentence": "Static name binding rejects 44.42\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0012",
-          "raw": "4.35 ms",
-          "value": 4.35,
+          "raw": "4.07 ms",
+          "value": 4.07,
           "unit": "time",
           "kind": "duration",
           "line_no": 790,
-          "sentence": "On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.35 ms per candidate is dominated by a stage that contributes nothing.",
+          "sentence": "On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.07 ms per candidate is dominated by a stage that contributes nothing.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
         },
         {
           "claim_id": "C0013",
-          "raw": "43.96\\%",
-          "value": 43.96,
+          "raw": "44.78\\%",
+          "value": 44.78,
           "unit": "%",
           "kind": "percentage",
           "line_no": 874,
-          "sentence": "The pipeline rejects 43.96\\% of candidates before any sandbox is started, at a mean cost of 4.35 ms each",
+          "sentence": "The pipeline rejects 44.78\\% of candidates before any sandbox is started, at a mean cost of 4.07 ms each",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0014",
-          "raw": "43.54\\%",
-          "value": 43.54,
+          "raw": "44.42\\%",
+          "value": 44.42,
           "unit": "%",
           "kind": "percentage",
           "line_no": 874,
-          "sentence": "That saving is almost entirely attributable to static name binding, which rejects 43.54\\% of the candidates reaching it",
+          "sentence": "That saving is almost entirely attributable to static name binding, which rejects 44.42\\% of the candidates reaching it",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0015",
@@ -187,19 +187,19 @@
           "sentence": "The Z3-SMT reachability stage, across 98 solved integer guards, rejected nothing that binding analysis had not already caught: a marginal rejection rate of 0.00\\%.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         },
         {
           "claim_id": "C0016",
-          "raw": "4.35 ms",
-          "value": 4.35,
+          "raw": "4.07 ms",
+          "value": 4.07,
           "unit": "time",
           "kind": "duration",
           "line_no": 874,
-          "sentence": "The pipeline rejects 43.96\\% of candidates before any sandbox is started, at a mean cost of 4.35 ms each",
+          "sentence": "The pipeline rejects 44.78\\% of candidates before any sandbox is started, at a mean cost of 4.07 ms each",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
         },
         {
           "claim_id": "C0017",
@@ -211,7 +211,7 @@
           "sentence": "Always emitting an unbound name would make the binding filter reject 100% of this operator's output by construction, which would be an artifact of the generator rather than a property of the filter.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
         }
       ],
       "measurements_found": 28,
@@ -454,12 +454,11 @@
           "line_no": 1003,
           "sentence": "IA\u00b3 (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\\%$ of parameters.",
           "cite_keys": [
-            "arxiv_2005.14165",
             "crossref_10_48550_arxiv_2106_09685",
             "crossref_10_48550_arxiv_2305_14314"
           ],
           "grounding": "CITATION",
-          "evidence": "attributed to arxiv_2005.14165"
+          "evidence": "attributed to crossref_10_48550_arxiv_2106_09685"
         },
         {
           "claim_id": "C0020",
@@ -1261,52 +1260,52 @@
     "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
       "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
       "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
-      "total_claims": 12,
-      "experiment_backed": 11,
+      "total_claims": 13,
+      "experiment_backed": 12,
       "citation_backed": 1,
       "ungrounded": 0,
       "claims": [
         {
           "claim_id": "C0001",
-          "raw": "d = -0.0691",
-          "value": -0.0691,
+          "raw": "d = -0.0365",
+          "value": -0.0365,
           "unit": "",
           "kind": "effect_size",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\\% against 87.68\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
+          "evidence": "artifacts/retrieval_significance.json#195c64e392ba"
         },
         {
           "claim_id": "C0002",
-          "raw": "85.71\\%",
-          "value": 85.71,
+          "raw": "86.23\\%",
+          "value": 86.23,
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\\% against 87.68\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/retrieval_results.json#e99219ff1c4e"
+          "evidence": "artifacts/retrieval_results.json#daba9566173b"
         },
         {
           "claim_id": "C0003",
-          "raw": "88.72\\%",
-          "value": 88.72,
+          "raw": "87.68\\%",
+          "value": 87.68,
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\\% against 87.68\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/retrieval_results.json#e99219ff1c4e"
+          "evidence": "artifacts/retrieval_results.json#daba9566173b"
         },
         {
           "claim_id": "C0004",
@@ -1334,18 +1333,30 @@
         },
         {
           "claim_id": "C0006",
-          "raw": "d = -0.0691",
-          "value": -0.0691,
-          "unit": "",
-          "kind": "effect_size",
-          "line_no": 313,
-          "sentence": "Paired difference in MRR: $\\Delta = -0.0153$, Cohen's $d = -0.0691$",
+          "raw": "92.75\\%",
+          "value": 92.75,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 242,
+          "sentence": "On 92.75\\% of queries",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
+          "evidence": "artifacts/retrieval_results.json#daba9566173b"
         },
         {
           "claim_id": "C0007",
+          "raw": "d = -0.0365",
+          "value": -0.0365,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 313,
+          "sentence": "Paired difference in MRR: $\\Delta = -0.0082$, Cohen's $d = -0.0365$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#195c64e392ba"
+        },
+        {
+          "claim_id": "C0008",
           "raw": "100.00\\%",
           "value": 100.0,
           "unit": "%",
@@ -1357,7 +1368,7 @@
           "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
         },
         {
-          "claim_id": "C0008",
+          "claim_id": "C0009",
           "raw": "55.33\\%",
           "value": 55.33,
           "unit": "%",
@@ -1369,7 +1380,7 @@
           "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
         },
         {
-          "claim_id": "C0009",
+          "claim_id": "C0010",
           "raw": "55.33\\%",
           "value": 55.33,
           "unit": "%",
@@ -1381,19 +1392,19 @@
           "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
         },
         {
-          "claim_id": "C0010",
-          "raw": "d = -0.0691",
-          "value": -0.0691,
+          "claim_id": "C0011",
+          "raw": "d = -0.0365",
+          "value": -0.0365,
           "unit": "",
           "kind": "effect_size",
           "line_no": 385,
-          "sentence": "With hyperparameters selected on a held-out split and reported on 133 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.9107 against BM25's 0.9259 -- a difference of -0.0153 with Cohen's $d = -0.0691$, well inside the noise.",
+          "sentence": "With hyperparameters selected on a held-out split and reported on 138 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.9119 against BM25's 0.9201 -- a difference of -0.0082 with Cohen's $d = -0.0365$, well inside the noise.",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
+          "evidence": "artifacts/retrieval_significance.json#195c64e392ba"
         },
         {
-          "claim_id": "C0011",
+          "claim_id": "C0012",
           "raw": "55.33\\%",
           "value": 55.33,
           "unit": "%",
@@ -1405,7 +1416,7 @@
           "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
         },
         {
-          "claim_id": "C0012",
+          "claim_id": "C0013",
           "raw": "48GB",
           "value": 48.0,
           "unit": "bytes",
@@ -1419,7 +1430,7 @@
           "evidence": "attributed to crossref_10_48550_arxiv_2305_14314"
         }
       ],
-      "measurements_found": 25,
+      "measurements_found": 26,
       "grounded_ratio": 1.0
     },
     "review_trustworthy_multi_agent_systems_formal_verification": {
@@ -1438,9 +1449,7 @@
           "kind": "duration",
           "line_no": 34,
           "sentence": "Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\\Phi_{\\text{safety}}$ is enforced",
-          "cite_keys": [
-            "crossref_10.1145_3689096.3689462"
-          ],
+          "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/model_checking.json#77b86c3ca17d"
         },

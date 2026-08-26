@@ -81,6 +81,12 @@ def analyse_p1(run_id: str) -> List[Dict[str, Any]]:
         row("bm25_missed_recovered_by_diffusion", recovered, "n", art, sha,
             "queries BM25 ranked below first that diffusion promotes to first",
             n=len(missed)),
+        # The inertness rate as a percentage, because the manuscript wants to say
+        # it in a sentence. It previously said "roughly nine queries in ten",
+        # which was true of 93/103 and quietly wrong of 125/133: a hand-rounded
+        # fraction has no anchor, so nothing re-synced it and nothing flagged it.
+        row("diffusion_inert_rate", round(100.0 * ties / n, 2), "%", art, sha,
+            "share of queries whose ranking PPR leaves exactly as it found it", n=n),
     ]
 
 

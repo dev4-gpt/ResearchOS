@@ -63,7 +63,7 @@ To overcome cross-modal attention collapse and establish robust spatio-temporal 
 
 ### Standard Spatio-Temporal Cross-Attention Formulation
 
-Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled frames $X_v = \{I_1, I_2, \ldots, I_T\}$, where each frame $I_t \in \mathbb{R}^{H \times W \times C}$ is encoded by a Vision Transformer backbone [[arxiv_2010.11146]] into spatial patch tokens:
+Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled frames $X_v = \{I_1, I_2, \ldots, I_T\}$, where each frame $I_t \in \mathbb{R}^{H \times W \times C}$ is encoded by a Vision Transformer backbone into spatial patch tokens:
 
 
 

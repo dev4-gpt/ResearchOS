@@ -69,3 +69,7 @@ runs/*/*
 
 # Scratch directory (local only)
 scratch/
+
+# Agent tooling state, not project source
+.claude-flow/
+.claude/

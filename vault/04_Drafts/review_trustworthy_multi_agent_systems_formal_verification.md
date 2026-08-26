@@ -31,7 +31,7 @@ checkmate_date: "2026-08-12"
 
 The integration of autonomous multi-agent systems into safety-critical operations calls for guarantees that hold over every reachable execution, not averages over sampled runs [[arxiv_2005.14165], [arxiv_2203.02155]]. Probabilistic orchestration frameworks offer no deterministic bound against cascading hallucination, circular deadlock, or Byzantine agent behaviour [[arxiv_2312.03893], [arxiv_2406.00584]]. This paper develops a formal verification and governance framework for Trustworthy Autonomous Multi-Agent Systems (T-MAS) and verifies it by exhaustive model checking rather than by benchmark [[crossref_10.1109_access.2026.3656309]].
 
-We specify a contract verification calculus in Linear Temporal Logic and a Byzantine-Tolerant Council Consensus Protocol (BT-CCP) [[crossref_10.1145_3689096.3689462]]. Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\Phi_{\text{safety}}$ is enforced. Removing that invariant makes the violation reachable in 4 steps, and the checker returns that counterexample.
+We specify a contract verification calculus in Linear Temporal Logic and a Byzantine-Tolerant Council Consensus Protocol (BT-CCP). Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\Phi_{\text{safety}}$ is enforced. Removing that invariant makes the violation reachable in 4 steps, and the checker returns that counterexample.
 
 Deadlock freedom is decided by cycle detection over the reachable graph: without the asymmetric priority ordering $\prec_{\text{council}}$ an unbounded rebuttal cycle exists; with it the cycle is absent. Byzantine agreement is simulated over an unreliable channel ($95\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \le 2$ corrupt members and agreement collapses to $0.00\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts [[arxiv_2404.01131]].
 
@@ -47,7 +47,7 @@ Multi-agent foundation systems—in which specialized autonomous personas (e.g.,
 
 In multi-agent council deliberations, three core failure categories dominate:
 1. **Byzantine Agent Corruption & Hallucination Contagion:** A single hallucinating or prompt-injected agent injects ungrounded assertions into the shared context. Downstream agents uncritically cite these synthetic assertions as ground truth, leading the entire council into false consensus [[arxiv_2406.00584]].
-2. **Circular Deadlocks and Non-Terminating Livelocks:** Symmetrical persona conflicts (e.g., an aggressive reviewer agent continuously rejecting a synthesizer agent's output without specific constructive constraints) trigger infinite rebuttal loops that consume GPU tokens without convergence [[arxiv_2501.02497]].
+2. **Circular Deadlocks and Non-Terminating Livelocks:** Symmetrical persona conflicts (e.g., an aggressive reviewer agent continuously rejecting a synthesizer agent's output without specific constructive constraints) trigger infinite rebuttal loops that consume GPU tokens without convergence.
 3. **Ungrounded State Mutations & Action Drift:** Agents executing tool invocations or modifying shared knowledge graphs without formal pre-condition and post-condition checks induce silent state corruptions that compromise enterprise databases [[arxiv_2404.04289]].
 
 ### The Trustworthy Multi-Agent Systems (T-MAS) Paradigm
@@ -130,7 +130,7 @@ $$
 
 
 
-where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced by the FactChecker verification linter [[arxiv_2404.01131]].
+where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced by the FactChecker verification linter.
 
 **Definition 2 (Deadlock-Free Liveness Invariant $\Phi_{\text{liveness}}$).** From any deliberation state $s \in \mathcal{S}$, the council is guaranteed to eventually reach either consensus agreement ($S_{\text{consensus}}$) or an explicit, bounded escalation halt ($S_{\text{escalate}}$) within finite turns:
 
@@ -465,7 +465,7 @@ We do not report an ablation over agent backbones or debate strategies. That com
 ## Related Work & Taxonomic Synthesis
 
 ### Multi-Agent Debate & Consensus Protocols
-Early multi-agent debate literature demonstrated that multi-persona argumentation enhances reasoning on mathematical and logic puzzles [[arxiv_2005.14165], [arxiv_2203.02155]]. However, unconstrained debate is prone to sycophancy, majority-vote bias, and hallucination contagion [[arxiv_2406.00584]]. Our BT-CCP protocol resolves these failure modes by anchoring multi-agent consensus in formal distributed systems theory and Byzantine fault tolerance [[crossref_10.1109_access.2026.3656309]].
+Early multi-agent debate literature demonstrated that multi-persona argumentation enhances reasoning on mathematical and logic puzzles [[arxiv_2005.14165], [arxiv_2203.02155]]. However, unconstrained debate is prone to sycophancy, majority-vote bias, and hallucination contagion [[arxiv_2406.00584]]. Our BT-CCP protocol resolves these failure modes by anchoring multi-agent consensus in formal distributed systems theory and Byzantine fault tolerance.
 
 ### Formal Methods, LTL, and Model Checking in AI
 Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have been widely applied to hardware verification, robotic motion planning, and autonomous cyber-physical systems [[crossref_10.18653_v1_2026.findings-acl.1933]]. Recent literature investigates neuro-symbolic reasoning and SMT constraint solving for neural network safety [[arxiv_2404.01131]]. T-MAS extends temporal logic to multi-agent generative deliberation, treating LLM agents as non-deterministic transitions within a formally verified state space.

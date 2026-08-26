@@ -13,7 +13,7 @@
         718,
         872
       ],
-      "literal": "38{,}413"
+      "literal": "38{,}301"
     },
     {
       "claims": [
@@ -26,7 +26,7 @@
       "lines": [
         1034
       ],
-      "literal": "38413.0"
+      "literal": "38301.0"
     },
     {
       "claims": [
@@ -38,13 +38,20 @@
         {
           "decimals": 2,
           "field": "value",
+          "metric": "syntactic_validity_mu_ins"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
           "metric": "syntactic_validity_mu_sub"
         }
       ],
       "lines": [
         22,
         747,
-        749
+        748,
+        749,
+        1053
       ],
       "literal": "100.00"
     },
@@ -59,7 +66,7 @@
       "lines": [
         1037
       ],
-      "literal": "4.3485"
+      "literal": "4.0683"
     },
     {
       "claims": [
@@ -67,6 +74,11 @@
           "decimals": 1,
           "field": "value",
           "metric": "syntactic_validity_mu_del"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "syntactic_validity_mu_ins"
         },
         {
           "decimals": 1,
@@ -83,19 +95,6 @@
     {
       "claims": [
         {
-          "decimals": 2,
-          "field": "value",
-          "metric": "guards_per_hundred_mutants"
-        }
-      ],
-      "lines": [
-        699
-      ],
-      "literal": "12.82"
-    },
-    {
-      "claims": [
-        {
           "decimals": 1,
           "field": "value",
           "metric": "smt_guards_checked"
@@ -104,7 +103,20 @@
       "lines": [
         1045
       ],
-      "literal": "121.0"
+      "literal": "128.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "guards_per_hundred_mutants"
+        }
+      ],
+      "lines": [
+        699
+      ],
+      "literal": "13.65"
     },
     {
       "claims": [
@@ -117,7 +129,7 @@
       "lines": [
         688
       ],
-      "literal": "33.46"
+      "literal": "30.37"
     },
     {
       "claims": [
@@ -129,15 +141,29 @@
         {
           "decimals": 2,
           "field": "value",
-          "metric": "rejection_rate_mu_sub"
+          "metric": "rejection_rate_mu_reorder"
         }
       ],
       "lines": [
         689,
+        751,
+        1042
+      ],
+      "literal": "34.55"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_sub"
+        }
+      ],
+      "lines": [
         747,
         1043
       ],
-      "literal": "33.72"
+      "literal": "34.88"
     },
     {
       "claims": [
@@ -151,21 +177,7 @@
         750,
         1044
       ],
-      "literal": "34.20"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 2,
-          "field": "value",
-          "metric": "rejection_rate_mu_reorder"
-        }
-      ],
-      "lines": [
-        751,
-        1042
-      ],
-      "literal": "34.55"
+      "literal": "35.57"
     },
     {
       "claims": [
@@ -180,7 +192,7 @@
         790,
         874
       ],
-      "literal": "43.54"
+      "literal": "44.42"
     },
     {
       "claims": [
@@ -196,21 +208,7 @@
         874,
         1039
       ],
-      "literal": "43.96"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 2,
-          "field": "value",
-          "metric": "rejection_rate_mu_del"
-        }
-      ],
-      "lines": [
-        749,
-        1040
-      ],
-      "literal": "48.70"
+      "literal": "44.78"
     },
     {
       "claims": [
@@ -233,7 +231,21 @@
       "lines": [
         1049
       ],
-      "literal": "529.0"
+      "literal": "518.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_del"
+        }
+      ],
+      "lines": [
+        749,
+        1040
+      ],
+      "literal": "53.16"
     },
     {
       "claims": [
@@ -246,7 +258,7 @@
       "lines": [
         1038
       ],
-      "literal": "6.400"
+      "literal": "6.573"
     },
     {
       "claims": [
@@ -266,7 +278,7 @@
         748,
         1041
       ],
-      "literal": "67.18"
+      "literal": "64.92"
     },
     {
       "claims": [
@@ -289,7 +301,7 @@
       "lines": [
         1047
       ],
-      "literal": "937.0"
+      "literal": "932.0"
     },
     {
       "claims": [
@@ -332,7 +344,7 @@
       "lines": [
         1048
       ],
-      "literal": "944.0"
+      "literal": "938.0"
     },
     {
       "claims": [
@@ -353,7 +365,7 @@
         750,
         1056
       ],
-      "literal": "97.93"
+      "literal": "97.94"
     },
     {
       "claims": [
@@ -368,20 +380,6 @@
         1054
       ],
       "literal": "98.95"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 2,
-          "field": "value",
-          "metric": "syntactic_validity_mu_ins"
-        }
-      ],
-      "lines": [
-        748,
-        1053
-      ],
-      "literal": "99.49"
     },
     {
       "claims": [
@@ -412,7 +410,7 @@
         760,
         1051
       ],
-      "literal": "0.74"
+      "literal": "0.64"
     },
     {
       "claims": [
@@ -425,7 +423,7 @@
       "lines": [
         1036
       ],
-      "literal": "18.0"
+      "literal": "19.0"
     },
     {
       "claims": [
@@ -464,7 +462,7 @@
         790,
         874
       ],
-      "literal": "4.35"
+      "literal": "4.07"
     },
     {
       "claims": [
@@ -477,7 +475,7 @@
       "lines": [
         1050
       ],
-      "literal": "43.5"
+      "literal": "44.4"
     },
     {
       "claims": [
@@ -493,7 +491,7 @@
         776,
         878
       ],
-      "literal": "6.40"
+      "literal": "6.57"
     },
     {
       "claims": [
@@ -518,6 +516,11 @@
         {
           "decimals": 0,
           "field": "value",
+          "metric": "syntactic_validity_mu_ins"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
           "metric": "syntactic_validity_mu_sub"
         }
       ],
@@ -538,7 +541,7 @@
         24,
         764
       ],
-      "literal": "121"
+      "literal": "128"
     },
     {
       "claims": [
@@ -565,52 +568,20 @@
         {
           "decimals": 0,
           "field": "n",
-          "metric": "rejection_rate_mu_reorder"
-        },
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "syntactic_validity_mu_reorder"
-        }
-      ],
-      "lines": [
-        751,
-        1042,
-        1054
-      ],
-      "literal": "191"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 0,
-          "field": "n",
           "metric": "rejection_rate_mu_del"
         },
         {
           "decimals": 0,
           "field": "n",
-          "metric": "rejection_rate_mu_wrap"
-        },
-        {
-          "decimals": 0,
-          "field": "n",
           "metric": "syntactic_validity_mu_del"
-        },
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "syntactic_validity_mu_wrap"
         }
       ],
       "lines": [
         749,
-        750,
         1040,
-        1052,
-        1056
+        1052
       ],
-      "literal": "193"
+      "literal": "190"
     },
     {
       "claims": [
@@ -622,15 +593,48 @@
         {
           "decimals": 0,
           "field": "n",
+          "metric": "rejection_rate_mu_reorder"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
           "metric": "syntactic_validity_mu_ins"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_reorder"
         }
       ],
       "lines": [
         748,
+        751,
         1041,
-        1053
+        1042,
+        1053,
+        1054
       ],
-      "literal": "195"
+      "literal": "191"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_wrap"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_wrap"
+        }
+      ],
+      "lines": [
+        750,
+        1044,
+        1056
+      ],
+      "literal": "194"
     },
     {
       "claims": [
@@ -682,7 +686,7 @@
         1046,
         1049
       ],
-      "literal": "529"
+      "literal": "518"
     },
     {
       "claims": [
@@ -707,7 +711,7 @@
         1047,
         1050
       ],
-      "literal": "937"
+      "literal": "932"
     },
     {
       "claims": [
@@ -760,7 +764,7 @@
         1048,
         1051
       ],
-      "literal": "944"
+      "literal": "938"
     },
     {
       "claims": [
@@ -778,7 +782,7 @@
         878,
         984
       ],
-      "literal": "18"
+      "literal": "19"
     },
     {
       "claims": [

@@ -62,7 +62,7 @@ To resolve these critical vulnerabilities, we propose **Composable Agentic Syste
 
 This manuscript provides five principal contributions to the field of trustworthy AI systems:
 1. **4-Tier Composable Abstraction Hierarchy:** We establish a formal layered architecture decoupling agent pipelines into Perceptual Routing, Memory Synthesis, Contract Enforcement, and Consensus Governance layers.
-2. **Formal Contract Algebra and SMT Verification:** We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers [[arxiv_2404.01131]].
+2. **Formal Contract Algebra and SMT Verification:** We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers.
 3. **Lyapunov Stability and Error Propagation Theorems:** We prove that contract-gated verification graphs guarantee bounded state error variance $\mathbb{E}[\|\mathbf{e}_t\|^2] \le \sigma_{\max}^2 / (1 - \rho^2)$, eliminating compounding divergence [[arxiv_2501.02497]].
 4. **Reproducible Composition Benchmark:** A contract-algebra harness measuring soundness under reassembly, failure position, error propagation against the contraction bound, and checking cost, released with every recorded measurement so each result can be re-derived. No language model is invoked, and no claim is made about deployed agentic systems.
 5. **Ablation and Fault-Tolerance Analysis:** We quantify the isolated contributions of contract verification, state immutability, and consensus routing under induced network delays and adversarial hallucinations.

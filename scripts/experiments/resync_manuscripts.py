@@ -384,6 +384,9 @@ def main() -> int:
                         help="build sidecars by matching the draft against measurements "
                              "at this ref (use when a draft is already stale)")
     parser.add_argument("--only", metavar="STEM", help="restrict to one draft")
+    parser.add_argument("--check", action="store_true",
+                        help="exit non-zero if any draft disagrees with its recorded "
+                             "run, or if anything needs an author. For CI.")
     parser.add_argument("--reseed", action="store_true",
                         help="rebuild the sidecar from the draft as it stands. Use after "
                              "reconciling a draft by hand, to capture spellings the "
@@ -487,6 +490,18 @@ def main() -> int:
                       open(side, "w", encoding="utf-8"), indent=2, sort_keys=True)
 
     print(f"\n{total_changes} value(s) re-synced, {total_unresolved} needing a decision.")
+    if args.check:
+        # For CI. A draft that disagrees with its run is exactly as wrong as a
+        # claim with no artifact behind it, and until now only the second had a
+        # non-zero exit code to say so.
+        if total_changes or total_unresolved:
+            print("\nCHECK FAILED. A draft disagrees with its recorded run.\n"
+                  "  Re-sync it:  backend/.venv/bin/python "
+                  "scripts/experiments/resync_manuscripts.py --apply\n"
+                  "  Anything listed as HOLD needs an author, not a re-run.")
+            return 1
+        print("\nCHECK PASSED. Every draft agrees with its recorded run.")
+        return 0
     if not args.apply:
         print("Report only. Re-run with --apply to write.")
     else:

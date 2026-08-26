@@ -15,5 +15,5 @@ support.
 | review_enterprise_adoption_of_multi_agent_ai_systems_infr | 30 | 28 | 2 | 0 | 100.0% |
 | review_enterprise_genai_roi | 6 | 6 | 0 | 0 | 100.0% |
 | review_spatio_temporal_grounding_in_video_question_answering | 0 | 0 | 0 | 0 | 100.0% |
-| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 12 | 11 | 1 | 0 | 100.0% |
+| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 13 | 12 | 1 | 0 | 100.0% |
 | review_trustworthy_multi_agent_systems_formal_verification | 8 | 7 | 1 | 0 | 100.0% |

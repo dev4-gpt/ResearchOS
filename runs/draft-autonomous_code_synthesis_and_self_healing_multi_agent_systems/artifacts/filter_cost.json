@@ -1,5 +1,5 @@
 {
-  "filter_ms_samples": 944,
-  "mean_compile_probe_ms": 3.3005885580077106,
-  "mean_filter_ms": 4.3484582977618045
+  "filter_ms_samples": 938,
+  "mean_compile_probe_ms": 2.9895384927520525,
+  "mean_filter_ms": 4.068277113493095
 }

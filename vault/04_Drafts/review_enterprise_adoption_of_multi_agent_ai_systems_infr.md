@@ -46,7 +46,7 @@ Enterprise software engineering is undergoing an architectural paradigm shift fr
 
 Enterprise operational environments impose strict non-functional constraints that single-prompt systems cannot satisfy:
 1. Strict Service Level Agreements (SLAs): Multi-agent execution pipelines must provide bounded latency distributions ($p99 < 30\text{ s}$) and guaranteed completion availability ($>99.9\%$) [[crossref_10.1108_jeim-12-2025-1269]].
-2. Deterministic Governance and Auditing: Every agent decision, intermediate tool invocation, and state mutation must be cryptographically logged to satisfy regulatory compliance (e.g., SOC 2, HIPAA, GDPR, SEC Rule 17a-4) [[arxiv_2411.15594]].
+2. Deterministic Governance and Auditing: Every agent decision, intermediate tool invocation, and state mutation must be cryptographically logged to satisfy regulatory compliance (e.g., SOC 2, HIPAA, GDPR, SEC Rule 17a-4).
 3. Multi-Tenant Isolation and Zero-Trust Security: Autonomous agents executing arbitrary code or querying production databases must operate within unprivileged, isolated sandboxes governed by fine-grained Role-Based Access Control (RBAC) [[arxiv_2404.04289], [doaj_001772c2113c476d9d5d40452c8e10e1]].
 4. Economic Predictability and Unit Economics: Enterprise Total Cost of Ownership (TCO) requires linear or sub-linear compute scaling with respect to task complexity, avoiding explosive prompt-chain loops [[arxiv_2406.00584]].
 

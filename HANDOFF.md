@@ -115,9 +115,14 @@ The **integrity** problem is solved. The **contribution** problem is not.
    the argument sections are thin. p3 (composable AI) is 2,871 against 5,182; p5
    (enterprise adoption) is nearly there at 4,955. Run `paper_template.py` for current
    gaps — they move whenever a draft is re-synced.
-2. **85 citations remain flagged** as topically weak (`vault/00_System/CITATION_REVIEW.md`).
-   These need author judgement — do **not** auto-replace. A previous attempt proposed
-   swapping InstructGPT for *"Automated Fracture Image Captioning."*
+2. **83 citations remain flagged** (`vault/00_System/CITATION_REVIEW.md`). The 22 that
+   were outright false attributions — prose naming one work, key resolving to another —
+   have been removed by `scripts/review_citations.py`, which records every decision in
+   `citation_decisions.json` so the list can actually shrink. What remains needs author
+   judgement; do **not** auto-replace. A previous attempt proposed swapping InstructGPT
+   for *"Automated Fracture Image Captioning."* Note the flagged set is carried by ~30
+   keys, a handful of which were used as generic filler across all nine papers — the
+   real question for most of them is whether the sentence needs a citation at all.
 3. **Four papers are missing template sections** (p2 Experiments, p7 Analysis, p4
    abstract/intro/analysis, p8 several by design).
 4. **The contributions are modest.** Honest, reproducible, and modest. p3's finding is
@@ -126,8 +131,7 @@ The **integrity** problem is solved. The **contribution** problem is not.
    strong-acceptance papers at a top conference, and nobody should tell the user they are.
 5. **p8 reports no results at all** — correctly, since it needs GPUs.
 
-**Also open:** ERR-044 (FactChecker numeric detection broken, 2 failing tests),
-ERR-046 (ACM branch emits no author metadata), ERR-063 (`Projects 2` and `Projects 4`
+**Also open:** ERR-046 (ACM branch emits no author metadata), ERR-063 (`Projects 2` and `Projects 4`
 are in the Trash; **the four API keys they held are the live ones and still need
 rotating** — that part is the owner's).
 
@@ -149,11 +153,13 @@ Ranked by what actually moves the needle:
    modelling. One paper with a genuine SWE-bench Lite run behind it is worth more than
    nine analytical ones. This needs GPU access or cloud credits, and it is the single
    highest-value thing outstanding.
-2. **Wire the gate into CI.** `run_submission_gate.py` should block merges. Right now
-   it is run manually and nothing enforces it.
-3. **Fix or retire the legacy audit chain.** Checkmate and FactCheckerService still
-   report green on things the provenance gate catches. Two graders that disagree is a
-   defect in the graders (ERR-056 — partly reconciled, not finished).
+2. ~~Wire the gate into CI.~~ **Done** — `.github/workflows/integrity.yml` runs the
+   gate, the draft/run agreement check, the tests and a sync-conflict-copy check on
+   every push. Dependencies are pinned in `requirements-ci.txt`.
+3. **Retire the rest of the legacy audit chain.** FactCheckerService is fixed (ERR-075:
+   it used to mark a claim grounded because the paragraph said "benchmark"). **Checkmate
+   is not** and still reports 100.0 on drafts the provenance gate rejects. Two graders
+   that disagree is a defect in the graders (ERR-056).
 4. **Finish the main bodies.** Deliberate authorship, not generation. Padding will
    reintroduce exactly what was removed.
 5. **Then submit — one venue per paper, sequentially.** Not 108 packages.

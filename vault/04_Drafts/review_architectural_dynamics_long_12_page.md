@@ -31,7 +31,7 @@ Every figure here is either exact arithmetic or a simulation whose code is relea
 
 ## Introduction
 
-Scaling laws in deep learning establish power-law relationships between compute budget $\mathcal{C}$ (measured in FLOPs), parameter count $\mathcal{N}$, dataset tokens $\mathcal{D}$, and test cross-entropy loss $\mathcal{L}$. The canonical Hoffmann et al. (Chinchilla) scaling law [[arxiv_2005.14165]] demonstrates that loss follows:
+Scaling laws in deep learning establish power-law relationships between compute budget $\mathcal{C}$ (measured in FLOPs), parameter count $\mathcal{N}$, dataset tokens $\mathcal{D}$, and test cross-entropy loss $\mathcal{L}$. The canonical Hoffmann et al. (Chinchilla) scaling law demonstrates that loss follows:
 
 
 
@@ -448,7 +448,7 @@ $$
 
 *Proof.* By the Eckart-Young-Mirsky theorem, the best rank-$r$ Frobenius-norm approximation of any matrix $M$ is the truncated SVD $M_r = U_r\Sigma_r V_r^\top$, with residual error $\sum_{i=r+1} \sigma_i(M)^2$. Applying this to $\Delta W^*$ gives the stated bound. $\square$
 
-**Corollary 1.** If the intrinsic dimensionality of the fine-tuning task is $\rho \leq r$ (i.e., $\sigma_{r+1}(\Delta W^*) \approx 0$), then the rank-$r$ adaptation achieves zero approximation error. Aghajanyan et al. [[arxiv_2208.14227]] empirically demonstrate $\rho \leq 8$ for most NLP fine-tuning tasks, justifying $r = 16$ as a safe upper bound.
+**Corollary 1.** If the intrinsic dimensionality of the fine-tuning task is $\rho \leq r$ (i.e., $\sigma_{r+1}(\Delta W^*) \approx 0$), then the rank-$r$ adaptation achieves zero approximation error. Aghajanyan et al. empirically demonstrate $\rho \leq 8$ for most NLP fine-tuning tasks, justifying $r = 16$ as a safe upper bound.
 
 ### Gradient Flow Analysis in Low-Rank Subspaces
 
@@ -816,7 +816,7 @@ where $N_L$ = number of layers, $B$ = batch size, $L_{\text{ctx}}$ = context len
 | 65,536 | 160.00 GiB | $16\times$ | **OOM** (200\%) |
 | 131,072 | 320.00 GiB | $32\times$ | **OOM** (400\%) |
 
-Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{\text{ctx}})$ but quadratic attention compute $\mathcal{O}(L_{\text{ctx}}^2)$, causing memory-bandwidth saturation before compute exhaustion on modern H100 GPUs [[arxiv_2501.02497], [arxiv_2502.18080]]. These values are exact arithmetic for a single sequence; the caption previously stated a batch size of 32 while tabulating batch-1 values, and the recomputation above resolves that inconsistency. Paged attention [[arxiv_2406.04028]] addresses fragmentation but does not reduce the asymptotic scaling.
+Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{\text{ctx}})$ but quadratic attention compute $\mathcal{O}(L_{\text{ctx}}^2)$, causing memory-bandwidth saturation before compute exhaustion on modern H100 GPUs [[arxiv_2501.02497], [arxiv_2502.18080]]. These values are exact arithmetic for a single sequence; the caption previously stated a batch size of 32 while tabulating batch-1 values, and the recomputation above resolves that inconsistency. Paged attention addresses fragmentation but does not reduce the asymptotic scaling.
 
 ### Memory Bandwidth Bottleneck Analysis
 
@@ -996,15 +996,15 @@ where $\lambda > 0$ quantifies the effective data-equivalent value of retrieval.
 
 ### Empirical Scaling Laws
 
-The Kaplan et al. scaling laws [[arxiv_2005.14165]] established the foundational power-law framework. Hoffmann et al. (Chinchilla) [[arxiv_2005.14165]] refined these with compute-optimal training analysis. Subsequent work on test-time compute scaling [[arxiv_2203.11171]] established that inference-time deliberation (repeated sampling, chain-of-thought) provides orthogonal scaling benefits. Recent analyses of emergent capabilities [[arxiv_2501.02497]] demonstrate discontinuous jumps in task performance at specific scale thresholds, complicating smooth power-law extrapolation.
+The Kaplan et al. scaling laws [[arxiv_2005.14165]] established the foundational power-law framework. Hoffmann et al. (Chinchilla) refined these with compute-optimal training analysis. Subsequent work on test-time compute scaling [[arxiv_2203.11171]] established that inference-time deliberation (repeated sampling, chain-of-thought) provides orthogonal scaling benefits. Recent analyses of emergent capabilities [[arxiv_2501.02497]] demonstrate discontinuous jumps in task performance at specific scale thresholds, complicating smooth power-law extrapolation.
 
 ### Parameter-Efficient Adaptation
 
-LoRA [[crossref_10_48550_arxiv_2106_09685]] demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA [[crossref_10_48550_arxiv_2305_14314]] combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers [[arxiv_2005.14165]], prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA³ (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\%$ of parameters.
+LoRA [[crossref_10_48550_arxiv_2106_09685]] demonstrated that fine-tuning weight updates reside in low intrinsic-dimension subspaces. QLoRA [[crossref_10_48550_arxiv_2305_14314]] combined 4-bit NF4 quantization with LoRA to enable 70B-scale fine-tuning on consumer hardware. Adapter layers, prefix-tuning, and prompt tuning provide alternative PEFT strategies with distinct parameter-performance trade-offs. IA³ (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\%$ of parameters.
 
 ### Mixture-of-Experts
 
-Switch Transformer [[arxiv_2412.06333]] demonstrated that MoE scaling enables $4\times$ parameter growth at fixed compute cost. Mixtral 8×7B [[arxiv_2412.06333]] validated MoE efficiency at open-source scale, achieving 70B-class performance with 12.8B active parameters. Expert choice routing [[arxiv_2404.01131]] reverses the routing direction (experts select tokens rather than tokens selecting experts) to guarantee perfect load balance at the cost of variable token representation coverage.
+Switch Transformer demonstrated that MoE scaling enables $4\times$ parameter growth at fixed compute cost. Mixtral 8×7B validated MoE efficiency at open-source scale, achieving 70B-class performance with 12.8B active parameters. Expert choice routing reverses the routing direction (experts select tokens rather than tokens selecting experts) to guarantee perfect load balance at the cost of variable token representation coverage.
 
 ### Compound AI Systems
 

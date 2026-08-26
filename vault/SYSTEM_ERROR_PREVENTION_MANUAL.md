@@ -1,19 +1,18 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 00:13:51
-**Total Tracked Incidents:** 74
-**Resolved & Verified:** 69
-**Open / Unresolved:** 5
-**Active Prevention Rules:** 74
+**Last Updated:** 2026-08-26 00:37:30
+**Total Tracked Incidents:** 77
+**Resolved & Verified:** 73
+**Open / Unresolved:** 4
+**Active Prevention Rules:** 77
 
 ---
 
 ## ⚠️ Open Defects — NOT resolved
 
-- **[ERR-044]** `OPEN_NOT_FIXED` — Numeric claim detection under-counts and returns no unverified claims: tests/test_fact_checker.py::test_validate_numeric_claims finds 1 claim where 2 are asserted, and test_fact_checker_catches_unsupported_scale_claims gets an empty unverified_claims list for '500 enterprise codebases'.
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-046]** `OPEN_NOT_FIXED` — The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
-- **[ERR-062]** `OPEN_NOT_FIXED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
+- **[ERR-062]** `PARTIALLY_RESOLVED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
 - **[ERR-063]** `PARTIALLY_RESOLVED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 
 ---
@@ -94,6 +93,9 @@
 - **[R72]**: A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper.
 - **[R73]**: A manuscript may not claim a property of the method that no code enforces. Either implement the pin and generate the commit from the manifest, or describe the looser thing that actually happens; a reproducibility claim is the last place to write something aspirational.
 - **[R74]**: An automatic rewrite must define where it is forbidden to write before it defines what it writes. Quoted material is the hard boundary: a wrong number in our own sentence is an error, and the same number inside a quotation is fabricated evidence attributed to someone else.
+- **[R75]**: A grader may not accept a claim because of the words near it. If a claim is ours it is absolved by a recorded measurement; if it is someone else's it is absolved by the cited source containing it. There is no third category, and any heuristic that invents one exists to make the report green.
+- **[R76]**: Naming a work in prose is a claim about that work, and it must match the key beside it. This is checkable without judgement and belongs in CI. Removing a false attribution needs no literature search; choosing the right source does, and stays with the author.
+- **[R77]**: A check that only runs when someone remembers is not a check. Pin the dependency versions the recorded results were produced under, and keep the credentials out: an integrity check that needs a key is one that gets skipped.
 
 ---
 
@@ -486,14 +488,14 @@
 - **Prevention Rule:** `R43: Exactly one venue per manuscript may be marked as a submission target. Simultaneous submission is prohibited by every venue in the matrix, so a multi-venue build must be labelled formatting-only.`
 - **Status:** ✅ `VERIFIED_RESOLVED`
 
-### ⚠️ [ERR-044] Numeric claim detection under-counts and returns no unverified claims: tests/test_fact_checker.py::test_validate_numeric_claims finds 1 claim where 2 are asserted, and test_fact_checker_catches_unsupported_scale_claims gets an empty unverified_claims list for '500 enterprise codebases'.
+### ❌ [ERR-044] Numeric claim detection under-counts and returns no unverified claims: tests/test_fact_checker.py::test_validate_numeric_claims finds 1 claim where 2 are asserted, and test_fact_checker_catches_unsupported_scale_claims gets an empty unverified_claims list for '500 enterprise codebases'.
 - **Timestamp:** `2026-08-25 15:51:36`
 - **Component:** `FactCheckerService.validate_numeric_claims` (fact_check)
 - **Error Type:** `Broken Claim Detection`
 - **Root Cause:** Not yet diagnosed. Both tests fail identically on an unmodified tree, so the regression predates the 2026-08-25 export work.
-- **Resolution:** OPEN. ClaimProvenanceService covers the same ground for the release gate, so this is not release-blocking, but the two failing tests must be fixed or the service retired rather than left silently returning empty results.
+- **Resolution:** Fixed. Two contradictions: is_non_metric_number discarded the sample sizes and scale nouns NUMERIC_PATTERN exists to find, and validate_numeric_claims accepted any claim whose paragraph mentioned 'benchmark' or 'result'. Both removed; the two failing tests pass unmodified and the suite is 188/188.
 - **Prevention Rule:** `R44: A verification service that returns an empty finding list must be distinguishable from one that found nothing wrong. Fact-check and audit services require tests asserting they detect known-bad input.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ✅ `VERIFIED_RESOLVED`
 
 ### ⚠️ [ERR-045] All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **Timestamp:** `2026-08-25 15:51:36`
@@ -653,9 +655,9 @@
 - **Component:** `Citation relevance backlog` (citation_audit)
 - **Error Type:** `Unreviewed Weak Citations`
 - **Root Cause:** Lexical scoring cannot decide whether a source supports a claim, and automatic substitution proposed replacing InstructGPT with a paper on fracture image captioning.
-- **Resolution:** OPEN by design. These need an author decision; automated replacement was rejected as more dangerous than the defect.
+- **Resolution:** 22 of the flagged occurrences were false attributions, not weak citations, and were removed with the sentence left standing. Decisions now persist in citation_decisions.json so the list can shrink. 83 remain for an author; automated replacement is still prohibited and the suggestion block has been deleted from the report, since it was the thing that had to be refused.
 - **Prevention Rule:** `R62: Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ⚠️ `PARTIALLY_RESOLVED`
 
 ### ⚠️ [ERR-063] iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 - **Timestamp:** `2026-08-25 19:49:54`
@@ -763,4 +765,31 @@
 - **Root Cause:** A value-substitution pass treats a manuscript as a bag of numbers. Quoted source text, citation keys, fenced blocks and frontmatter are all numbers that belong to someone else.
 - **Resolution:** protected_spans() excludes quoted abstracts, wikilink citation keys, fenced blocks, blockquotes and YAML frontmatter; four tests pin the behaviour, including the GPT-3 case verbatim. Coarse roundings were also restricted: 9.86 may no longer match a bare '10'.
 - **Prevention Rule:** `R74: An automatic rewrite must define where it is forbidden to write before it defines what it writes. Quoted material is the hard boundary: a wrong number in our own sentence is an error, and the same number inside a quotation is fabricated evidence attributed to someone else.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-075] A claim was marked grounded if the paragraph containing it mentioned 'table', 'benchmark', 'result', 'finding', 'experiment' -- or contained a pipe character. '500 enterprise codebases' passed while its only cited source said 'a conceptual framework only'. Separately, is_non_metric_number contradicted NUMERIC_PATTERN: the pattern has alternations whose only purpose is to find 'N = 1000' and '18 months', and the filter discarded every string containing '=' and every string containing a scale noun, so the detector went looking for exactly the claims it then threw away.
+- **Timestamp:** `2026-08-26 00:37:30`
+- **Component:** `FactCheckerService.validate_numeric_claims` (legacy_audit_chain)
+- **Error Type:** `Grader Accepts Claims On Vocabulary`
+- **Root Cause:** Two passes written at different times against opposite intentions, and an escape hatch that approximated 'this looks like a results paragraph' with a keyword list. Both made the grader lenient in the direction that produces a green report.
+- **Resolution:** Keyword escape hatch removed -- _absolve_measured_claims already does that job against recorded values instead of vocabulary. The filter no longer discards sample sizes or scale nouns. Suite is 188 passed, 0 failed; the two ERR-044 tests pass without being modified.
+- **Prevention Rule:** `R75: A grader may not accept a claim because of the words near it. If a claim is ours it is absolved by a recorded measurement; if it is someone else's it is absolved by the cited source containing it. There is no third category, and any heuristic that invents one exists to make the report green.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-076] 22 citations named one work in prose while the key resolved to another. 'Adapter layers' cited GPT-3; 'Paged attention' cited a paper on sparse autoencoders; 'Byzantine fault tolerance' and 'Personalized PageRank diffusion' both cited papers on fine-tuning CLIP and on breast cancer classification; 'Aghajanyan et al.' cited CLUDA. 103 flagged occurrences were carried by just 30 keys, four of which accounted for 40 -- a small pool of notes used as generic filler across nine unrelated manuscripts.
+- **Timestamp:** `2026-08-26 00:37:30`
+- **Component:** `vault/04_Drafts, citation keys` (citation_attribution)
+- **Error Type:** `False Attribution`
+- **Root Cause:** The relevance scorer measures vocabulary overlap and reports a weak score, which reads as 'tenuous citation'. It cannot distinguish tenuous from wrong, so a false attribution and a foundational citation looked alike, and neither was ever actioned because no decision was ever recorded.
+- **Resolution:** scripts/review_citations.py detects the case that is not a judgement call -- prose names something the resolved title does not contain -- and removes the citation, leaving the sentence unattributed. Decisions persist in citation_decisions.json so the backlog can reach zero. No replacement is ever proposed (R62). 83 occurrences remain for an author.
+- **Prevention Rule:** `R76: Naming a work in prose is a claim about that work, and it must match the key beside it. This is checkable without judgement and belongs in CI. Removing a false attribution needs no literature search; choosing the right source does, and stays with the author.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-077] Every integrity check this project built -- the submission gate, the draft/run agreement check, the test suite -- was run by hand, which is the same as not being run. The gate had exited non-zero on real defects twice in one session and nothing would have stopped a commit.
+- **Timestamp:** `2026-08-26 00:37:30`
+- **Component:** `.github/workflows/integrity.yml` (release_enforcement)
+- **Error Type:** `Unenforced Check`
+- **Root Cause:** The checks were written as tools, not as gates.
+- **Resolution:** A workflow runs the submission gate, resync_manuscripts.py --check, the test suite and a tracked-sync-conflict-copy check on every push. --check was added for this: the re-sync pass previously always exited 0. requirements-ci.txt pins the versions the recorded measurements were produced under and omits the model-calling dependencies, so no check needs an API key.
+- **Prevention Rule:** `R77: A check that only runs when someone remembers is not a check. Pin the dependency versions the recorded results were produced under, and keep the credentials out: an integrity check that needs a key is one that gets skipped.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

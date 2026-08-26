@@ -1,0 +1,77 @@
+# Every number in a manuscript traces to a hashed artifact, and every draft
+# agrees with the run it was written from.
+#
+# This exists because the pipeline once reported "108/108 ZERO DEFECTS" on a
+# corpus where 726 of 728 quantitative claims had no experiment behind them. The
+# checks below were all written after that, and until now every one of them was
+# run by hand -- which is the same as not being run.
+#
+# The three jobs check different things and none subsumes another:
+#
+#   gate    every numeric claim resolves to a measurement with an artifact and a
+#           SHA-256, or to a citation that supports it
+#   sync    every draft states the values its run actually recorded (a draft can
+#           be perfectly self-consistent and still describe last month's run)
+#   tests   the checkers themselves still behave; ERR-044 was a grader that
+#           marked claims grounded because the paragraph said "benchmark"
+name: integrity
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # measurements_at_ref() reads runs/<id>/measurements.jsonl at a git ref
+          # when seeding, so a depth-1 clone would break the re-sync check.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-ci.txt
+
+      - name: Submission gate
+        run: python scripts/run_submission_gate.py
+
+      - name: Drafts agree with their recorded runs
+        run: python scripts/experiments/resync_manuscripts.py --check
+
+      - name: Tests
+        run: python -m pytest backend/tests/ -q
+
+      # Cheap, and it catches the specific accident that started all of this:
+      # iCloud writes "<stem> 2.py" beside a file it cannot merge, and those
+      # duplicates were being admitted to p1's and p3's experimental corpora,
+      # where they flipped the sign of p1's headline result (ERR-071).
+      - name: No sync-conflict copies
+        run: |
+          found=$(git ls-files | grep -E ' [2-9]\.[A-Za-z0-9]+$' || true)
+          if [ -n "$found" ]; then
+            echo "::error::iCloud sync-conflict copies are tracked in this repository."
+            echo "$found"
+            echo "Delete them, or exclude them where they are read as data."
+            exit 1
+          fi
+          echo "None tracked."

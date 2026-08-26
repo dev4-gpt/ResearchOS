@@ -19,11 +19,11 @@ checkmate_date: "2026-08-12"
 
 Automated program repair built on Large Language Models generates far more candidate patches than can be affordably executed, so the economics of repair turn on how many candidates can be discarded before a sandbox is ever started [[arxiv_2405.01543], [arxiv_2010.11146]]. This paper formalises a mutation algebra over abstract syntax trees, proves a Lyapunov termination bound for closed-loop repair, and measures how much a static pre-filter actually saves.
 
-We define five AST mutation operators and apply them to a corpus of 26 real Python modules comprising 38{,}413 AST nodes, generating 944 mutants under a fixed seed. Syntactic validity is high across operators ($97.93\%$ to $100.00\%$), confirming that compilation alone is a weak filter. A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $43.96\%$ of candidates at a mean cost of $4.35$ ms each.
+We define five AST mutation operators and apply them to a corpus of 26 real Python modules comprising 38{,}301 AST nodes, generating 938 mutants under a fixed seed. Syntactic validity is high across operators ($97.94\%$ to $100.00\%$), confirming that compilation alone is a weak filter. A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $44.78\%$ of candidates at a mean cost of $4.07$ ms each.
 
-The central empirical finding is negative and, we argue, useful. Across 121 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\%$. On this corpus the expensive symbolic stage is redundant, and the binding check carries the filter. We report this in place of the widely assumed benefit of SMT pre-filtering.
+The central empirical finding is negative and, we argue, useful. Across 128 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\%$. On this corpus the expensive symbolic stage is redundant, and the binding check carries the filter. We report this in place of the widely assumed benefit of SMT pre-filtering.
 
-Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.40$ steps with a worst case of $18$, consistent with the finite-termination bound of Theorem 1 [[arxiv_2501.02497]]. All measurements, the harness that produced them, and their raw artifacts are released for re-execution.
+Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.57$ steps with a worst case of $19$, consistent with the finite-termination bound of Theorem 1 [[arxiv_2501.02497]]. All measurements, the harness that produced them, and their raw artifacts are released for re-execution.
 
 ---
 
@@ -37,7 +37,7 @@ Our measurements do not support that premise. On a corpus of real Python modules
 
 ### Principal Contributions
 
-1. **Formal AST Mutation Algebra**: A context-free grammar production algebra restricting LLM patch candidates to syntactically and type-valid AST transformations [[crossref_10.1145_3689096.3689462]].
+1. **Formal AST Mutation Algebra**: A context-free grammar production algebra restricting LLM patch candidates to syntactically and type-valid AST transformations.
 2. **Lyapunov Termination Theorem**: A formal proof that closed-loop repair cycles terminate in finite time under any defect distribution, with explicit worst-case bounds.
 3. **PAC Generalization Bound**: A sample complexity bound certifying cross-repository patch policy transfer with high probability.
 4. **Reproducible Mutation Benchmark**: A seeded evaluation of five mutation operators over 26 real Python modules, released with its raw artifacts so every reported rate can be re-derived.
@@ -576,7 +576,7 @@ For rejected actions: the system reverts to $T_t$, so $V$ does not increase: $V(
 
 Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decreases $V$ by at least $c_{\min}$, the system reaches $V = 0$ (the target state) in at most $\lfloor V(T_0)/c_{\min} \rfloor$ accepted steps. Combined with the hard timeout $T_{\max}$, the total step bound is $\min(T_{\max}, \lfloor V(T_0)/c_{\min} \rfloor)$. $\square$
 
-**Corollary 1.** For seeded defects with mean node-multiset distance $\bar{V}$ and $c_{\min} = 1$, the bound gives $k^* \leq \min(T_{\max}, \lfloor \bar{V} \rfloor)$ accepted steps. Our 300 seeded defects converged in a mean of 6.40 steps with a worst case of 18 (Table 3), so every trial terminated well inside the bound.
+**Corollary 1.** For seeded defects with mean node-multiset distance $\bar{V}$ and $c_{\min} = 1$, the bound gives $k^* \leq \min(T_{\max}, \lfloor \bar{V} \rfloor)$ accepted steps. Our 300 seeded defects converged in a mean of 6.57 steps with a worst case of 19 (Table 3), so every trial terminated well inside the bound.
 
 ### Convergence Rate Analysis
 
@@ -674,20 +674,20 @@ motivates the design we ultimately recommend.
 ### Compilation Is a Weak Filter
 
 Syntactic validity across the five mutation operators never falls below
-**97.93%**. Mutating real code overwhelmingly produces
+**97.94%**. Mutating real code overwhelmingly produces
 code that still compiles: a substitution of one comparison operator for another, a
 reordered pair of statements, or a statement wrapped in a conditional all yield
 parseable programs. Compilation therefore tells us almost nothing about whether a
 candidate is a plausible patch, and any pipeline relying on it as a gate is relying
 on a stage that rejects
-**0.74%** of what it sees.
+**0.64%** of what it sees.
 
 ### Rejection Is Concentrated, Not Uniform
 
 Pre-filter rejection varies sharply by operator, spanning
-**33.46 percentage points** between the
-least-filtered (33.72%) and most-filtered
-(67.18%). The spread is not noise: operators that
+**30.37 percentage points** between the
+least-filtered (34.55%) and most-filtered
+(64.92%). The spread is not noise: operators that
 introduce a name -- guard insertion above all -- are caught almost immediately by
 binding analysis, while operators that only rearrange existing, already-bound code
 survive it. Filtering effectiveness is a property of the defect distribution, not
@@ -696,7 +696,7 @@ of the filter alone.
 ### The Solver Sees Almost Nothing to Decide
 
 The decisive observation concerns the solver's reach. Across the corpus, mutation
-exposes only **12.82 integer guards per hundred
+exposes only **13.65 integer guards per hundred
 mutants**. An SMT reachability check can only rule on constraints it can extract,
 and mutation of real service code produces very few decidable integer conditions:
 most branching in this corpus tests object attributes, string membership, or
@@ -715,9 +715,9 @@ this operator set does not.
 
 ### Corpus and Mutant Generation
 
-We evaluate on the Python source of this project's own backend service layer: 26 modules comprising 38{,}413 AST nodes. The corpus is the working tree at the time of the run, whose commit is recorded in that run's manifest rather than fixed in advance; because it is this project's own source, re-running against a later tree yields different counts, and the figures below are reproducible only against the recorded run. This is real, actively maintained code rather than a synthetic benchmark, but it is a single-project corpus and not a production defect dataset; Section 9 states the limits this imposes.
+We evaluate on the Python source of this project's own backend service layer: 26 modules comprising 38{,}301 AST nodes. The corpus is the working tree at the time of the run, whose commit is recorded in that run's manifest rather than fixed in advance; because it is this project's own source, re-running against a later tree yields different counts, and the figures below are reproducible only against the recorded run. This is real, actively maintained code rather than a synthetic benchmark, but it is a single-project corpus and not a production defect dataset; Section 9 states the limits this imposes.
 
-Defects are introduced by applying the five mutation operators of Section 2 to parsed module ASTs under a fixed seed (20260825), 200 attempts per operator. An attempt fails to produce a mutant when the operator finds no applicable site, which is why per-operator yields differ slightly. In total 944 mutants were generated.
+Defects are introduced by applying the five mutation operators of Section 2 to parsed module ASTs under a fixed seed (20260825), 200 attempts per operator. An attempt fails to produce a mutant when the operator finds no applicable site, which is why per-operator yields differ slightly. In total 938 mutants were generated.
 
 ### Pre-Filter Stages
 
@@ -744,12 +744,12 @@ Reporting the marginal contribution of each stage, rather than only the pooled r
 
 | Mutation operator | Mutants generated | Syntactic validity (\%) | Rejected pre-execution (\%) |
 |:---|:---:|:---:|:---:|
-| $\mu_{\text{sub}}$ (operator substitution) | 172 | 100.00 | 33.72 |
-| $\mu_{\text{ins}}$ (guard insertion) | 195 | 99.49 | 67.18 |
-| $\mu_{\text{del}}$ (statement deletion) | 193 | 100.00 | 48.70 |
-| $\mu_{\text{wrap}}$ (control-flow wrapping) | 193 | 97.93 | 34.20 |
+| $\mu_{\text{sub}}$ (operator substitution) | 172 | 100.00 | 34.88 |
+| $\mu_{\text{ins}}$ (guard insertion) | 191 | 100.00 | 64.92 |
+| $\mu_{\text{del}}$ (statement deletion) | 190 | 100.00 | 53.16 |
+| $\mu_{\text{wrap}}$ (control-flow wrapping) | 194 | 97.94 | 35.57 |
 | $\mu_{\text{reorder}}$ (statement reordering) | 191 | 98.95 | 34.55 |
-| **Pooled** | **944** | **99.36** | **43.96** |
+| **Pooled** | **938** | **99.36** | **44.78** |
 
 Syntactic validity is near-total for every operator. Compilation is therefore a weak filter on this corpus: a mutant that parses tells us almost nothing about whether it is a plausible patch, and the discriminating work is done downstream.
 
@@ -757,11 +757,11 @@ Syntactic validity is near-total for every operator. Compilation is therefore a 
 
 | Stage | Candidates entering | Rejected at this stage | Marginal rejection (\%) |
 |:---|:---:|:---:|:---:|
-| Compilation | 944 | 6 | 0.74 |
-| Static name binding | 937 | 431 | 43.54 |
-| Z3-SMT reachability | 529 | 0 | 0.00 |
+| Compilation | 938 | 6 | 0.64 |
+| Static name binding | 932 | 431 | 44.42 |
+| Z3-SMT reachability | 518 | 0 | 0.00 |
 
-Across 121 integer guards submitted to the solver, Z3 rejected no candidate that the binding check had already passed. The marginal value of the symbolic stage on this corpus is zero.
+Across 128 integer guards submitted to the solver, Z3 rejected no candidate that the binding check had already passed. The marginal value of the symbolic stage on this corpus is zero.
 
 ![Candidates entering each pre-filter stage and the share rejected there. Static name binding carries the filter; the SMT stage rejects nothing.](figures/p3_prefilter_stages.pdf)
 
@@ -772,11 +772,11 @@ This is the paper's most consequential result and it runs against our starting p
 
 | Quantity | Value | Basis |
 |:---|:---:|:---|
-| Mean pre-filter latency | 4.35 ms/candidate | all three stages, $n = 944$ |
-| Mean repair steps to convergence | 6.40 | $n = 300$ seeded defects |
-| Worst-case repair steps observed | 18 | $n = 300$ seeded defects |
+| Mean pre-filter latency | 4.07 ms/candidate | all three stages, $n = 938$ |
+| Mean repair steps to convergence | 6.57 | $n = 300$ seeded defects |
+| Worst-case repair steps observed | 19 | $n = 300$ seeded defects |
 
-The empirical convergence profile is consistent with Theorem 1: the node-multiset distance decreases monotonically across accepted repair actions and reaches zero in finite steps in every one of the 300 trials, with a worst case of 18 steps.
+The empirical convergence profile is consistent with Theorem 1: the node-multiset distance decreases monotonically across accepted repair actions and reaches zero in finite steps in every one of the 300 trials, with a worst case of 19 steps.
 
 ![Accepted repair steps to convergence over 300 seeded defects. Every trial terminated, with a worst case well inside the theoretical bound.](figures/p3_repair_convergence.pdf)
 
@@ -787,7 +787,7 @@ The empirical convergence profile is consistent with Theorem 1: the node-multise
 
 The pipeline has three stages and Table 2 reports each one's marginal contribution. We do not report an ablation over agent topologies or language-model backbones: no language model was run in this study, so no such comparison follows from these experiments. Establishing which backbone repairs defects most cost-effectively requires serving several models against an executable benchmark, and is left to future work.
 
-What the staged measurement does establish is an ordering argument for filter design. Static name binding rejects 43.54\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline. On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.35 ms per candidate is dominated by a stage that contributes nothing.
+What the staged measurement does establish is an ordering argument for filter design. Static name binding rejects 44.42\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline. On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.07 ms per candidate is dominated by a stage that contributes nothing.
 
 ---
 
@@ -847,7 +847,7 @@ The bound is stated but not instantiated here. Instantiating it requires an empi
 
 ### Automated Program Repair
 
-Classical APR [[arxiv_2010.11146]] applies heuristic search over syntax tree mutation operators (GenProg, RSRepair, AE). Neural APR systems (CoCoNuT, CURE, RewardRepair) fine-tune sequence-to-sequence models on (buggy, fixed) code pairs. LLM-based APR (AlphaCode, CodeT5+, SWE-agent) leverages large pretrained code models with retrieval-augmented context [[arxiv_2405.01543], [arxiv_2501.02497]]. Our work extends LLM-APR with formal SMT verification integration and multi-agent orchestration.
+Classical APR applies heuristic search over syntax tree mutation operators (GenProg, RSRepair, AE). Neural APR systems (CoCoNuT, CURE, RewardRepair) fine-tune sequence-to-sequence models on (buggy, fixed) code pairs. LLM-based APR (AlphaCode, CodeT5+, SWE-agent) leverages large pretrained code models with retrieval-augmented context [[arxiv_2405.01543], [arxiv_2501.02497]]. Our work extends LLM-APR with formal SMT verification integration and multi-agent orchestration.
 
 ### Multi-Agent Code Synthesis
 
@@ -869,13 +869,13 @@ SMT solver integration (Z3, CVC5) enables path-sensitive program analysis for lo
 
 ## Conclusion
 
-We formalised a five-operator mutation algebra over abstract syntax trees, proved finite termination of the closed-loop repair cycle, and measured a three-stage pre-filter on 944 mutants generated from 26 real Python modules comprising 38{,}413 AST nodes.
+We formalised a five-operator mutation algebra over abstract syntax trees, proved finite termination of the closed-loop repair cycle, and measured a three-stage pre-filter on 938 mutants generated from 26 real Python modules comprising 38{,}301 AST nodes.
 
-The pipeline rejects 43.96\% of candidates before any sandbox is started, at a mean cost of 4.35 ms each. That saving is almost entirely attributable to static name binding, which rejects 43.54\% of the candidates reaching it. The Z3-SMT reachability stage, across 98 solved integer guards, rejected nothing that binding analysis had not already caught: a marginal rejection rate of 0.00\%.
+The pipeline rejects 44.78\% of candidates before any sandbox is started, at a mean cost of 4.07 ms each. That saving is almost entirely attributable to static name binding, which rejects 44.42\% of the candidates reaching it. The Z3-SMT reachability stage, across 98 solved integer guards, rejected nothing that binding analysis had not already caught: a marginal rejection rate of 0.00\%.
 
 We had expected the opposite. The result suggests that the assumed benefit of symbolic pre-filtering is contingent on the defect distribution rather than general: mutations that break name bindings are caught more cheaply upstream, and mutations of comparison operators tend to yield reachable branches rather than contradictions. Symbolic filtering should be expected to pay off on numeric-contradiction defect classes, which this operator set does not generate, and that is the experiment we would run next.
 
-Repair convergence was measured over 300 seeded defects: node-multiset distance reaches zero in a mean of 6.40 steps with a worst case of 18, consistent with Theorem 1's finite-termination guarantee. The harness, all 23 recorded measurements and their raw artifacts are released so that these results, including the negative one, can be re-derived or refuted [[arxiv_2501.02497], [arxiv_2405.01543], [crossref_10.1145_3689096.3689462]].
+Repair convergence was measured over 300 seeded defects: node-multiset distance reaches zero in a mean of 6.57 steps with a worst case of 19, consistent with Theorem 1's finite-termination guarantee. The harness, all 23 recorded measurements and their raw artifacts are released so that these results, including the negative one, can be re-derived or refuted [[arxiv_2501.02497], [arxiv_2405.01543], [crossref_10.1145_3689096.3689462]].
 
 
 ---
@@ -981,7 +981,7 @@ Every number reported in this paper was produced by a single scripted run whose 
 | Accelerator | none; no GPU was used at any point |
 | Wall-clock duration | `10.293 s` |
 | Measurements recorded | 23 |
-| Recorded at | 2026-08-25T17:33:18-0400 |
+| Recorded at | 2026-08-25T17:33:19-0400 |
 
 ### Reproduction
 
@@ -1031,29 +1031,29 @@ The main text reports the measurements that carry the argument. This appendix li
 
 | Metric | Value | Unit | n | 95% CI | Derivation |
 |:---|---:|:---|---:|:---|:---|
-| `corpus_ast_nodes` | 38413.0 | n | 26 | — | `ast.walk node count over the corpus` |
+| `corpus_ast_nodes` | 38301.0 | n | 26 | — | `ast.walk node count over the corpus` |
 | `corpus_modules` | 26.0 | n | 26 | — | `files parsed from backend/services/*.py` |
-| `max_repair_steps` | 18.0 | n | 300 | — | `worst observed convergence over 300 seeded repairs` |
-| `mean_prefilter_latency_ms` | 4.3485 | ms | 944 | [3.535, 4.976] | `syntax + binding + Z3 reachability per candidate` |
-| `mean_repair_steps` | 6.400 | n | 300 | [6.173333, 7.08675] | `steps to drive node-multiset distance to zero` |
-| `prefilter_rejection_rate_overall` | 43.96 | % | 944 | — | `all operators pooled` |
-| `rejection_rate_mu_del` | 48.70 | % | 193 | — | `fraction of generated mutants rejected before execution` |
-| `rejection_rate_mu_ins` | 67.18 | % | 195 | — | `fraction of generated mutants rejected before execution` |
+| `max_repair_steps` | 19.0 | n | 300 | — | `worst observed convergence over 300 seeded repairs` |
+| `mean_prefilter_latency_ms` | 4.0683 | ms | 938 | [3.535, 4.976] | `syntax + binding + Z3 reachability per candidate` |
+| `mean_repair_steps` | 6.573 | n | 300 | [6.173333, 7.08675] | `steps to drive node-multiset distance to zero` |
+| `prefilter_rejection_rate_overall` | 44.78 | % | 938 | — | `all operators pooled` |
+| `rejection_rate_mu_del` | 53.16 | % | 190 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_ins` | 64.92 | % | 191 | — | `fraction of generated mutants rejected before execution` |
 | `rejection_rate_mu_reorder` | 34.55 | % | 191 | — | `fraction of generated mutants rejected before execution` |
-| `rejection_rate_mu_sub` | 33.72 | % | 172 | — | `fraction of generated mutants rejected before execution` |
-| `rejection_rate_mu_wrap` | 34.20 | % | 190 | — | `fraction of generated mutants rejected before execution` |
-| `smt_guards_checked` | 121.0 | n | 944 | — | `integer guards extracted and solved` |
-| `smt_marginal_rejection_rate` | 0.0 | % | 529 | — | `extra mutants rejected by Z3 beyond the static binding check` |
-| `stage_entering_binding` | 937.0 | n | 937 | — | `candidates entering stage 2` |
-| `stage_entering_compile` | 944.0 | n | 944 | — | `candidates entering stage 1` |
-| `stage_entering_smt` | 529.0 | n | 529 | — | `candidates entering stage 3` |
-| `stage_marginal_rejection_binding` | 43.5 | % | 937 | — | `mutants rejected by the static binding check, over those that compiled` |
-| `stage_marginal_rejection_compile` | 0.74 | % | 944 | — | `mutants failing to compile, over all generated` |
-| `syntactic_validity_mu_del` | 100.0 | % | 193 | — | `fraction of mutants that compile` |
-| `syntactic_validity_mu_ins` | 99.49 | % | 195 | — | `fraction of mutants that compile` |
+| `rejection_rate_mu_sub` | 34.88 | % | 172 | — | `fraction of generated mutants rejected before execution` |
+| `rejection_rate_mu_wrap` | 35.57 | % | 194 | — | `fraction of generated mutants rejected before execution` |
+| `smt_guards_checked` | 128.0 | n | 938 | — | `integer guards extracted and solved` |
+| `smt_marginal_rejection_rate` | 0.0 | % | 518 | — | `extra mutants rejected by Z3 beyond the static binding check` |
+| `stage_entering_binding` | 932.0 | n | 932 | — | `candidates entering stage 2` |
+| `stage_entering_compile` | 938.0 | n | 938 | — | `candidates entering stage 1` |
+| `stage_entering_smt` | 518.0 | n | 518 | — | `candidates entering stage 3` |
+| `stage_marginal_rejection_binding` | 44.4 | % | 932 | — | `mutants rejected by the static binding check, over those that compiled` |
+| `stage_marginal_rejection_compile` | 0.64 | % | 938 | — | `mutants failing to compile, over all generated` |
+| `syntactic_validity_mu_del` | 100.0 | % | 190 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_ins` | 100.00 | % | 191 | — | `fraction of mutants that compile` |
 | `syntactic_validity_mu_reorder` | 98.95 | % | 191 | — | `fraction of mutants that compile` |
 | `syntactic_validity_mu_sub` | 100.0 | % | 172 | — | `fraction of mutants that compile` |
-| `syntactic_validity_mu_wrap` | 97.93 | % | 193 | — | `fraction of mutants that compile` |
+| `syntactic_validity_mu_wrap` | 97.94 | % | 194 | — | `fraction of mutants that compile` |
 
 **23 measurements across 4 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 

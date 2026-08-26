@@ -1,0 +1,180 @@
+{
+  "decisions": {
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems::arxiv_2010.11146::classical apr": {
+      "decision": "removed",
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "key": "arxiv_2010.11146",
+      "name": "Classical APR",
+      "reason": "prose names 'Classical APR'; key resolves to 'A Decentralised Self-Healing Approach for Network Topology Maintenance', which is a different work",
+      "title": "A Decentralised Self-Healing Approach for Network Topology Maintenance"
+    },
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems::crossref_10.1145_3689096.3689462::ast transformations": {
+      "decision": "removed",
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "key": "crossref_10.1145_3689096.3689462",
+      "name": "AST transformations",
+      "reason": "prose names 'AST transformations'; key resolves to 'Comparative Analysis of Deep Learning Models for Breast Cancer Classif', which is a different work",
+      "title": "Comparative Analysis of Deep Learning Models for Breast Cancer Classif"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2005.14165::adapter layers": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2005.14165",
+      "name": "Adapter layers",
+      "reason": "prose names 'Adapter layers'; key resolves to 'Language Models are Few-Shot Learners', which is a different work",
+      "title": "Language Models are Few-Shot Learners"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2005.14165::chinchilla)": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2005.14165",
+      "name": "Chinchilla)",
+      "reason": "prose names 'Chinchilla)'; key resolves to 'Language Models are Few-Shot Learners', which is a different work",
+      "title": "Language Models are Few-Shot Learners"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2005.14165::chinchilla) scaling law": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2005.14165",
+      "name": "Chinchilla) scaling law",
+      "reason": "prose names 'Chinchilla) scaling law'; key resolves to 'Language Models are Few-Shot Learners', which is a different work",
+      "title": "Language Models are Few-Shot Learners"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2208.14227::aghajanyan et al.": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2208.14227",
+      "name": "Aghajanyan et al.",
+      "reason": "prose names 'Aghajanyan et al.'; key resolves to 'CLUDA : Contrastive Learning in Unsupervised Domain Adaptation for Sem', which is a different work",
+      "title": "CLUDA : Contrastive Learning in Unsupervised Domain Adaptation for Sem"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2404.01131::expert choice routing": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2404.01131",
+      "name": "Expert choice routing",
+      "reason": "prose names 'Expert choice routing'; key resolves to 'GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult', which is a different work",
+      "title": "GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2406.04028::paged attention": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2406.04028",
+      "name": "Paged attention",
+      "reason": "prose names 'Paged attention'; key resolves to 'Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Pla', which is a different work",
+      "title": "Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Pla"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2412.06333::mixtral 8\u00d77b": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2412.06333",
+      "name": "Mixtral 8\u00d77B",
+      "reason": "prose names 'Mixtral 8\u00d77B'; key resolves to 'Augmenting the action space with conventions to improve multi-agent co', which is a different work",
+      "title": "Augmenting the action space with conventions to improve multi-agent co"
+    },
+    "review_architectural_dynamics_long_12_page::arxiv_2412.06333::switch transformer": {
+      "decision": "removed",
+      "draft": "review_architectural_dynamics_long_12_page",
+      "key": "arxiv_2412.06333",
+      "name": "Switch Transformer",
+      "reason": "prose names 'Switch Transformer'; key resolves to 'Augmenting the action space with conventions to improve multi-agent co', which is a different work",
+      "title": "Augmenting the action space with conventions to improve multi-agent co"
+    },
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines::arxiv_2404.01131::smt solvers": {
+      "decision": "removed",
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "key": "arxiv_2404.01131",
+      "name": "SMT solvers",
+      "reason": "prose names 'SMT solvers'; key resolves to 'GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult', which is a different work",
+      "title": "GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult"
+    },
+    "review_enterprise_adoption_of_multi_agent_ai_systems_infr::arxiv_2411.15594::gdpr, sec rule 17a-4)": {
+      "decision": "removed",
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "key": "arxiv_2411.15594",
+      "name": "GDPR, SEC Rule 17a-4)",
+      "reason": "prose names 'GDPR, SEC Rule 17a-4)'; key resolves to 'A Survey on LLM-as-a-Judge', which is a different work",
+      "title": "A Survey on LLM-as-a-Judge"
+    },
+    "review_spatio_temporal_grounding_in_video_question_answering::arxiv_2010.11146::vision transformer backbone": {
+      "decision": "removed",
+      "draft": "review_spatio_temporal_grounding_in_video_question_answering",
+      "key": "arxiv_2010.11146",
+      "name": "Vision Transformer backbone",
+      "reason": "prose names 'Vision Transformer backbone'; key resolves to 'A Decentralised Self-Healing Approach for Network Topology Maintenance', which is a different work",
+      "title": "A Decentralised Self-Healing Approach for Network Topology Maintenance"
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite::arxiv_2005.14165::adapter layers": {
+      "decision": "removed",
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "key": "arxiv_2005.14165",
+      "name": "Adapter layers",
+      "reason": "prose names 'Adapter layers'; key resolves to 'Language Models are Few-Shot Learners', which is a different work",
+      "title": "Language Models are Few-Shot Learners"
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite::arxiv_2203.11171::test-time compute scaling": {
+      "decision": "removed",
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "key": "arxiv_2203.11171",
+      "name": "Test-time compute scaling",
+      "reason": "prose names 'Test-time compute scaling'; key resolves to 'Self-Consistency Improves Chain of Thought Reasoning in Language Model', which is a different work",
+      "title": "Self-Consistency Improves Chain of Thought Reasoning in Language Model"
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite::arxiv_2501.02497::agentless systems": {
+      "decision": "removed",
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "key": "arxiv_2501.02497",
+      "name": "Agentless systems",
+      "reason": "prose names 'Agentless systems'; key resolves to 'A Survey of Test-Time Compute: From Intuitive Inference to Deliberate ', which is a different work",
+      "title": "A Survey of Test-Time Compute: From Intuitive Inference to Deliberate "
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite::crossref_10.1109_access.2026.3656309::reward-guided agent orchestration": {
+      "decision": "removed",
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "key": "crossref_10.1109_access.2026.3656309",
+      "name": "Reward-guided agent orchestration",
+      "reason": "prose names 'Reward-guided agent orchestration'; key resolves to 'Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastiv', which is a different work",
+      "title": "Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastiv"
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite::crossref_10.1145_3689096.3689462::personalized pagerank diffusion": {
+      "decision": "removed",
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "key": "crossref_10.1145_3689096.3689462",
+      "name": "Personalized PageRank diffusion",
+      "reason": "prose names 'Personalized PageRank diffusion'; key resolves to 'Comparative Analysis of Deep Learning Models for Breast Cancer Classif', which is a different work",
+      "title": "Comparative Analysis of Deep Learning Models for Breast Cancer Classif"
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification::arxiv_2404.01131::factchecker verification linter": {
+      "decision": "removed",
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "key": "arxiv_2404.01131",
+      "name": "FactChecker verification linter",
+      "reason": "prose names 'FactChecker verification linter'; key resolves to 'GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult', which is a different work",
+      "title": "GOV-REK: Governed Reward Engineering Kernels for Designing Robust Mult"
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification::arxiv_2501.02497::gpu tokens without convergence": {
+      "decision": "removed",
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "key": "arxiv_2501.02497",
+      "name": "GPU tokens without convergence",
+      "reason": "prose names 'GPU tokens without convergence'; key resolves to 'A Survey of Test-Time Compute: From Intuitive Inference to Deliberate ', which is a different work",
+      "title": "A Survey of Test-Time Compute: From Intuitive Inference to Deliberate "
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification::crossref_10.1109_access.2026.3656309::byzantine fault tolerance": {
+      "decision": "removed",
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "key": "crossref_10.1109_access.2026.3656309",
+      "name": "Byzantine fault tolerance",
+      "reason": "prose names 'Byzantine fault tolerance'; key resolves to 'Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastiv', which is a different work",
+      "title": "Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastiv"
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification::crossref_10.1145_3689096.3689462::bt-ccp)": {
+      "decision": "removed",
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "key": "crossref_10.1145_3689096.3689462",
+      "name": "BT-CCP)",
+      "reason": "prose names 'BT-CCP)'; key resolves to 'Comparative Analysis of Deep Learning Models for Breast Cancer Classif', which is a different work",
+      "title": "Comparative Analysis of Deep Learning Models for Breast Cancer Classif"
+    }
+  }
+}

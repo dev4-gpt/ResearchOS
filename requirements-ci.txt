@@ -1,0 +1,34 @@
+# Dependencies for the integrity checks in .github/workflows/integrity.yml.
+#
+# Deliberately narrower than the development environment. CI's job is to run the
+# submission gate, confirm every draft still agrees with its recorded run, and
+# run the test suite -- none of which calls a language model. dspy, langgraph,
+# openai and google-genai are the drafting side of this project and are left out
+# on purpose: an integrity check that needs an API key is one that gets skipped.
+#
+# Pinned to the versions the measurements in runs/ were produced under. z3-solver
+# in particular decides p3's numbers, so a float here would let CI disagree with
+# the recorded run for reasons that have nothing to do with the manuscripts.
+
+# Experiments and figures
+networkx==3.6.1
+numpy==2.5.2
+scipy==1.18.1
+matplotlib==3.11.1
+z3-solver==5.1.0.0
+
+# Backend service tests
+fastapi==0.136.3
+httpx==0.28.1
+pydantic==2.13.4
+uvicorn==0.47.0
+python-dotenv==1.2.2
+
+# Literature ingestion touched by the vault tests. PyPDF2 is deliberately absent:
+# the scripts that want it fall back to it only when pypdf is missing, and pypdf
+# is here.
+pypdf==6.14.2
+
+# Test runner
+pytest==9.0.3
+pytest-asyncio==1.4.0

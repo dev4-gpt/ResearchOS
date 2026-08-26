@@ -1,5 +1,5 @@
 {
-  "ast_nodes": 38413,
+  "ast_nodes": 38301,
   "files": [
     "backend/services/__init__.py",
     "backend/services/checkmate_interceptor.py",

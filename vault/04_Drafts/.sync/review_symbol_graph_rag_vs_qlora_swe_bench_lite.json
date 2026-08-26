@@ -11,7 +11,7 @@
       "lines": [
         559
       ],
-      "literal": "-0.01526"
+      "literal": "-0.00821"
     },
     {
       "claims": [
@@ -27,7 +27,7 @@
         313,
         385
       ],
-      "literal": "-0.0153"
+      "literal": "-0.0082"
     },
     {
       "claims": [
@@ -43,7 +43,7 @@
         385,
         565
       ],
-      "literal": "-0.0691"
+      "literal": "-0.0365"
     },
     {
       "claims": [
@@ -56,7 +56,7 @@
       "lines": [
         562
       ],
-      "literal": "85.7143"
+      "literal": "86.2319"
     },
     {
       "claims": [
@@ -69,7 +69,7 @@
       "lines": [
         561
       ],
-      "literal": "88.7218"
+      "literal": "87.6812"
     },
     {
       "claims": [
@@ -88,7 +88,7 @@
         563,
         564
       ],
-      "literal": "97.7444"
+      "literal": "97.1014"
     },
     {
       "claims": [
@@ -104,7 +104,7 @@
         385,
         560
       ],
-      "literal": "0.9107"
+      "literal": "0.9119"
     },
     {
       "claims": [
@@ -120,7 +120,7 @@
         385,
         558
       ],
-      "literal": "0.9259"
+      "literal": "0.9201"
     },
     {
       "claims": [
@@ -138,11 +138,6 @@
     },
     {
       "claims": [
-        {
-          "decimals": 3,
-          "field": "value",
-          "metric": "queries_improved_by_diffusion"
-        },
         {
           "decimals": 3,
           "field": "value",
@@ -230,7 +225,7 @@
         24,
         311
       ],
-      "literal": "85.71"
+      "literal": "86.23"
     },
     {
       "claims": [
@@ -244,7 +239,20 @@
         24,
         310
       ],
-      "literal": "88.72"
+      "literal": "87.68"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "diffusion_inert_rate"
+        }
+      ],
+      "lines": [
+        242
+      ],
+      "literal": "92.75"
     },
     {
       "claims": [
@@ -263,15 +271,24 @@
         310,
         311
       ],
-      "literal": "97.74"
+      "literal": "97.10"
     },
     {
       "claims": [
         {
-          "decimals": 1,
+          "decimals": 0,
           "field": "value",
-          "metric": "queries_improved_by_diffusion"
-        },
+          "metric": "symbol_graph_edges"
+        }
+      ],
+      "lines": [
+        22,
+        294
+      ],
+      "literal": "1002"
+    },
+    {
+      "claims": [
         {
           "decimals": 1,
           "field": "value",
@@ -299,7 +316,7 @@
       "lines": [
         253
       ],
-      "literal": "118"
+      "literal": "121"
     },
     {
       "claims": [
@@ -307,7 +324,16 @@
           "decimals": 0,
           "field": "value",
           "metric": "corpus_modules"
-        },
+        }
+      ],
+      "lines": [
+        22,
+        287
+      ],
+      "literal": "127"
+    },
+    {
+      "claims": [
         {
           "decimals": 0,
           "field": "value",
@@ -315,24 +341,9 @@
         }
       ],
       "lines": [
-        22,
-        239,
-        287
+        239
       ],
-      "literal": "125"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 0,
-          "field": "value",
-          "metric": "dev_queries"
-        }
-      ],
-      "lines": [
-        289
-      ],
-      "literal": "132"
+      "literal": "128"
     },
     {
       "claims": [
@@ -340,6 +351,16 @@
           "decimals": 0,
           "field": "n",
           "metric": "bm25_top1_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "dev_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "diffusion_inert_rate"
         },
         {
           "decimals": 0,
@@ -407,6 +428,7 @@
         237,
         254,
         289,
+        289,
         306,
         385,
         558,
@@ -418,7 +440,7 @@
         564,
         565
       ],
-      "literal": "133"
+      "literal": "138"
     },
     {
       "claims": [
@@ -431,7 +453,7 @@
       "lines": [
         289
       ],
-      "literal": "265"
+      "literal": "276"
     },
     {
       "claims": [
@@ -488,21 +510,7 @@
         22,
         294
       ],
-      "literal": "485"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 0,
-          "field": "value",
-          "metric": "symbol_graph_edges"
-        }
-      ],
-      "lines": [
-        22,
-        294
-      ],
-      "literal": "967"
+      "literal": "498"
     },
     {
       "claims": [
@@ -513,9 +521,10 @@
         }
       ],
       "lines": [
+        518,
         518
       ],
-      "literal": "15"
+      "literal": "17"
     }
   ],
   "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
