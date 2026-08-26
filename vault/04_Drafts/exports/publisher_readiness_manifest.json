@@ -1,11 +1,11 @@
 {
   "compiled_count": 12,
   "draft_count": 1,
-  "generated_at": "2026-08-26T15:58:38.722531+00:00",
+  "generated_at": "2026-08-26T16:26:22.886220+00:00",
   "ready_count": 12,
   "results": [
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -14,7 +14,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 45432,
+          "rendered_chars": 42110,
           "score": 100
         },
         "clean_section_numbering": {
@@ -46,35 +46,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -82,22 +78,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -109,7 +104,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 17-page camera-ready layout",
+          "detail": "Valid 13-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -136,7 +131,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 17,
+          "total_pages": 13,
           "venue": "NeurIPS"
         },
         "verified_author": {
@@ -179,35 +174,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -215,35 +206,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "NeurIPS"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -252,7 +242,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41278,
+          "rendered_chars": 56689,
           "score": 100
         },
         "clean_section_numbering": {
@@ -284,35 +274,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -320,22 +306,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -417,35 +402,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -453,35 +434,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "ICML"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -490,7 +470,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41429,
+          "rendered_chars": 57142,
           "score": 100
         },
         "clean_section_numbering": {
@@ -522,35 +502,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -558,22 +534,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -585,7 +560,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 9-page camera-ready layout",
+          "detail": "Valid 13-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -612,7 +587,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 9,
+          "total_pages": 13,
           "venue": "CVPR"
         },
         "verified_author": {
@@ -655,35 +630,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -691,35 +662,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "CVPR"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -728,7 +698,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41291,
+          "rendered_chars": 37047,
           "score": 100
         },
         "clean_section_numbering": {
@@ -760,35 +730,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -796,22 +762,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -823,7 +788,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 16-page camera-ready layout",
+          "detail": "Valid 13-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -850,7 +815,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 16,
+          "total_pages": 13,
           "venue": "ACL"
         },
         "verified_author": {
@@ -893,35 +858,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -929,35 +890,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "ACL"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -966,7 +926,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41844,
+          "rendered_chars": 57347,
           "score": 100
         },
         "clean_section_numbering": {
@@ -998,35 +958,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1034,22 +990,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -1061,7 +1016,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 9-page camera-ready layout",
+          "detail": "Valid 11-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -1088,7 +1043,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 9,
+          "total_pages": 11,
           "venue": "IEEEtran"
         },
         "verified_author": {
@@ -1131,35 +1086,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1167,35 +1118,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "IEEEtran"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -1204,7 +1154,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41507,
+          "rendered_chars": 40600,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1236,35 +1186,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1272,22 +1218,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -1299,7 +1244,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 11-page camera-ready layout",
+          "detail": "Valid 13-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -1326,7 +1271,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 11,
+          "total_pages": 13,
           "venue": "ACM"
         },
         "verified_author": {
@@ -1369,35 +1314,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1405,35 +1346,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "ACM"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -1442,7 +1382,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41841,
+          "rendered_chars": 57345,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1474,35 +1414,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1510,22 +1446,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -1537,7 +1472,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 9-page camera-ready layout",
+          "detail": "Valid 11-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -1564,7 +1499,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 9,
+          "total_pages": 11,
           "venue": "IEEE_Access"
         },
         "verified_author": {
@@ -1607,35 +1542,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1643,35 +1574,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "IEEE_Access"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -1680,7 +1610,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41801,
+          "rendered_chars": 37526,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1712,35 +1642,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1748,22 +1674,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -1775,7 +1700,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 10-page camera-ready layout",
+          "detail": "Valid 9-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -1802,7 +1727,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 10,
+          "total_pages": 9,
           "venue": "SpringerOpen"
         },
         "verified_author": {
@@ -1845,35 +1770,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1881,35 +1802,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "SpringerOpen"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -1918,7 +1838,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41841,
+          "rendered_chars": 57345,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1950,35 +1870,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1986,22 +1902,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -2013,7 +1928,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 9-page camera-ready layout",
+          "detail": "Valid 11-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -2040,7 +1955,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 9,
+          "total_pages": 11,
           "venue": "Femington"
         },
         "verified_author": {
@@ -2083,35 +1998,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2119,35 +2030,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_Femington.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_Femington.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "Femington"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -2156,7 +2066,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41801,
+          "rendered_chars": 37526,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2188,35 +2098,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2224,22 +2130,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -2251,7 +2156,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 10-page camera-ready layout",
+          "detail": "Valid 9-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -2278,7 +2183,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 10,
+          "total_pages": 9,
           "venue": "MDPI"
         },
         "verified_author": {
@@ -2321,35 +2226,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2357,35 +2258,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_MDPI.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_MDPI.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "MDPI"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 92.3,
@@ -2394,7 +2294,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41801,
+          "rendered_chars": 37526,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2426,35 +2326,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2462,22 +2358,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -2489,7 +2384,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 10-page camera-ready layout",
+          "detail": "Valid 9-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -2516,7 +2411,7 @@
           "target_pages": null,
           "template_configured": false,
           "template_passed": false,
-          "total_pages": 10,
+          "total_pages": 9,
           "venue": "DOAJ"
         },
         "verified_author": {
@@ -2559,35 +2454,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2595,35 +2486,34 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_DOAJ.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_DOAJ.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "DOAJ"
     },
     {
-      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib",
+      "bib_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib",
       "blocking_reasons": [],
       "checkmate_passed": true,
       "checkmate_score": 100.0,
@@ -2632,7 +2522,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 41801,
+          "rendered_chars": 37526,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2664,35 +2554,31 @@
               "unresolved_links": [],
               "verified_count": 10,
               "verified_links": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             },
             "fact_check_score": 100.0,
             "metric_report": {
               "grounded_claims": [
-                "100%",
                 "95%"
               ],
-              "grounded_count": 2,
+              "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.64%",
-                "10.575 s",
-                "34.55%",
-                "4.07 ms",
-                "64.92%",
-                "97.94%"
+                "0.05 ms",
+                "0.922 s",
+                "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 8,
+              "total_numeric_claims": 4,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2700,22 +2586,21 @@
             "verification_matrix": {
               "broken_citations": [],
               "grounded_metrics": [
-                "100%",
                 "95%"
               ],
               "unresolved_citations": [],
               "unverified_metrics": [],
               "verified_citations": [
-                "arxiv_2005_14165",
-                "arxiv_2010_11146",
+                "arxiv_2312_03893",
                 "arxiv_2404_01131",
+                "arxiv_2404_04289",
+                "arxiv_2406_00584",
                 "arxiv_2412_06333",
                 "arxiv_2501_02497",
+                "arxiv_2501_14050",
+                "crossref_10_1109_access_2026_3656309",
                 "crossref_10_1145_3689096_3689462",
-                "crossref_10_18653_v1_2024_acl_long_810",
-                "crossref_10_18653_v1_2026_findings_acl_1933",
-                "crossref_10_48550_arxiv_2308_00352",
-                "crossref_10_48550_arxiv_2405_15793"
+                "crossref_10_18653_v1_2026_findings_acl_1933"
               ]
             }
           },
@@ -2727,7 +2612,7 @@
           "score": 100
         },
         "valid_layout": {
-          "detail": "Valid 10-page camera-ready layout",
+          "detail": "Valid 9-page camera-ready layout",
           "passed": true,
           "score": 100
         },
@@ -2754,7 +2639,7 @@
           "target_pages": null,
           "template_configured": true,
           "template_passed": true,
-          "total_pages": 10,
+          "total_pages": 9,
           "venue": "arXiv"
         },
         "verified_author": {
@@ -2797,35 +2682,31 @@
           "unresolved_links": [],
           "verified_count": 10,
           "verified_links": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         },
         "fact_check_score": 100.0,
         "metric_report": {
           "grounded_claims": [
-            "100%",
             "95%"
           ],
-          "grounded_count": 2,
+          "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.64%",
-            "10.575 s",
-            "34.55%",
-            "4.07 ms",
-            "64.92%",
-            "97.94%"
+            "0.05 ms",
+            "0.922 s",
+            "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 8,
+          "total_numeric_claims": 4,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2833,31 +2714,30 @@
         "verification_matrix": {
           "broken_citations": [],
           "grounded_metrics": [
-            "100%",
             "95%"
           ],
           "unresolved_citations": [],
           "unverified_metrics": [],
           "verified_citations": [
-            "arxiv_2005_14165",
-            "arxiv_2010_11146",
+            "arxiv_2312_03893",
             "arxiv_2404_01131",
+            "arxiv_2404_04289",
+            "arxiv_2406_00584",
             "arxiv_2412_06333",
             "arxiv_2501_02497",
+            "arxiv_2501_14050",
+            "crossref_10_1109_access_2026_3656309",
             "crossref_10_1145_3689096_3689462",
-            "crossref_10_18653_v1_2024_acl_long_810",
-            "crossref_10_18653_v1_2026_findings_acl_1933",
-            "crossref_10_48550_arxiv_2308_00352",
-            "crossref_10_48550_arxiv_2405_15793"
+            "crossref_10_18653_v1_2026_findings_acl_1933"
           ]
         }
       },
-      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "filename": "review_trustworthy_multi_agent_systems_formal_verification.md",
       "layout_passed": true,
-      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.pdf",
+      "pdf_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_arXiv.pdf",
       "publish_ready": true,
-      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.tex",
-      "title": "Formal Proofs and AST Mutation Mechanics in Self-Healing Code Synthesis: Architectural Topologies, Verification Bounds, and Runtime Repair",
+      "tex_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_arXiv.tex",
+      "title": "Trustworthy Multi-Agent Systems: Formal Contract Verification, Decentralized Governance, and Zero-Hallucination Consensus",
       "venue": "arXiv"
     }
   ],

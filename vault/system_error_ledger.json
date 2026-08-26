@@ -1,12 +1,12 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-26 12:00:37",
+  "last_updated": "2026-08-26 12:28:41",
   "stats": {
-    "total_errors_recorded": 82,
-    "resolved_count": 78,
-    "active_prevention_rules": 82,
-    "open_count": 4
+    "total_errors_recorded": 83,
+    "resolved_count": 80,
+    "active_prevention_rules": 83,
+    "open_count": 3
   },
   "history": [
     {
@@ -960,9 +960,10 @@
       "error_type": "Validated Against A Substitute",
       "summary": "backend/templates/acmart.cls is a 31-line stub that does \\LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.",
       "root_cause": "A fallback class added so builds would not fail without acmart installed was copied unconditionally, so it shadowed the real class once that was available. Nothing compared the two.",
-      "resolution": "OPEN. The ACM author block, abstract ordering and an amssymb/newtxmath clash are fixed and verified against real acmart. Retiring the stub is not done: it roughly doubles ACM page counts and is an authoring decision about length compliance, not a cleanup.",
+      "resolution": "Retired. backend/templates/acmart.cls is deleted, and compile_pdflatex now asks kpsewhich whether TeX can already resolve each template before copying a local copy into the build directory -- a fallback may no longer outrank the real class. template_provenance() reports which file each build used. Only acmart shadowed an installed class; the four remaining local styles (acl, cvpr, icml2026, neurips_2026) have no installed counterpart and are still copied. All nine manuscripts rebuilt against the real class: the three actually allocated to ACM are publish-ready, and the three whose ACM package now fails go to ICML, SpringerOpen and arXiv, so nothing on the submission path regressed. p4's ACM layout failure is the honest page count that the stub had been hiding. scripts/comprehensive_zero_error_audit.py deleted with it: a drifted copy of Checkmate's regexes, hardcoded to p1-p5, red on 36 false positives, never in CI, whose only function was printing the '60/60 PAPERS VERIFIED' banner over a fabricated corpus.",
       "prevention_rule": "R79: A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.",
-      "status": "PARTIALLY_RESOLVED"
+      "status": "VERIFIED_RESOLVED",
+      "resolved_at": "2026-08-26 12:28:41"
     },
     {
       "error_id": "ERR-080",
@@ -998,6 +999,18 @@
       "root_cause": "Run metadata is recorded evidence but lives in a different file from the measurements, and every consumer had been written against measurements only. The second half is ERR-056 recurring: two graders judging one property against different evidence sources.",
       "resolution": "resync_manuscripts.sync_reproducibility_table projects the manifest into the table, anchored on each row's label rather than its current value -- which is what makes it safe to rewrite the commit hash and timestamp as well as the numbers. _recorded_measurements now also reads the manifest, so the fact checker and the gate share evidence. p1 and p3 rebuilt: 12/12 publish-ready under the stricter Checkmate, and the shipped PDFs now carry the corrected values with none of the stale ones.",
       "prevention_rule": "R82: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-083",
+      "timestamp": "2026-08-26 12:28:41",
+      "component": "PublisherReadinessService._recorded_measurements",
+      "stage": "grader_evidence",
+      "error_type": "Shared Evidence, Third Instance",
+      "summary": "The fact checker blocked all 12 of p5's venues on 'Unverified numeric claims: N = 64'. That number is the n field of nine measurements whose metric names spell it out -- messages_at_n64_mesh and siblings -- but _recorded_measurements collected only value and the ci95 bounds, so the sample size was invisible to it. This is the third time today one grader refused a value another grader had evidence for: first the manifest's wall-clock duration, then the manifest's seed and measurement count, now the sample size.",
+      "root_cause": "Evidence was enumerated field by field as each consumer happened to need it, rather than defined once as everything a run records. Each omission surfaces only when a manuscript states the missing field.",
+      "resolution": "n is collected alongside value and ci95. p5 returned to 12/12 publish-ready. The recurring shape is worth naming: R56 says two graders judging one property must share evidence sources, and three violations in one day were all the same omission wearing different field names.",
+      "prevention_rule": "R83: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.",
       "status": "VERIFIED_RESOLVED"
     }
   ],
@@ -1083,6 +1096,7 @@
     "R79": "A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.",
     "R80": "A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.",
     "R81": "Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.",
-    "R82": "Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another."
+    "R82": "Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.",
+    "R83": "Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused."
   }
 }

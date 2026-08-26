@@ -1,5 +1,6 @@
 \documentclass[manuscript,review]{acmart}
 \usepackage{booktabs}
+\let\Bbbk\relax
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 
@@ -11,8 +12,11 @@
 \title{What Moves a Safety Subspace? A Geometric Account of Alignment Drift Under Fine-Tuning}
 
 \author{Aryaman Singh Dev}
-
-\maketitle
+\affiliation{%
+  \institution{Pennsylvania State University}
+  \country{USA}
+}
+\email{asd5520@psu.edu}
 
 \begin{abstract}
 Fine-tuning a safety-aligned model on benign data degrades its safety behaviour, and recent work shows the degradation is unevenly distributed across training samples: high-gradient samples cause disproportionate harm, and filtering them preserves alignment at little cost to task learning \cite{arxiv_2604_17215}. That finding is empirical. This paper asks what geometry could produce it, and answers with a model rather than a benchmark.
@@ -27,6 +31,8 @@ Third, and against our own expectation, this does not make leakage the better se
 
 No vision-language model was loaded, trained or evaluated: this environment has no accelerator. The paper reports no refusal rate, jailbreak result or benchmark score, and its conclusions are conditional on the model it states. All measurements and the code producing them are released.
 \end{abstract}
+
+\maketitle
 
 
 
@@ -318,6 +324,8 @@ Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\per
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -326,6 +334,8 @@ Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\per
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 

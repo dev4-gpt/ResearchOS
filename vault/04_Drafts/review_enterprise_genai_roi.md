@@ -13,7 +13,7 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -118,12 +118,16 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -287,12 +291,16 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
+
 
 
 

@@ -227,6 +227,14 @@ class PublisherReadinessService:
                     values.append(float(row["value"]))
                     for bound in row.get("ci95") or []:
                         values.append(float(bound))
+                    # The sample size is recorded evidence too, and manuscripts
+                    # state it constantly -- "N = 64 agents", "n = 138 queries".
+                    # Without it the fact checker blocked all 12 of p5's venues on
+                    # "Unverified numeric claims: N = 64", a number carried by the
+                    # n field of nine measurements whose metric names literally
+                    # spell it (messages_at_n64_mesh, and so on).
+                    if row.get("n") is not None:
+                        values.append(float(row["n"]))
                 except (ValueError, KeyError, TypeError):
                     continue
 

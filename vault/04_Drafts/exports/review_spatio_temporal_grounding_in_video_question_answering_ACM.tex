@@ -1,5 +1,6 @@
 \documentclass[manuscript,review]{acmart}
 \usepackage{booktabs}
+\let\Bbbk\relax
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 
@@ -11,8 +12,11 @@
 \title{Spatio-Temporal Grounding and Multimodal Reasoning in Video Question Answering: Overcoming Cross-Modal Attention Collapse}
 
 \author{Aryaman Singh Dev}
-
-\maketitle
+\affiliation{%
+  \institution{Pennsylvania State University}
+  \country{USA}
+}
+\email{asd5520@psu.edu}
 
 \begin{abstract}
 Video question answering requires a model to locate the relevant moment and the relevant region before it can answer, and the dominant failure mode is that attention over long sequences disperses rather than concentrates. This paper develops the analysis of that failure and proposes a decomposed routing architecture addressing it.
@@ -23,6 +27,8 @@ We report no experimental results. Evaluating this proposal requires training an
 
 Readers looking for benchmark comparisons against LLaVA, or accuracy figures on VideoQA datasets, will not find them here and should not infer them. What the paper offers is a mechanism, an architecture that follows from it, and a falsifiable set of predictions.
 \end{abstract}
+
+\maketitle
 
 
 
@@ -65,7 +71,9 @@ To overcome cross-modal attention collapse and establish robust spatio-temporal 
 \subsection{Standard Spatio-Temporal Cross-Attention Formulation}
 
 
-Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled frames $X_v = \{I_1, I_2, \ldots, I_T\}$, where each frame $I_t \in \mathbb{R}^{H \times W \times C}$ is encoded by a Vision Transformer backbone \cite{arxiv_2010_11146} into spatial patch tokens:
+Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled frames $X_v = \{I_1, I_2, \ldots, I_T\}$, where each frame $I_t \in \mathbb{R}^{H \times W \times C}$ is encoded by a Vision Transformer backbone into spatial patch tokens:
+
+
 
 
 
@@ -116,9 +124,13 @@ $}
 
 
 
+
+
 where $K$ is the number of spatial patches per frame and $d_v$ is the embedding dimension. The concatenated video representation is $\mathbf{Z} = [Z_1; Z_2; \ldots; Z_T] \in \mathbb{R}^{(T \cdot K) \times d_v}$.
 
 Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard cross-attention computes the attention matrix $\mathbf{A} \in \mathbb{R}^{M \times (T \cdot K)}$:
+
+
 
 
 
@@ -147,6 +159,8 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -200,6 +214,8 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -207,6 +223,8 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -254,6 +272,8 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -262,6 +282,8 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -338,6 +360,8 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -367,9 +391,13 @@ $}
 
 
 
+
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 \textbf{Definition 2 (Orthogonal Projector Constraint).} We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
+
 
 
 
@@ -419,7 +447,11 @@ $}
 
 
 
+
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
+
 
 
 
@@ -448,6 +480,8 @@ The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -499,6 +533,8 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -507,6 +543,8 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -688,6 +726,8 @@ Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mat
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -695,6 +735,8 @@ a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 

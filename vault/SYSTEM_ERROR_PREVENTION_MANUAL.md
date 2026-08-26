@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 12:00:37
-**Total Tracked Incidents:** 82
-**Resolved & Verified:** 78
-**Open / Unresolved:** 4
-**Active Prevention Rules:** 82
+**Last Updated:** 2026-08-26 12:28:41
+**Total Tracked Incidents:** 83
+**Resolved & Verified:** 80
+**Open / Unresolved:** 3
+**Active Prevention Rules:** 83
 
 ---
 
@@ -13,7 +13,6 @@
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-062]** `PARTIALLY_RESOLVED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
 - **[ERR-063]** `PARTIALLY_RESOLVED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
-- **[ERR-079]** `PARTIALLY_RESOLVED` — backend/templates/acmart.cls is a 31-line stub that does \LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.
 
 ---
 
@@ -101,6 +100,7 @@
 - **[R80]**: A test run must leave the working tree byte-identical. Enforce it in CI rather than trusting it: results that depend on how many times the suite has run are not results.
 - **[R81]**: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.
 - **[R82]**: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.
+- **[R83]**: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.
 
 ---
 
@@ -808,14 +808,14 @@
 - **Prevention Rule:** `R78: An audit must assert that the good thing is present, not merely that a known bad thing is absent, and it must fail when its evidence is missing. A score threshold that lets a failed check through is not a threshold, it is a waiver.`
 - **Status:** ✅ `VERIFIED_RESOLVED`
 
-### ⚠️ [ERR-079] backend/templates/acmart.cls is a 31-line stub that does \LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.
+### ❌ [ERR-079] backend/templates/acmart.cls is a 31-line stub that does \LoadClass{article}, and compile_pdflatex copies every file in backend/templates/ into the build directory, where LaTeX resolves it ahead of the real acmart installed at /usr/local/texlive/2024. Every ACM package this pipeline has produced was typeset as a two-column article. Measured on the shipped p3 package: 9 pages under the stub, 16 under real acmart. Page-limit and layout validation for ACM have therefore never run against ACM's class, and publisher_readiness gates venue approval on that verdict.
 - **Timestamp:** `2026-08-26 11:50:44`
 - **Component:** `backend/templates/acmart.cls + LaTeXExporter.compile_pdflatex` (venue_rendering)
 - **Error Type:** `Validated Against A Substitute`
 - **Root Cause:** A fallback class added so builds would not fail without acmart installed was copied unconditionally, so it shadowed the real class once that was available. Nothing compared the two.
-- **Resolution:** OPEN. The ACM author block, abstract ordering and an amssymb/newtxmath clash are fixed and verified against real acmart. Retiring the stub is not done: it roughly doubles ACM page counts and is an authoring decision about length compliance, not a cleanup.
+- **Resolution:** Retired. backend/templates/acmart.cls is deleted, and compile_pdflatex now asks kpsewhich whether TeX can already resolve each template before copying a local copy into the build directory -- a fallback may no longer outrank the real class. template_provenance() reports which file each build used. Only acmart shadowed an installed class; the four remaining local styles (acl, cvpr, icml2026, neurips_2026) have no installed counterpart and are still copied. All nine manuscripts rebuilt against the real class: the three actually allocated to ACM are publish-ready, and the three whose ACM package now fails go to ICML, SpringerOpen and arXiv, so nothing on the submission path regressed. p4's ACM layout failure is the honest page count that the stub had been hiding. scripts/comprehensive_zero_error_audit.py deleted with it: a drifted copy of Checkmate's regexes, hardcoded to p1-p5, red on 36 false positives, never in CI, whose only function was printing the '60/60 PAPERS VERIFIED' banner over a fabricated corpus.
 - **Prevention Rule:** `R79: A local fallback must never silently outrank the real thing. If a venue's class is installed, build against it; if a stub is used, the report must say so, because a page count measured against a substitute is not a page count.`
-- **Status:** ⚠️ `PARTIALLY_RESOLVED`
+- **Status:** ✅ `VERIFIED_RESOLVED`
 
 ### ❌ [ERR-080] CouncilOrchestrator hardcoded ContinualMemoryManager() with no path, so it always wrote to the production vault/harness_memory.json regardless of the vault_path it was given. test_council.py calls run_research 18 times, and 18 'test topic' entries were already committed to that tracked file, which had grown from test runs nobody attributed.
 - **Timestamp:** `2026-08-26 11:50:44`
@@ -842,4 +842,13 @@
 - **Root Cause:** Run metadata is recorded evidence but lives in a different file from the measurements, and every consumer had been written against measurements only. The second half is ERR-056 recurring: two graders judging one property against different evidence sources.
 - **Resolution:** resync_manuscripts.sync_reproducibility_table projects the manifest into the table, anchored on each row's label rather than its current value -- which is what makes it safe to rewrite the commit hash and timestamp as well as the numbers. _recorded_measurements now also reads the manifest, so the fact checker and the gate share evidence. p1 and p3 rebuilt: 12/12 publish-ready under the stricter Checkmate, and the shipped PDFs now carry the corrected values with none of the stale ones.
 - **Prevention Rule:** `R82: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-083] The fact checker blocked all 12 of p5's venues on 'Unverified numeric claims: N = 64'. That number is the n field of nine measurements whose metric names spell it out -- messages_at_n64_mesh and siblings -- but _recorded_measurements collected only value and the ci95 bounds, so the sample size was invisible to it. This is the third time today one grader refused a value another grader had evidence for: first the manifest's wall-clock duration, then the manifest's seed and measurement count, now the sample size.
+- **Timestamp:** `2026-08-26 12:28:41`
+- **Component:** `PublisherReadinessService._recorded_measurements` (grader_evidence)
+- **Error Type:** `Shared Evidence, Third Instance`
+- **Root Cause:** Evidence was enumerated field by field as each consumer happened to need it, rather than defined once as everything a run records. Each omission surfaces only when a manuscript states the missing field.
+- **Resolution:** n is collected alongside value and ci95. p5 returned to 12/12 publish-ready. The recurring shape is worth naming: R56 says two graders judging one property must share evidence sources, and three violations in one day were all the same omission wearing different field names.
+- **Prevention Rule:** `R83: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -1,5 +1,6 @@
 import re
 import os
+import subprocess
 from typing import Dict, Any, List, Optional
 
 from domain.models import citation_key
@@ -125,6 +126,34 @@ class LaTeXExporterService:
         self.last_build_log = ""
         self.last_compile_used_package_fallback = False
         self.last_compile_fallback_replacements: List[str] = []
+        # {template filename: path actually used}. A path under backend/templates
+        # means the local stub was used because TeX could not find the real class,
+        # which is a caveat on any page count taken from that build.
+        self._template_sources: Dict[str, str] = {}
+
+    @staticmethod
+    def _installed_tex_file(filename: str) -> str:
+        """Where TeX would find *filename* on its own, or '' if it would not.
+
+        kpsewhich answers the same question pdflatex will ask, which is the only
+        answer that matters: if TeX can resolve the class, a copy of a stub in the
+        build directory silently outranks it.
+        """
+        for exe in ("kpsewhich", "/Library/TeX/texbin/kpsewhich", "/usr/bin/kpsewhich"):
+            try:
+                out = subprocess.run([exe, filename], capture_output=True,
+                                     text=True, timeout=15)
+            except (FileNotFoundError, OSError, subprocess.SubprocessError):
+                continue
+            path = out.stdout.strip().splitlines()
+            if out.returncode == 0 and path and os.path.exists(path[0]):
+                return path[0]
+            return ""
+        return ""
+
+    def template_provenance(self) -> Dict[str, str]:
+        """Which class/style file each build actually used, real or local stub."""
+        return dict(self._template_sources)
 
     @staticmethod
     def validate_latex_source(tex_code: str) -> List[str]:
@@ -1258,8 +1287,22 @@ This empirical synthesis is subject to primary repository indexing limits and pu
             if os.path.exists(templates_dir):
                 for fname in os.listdir(templates_dir):
                     src_f = os.path.join(templates_dir, fname)
-                    if os.path.isfile(src_f):
-                        shutil.copy(src_f, tmpdir)
+                    if not os.path.isfile(src_f):
+                        continue
+                    # A local template is a fallback, not a preference. Copying it
+                    # unconditionally put it in the build directory, where LaTeX
+                    # resolves it ahead of the installed class -- so every ACM
+                    # package was typeset by a 31-line \LoadClass{article} stub
+                    # instead of acmart, and its page count was measured against
+                    # the wrong document class (9 pages vs 16 on p3). Skip the
+                    # local copy whenever TeX can already find the real thing,
+                    # and say which was used rather than leaving it implicit.
+                    installed = self._installed_tex_file(fname)
+                    if installed:
+                        self._template_sources[fname] = installed
+                        continue
+                    self._template_sources[fname] = src_f
+                    shutil.copy(src_f, tmpdir)
 
             # Figures live beside the drafts and are referenced by basename, so the
             # build directory needs them too or every \includegraphics fails.

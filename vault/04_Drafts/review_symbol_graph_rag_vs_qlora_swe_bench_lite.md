@@ -90,12 +90,16 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
+
 
 
 
@@ -151,11 +155,15 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -209,11 +217,15 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -465,6 +477,8 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
@@ -472,6 +486,8 @@ $$
 & + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
 \end{aligned}
 $$
+
+
 
 
 
@@ -503,11 +519,15 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
+
 $$
 \begin{aligned}
 \boldsymbol{\pi} = \alpha P^{\top} \boldsymbol{\pi} + (1 - \alpha)\mathbf{s}
 \end{aligned}
 $$
+
+
 
 
 

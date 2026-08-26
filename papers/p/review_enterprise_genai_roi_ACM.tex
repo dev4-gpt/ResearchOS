@@ -1,5 +1,6 @@
 \documentclass[manuscript,review]{acmart}
 \usepackage{booktabs}
+\let\Bbbk\relax
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 
@@ -11,8 +12,11 @@
 \title{Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption}
 
 \author{Aryaman Singh Dev}
-
-\maketitle
+\affiliation{%
+  \institution{Pennsylvania State University}
+  \country{USA}
+}
+\email{asd5520@psu.edu}
 
 \begin{abstract}
 Enterprise adoption of generative AI has outpaced the evidence base for evaluating it. This review characterises that evidence base by census rather than by meta-analytic pooling, because the primary studies do not report the comparable effect sizes pooling requires.
@@ -23,6 +27,8 @@ The finding that matters for practice is how little of this literature reports d
 
 We therefore present a measurement framework and a taxonomy of what would need to be reported, rather than a pooled ROI estimate. Where individual studies report returns, those figures belong to the study that measured them and are attributed accordingly. This review conducted no survey of its own and reports no enterprise deployment count \cite{openalex_w4400993506}.
 \end{abstract}
+
+\maketitle
 
 
 
@@ -143,6 +149,8 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -151,6 +159,8 @@ C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfe
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -340,6 +350,8 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -348,6 +360,8 @@ Y = & \alpha + \tau X_{\text{GenAI}} \\
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
