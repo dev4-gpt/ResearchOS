@@ -1,0 +1,814 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_ast_nodes"
+        }
+      ],
+      "lines": [
+        22,
+        718,
+        872
+      ],
+      "literal": "38{,}413"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "corpus_ast_nodes"
+        }
+      ],
+      "lines": [
+        1034
+      ],
+      "literal": "38413.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "syntactic_validity_mu_del"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "syntactic_validity_mu_sub"
+        }
+      ],
+      "lines": [
+        22,
+        747,
+        749
+      ],
+      "literal": "100.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mean_prefilter_latency_ms"
+        }
+      ],
+      "lines": [
+        1037
+      ],
+      "literal": "4.3485"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "syntactic_validity_mu_del"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "syntactic_validity_mu_sub"
+        }
+      ],
+      "lines": [
+        1052,
+        1055
+      ],
+      "literal": "100.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "guards_per_hundred_mutants"
+        }
+      ],
+      "lines": [
+        699
+      ],
+      "literal": "12.82"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "smt_guards_checked"
+        }
+      ],
+      "lines": [
+        1045
+      ],
+      "literal": "121.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "operator_rejection_spread_pp"
+        }
+      ],
+      "lines": [
+        688
+      ],
+      "literal": "33.46"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "min_operator_rejection_rate"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_sub"
+        }
+      ],
+      "lines": [
+        689,
+        747,
+        1043
+      ],
+      "literal": "33.72"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_wrap"
+        }
+      ],
+      "lines": [
+        750,
+        1044
+      ],
+      "literal": "34.20"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_reorder"
+        }
+      ],
+      "lines": [
+        751,
+        1042
+      ],
+      "literal": "34.55"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "stage_marginal_rejection_binding"
+        }
+      ],
+      "lines": [
+        761,
+        790,
+        874
+      ],
+      "literal": "43.54"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "prefilter_rejection_rate_overall"
+        }
+      ],
+      "lines": [
+        22,
+        752,
+        874,
+        1039
+      ],
+      "literal": "43.96"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_del"
+        }
+      ],
+      "lines": [
+        749,
+        1040
+      ],
+      "literal": "48.70"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "smt_marginal_rejection_rate"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "stage_entering_smt"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "stage_entering_smt"
+        }
+      ],
+      "lines": [
+        1049
+      ],
+      "literal": "529.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_repair_steps"
+        }
+      ],
+      "lines": [
+        1038
+      ],
+      "literal": "6.400"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "max_operator_rejection_rate"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "rejection_rate_mu_ins"
+        }
+      ],
+      "lines": [
+        690,
+        748,
+        1041
+      ],
+      "literal": "67.18"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "stage_entering_binding"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "stage_entering_binding"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "stage_marginal_rejection_binding"
+        }
+      ],
+      "lines": [
+        1047
+      ],
+      "literal": "937.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "guards_per_hundred_mutants"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "mean_prefilter_latency_ms"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "prefilter_rejection_rate_overall"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "smt_guards_checked"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "stage_entering_compile"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "stage_entering_compile"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "stage_marginal_rejection_compile"
+        }
+      ],
+      "lines": [
+        1048
+      ],
+      "literal": "944.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "min_syntactic_validity"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "syntactic_validity_mu_wrap"
+        }
+      ],
+      "lines": [
+        22,
+        677,
+        750,
+        1056
+      ],
+      "literal": "97.93"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "syntactic_validity_mu_reorder"
+        }
+      ],
+      "lines": [
+        751,
+        1054
+      ],
+      "literal": "98.95"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "syntactic_validity_mu_ins"
+        }
+      ],
+      "lines": [
+        748,
+        1053
+      ],
+      "literal": "99.49"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "smt_marginal_rejection_rate"
+        }
+      ],
+      "lines": [
+        24,
+        762,
+        790,
+        874
+      ],
+      "literal": "0.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "stage_marginal_rejection_compile"
+        }
+      ],
+      "lines": [
+        683,
+        760,
+        1051
+      ],
+      "literal": "0.74"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "max_repair_steps"
+        }
+      ],
+      "lines": [
+        1036
+      ],
+      "literal": "18.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "corpus_ast_nodes"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "corpus_modules"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "corpus_modules"
+        }
+      ],
+      "lines": [
+        1035
+      ],
+      "literal": "26.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_prefilter_latency_ms"
+        }
+      ],
+      "lines": [
+        22,
+        775,
+        790,
+        874
+      ],
+      "literal": "4.35"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "stage_marginal_rejection_binding"
+        }
+      ],
+      "lines": [
+        1050
+      ],
+      "literal": "43.5"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_repair_steps"
+        }
+      ],
+      "lines": [
+        26,
+        579,
+        776,
+        878
+      ],
+      "literal": "6.40"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "smt_marginal_rejection_rate"
+        }
+      ],
+      "lines": [
+        1046
+      ],
+      "literal": "0.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "syntactic_validity_mu_del"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "syntactic_validity_mu_sub"
+        }
+      ],
+      "lines": [
+        1012
+      ],
+      "literal": "100"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "smt_guards_checked"
+        }
+      ],
+      "lines": [
+        24,
+        764
+      ],
+      "literal": "121"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_sub"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_sub"
+        }
+      ],
+      "lines": [
+        747,
+        1043,
+        1055
+      ],
+      "literal": "172"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_reorder"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_reorder"
+        }
+      ],
+      "lines": [
+        751,
+        1042,
+        1054
+      ],
+      "literal": "191"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_del"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_wrap"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_del"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_wrap"
+        }
+      ],
+      "lines": [
+        749,
+        750,
+        1040,
+        1052,
+        1056
+      ],
+      "literal": "193"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rejection_rate_mu_ins"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "syntactic_validity_mu_ins"
+        }
+      ],
+      "lines": [
+        748,
+        1041,
+        1053
+      ],
+      "literal": "195"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "max_repair_steps"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_repair_steps"
+        }
+      ],
+      "lines": [
+        26,
+        579,
+        776,
+        777,
+        779,
+        781,
+        878,
+        1036,
+        1036,
+        1038
+      ],
+      "literal": "300"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "smt_marginal_rejection_rate"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "stage_entering_smt"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stage_entering_smt"
+        }
+      ],
+      "lines": [
+        762,
+        1046,
+        1049
+      ],
+      "literal": "529"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "stage_entering_binding"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stage_entering_binding"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stage_marginal_rejection_binding"
+        }
+      ],
+      "lines": [
+        761,
+        1047,
+        1050
+      ],
+      "literal": "937"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "guards_per_hundred_mutants"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_prefilter_latency_ms"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "prefilter_rejection_rate_overall"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "smt_guards_checked"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "stage_entering_compile"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stage_entering_compile"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stage_marginal_rejection_compile"
+        }
+      ],
+      "lines": [
+        22,
+        720,
+        752,
+        760,
+        775,
+        872,
+        1037,
+        1039,
+        1045,
+        1048,
+        1051
+      ],
+      "literal": "944"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "max_repair_steps"
+        }
+      ],
+      "lines": [
+        26,
+        579,
+        777,
+        779,
+        878,
+        984
+      ],
+      "literal": "18"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "corpus_ast_nodes"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_modules"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "corpus_modules"
+        }
+      ],
+      "lines": [
+        22,
+        43,
+        718,
+        872,
+        1034,
+        1035
+      ],
+      "literal": "26"
+    }
+  ],
+  "run_id": "draft-autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+  "stem": "autonomous_code_synthesis_and_self_healing_multi_agent_systems"
+}

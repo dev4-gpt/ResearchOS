@@ -1,0 +1,523 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 5,
+          "field": "value",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        }
+      ],
+      "lines": [
+        559
+      ],
+      "literal": "-0.01526"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        }
+      ],
+      "lines": [
+        24,
+        229,
+        313,
+        385
+      ],
+      "literal": "-0.0153"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_cohens_d"
+        }
+      ],
+      "lines": [
+        24,
+        313,
+        385,
+        565
+      ],
+      "literal": "-0.0691"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        562
+      ],
+      "literal": "85.7143"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        561
+      ],
+      "literal": "88.7218"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        563,
+        564
+      ],
+      "literal": "97.7444"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_ppr"
+        }
+      ],
+      "lines": [
+        24,
+        311,
+        385,
+        560
+      ],
+      "literal": "0.9107"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_bm25"
+        }
+      ],
+      "lines": [
+        24,
+        310,
+        385,
+        558
+      ],
+      "literal": "0.9259"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        26,
+        326
+      ],
+      "literal": "100.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "queries_improved_by_diffusion"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "swebench_mean_files_per_patch"
+        }
+      ],
+      "lines": [
+        26,
+        325
+      ],
+      "literal": "1.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        569
+      ],
+      "literal": "100.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_gold_file_named_rate"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_mean_files_per_patch"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        567
+      ],
+      "literal": "300.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        26,
+        327,
+        329,
+        387,
+        566
+      ],
+      "literal": "55.33"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        24,
+        311
+      ],
+      "literal": "85.71"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        24,
+        310
+      ],
+      "literal": "88.72"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        310,
+        311
+      ],
+      "literal": "97.74"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "queries_improved_by_diffusion"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_mean_files_per_patch"
+        }
+      ],
+      "lines": [
+        568
+      ],
+      "literal": "1.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_top1_damaged_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "bm25_top1_queries"
+        }
+      ],
+      "lines": [
+        253
+      ],
+      "literal": "118"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_modules"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "queries_unchanged_by_diffusion"
+        }
+      ],
+      "lines": [
+        22,
+        239,
+        287
+      ],
+      "literal": "125"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "dev_queries"
+        }
+      ],
+      "lines": [
+        289
+      ],
+      "literal": "132"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_top1_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_1_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_1_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_5_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_degraded_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_improved_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_unchanged_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_cohens_d"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "test_queries"
+        }
+      ],
+      "lines": [
+        22,
+        237,
+        254,
+        289,
+        306,
+        385,
+        558,
+        559,
+        560,
+        561,
+        562,
+        563,
+        564,
+        565
+      ],
+      "literal": "133"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_queries_after_filter"
+        }
+      ],
+      "lines": [
+        289
+      ],
+      "literal": "265"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_gold_file_named_rate"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_mean_files_per_patch"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        26,
+        44,
+        123,
+        320,
+        324,
+        367,
+        387,
+        566,
+        567,
+        568,
+        569
+      ],
+      "literal": "300"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "symbol_graph_nodes"
+        }
+      ],
+      "lines": [
+        22,
+        294
+      ],
+      "literal": "485"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "symbol_graph_edges"
+        }
+      ],
+      "lines": [
+        22,
+        294
+      ],
+      "literal": "967"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_missed_recovered_by_diffusion"
+        }
+      ],
+      "lines": [
+        518
+      ],
+      "literal": "15"
+    }
+  ],
+  "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+  "stem": "review_symbol_graph_rag_vs_qlora_swe_bench_lite"
+}

@@ -5,21 +5,21 @@
       "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
       "run_id": "draft-autonomous_code_synthesis_and_self_healing_multi_agent_systems",
       "total_claims": 17,
-      "experiment_backed": 5,
+      "experiment_backed": 17,
       "citation_backed": 0,
-      "ungrounded": 12,
+      "ungrounded": 0,
       "claims": [
         {
           "claim_id": "C0001",
-          "raw": "97.89\\%",
-          "value": 97.89,
+          "raw": "97.93\\%",
+          "value": 97.93,
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "Syntactic validity is high across operators ($97.89\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "sentence": "Syntactic validity is high across operators ($97.93\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0002",
@@ -28,22 +28,22 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "Syntactic validity is high across operators ($97.89\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "sentence": "Syntactic validity is high across operators ($97.93\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0003",
-          "raw": "46.34\\%",
-          "value": 46.34,
+          "raw": "43.96\\%",
+          "value": 43.96,
           "unit": "%",
           "kind": "percentage",
           "line_no": 22,
-          "sentence": "A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $46.34\\%$ of candidates at a mean cost of $4.09$ ms each.",
+          "sentence": "A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $43.96\\%$ of candidates at a mean cost of $4.35$ ms each.",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0004",
@@ -52,82 +52,82 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Across 93 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\\%$",
+          "sentence": "Across 121 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\\%$",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0005",
-          "raw": "97.89%",
-          "value": 97.89,
+          "raw": "97.93%",
+          "value": 97.93,
           "unit": "%",
           "kind": "percentage",
           "line_no": 677,
-          "sentence": "**97.89%**",
+          "sentence": "**97.93%**",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0006",
-          "raw": "0.64%",
-          "value": 0.64,
+          "raw": "0.74%",
+          "value": 0.74,
           "unit": "%",
           "kind": "percentage",
           "line_no": 683,
-          "sentence": "**0.64%** of what it sees.",
+          "sentence": "**0.74%** of what it sees.",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0007",
-          "raw": "35.26%",
-          "value": 35.26,
+          "raw": "33.72%",
+          "value": 33.72,
           "unit": "%",
           "kind": "percentage",
           "line_no": 689,
-          "sentence": "least-filtered (35.26%) and most-filtered",
+          "sentence": "least-filtered (33.72%) and most-filtered",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0008",
-          "raw": "64.62%",
-          "value": 64.62,
+          "raw": "67.18%",
+          "value": 67.18,
           "unit": "%",
           "kind": "percentage",
           "line_no": 690,
-          "sentence": "(64.62%)",
+          "sentence": "(67.18%)",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0009",
-          "raw": "4.09 ms",
-          "value": 4.09,
+          "raw": "4.35 ms",
+          "value": 4.35,
           "unit": "time",
           "kind": "duration",
           "line_no": 775,
-          "sentence": "4.09 ms/candidate",
+          "sentence": "4.35 ms/candidate",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
         },
         {
           "claim_id": "C0010",
-          "raw": "46.00\\%",
-          "value": 46.0,
+          "raw": "43.54\\%",
+          "value": 43.54,
           "unit": "%",
           "kind": "percentage",
           "line_no": 790,
-          "sentence": "Static name binding rejects 46.00\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "sentence": "Static name binding rejects 43.54\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0011",
@@ -136,46 +136,46 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 790,
-          "sentence": "Static name binding rejects 46.00\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "sentence": "Static name binding rejects 43.54\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0012",
-          "raw": "4.09 ms",
-          "value": 4.09,
+          "raw": "4.35 ms",
+          "value": 4.35,
           "unit": "time",
           "kind": "duration",
           "line_no": 790,
-          "sentence": "On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.09 ms per candidate is dominated by a stage that contributes nothing.",
+          "sentence": "On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.35 ms per candidate is dominated by a stage that contributes nothing.",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
         },
         {
           "claim_id": "C0013",
-          "raw": "46.34\\%",
-          "value": 46.34,
+          "raw": "43.96\\%",
+          "value": 43.96,
           "unit": "%",
           "kind": "percentage",
           "line_no": 874,
-          "sentence": "The pipeline rejects 46.34\\% of candidates before any sandbox is started, at a mean cost of 4.09 ms each",
+          "sentence": "The pipeline rejects 43.96\\% of candidates before any sandbox is started, at a mean cost of 4.35 ms each",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0014",
-          "raw": "46.00\\%",
-          "value": 46.0,
+          "raw": "43.54\\%",
+          "value": 43.54,
           "unit": "%",
           "kind": "percentage",
           "line_no": 874,
-          "sentence": "That saving is almost entirely attributable to static name binding, which rejects 46.00\\% of the candidates reaching it",
+          "sentence": "That saving is almost entirely attributable to static name binding, which rejects 43.54\\% of the candidates reaching it",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#d6a63d5914f5"
         },
         {
           "claim_id": "C0015",
@@ -191,15 +191,15 @@
         },
         {
           "claim_id": "C0016",
-          "raw": "4.09 ms",
-          "value": 4.09,
+          "raw": "4.35 ms",
+          "value": 4.35,
           "unit": "time",
           "kind": "duration",
           "line_no": 874,
-          "sentence": "The pipeline rejects 46.34\\% of candidates before any sandbox is started, at a mean cost of 4.09 ms each",
+          "sentence": "The pipeline rejects 43.96\\% of candidates before any sandbox is started, at a mean cost of 4.35 ms each",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#27fe42aa6447"
         },
         {
           "claim_id": "C0017",
@@ -215,7 +215,7 @@
         }
       ],
       "measurements_found": 28,
-      "grounded_ratio": 0.2941
+      "grounded_ratio": 1.0
     },
     "review_architectural_dynamics_long_12_page": {
       "draft": "review_architectural_dynamics_long_12_page",
@@ -1262,51 +1262,51 @@
       "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
       "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
       "total_claims": 12,
-      "experiment_backed": 6,
+      "experiment_backed": 11,
       "citation_backed": 1,
-      "ungrounded": 5,
+      "ungrounded": 0,
       "claims": [
         {
           "claim_id": "C0001",
-          "raw": "d = -0.0137",
-          "value": -0.0137,
+          "raw": "d = -0.0691",
+          "value": -0.0691,
           "unit": "",
           "kind": "effect_size",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\\% against 81.55\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
         },
         {
           "claim_id": "C0002",
-          "raw": "80.58\\%",
-          "value": 80.58,
+          "raw": "85.71\\%",
+          "value": 85.71,
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\\% against 81.55\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_results.json#e99219ff1c4e"
         },
         {
           "claim_id": "C0003",
-          "raw": "81.55\\%",
-          "value": 81.55,
+          "raw": "88.72\\%",
+          "value": 88.72,
           "unit": "%",
           "kind": "percentage",
           "line_no": 24,
-          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.8701 against 0.8739 ($\\Delta = -0.0038$, Cohen's $d = -0.0137$), and P@1 80.58\\% against 81.55\\%",
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9107 against 0.9259 ($\\Delta = -0.0153$, Cohen's $d = -0.0691$), and P@1 85.71\\% against 88.72\\%",
           "cite_keys": [
             "arxiv_2501.02497"
           ],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_results.json#e99219ff1c4e"
         },
         {
           "claim_id": "C0004",
@@ -1334,15 +1334,15 @@
         },
         {
           "claim_id": "C0006",
-          "raw": "d = -0.0137",
-          "value": -0.0137,
+          "raw": "d = -0.0691",
+          "value": -0.0691,
           "unit": "",
           "kind": "effect_size",
           "line_no": 313,
-          "sentence": "Paired difference in MRR: $\\Delta = -0.0038$, Cohen's $d = -0.0137$",
+          "sentence": "Paired difference in MRR: $\\Delta = -0.0153$, Cohen's $d = -0.0691$",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
         },
         {
           "claim_id": "C0007",
@@ -1382,15 +1382,15 @@
         },
         {
           "claim_id": "C0010",
-          "raw": "d = -0.0137",
-          "value": -0.0137,
+          "raw": "d = -0.0691",
+          "value": -0.0691,
           "unit": "",
           "kind": "effect_size",
           "line_no": 385,
-          "sentence": "With hyperparameters selected on a held-out split and reported on 103 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.8701 against BM25's 0.8739 -- a difference of -0.0038 with Cohen's $d = -0.0137$, well inside the noise.",
+          "sentence": "With hyperparameters selected on a held-out split and reported on 133 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.9107 against BM25's 0.9259 -- a difference of -0.0153 with Cohen's $d = -0.0691$, well inside the noise.",
           "cite_keys": [],
-          "grounding": "UNGROUNDED",
-          "evidence": null
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#006efbe482ef"
         },
         {
           "claim_id": "C0011",
@@ -1419,8 +1419,8 @@
           "evidence": "attributed to crossref_10_48550_arxiv_2305_14314"
         }
       ],
-      "measurements_found": 18,
-      "grounded_ratio": 0.5833
+      "measurements_found": 25,
+      "grounded_ratio": 1.0
     },
     "review_trustworthy_multi_agent_systems_formal_verification": {
       "draft": "review_trustworthy_multi_agent_systems_formal_verification",
@@ -1552,6 +1552,20 @@
       "runner_up": "IEEE_Access",
       "estimated_pages": 8.2
     },
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems": {
+      "venue": "ACM",
+      "tier": "reputable_journal",
+      "score": 66.25,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 12/25 (matched: code, program, repair).",
+        "Length fits: ~8.1 of 10 pages (+20).",
+        "Acceptance weight +3.8."
+      ],
+      "warnings": [],
+      "runner_up": "IEEE_Access",
+      "estimated_pages": 8.1
+    },
     "review_architectural_dynamics_long_12_page": {
       "venue": "ICML",
       "tier": "competitive",
@@ -1566,18 +1580,32 @@
       "runner_up": "IEEE_Access",
       "estimated_pages": 7.7
     },
-    "review_enterprise_genai_roi": {
-      "venue": "ACM",
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
+      "venue": "IEEE_Access",
       "tier": "reputable_journal",
-      "score": 53.75,
+      "score": 54.5,
       "rationale": [
         "All quantitative claims trace to evidence (+30).",
         "Scope fit 0/25 (matched: none).",
-        "Length fits: ~7.0 of 10 pages (+20).",
-        "Acceptance weight +3.8."
+        "Length fits: ~7.3 of 12 pages (+20).",
+        "Acceptance weight +4.5."
       ],
       "warnings": [],
       "runner_up": "SpringerOpen",
+      "estimated_pages": 7.3
+    },
+    "review_enterprise_genai_roi": {
+      "venue": "SpringerOpen",
+      "tier": "reputable_journal",
+      "score": 50.08,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 8/25 (matched: adoption, enterprise).",
+        "Under-built: ~7.0 pages against a 14-page venue (7.0 pages short) (+5).",
+        "Acceptance weight +6.8."
+      ],
+      "warnings": [],
+      "runner_up": "IEEEtran",
       "estimated_pages": 7.0
     },
     "review_trustworthy_multi_agent_systems_formal_verification": {
@@ -1591,35 +1619,37 @@
         "Acceptance weight +4.5."
       ],
       "warnings": [],
-      "runner_up": "SpringerOpen",
+      "runner_up": "ACM",
       "estimated_pages": 7.0
     },
     "review_composable_ai_systems_for_trustworthy_agentic_pipelines": {
-      "venue": "SpringerOpen",
+      "venue": "ACM",
       "tier": "reputable_journal",
-      "score": 41.75,
+      "score": 35.75,
       "rationale": [
         "All quantitative claims trace to evidence (+30).",
         "Scope fit 0/25 (matched: none).",
-        "Under-built: ~6.7 pages against a 14-page venue (7.3 pages short) (+5).",
-        "Acceptance weight +6.8."
+        "Length fits: ~6.7 of 10 pages (+20).",
+        "Acceptance weight +3.8.",
+        "Already used by another manuscript in this batch (-18)."
       ],
       "warnings": [],
-      "runner_up": "IEEE_Access",
+      "runner_up": "arXiv",
       "estimated_pages": 6.7
     },
     "review_continual_safety_alignment_in_vision_language_models": {
-      "venue": "IEEE_Access",
+      "venue": "ACM",
       "tier": "reputable_journal",
-      "score": 39.5,
+      "score": 35.75,
       "rationale": [
         "All quantitative claims trace to evidence (+30).",
         "Scope fit 0/25 (matched: none).",
-        "Under-built: ~6.2 pages against a 12-page venue (5.8 pages short) (+5).",
-        "Acceptance weight +4.5."
+        "Length fits: ~6.2 of 10 pages (+20).",
+        "Acceptance weight +3.8.",
+        "Already used by another manuscript in this batch (-18)."
       ],
       "warnings": [],
-      "runner_up": "ACM",
+      "runner_up": "arXiv",
       "estimated_pages": 6.2
     },
     "review_spatio_temporal_grounding_in_video_question_answering": {
@@ -1636,36 +1666,6 @@
       ],
       "runner_up": "IEEEtran",
       "estimated_pages": 4.3
-    },
-    "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
-      "venue": "arXiv",
-      "tier": "preprint",
-      "score": 0.0,
-      "rationale": [
-        "Under-built: ~7.3 pages against a 20-page venue (12.7 pages short) (+5).",
-        "Preprint: no acceptance weight; fallback only.",
-        "Already used by another manuscript in this batch (-18)."
-      ],
-      "warnings": [
-        "Preprint server; no peer review, so it never counts as a publication."
-      ],
-      "runner_up": null,
-      "estimated_pages": 7.3
-    },
-    "autonomous_code_synthesis_and_self_healing_multi_agent_systems": {
-      "venue": "arXiv",
-      "tier": "preprint",
-      "score": 0.0,
-      "rationale": [
-        "Under-built: ~8.1 pages against a 20-page venue (11.9 pages short) (+5).",
-        "Preprint: no acceptance weight; fallback only.",
-        "Already used by another manuscript in this batch (-18)."
-      ],
-      "warnings": [
-        "Preprint server; no peer review, so it never counts as a publication."
-      ],
-      "runner_up": null,
-      "estimated_pages": 8.1
     }
   },
   "identity_gaps": []

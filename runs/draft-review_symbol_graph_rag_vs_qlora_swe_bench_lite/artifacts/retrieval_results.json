@@ -3,10 +3,10 @@
     "alpha": 0.15,
     "seed_topk": 25
   },
-  "dev_queries": 124,
-  "graph_edges": 880,
-  "graph_nodes": 448,
-  "modules": 122,
+  "dev_queries": 132,
+  "graph_edges": 967,
+  "graph_nodes": 485,
+  "modules": 125,
   "per_query": [
     {
       "bm25": [
@@ -264,7 +264,7 @@
       "bm25": [
         0.0,
         0.0,
-        0.125
+        0.1111111111111111
       ],
       "gold": "backend/main.py",
       "ppr": [
@@ -360,20 +360,6 @@
     },
     {
       "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/main.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "export_latex"
-    },
-    {
-      "bm25": [
         0.0,
         1.0,
         0.3333333333333333
@@ -444,9 +430,9 @@
     },
     {
       "bm25": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
       "gold": "backend/main.py",
       "ppr": [
@@ -474,13 +460,13 @@
       "bm25": [
         0.0,
         0.0,
-        0.16666666666666666
+        0.14285714285714285
       ],
       "gold": "backend/main.py",
       "ppr": [
         0.0,
-        1.0,
-        0.2
+        0.0,
+        0.125
       ],
       "symbol": "get_system_error_ledger"
     },
@@ -511,6 +497,20 @@
         1.0
       ],
       "symbol": "sanitize_and_normalize_markdown"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/checkmate_interceptor.py",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "symbol": "compile_with_self_healing"
     },
     {
       "bm25": [
@@ -749,6 +749,20 @@
         1.0
       ],
       "symbol": "_emit_booktabs_table"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "markdown_to_ieeetran"
     },
     {
       "bm25": [
@@ -994,20 +1008,6 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/user_profile.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "add_publication"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
       "gold": "backend/services/vault.py",
       "ppr": [
         1.0,
@@ -1036,6 +1036,20 @@
         1.0,
         1.0
       ],
+      "gold": "backend/services/vault.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "read_markdown"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "gold": "backend/services/venue_selector.py",
       "ppr": [
         1.0,
@@ -1043,6 +1057,20 @@
         1.0
       ],
       "symbol": "allocate_portfolio"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/visual_auditor.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "audit_layout_geometry"
     },
     {
       "bm25": [
@@ -1126,21 +1154,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_selector_blocks_a_competitive_venue_for_a_half_length_paper"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/tests/test_council.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "test_paper_files_written_to_vault"
+      "symbol": "test_measurement_without_artifact_does_not_ground_a_claim"
     },
     {
       "bm25": [
@@ -1204,13 +1218,83 @@
         1.0,
         1.0
       ],
-      "gold": "backend/tests/test_council.py",
+      "gold": "backend/tests/test_resync_manuscripts.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "test_returns_failure_when_no_papers_found"
+      "symbol": "test_short_inexact_rounding_is_refused"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "draft"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_shared_literal_is_applied_when_claimants_still_agree"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_shared_literal_is_refused_once_claimants_diverge"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_resync_manuscripts.py",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "symbol": "test_direction_words_near_a_changed_value_are_surfaced"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_quoted_abstract_is_never_substituted_into"
     },
     {
       "bm25": [
@@ -1224,7 +1308,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_adds_md_extension_when_missing"
+      "symbol": "test_vault_root_created"
     },
     {
       "bm25": [
@@ -1238,7 +1322,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_slash_in_filename_sanitized"
+      "symbol": "test_slug_already_has_md_no_double_extension"
     },
     {
       "bm25": [
@@ -1280,7 +1364,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_no_duplicate_edges"
+      "symbol": "test_unresolvable_wikilink_produces_no_edge"
     },
     {
       "bm25": [
@@ -1308,7 +1392,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_checkmate_audit_detects_raw_latex_leaks"
+      "symbol": "test_prose_words_are_never_corrupted_into_latex_macros"
     },
     {
       "bm25": [
@@ -1344,20 +1428,6 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/generate_appendices.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "appendix_d"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
       "gold": "scripts/experiments/generate_related_work.py",
       "ppr": [
         1.0,
@@ -1378,21 +1448,7 @@
         1.0,
         1.0
       ],
-      "symbol": "ExperimentRecorder"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/harness.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "bootstrap_ci"
+      "symbol": "save_artifact"
     },
     {
       "bm25": [
@@ -1410,17 +1466,17 @@
     },
     {
       "bm25": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
-      "gold": "scripts/experiments/ingest_literature.py",
+      "gold": "scripts/experiments/manuscript_sync.py",
       "ppr": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
-      "symbol": "write_note"
+      "symbol": "load_measurements"
     },
     {
       "bm25": [
@@ -1448,21 +1504,7 @@
         1.0,
         1.0
       ],
-      "symbol": "ci_text"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/manuscript_sync.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "already_rewritten"
+      "symbol": "ManuscriptEditor"
     },
     {
       "bm25": [
@@ -1477,20 +1519,6 @@
         1.0
       ],
       "symbol": "replace_span"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/manuscript_sync.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "assert_absent"
     },
     {
       "bm25": [
@@ -1518,6 +1546,20 @@
         1.0,
         1.0
       ],
+      "symbol": "build_corpus"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p1_symbol_graph_retrieval.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "symbol": "ppr_rerank"
     },
     {
@@ -1532,7 +1574,35 @@
         1.0,
         1.0
       ],
-      "symbol": "optimal_allocation"
+      "symbol": "kv_cache_bytes"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p3_ast_repair.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "MutationOperator"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p3_ast_repair.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "SubstituteOperator"
     },
     {
       "bm25": [
@@ -1560,6 +1630,34 @@
         1.0,
         1.0
       ],
+      "symbol": "WrapOperator"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p3_ast_repair.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "ReorderOperator"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p3_ast_repair.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "symbol": "syntactically_valid"
     },
     {
@@ -1574,35 +1672,7 @@
         1.0,
         1.0
       ],
-      "symbol": "unbound_name_check"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p3_ast_repair.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "tree_edit_distance"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p4_literature_census.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "fetch"
+      "symbol": "z3_reachability_check"
     },
     {
       "bm25": [
@@ -1616,7 +1686,7 @@
         1.0,
         1.0
       ],
-      "symbol": "coordination_depth"
+      "symbol": "message_count"
     },
     {
       "bm25": [
@@ -1631,48 +1701,6 @@
         1.0
       ],
       "symbol": "steady_state_availability"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p6_alignment_geometry.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "orthonormal_basis"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p6_alignment_geometry.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "principal_angle_drift"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p6_alignment_geometry.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "apply_update"
     },
     {
       "bm25": [
@@ -1714,20 +1742,6 @@
         1.0,
         1.0
       ],
-      "symbol": "compose"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p7_contract_composition.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
       "symbol": "propagate_error"
     },
     {
@@ -1736,37 +1750,149 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/paper_template.py",
+      "gold": "scripts/experiments/p9_formal_verification.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "split_sections"
+      "symbol": "successors"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p9_formal_verification.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "has_cycle_without_progress"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "render"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "candidate_literals"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "load_measurements"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "measurements_at_ref"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "protected_spans"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "locate"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "seed"
     }
   ],
   "ppr_sweep_mrr_dev": {
-    "alpha0.15_topk0": 0.9002336149513569,
-    "alpha0.15_topk10": 0.8946460573476702,
-    "alpha0.15_topk25": 0.9044578853046594,
-    "alpha0.15_topk5": 0.8911159458221553,
-    "alpha0.3_topk0": 0.8717613927291346,
-    "alpha0.3_topk10": 0.8849782386072708,
-    "alpha0.3_topk25": 0.8791410650281618,
-    "alpha0.3_topk5": 0.8848736424394319,
-    "alpha0.5_topk0": 0.8261907671181865,
-    "alpha0.5_topk10": 0.8480830773169482,
-    "alpha0.5_topk25": 0.8348438300051203,
-    "alpha0.5_topk5": 0.8570090013033561,
-    "alpha0.7_topk0": 0.6495805717579911,
-    "alpha0.7_topk10": 0.7830741167434716,
-    "alpha0.7_topk25": 0.7291986687147978,
-    "alpha0.7_topk5": 0.8101950215570098,
-    "alpha0.85_topk0": 0.38938871305326167,
-    "alpha0.85_topk10": 0.5970947958851185,
-    "alpha0.85_topk25": 0.4922355790951617,
-    "alpha0.85_topk5": 0.6717907070541118
+    "alpha0.15_topk0": 0.9062800625300625,
+    "alpha0.15_topk10": 0.9086069023569024,
+    "alpha0.15_topk25": 0.9102483164983165,
+    "alpha0.15_topk5": 0.9014409891930053,
+    "alpha0.3_topk0": 0.8790824915824916,
+    "alpha0.3_topk10": 0.8959896584896585,
+    "alpha0.3_topk25": 0.8828583453583453,
+    "alpha0.3_topk5": 0.8968492399413451,
+    "alpha0.5_topk0": 0.8339411430320521,
+    "alpha0.5_topk10": 0.8523448773448773,
+    "alpha0.5_topk25": 0.8484370217324763,
+    "alpha0.5_topk5": 0.866667920338133,
+    "alpha0.7_topk0": 0.6169806024585437,
+    "alpha0.7_topk10": 0.7663690476190476,
+    "alpha0.7_topk25": 0.7110679160021266,
+    "alpha0.7_topk5": 0.8178568798744613,
+    "alpha0.85_topk0": 0.36876906572257406,
+    "alpha0.85_topk10": 0.5917736619441165,
+    "alpha0.85_topk25": 0.4762592416001507,
+    "alpha0.85_topk5": 0.6808238151338756
   },
-  "queries_evaluated": 124,
-  "test_queries": 124
+  "queries_evaluated": 133,
+  "test_queries": 133
 }

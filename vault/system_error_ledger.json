@@ -1,12 +1,12 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-25 23:22:41",
+  "last_updated": "2026-08-26 00:13:51",
   "stats": {
-    "total_errors_recorded": 72,
-    "resolved_count": 66,
-    "active_prevention_rules": 72,
-    "open_count": 6
+    "total_errors_recorded": 74,
+    "resolved_count": 69,
+    "active_prevention_rules": 74,
+    "open_count": 5
   },
   "history": [
     {
@@ -872,9 +872,34 @@
       "error_type": "Non-Idempotent Generation",
       "summary": "Every manuscript generator is one-shot. ManuscriptEditor.already_rewritten skips a draft whose sentinel is present because the rewrites consume their own anchors, so after p1 and p3 were re-run there was no supported path to bring the drafts back into agreement with measurements.jsonl: rewrite_p1_p2_p4, generate_appendices and analysis_pass all reported 'already rewritten, skipping' while the drafts still carried the superseded values.",
       "root_cause": "Generation was designed as a one-time migration off fabricated numbers rather than as a repeatable projection from measurements to prose, so the anchors it needs are destroyed by its own first run.",
-      "resolution": "OPEN. The submission gate caught the divergence -- 17 claims went UNGROUNDED and p1 and p3 were demoted to arXiv -- so nothing shipped stale. The fix is an idempotent re-sync pass with anchors that survive rewriting; that is an authoring decision and was not made unilaterally.",
+      "resolution": "scripts/experiments/resync_manuscripts.py projects measurements back into the drafts repeatably. The anchor is a sidecar under vault/04_Drafts/.sync/ holding the exact literal last written, so it survives its own output: a second run is a no-op, which is what the one-shot generators could never be. It refuses rather than guesses -- shared spellings whose claimants have diverged are held for an author, and metrics it cannot anchor at all (single-digit values) are reported. All nine drafts now carry sidecars; p1 and p3 are back in agreement with their runs and the gate passes at 116 claims, 0 ungrounded. 21 tests cover it.",
       "prevention_rule": "R72: A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper.",
-      "status": "OPEN_NOT_FIXED"
+      "status": "VERIFIED_RESOLVED",
+      "resolved_at": "2026-08-26 00:13:51"
+    },
+    {
+      "error_id": "ERR-073",
+      "timestamp": "2026-08-26 00:13:51",
+      "component": "p3 draft, Experimental Setup",
+      "stage": "manuscript_method_claims",
+      "error_type": "Unenforced Method Claim",
+      "summary": "p3's setup section stated 'The corpus is pinned at commit `90967292066d`' while p3_ast_repair.py globbed the working tree. The pin was never enforced by anything: the named commit was five re-runs old, the same sentence carried an AST-node count (35,872) that disagreed with the abstract's (36,032) and with the run's (38,413), and no check compared any of them.",
+      "root_cause": "A claim about method was written as prose rather than generated from the run manifest, so it could only ever be true at the moment it was typed. The provenance gate checks quantities, not statements about procedure.",
+      "resolution": "The sentence now says what is true -- the corpus is the working tree and the run manifest records which commit -- rather than naming a pin nothing implements. Both AST-node counts re-synced from measurements.jsonl.",
+      "prevention_rule": "R73: A manuscript may not claim a property of the method that no code enforces. Either implement the pin and generate the commit from the manifest, or describe the looser thing that actually happens; a reproducibility claim is the last place to write something aspirational.",
+      "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-074",
+      "timestamp": "2026-08-26 00:13:51",
+      "component": "resync_manuscripts.protected_spans",
+      "stage": "manuscript_resync",
+      "error_type": "Near Miss: Substitution Into Quoted Source",
+      "summary": "The first working version of the re-sync pass would have rewritten 'GPT-3, a 175-billion parameter autoregressive language model' to '172-billion' inside a quoted abstract, because p3 records 175 mutants for the substitution operator and both are spelled '175'. It would also have edited the YAML frontmatter's checkmate_score of 100.0 to match an unrelated syntactic-validity percentage. Caught before any draft was written, by reading the dry run.",
+      "root_cause": "A value-substitution pass treats a manuscript as a bag of numbers. Quoted source text, citation keys, fenced blocks and frontmatter are all numbers that belong to someone else.",
+      "resolution": "protected_spans() excludes quoted abstracts, wikilink citation keys, fenced blocks, blockquotes and YAML frontmatter; four tests pin the behaviour, including the GPT-3 case verbatim. Coarse roundings were also restricted: 9.86 may no longer match a bare '10'.",
+      "prevention_rule": "R74: An automatic rewrite must define where it is forbidden to write before it defines what it writes. Quoted material is the hard boundary: a wrong number in our own sentence is an error, and the same number inside a quotation is fabricated evidence attributed to someone else.",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -949,6 +974,8 @@
     "R69": "A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.",
     "R70": "A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.",
     "R71": "An experiment that draws its corpus from a working tree must state and enforce what a corpus member is. A near-duplicate admitted as a document double-counts its symbols and can supply a gold answer the rest of the corpus contradicts; when the measured effect is small, corpus hygiene decides the sign of the result.",
-    "R72": "A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper."
+    "R72": "A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper.",
+    "R73": "A manuscript may not claim a property of the method that no code enforces. Either implement the pin and generate the commit from the manifest, or describe the looser thing that actually happens; a reproducibility claim is the last place to write something aspirational.",
+    "R74": "An automatic rewrite must define where it is forbidden to write before it defines what it writes. Quoted material is the hard boundary: a wrong number in our own sentence is an error, and the same number inside a quotation is fabricated evidence attributed to someone else."
   }
 }

@@ -322,6 +322,22 @@ def main() -> int:
         "per_query": per_query,
     })
 
+    # The corpus statistics the manuscript quotes in its first paragraph. They
+    # were previously only printed and stored inside the artifact, so nothing
+    # checked them and nothing could update them: the draft still described a
+    # 109-module corpus several re-runs after it stopped being one. A number a
+    # paper states is a claim, whether or not it is the headline (ERR-072).
+    for metric, value, method in (
+        ("corpus_modules", len(modules), "Python modules admitted to the corpus"),
+        ("corpus_docstring_queries", len(queries), "docstrings of >=6 words"),
+        ("corpus_queries_after_filter", len(prepared), "queries of >=4 non-leaking terms"),
+        ("symbol_graph_nodes", graph.number_of_nodes(), "modules plus top-level symbols"),
+        ("symbol_graph_edges", graph.number_of_edges(), "definition and reference edges"),
+        ("dev_queries", len(dev), "held-out split used to select PPR hyperparameters"),
+        ("test_queries", len(test), "unseen split the reported metrics are computed on"),
+    ):
+        rec.record(metric, value, "n", art1, sha1, method)
+
     print(f"\n  {'system':8}{'P@1':>9}{'P@5':>9}{'MRR':>9}   (n={n} queries)")
     for system, label in (("bm25", "BM25"), ("ppr", "Symbol+PPR")):
         p1v, p5v, mrr = (float(np.mean(col(system, i))) for i in range(3))
