@@ -1,9 +1,9 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 12:28:41
+**Last Updated:** 2026-08-26 19:44:28
 **Total Tracked Incidents:** 83
-**Resolved & Verified:** 80
-**Open / Unresolved:** 3
+**Resolved & Verified:** 81
+**Open / Unresolved:** 2
 **Active Prevention Rules:** 83
 
 ---
@@ -12,7 +12,6 @@
 
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-062]** `PARTIALLY_RESOLVED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
-- **[ERR-063]** `PARTIALLY_RESOLVED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 
 ---
 
@@ -664,14 +663,14 @@
 - **Prevention Rule:** `R62: Citation relevance scoring triages, it does not decide. Automated citation replacement is prohibited: a wrong citation is worse than a weak one.`
 - **Status:** ⚠️ `PARTIALLY_RESOLVED`
 
-### ⚠️ [ERR-063] iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
+### ❌ [ERR-063] iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
 - **Timestamp:** `2026-08-25 19:49:54`
 - **Component:** `Environment / iCloud` (repository_hygiene)
 - **Error Type:** `Credentials In Sync Conflict Copies`
 - **Root Cause:** iCloud created conflict copies of a synced project directory containing secrets.
-- **Resolution:** Conflict directories 'Projects 2' and 'Projects 4' moved to the Trash after confirming their only unique content was two .env files and one whitespace-only variant of citation_graph.py. The four API keys they held hash-match the live .env, so they are current credentials and still require rotation by the owner -- that part remains open. 'Projects 3' is empty and was left in place. Six conflict copies committed inside the repository remain tracked because p1 and p3 recorded measurements against them; see the corpus-contamination entry.
+- **Resolution:** Closed. The conflict directories 'Projects 2' and 'Projects 4' were moved to the Trash after confirming their only unique content was two .env files and a whitespace-only variant of citation_graph.py, and the owner has now rotated all four keys they held (Gemini, NVIDIA NIM, Groq, OpenRouter), so the leaked values are dead. 'Projects 3' was empty and left in place. The six conflict copies that had been committed inside the repository are deleted, and CI fails on any new one. The repository is public but never tracked .env in any branch's history -- only .env.example -- and none of the four values appears in tracked content.
 - **Prevention Rule:** `R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.`
-- **Status:** ⚠️ `PARTIALLY_RESOLVED`
+- **Status:** ✅ `VERIFIED_RESOLVED`
 
 ### ❌ [ERR-064] 16 vault notes contain composed rather than ingested content, presented as the paper's abstract. arxiv_2405.01543's note carries this project's own invented benchmark numbers ('Resolved Rate: 38.7% ... versus 27.3%'), and crossref_10.1201_9788743808145-14 states outright that the source abstract was never provided and the note was compiled from metadata.
 - **Timestamp:** `2026-08-25 20:10:28`

@@ -1,12 +1,12 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-26 12:28:41",
+  "last_updated": "2026-08-26 19:44:28",
   "stats": {
     "total_errors_recorded": 83,
-    "resolved_count": 80,
+    "resolved_count": 81,
     "active_prevention_rules": 83,
-    "open_count": 3
+    "open_count": 2
   },
   "history": [
     {
@@ -766,10 +766,10 @@
       "error_type": "Credentials In Sync Conflict Copies",
       "summary": "iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.",
       "root_cause": "iCloud created conflict copies of a synced project directory containing secrets.",
-      "resolution": "Conflict directories 'Projects 2' and 'Projects 4' moved to the Trash after confirming their only unique content was two .env files and one whitespace-only variant of citation_graph.py. The four API keys they held hash-match the live .env, so they are current credentials and still require rotation by the owner -- that part remains open. 'Projects 3' is empty and was left in place. Six conflict copies committed inside the repository remain tracked because p1 and p3 recorded measurements against them; see the corpus-contamination entry.",
+      "resolution": "Closed. The conflict directories 'Projects 2' and 'Projects 4' were moved to the Trash after confirming their only unique content was two .env files and a whitespace-only variant of citation_graph.py, and the owner has now rotated all four keys they held (Gemini, NVIDIA NIM, Groq, OpenRouter), so the leaked values are dead. 'Projects 3' was empty and left in place. The six conflict copies that had been committed inside the repository are deleted, and CI fails on any new one. The repository is public but never tracked .env in any branch's history -- only .env.example -- and none of the four values appears in tracked content.",
       "prevention_rule": "R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.",
-      "status": "PARTIALLY_RESOLVED",
-      "resolved_at": "2026-08-25 23:22:41"
+      "status": "VERIFIED_RESOLVED",
+      "resolved_at": "2026-08-26 19:44:28"
     },
     {
       "error_id": "ERR-064",
