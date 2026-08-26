@@ -2,9 +2,15 @@
 #
 # Deliberately narrower than the development environment. CI's job is to run the
 # submission gate, confirm every draft still agrees with its recorded run, and
-# run the test suite -- none of which calls a language model. dspy, langgraph,
-# openai and google-genai are the drafting side of this project and are left out
-# on purpose: an integrity check that needs an API key is one that gets skipped.
+# run the test suite -- none of which calls a language model.
+#
+# Note the distinction that the first version of this file got wrong. What CI can
+# do without is *credentials*: no check here needs an API key, and one that did
+# would be a check that gets skipped. What it cannot do without is the *imports*.
+# test_council.py and test_api.py are dry-run tests -- they assert that no model
+# is called -- but they import google.genai at module scope to do it, so leaving
+# google-genai out failed 28 tests and errored 26 more on something that has
+# nothing to do with reaching Google. Absent module, not absent key.
 #
 # Pinned to the versions the measurements in runs/ were produced under. z3-solver
 # in particular decides p3's numbers, so a float here would let CI disagree with
@@ -17,7 +23,9 @@ scipy==1.18.1
 matplotlib==3.11.1
 z3-solver==5.1.0.0
 
-# Backend service tests
+# Backend service tests. google-genai is here for importability only; the dry-run
+# tests assert that it is never actually called.
+google-genai==2.17.0
 fastapi==0.136.3
 httpx==0.28.1
 pydantic==2.13.4
