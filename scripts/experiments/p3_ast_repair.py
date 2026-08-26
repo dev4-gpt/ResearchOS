@@ -33,7 +33,7 @@ import time
 from typing import Any, Dict, List, Optional, Tuple
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from harness import REPO_ROOT, ExperimentRecorder  # noqa: E402
+from harness import REPO_ROOT, ExperimentRecorder, is_sync_conflict_copy  # noqa: E402
 
 
 SEED = 20260825
@@ -263,7 +263,8 @@ def main() -> int:
         seed=SEED,
     )
 
-    sources = sorted(glob.glob(CORPUS_GLOB))
+    sources = [p for p in sorted(glob.glob(CORPUS_GLOB))
+               if not is_sync_conflict_copy(p)]
     parsed: List[Tuple[str, ast.AST, str]] = []
     for path in sources:
         try:

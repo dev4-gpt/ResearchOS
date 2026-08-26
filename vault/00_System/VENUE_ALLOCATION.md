@@ -4,24 +4,24 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 
 | Manuscript | Venue | Tier | Pages | Ungrounded | Score |
 |:---|:---|:---|---:|---:|---:|
-| autonomous_code_synthesis_and_self_healing_m | ACM | reputable_journal | 8.1 | 0 | 66.25 |
+| autonomous_code_synthesis_and_self_healing_m | arXiv | preprint | 8.1 | 12 | 0.0 |
 | review_architectural_dynamics_long_12_page | ICML | competitive | 7.7 | 0 | 70.72 |
-| review_composable_ai_systems_for_trustworthy | ACM | reputable_journal | 6.7 | 0 | 35.75 |
-| review_continual_safety_alignment_in_vision_ | ACM | reputable_journal | 6.2 | 0 | 35.75 |
+| review_composable_ai_systems_for_trustworthy | SpringerOpen | reputable_journal | 6.7 | 0 | 41.75 |
+| review_continual_safety_alignment_in_vision_ | IEEE_Access | reputable_journal | 6.2 | 0 | 39.5 |
 | review_enterprise_adoption_of_multi_agent_ai | MDPI | open_access | 8.2 | 0 | 61.67 |
-| review_enterprise_genai_roi | SpringerOpen | reputable_journal | 7.0 | 0 | 50.08 |
+| review_enterprise_genai_roi | ACM | reputable_journal | 7.0 | 0 | 53.75 |
 | review_spatio_temporal_grounding_in_video_qu | arXiv | preprint | 4.3 | 0 | 35.0 |
-| review_symbol_graph_rag_vs_qlora_swe_bench_l | IEEE_Access | reputable_journal | 7.3 | 0 | 54.5 |
+| review_symbol_graph_rag_vs_qlora_swe_bench_l | arXiv | preprint | 7.3 | 5 | 0.0 |
 | review_trustworthy_multi_agent_systems_forma | IEEEtran | reputable_journal | 7.0 | 0 | 47.83 |
 
 ## Rationale
 
 ### autonomous_code_synthesis_and_self_healing_multi_agent_systems
-**Target:** ACM
-- All quantitative claims trace to evidence (+30).
-- Scope fit 12/25 (matched: code, program, repair).
-- Length fits: ~8.1 of 10 pages (+20).
-- Acceptance weight +3.8.
+**Target:** arXiv
+- Under-built: ~8.1 pages against a 20-page venue (11.9 pages short) (+5).
+- Preprint: no acceptance weight; fallback only.
+- Already used by another manuscript in this batch (-18).
+- ⚠️ Preprint server; no peer review, so it never counts as a publication.
 
 ### review_architectural_dynamics_long_12_page
 **Target:** ICML
@@ -31,20 +31,18 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 - Acceptance weight +4.1.
 
 ### review_composable_ai_systems_for_trustworthy_agentic_pipelines
-**Target:** ACM
+**Target:** SpringerOpen
 - All quantitative claims trace to evidence (+30).
 - Scope fit 0/25 (matched: none).
-- Length fits: ~6.7 of 10 pages (+20).
-- Acceptance weight +3.8.
-- Already used by another manuscript in this batch (-18).
+- Under-built: ~6.7 pages against a 14-page venue (7.3 pages short) (+5).
+- Acceptance weight +6.8.
 
 ### review_continual_safety_alignment_in_vision_language_models
-**Target:** ACM
+**Target:** IEEE_Access
 - All quantitative claims trace to evidence (+30).
 - Scope fit 0/25 (matched: none).
-- Length fits: ~6.2 of 10 pages (+20).
-- Acceptance weight +3.8.
-- Already used by another manuscript in this batch (-18).
+- Under-built: ~6.2 pages against a 12-page venue (5.8 pages short) (+5).
+- Acceptance weight +4.5.
 
 ### review_enterprise_adoption_of_multi_agent_ai_systems_infr
 **Target:** MDPI
@@ -54,11 +52,11 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 - Acceptance weight +7.5.
 
 ### review_enterprise_genai_roi
-**Target:** SpringerOpen
+**Target:** ACM
 - All quantitative claims trace to evidence (+30).
-- Scope fit 8/25 (matched: adoption, enterprise).
-- Under-built: ~7.0 pages against a 14-page venue (7.0 pages short) (+5).
-- Acceptance weight +6.8.
+- Scope fit 0/25 (matched: none).
+- Length fits: ~7.0 of 10 pages (+20).
+- Acceptance weight +3.8.
 
 ### review_spatio_temporal_grounding_in_video_question_answering
 **Target:** arXiv
@@ -68,11 +66,11 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 - ⚠️ Preprint server; no peer review, so it never counts as a publication.
 
 ### review_symbol_graph_rag_vs_qlora_swe_bench_lite
-**Target:** IEEE_Access
-- All quantitative claims trace to evidence (+30).
-- Scope fit 0/25 (matched: none).
-- Length fits: ~7.3 of 12 pages (+20).
-- Acceptance weight +4.5.
+**Target:** arXiv
+- Under-built: ~7.3 pages against a 20-page venue (12.7 pages short) (+5).
+- Preprint: no acceptance weight; fallback only.
+- Already used by another manuscript in this batch (-18).
+- ⚠️ Preprint server; no peer review, so it never counts as a publication.
 
 ### review_trustworthy_multi_agent_systems_formal_verification
 **Target:** IEEEtran

@@ -42,7 +42,7 @@ import networkx as nx
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from harness import REPO_ROOT, ExperimentRecorder  # noqa: E402
+from harness import REPO_ROOT, ExperimentRecorder, is_sync_conflict_copy  # noqa: E402
 
 
 SEED = 20260825
@@ -117,6 +117,8 @@ def build_corpus() -> Tuple[Dict[str, str], List[Tuple[str, str, str]]]:
     for pattern in CORPUS_GLOBS:
         for path in sorted(glob.glob(pattern, recursive=True)):
             if os.sep + ".venv" + os.sep in path or os.sep + "node_modules" + os.sep in path:
+                continue
+            if is_sync_conflict_copy(path):
                 continue
             rel = os.path.relpath(path, REPO_ROOT)
             try:

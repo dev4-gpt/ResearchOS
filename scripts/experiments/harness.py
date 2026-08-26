@@ -19,6 +19,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import subprocess
 import sys
 import time
@@ -28,6 +29,20 @@ from typing import Any, Dict, List, Optional
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 RUNS_ROOT = os.path.join(REPO_ROOT, "runs")
+
+# iCloud writes a sync-conflict copy beside the original, named "<stem> 2.<ext>"
+# (or 3, 4, ...). Four such copies of live modules sit in this working tree. They
+# are stale duplicates, not code: an experiment that treats them as corpus members
+# double-counts every symbol they define, and a query harvested from one gets a
+# gold answer that the rest of the repository never references (ERR-071).
+_SYNC_CONFLICT_STEM = re.compile(r" [2-9]$")
+
+
+def is_sync_conflict_copy(path: str) -> bool:
+    """True if *path* is an iCloud sync-conflict duplicate rather than real source."""
+    stem = os.path.splitext(os.path.basename(path))[0]
+    return bool(_SYNC_CONFLICT_STEM.search(stem))
+
 
 
 def _git_commit() -> str:

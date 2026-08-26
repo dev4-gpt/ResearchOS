@@ -1,13 +1,13 @@
 {
-  "ast_nodes": 36032,
+  "ast_nodes": 38413,
   "files": [
     "backend/services/__init__.py",
     "backend/services/checkmate_interceptor.py",
     "backend/services/checkmate_verifier.py",
     "backend/services/citation_graph.py",
+    "backend/services/citation_relevance.py",
     "backend/services/claim_provenance.py",
     "backend/services/error_ledger.py",
-    "backend/services/evidence_ledger 2.py",
     "backend/services/evidence_ledger.py",
     "backend/services/fact_checker.py",
     "backend/services/latex_exporter.py",
@@ -23,7 +23,6 @@
     "backend/services/user_profile.py",
     "backend/services/vault.py",
     "backend/services/venue_contract.py",
-    "backend/services/venue_profiles 2.py",
     "backend/services/venue_profiles.py",
     "backend/services/venue_selector.py",
     "backend/services/visual_auditor.py",

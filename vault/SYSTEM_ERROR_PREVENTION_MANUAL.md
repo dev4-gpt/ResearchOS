@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-25 22:49:03
-**Total Tracked Incidents:** 70
-**Resolved & Verified:** 65
-**Open / Unresolved:** 5
-**Active Prevention Rules:** 70
+**Last Updated:** 2026-08-25 23:22:41
+**Total Tracked Incidents:** 72
+**Resolved & Verified:** 66
+**Open / Unresolved:** 6
+**Active Prevention Rules:** 72
 
 ---
 
@@ -14,7 +14,8 @@
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-046]** `OPEN_NOT_FIXED` — The ACM (acmart) branch emits only the first author's name, with no \affiliation and no email, so ACM builds silently drop author metadata that acmart requires.
 - **[ERR-062]** `OPEN_NOT_FIXED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
-- **[ERR-063]** `OPEN_NOT_FIXED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
+- **[ERR-063]** `PARTIALLY_RESOLVED` — iCloud conflict directories 'Projects 2', 'Projects 3' and 'Projects 4' each hold a partial ResearchingOS copy; two contain .env files with live Gemini, Groq, OpenRouter and NVIDIA keys. The venv's pip shebang still points into 'Projects 2', which is why pip fails and python -m pip is used.
+- **[ERR-072]** `OPEN_NOT_FIXED` — Every manuscript generator is one-shot. ManuscriptEditor.already_rewritten skips a draft whose sentinel is present because the rewrites consume their own anchors, so after p1 and p3 were re-run there was no supported path to bring the drafts back into agreement with measurements.jsonl: rewrite_p1_p2_p4, generate_appendices and analysis_pass all reported 'already rewritten, skipping' while the drafts still carried the superseded values.
 
 ---
 
@@ -90,6 +91,8 @@
 - **[R68]**: A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.
 - **[R69]**: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.
 - **[R70]**: A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.
+- **[R71]**: An experiment that draws its corpus from a working tree must state and enforce what a corpus member is. A near-duplicate admitted as a document double-counts its symbols and can supply a gold answer the rest of the corpus contradicts; when the measured effect is small, corpus hygiene decides the sign of the result.
+- **[R72]**: A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper.
 
 ---
 
@@ -658,9 +661,9 @@
 - **Component:** `Environment / iCloud` (repository_hygiene)
 - **Error Type:** `Credentials In Sync Conflict Copies`
 - **Root Cause:** iCloud created conflict copies of a synced project directory containing secrets.
-- **Resolution:** OPEN. Reported, not deleted: removing files and rotating keys is the owner's decision.
+- **Resolution:** Conflict directories 'Projects 2' and 'Projects 4' moved to the Trash after confirming their only unique content was two .env files and one whitespace-only variant of citation_graph.py. The four API keys they held hash-match the live .env, so they are current credentials and still require rotation by the owner -- that part remains open. 'Projects 3' is empty and was left in place. Six conflict copies committed inside the repository remain tracked because p1 and p3 recorded measurements against them; see the corpus-contamination entry.
 - **Prevention Rule:** `R63: Secrets must not live inside a cloud-synced working tree. Conflict copies duplicate them silently, and a stale copy keeps working long enough to hide the split.`
-- **Status:** ⚠️ `OPEN_NOT_FIXED`
+- **Status:** ⚠️ `PARTIALLY_RESOLVED`
 
 ### ❌ [ERR-064] 16 vault notes contain composed rather than ingested content, presented as the paper's abstract. arxiv_2405.01543's note carries this project's own invented benchmark numbers ('Resolved Rate: 38.7% ... versus 27.3%'), and crossref_10.1201_9788743808145-14 states outright that the source abstract was never provided and the note was compiled from metadata.
 - **Timestamp:** `2026-08-25 20:10:28`
@@ -724,3 +727,21 @@
 - **Resolution:** Promotion now stops at the first '## Appendix ' heading; orphan subsections before it are still promoted. Subsection levels restored across all 9 drafts.
 - **Prevention Rule:** `R70: A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.`
 - **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-071] Four iCloud sync-conflict duplicates ('<stem> 2.py') were admitted to the p1 and p3 corpora as if they were source modules. They supplied 9 of the 15 duplicate top-level symbol definitions in p1's symbol graph, and one docstring query took its gold answer from a stale copy that no other module references, so PPR was scored as a rank-1 miss for routing to the real module. Removing them reverses the sign of p1's headline delta: on the same working tree the contaminated corpus reports diffusion improves MRR (delta=+0.0005, p=0.987) and the cleaned corpus reports it does not (delta=-0.0040, p=0.891).
+- **Timestamp:** `2026-08-25 23:22:41`
+- **Component:** `p1_symbol_graph_retrieval.build_corpus / p3_ast_repair` (experiment_corpus_construction)
+- **Error Type:** `Contaminated Experimental Corpus`
+- **Root Cause:** The corpus globs excluded .venv and node_modules but nothing else, and a sync-conflict copy is a syntactically valid Python file, so every filter in the pipeline treated it as real source.
+- **Resolution:** harness.is_sync_conflict_copy() added and applied in both corpus builders; p1 and p3 re-run against the cleaned corpus. The conclusion is unchanged in substance -- neither delta is close to significant -- but the direction the manuscript reported was an artifact of duplicate files.
+- **Prevention Rule:** `R71: An experiment that draws its corpus from a working tree must state and enforce what a corpus member is. A near-duplicate admitted as a document double-counts its symbols and can supply a gold answer the rest of the corpus contradicts; when the measured effect is small, corpus hygiene decides the sign of the result.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ⚠️ [ERR-072] Every manuscript generator is one-shot. ManuscriptEditor.already_rewritten skips a draft whose sentinel is present because the rewrites consume their own anchors, so after p1 and p3 were re-run there was no supported path to bring the drafts back into agreement with measurements.jsonl: rewrite_p1_p2_p4, generate_appendices and analysis_pass all reported 'already rewritten, skipping' while the drafts still carried the superseded values.
+- **Timestamp:** `2026-08-25 23:22:41`
+- **Component:** `rewrite_p1_p2_p4 / generate_appendices / ManuscriptEditor` (manuscript_generation)
+- **Error Type:** `Non-Idempotent Generation`
+- **Root Cause:** Generation was designed as a one-time migration off fabricated numbers rather than as a repeatable projection from measurements to prose, so the anchors it needs are destroyed by its own first run.
+- **Resolution:** OPEN. The submission gate caught the divergence -- 17 claims went UNGROUNDED and p1 and p3 were demoted to arXiv -- so nothing shipped stale. The fix is an idempotent re-sync pass with anchors that survive rewriting; that is an authoring decision and was not made unilaterally.
+- **Prevention Rule:** `R72: A generator that projects recorded data into prose must be re-runnable against changed data. If its anchors do not survive its own output, the manuscript can only ever be correct for the run that first produced it, and re-running an experiment silently desynchronises the paper.`
+- **Status:** ⚠️ `OPEN_NOT_FIXED`

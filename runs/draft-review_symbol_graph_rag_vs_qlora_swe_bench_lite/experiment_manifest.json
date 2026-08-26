@@ -4,9 +4,9 @@
   "description": "Symbol-graph PPR re-ranking vs BM25 on a Python corpus with docstring-derived queries, plus a census of retrieval signal in SWE-bench Lite. No language model was run.",
   "seed": 20260825,
   "measurement_count": 12,
-  "recorded_at": "2026-08-25T17:22:15-0400",
-  "duration_s": 6.643,
-  "git_commit": "cbc42b88617ab94cb354c5d30235969ee4841a6f",
+  "recorded_at": "2026-08-25T23:19:29-0400",
+  "duration_s": 7.257,
+  "git_commit": "aa3efbb4ed73c757736743527f1580a89e05370c",
   "environment": {
     "python": "3.13.5",
     "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
