@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-25 22:33:22",
+  "last_updated": "2026-08-25 22:49:03",
   "stats": {
-    "total_errors_recorded": 69,
-    "resolved_count": 64,
-    "active_prevention_rules": 69,
+    "total_errors_recorded": 70,
+    "resolved_count": 65,
+    "active_prevention_rules": 70,
     "open_count": 5
   },
   "history": [
@@ -838,6 +838,18 @@
       "resolution": "Appendix F added, stating the model's three load-bearing assumptions, what would falsify the account, and what the paper does not contain. Substantive value back to 100.",
       "prevention_rule": "R69: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-070",
+      "timestamp": "2026-08-25 22:49:03",
+      "component": "CheckmateVerifierService.auto_remediate_markdown",
+      "stage": "remediation",
+      "error_type": "Prevention Rule Outlived Its Case",
+      "summary": "R13 promotes every post-Conclusion '###' heading to '##'. Appendices now legitimately follow the Conclusion, so the rule flattened every appendix subsection into a top-level section, destroying appendix structure in all 9 manuscripts and misattributing roughly 500 appendix words per paper to the main body in the section template's accounting.",
+      "root_cause": "The rule was written when anything after the Conclusion was an orphaned artifact. That premise stopped holding when appendices were introduced, and nothing re-examined the rule against the new structure.",
+      "resolution": "Promotion now stops at the first '## Appendix ' heading; orphan subsections before it are still promoted. Subsection levels restored across all 9 drafts.",
+      "prevention_rule": "R70: A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -909,6 +921,7 @@
     "R66": "Text copied between documents must have destination-meaningful markup neutralised first. A citation key may only be introduced deliberately, never carried in as a side effect of quoting.",
     "R67": "When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.",
     "R68": "A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.",
-    "R69": "A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete."
+    "R69": "A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.",
+    "R70": "A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one."
   }
 }

@@ -294,6 +294,63 @@ No vision-language model was loaded, trained or evaluated; this environment has 
 
 
 
+\section{Appendix B: Extended Background}
+
+
+
+\section{Subspaces and the Grassmannian}
+
+
+A rank-$r$ subspace $\mathcal{S} \subset \mathbb{R}^{d}$ is represented by any orthonormal basis $B \in \mathbb{R}^{d \times r}$ with $B^{\top}B = I_r$, but the representation is not unique: $B$ and $BQ$ span the same subspace for any orthogonal $Q \in \mathbb{R}^{r \times r}$.
+
+This non-uniqueness is why the paper measures with principal angles rather than with a matrix norm on bases. The set of rank-$r$ subspaces forms the Grassmann manifold $\mathrm{Gr}(r, d)$, whose points are subspaces rather than bases, and any quantity claiming to measure how far a subspace has moved must be constant under $B \mapsto BQ$. A Frobenius distance between bases is not, and would register a change whenever the basis rotates within a fixed subspace.
+
+
+\section{Principal Angles}
+
+
+For subspaces with orthonormal bases $B$ and $B'$, let $\sigma_1 \ge \dots \ge \sigma_r$ be the singular values of $B^{\top}B'$. All lie in $[0, 1]$, and the principal angles are $\theta_i = \arccos \sigma_i$.
+
+The angles have a direct interpretation: $\th\eta_1$ is the smallest angle between any vector of $\mathcal{S}$ and any vector of $\mathcal{S}'$, and successive angles repeat that minimisation on the orthogonal complements of the vectors already chosen. They are zero exactly when the subspaces coincide and $\pi/2$ when they are orthogonal, and they are invariant to the choice of basis within each subspace, which is the property required above.
+
+We report the mean angle in degrees. The mean rather than the largest, because a single strongly rotated direction in an otherwise stable subspace is a different phenomenon from uniform rotation, and the paper is concerned with aggregate displacement.
+
+
+\section{Decomposing an Update}
+
+
+Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\perp} = I - P$ its complement. Any update $\Delta W$ decomposes by where it sends the subspace:
+
+
+
+
+\begin{equation}
+\resizebox{\columnwidth}{!}{$\displaystyle
+\begin{aligned}
+\Delta W B = & \underbrace{P \, \\
+& \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
+\end{aligned}
+$}
+\end{equation}
+
+
+
+
+The first term maps $\mathcal{S}$ into itself. Adding it to $B$ produces a new basis whose span is still $\mathcal{S}$, so every principal angle is zero regardless of the term's magnitude. Only the second term moves the subspace.
+
+We define leakage as the share of an update's energy carried by the second term. This is the quantity the paper identifies as governing drift, and the decomposition above is why: it is not a correlation observed in data but an algebraic identity about what can and cannot rotate a span.
+
+
+\section{Re-orthonormalisation}
+
+
+After applying an update, $B + \Delta W B$ is generally not orthonormal, and principal angles are defined only for orthonormal bases. We recover one by QR decomposition, taking the $Q$ factor.
+
+QR is the appropriate choice because it preserves the span exactly: the column space of $QR$ equals that of the input, so re-orthonormalisation changes the representation without moving the subspace. A procedure that altered the span would confound the measurement with its own error.
+
+
+
+
 \section{Appendix C: Extended Experimental Setup}
 
 

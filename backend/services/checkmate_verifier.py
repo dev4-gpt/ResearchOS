@@ -288,14 +288,23 @@ class CheckmateVerifierService:
         # 1. Strip leading section numbers from markdown headings
         text = re.sub(r'^(#{1,4})\s*(\d+[\.\s]*)+', r'\1 ', text, flags=re.MULTILINE)
 
-        # 2. Promote post-Conclusion ### headings to ## top-level sections
+        # 2. Promote post-Conclusion ### headings to ## top-level sections.
+        #
+        # This rule exists because analytical subsections used to strand themselves
+        # after the Conclusion, where they read as orphans. Appendices are the
+        # exception: they legitimately sit after the Conclusion and carry their own
+        # subsections, and promoting those flattens the appendix into a run of
+        # top-level sections -- which also broke the appendix/main word accounting
+        # that the section template checks against.
         conclusion_idx = text.find("## Conclusion")
+        appendix_idx = text.find("## Appendix ")
         if conclusion_idx != -1:
-            pre_conclusion = text[:conclusion_idx]
-            post_conclusion = text[conclusion_idx:]
-            # Replace ### with ## in post_conclusion except for 15.1 Summary style
-            post_conclusion = re.sub(r'^###\s+(?!Summary)', r'## ', post_conclusion, flags=re.MULTILINE)
-            text = pre_conclusion + post_conclusion
+            promote_end = appendix_idx if appendix_idx > conclusion_idx else len(text)
+            head = text[:conclusion_idx]
+            middle = text[conclusion_idx:promote_end]
+            tail = text[promote_end:]
+            middle = re.sub(r'^###\s+(?!Summary)', r'## ', middle, flags=re.MULTILINE)
+            text = head + middle + tail
 
         # 3. Scrub internal meta persona tags, workflow diagrams, and API failure placeholders
         meta_artifacts = [

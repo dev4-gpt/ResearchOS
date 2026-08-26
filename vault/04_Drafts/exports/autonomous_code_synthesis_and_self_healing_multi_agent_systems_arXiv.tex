@@ -101,6 +101,8 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -144,6 +146,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -151,6 +157,10 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -231,6 +241,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -239,6 +253,10 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -302,6 +320,8 @@ $}
 
 
 
+
+
 \textbf{Proposition 1 (Closure Under Grammar).} For any valid AST $T \in \mathcal{S}$ and any mutation operator $\mu_i$, all ASTs in $\mu_i(T)$ remain in $\mathcal{S}$ (i.e., are syntactically valid), provided the mutation is restricted to productions in $R$ and type-compatibility constraints in the program's type system.
 
 \textit{Proof.} Each mutation operator is defined to replace or augment AST nodes only with grammar-compliant alternatives from the production rules $R$. Since $G$ is context-free, each production $A \rightarrow \alpha \in R$ applies independently of the surrounding context. Replacing $v$ with $v'$ where $\lambda(v) = \lambda(v') = A$ (same non-terminal) preserves the overall derivability of $T'$ from $S$. Type compatibility is enforced by pre-filtering against the program's type signature database. $\square$
@@ -330,6 +350,8 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -337,6 +359,10 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -416,6 +442,10 @@ $}
 
 
 
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -423,6 +453,10 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
 
 
 
@@ -485,6 +519,8 @@ $}
 
 
 
+
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run \cite{crossref_10_18653_v1_2026_findings_acl_1933}.
 
 
@@ -506,6 +542,8 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 \end{itemize}
 
 \textbf{Definition 3 (Lyapunov Energy Function).} Let $T^*$ be the target (defect-free) program state. Define:
+
+
 
 
 
@@ -552,9 +590,13 @@ $}
 
 
 
+
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 \textbf{Theorem 1 (Lyapunov Termination).} Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
+
 
 
 
@@ -581,6 +623,8 @@ k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rflo
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -636,6 +680,8 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -643,6 +689,8 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -927,6 +975,8 @@ What the staged measurement does establish is an ordering argument for filter de
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -934,6 +984,8 @@ What the staged measurement does establish is an ordering argument for filter de
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -1013,7 +1065,7 @@ Repair convergence was measured over 300 seeded defects: node-multiset distance 
 This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
 
 
-\section{Work Cited in Introduction}
+\subsection{Work Cited in Introduction}
 
 
 \textbf{A Decentralised Self-Healing Approach for Network Topology Maintenance} \cite{arxiv_2010_11146} reports: In many distributed systems, from cloud to sensor networks, different configurations impact system performance, while strongly depending on the network topology. Hence, topological changes may entail costly reconfiguration and optimisation processes.
@@ -1025,7 +1077,7 @@ This appendix situates the work against the literature the main text cites, grou
 \textbf{Comparative Analysis of Deep Learning Models for Breast Cancer Classification on Multimodal Data} \cite{crossref_10_1145_3689096_3689462} reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
 
-\section{Work Cited in Related Work}
+\subsection{Work Cited in Related Work}
 
 
 \textbf{MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework} \cite{crossref_10_48550_arxiv_2308_00352} reports: Remarkable progress has been made on automated problem solving through societies of agents based on large language models (LLMs). Existing LLM-based multi-agent systems can already solve simple dialogue tasks.
@@ -1035,22 +1087,87 @@ This appendix situates the work against the literature the main text cites, grou
 \textbf{SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering} \cite{crossref_10_48550_arxiv_2405_15793} reports: Language model (LM) agents are increasingly being used to automate complicated tasks in digital environments. Just as humans benefit from powerful software applications, such as integrated development environments, for complex tasks like software engineering, we posit that LM agents represent a new category of end users with their own needs and abilities, and would benefit from specially-built interfaces to the softw
 
 
-\section{Work Cited in Executive Abstract}
+\subsection{Work Cited in Executive Abstract}
 
 
 \textbf{A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning} \cite{arxiv_2501_02497} reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
 
 
-\section{Work Cited in Formal AST Mutation Algebra}
+\subsection{Work Cited in Formal AST Mutation Algebra}
 
 
 \textbf{DICA: Dual-Indicator Guided Contrastive Alignment in Multimodal Large Language Models} \cite{crossref_10_18653_v1_2026_findings_acl_1933} reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
 
-\section{Positioning}
+\subsection{Positioning}
 
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+
+
+
+\section{Appendix B: Extended Background}
+
+
+
+\subsection{Programs as Trees}
+
+
+A Python module parses to an abstract syntax tree $T = (V, E, \lambda)$ where $V$ is the node set, $E$ the parent-child relation, and $\lambda$ labels each node with its grammatical category. The tree is the natural object for mutation because every well-formed subtree substitution yields a tree that is again well-formed with respect to the grammar, even when the resulting program is semantically nonsense.
+
+That distinction -- grammatically valid but semantically wrong -- is the whole subject of this paper. A mutation operator that produced ungrammatical output would be filtered trivially; the interesting operators produce programs that parse, compile, and are still incorrect.
+
+
+\subsection{The Mutation Operators}
+
+
+Each operator is a partial function on trees, defined where an applicable site exists:
+
+\begin{itemize}
+  \item $\mu_{\text{sub}}$ substitutes a comparison or binary operator for another of the same arity. It changes semantics while preserving structure exactly.
+  \item $\mu_{\text{ins}}$ inserts a guard statement, introducing a name reference that may or may not be bound at that point.
+  \item $\mu_{\text{del}}$ removes a statement from a body containing more than one, potentially eliminating a definition later statements depend on.
+  \item $\mu_{\text{wrap}}$ encloses a statement in a conditional, changing control flow without changing the statement.
+  \item $\mu_{\text{reorder}}$ swaps adjacent statements, which breaks a program exactly when they carry a data dependency.
+\end{itemize}
+
+The operators differ in \textit{how} they can break a program, and that turns out to determine which filter stage catches them. Operators that introduce names are caught by binding analysis; operators that only rearrange bound code are not.
+
+
+\subsection{Three Levels of Checking}
+
+
+\textbf{Syntactic validity} asks whether the mutant compiles. We answer it by compiling, not by inspection, so the check is exactly the language's own.
+
+\textbf{Name binding} asks whether every load of a name has a definition reaching it. We approximate the reaching-definitions analysis by collecting definitions from imports, function and class declarations, parameters and assignments anywhere in the module, then testing each load against that set. The approximation is deliberately permissive: it over-approximates what is bound, so it produces no false rejections, at the cost of missing genuinely unbound reads in nested scopes.
+
+\textbf{Reachability} asks whether a branch can be taken at all. Integer comparison guards are extracted and submitted to an SMT solver; a guard proved unsatisfiable identifies a branch that mutation has made dead. This is sound but heavily incomplete for Python, where most conditions test attributes, membership or truthiness rather than integer relations, and are therefore invisible to the encoding.
+
+
+\subsection{Measuring Distance Between Trees}
+
+
+True tree-edit distance is expensive to compute. We use the multiset distance over node categories,
+
+
+
+
+\begin{equation}
+\resizebox{\columnwidth}{!}{$\displaystyle
+\begin{aligned}
+d(T_1, T_2) = & \sum_{c} \left| \, \\
+& |\{v \in T_1 : \lambda(v) = c\}| - |\{v \in T_2 : \lambda(v) = c\}| \, \right|
+\end{aligned}
+$}
+\end{equation}
+
+
+
+
+which counts how many nodes of each grammatical category differ between the trees.
+
+This is a lower bound on tree-edit distance rather than a substitute for it: two trees can have identical node multisets and different structure, so a distance of zero does not certify equality. It is adequate for the use here, which is to track monotone decrease during repair rather than to decide program equivalence, and it is cheap enough to evaluate at every step of a repair loop.
 
 
 
@@ -1082,7 +1199,7 @@ Recorded at & 2026-08-25T17:33:19-0400 \\
 \end{table}
 
 
-\section{Reproduction}
+\subsection{Reproduction}
 
 
 The run is deterministic under the recorded seed. From the repository root:
@@ -1099,7 +1216,7 @@ ents/p3\_ast\_repair.py
 This rewrites `runs/draft-autonomous\_code\_synthesis\_and\_self\_healing\_multi\_agent\_systems/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
 
 
-\section{Scope of the Environment}
+\subsection{Scope of the Environment}
 
 
 No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
@@ -1176,7 +1293,7 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \textbf{23 measurements across 4 artifacts.} Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
 
-\section{Artifact Digests}
+\subsection{Artifact Digests}
 \begin{table}[htbp]
 \centering
 \resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%

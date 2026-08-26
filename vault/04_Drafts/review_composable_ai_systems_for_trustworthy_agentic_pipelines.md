@@ -98,12 +98,16 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
 & \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -145,12 +149,16 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
+
 $$
 \begin{aligned}
 c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
+
 
 
 
@@ -195,11 +203,15 @@ where:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
 \end{aligned}
 $$
+
+
 
 
 
@@ -243,6 +255,8 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \lambda_{\min}(\mathbf{P}) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \text{Tr}(\mathbf{P})
@@ -266,7 +280,11 @@ $$
 
 
 
+
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
+
 
 
 
@@ -308,7 +326,11 @@ $$
 
 
 
+
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
 
 
 
@@ -350,7 +372,11 @@ $$
 
 
 
+
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
+
 
 
 
@@ -374,6 +400,8 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
+
 
 
 
@@ -555,7 +583,7 @@ The scope of these claims is the algebra. Whether contracts written for real age
 
 This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
 
-## Work Cited in Introduction & Research Scope
+### Work Cited in Introduction & Research Scope
 
 **Deliberative Technology for Alignment** [[arxiv_2312.03893]] reports: For humanity to maintain and expand its agency into the future, the most powerful systems we create must be those which act to align the future with the will of humanity. The most powerful systems today are massive institutions like governments, firms, and NGOs.
 
@@ -565,7 +593,7 @@ This appendix situates the work against the literature the main text cites, grou
 
 **GOV-REK: Governed Reward Engineering Kernels for Designing Robust Multi-Agent Reinforcement Learning Systems** [[arxiv_2404.01131]] reports: For multi-agent reinforcement learning systems (MARLS), the problem formulation generally involves investing massive reward engineering effort specific to a given problem. However, this effort often cannot be translated to other problems; worse, it gets wasted when system dynamics change drastically.
 
-## Work Cited in Related Work & Taxonomic Synthesis
+### Work Cited in Related Work & Taxonomic Synthesis
 
 **MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework** [[crossref_10_48550_arxiv_2308_00352]] reports: Remarkable progress has been made on automated problem solving through societies of agents based on large language models (LLMs). Existing LLM-based multi-agent systems can already solve simple dialogue tasks.
 
@@ -575,19 +603,73 @@ This appendix situates the work against the literature the main text cites, grou
 
 **Direct Preference Optimization: Your Language Model is Secretly a Reward Model** [[arxiv_2305.18290]] reports: We present Direct Preference Optimization (DPO), a stable, performant, and computationally lightweight algorithm for aligning LLMs to human preferences without training a reward model or using reinforcement learning. - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
 
-## Work Cited in Four-Tier Composable Architecture (CAS)
+### Work Cited in Four-Tier Composable Architecture (CAS)
 
 **Comparative Analysis of Deep Learning Models for Breast Cancer Classification on Multimodal Data** [[crossref_10.1145_3689096.3689462]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
 **Fine-Tuning CLIP With Dynamic Prompt Tuning and Cross-Modal Contrastive Alignment for Multimodal Sentiment Analysis** [[crossref_10.1109_access.2026.3656309]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
-## Work Cited in Theoretical Foundations & Contract Algebra
+### Work Cited in Theoretical Foundations & Contract Algebra
 
 **DICA: Dual-Indicator Guided Contrastive Alignment in Multimodal Large Language Models** [[crossref_10.18653_v1_2026.findings-acl.1933]] reports: - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries. - Examines empirical performance metrics, baseline comparisons, and statistical significance.
 
-## Positioning
+### Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+---
+
+## Appendix B: Extended Background
+
+### Contracts as Pre- and Post-conditions
+
+A stage is characterised not by what it computes but by what it demands and what it guarantees. We write a contract as a pair $(\mathrm{req}, \mathrm{pro})$ over a finite set $\Pi$ of properties, where $\mathrm{req} \subseteq \Pi$ must hold of the input and $\mathrm{pro} \subseteq \Pi$ is guaranteed of the output.
+
+This is the design-by-contract formulation applied to pipeline stages, and its virtue here is that it is checkable without execution. Deciding whether a stage may run requires only set containment against the state accumulated so far, not any knowledge of what the stage does internally.
+
+### The Composition Operator
+
+Pipeline state is a set of properties currently guaranteed. Composition threads it through the stages:
+
+
+
+$$
+\begin{aligned}
+\sigma_0 = & \Sigma_{\text{init}}, \\
+& \qquad
+\sigma_{i} = \sigma_{i-1} \cup \mathrm{pro}_i \quad \text{provided} \quad \mathrm{req}_i \subseteq \sigma_{i-1}
+\end{aligned}
+$$
+
+
+
+A pipeline is sound when the proviso holds at every stage. Because state only grows, a stage that is admissible at position $i$ remains admissible at any later position -- but the converse fails, and that asymmetry is the entire reason ordering matters. Moving a stage earlier can invalidate it; moving it later cannot.
+
+Composition is associative and has the identity contract $(\emptyset, \emptyset)$ as a unit, so pipelines form a monoid under composition. Soundness, however, is not preserved by the monoid operation: the composition of two sound pipelines need not be sound, which is precisely the property that makes static checking necessary rather than merely convenient.
+
+### Refinement
+
+A stage $s'$ refines $s$ when it demands no more and guarantees no less: $\mathrm{req}' \subseteq \mathrm{req}$ and $\mathrm{pro}' \supseteq \mathrm{pro}$.
+
+Refinement is the substitution principle for pipelines. A refining stage can replace the original anywhere it appears without invalidating the composition, because every position that admitted the original admits the refinement, and every downstream stage that was satisfied remains so. This is what makes a stage library usable: implementations can be swapped as long as they refine the contract the pipeline was checked against.
+
+### Error Propagation and Contraction
+
+Each stage carries a contraction factor $c_i > 0$ relating output error to input error. Composed along a pipeline, the end-to-end factor is the product:
+
+
+
+$$
+\begin{aligned}
+\varepsilon_n = \varepsilon_0 \prod_{i=1}^{n} c_i
+\end{aligned}
+$$
+
+
+
+The pipeline attenuates error when $\prod_i c_i < 1$, which does not require every stage to attenuate -- an amplifying stage can be compensated by sufficiently contracting neighbours.
+
+This is a discrete analogue of Lyapunov stability, with $\log \varepsilon$ as the decreasing quantity and $\sum_i \log c_i < 0$ as the stability condition. Because the relation is multiplicative and exact rather than an inequality, the bound is attained rather than merely respected, and a designer can compute a pipeline's error behaviour from its parts without simulating it.
 
 ---
 
@@ -609,7 +691,7 @@ Every number reported in this paper was produced by a single scripted run whose 
 | Measurements recorded | 17 |
 | Recorded at | 2026-08-25T22:24:31-0400 |
 
-## Reproduction
+### Reproduction
 
 The run is deterministic under the recorded seed. From the repository root:
 
@@ -619,7 +701,7 @@ backend/.venv/bin/python scripts/experiments/p7_contract_composition.py
 
 This rewrites `runs/draft-review_composable_ai_systems_for_trustworthy_agentic_pipelines/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
 
-## Scope of the Environment
+### Scope of the Environment
 
 No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
 
@@ -665,7 +747,7 @@ The main text reports the measurements that carry the argument. This appendix li
 
 **17 measurements across 3 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
-## Artifact Digests
+### Artifact Digests
 
 | Artifact | SHA-256 (first 16) |
 |:---|:---|

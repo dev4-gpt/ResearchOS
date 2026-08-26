@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-25 22:33:22
-**Total Tracked Incidents:** 69
-**Resolved & Verified:** 64
+**Last Updated:** 2026-08-25 22:49:03
+**Total Tracked Incidents:** 70
+**Resolved & Verified:** 65
 **Open / Unresolved:** 5
-**Active Prevention Rules:** 69
+**Active Prevention Rules:** 70
 
 ---
 
@@ -89,6 +89,7 @@
 - **[R67]**: When a measurement can be dominated by how inputs were generated, construct the input to satisfy the baseline condition and vary only the factor under study.
 - **[R68]**: A paper that cannot measure its central claim must say so and specify the experiment that would, rather than estimating the outcome. A stated protocol with no numbers is publishable; invented numbers are not.
 - **[R69]**: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.
+- **[R70]**: A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.
 
 ---
 
@@ -713,4 +714,13 @@
 - **Root Cause:** A full-document rewrite reconstructed the sections the new argument needed and silently dropped one the release gate requires.
 - **Resolution:** Appendix F added, stating the model's three load-bearing assumptions, what would falsify the account, and what the paper does not contain. Substantive value back to 100.
 - **Prevention Rule:** `R69: A full-document rewrite must be checked against the section template before release, not only against the provenance gate. Being fully grounded is not the same as being complete.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-070] R13 promotes every post-Conclusion '###' heading to '##'. Appendices now legitimately follow the Conclusion, so the rule flattened every appendix subsection into a top-level section, destroying appendix structure in all 9 manuscripts and misattributing roughly 500 appendix words per paper to the main body in the section template's accounting.
+- **Timestamp:** `2026-08-25 22:49:03`
+- **Component:** `CheckmateVerifierService.auto_remediate_markdown` (remediation)
+- **Error Type:** `Prevention Rule Outlived Its Case`
+- **Root Cause:** The rule was written when anything after the Conclusion was an orphaned artifact. That premise stopped holding when appendices were introduced, and nothing re-examined the rule against the new structure.
+- **Resolution:** Promotion now stops at the first '## Appendix ' heading; orphan subsections before it are still promoted. Subsection levels restored across all 9 drafts.
+- **Prevention Rule:** `R70: A remediation rule encodes an assumption about document structure. When the structure changes, every such rule must be re-checked: a rule that was correct for the old shape can silently corrupt the new one.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -83,6 +83,8 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -104,9 +106,13 @@ $$
 
 
 
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
 
 
 
@@ -144,9 +150,13 @@ $$
 
 
 
+
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
 
 
 
@@ -184,9 +194,13 @@ $$
 
 
 
+
+
 where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
 
 
 
@@ -224,11 +238,15 @@ $$
 
 
 
+
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
+
 
 
 
@@ -267,7 +285,11 @@ $$
 
 
 
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
 
 
 
@@ -305,7 +327,11 @@ $$
 
 
 
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
 
 
 
@@ -327,6 +353,8 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -368,11 +396,15 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -637,6 +669,48 @@ This appendix situates the work against the literature the main text cites, grou
 ## Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+---
+
+## Appendix B: Extended Background
+
+## Coordination Topologies as Message Protocols
+
+Each topology is a rule for which agents exchange messages to complete one task, and its message count follows from the rule rather than from observation.
+
+A **peer-to-peer mesh** has every agent inform every other, giving the complete digraph $\mathcal{K}_N$ and $N(N-1)$ messages. A **contract-net** has one announcement to $N-1$ bidders, $N-1$ returned bids and one award, giving $2(N-1)+1$. A **shared blackboard** has each agent write once and read once, giving $2N$. A **hierarchical supervisor tree** with branching factor $b$ has one message down and one up each of its $N-1$ edges, giving $2(N-1)$.
+
+Three of the four are linear in $N$ and differ only by a constant; the mesh alone is quadratic. That is the asymptotic separation the paper measures, and it is a property of the protocols rather than of any implementation of them.
+
+## Depth Is Not Volume
+
+Message count and critical-path depth are independent quantities, and conflating them is the most common error in reasoning about these topologies.
+
+A mesh broadcast completes in one round: every message is sent in parallel, so depth is $1$ while volume is $N(N-1)$. A hierarchical tree sends far fewer messages but they are serialised along the path from root to leaf and back, giving depth $2\lceil \log_b N \rceil$. Under equal per-hop cost, the topology with the fewest messages therefore has the *longest* latency, and which matters depends on whether the binding constraint is bandwidth or wall-clock time.
+
+## Fault Propagation
+
+We model faults as independent per-agent failures with probability $p$, and propagate them according to what each topology's structure permits.
+
+In a mesh there is no mediating agent, so a contaminated message reaches every peer the failed agent addressed. On a blackboard, a corrupt entry is visible to every agent that reads after it is written, which in expectation is half the remaining population. Contract-net re-lets a failed bidder's task, containing the fault to that bidder and its award. A supervisor tree confines a fault to the failed subtree, because the parent observes the child's failure and retries rather than propagating its output.
+
+Independence is the assumption most likely to be wrong in practice. Real agent failures correlate through shared dependencies -- a rate-limited model endpoint, an exhausted connection pool -- and correlated failure would narrow the gap between supervised and unsupervised topologies, because the supervisor is then as likely to fail as its children.
+
+## Availability from a Markov Chain
+
+A two-state chain over $\{\textsf{UP}, \textsf{DOWN}\}$ with failure rate $\lambda = 1/\mathrm{MTTF}$ and repair rate $\mu = 1/\mathrm{MTTR}$ has transition matrix
+
+
+
+$$
+P = \begin{pmatrix} 1 - \lambda & \lambda \\ \mu & 1 - \mu \end{pmatrix}
+$$
+
+
+
+Steady-state availability is the first component of the stationary distribution $\boldsymbol{\pi}$ satisfying $\boldsymbol{\pi} P = \boldsymbol{\pi}$, which we obtain as the left eigenvector for eigenvalue $1$, normalised to sum to one.
+
+The closed form $\mathrm{MTTF}/(\mathrm{MTTF} + \mathrm{MTTR})$ is available and agrees, but solving the eigenproblem is the method that generalises: a chain with degraded states, partial failures or repair queues has no such closed form, and the same solution procedure applies unchanged.
 
 ---
 

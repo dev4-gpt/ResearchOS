@@ -102,12 +102,16 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
 & s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -147,11 +151,15 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
+
 $$
 \begin{aligned}
 \Phi_{\text{liveness}} = \square \left( \text{DeliberationActive}(s) \implies \lozenge_{\le T_{\max}} \left( \text{ConsensusReached}(s) \lor \text{EscalatedToHuman}(s) \right) \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -198,11 +206,15 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
+
 
 
 
@@ -245,12 +257,16 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
+
 
 
 
@@ -307,11 +323,15 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
 \end{aligned}
 $$
+
+
 
 
 
@@ -522,6 +542,42 @@ This appendix situates the work against the literature the main text cites, grou
 ## Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+---
+
+## Appendix B: Extended Background
+
+## Transition Systems
+
+The council protocol is modelled as a finite transition system $M = (S, s_0, R)$ with states $S$, initial state $s_0$, and transition relation $R \subseteq S \times S$. A state records the protocol phase, the proposal count, votes received, whether the current proposal is grounded, whether a commit has occurred, and the retry count.
+
+Finiteness is what makes exhaustive verification possible, and it is bought by bounding the retry count. That bound is a modelling decision with consequences: the model verifies the protocol under a retry limit, and says nothing about a deployment that retries without one.
+
+## Safety and Liveness
+
+Properties of executions divide into two classes. A safety property asserts that nothing bad happens and is violated by a finite prefix -- there is a specific point at which the violation is observable. A liveness property asserts that something good eventually happens and can only be violated by an infinite execution.
+
+The distinction determines how each is checked. Our safety invariant, that no reachable state commits an ungrounded proposal, is decided by enumerating reachable states, since a violating state is itself the witness. Liveness requires reasoning about cycles: an execution that never commits and never aborts must revisit states forever, so absence of such a cycle in the reachable graph establishes termination.
+
+## Counterexamples
+
+Breadth-first exploration returns the shortest path to a violating state, which is what makes model checking useful for repair rather than merely for judgement. A checker that reports only "unsafe" leaves the engineer to find the fault; one that returns a minimal trace names it.
+
+Shortness matters for a second reason. A violation reachable in few transitions is not an exotic corner case requiring an adversarial schedule; it lies on paths ordinary executions take, and the depth of the counterexample is therefore evidence about how likely the fault is to be encountered.
+
+## Byzantine Agreement
+
+A Byzantine agent may deviate arbitrarily, including sending conflicting values to different recipients. The classical result is that agreement among $n$ agents tolerating $f$ Byzantine ones requires $n \ge 3f + 1$, equivalently $f < n/3$.
+
+The bound follows from a counting argument. An honest agent waiting for $n - f$ responses cannot distinguish $f$ silent honest agents from $f$ Byzantine ones, so it must decide on a quorum that any two quorums share at least one honest member -- which requires quorums of size at least $2f + 1$ and therefore $n \ge 3f + 1$.
+
+Quorum intersection is the property doing the work. Two quorums of size $2f+1$ drawn from $n \ge 3f+1$ agents overlap in at least $f+1$ members, of whom at least one is honest, and that honest member cannot have voted for two conflicting values. Agreement follows.
+
+## What a Model Establishes
+
+Exhaustive checking proves a property of every execution of the model, which is stronger than a benchmark average over sampled runs. It is also narrower: the guarantee transfers to an implementation only insofar as the implementation refines the model.
+
+For a council of language-model agents, that refinement is exactly what is in doubt. The model assumes an agent either follows the protocol or fails observably; a model-based agent can also produce plausible output that violates the protocol's intent while satisfying its letter. Establishing refinement is an empirical question this paper does not address.
 
 ---
 

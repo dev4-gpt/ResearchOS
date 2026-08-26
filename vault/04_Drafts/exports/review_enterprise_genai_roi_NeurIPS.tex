@@ -150,6 +150,8 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -158,6 +160,8 @@ C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfe
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -343,6 +347,8 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -351,6 +357,8 @@ Y = & \alpha + \tau X_{\text{GenAI}} \\
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -546,6 +554,46 @@ This appendix situates the work against the literature the main text cites, grou
 
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+
+
+
+\section{Appendix B: Extended Background}
+
+
+
+\section{What a Census Establishes, and What It Does Not}
+
+
+A systematic review has two possible objects. It can synthesise effect sizes across studies, producing a pooled estimate with a confidence interval, or it can characterise a literature -- its size, distribution, recency, and the degree to which it reports evidence at all. The first requires primary studies reporting comparable outcomes with dispersion; the second requires only that the literature be enumerable.
+
+This review takes the second object, and the reason is a property of the corpus rather than a preference. Reported returns in this literature are overwhelmingly single-organisation figures without variance estimates, control conditions, or a shared definition of the denominator against which return is computed. Pooling them would produce an interval whose width reflects the number of studies rather than the uncertainty in the underlying quantity, which is precision manufactured from nothing.
+
+
+\section{The OpenAlex Data Model}
+
+
+OpenAlex indexes scholarly works with normalised metadata: title, authorship, publication year, venue, open-access status, citation count, and a reconstructable abstract.
+
+Abstracts are stored as an inverted index mapping each token to its positions, rather than as running text. Reconstruction inverts that mapping, and is lossless for word order but discards the original whitespace and any markup. For screening purposes -- searching for sample-size and study-design markers -- this is immaterial.
+
+Retrieval is by relevance ranking against a query string. This is the source of the sampling caveat that qualifies every rate in this paper: a query returns the head of a ranking, not a random sample, and the head is systematically better indexed, more cited and more likely open-access than the tail. Rates computed over it are biased upward, and the direction of that bias is knowable even where its magnitude is not.
+
+
+\section{Screening for Empirical Content}
+
+
+We classify a work as empirical when its abstract contains a marker of reported data: an explicit sample size, or one of a small set of study-design terms (survey, respondents, participants, experiment, case study, interviews).
+
+The measure is deliberately crude, and its errors run in both directions. A paper that reports data without naming it in the abstract is missed; a paper that merely discusses others' data is counted. What makes it usable is that the bias from relevance ranking runs the same way as the bias from the marker list -- both favour classifying a work as empirical -- so the resulting share is an upper estimate. A conclusion that the literature is \textit{less} empirical than the estimate suggests is therefore safe in a way the reverse would not be.
+
+
+\section{Why the Denominator Matters for ROI}
+
+
+Return on investment is a ratio, and its interpretation depends entirely on what enters the denominator. Studies in this corpus variously count licence fees only; licence fees plus inference cost; those plus engineering time; and those plus the opportunity cost of the displaced process.
+
+These are not small differences of accounting. A deployment that returns three times its licence cost may return less than its total cost of ownership, and both figures can be reported as ROI without either being wrong. Any synthesis that pools them is adding quantities that do not share a unit, which is the specific reason this review reports a measurement framework instead of a pooled number.
 
 
 

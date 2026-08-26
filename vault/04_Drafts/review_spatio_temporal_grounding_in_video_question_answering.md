@@ -82,12 +82,16 @@ Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled fra
 
 
 
+
+
 $$
 \begin{aligned}
 Z_t = & f_{\theta_v}(I_t) \in \mathbb{R}^{K \times d_v}, \\
 & \quad \text{for } t = 1, \ldots, T
 \end{aligned}
 $$
+
+
 
 
 
@@ -127,11 +131,15 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 
 
 
+
+
 $$
 \begin{aligned}
 \mathbf{A} = \text{Softmax}\left( \frac{(\mathbf{Q} \mathbf{W}_Q) (\mathbf{Z} \mathbf{W}_K)^\top}{\sqrt{d_k}} \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -177,11 +185,15 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
+
 $$
 \begin{aligned}
 \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} \right\|_F \le \frac{1}{\gamma T + (1 - \gamma)} \cdot \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{Q}} \right\|_F \cdot \|\mathbf{W}_Q\|_F \|\mathbf{W}_K\|_F
 \end{aligned}
 $$
+
+
 
 
 
@@ -223,12 +235,16 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
+
 $$
 \begin{aligned}
 \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \\
 & \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -302,6 +318,8 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
+
 $$
 \begin{aligned}
 \Delta Z_t = & Z_{t+1} - Z_t, \\
@@ -326,9 +344,13 @@ $$
 
 
 
+
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 **Definition 2 (Orthogonal Projector Constraint).** We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
+
 
 
 
@@ -370,7 +392,11 @@ $$
 
 
 
+
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
+
 
 
 
@@ -394,6 +420,8 @@ $$
 \hat{\mathbf{Z}}_t = \mathbf{Z}_t \mathbf{W}_S + \lambda_T \cdot \left( \Delta \mathbf{Z}_t \mathbf{W}_T \right)
 \end{aligned}
 $$
+
+
 
 
 
@@ -437,12 +465,16 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{total}} = & \mathcal{L}_{\text{CE}}(Y \mid \hat{\mathbf{Z}}, \mathbf{Q}) \\
 & + \alpha_{\text{orth}} \mathcal{L}_{\text{orth}} + \beta_{\text{ent}} \mathcal{H}(\mathbf{A}_{\text{temporal}})
 \end{aligned}
 $$
+
+
 
 
 
@@ -559,3 +591,44 @@ This appendix situates the work against the literature the main text cites, grou
 ## Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+---
+
+## Appendix B: Extended Background
+
+## Attention Over Long Sequences
+
+Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mathbf{k}_j\}_{j=1}^{T}$, a distribution
+
+
+
+$$
+\begin{aligned}
+a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(\mathbf{q}^{\top}\mathbf{k}_l / \sqrt{d})}
+\end{aligned}
+$$
+
+
+
+and returns $\sum_j a_j \mathbf{v}_j$. The distribution is normalised over the whole sequence, which is the structural fact behind the dispersion problem: probability mass removed from one position must appear at others, and as $T$ grows the mass available to any single position falls even when its relevance does not.
+
+## Dispersion as an Entropy Property
+
+The concentration of an attention distribution is summarised by its entropy $H(a) = -\sum_j a_j \log a_j$, bounded above by $\log T$.
+
+A distribution concentrated on a short window has entropy near zero; one spread uniformly attains the bound. The quantity of interest for temporal grounding is not entropy alone but the mass falling inside the annotated relevant window, $\sum_{j \in W} a_j$, since a distribution can be low-entropy while concentrated in the wrong place. The evaluation protocol in Section 5 reports both for that reason.
+
+Dispersion is aggravated by the softmax temperature implied by $\sqrt{d}$ scaling. Logits that grow slower than $\sqrt{d}$ as sequence length increases produce a flatter distribution, so architectural choices that bound logit magnitude interact with sequence length in ways that are easy to miss when evaluating at a single length.
+
+## Why Decomposition Might Help
+
+The proposed architecture factors attention into a temporal stage that selects candidate windows and a spatial stage that attends within them. The normalisation is then performed twice over smaller supports rather than once over $T$ positions.
+
+The mechanism this targets is specific: it addresses dispersion, not representation quality. A question answerable from a single frame gains nothing, because the temporal stage has nothing to select and the spatial stage sees what it would have seen anyway. This is what makes prediction 3 in Section 5 a genuine test rather than a corollary -- if decomposition improves single-frame questions too, the improvement is coming from added capacity rather than from the mechanism claimed.
+
+## The State of the Evidence
+
+We are describing a mechanism and an architecture, not reporting that either works. The literature establishes that attention dispersion occurs and that grounding accuracy degrades with sequence length; it does not establish that this particular decomposition is the remedy, and neither does this paper.
+
+That distinction is the reason Section 5 states predictions and an experimental protocol instead of results. A reader should treat the architecture as a hypothesis with a specified test, and the appropriate response to it is to run that test.
+

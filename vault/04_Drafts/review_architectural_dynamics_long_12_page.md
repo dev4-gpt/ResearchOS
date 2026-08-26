@@ -50,12 +50,16 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
 & + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{\mathcal{D}^\beta}
 \end{aligned}
 $$
+
+
 
 
 
@@ -118,6 +122,8 @@ The Hoffmann et al. scaling law [[arxiv_2005.14165]] characterizes test cross-en
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
@@ -142,7 +148,11 @@ $$
 
 
 
+
+
 **Theorem 1 (Optimal Compute Allocation).** Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
+
 
 
 
@@ -185,7 +195,11 @@ $$
 
 
 
+
+
 *Proof.* Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
+
 
 
 
@@ -210,6 +224,8 @@ $$
 & + A\mathcal{N}^{-\alpha} + B\left(\frac{6\mathcal{N}}{\mathcal{C}}\right)^\beta
 \end{aligned}
 $$
+
+
 
 
 
@@ -253,11 +269,15 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
+
 $$
 \begin{aligned}
 \text{Pass@}k = 1 - (1-p)^k
 \end{aligned}
 $$
+
+
 
 
 
@@ -303,6 +323,8 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
+
 $$
 \begin{aligned}
 W = & W_0 \\
@@ -327,7 +349,11 @@ $$
 
 
 
+
+
 **Definition 1 (Subspace Capacity).** The rank-$r$ adaptation subspace capacity is:
+
+
 
 
 
@@ -369,9 +395,13 @@ $$
 
 
 
+
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 **Theorem 2 (Approximation Error Bound).** For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
+
 
 
 
@@ -396,6 +426,8 @@ $$
 & k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $$
+
+
 
 
 
@@ -439,11 +471,15 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
+
 $$
 \begin{aligned}
 \eta_{\text{eff}} = \frac{\gamma}{r} \cdot \eta_{\text{LoRA}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -481,11 +517,15 @@ $$
 
 
 
+
+
 $$
 \begin{aligned}
 \|\nabla_{W_\ell}\mathcal{L}\|_F \approx \|\nabla_{B_\ell}\mathcal{L}\|_F \cdot \|A_\ell\|_F + \|B_\ell\|_F \cdot \|\nabla_{A_\ell}\mathcal{L}\|_F
 \end{aligned}
 $$
+
+
 
 
 
@@ -531,6 +571,8 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
+
 $$
 \begin{aligned}
 p_i(x) = \text{Softmax}(W_g x)_i = \frac{\exp(w_i^\top x)}{\sum_{j=1}^E \exp(w_j^\top x)}
@@ -554,11 +596,15 @@ $$
 
 
 
+
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 ### Load Balancing and Routing Entropy
 
 **Definition 2 (Routing Entropy).** The expert routing entropy for batch $\mathcal{B}$ is:
+
+
 
 
 
@@ -601,9 +647,13 @@ $$
 
 
 
+
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 **Theorem 3 (Routing Stability Under Auxiliary Loss).** The auxiliary load-balancing loss:
+
+
 
 
 
@@ -627,6 +677,8 @@ $$
 \mathcal{L}_{\text{aux}} = \alpha_{\text{aux}} \cdot E \sum_{i=1}^E f_i \cdot P_i
 \end{aligned}
 $$
+
+
 
 
 
@@ -670,11 +722,15 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
+
 $$
 \begin{aligned}
 \text{ActiveParams} = \mathcal{N}_{\text{attn}} + k \cdot \frac{\mathcal{N}_{\text{total}} - \mathcal{N}_{\text{attn}}}{E}
 \end{aligned}
 $$
+
+
 
 
 
@@ -720,12 +776,16 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{VRAM}} = & \underbrace{\mathcal{M}_{\text{weights}}}_{\text{model params}} + \underbrace{2 \cdot N_L \cdot d_{\text{model}} \cdot B \cdot L_{\text{ctx}} \cdot s_{\text{dtype}}}_{\text{KV cache}} \\
 & + \underbrace{\mathcal{M}_{\text{activations}}}_{\text{residual streams}} + \underbrace{\mathcal{M}_{\text{cuda}}}_{\text{CUDA overhead}}
 \end{aligned}
 $$
+
+
 
 
 
@@ -779,11 +839,15 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
+
 $$
 \begin{aligned}
 \text{AI} = \frac{\text{FLOPs/token}}{2\mathcal{N} \cdot s_{\text{dtype}}} \approx \frac{1}{s_{\text{dtype}}} \text{ FLOP/byte}
 \end{aligned}
 $$
+
+
 
 
 
@@ -897,11 +961,15 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{compound}}(\mathcal{N}, \mathcal{D}, \mathcal{I}_{\text{ext}}) \approx E' + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{(\mathcal{D} + \lambda\mathcal{I}_{\text{ext}})^\beta}
 \end{aligned}
 $$
+
+
 
 
 
@@ -975,7 +1043,7 @@ The limits of this evidence are worth stating plainly. Exact arithmetic tells yo
 
 This appendix situates the work against the literature the main text cites, grouped by the aspect of the problem each body of work addresses. Each entry states what the cited work itself reports; where our findings differ from a cited result, the difference is noted rather than smoothed over.
 
-## Work Cited in Related Work
+### Work Cited in Related Work
 
 **A Survey of Test-Time Compute: From Intuitive Inference to Deliberate Reasoning** [[arxiv_2501.02497]] reports: The remarkable performance of the o1 model in complex reasoning demonstrates that test-time compute scaling can further unlock the model's potential, enabling powerful System-2 thinking. However, there is still a lack of comprehensive surveys for test-time compute scaling.
 
@@ -987,7 +1055,7 @@ This appendix situates the work against the literature the main text cites, grou
 
 **GraphRAG under Fire** [[arxiv_2501.14050]] reports: GraphRAG advances retrieval-augmented generation (RAG) by structuring external knowledge as multi-scale knowledge graphs, enabling language models to integrate both broad context and granular details in their generation. While GraphRAG has demonstrated success across domains, its security implications remain largely unexplored.
 
-## Work Cited in Introduction
+### Work Cited in Introduction
 
 **Language Models are Few-Shot Learners** [[arxiv_2005.14165]] reports: We demonstrate that scaling up language models greatly improves few-shot performance, sometimes even matching or exceeding prior state-of-the-art fine-tuning approaches. We train GPT-3, a 175-billion parameter autoregressive language model, and evaluate its performance on a wide variety of NLP tasks.
 
@@ -995,21 +1063,88 @@ This appendix situates the work against the literature the main text cites, grou
 
 **A Blueprint Architecture of Compound AI Systems for Enterprise** [[arxiv_2406.00584]] reports: Large Language Models (LLMs) have showcased remarkable capabilities surpassing conventional NLP challenges, creating opportunities for use in production use cases. Towards this goal, there is a notable shift to building compound AI systems, wherein LLMs are integrated into an expansive software infrastructure with many components like models, retrievers, databases and tools.
 
-## Work Cited in Parameter Efficiency: Low-Rank Adaptation Bounds
+### Work Cited in Parameter Efficiency: Low-Rank Adaptation Bounds
 
 **CLUDA : Contrastive Learning in Unsupervised Domain Adaptation for Semantic Segmentation** [[arxiv_2208.14227]] reports: In this work, we propose CLUDA, a simple, yet novel method for performing unsupervised domain adaptation (UDA) for semantic segmentation by incorporating contrastive losses into a student-teacher learning paradigm, that makes use of pseudo-labels generated from the target domain by the teacher network. More specifically, we extract a multi-level fused-feature map from the encoder, and apply contrastive loss across di
 
 **Direct Preference Optimization: Your Language Model is Secretly a Reward Model** [[arxiv_2305.18290]] reports: We present Direct Preference Optimization (DPO), a stable, performant, and computationally lightweight algorithm for aligning LLMs to human preferences without training a reward model or using reinforcement learning. - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
 
-## Work Cited in Limitations and Threats to Validity
+### Work Cited in Limitations and Threats to Validity
 
 **Research Ethics Committees (RECs) perspectives on large language models and AI ethics review: a South African case.** [[pubmed_42380865]] reports: This note profiles the ethical, legal, and operational challenges faced by South African Research Ethics Committees (RECs) when evaluating protocols involving Large Language Models (LLMs) and Artificial Intelligence (AI). > [!NOTICE] > Analyst Note on Data Ingestion: The source text payload for this 2026 publication was limited to metadata.
 
 **Raman Spectroscopy Pre-Trained Encoder: A Self-Supervised Learning Approach for Data-Efficient Domain-Independent Spectroscopy Analysis** [[doaj_001772c2113c476d9d5d40452c8e10e1]] reports: Deep-learning methods have boosted the analytical power of Raman spectroscopy, yet they still require large, task-specific, labeled datasets and often fail to transfer across application domains. The study explores pre-trained encoders as a solution.
 
-## Positioning
+### Positioning
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+---
+
+## Appendix B: Extended Background
+
+### The Parametric Loss Surface
+
+The Chinchilla formulation models test loss as a function of parameter count $N$ and training tokens $D$:
+
+
+
+$$
+\begin{aligned}
+L(N, D) = & E \\
+& + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}
+\end{aligned}
+$$
+
+
+
+$E$ is the irreducible entropy of the data, and the two power-law terms capture the cost of finite capacity and finite data respectively. The coefficients we use are the published fit; we do not refit them, and the paper's conclusions inherit whatever error that fit carries.
+
+Compute-optimal allocation asks which $(N, D)$ minimises $L$ subject to a budget. Under the standard approximation $C \approx 6ND$ for transformer training FLOPs, the constraint is one-dimensional: fixing $N$ determines $D = C / 6N$. We therefore minimise by scanning $N$ over a logarithmic grid and evaluating $L$ at each induced $D$, rather than solving analytically. The numerical route avoids introducing an approximation the closed form would require, and the grid is fine enough that the minimum is insensitive to its spacing.
+
+### KV Cache Memory Is Exact Arithmetic
+
+During autoregressive decoding, attention reuses the key and value projections of every preceding token. Their storage is not an estimate:
+
+
+
+$$
+\begin{aligned}
+\mathcal{M}_{\text{KV}} = 2 \cdot N_L \cdot H_{\text{kv}} \cdot d_h \cdot L_{\text{ctx}} \cdot B \cdot s
+\end{aligned}
+$$
+
+
+
+with $N_L$ layers, $H_{\text{kv}}$ key-value heads, head dimension $d_h$, context length $L_{\text{ctx}}$, batch $B$, and $s$ bytes per element. The factor of two counts keys and values separately.
+
+The architectural variants differ only in $H_{\text{kv}}$. Multi-head attention sets $H_{\text{kv}} = H$; grouped-query attention shares each key-value head across a group of query heads, reducing $H_{\text{kv}}$ by the group size; multi-query attention takes $H_{\text{kv}} = 1$. Because the formula is linear in $H_{\text{kv}}$, the memory saving is exactly the head-sharing ratio, and no measurement is needed to establish it.
+
+What the formula does not capture is fragmentation. Paged attention and similar allocators change how much of the reserved memory is usable, not how much the cache logically requires, so the figures here are lower bounds on real occupancy.
+
+### Low-Rank Adaptation and Intrinsic Dimension
+
+LoRA replaces a weight update $\Delta W \in \mathbb{R}^{d \times k}$ with a factorisation $\Delta W = BA$, $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times k}$, $r \ll \min(d, k)$. The parameter cost falls from $dk$ to $r(d + k)$.
+
+The question this raises is how much of a real update such a factorisation can represent. The Eckart-Young theorem answers it: the best rank-$r$ approximation in Frobenius norm is the truncated SVD, and the error is determined by the discarded singular values,
+
+
+
+$$
+\begin{aligned}
+\|\Delta W - \Delta W_r\|_F^2 = \sum_{i > r} \sigma_i^2 .
+\end{aligned}
+$$
+
+
+
+So the fraction of update energy a rank-$r$ adapter can capture is $\sum_{i \le r} \sigma_i^2 / \sum_i \sigma_i^2$, and the shape of the singular spectrum decides whether low-rank adaptation is cheap or lossy. A spectrum with a sharp knee admits aggressive compression; a flat one does not.
+
+### Routing Entropy in Mixture-of-Experts
+
+A router assigning tokens to $E$ experts induces an empirical distribution $p_e$ over experts. Its Shannon entropy $H = -\sum_e p_e \log p_e$ is bounded above by $\log E$, attained under perfectly uniform load.
+
+Entropy is the natural summary here because the failure mode it detects is asymmetric. A router can be imbalanced without any expert being unused, and can leave experts unused without being maximally imbalanced. Entropy responds to both, whereas a count of dead experts responds only to the second and a max-share statistic only to the first.
 
 ---
 
@@ -1031,7 +1166,7 @@ Every number reported in this paper was produced by a single scripted run whose 
 | Measurements recorded | 31 |
 | Recorded at | 2026-08-25T18:17:02-0400 |
 
-## Reproduction
+### Reproduction
 
 The run is deterministic under the recorded seed. From the repository root:
 
@@ -1041,7 +1176,7 @@ backend/.venv/bin/python scripts/experiments/p2_scaling_laws.py
 
 This rewrites `runs/draft-review_architectural_dynamics_long_12_page/measurements.jsonl` and the raw artifacts beneath it. Each measurement row carries the artifact that produced it and that artifact's SHA-256 digest, so a reported value can be traced to the file it came from and that file checked for modification.
 
-## Scope of the Environment
+### Scope of the Environment
 
 No accelerator was available for this work. That constrains what the study can measure and is stated here rather than left implicit: results requiring model training, model serving, or hardware throughput measurement are outside what this setup can produce, and none are reported.
 
@@ -1097,7 +1232,7 @@ The main text reports the measurements that carry the argument. This appendix li
 
 **31 measurements across 5 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
-## Artifact Digests
+### Artifact Digests
 
 | Artifact | SHA-256 (first 16) |
 |:---|:---|

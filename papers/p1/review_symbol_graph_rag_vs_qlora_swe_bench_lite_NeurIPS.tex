@@ -109,6 +109,8 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -117,6 +119,8 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -166,6 +170,8 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -173,6 +179,8 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -220,6 +228,8 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -227,6 +237,8 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 \end{aligned}
 $}
 \end{equation}
+
+
 
 
 
@@ -548,6 +560,90 @@ This appendix situates the work against the literature the main text cites, grou
 
 
 The work above establishes the setting this paper operates in. What distinguishes the present study is not a new mechanism but the standard of evidence applied to it: every quantitative claim here resolves to a recorded artifact with a checksum, and claims that could not be measured on the available hardware were removed rather than estimated. Where that discipline produced a negative result, the negative result is what is reported.
+
+
+
+
+\section{Appendix B: Extended Background}
+
+
+
+\section{Lexical Retrieval as a Baseline}
+
+
+Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
+
+
+
+
+\begin{equation}
+\resizebox{\columnwidth}{!}{$\displaystyle
+\begin{aligned}
+\mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
+\frac{f(t, d) \cdot (k_1 + 1)}{f(t, d) \\
+& + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
+\end{aligned}
+$}
+\end{equation}
+
+
+
+
+where $f(t, d)$ is the term frequency, \$|d|$ the document length, $\overline{|d|}$ the mean length over the collection, and $\mathrm{idf}(t) = \log\left(1 + \frac{N - n\_t + 0.5}{n\_t + 0.5}\right)$ with $n\_t$ the number of documents containing $t\$.
+
+Two parameters govern its behaviour. The saturation parameter $k_1$ controls how quickly repeated occurrences of a term stop adding score, and the length normalisation $b$ controls how strongly long documents are penalised. We use the conventional $k_1 = 1.5$, $b = 0.75$ throughout, and do not tune them: tuning the baseline while leaving the method untuned, or the reverse, is a common way to manufacture a difference that reflects effort rather than mechanism.
+
+Identifiers are split on underscores and case boundaries before scoring. Without that step a query mentioning "compile" cannot match a module defining `compile\_pdflatex`, and the baseline would be handicapped by tokenisation rather than by any property of lexical retrieval.
+
+
+\section{The Symbol Graph}
+
+
+We build a heterogeneous directed graph $G = (V, E)$ over two node types. Module nodes correspond to source files; symbol nodes correspond to top-level functions and classes. Three edge relations connect them:
+
+\begin{itemize}
+  \item $\textsf{defines}$: from a module to each symbol it declares.
+  \item $\textsf{defined\_in}$: the inverse, from a symbol to its module.
+  \item $\textsf{references}$: from a module to a symbol declared elsewhere that the module names.
+\end{itemize}
+
+The reference relation is what makes the graph carry information a bag of words does not: it encodes that two files are related because one calls into the other, whether or not they share vocabulary.
+
+
+\section{Personalized PageRank}
+
+
+Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves for the stationary distribution
+
+
+
+
+\begin{equation}
+\resizebox{\columnwidth}{!}{$\displaystyle
+\begin{aligned}
+\boldsymbol{\pi} = \alpha P^{\top} \boldsymbol{\pi} + (1 - \alpha)\mathbf{s}
+\end{aligned}
+$}
+\end{equation}
+
+
+
+
+where $P$ is the row-normalised adjacency matrix and $\alpha$ the damping factor. The interpretation is a random walk that follows graph edges with probability $\alpha$ and teleports back to the seed distribution with probability $1 - \alpha$.
+
+Two design choices matter for our use. The seed distribution is the BM25 score vector, normalised, so the diffusion begins from the lexical ranking rather than uniformly. And the damping factor trades locality against reach: small $\alpha$ keeps mass near the seeds and behaves like a mild re-weighting of BM25, while large $\alpha$ lets mass travel far from them. The sweep in Section 4 covers both regimes.
+
+Diffusion mass is projected back onto modules by summing the stationary probability of each module node with that of the symbols it defines, since the retrieval unit is the module.
+
+
+\section{Evaluation Measures}
+
+
+Precision@$k$ is the fraction of queries whose gold module appears in the top $k$ results. Mean reciprocal rank is \$\frac{1}{|Q|}\sum\_{q} \frac{1}{\mathrm{rank}\_q}\$, taking the reciprocal of the gold module's position and zero when it is absent.
+
+MRR is the more informative of the two here because it is sensitive to movement anywhere in the ranking, whereas P@1 registers only crossings of the top position. A method that consistently promotes the gold module from rank 5 to rank 2 improves MRR and leaves P@1 unchanged, and reporting only the latter would hide it.
+
+Confidence intervals are percentile bootstrap over queries: resample the per-query scores with replacement, recompute the mean, and take the empirical 2.5th and 97.5th percentiles. This makes no distributional assumption, which matters because per-query reciprocal ranks are bounded, discrete and heavily skewed toward 1.
 
 
 
