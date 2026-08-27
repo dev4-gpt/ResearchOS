@@ -11,7 +11,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 | review_enterprise_adoption_of_multi_agent_ai | MDPI | open_access | 8.2 | 0 | 61.67 |
 | review_enterprise_genai_roi | SpringerOpen | reputable_journal | 7.0 | 0 | 50.08 |
 | review_spatio_temporal_grounding_in_video_qu | arXiv | preprint | 4.3 | 0 | 35.0 |
-| review_symbol_graph_rag_vs_qlora_swe_bench_l | IEEE_Access | reputable_journal | 7.3 | 0 | 54.5 |
+| review_symbol_graph_rag_vs_qlora_swe_bench_l | IEEE_Access | reputable_journal | 7.9 | 0 | 54.5 |
 | review_trustworthy_multi_agent_systems_forma | IEEEtran | reputable_journal | 7.0 | 0 | 47.83 |
 
 ## Rationale
@@ -71,7 +71,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 **Target:** IEEE_Access
 - All quantitative claims trace to evidence (+30).
 - Scope fit 0/25 (matched: none).
-- Length fits: ~7.3 of 12 pages (+20).
+- Length fits: ~7.9 of 12 pages (+20).
 - Acceptance weight +4.5.
 
 ### review_trustworthy_multi_agent_systems_formal_verification

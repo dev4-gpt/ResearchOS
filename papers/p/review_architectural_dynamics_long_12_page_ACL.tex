@@ -66,6 +66,7 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -74,6 +75,7 @@ Scaling laws in deep learning establish power-law relationships between compute 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -158,6 +160,7 @@ The Hoffmann et al. scaling law \cite{arxiv_2005_14165} characterizes test cross
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -190,7 +193,9 @@ $}
 
 
 
+
 \textbf{Theorem 1 (Optimal Compute Allocation).} Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
 
 
 
@@ -247,7 +252,9 @@ $}
 
 
 
+
 \textit{Proof.} Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
 
 
 
@@ -280,6 +287,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -337,6 +345,7 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -344,6 +353,7 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -405,6 +415,7 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -437,7 +448,9 @@ $}
 
 
 
+
 \textbf{Definition 1 (Subspace Capacity).} The rank-$r$ adaptation subspace capacity is:
+
 
 
 
@@ -493,9 +506,11 @@ $}
 
 
 
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 \textbf{Theorem 2 (Approximation Error Bound).} For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
 
 
 
@@ -528,6 +543,7 @@ For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirmi
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -585,6 +601,7 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -592,6 +609,7 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -641,6 +659,7 @@ $}
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -648,6 +667,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -709,6 +729,7 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -740,6 +761,7 @@ $}
 
 
 
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 
@@ -747,6 +769,7 @@ The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \t
 
 
 \textbf{Definition 2 (Routing Entropy).} The expert routing entropy for batch $\mathcal{B}$ is:
+
 
 
 
@@ -803,9 +826,11 @@ $}
 
 
 
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 \textbf{Theorem 3 (Routing Stability Under Auxiliary Loss).} The auxiliary load-balancing loss:
+
 
 
 
@@ -837,6 +862,7 @@ Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced lo
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -894,6 +920,7 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -901,6 +928,7 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -962,6 +990,7 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -970,6 +999,7 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -1044,6 +1074,7 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1051,6 +1082,7 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -1228,6 +1260,7 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1235,6 +1268,7 @@ We extend the Chinchilla framework to compound architectures where external retr
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -1400,6 +1434,7 @@ The Chinchilla formulation models test loss as a function of parameter count $N$
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1408,6 +1443,7 @@ L(N, D) = & E \\
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -1431,6 +1467,7 @@ During autoregressive decoding, attention reuses the key and value projections o
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1438,6 +1475,7 @@ During autoregressive decoding, attention reuses the key and value projections o
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -1465,6 +1503,7 @@ The question this raises is how much of a real update such a factorisation can r
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1472,6 +1511,7 @@ The question this raises is how much of a real update such a factorisation can r
 \end{aligned}
 $}
 \end{equation}
+
 
 
 

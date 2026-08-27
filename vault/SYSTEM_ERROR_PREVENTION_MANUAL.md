@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-26 19:44:28
-**Total Tracked Incidents:** 83
-**Resolved & Verified:** 81
+**Last Updated:** 2026-08-27 11:30:34
+**Total Tracked Incidents:** 84
+**Resolved & Verified:** 82
 **Open / Unresolved:** 2
-**Active Prevention Rules:** 83
+**Active Prevention Rules:** 84
 
 ---
 
@@ -100,6 +100,7 @@
 - **[R81]**: Verify the artifact that ships, not only the source it came from. Every edge in the pipeline where one representation is derived from another needs a check that they still agree, or the derived one silently becomes the older claim.
 - **[R82]**: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.
 - **[R83]**: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.
+- **[R84]**: A run that overwrites shared evidence must declare what it owns and report what it removed. A namespace must be one no other experiment writes into, and 'replace everything' is only correct when a paper has exactly one experiment behind it.
 
 ---
 
@@ -850,4 +851,13 @@
 - **Root Cause:** Evidence was enumerated field by field as each consumer happened to need it, rather than defined once as everything a run records. Each omission surfaces only when a manuscript states the missing field.
 - **Resolution:** n is collected alongside value and ci95. p5 returned to 12/12 publish-ready. The recurring shape is worth naming: R56 says two graders judging one property must share evidence sources, and three violations in one day were all the same omission wearing different field names.
 - **Prevention Rule:** `R83: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-084] measurements.jsonl is keyed by paper, and finalize() opens it with 'w'. A second experiment contributing to the same paper therefore truncates the first one's rows. Adding p1b (SWE-bench retrieval) alongside p1 would have destroyed all 26 of p1's measurements on its first run. The existing guard does not catch this: it refuses only an *empty* result set, and p1b had nine rows of its own. Then the fix itself misfired -- p1b declared it owned the 'swebench_' namespace while p1 was already recording four census metrics under that prefix, and deleted them.
+- **Timestamp:** `2026-08-27 11:30:34`
+- **Component:** `ExperimentRecorder.finalize` (measurement_recording)
+- **Error Type:** `One Experiment Deletes Another's Evidence`
+- **Root Cause:** The file is named for the paper but written as though one experiment owns it. Nothing declared which metrics a run is responsible for, so 'replace the file' was the only available semantics.
+- **Resolution:** A recorder may declare owns_prefix: it then replaces exactly the metrics in that namespace and carries every other row through untouched, so p1 and p1b can run in either order. Rows a run removes from its own namespace are listed by name at finalize, which is what makes a wrong prefix visible instead of silent -- the misfire above printed nothing the first time. Four tests cover it, including the prefix-collision case.
+- **Prevention Rule:** `R84: A run that overwrites shared evidence must declare what it owns and report what it removed. A namespace must be one no other experiment writes into, and 'replace everything' is only correct when a paper has exactly one experiment behind it.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

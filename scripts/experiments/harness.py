@@ -91,11 +91,20 @@ class Measurement:
 class ExperimentRecorder:
     """Writes artifacts and measurements for one experiment run."""
 
-    def __init__(self, run_id: str, paper: str, description: str, seed: int = 20260825):
+    def __init__(self, run_id: str, paper: str, description: str, seed: int = 20260825,
+                 owns_prefix: str = ""):
+        """*owns_prefix* names the metric namespace this experiment is responsible for.
+
+        Leave it empty and finalize() replaces the whole file, which is right when
+        one experiment is the only source for a paper. Set it when a paper has
+        several experiments behind it: this run then replaces only the metrics
+        whose names start with the prefix, and leaves the rest of the file alone.
+        """
         self.run_id = run_id
         self.paper = paper
         self.description = description
         self.seed = seed
+        self.owns_prefix = owns_prefix
         self.run_dir = os.path.join(RUNS_ROOT, run_id)
         self.artifact_dir = os.path.join(self.run_dir, "artifacts")
         os.makedirs(self.artifact_dir, exist_ok=True)
@@ -155,9 +164,58 @@ class ExperimentRecorder:
                 "empty result set. The run produced nothing; investigate before rerunning."
             )
 
+        # A paper can have more than one experiment behind it, and the file is
+        # keyed by paper rather than by experiment. Without this, the second
+        # script to run silently deletes the first one's rows -- the same
+        # data-loss ERR-051 recorded, arriving by a different route: the guard
+        # above only catches an *empty* run, not a different experiment.
+        #
+        # A recorder that declares a namespace owns exactly the metrics whose
+        # names begin with it. Everything else in the file is another
+        # experiment's evidence and is carried through untouched, while a metric
+        # this run stopped producing still disappears from its own namespace.
+        preserved: List[str] = []
+        dropped: List[str] = []
+        if self.owns_prefix and os.path.exists(measurements_path):
+            mine = {m.to_dict()["metric"] for m in self._measurements}
+            with open(measurements_path, "r", encoding="utf-8") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        metric = json.loads(line).get("metric", "")
+                    except json.JSONDecodeError:
+                        continue
+                    if metric in mine:
+                        continue                       # this run re-recorded it
+                    if metric.startswith(self.owns_prefix):
+                        dropped.append(metric)         # mine to remove, and said so
+                    else:
+                        preserved.append(line)
+
         with open(measurements_path, "w", encoding="utf-8") as handle:
+            for line in preserved:
+                handle.write(line + "\n")
             for measurement in self._measurements:
                 handle.write(json.dumps(measurement.to_dict(), sort_keys=True) + "\n")
+
+        if preserved:
+            print(f"  preserved {len(preserved)} measurement(s) recorded by another "
+                  f"experiment for this paper")
+        if dropped:
+            # Naming a namespace that another experiment already writes into
+            # deletes its rows silently. That happened on the first run of p1b:
+            # it claimed "swebench_" while p1 was already recording four census
+            # metrics under that prefix, and they vanished. Dropping a metric you
+            # no longer produce is legitimate; doing it without saying so is how
+            # evidence disappears unnoticed.
+            print(f"  dropped {len(dropped)} row(s) from the '{self.owns_prefix}' "
+                  f"namespace that this run did not re-record:")
+            for metric in sorted(dropped):
+                print(f"      - {metric}")
+            print("      If any of those belong to a different experiment, this "
+                  "run's owns_prefix is wrong.")
 
         manifest = {
             "run_id": self.run_id,

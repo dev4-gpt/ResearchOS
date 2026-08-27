@@ -22,7 +22,7 @@ Automated software engineering at repository scale depends on retrieving the rig
 
 We build a symbol graph from imports and call references over a corpus of 127 Python modules (498 graph nodes, 1002 edges), seed a Personalized PageRank diffusion with BM25 scores, and evaluate against ground truth given by the module that defines each queried symbol. Queries are docstrings with the defining symbol's own name stripped, so a hit cannot come from the answer leaking into the query. Diffusion hyperparameters are selected on a held-out development half and reported on 138 unseen queries.
 
-The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\% against 87.68\%. On this corpus the structural signal adds nothing that lexical matching has not already captured [[arxiv_2501.02497]].
+The result is negative. Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9119 against 0.9201 ($\Delta = -0.0082$, Cohen's $d = -0.0365$), and P@1 86.23\% against 87.68\%. On this corpus the structural signal adds nothing that lexical matching has not already captured [[arxiv_2501.02497]]. The finding replicates outside our own source: on 41 SWE-bench Lite issues, queried with the issue text a user wrote and scored against the files the accepted patch changed, MRR is 0.4421 against BM25's 0.4664. Diffusion does raise P@5 there, from 63.41\% to 70.73\%, while lowering P@1 -- it widens the candidate set without sharpening the top of it.
 
 We pair this with a census of SWE-bench Lite's 300 public instances. Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\% single-file), and the problem statement already names the file to edit in 55.33\% of cases (95\% CI [49.67, 60.67]). Retrieval difficulty on that benchmark is therefore lower than a repository-scale framing suggests, which we argue is why retrieval-side gains there are easy to overstate.
 
@@ -93,12 +93,14 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
 
 
 
@@ -160,11 +162,13 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
 
 
 
@@ -224,11 +228,13 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -314,6 +320,47 @@ is weak: cross-language repositories, heavily abbreviated or generated identifie
 or queries phrased in user rather than developer vocabulary. We state that as the
 condition under which this method is worth revisiting, rather than presenting the
 present result as a refutation of structural retrieval in general.
+
+
+### Replication on SWE-bench Lite
+
+The corpus above is our own source and the queries are synthesised from its
+docstrings, so the null result could be a property of that setting rather than of
+the method. We therefore repeated the comparison where none of the task is ours:
+the corpus is a third-party repository's Python at an instance's base commit, the
+query is the issue text a user wrote, and the gold answer is the set of files the
+accepted patch changed. No hyperparameter was fitted here -- $\alpha$ and the
+seed breadth are the values selected on the held-out split above, applied
+unchanged to data they have never seen.
+
+| System | P@1 (\%) | P@5 (\%) | MRR |
+|:---|:---:|:---:|:---:|
+| BM25 | 31.71 | 63.41 | 0.4664 |
+| Symbol-Graph + PPR | 26.83 | 70.73 | 0.4421 |
+
+Retrieval is markedly harder here than on docstring queries -- MRR
+0.4664 against 0.9201 -- which is the
+expected direction: an issue report describes a symptom, not the code that causes
+it, and the median repository holds 198
+Python files. The paired difference in MRR is
+-0.0243, so the negative finding holds on real
+issues as well as synthetic ones.
+
+The two settings disagree in one respect worth stating. Here diffusion moves P@5
+up by 7.32
+percentage points while moving P@1 down by
+4.88. It
+pulls related modules into the top five that lexical scoring had missed, and in
+doing so displaces the single best answer. For a system that hands a shortlist to
+a human or to a repair agent that will read several files, that trade may be
+worth taking; for one that acts on the first result, it is not. Our headline
+metric is MRR, which weights the top rank most heavily, and by that measure the
+method still does not pay.
+
+This measures file localisation, not issue resolution: no patch was generated and
+no test was executed. Six repositories were used, chosen by clone size; django and
+sympy together carry more than half of SWE-bench Lite and are absent, so the
+instance set is not a random sample of the benchmark.
 
 ---
 
@@ -486,6 +533,7 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
 $$
 \begin{aligned}
 \mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
@@ -493,6 +541,7 @@ $$
 & + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
 \end{aligned}
 $$
+
 
 
 
@@ -530,11 +579,13 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
 $$
 \begin{aligned}
 \boldsymbol{\pi} = \alpha P^{\top} \boldsymbol{\pi} + (1 - \alpha)\mathbf{s}
 \end{aligned}
 $$
+
 
 
 
@@ -568,15 +619,15 @@ Every number reported in this paper was produced by a single scripted run whose 
 |:---|:---|
 | Run identifier | `draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite` |
 | Random seed | 20260825 |
-| Repository revision | `01f46675e9f8` |
+| Repository revision | `b3a4a9d06ec3` |
 | Python | 3.13.5 |
 | Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
 | Architecture | arm64 |
 | Logical CPUs | 12 |
 | Accelerator | none; no GPU was used at any point |
-| Wall-clock duration | `7.565 s` |
-| Measurements recorded | 19 |
-| Recorded at | 2026-08-26T00:33:46-0400 |
+| Wall-clock duration | `50.265 s` |
+| Measurements recorded | 9 |
+| Recorded at | 2026-08-27T11:09:14-0400 |
 
 ## Reproduction
 

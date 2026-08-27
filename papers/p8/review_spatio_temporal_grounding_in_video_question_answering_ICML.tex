@@ -98,6 +98,7 @@ Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled fra
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -106,6 +107,7 @@ Z_t = & f_{\theta_v}(I_t) \in \mathbb{R}^{K \times d_v}, \\
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -157,6 +159,7 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -164,6 +167,7 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -223,6 +227,7 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -230,6 +235,7 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -283,6 +289,7 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -291,6 +298,7 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -373,6 +381,7 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -405,9 +414,11 @@ $}
 
 
 
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 \textbf{Definition 2 (Orthogonal Projector Constraint).} We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
 
 
 
@@ -463,7 +474,9 @@ $}
 
 
 
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
 
 
 
@@ -495,6 +508,7 @@ The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -552,6 +566,7 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -560,6 +575,7 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -747,6 +763,7 @@ Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mat
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -754,6 +771,7 @@ a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(
 \end{aligned}
 $}
 \end{equation}
+
 
 
 

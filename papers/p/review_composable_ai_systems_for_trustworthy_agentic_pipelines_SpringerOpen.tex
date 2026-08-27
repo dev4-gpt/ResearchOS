@@ -125,6 +125,7 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -133,6 +134,7 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -188,6 +190,7 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -196,6 +199,7 @@ c_{ij} = & \langle \mathcal{I}_{ij}, \\
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -254,6 +258,7 @@ where:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -261,6 +266,7 @@ where:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -318,6 +324,7 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -349,7 +356,9 @@ $}
 
 
 
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid \$\mathcal{B}\_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}\$ with radius:
+
 
 
 
@@ -405,7 +414,9 @@ $}
 
 
 
+
 \textit{Proof.} Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
 
 
 
@@ -461,7 +472,9 @@ $}
 
 
 
+
 By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{P} \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \lambda\_{\max}(\mathbf{P}) \|\mathbf{e}\_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \|\mathbf{e}\_t\|^2$. Subtracting $V(\mathbf{e}\_t) = \|\mathbf{e}\_t\|^2\$:
+
 
 
 
@@ -493,6 +506,7 @@ By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\to
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -834,6 +848,7 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -843,6 +858,7 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -874,6 +890,7 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -881,6 +898,7 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
