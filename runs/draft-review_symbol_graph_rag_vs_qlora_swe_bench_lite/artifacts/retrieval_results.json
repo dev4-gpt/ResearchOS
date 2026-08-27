@@ -1,12 +1,12 @@
 {
   "best_config": {
     "alpha": 0.15,
-    "seed_topk": 25
+    "seed_topk": 0
   },
-  "dev_queries": 138,
-  "graph_edges": 1002,
-  "graph_nodes": 498,
-  "modules": 127,
+  "dev_queries": 165,
+  "graph_edges": 1184,
+  "graph_nodes": 573,
+  "modules": 137,
   "per_query": [
     {
       "bm25": [
@@ -216,6 +216,20 @@
         1.0,
         1.0
       ],
+      "symbol": "record_step"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/harness/prime_harness.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "symbol": "partition_context"
     },
     {
@@ -231,20 +245,6 @@
         1.0
       ],
       "symbol": "partition_corpus"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/harness/rlm_orchestrator.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "summarize_sub_agent_batch"
     },
     {
       "bm25": [
@@ -264,27 +264,27 @@
       "bm25": [
         0.0,
         0.0,
-        0.125
+        0.14285714285714285
       ],
       "gold": "backend/main.py",
       "ppr": [
         0.0,
         0.0,
-        0.1
+        0.08333333333333333
       ],
       "symbol": "_source_records"
     },
     {
       "bm25": [
         0.0,
-        1.0,
-        0.2
+        0.0,
+        0.16666666666666666
       ],
       "gold": "backend/main.py",
       "ppr": [
         0.0,
-        1.0,
-        0.2
+        0.0,
+        0.16666666666666666
       ],
       "symbol": "_fact_check_draft"
     },
@@ -292,13 +292,13 @@
       "bm25": [
         0.0,
         0.0,
-        0.1111111111111111
+        0.125
       ],
       "gold": "backend/main.py",
       "ppr": [
         0.0,
         0.0,
-        0.1
+        0.1111111111111111
       ],
       "symbol": "get_preview_tiles"
     },
@@ -354,9 +354,23 @@
       "ppr": [
         0.0,
         1.0,
-        0.25
+        0.3333333333333333
       ],
       "symbol": "export_venue_pdf"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.16666666666666666
+      ],
+      "gold": "backend/main.py",
+      "ppr": [
+        0.0,
+        0.0,
+        0.14285714285714285
+      ],
+      "symbol": "get_harness_state"
     },
     {
       "bm25": [
@@ -389,36 +403,8 @@
     {
       "bm25": [
         0.0,
-        1.0,
-        0.3333333333333333
-      ],
-      "gold": "backend/main.py",
-      "ppr": [
         0.0,
-        1.0,
-        0.3333333333333333
-      ],
-      "symbol": "list_vault_drafts"
-    },
-    {
-      "bm25": [
-        0.0,
-        1.0,
-        0.5
-      ],
-      "gold": "backend/main.py",
-      "ppr": [
-        0.0,
-        1.0,
-        0.5
-      ],
-      "symbol": "get_venue_specs"
-    },
-    {
-      "bm25": [
-        0.0,
-        0.0,
-        0.16666666666666666
+        0.14285714285714285
       ],
       "gold": "backend/main.py",
       "ppr": [
@@ -445,14 +431,28 @@
     {
       "bm25": [
         0.0,
-        0.0,
-        0.125
+        1.0,
+        0.2
       ],
       "gold": "backend/main.py",
       "ppr": [
         0.0,
         0.0,
+        0.16666666666666666
+      ],
+      "symbol": "get_o1a_audit"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
         0.1111111111111111
+      ],
+      "gold": "backend/main.py",
+      "ppr": [
+        0.0,
+        0.0,
+        0.125
       ],
       "symbol": "get_system_error_ledger"
     },
@@ -478,25 +478,25 @@
       ],
       "gold": "backend/services/checkmate_interceptor.py",
       "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "sanitize_and_normalize_markdown"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/services/checkmate_interceptor.py",
-      "ppr": [
         0.0,
         1.0,
         0.5
       ],
       "symbol": "compile_with_self_healing"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "gold": "backend/services/checkmate_verifier.py",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "symbol": "run_multi_venue_backtest"
     },
     {
       "bm25": [
@@ -506,11 +506,25 @@
       ],
       "gold": "backend/services/checkmate_verifier.py",
       "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "symbol": "audit_pairwise_vault_dissimilarity"
+    },
+    {
+      "bm25": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "audit_pdf"
+      "gold": "backend/services/citation_graph.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "CitationGraphEngine"
     },
     {
       "bm25": [
@@ -538,7 +552,7 @@
         1.0,
         1.0
       ],
-      "symbol": "CitationRelevanceService"
+      "symbol": "score_pair"
     },
     {
       "bm25": [
@@ -546,13 +560,97 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/citation_relevance.py",
+      "gold": "backend/services/claim_mutations.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "suggest_replacements"
+      "symbol": "_replace_once"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "mu_drift"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "mu_rebind"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "mu_transplant"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "_perturb_raw"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "gold": "backend/services/claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "generate"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_provenance.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "certifies_measurement"
     },
     {
       "bm25": [
@@ -580,7 +678,21 @@
         1.0,
         1.0
       ],
-      "symbol": "extract_claims"
+      "symbol": "ClaimProvenanceService"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/claim_provenance.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "load_measurements"
     },
     {
       "bm25": [
@@ -602,27 +714,27 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/claim_provenance.py",
+      "gold": "backend/services/error_ledger.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "classify"
+      "symbol": "resolve_error"
     },
     {
       "bm25": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
-      "gold": "backend/services/claim_provenance.py",
+      "gold": "backend/services/evidence_ledger.py",
       "ppr": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
-      "symbol": "render_markdown"
+      "symbol": "EvidenceLedger"
     },
     {
       "bm25": [
@@ -650,34 +762,6 @@
         1.0,
         1.0
       ],
-      "symbol": "validate_bibliography"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/services/fact_checker.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "_absolve_measured_claims"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/services/fact_checker.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
       "symbol": "audit_document"
     },
     {
@@ -692,7 +776,7 @@
         1.0,
         1.0
       ],
-      "symbol": "validate_latex_source"
+      "symbol": "_installed_tex_file"
     },
     {
       "bm25": [
@@ -702,11 +786,53 @@
       ],
       "gold": "backend/services/latex_exporter.py",
       "ppr": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
+      ],
+      "symbol": "clean_title_str"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
       ],
       "symbol": "is_placeholder_identity"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "derive_keywords"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "sanitize_latex"
     },
     {
       "bm25": [
@@ -734,13 +860,13 @@
         1.0,
         1.0
       ],
-      "symbol": "markdown_to_ieeetran"
+      "symbol": "generate_bibtex"
     },
     {
       "bm25": [
+        0.0,
         1.0,
-        1.0,
-        1.0
+        0.5
       ],
       "gold": "backend/services/latex_exporter.py",
       "ppr": [
@@ -748,7 +874,7 @@
         1.0,
         1.0
       ],
-      "symbol": "generate_bibtex"
+      "symbol": "compile_pdflatex"
     },
     {
       "bm25": [
@@ -756,13 +882,13 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/o1a_tracker.py",
+      "gold": "backend/services/llm_router.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "O1AEvidenceTrackerService"
+      "symbol": "generate_content"
     },
     {
       "bm25": [
@@ -784,34 +910,6 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/o1a_tracker.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "generate_legal_dossier_markdown"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/services/pdf_extractor.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "extract_text_from_bytes"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
       "gold": "backend/services/pdf_extractor.py",
       "ppr": [
         1.0,
@@ -822,17 +920,17 @@
     },
     {
       "bm25": [
-        0.0,
         1.0,
-        0.25
+        1.0,
+        1.0
       ],
-      "gold": "backend/services/publisher_readiness.py",
+      "gold": "backend/services/pdf_extractor.py",
       "ppr": [
-        0.0,
         1.0,
-        0.25
+        1.0,
+        1.0
       ],
-      "symbol": "PublisherReadinessService"
+      "symbol": "_parse_sections"
     },
     {
       "bm25": [
@@ -840,13 +938,27 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/release_controller.py",
+      "gold": "backend/services/publisher_readiness.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "ReleaseController"
+      "symbol": "_body_for_comparison"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/publisher_readiness.py",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "symbol": "_recorded_measurements"
     },
     {
       "bm25": [
@@ -902,6 +1014,20 @@
         1.0,
         1.0
       ],
+      "symbol": "search_openalex"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/search.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "symbol": "search_semanticscholar"
     },
     {
@@ -916,7 +1042,7 @@
         1.0,
         1.0
       ],
-      "symbol": "search_plos"
+      "symbol": "search_pubmed"
     },
     {
       "bm25": [
@@ -930,7 +1056,7 @@
         1.0,
         1.0
       ],
-      "symbol": "search_hal"
+      "symbol": "search_huggingface"
     },
     {
       "bm25": [
@@ -944,7 +1070,7 @@
         1.0,
         1.0
       ],
-      "symbol": "search_dblp"
+      "symbol": "run_combined_search"
     },
     {
       "bm25": [
@@ -986,7 +1112,7 @@
         1.0,
         1.0
       ],
-      "symbol": "save_markdown"
+      "symbol": "_clean_filename"
     },
     {
       "bm25": [
@@ -1022,13 +1148,13 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/venue_selector.py",
+      "gold": "backend/services/vault.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "allocate_portfolio"
+      "symbol": "list_files"
     },
     {
       "bm25": [
@@ -1036,13 +1162,27 @@
         1.0,
         1.0
       ],
-      "gold": "backend/services/visual_auditor.py",
+      "gold": "backend/services/venue_contract.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "audit_layout_geometry"
+      "symbol": "venue_registry_gaps"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/services/venue_selector.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "VenueScope"
     },
     {
       "bm25": [
@@ -1064,13 +1204,27 @@
         1.0,
         1.0
       ],
+      "gold": "backend/services/workflow_audit.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "_has_parallel_fanout"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "gold": "backend/tests/conftest.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "vault"
+      "symbol": "_isolate_harness_memory"
     },
     {
       "bm25": [
@@ -1106,6 +1260,174 @@
         1.0,
         1.0
       ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "_write_pdf"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_hollow_artifact_is_not_certified"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_evidence_report_with_failed_claims_fails"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_detected_defect_is_never_certified"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_leaked_meta_prompt_tags_are_never_certified"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_absent_tex_source_does_not_pass_the_syntax_check"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_ascii_diagrams_in_code_fences_are_not_tables"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_abstract_terminator_is_case_sensitive"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_checkmate_verifier.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_unreadable_drafts_fail_the_dissimilarity_audit"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_the_fixture_starts_fully_grounded"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_orphan_removes_every_measurement_that_could_satisfy_the_claim"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_claim_mutations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_must_catch_operators_are_the_control_group"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "gold": "backend/tests/test_claim_provenance.py",
       "ppr": [
         1.0,
@@ -1126,21 +1448,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_selector_blocks_a_competitive_venue_for_a_half_length_paper"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/tests/test_claim_provenance.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "test_measurement_in_an_incompatible_unit_does_not_ground_a_claim"
+      "symbol": "test_selector_blocks_a_competitive_venue_on_weak_scope_overlap"
     },
     {
       "bm25": [
@@ -1154,7 +1462,21 @@
         1.0,
         1.0
       ],
-      "symbol": "test_all_five_pipeline_stages_logged"
+      "symbol": "test_paper_files_written_to_vault"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_council.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_debate_file_written_to_vault"
     },
     {
       "bm25": [
@@ -1178,9 +1500,9 @@
       ],
       "gold": "backend/tests/test_council.py",
       "ppr": [
+        0.0,
         1.0,
-        1.0,
-        1.0
+        0.5
       ],
       "symbol": "test_special_chars_in_topic_do_not_crash"
     },
@@ -1196,7 +1518,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_very_long_topic_slug_truncated"
+      "symbol": "test_returns_failure_when_no_papers_found"
     },
     {
       "bm25": [
@@ -1204,13 +1526,13 @@
         1.0,
         1.0
       ],
-      "gold": "backend/tests/test_resync_manuscripts.py",
+      "gold": "backend/tests/test_experiment_recorder.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "test_resync_is_idempotent"
+      "symbol": "harness"
     },
     {
       "bm25": [
@@ -1218,13 +1540,13 @@
         1.0,
         1.0
       ],
-      "gold": "backend/tests/test_resync_manuscripts.py",
+      "gold": "backend/tests/test_experiment_recorder.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "test_shared_literal_is_refused_once_claimants_diverge"
+      "symbol": "test_a_namespace_owner_removes_its_own_stale_rows"
     },
     {
       "bm25": [
@@ -1232,13 +1554,41 @@
         1.0,
         1.0
       ],
-      "gold": "backend/tests/test_resync_manuscripts.py",
+      "gold": "backend/tests/test_experiment_recorder.py",
       "ppr": [
-        0.0,
         1.0,
-        0.5
+        1.0,
+        1.0
       ],
-      "symbol": "test_direction_words_near_a_changed_value_are_surfaced"
+      "symbol": "test_a_prefix_another_experiment_uses_would_eat_its_rows"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "_acm_topmatter"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "backend/tests/test_latex_exporter.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_acm_affiliation_always_carries_a_country"
     },
     {
       "bm25": [
@@ -1260,13 +1610,13 @@
         1.0,
         1.0
       ],
-      "gold": "backend/tests/test_vault.py",
+      "gold": "backend/tests/test_resync_manuscripts.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "test_all_subdirectories_created"
+      "symbol": "test_latex_thousands_spelling_is_matched"
     },
     {
       "bm25": [
@@ -1280,7 +1630,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_writes_file_to_correct_folder"
+      "symbol": "test_vault_root_created"
     },
     {
       "bm25": [
@@ -1294,21 +1644,7 @@
         1.0,
         1.0
       ],
-      "symbol": "test_slug_already_has_md_no_double_extension"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "backend/tests/test_vault.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "test_slash_in_filename_sanitized"
+      "symbol": "test_round_trip_body_only"
     },
     {
       "bm25": [
@@ -1358,13 +1694,27 @@
         1.0,
         1.0
       ],
+      "gold": "backend/tests/test_vault.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "test_no_self_edges"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "gold": "backend/tests/test_venue_contract.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "test_prose_words_are_never_corrupted_into_latex_macros"
+      "symbol": "test_checkmate_audit_detects_raw_latex_leaks"
     },
     {
       "bm25": [
@@ -1372,13 +1722,13 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/fix_miskeyed_citations.py",
+      "gold": "backend/tests/test_workflow_audit.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "named_entities"
+      "symbol": "test_prose_denying_parallelism_does_not_satisfy_the_fanout_requirement"
     },
     {
       "bm25": [
@@ -1386,41 +1736,13 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/fix_miskeyed_citations.py",
+      "gold": "scripts/check_release_freshness.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "title_matches"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/fix_miskeyed_citations.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "resolve"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/generate_appendices.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "appendix_d"
+      "symbol": "stem_for"
     },
     {
       "bm25": [
@@ -1444,9 +1766,9 @@
       ],
       "gold": "scripts/experiments/harness.py",
       "ppr": [
+        0.0,
         1.0,
-        1.0,
-        1.0
+        0.5
       ],
       "symbol": "is_sync_conflict_copy"
     },
@@ -1494,9 +1816,9 @@
     },
     {
       "bm25": [
+        0.0,
         1.0,
-        1.0,
-        1.0
+        0.5
       ],
       "gold": "scripts/experiments/harness.py",
       "ppr": [
@@ -1532,7 +1854,7 @@
         1.0,
         1.0
       ],
-      "symbol": "load_measurements"
+      "symbol": "already_rewritten"
     },
     {
       "bm25": [
@@ -1546,21 +1868,7 @@
         1.0,
         1.0
       ],
-      "symbol": "fill"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/manuscript_sync.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "assert_absent"
+      "symbol": "replace_span"
     },
     {
       "bm25": [
@@ -1574,7 +1882,49 @@
         1.0,
         1.0
       ],
-      "symbol": "ppr_rerank"
+      "symbol": "BM25"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p1_symbol_graph_retrieval.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "build_corpus"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p1_symbol_graph_retrieval.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "build_symbol_graph"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p1b_swebench_retrieval.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "evaluate"
     },
     {
       "bm25": [
@@ -1588,7 +1938,21 @@
         1.0,
         1.0
       ],
-      "symbol": "kv_cache_bytes"
+      "symbol": "optimal_allocation"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p3_ast_repair.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "MutationOperator"
     },
     {
       "bm25": [
@@ -1616,35 +1980,7 @@
         1.0,
         1.0
       ],
-      "symbol": "DeleteOperator"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p3_ast_repair.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "InsertOperator"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p3_ast_repair.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "syntactically_valid"
+      "symbol": "WrapOperator"
     },
     {
       "bm25": [
@@ -1666,13 +2002,27 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/p3_ast_repair.py",
+      "gold": "scripts/experiments/p5_coordination_topologies.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "tree_edit_distance"
+      "symbol": "message_count"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/p5_coordination_topologies.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "fit_growth_exponent"
     },
     {
       "bm25": [
@@ -1694,13 +2044,13 @@
         1.0,
         1.0
       ],
-      "gold": "scripts/experiments/p5_coordination_topologies.py",
+      "gold": "scripts/experiments/p6_alignment_geometry.py",
       "ppr": [
         1.0,
         1.0,
         1.0
       ],
-      "symbol": "steady_state_availability"
+      "symbol": "principal_angle_drift"
     },
     {
       "bm25": [
@@ -1736,6 +2086,20 @@
         1.0,
         1.0
       ],
+      "gold": "scripts/experiments/p7_contract_composition.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "propagate_error"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "gold": "scripts/experiments/p9_formal_verification.py",
       "ppr": [
         1.0,
@@ -1756,35 +2120,7 @@
         1.0,
         1.0
       ],
-      "symbol": "explore"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/p9_formal_verification.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "byzantine_round"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/experiments/paper_template.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "SectionSpec"
+      "symbol": "has_cycle_without_progress"
     },
     {
       "bm25": [
@@ -1798,7 +2134,21 @@
         1.0,
         1.0
       ],
-      "symbol": "grouped_spelling"
+      "symbol": "render"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/experiments/resync_manuscripts.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "load_measurements"
     },
     {
       "bm25": [
@@ -1868,7 +2218,63 @@
         1.0,
         1.0
       ],
-      "symbol": "stale_prose"
+      "symbol": "sync_reproducibility_table"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/review_citations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "find_misattributions"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/review_citations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "strip_citation"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/review_citations.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "strip_key"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gold": "scripts/check_release_freshness.py",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "symbol": "stem_for"
     },
     {
       "bm25": [
@@ -1910,59 +2316,31 @@
         1.0,
         1.0
       ],
-      "symbol": "write_report"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/review_citations.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "decision_id"
-    },
-    {
-      "bm25": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "gold": "scripts/review_citations.py",
-      "ppr": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "symbol": "find_misattributions"
+      "symbol": "strip_citation"
     }
   ],
   "ppr_sweep_mrr_dev": {
-    "alpha0.15_topk0": 0.9117351046698873,
-    "alpha0.15_topk10": 0.9101650563607085,
-    "alpha0.15_topk25": 0.9129428341384863,
-    "alpha0.15_topk5": 0.9042517523335938,
-    "alpha0.3_topk0": 0.8805843110190936,
-    "alpha0.3_topk10": 0.9011157119852772,
-    "alpha0.3_topk25": 0.8883827927306188,
-    "alpha0.3_topk5": 0.8974950465218413,
-    "alpha0.5_topk0": 0.819450195537152,
-    "alpha0.5_topk10": 0.8671181274442143,
-    "alpha0.5_topk25": 0.851506786289395,
-    "alpha0.5_topk5": 0.8785752344416028,
-    "alpha0.7_topk0": 0.6308249147603368,
-    "alpha0.7_topk10": 0.7750776397515529,
-    "alpha0.7_topk25": 0.7095400033901178,
-    "alpha0.7_topk5": 0.829497001360083,
-    "alpha0.85_topk0": 0.3587972717682302,
-    "alpha0.85_topk10": 0.6022836794256231,
-    "alpha0.85_topk25": 0.46965657128700616,
-    "alpha0.85_topk5": 0.6896808284810279
+    "alpha0.15_topk0": 0.9157744107744107,
+    "alpha0.15_topk10": 0.9132491582491584,
+    "alpha0.15_topk25": 0.9102188552188554,
+    "alpha0.15_topk5": 0.9121656367110914,
+    "alpha0.3_topk0": 0.8549735449735449,
+    "alpha0.3_topk10": 0.8964886964886964,
+    "alpha0.3_topk25": 0.882852332852333,
+    "alpha0.3_topk5": 0.9065233276334108,
+    "alpha0.5_topk0": 0.7534126984126983,
+    "alpha0.5_topk10": 0.8615392015392016,
+    "alpha0.5_topk25": 0.8127972364336001,
+    "alpha0.5_topk5": 0.8731580764914098,
+    "alpha0.7_topk0": 0.549467507141304,
+    "alpha0.7_topk10": 0.7524050024050024,
+    "alpha0.7_topk25": 0.6559915169006078,
+    "alpha0.7_topk5": 0.810707295423647,
+    "alpha0.85_topk0": 0.30562445851703346,
+    "alpha0.85_topk10": 0.5690692640692641,
+    "alpha0.85_topk25": 0.41963669759476124,
+    "alpha0.85_topk5": 0.6802967171717171
   },
-  "queries_evaluated": 138,
-  "test_queries": 138
+  "queries_evaluated": 165,
+  "test_queries": 165
 }

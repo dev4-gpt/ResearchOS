@@ -235,12 +235,16 @@ Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\per
 
 
 
+
+
 $$
 \begin{aligned}
 \Delta W B = & \underbrace{P \, \\
 & \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
 \end{aligned}
 $$
+
+
 
 
 

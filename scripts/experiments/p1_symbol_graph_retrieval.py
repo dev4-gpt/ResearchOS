@@ -240,6 +240,9 @@ def main() -> int:
                      "docstring-derived queries, plus a census of retrieval signal in "
                      "SWE-bench Lite. No language model was run."),
         seed=SEED,
+        # p1b records the SWE-bench retrieval metrics into this same file.
+        # Without this, re-running p1 deletes them (ERR-084).
+        preserves_prefixes=("swebench_retrieval_",),
     )
     rng = np.random.default_rng(SEED)
 

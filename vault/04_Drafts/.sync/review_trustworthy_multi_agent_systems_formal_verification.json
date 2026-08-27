@@ -62,11 +62,11 @@
         }
       ],
       "lines": [
-        669,
-        670,
-        671,
-        675,
-        680
+        679,
+        680,
+        681,
+        685,
+        690
       ],
       "literal": "100.0"
     },
@@ -79,7 +79,7 @@
         }
       ],
       "lines": [
-        679
+        689
       ],
       "literal": "111.0"
     },
@@ -112,10 +112,10 @@
         }
       ],
       "lines": [
-        669,
-        670,
-        671,
-        672
+        679,
+        680,
+        681,
+        682
       ],
       "literal": "20000"
     },
@@ -141,6 +141,11 @@
       "claims": [
         {
           "decimals": 1,
+          "field": "n",
+          "metric": "mean_branching_factor"
+        },
+        {
+          "decimals": 1,
           "field": "value",
           "metric": "model_states_reachable"
         },
@@ -148,10 +153,15 @@
           "decimals": 1,
           "field": "n",
           "metric": "safety_invariant_holds"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "terminal_states_enforced"
         }
       ],
       "lines": [
-        678
+        688
       ],
       "literal": "37.0"
     },
@@ -169,8 +179,8 @@
         }
       ],
       "lines": [
-        672,
-        674
+        682,
+        684
       ],
       "literal": "0.0"
     },
@@ -206,7 +216,7 @@
         }
       ],
       "lines": [
-        676
+        686
       ],
       "literal": "2.0"
     },
@@ -219,12 +229,17 @@
         }
       ],
       "lines": [
-        673
+        683
       ],
       "literal": "4.0"
     },
     {
       "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_branching_factor"
+        },
         {
           "decimals": 0,
           "field": "value",
@@ -234,11 +249,16 @@
           "decimals": 0,
           "field": "n",
           "metric": "safety_invariant_holds"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "terminal_states_enforced"
         }
       ],
       "lines": [
         35,
-        680
+        690
       ],
       "literal": "37"
     },
@@ -252,11 +272,11 @@
       ],
       "lines": [
         37,
-        667,
-        669,
-        670,
-        671,
-        672
+        677,
+        679,
+        680,
+        681,
+        682
       ],
       "literal": "95"
     }

@@ -24,7 +24,7 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence
 
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -92,19 +92,32 @@ class ExperimentRecorder:
     """Writes artifacts and measurements for one experiment run."""
 
     def __init__(self, run_id: str, paper: str, description: str, seed: int = 20260825,
-                 owns_prefix: str = ""):
-        """*owns_prefix* names the metric namespace this experiment is responsible for.
+                 owns_prefix: str = "", preserves_prefixes: Sequence[str] = ()):
+        """Declare which measurements in the shared file belong to this run.
 
-        Leave it empty and finalize() replaces the whole file, which is right when
-        one experiment is the only source for a paper. Set it when a paper has
-        several experiments behind it: this run then replaces only the metrics
-        whose names start with the prefix, and leaves the rest of the file alone.
+        A paper's measurements live in one file, and finalize() rewrites it, so
+        two experiments contributing to the same paper will delete each other's
+        rows unless each says what it owns. There are two ways to say it, and a
+        pair of experiments needs one of each:
+
+        *owns_prefix* -- "I own exactly this namespace." finalize() replaces the
+        metrics starting with it and leaves everything else untouched.
+
+        *preserves_prefixes* -- "I own everything except these." Use it for an
+        experiment whose metric names share no common prefix, which is the usual
+        case for the first experiment a paper had.
+
+        Both default to the original behaviour: replace the whole file. That is
+        correct only while a paper has exactly one experiment behind it, and it
+        is how p1 destroyed p1b's nine rows on the first re-run after p1b was
+        added -- owns_prefix protected p1 from p1b but not the reverse.
         """
         self.run_id = run_id
         self.paper = paper
         self.description = description
         self.seed = seed
         self.owns_prefix = owns_prefix
+        self.preserves_prefixes = tuple(preserves_prefixes)
         self.run_dir = os.path.join(RUNS_ROOT, run_id)
         self.artifact_dir = os.path.join(self.run_dir, "artifacts")
         os.makedirs(self.artifact_dir, exist_ok=True)
@@ -176,7 +189,7 @@ class ExperimentRecorder:
         # this run stopped producing still disappears from its own namespace.
         preserved: List[str] = []
         dropped: List[str] = []
-        if self.owns_prefix and os.path.exists(measurements_path):
+        if (self.owns_prefix or self.preserves_prefixes) and os.path.exists(measurements_path):
             mine = {m.to_dict()["metric"] for m in self._measurements}
             with open(measurements_path, "r", encoding="utf-8") as handle:
                 for line in handle:
@@ -189,10 +202,12 @@ class ExperimentRecorder:
                         continue
                     if metric in mine:
                         continue                       # this run re-recorded it
-                    if metric.startswith(self.owns_prefix):
-                        dropped.append(metric)         # mine to remove, and said so
+                    if any(metric.startswith(p) for p in self.preserves_prefixes):
+                        preserved.append(line)         # explicitly another run's
+                    elif self.owns_prefix and not metric.startswith(self.owns_prefix):
+                        preserved.append(line)         # outside my namespace
                     else:
-                        preserved.append(line)
+                        dropped.append(metric)         # mine to remove, and said so
 
         with open(measurements_path, "w", encoding="utf-8") as handle:
             for line in preserved:
@@ -210,7 +225,8 @@ class ExperimentRecorder:
             # metrics under that prefix, and they vanished. Dropping a metric you
             # no longer produce is legitimate; doing it without saying so is how
             # evidence disappears unnoticed.
-            print(f"  dropped {len(dropped)} row(s) from the '{self.owns_prefix}' "
+            namespace = self.owns_prefix or "own"
+            print(f"  dropped {len(dropped)} row(s) from the '{namespace}' "
                   f"namespace that this run did not re-record:")
             for metric in sorted(dropped):
                 print(f"      - {metric}")

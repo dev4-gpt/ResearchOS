@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-27 11:30:34
-**Total Tracked Incidents:** 84
-**Resolved & Verified:** 82
+**Last Updated:** 2026-08-27 11:50:39
+**Total Tracked Incidents:** 86
+**Resolved & Verified:** 84
 **Open / Unresolved:** 2
-**Active Prevention Rules:** 84
+**Active Prevention Rules:** 86
 
 ---
 
@@ -101,6 +101,8 @@
 - **[R82]**: Evidence is not one file. Any value a manuscript states about its own run must be projected from the artifact that recorded it, and every grader that judges grounding must read the same set of artifacts -- otherwise correcting a value in one place turns into a block in another.
 - **[R83]**: Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.
 - **[R84]**: A run that overwrites shared evidence must declare what it owns and report what it removed. A namespace must be one no other experiment writes into, and 'replace everything' is only correct when a paper has exactly one experiment behind it.
+- **[R85]**: A field a manuscript prints is a field that must be projected. Enumerate them from the measurement schema rather than from the fields a passage happened to use when the code was written -- four omissions in one day all had that cause.
+- **[R86]**: Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless.
 
 ---
 
@@ -858,6 +860,24 @@
 - **Component:** `ExperimentRecorder.finalize` (measurement_recording)
 - **Error Type:** `One Experiment Deletes Another's Evidence`
 - **Root Cause:** The file is named for the paper but written as though one experiment owns it. Nothing declared which metrics a run is responsible for, so 'replace the file' was the only available semantics.
-- **Resolution:** A recorder may declare owns_prefix: it then replaces exactly the metrics in that namespace and carries every other row through untouched, so p1 and p1b can run in either order. Rows a run removes from its own namespace are listed by name at finalize, which is what makes a wrong prefix visible instead of silent -- the misfire above printed nothing the first time. Four tests cover it, including the prefix-collision case.
+- **Resolution:** Fixed in both directions, which the first fix was not. owns_prefix let p1b protect p1's rows, but p1 declared no namespace and so still truncated the whole file -- the next p1 re-run destroyed all nine of p1b's measurements, exactly the failure the fix was for. A recorder now states its position one of two ways: owns_prefix ('I own this namespace') or preserves_prefixes ('I own everything except these'), and a pair of experiments needs one of each. p1 preserves swebench_retrieval_; p1b owns it. Verified by running each after the other. Rows a run drops from its own namespace are listed by name, which is how the intermediate misfire -- p1b claiming 'swebench_' while p1 already recorded four census metrics under it -- would have been visible instead of silent.
 - **Prevention Rule:** `R84: A run that overwrites shared evidence must declare what it owns and report what it removed. A namespace must be one no other experiment writes into, and 'replace everything' is only correct when a paper has exactly one experiment behind it.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-085] Every results table prints a 95% confidence interval beside its point estimate, and the re-sync projected only value and n. p1's Table 1 therefore carried the intervals of the original 103-query run -- [73.79, 88.35] against a P@1 of 88.48 -- long after the estimates beside them had been re-synced to 165 queries. Two numbers in the same row describing different experiments, and the gate does not check an interval, so it passed throughout.
+- **Timestamp:** `2026-08-27 11:50:39`
+- **Component:** `resync_manuscripts.seed` (manuscript_resync)
+- **Error Type:** `Interval Bounds Never Projected`
+- **Root Cause:** Projectable fields were enumerated as value and n when the pass was written, and ci95 was simply not among them. The fourth instance of the same shape today: the manifest's duration, the manifest's seed, the sample size, and now the interval bounds.
+- **Resolution:** ci95_low and ci95_high are projectable fields. p1's fourteen labelled results rows were regenerated from measurements, and the intervals now match the estimates they sit beside.
+- **Prevention Rule:** `R85: A field a manuscript prints is a field that must be projected. Enumerate them from the measurement schema rather than from the fields a passage happened to use when the code was written -- four omissions in one day all had that cause.`
+- **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ❌ [ERR-086] The provenance gate's blind spots were measured rather than waited for. 256 deliberately broken manuscripts, six operators, deterministic under seed: overall detection 18.75%. mu_drift and mu_orphan are caught in full, which is what makes the rest believable. mu_rebind (0%), mu_attribute (0%) and mu_unitless (0%) confirm by measurement what was previously known only anecdotally: a claim binds to a value and a unit with no regard for what the sentence says it measures, an attribution verb beside any resolvable key is accepted without checking the source, and a quantity stated without a unit is never extracted at all.
+- **Timestamp:** `2026-08-27 11:50:39`
+- **Component:** `p10_adversarial_provenance / claim_mutations` (gate_coverage)
+- **Error Type:** `Measured Gate Coverage`
+- **Root Cause:** Not a defect in itself -- a description of one. Every hole in the gate so far was found by a person reading at the right moment, which is not a strategy that scales or that can be regression-tested.
+- **Resolution:** Recorded as gate_detection_rate with a per-operator breakdown, and wired into CI with a floor that may rise and may not fall. Two instrument bugs were caught by the control operators before any finding was trusted: mu_orphan removed one of two measurements sharing a value and looked like a gate failure, and mu_transplant searched for a heading no draft contains and scored 0.00% without ever running. An operator that cannot run now reports 'not exercised' instead of zero.
+- **Prevention Rule:** `R86: Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless.`
 - **Status:** ✅ `VERIFIED_RESOLVED`

@@ -1,0 +1,1302 @@
+{
+  "escapes": [
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "100.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "100%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "97.94\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "34.55%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "100%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "64.47\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "100\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "82.00%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "9.22%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "33.30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "30\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "d = 2.13"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "96.15\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "96.88\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "d = 2.13"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "96.15\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "d = 2.13"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "68.63\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "29.57\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "68.63\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "98.54\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "29.57\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "98.54\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "63.41\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "87.88\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "87.88\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'syntactic validity of generated mutants'",
+      "operator": "mu_rebind",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'pre-filter rejection rate'",
+      "operator": "mu_rebind",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'safety-invariant hold rate'",
+      "operator": "mu_rebind",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'share of queries left unchanged by diffusion'",
+      "operator": "mu_rebind",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'Byzantine agreement rate'",
+      "operator": "mu_rebind",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "re-described as 'single-file patch rate'",
+      "operator": "mu_rebind",
+      "target": "95\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "inserted a claim from another manuscript: 100\\%",
+      "operator": "mu_transplant",
+      "target": "100\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "inserted a claim from another manuscript: 0.00\\%",
+      "operator": "mu_transplant",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "inserted a claim from another manuscript: 100.0\\%",
+      "operator": "mu_transplant",
+      "target": "100.0\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "inserted a claim from another manuscript: 100.00\\%",
+      "operator": "mu_transplant",
+      "target": "100.00\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "inserted a claim from another manuscript: 100.00\\%",
+      "operator": "mu_transplant",
+      "target": "100.00\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "inserted a claim from another manuscript: N=64",
+      "operator": "mu_transplant",
+      "target": "N=64"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "inserted a claim from another manuscript: 100%",
+      "operator": "mu_transplant",
+      "target": "100%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "inserted a claim from another manuscript: 0.00\\%",
+      "operator": "mu_transplant",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "inserted a claim from another manuscript: 0.00\\%",
+      "operator": "mu_transplant",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "inserted a claim from another manuscript: 0.00\\%",
+      "operator": "mu_transplant",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "inserted a claim from another manuscript: 100%",
+      "operator": "mu_transplant",
+      "target": "100%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "inserted a claim from another manuscript: 100\\%",
+      "operator": "mu_transplant",
+      "target": "100\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "inserted a claim from another manuscript: 100.0\\%",
+      "operator": "mu_transplant",
+      "target": "100.0\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "inserted a claim from another manuscript: 100.0\\%",
+      "operator": "mu_transplant",
+      "target": "100.0\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "inserted a claim from another manuscript: 100\\%",
+      "operator": "mu_transplant",
+      "target": "100\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "inserted a claim from another manuscript: 100%",
+      "operator": "mu_transplant",
+      "target": "100%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "inserted a claim from another manuscript: 100.00\\%",
+      "operator": "mu_transplant",
+      "target": "100.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "44.78\\% -> attributed '44.85\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "44.78\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "0.64% -> attributed '0.71%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "0.64%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "44.42\\% -> attributed '44.49\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "44.42\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "97.94\\% -> attributed '98.01\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "97.94\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "4.07 ms -> attributed '4.14 ms' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "4.07 ms"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "4.07 ms -> attributed '4.14 ms' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "4.07 ms"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "0.64% -> attributed '0.71%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "0.64%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "4.07 ms -> attributed '4.14 ms' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "4.07 ms"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "44.78\\% -> attributed '44.85\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "44.78\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "64.47\\% -> attributed '64.54\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "64.47\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "96.9\\% -> attributed '97.6\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "99.45\\% -> attributed '99.52\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "64.47\\% -> attributed '64.54\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "64.47\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "0.39\\% -> attributed '0.46\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "0.39\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "12.5\\% -> attributed '13.2\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "99.45\\% -> attributed '99.52\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "12.5\\% -> attributed '13.2\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "96.9\\% -> attributed '97.6\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "12.5\\% -> attributed '13.2\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "82.00% -> attributed '82.07%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "82.00%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "9.22% -> attributed '9.29%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "9.22%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> attributed '73.67%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> attributed '15.15\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "33.30\\% -> attributed '33.37\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "33.30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "10\\% -> attributed '27\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "33.30\\% -> attributed '33.37\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "33.30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "10\\% -> attributed '27\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> attributed '15.15\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> attributed '15.15\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "10\\% -> attributed '27\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "30\\% -> attributed '47\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> attributed '15.15\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "2.84\\% -> attributed '2.91\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "27.94% -> attributed '28.01%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "27.94%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.88\\% -> attributed '96.95\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "96.88\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "2.84\\% -> attributed '2.91\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "2.84\\% -> attributed '2.91\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "d = 2.13 -> attributed 'd = 2.20' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "d = 2.13"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "2.84\\% -> attributed '2.91\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "99.25\\% -> attributed '99.32\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "99.25\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.15\\% -> attributed '96.22\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "96.15\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "68.63\\% -> attributed '68.70\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "68.63\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "29.57\\% -> attributed '29.64\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "29.57\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> attributed '31.83\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "98.54\\% -> attributed '98.61\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "98.54\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> attributed '31.83\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> attributed '31.83\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "0.51\\% -> attributed '0.58\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "0.51\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> attributed '31.83\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "63.41\\% -> attributed '63.48\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "63.41\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "d = -0.0119 -> attributed 'd = --0.0112' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "90.30\\% -> attributed '90.37\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "90.30\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "90.30\\% -> attributed '90.37\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "90.30\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "d = -0.0119 -> attributed 'd = --0.0112' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "55.33\\% -> attributed '55.40\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "55.33\\% -> attributed '55.40\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "d = -0.0119 -> attributed 'd = --0.0112' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "55.33\\% -> attributed '55.40\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "d = -0.0119 -> attributed 'd = --0.0112' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "d = -0.0119"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "95\\% -> attributed '112\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing crossref_10.2139_ssrn.6374778",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing crossref_10_48550_arxiv_2106_09685",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> attributed '0.07\\%' citing arxiv_2501.02497",
+      "operator": "mu_attribute",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "72.97% -> attributed '73.04%' citing crossref_10_48550_arxiv_2305_14314",
+      "operator": "mu_attribute",
+      "target": "72.97%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "95\\% -> attributed '112\\%' citing crossref_10.1108_jeim-12-2025-1269",
+      "operator": "mu_attribute",
+      "target": "95\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "44.78\\% -> bare '44.85'",
+      "operator": "mu_unitless",
+      "target": "44.78\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "4.07 ms -> bare '4.14'",
+      "operator": "mu_unitless",
+      "target": "4.07 ms"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "0.64% -> bare '0.71'",
+      "operator": "mu_unitless",
+      "target": "0.64%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "0.00\\% -> bare '0.07'",
+      "operator": "mu_unitless",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "44.42\\% -> bare '44.49'",
+      "operator": "mu_unitless",
+      "target": "44.42\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "97.94\\% -> bare '98.01'",
+      "operator": "mu_unitless",
+      "target": "97.94\\%"
+    },
+    {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "edit": "34.55% -> bare '34.62'",
+      "operator": "mu_unitless",
+      "target": "34.55%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "64.47\\% -> bare '64.54'",
+      "operator": "mu_unitless",
+      "target": "64.47\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "12.5\\% -> bare '13.2'",
+      "operator": "mu_unitless",
+      "target": "12.5\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "96.9\\% -> bare '97.6'",
+      "operator": "mu_unitless",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "96.9\\% -> bare '97.6'",
+      "operator": "mu_unitless",
+      "target": "96.9\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "99.45\\% -> bare '99.52'",
+      "operator": "mu_unitless",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "99.45\\% -> bare '99.52'",
+      "operator": "mu_unitless",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "50.0\\% -> bare '50.7'",
+      "operator": "mu_unitless",
+      "target": "50.0\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "64.47\\% -> bare '64.54'",
+      "operator": "mu_unitless",
+      "target": "64.47\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "99.45\\% -> bare '99.52'",
+      "operator": "mu_unitless",
+      "target": "99.45\\%"
+    },
+    {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "edit": "0.39\\% -> bare '0.46'",
+      "operator": "mu_unitless",
+      "target": "0.39\\%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "82.00% -> bare '82.07'",
+      "operator": "mu_unitless",
+      "target": "82.00%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "82.00% -> bare '82.07'",
+      "operator": "mu_unitless",
+      "target": "82.00%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> bare '73.67'",
+      "operator": "mu_unitless",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> bare '73.67'",
+      "operator": "mu_unitless",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "edit": "73.60% -> bare '73.67'",
+      "operator": "mu_unitless",
+      "target": "73.60%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> bare '15.15'",
+      "operator": "mu_unitless",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "33.30\\% -> bare '33.37'",
+      "operator": "mu_unitless",
+      "target": "33.30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "10\\% -> bare '27'",
+      "operator": "mu_unitless",
+      "target": "10\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "33.30\\% -> bare '33.37'",
+      "operator": "mu_unitless",
+      "target": "33.30\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "15.08\\% -> bare '15.15'",
+      "operator": "mu_unitless",
+      "target": "15.08\\%"
+    },
+    {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "edit": "30\\% -> bare '47'",
+      "operator": "mu_unitless",
+      "target": "30\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.88\\% -> bare '96.95'",
+      "operator": "mu_unitless",
+      "target": "96.88\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "N=64 -> bare '81'",
+      "operator": "mu_unitless",
+      "target": "N=64"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.18% -> bare '96.25'",
+      "operator": "mu_unitless",
+      "target": "96.18%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "2.84\\% -> bare '2.91'",
+      "operator": "mu_unitless",
+      "target": "2.84\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "72.06\\% -> bare '72.13'",
+      "operator": "mu_unitless",
+      "target": "72.06\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "72.06\\% -> bare '72.13'",
+      "operator": "mu_unitless",
+      "target": "72.06\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.88\\% -> bare '96.95'",
+      "operator": "mu_unitless",
+      "target": "96.88\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "96.15\\% -> bare '96.22'",
+      "operator": "mu_unitless",
+      "target": "96.15\\%"
+    },
+    {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "edit": "99.80\\% -> bare '99.87'",
+      "operator": "mu_unitless",
+      "target": "99.80\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "68.63\\% -> bare '68.70'",
+      "operator": "mu_unitless",
+      "target": "68.63\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "0.51\\% -> bare '0.58'",
+      "operator": "mu_unitless",
+      "target": "0.51\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "29.57\\% -> bare '29.64'",
+      "operator": "mu_unitless",
+      "target": "29.57\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> bare '31.83'",
+      "operator": "mu_unitless",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "98.54\\% -> bare '98.61'",
+      "operator": "mu_unitless",
+      "target": "98.54\\%"
+    },
+    {
+      "draft": "review_enterprise_genai_roi",
+      "edit": "31.76\\% -> bare '31.83'",
+      "operator": "mu_unitless",
+      "target": "31.76\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "70.73\\% -> bare '70.80'",
+      "operator": "mu_unitless",
+      "target": "70.73\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "100.00\\% -> bare '100.07'",
+      "operator": "mu_unitless",
+      "target": "100.00\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "55.33\\% -> bare '55.40'",
+      "operator": "mu_unitless",
+      "target": "55.33\\%"
+    },
+    {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "edit": "88.48\\% -> bare '88.55'",
+      "operator": "mu_unitless",
+      "target": "88.48\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> bare '0.07'",
+      "operator": "mu_unitless",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "95\\% -> bare '112'",
+      "operator": "mu_unitless",
+      "target": "95\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "0.00\\% -> bare '0.07'",
+      "operator": "mu_unitless",
+      "target": "0.00\\%"
+    },
+    {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "edit": "72.97% -> bare '73.04'",
+      "operator": "mu_unitless",
+      "target": "72.97%"
+    }
+  ],
+  "grounded_claims": 108,
+  "manuscripts": [
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+    "review_architectural_dynamics_long_12_page",
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+    "review_continual_safety_alignment_in_vision_language_models",
+    "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+    "review_enterprise_genai_roi",
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+    "review_trustworthy_multi_agent_systems_formal_verification"
+  ],
+  "per_operator": {
+    "mu_attribute": {
+      "detected": 0,
+      "escaped": 74,
+      "mutants": 74
+    },
+    "mu_drift": {
+      "detected": 16,
+      "escaped": 0,
+      "mutants": 16
+    },
+    "mu_orphan": {
+      "detected": 8,
+      "escaped": 0,
+      "mutants": 8
+    },
+    "mu_rebind": {
+      "detected": 0,
+      "escaped": 67,
+      "mutants": 67
+    },
+    "mu_transplant": {
+      "detected": 25,
+      "escaped": 17,
+      "mutants": 42
+    },
+    "mu_unitless": {
+      "detected": 0,
+      "escaped": 51,
+      "mutants": 51
+    }
+  },
+  "seed": 20260825
+}

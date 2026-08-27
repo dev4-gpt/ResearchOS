@@ -135,6 +135,17 @@ def grouped_spelling(literal: str) -> str:
 
 # ---------------------------------------------------------------- data access
 
+
+def _field_value(record: dict, field: str):
+    """Read a projectable field, including the two confidence-interval bounds."""
+    if field in ("ci95_low", "ci95_high"):
+        bounds = record.get("ci95")
+        if not isinstance(bounds, (list, tuple)) or len(bounds) != 2:
+            return None
+        return bounds[0 if field == "ci95_low" else 1]
+    return record.get(field)
+
+
 def load_measurements(run_id: str, text: Optional[str] = None) -> Dict[str, dict]:
     """Return {metric: record}. *text* overrides the on-disk file when replaying a ref."""
     if text is None:
@@ -292,8 +303,15 @@ def seed(old: Dict[str, dict], text: str) -> List[dict]:
     """
     claims: Dict[Tuple[int, int], List[Tuple[str, str, int]]] = {}
     for metric, record in sorted(old.items()):
-        for field in ("value", "n"):
-            raw = record.get(field)
+        # A confidence interval is a stated result like any other, and the
+        # manuscripts print both bounds in every results table. They were not
+        # projected, so p1's table carried the intervals of a 103-query run long
+        # after the point estimates beside them had been re-synced to 165 --
+        # numbers that no longer described the same experiment, sitting in the
+        # same row. Same shape as the manifest and the sample size before it:
+        # evidence is not one field.
+        for field in ("value", "n", "ci95_low", "ci95_high"):
+            raw = _field_value(record, field)
             if raw is None or isinstance(raw, bool):
                 continue
             try:
@@ -343,7 +361,7 @@ def resync(stem: str, anchors: List[dict],
         missing: List[str] = []
         for claim in anchor["claims"]:
             record = new.get(claim["metric"])
-            raw = None if record is None else record.get(claim["field"])
+            raw = None if record is None else _field_value(record, claim["field"])
             if raw is None:
                 missing.append(f"{claim['metric']}.{claim['field']}")
                 continue

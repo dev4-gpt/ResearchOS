@@ -93,6 +93,16 @@ jobs:
       - name: Built packages agree with their manuscripts
         run: python scripts/check_release_freshness.py --check
 
+      # The gate decides what may be submitted, and every hole found in it so far
+      # was found by a person reading at the right moment. This attacks it on
+      # purpose: deterministic edits that should break a grounded claim, scored by
+      # whether the gate refuses them. The floor may rise and may not fall, so a
+      # change that weakens the gate fails the build rather than being noticed
+      # later. mu_drift and mu_orphan must stay at 100% -- they are the control
+      # group, and an escape there means the instrument is broken, not the gate.
+      - name: The gate has not got weaker
+        run: python scripts/experiments/p10_adversarial_provenance.py --check
+
       # Cheap, and it catches the specific accident that started all of this:
       # iCloud writes "<stem> 2.py" beside a file it cannot merge, and those
       # duplicates were being admitted to p1's and p3's experimental corpora,
