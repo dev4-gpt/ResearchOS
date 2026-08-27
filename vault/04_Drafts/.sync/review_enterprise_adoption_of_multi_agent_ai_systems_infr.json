@@ -1,0 +1,998 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_cohens_d_mesh_vs_hier"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_t_statistic"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_mesh"
+        }
+      ],
+      "lines": [
+        36,
+        562,
+        598,
+        703
+      ],
+      "literal": "20{,}000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "cascade_t_statistic"
+        }
+      ],
+      "lines": [
+        873
+      ],
+      "literal": "213.3862"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "messages_at_n64_mesh"
+        }
+      ],
+      "lines": [
+        34,
+        701
+      ],
+      "literal": "4{,}032"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "availability_mesh"
+        }
+      ],
+      "lines": [
+        616,
+        867
+      ],
+      "literal": "96.1538"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "availability_contract_net"
+        }
+      ],
+      "lines": [
+        617,
+        865
+      ],
+      "literal": "98.5222"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "availability_blackboard"
+        }
+      ],
+      "lines": [
+        618,
+        864
+      ],
+      "literal": "99.3377"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "availability_hierarchical"
+        }
+      ],
+      "lines": [
+        619,
+        866
+      ],
+      "literal": "99.8004"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "cascade_cohens_d_mesh_vs_hier"
+        }
+      ],
+      "lines": [
+        868
+      ],
+      "literal": "2.1339"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_t_statistic"
+        }
+      ],
+      "lines": [
+        36,
+        598,
+        703
+      ],
+      "literal": "213.39"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "cascade_rate_blackboard"
+        }
+      ],
+      "lines": [
+        869
+      ],
+      "literal": "36.403"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "cascade_rate_blackboard"
+        }
+      ],
+      "lines": [
+        869
+      ],
+      "literal": "37.051"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "messages_at_n64_mesh"
+        }
+      ],
+      "lines": [
+        886
+      ],
+      "literal": "4032.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "cascade_rate_mesh"
+        }
+      ],
+      "lines": [
+        872
+      ],
+      "literal": "71.455"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "cascade_rate_mesh"
+        }
+      ],
+      "lines": [
+        872
+      ],
+      "literal": "72.655"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "messages_at_n64_hierarchical"
+        }
+      ],
+      "lines": [
+        885
+      ],
+      "literal": "126.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "messages_at_n64_contract_net"
+        }
+      ],
+      "lines": [
+        884
+      ],
+      "literal": "127.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "messages_at_n64_blackboard"
+        }
+      ],
+      "lines": [
+        883
+      ],
+      "literal": "128.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "cascade_rate_hierarchical"
+        }
+      ],
+      "lines": [
+        871
+      ],
+      "literal": "2.709"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_cohens_d_mesh_vs_hier"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_rate_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "cascade_t_statistic"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_catastrophic_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "trials_fully_contained_mesh"
+        }
+      ],
+      "lines": [
+        868,
+        869,
+        870,
+        871,
+        872,
+        873
+      ],
+      "literal": "20000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "trials_fully_contained_mesh"
+        }
+      ],
+      "lines": [
+        525
+      ],
+      "literal": "27.94"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        870
+      ],
+      "literal": "3.957"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "cascade_rate_blackboard"
+        }
+      ],
+      "lines": [
+        594
+      ],
+      "literal": "36.40"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_rate_blackboard"
+        }
+      ],
+      "lines": [
+        594,
+        869
+      ],
+      "literal": "36.72"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "cascade_rate_blackboard"
+        }
+      ],
+      "lines": [
+        594
+      ],
+      "literal": "37.05"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        870
+      ],
+      "literal": "4.051"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "pipeline_reliability_monolithic"
+        }
+      ],
+      "lines": [
+        508,
+        888
+      ],
+      "literal": "44.37"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "trials_fully_contained_contract_net"
+        }
+      ],
+      "lines": [
+        545
+      ],
+      "literal": "63.47"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_rate_mesh"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "trials_catastrophic_mesh"
+        }
+      ],
+      "lines": [
+        36,
+        523,
+        593,
+        703,
+        872
+      ],
+      "literal": "72.06"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "cascade_rate_mesh"
+        }
+      ],
+      "lines": [
+        36,
+        593
+      ],
+      "literal": "72.66"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "availability_mesh"
+        }
+      ],
+      "lines": [
+        36,
+        703
+      ],
+      "literal": "96.15"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "trials_fully_contained_hierarchical"
+        }
+      ],
+      "lines": [
+        530
+      ],
+      "literal": "96.18"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "message_reduction_hier_vs_mesh"
+        }
+      ],
+      "lines": [
+        34,
+        600,
+        701,
+        882
+      ],
+      "literal": "96.88"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "pipeline_reliability_hierarchical"
+        }
+      ],
+      "lines": [
+        509,
+        887
+      ],
+      "literal": "99.25"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "availability_hierarchical"
+        }
+      ],
+      "lines": [
+        36,
+        703
+      ],
+      "literal": "99.80"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "trials_catastrophic_hierarchical"
+        }
+      ],
+      "lines": [
+        532
+      ],
+      "literal": "0.92"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "coordination_depth_mesh"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "growth_exponent_blackboard"
+        }
+      ],
+      "lines": [
+        594
+      ],
+      "literal": "1.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "growth_exponent_contract_net"
+        }
+      ],
+      "lines": [
+        595
+      ],
+      "literal": "1.03"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "growth_exponent_hierarchical"
+        }
+      ],
+      "lines": [
+        34,
+        596,
+        600,
+        701
+      ],
+      "literal": "1.06"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "growth_exponent_mesh"
+        }
+      ],
+      "lines": [
+        34,
+        593,
+        600,
+        701
+      ],
+      "literal": "2.06"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_cohens_d_mesh_vs_hier"
+        }
+      ],
+      "lines": [
+        36,
+        598,
+        703
+      ],
+      "literal": "2.13"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "cascade_rate_hierarchical"
+        }
+      ],
+      "lines": [
+        36,
+        596
+      ],
+      "literal": "2.71"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_rate_hierarchical"
+        }
+      ],
+      "lines": [
+        36,
+        596,
+        605,
+        703,
+        871
+      ],
+      "literal": "2.84"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "cascade_rate_hierarchical"
+        }
+      ],
+      "lines": [
+        36,
+        596,
+        871
+      ],
+      "literal": "2.96"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        595
+      ],
+      "literal": "3.96"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        595,
+        605,
+        705
+      ],
+      "literal": "4.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        595
+      ],
+      "literal": "4.05"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "messages_at_n64_mesh"
+        }
+      ],
+      "lines": [
+        882
+      ],
+      "literal": "4032"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "trials_catastrophic_hierarchical"
+        }
+      ],
+      "lines": [
+        887
+      ],
+      "literal": "0.9"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "coordination_depth_mesh"
+        }
+      ],
+      "lines": [
+        600,
+        701,
+        877
+      ],
+      "literal": "1.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "messages_at_n64_hierarchical"
+        }
+      ],
+      "lines": [
+        34,
+        596,
+        701,
+        882
+      ],
+      "literal": "126"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "messages_at_n64_contract_net"
+        }
+      ],
+      "lines": [
+        595
+      ],
+      "literal": "127"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "messages_at_n64_blackboard"
+        }
+      ],
+      "lines": [
+        594
+      ],
+      "literal": "128"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "coordination_depth_blackboard"
+        }
+      ],
+      "lines": [
+        874
+      ],
+      "literal": "2.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "coordination_depth_contract_net"
+        }
+      ],
+      "lines": [
+        875
+      ],
+      "literal": "3.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "cascade_rate_contract_net"
+        }
+      ],
+      "lines": [
+        870
+      ],
+      "literal": "4.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "coordination_depth_hierarchical"
+        }
+      ],
+      "lines": [
+        876
+      ],
+      "literal": "6.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "coordination_depth_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "coordination_depth_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "coordination_depth_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "coordination_depth_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "message_reduction_hier_vs_mesh"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "messages_at_n64_blackboard"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "messages_at_n64_contract_net"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "messages_at_n64_hierarchical"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "messages_at_n64_mesh"
+        }
+      ],
+      "lines": [
+        34,
+        569,
+        591,
+        600,
+        701,
+        818,
+        818,
+        819,
+        874,
+        875,
+        876,
+        877,
+        882,
+        882,
+        883,
+        883,
+        884,
+        884,
+        885,
+        885,
+        886,
+        886
+      ],
+      "literal": "64"
+    }
+  ],
+  "run_id": "draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+  "stem": "review_enterprise_adoption_of_multi_agent_ai_systems_infr"
+}

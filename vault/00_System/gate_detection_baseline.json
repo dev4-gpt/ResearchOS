@@ -1,0 +1,11 @@
+{
+  "overall": 18.99,
+  "per_operator": {
+    "mu_attribute": 0.0,
+    "mu_drift": 100.0,
+    "mu_orphan": 100.0,
+    "mu_rebind": 0.0,
+    "mu_transplant": 59.52,
+    "mu_unitless": 0.0
+  }
+}

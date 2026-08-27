@@ -1,0 +1,24 @@
+{
+  "batch": 1500,
+  "comparison": {
+    "0.7": {
+      "drift_retained_leakage_filter": 0.5530725375415255,
+      "drift_retained_norm_filter": 0.3712614452434408,
+      "mass_retained_leakage_filter": 0.7107386268716881,
+      "mass_retained_norm_filter": 0.3594376837441576
+    },
+    "0.8": {
+      "drift_retained_leakage_filter": 0.7038823028776194,
+      "drift_retained_norm_filter": 0.4976369635141737,
+      "mass_retained_leakage_filter": 0.8112459742638273,
+      "mass_retained_norm_filter": 0.4840480378216134
+    },
+    "0.9": {
+      "drift_retained_leakage_filter": 0.8492156081945964,
+      "drift_retained_norm_filter": 0.6669839185598874,
+      "mass_retained_leakage_filter": 0.9037399605070819,
+      "mass_retained_norm_filter": 0.6591438298996497
+    }
+  },
+  "leakage": "uniform(0,1), independent of magnitude"
+}

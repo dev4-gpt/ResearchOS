@@ -46,6 +46,25 @@ def test_correct_workflow_matches_execution_contract():
     }
 
 
+def test_prose_denying_parallelism_does_not_satisfy_the_fanout_requirement():
+    """The word "parallel" is not evidence of a parallel fan-out.
+
+    The previous check accepted the bare substring anywhere in the manuscript,
+    so a sentence asserting that nothing runs in parallel satisfied it.
+    """
+    sequential = (
+        "The ResearchingOS Multi-Agent Workflow runs strictly one stage at a time: "
+        "Scout, then Analyst, then Engineer, then Statistician, then Reviewer #2, "
+        "then Chairman, then Writer, then Red Team, then Peer Review, then "
+        "Fact-check, then Checkmate, then Publisher. Nothing is parallel about it."
+    )
+
+    report = audit_researchingos_workflow(sequential)
+
+    assert report["passed"] is False
+    assert "parallel critique fan-out" in report["detail"]
+
+
 def test_audit_is_not_applicable_without_internal_workflow_claim():
     report = audit_researchingos_workflow("## Methods\nWe evaluate three systems.")
 

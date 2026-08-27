@@ -1,0 +1,286 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f0"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f1"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f2"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "channel_delivery_probability"
+        }
+      ],
+      "lines": [
+        37
+      ],
+      "literal": "20{,}000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "byzantine_agreement_f0"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "byzantine_agreement_f1"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "byzantine_agreement_f2"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "livelock_cycle_without_priority"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "safety_invariant_holds"
+        }
+      ],
+      "lines": [
+        679,
+        680,
+        681,
+        685,
+        690
+      ],
+      "literal": "100.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "model_transitions"
+        }
+      ],
+      "lines": [
+        689
+      ],
+      "literal": "111.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f0"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f1"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f2"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "channel_delivery_probability"
+        }
+      ],
+      "lines": [
+        679,
+        680,
+        681,
+        682
+      ],
+      "literal": "20000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "livelock_cycle_with_priority"
+        }
+      ],
+      "lines": [
+        37
+      ],
+      "literal": "0.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "mean_branching_factor"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "model_states_reachable"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "safety_invariant_holds"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "terminal_states_enforced"
+        }
+      ],
+      "lines": [
+        688
+      ],
+      "literal": "37.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "livelock_cycle_with_priority"
+        }
+      ],
+      "lines": [
+        682,
+        684
+      ],
+      "literal": "0.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "model_transitions"
+        }
+      ],
+      "lines": [
+        35
+      ],
+      "literal": "111"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "livelock_cycle_with_priority"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "livelock_cycle_without_priority"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "max_tolerated_byzantine"
+        }
+      ],
+      "lines": [
+        686
+      ],
+      "literal": "2.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "counterexample_depth_without_invariant"
+        }
+      ],
+      "lines": [
+        683
+      ],
+      "literal": "4.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_branching_factor"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "model_states_reachable"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "safety_invariant_holds"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "terminal_states_enforced"
+        }
+      ],
+      "lines": [
+        35,
+        690
+      ],
+      "literal": "37"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "channel_delivery_probability"
+        }
+      ],
+      "lines": [
+        37,
+        677,
+        679,
+        680,
+        681,
+        682
+      ],
+      "literal": "95"
+    }
+  ],
+  "run_id": "draft-review_trustworthy_multi_agent_systems_formal_verification",
+  "stem": "review_trustworthy_multi_agent_systems_formal_verification"
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_continual_safety_alignment_in_vision_language_models",
+  "paper": "p6",
+  "description": "Geometric model of alignment drift: principal-angle rotation of a low-rank safety subspace under weight-space updates, and the effect of norm-based update selection. No model was trained.",
+  "seed": 20260825,
+  "measurement_count": 40,
+  "recorded_at": "2026-08-25T22:22:05-0400",
+  "duration_s": 41.155,
+  "git_commit": "3588bc9f677c06535219d861a2d49af96cc5976a",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p6*.py"
+}

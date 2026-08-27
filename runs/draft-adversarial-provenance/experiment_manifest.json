@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-adversarial-provenance",
+  "paper": "adversarial_provenance",
+  "description": "Mutation testing of the claim-provenance gate: deterministic edits that should break a grounded claim, scored by whether the gate refuses them.",
+  "seed": 20260825,
+  "measurement_count": 9,
+  "recorded_at": "2026-08-27T11:59:28-0400",
+  "duration_s": 2.002,
+  "git_commit": "c0619ab8303e0bde419a00b194e4da770d99ee0b",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/adversarial_provenance*.py"
+}

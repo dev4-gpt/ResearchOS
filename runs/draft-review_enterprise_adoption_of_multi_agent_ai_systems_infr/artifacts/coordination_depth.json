@@ -1,0 +1,9 @@
+{
+  "depth_hops": {
+    "blackboard": 2,
+    "contract_net": 3,
+    "hierarchical": 6,
+    "mesh": 1
+  },
+  "n_agents": 64
+}

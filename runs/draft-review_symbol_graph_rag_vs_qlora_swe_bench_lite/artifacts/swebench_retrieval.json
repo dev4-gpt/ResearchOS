@@ -1,0 +1,676 @@
+{
+  "config": {
+    "alpha": 0.15,
+    "seed_topk": 25,
+    "tuned_here": false
+  },
+  "instances_scored": 41,
+  "instances_skipped": 0,
+  "per_instance": [
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 76,
+      "gold_files": 1,
+      "instance_id": "psf__requests-1963",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 83,
+      "gold_files": 1,
+      "instance_id": "psf__requests-2148",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "corpus_files": 83,
+      "gold_files": 1,
+      "instance_id": "psf__requests-2317",
+      "ppr": [
+        0.0,
+        1.0,
+        0.2
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 83,
+      "gold_files": 1,
+      "instance_id": "psf__requests-2674",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "corpus_files": 98,
+      "gold_files": 1,
+      "instance_id": "psf__requests-3362",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 125,
+      "gold_files": 1,
+      "instance_id": "psf__requests-863",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "psf/requests"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "corpus_files": 75,
+      "gold_files": 1,
+      "instance_id": "pallets__flask-4045",
+      "ppr": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "repo": "pallets/flask"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 80,
+      "gold_files": 1,
+      "instance_id": "pallets__flask-4992",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pallets/flask"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.2
+      ],
+      "corpus_files": 80,
+      "gold_files": 1,
+      "instance_id": "pallets__flask-5063",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pallets/flask"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 146,
+      "gold_files": 1,
+      "instance_id": "mwaskom__seaborn-2848",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "mwaskom/seaborn"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.1111111111111111
+      ],
+      "corpus_files": 145,
+      "gold_files": 1,
+      "instance_id": "mwaskom__seaborn-3010",
+      "ppr": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "repo": "mwaskom/seaborn"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "corpus_files": 153,
+      "gold_files": 1,
+      "instance_id": "mwaskom__seaborn-3190",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "mwaskom/seaborn"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 153,
+      "gold_files": 1,
+      "instance_id": "mwaskom__seaborn-3407",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "mwaskom/seaborn"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "corpus_files": 249,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-11143",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.029411764705882353
+      ],
+      "corpus_files": 249,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-11148",
+      "ppr": [
+        0.0,
+        0.0,
+        0.037037037037037035
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "corpus_files": 198,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5103",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "corpus_files": 198,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5221",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "corpus_files": 198,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5227",
+      "ppr": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "corpus_files": 197,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5413",
+      "ppr": [
+        0.0,
+        0.0,
+        0.14285714285714285
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "corpus_files": 200,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5495",
+      "ppr": [
+        0.0,
+        1.0,
+        0.5
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 201,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-5692",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.06666666666666667
+      ],
+      "corpus_files": 205,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-6116",
+      "ppr": [
+        0.0,
+        0.0,
+        0.0625
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.02857142857142857
+      ],
+      "corpus_files": 207,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-7168",
+      "ppr": [
+        0.0,
+        0.0,
+        0.02127659574468085
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.024390243902439025
+      ],
+      "corpus_files": 209,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-7220",
+      "ppr": [
+        0.0,
+        0.0,
+        0.030303030303030304
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.07142857142857142
+      ],
+      "corpus_files": 215,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-7373",
+      "ppr": [
+        0.0,
+        0.0,
+        0.058823529411764705
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 214,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-7432",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.027777777777777776
+      ],
+      "corpus_files": 214,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-7490",
+      "ppr": [
+        0.0,
+        0.0,
+        0.020833333333333332
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 235,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-8365",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.16666666666666666
+      ],
+      "corpus_files": 235,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-8906",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "corpus_files": 244,
+      "gold_files": 1,
+      "instance_id": "pytest-dev__pytest-9359",
+      "ppr": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "repo": "pytest-dev/pytest"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 1095,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-5859",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 1443,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-6506",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.0047169811320754715
+      ],
+      "corpus_files": 1909,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-7080",
+      "ppr": [
+        0.0,
+        0.0,
+        0.009259259259259259
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "corpus_files": 1924,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-7114",
+      "ppr": [
+        0.0,
+        1.0,
+        0.2
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.125
+      ],
+      "corpus_files": 1924,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-7228",
+      "ppr": [
+        0.0,
+        1.0,
+        0.2
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "corpus_files": 1943,
+      "gold_files": 1,
+      "instance_id": "pylint-dev__pylint-7993",
+      "ppr": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repo": "pylint-dev/pylint"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "corpus_files": 139,
+      "gold_files": 1,
+      "instance_id": "pydata__xarray-3364",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pydata/xarray"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "corpus_files": 144,
+      "gold_files": 1,
+      "instance_id": "pydata__xarray-4094",
+      "ppr": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "repo": "pydata/xarray"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "corpus_files": 146,
+      "gold_files": 1,
+      "instance_id": "pydata__xarray-4248",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pydata/xarray"
+    },
+    {
+      "bm25": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "corpus_files": 152,
+      "gold_files": 1,
+      "instance_id": "pydata__xarray-4493",
+      "ppr": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "repo": "pydata/xarray"
+    },
+    {
+      "bm25": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "corpus_files": 152,
+      "gold_files": 1,
+      "instance_id": "pydata__xarray-5131",
+      "ppr": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "repo": "pydata/xarray"
+    }
+  ],
+  "repos": [
+    "mwaskom/seaborn",
+    "pallets/flask",
+    "psf/requests",
+    "pydata/xarray",
+    "pylint-dev/pylint",
+    "pytest-dev/pytest"
+  ],
+  "skipped": []
+}

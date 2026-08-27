@@ -1,0 +1,22 @@
+{
+  "blackboard": {
+    "availability": 0.9933774834437087,
+    "mttf_steps": 1200.0,
+    "mttr_steps": 8.0
+  },
+  "contract_net": {
+    "availability": 0.9852216748768473,
+    "mttf_steps": 800.0,
+    "mttr_steps": 12.0
+  },
+  "hierarchical": {
+    "availability": 0.9980039920159681,
+    "mttf_steps": 2000.0,
+    "mttr_steps": 4.0
+  },
+  "mesh": {
+    "availability": 0.9615384615384616,
+    "mttf_steps": 500.0,
+    "mttr_steps": 20.0
+  }
+}

@@ -1,0 +1,1009 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 5,
+          "field": "value",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        }
+      ],
+      "lines": [
+        671
+      ],
+      "literal": "-0.00258"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        }
+      ],
+      "lines": [
+        25,
+        272,
+        397,
+        469
+      ],
+      "literal": "-0.0026"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_cohens_d"
+        }
+      ],
+      "lines": [
+        25,
+        397,
+        469,
+        677
+      ],
+      "literal": "-0.0119"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_mrr_delta"
+        }
+      ],
+      "lines": [
+        346
+      ],
+      "literal": "-0.0243"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        678
+      ],
+      "literal": "49.6670"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        678
+      ],
+      "literal": "60.6670"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        674
+      ],
+      "literal": "82.4242"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        673
+      ],
+      "literal": "83.0303"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        674
+      ],
+      "literal": "87.8788"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        673
+      ],
+      "literal": "88.4848"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        676
+      ],
+      "literal": "92.1212"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_1_bm25"
+        },
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        673,
+        674
+      ],
+      "literal": "92.7273"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        675
+      ],
+      "literal": "93.3333"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        676
+      ],
+      "literal": "95.7576"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        675
+      ],
+      "literal": "96.3636"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        675,
+        676
+      ],
+      "literal": "98.7879"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_mrr_ppr"
+        }
+      ],
+      "lines": [
+        25,
+        339
+      ],
+      "literal": "0.4421"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_mrr_bm25"
+        }
+      ],
+      "lines": [
+        338,
+        342
+      ],
+      "literal": "0.4664"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "mrr_ppr"
+        }
+      ],
+      "lines": [
+        395,
+        672
+      ],
+      "literal": "0.8852"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "mrr_bm25"
+        }
+      ],
+      "lines": [
+        394,
+        670
+      ],
+      "literal": "0.8884"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_ppr"
+        }
+      ],
+      "lines": [
+        25,
+        395,
+        469,
+        672
+      ],
+      "literal": "0.9220"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "mrr_bm25"
+        }
+      ],
+      "lines": [
+        25,
+        342,
+        394,
+        469,
+        670
+      ],
+      "literal": "0.9246"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "mrr_ppr"
+        }
+      ],
+      "lines": [
+        395,
+        672
+      ],
+      "literal": "0.9531"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "mrr_bm25"
+        }
+      ],
+      "lines": [
+        394,
+        670
+      ],
+      "literal": "0.9547"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        27,
+        410
+      ],
+      "literal": "100.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "swebench_mean_files_per_patch"
+        }
+      ],
+      "lines": [
+        27,
+        409
+      ],
+      "literal": "1.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        681
+      ],
+      "literal": "100.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        339
+      ],
+      "literal": "26.83"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_gold_file_named_rate"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_mean_files_per_patch"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        679
+      ],
+      "literal": "300.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        338
+      ],
+      "literal": "31.71"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        27
+      ],
+      "literal": "49.67"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        27,
+        411,
+        413,
+        471,
+        678
+      ],
+      "literal": "55.33"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "swebench_gold_file_named_rate"
+        }
+      ],
+      "lines": [
+        27
+      ],
+      "literal": "60.67"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        25,
+        338
+      ],
+      "literal": "63.41"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        25,
+        339
+      ],
+      "literal": "70.73"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        395
+      ],
+      "literal": "82.42"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        394
+      ],
+      "literal": "83.03"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        25,
+        395
+      ],
+      "literal": "87.88"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        25,
+        394
+      ],
+      "literal": "88.48"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "diffusion_inert_rate"
+        }
+      ],
+      "lines": [
+        285
+      ],
+      "literal": "90.30"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        395
+      ],
+      "literal": "92.12"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_1_bm25"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        394,
+        395
+      ],
+      "literal": "92.73"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        394
+      ],
+      "literal": "93.33"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        395
+      ],
+      "literal": "95.76"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        394
+      ],
+      "literal": "96.36"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        394,
+        395
+      ],
+      "literal": "98.79"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "symbol_graph_edges"
+        }
+      ],
+      "lines": [
+        23,
+        378
+      ],
+      "literal": "1184"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_retrieval_mrr_bm25"
+        }
+      ],
+      "lines": [
+        554,
+        554
+      ],
+      "literal": "0.5"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "swebench_mean_files_per_patch"
+        }
+      ],
+      "lines": [
+        680
+      ],
+      "literal": "1.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_modules"
+        }
+      ],
+      "lines": [
+        23,
+        371
+      ],
+      "literal": "137"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_top1_damaged_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "bm25_top1_queries"
+        }
+      ],
+      "lines": [
+        296
+      ],
+      "literal": "146"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "queries_unchanged_by_diffusion"
+        }
+      ],
+      "lines": [
+        282
+      ],
+      "literal": "149"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_top1_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "dev_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "diffusion_inert_rate"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_delta_ppr_minus_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mrr_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_1_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_1_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_5_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "p_at_5_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_degraded_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_improved_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "queries_unchanged_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_cohens_d"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "test_queries"
+        }
+      ],
+      "lines": [
+        23,
+        280,
+        297,
+        373,
+        373,
+        390,
+        469,
+        670,
+        671,
+        672,
+        673,
+        674,
+        675,
+        676,
+        677
+      ],
+      "literal": "165"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "swebench_retrieval_median_corpus_files"
+        }
+      ],
+      "lines": [
+        344
+      ],
+      "literal": "198"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_gold_file_named_rate"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_instances"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_mean_files_per_patch"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        27,
+        45,
+        138,
+        404,
+        408,
+        451,
+        471,
+        678,
+        679,
+        680,
+        681
+      ],
+      "literal": "300"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_queries_after_filter"
+        }
+      ],
+      "lines": [
+        373
+      ],
+      "literal": "330"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "symbol_graph_nodes"
+        }
+      ],
+      "lines": [
+        23,
+        378
+      ],
+      "literal": "573"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_missed_recovered_by_diffusion"
+        }
+      ],
+      "lines": [
+        629
+      ],
+      "literal": "19"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "swebench_retrieval_instances"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_median_corpus_files"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_mrr_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_mrr_delta"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_mrr_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_p_at_1_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_p_at_1_ppr"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_p_at_5_bm25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "swebench_retrieval_p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        25
+      ],
+      "literal": "41"
+    }
+  ],
+  "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+  "stem": "review_symbol_graph_rag_vs_qlora_swe_bench_lite"
+}

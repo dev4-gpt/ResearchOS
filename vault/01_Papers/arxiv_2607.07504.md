@@ -1,4 +1,6 @@
 ---
+content_origin: "composed"
+citable: "false"
 title: "Do LLM-Generated Skills Make Better AI Data Scientists? A Component Ablation Across Data-Science Workflows"
 authors:
   - "Wei-Jung Huang"
@@ -12,6 +14,11 @@ tags:
   - "research-paper"
   - "systematic-review-&-meta-taxonomy-of-generative-ai-in-enterprise-workflows:-empirical-evidence,-economic-limits,-skill-equalization,-and-task-boundary-frontiers"
 ---
+
+> [!CAUTION] NOT A SOURCE ABSTRACT
+> This note's body was composed, not ingested from the publication.
+> It must not be cited or summarised as though it were the authors' text.
+
 # Lead Analyst Structured Analysis
 
 **Agent Role**: Methodology Extraction & Full-Text Ingestion

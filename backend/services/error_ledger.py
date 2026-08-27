@@ -21,11 +21,18 @@ class ErrorLedgerService:
 
     def _load_or_init_ledger(self) -> None:
         if self.ledger_path.exists():
+            # An unreadable ledger is a corrupted record, not an empty one.
+            # Silently substituting the initial schema discarded every recorded
+            # incident and then wrote that empty schema back over the file on
+            # the next record_error call. Fail loudly and leave the file alone.
             try:
                 with open(self.ledger_path, "r", encoding="utf-8") as f:
                     self.data = json.load(f)
-            except Exception:
-                self.data = self._initial_schema()
+            except Exception as exc:
+                raise RuntimeError(
+                    f"Error ledger at {self.ledger_path} could not be read and will not be "
+                    f"reinitialised over: {exc}"
+                ) from exc
         else:
             self.data = self._initial_schema()
             self._save()
@@ -115,6 +122,7 @@ class ErrorLedgerService:
         self.data["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
         self.data["stats"]["total_errors_recorded"] = len(self.data.get("history", []))
         self.data["stats"]["resolved_count"] = sum(1 for e in self.data.get("history", []) if e.get("status") == "VERIFIED_RESOLVED")
+        self.data["stats"]["open_count"] = sum(1 for e in self.data.get("history", []) if e.get("status") != "VERIFIED_RESOLVED")
         self.data["stats"]["active_prevention_rules"] = len(self.data.get("prevention_rules", {}))
 
         with open(self.ledger_path, "w", encoding="utf-8") as f:
@@ -131,13 +139,32 @@ class ErrorLedgerService:
             f"**Last Updated:** {self.data['last_updated']}",
             f"**Total Tracked Incidents:** {self.data['stats']['total_errors_recorded']}",
             f"**Resolved & Verified:** {self.data['stats']['resolved_count']}",
+            f"**Open / Unresolved:** {self.data['stats'].get('open_count', 0)}",
             f"**Active Prevention Rules:** {self.data['stats']['active_prevention_rules']}",
             "",
             "---",
             "",
+        ]
+
+        # Open defects lead the document. A ledger that renders every incident as
+        # resolved is the same false-green failure this manual exists to prevent.
+        open_items = [
+            e for e in self.data.get("history", [])
+            if e.get("status") != "VERIFIED_RESOLVED"
+        ]
+        if open_items:
+            lines.append("## ⚠️ Open Defects — NOT resolved")
+            lines.append("")
+            for item in open_items:
+                lines.append(
+                    f"- **[{item['error_id']}]** `{item['status']}` — {item['summary']}"
+                )
+            lines.extend(["", "---", ""])
+
+        lines.extend([
             "## 📜 Active Prevention Rules",
             ""
-        ]
+        ])
         for rid, rule in self.data.get("prevention_rules", {}).items():
             lines.append(f"- **[{rid}]**: {rule}")
 
@@ -150,14 +177,16 @@ class ErrorLedgerService:
         ])
 
         for item in self.data.get("history", []):
-            lines.append(f"### ❌ [{item['error_id']}] {item['summary']}")
+            marker = "❌" if item.get("status") == "VERIFIED_RESOLVED" else "⚠️"
+            lines.append(f"### {marker} [{item['error_id']}] {item['summary']}")
             lines.append(f"- **Timestamp:** `{item['timestamp']}`")
             lines.append(f"- **Component:** `{item['component']}` ({item['stage']})")
             lines.append(f"- **Error Type:** `{item['error_type']}`")
             lines.append(f"- **Root Cause:** {item['root_cause']}")
             lines.append(f"- **Resolution:** {item['resolution']}")
             lines.append(f"- **Prevention Rule:** `{item['prevention_rule']}`")
-            lines.append(f"- **Status:** ✅ `{item['status']}`")
+            status_icon = "✅" if item.get("status") == "VERIFIED_RESOLVED" else "⚠️"
+            lines.append(f"- **Status:** {status_icon} `{item['status']}`")
             lines.append("")
 
         with open(manual_path, "w", encoding="utf-8") as f:
@@ -171,7 +200,8 @@ class ErrorLedgerService:
         summary: str,
         root_cause: str,
         resolution: str,
-        prevention_rule: str
+        prevention_rule: str,
+        status: str = "VERIFIED_RESOLVED"
     ) -> Dict[str, Any]:
         count = len(self.data.get("history", [])) + 1
         error_id = f"ERR-{count:03d}"
@@ -187,13 +217,30 @@ class ErrorLedgerService:
             "root_cause": root_cause,
             "resolution": resolution,
             "prevention_rule": f"{rule_id}: {prevention_rule}",
-            "status": "VERIFIED_RESOLVED"
+            "status": status
         }
 
         self.data["history"].append(entry)
         self.data["prevention_rules"][rule_id] = prevention_rule
         self._save()
         return entry
+
+    def resolve_error(self, error_id: str, resolution: str,
+                      status: str = "VERIFIED_RESOLVED") -> Optional[Dict[str, Any]]:
+        """Close a previously open incident, or restate what remains of it.
+
+        Without this the ledger could record an open defect but never retire one, so
+        entries went stale the moment part of an incident was fixed -- and a stale
+        open entry is as misleading as a false green.
+        """
+        for entry in self.data.get("history", []):
+            if entry.get("error_id") == error_id:
+                entry["resolution"] = resolution
+                entry["status"] = status
+                entry["resolved_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+                self._save()
+                return entry
+        return None
 
     def get_ledger_summary(self) -> Dict[str, Any]:
         return {

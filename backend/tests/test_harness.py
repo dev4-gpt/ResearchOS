@@ -50,3 +50,4 @@ def test_autonomous_harness_controller():
     controller.complete_task("proj_123")
     status = controller.get_task_status("proj_123")
     assert status["status"] == "completed"
+

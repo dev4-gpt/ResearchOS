@@ -1,0 +1,22 @@
+---
+title: "Cardinal-indexed classifying spaces for families of subgroups of any topological group"
+authors:
+  - "Qayum Khan"
+url: "http://arxiv.org/abs/1907.00871v6"
+published: "2019-07-01"
+citations: "0"
+source: "arXiv"
+id: "arxiv:1907.00871"
+full_pdf_ingested: "False"
+tags:
+  - "research-paper"
+  - "review-enterprise-adoption-of-multi-agent-ai-systems-infr"
+---
+# Cardinal-indexed classifying spaces for families of subgroups of any topological group
+
+**Authors**: Qayum Khan
+**Published**: 2019-07-01 | **Source**: arXiv
+**URL**: http://arxiv.org/abs/1907.00871v6
+
+## Abstract
+For $G$ a topological group, existence theorems by Milnor (1956), Gelfand-Fuks (1968), and Segal (1975) of classifying spaces for principal $G$-bundles are generalized to $G$-spaces with torsion. Namely, any $G$-space approximately covered by tubes (a generalization of local trivialization) is the pullback of a universal space indexed by the orbit types of tubes and cardinality of the cover. For $G$ a Lie group, via a metric model we generalize the corresponding uniqueness theorem by Palais (1960) and Bredon (1972) for compact $G$. Namely, the $G$-homeomorphism types of proper $G$-spaces over a metric space correspond to stratified-homotopy classes of orbit classifying maps. The former existence result is enabled by Segal's clever but esoteric use of non-Hausdorff spaces. The latter uniqueness result is enabled by our own development of equivariant ANR theory for noncompact Lie $G$. Applications include the existence part of classification for unstructured fiber bundles with locally compact Hausdorff fiber and with locally connected base or fiber, as well as for equivariant principal bundles which in certain cases via other models is due to Lashof-May (1986) and to Lück-Uribe (2014). From a categorical perspective, our general model $E_\mathcal{F}^κG$ is a final object inspired by the formulation of the Baum-Connes conjecture (1994).

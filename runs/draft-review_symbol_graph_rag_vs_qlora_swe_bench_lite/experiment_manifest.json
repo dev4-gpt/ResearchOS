@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+  "paper": "p1",
+  "description": "Symbol-graph PPR re-ranking vs BM25 on a Python corpus with docstring-derived queries, plus a census of retrieval signal in SWE-bench Lite. No language model was run.",
+  "seed": 20260825,
+  "measurement_count": 19,
+  "recorded_at": "2026-08-27T11:48:14-0400",
+  "duration_s": 8.901,
+  "git_commit": "c0619ab8303e0bde419a00b194e4da770d99ee0b",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p1*.py"
+}

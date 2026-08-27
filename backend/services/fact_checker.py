@@ -26,9 +26,20 @@ def is_non_metric_number(claim: str) -> bool:
         return True
     if re.match(r"^p\s*[<>=]\s*0?\.\d+", s, re.IGNORECASE):
         return True
-    if "=" in s or re.search(r"^(?:N|i|j|k|m|n|t|x|y|z|r|p|step|val|var|index|iter|phase|section|pillar|stage|table|figure|eq)\b", s, re.IGNORECASE):
+    # 'N = 1000' is a sample size, and NUMERIC_PATTERN has an alternation whose
+    # only purpose is to find it. Discarding every string containing '=' undid
+    # that: the detector went looking for sample sizes and the filter threw them
+    # away again, which is most of why this counted 1 claim where 2 were asserted
+    # (ERR-044). Loop variables and section numbers are still discarded.
+    if re.match(r"^N\s*=\s*\d", s):
+        return False
+    if "=" in s or re.search(r"^(?:i|j|k|m|n|t|x|y|z|r|p|step|val|var|index|iter|phase|section|pillar|stage|table|figure|eq)\b", s, re.IGNORECASE):
         return True
-    if re.search(r"\b(repositories|phases?|sections?|stages?|pillars?|months?|benchmarks?|probes?|agents?|organizations?|tasks?|projects?|seconds?|minutes?|hours?|nodes?|members?|runs?|attempts?|retries?)\b", s, re.IGNORECASE):
+    # Only structural nouns belong here. The scale nouns -- months, agents,
+    # codebases, organizations -- are exactly what NUMERIC_PATTERN hunts, because
+    # '500 enterprise codebases' is the shape a fabricated claim takes. Listing
+    # them in both places meant the strongest claims were the ones never checked.
+    if re.search(r"\b(phases?|sections?|stages?|pillars?|steps?|figures?|tables?)\b", s, re.IGNORECASE):
         return True
     if re.match(r"^\d+s$", s):
         return True
@@ -141,18 +152,15 @@ class FactCheckerService:
                         break
                 if not supported and claim_lower in combined_corpus:
                     supported = True
-                if not supported:
-                    for paragraph in paragraphs:
-                        if claim in paragraph:
-                            p_lower = paragraph.lower()
-                            if ("|" in paragraph or "table" in p_lower or "experiment" in p_lower
-                                    or "ablation" in p_lower or "empirical" in p_lower or "benchmark" in p_lower
-                                    or "proof" in p_lower or "theorem" in p_lower or "ours" in p_lower
-                                    or "baseline" in p_lower or "result" in p_lower or "finding" in p_lower
-                                    or "t-mas" in p_lower or "cas" in p_lower or "dst-dr" in p_lower
-                                    or "shacs" in p_lower or "symbol-graph" in p_lower or "qlora" in p_lower):
-                                supported = True
-                                break
+                # There used to be a third chance here: a claim was accepted if the
+                # paragraph containing it mentioned "table", "benchmark", "result",
+                # "finding", "experiment" -- or a pipe character. That marks a claim
+                # grounded because of the words around it rather than any evidence,
+                # and it is how "500 enterprise codebases" passed while its only
+                # cited source said "a conceptual framework only" (ERR-044). Claims
+                # this project measured itself are absolved by
+                # _absolve_measured_claims against recorded values, which is the
+                # same job done against evidence instead of vocabulary.
                 (grounded if supported else unverified).append(claim)
         else:
             # Legacy callers can still request a report, but an unscoped corpus is
@@ -195,10 +203,57 @@ class FactCheckerService:
             "uncited_entries": sorted(bibliography_keys - cited),
         }
 
+    @staticmethod
+    def _absolve_measured_claims(metric_report: Dict[str, Any],
+                                 measured_values: List[float]) -> Dict[str, Any]:
+        """Move claims matching a recorded measurement out of `unverified_claims`."""
+        import re as _re
+
+        def numeric(text: str) -> Optional[float]:
+            match = _re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", str(text).replace(",", ""))
+            if not match:
+                return None
+            try:
+                return float(match.group(0))
+            except ValueError:
+                return None
+
+        still_unverified, absolved = [], []
+        for claim in metric_report.get("unverified_claims", []):
+            value = numeric(claim)
+            fraction = _re.search(r"\.(\d+)", str(claim))
+            decimals = len(fraction.group(1)) if fraction else 0
+            hit = value is not None and any(
+                round(m, decimals) == round(value, decimals) for m in measured_values
+            )
+            (absolved if hit else still_unverified).append(claim)
+
+        updated = dict(metric_report)
+        updated["unverified_claims"] = still_unverified
+        updated["unverified_count"] = len(still_unverified)
+        if absolved:
+            updated["measurement_backed_claims"] = absolved
+            total = updated.get("total_numeric_claims") or 1
+            updated["metric_score"] = round(
+                100.0 * (total - len(still_unverified)) / total, 1
+            )
+        return updated
+
     def audit_document(self, content: str, source_texts: Optional[List[str]] = None,
-                       source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
+                       source_records: Optional[Dict[str, str]] = None,
+                       measured_values: Optional[List[float]] = None) -> Dict[str, Any]:
+        """Audit citations and numeric claims.
+
+        ``measured_values`` carries the values a recorded experiment produced for
+        this draft. A claim this service cannot find in the literature but which
+        an experiment measured is grounded, not unverified: without this the
+        provenance gate and this checker disagree about the same manuscript, and
+        a paper whose numbers all trace to artifacts still reports as blocked.
+        """
         citation_report = self.validate_citations(content)
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
+        if measured_values:
+            metric_report = self._absolve_measured_claims(metric_report, measured_values)
         blocking_errors: List[str] = []
         # Only block on citations that are genuinely malformed/non-existent — NOT plausible author-year keys
         if citation_report["broken_links"]:

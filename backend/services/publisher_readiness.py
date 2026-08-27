@@ -207,6 +207,59 @@ class PublisherReadinessService:
         match = re.search(r"^#{1,6}\s*(?:\d+[.\s]*)?(?:executive\s+)?abstract\s*$([\s\S]*?)(?=^#{1,6}\s|\Z)", content, re.I | re.M)
         return match.group(1).strip() if match else "Executive Abstract"
 
+    @staticmethod
+    def _recorded_measurements(draft_filename: str) -> List[float]:
+        """Values recorded by the experiment bound to this draft, if any."""
+        import json as _json
+
+        stem = draft_filename[:-3] if draft_filename.endswith(".md") else draft_filename
+        path = os.path.join("runs", f"draft-{stem}", "measurements.jsonl")
+        if not os.path.exists(path):
+            return []
+        values: List[float] = []
+        with open(path, "r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = _json.loads(line)
+                    values.append(float(row["value"]))
+                    for bound in row.get("ci95") or []:
+                        values.append(float(bound))
+                    # The sample size is recorded evidence too, and manuscripts
+                    # state it constantly -- "N = 64 agents", "n = 138 queries".
+                    # Without it the fact checker blocked all 12 of p5's venues on
+                    # "Unverified numeric claims: N = 64", a number carried by the
+                    # n field of nine measurements whose metric names literally
+                    # spell it (messages_at_n64_mesh, and so on).
+                    if row.get("n") is not None:
+                        values.append(float(row["n"]))
+                except (ValueError, KeyError, TypeError):
+                    continue
+
+        # The run manifest is recorded evidence too. Each draft's Reproducibility
+        # table states the run's wall-clock duration, seed and measurement count,
+        # and those are facts about the run rather than claims about the world --
+        # so they are absent from measurements.jsonl by design. Without them here,
+        # FactCheckerService reported "Unverified numeric claims: 10.575 s" and
+        # blocked all 12 venues for a number taken verbatim from the manifest,
+        # while the provenance gate called the same manuscript fully grounded.
+        # That is ERR-056 again: two graders judging one property against
+        # different evidence, which is a defect in the graders (R56).
+        manifest_path = os.path.join("runs", f"draft-{stem}", "experiment_manifest.json")
+        if os.path.exists(manifest_path):
+            try:
+                with open(manifest_path, "r", encoding="utf-8") as handle:
+                    manifest = _json.load(handle)
+                for field in ("duration_s", "seed", "measurement_count"):
+                    value = manifest.get(field)
+                    if isinstance(value, (int, float)) and not isinstance(value, bool):
+                        values.append(float(value))
+            except (ValueError, OSError):
+                pass
+        return values
+
     def run(self, target_filename: Optional[str] = None, venues: Optional[List[str]] = None) -> Dict[str, Any]:
         requested_venues = venues or DEFAULT_PUBLISHER_VENUES
         test_venues = [venue for venue in requested_venues if venue in VENUE_PROFILES]
@@ -262,10 +315,14 @@ class PublisherReadinessService:
             title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
             authors = meta.get("authors", ["Aryaman Dev"])
             value_report = value_reports[filename]
+            # Values this draft's own experiment recorded. Without them the fact
+            # checker flags measured results as unverified simply because they are
+            # not in the literature corpus, contradicting the provenance gate.
             evidence_report = self.fact_checker.audit_document(
                 content,
                 source_texts=source_texts,
                 source_records=source_records,
+                measured_values=self._recorded_measurements(filename),
             )
             originality_report = originality["per_file"].get(filename, {"passed": True, "status": "PASS", "max_five_gram_overlap_pct": 0.0})
             venue_results: Dict[str, Any] = {}
@@ -279,7 +336,8 @@ class PublisherReadinessService:
                 try:
                     tex_code = self.exporter.markdown_to_venue_latex(
                         venue, title, authors, self._abstract(content), content,
-                        author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", "")},
+                        author_details={"affiliation": meta.get("affiliation", ""), "email": meta.get("email", ""),
+                                      "country": meta.get("country", "")},
                         anonymize=VENUE_PROFILES[venue].anonymized_review,
                     )
                     pdf_bytes = self.exporter.compile_pdflatex(

@@ -1,0 +1,17 @@
+{
+  "run_id": "draft-review_architectural_dynamics_long_12_page",
+  "paper": "p2",
+  "description": "Analytic and simulated study of compute-optimal allocation, KV-cache memory scaling, low-rank adaptation capacity, and MoE router load balance. No accelerator was used.",
+  "seed": 20260825,
+  "measurement_count": 31,
+  "recorded_at": "2026-08-25T18:17:02-0400",
+  "duration_s": 0.711,
+  "git_commit": "af99c4e721088b331f28b637ce27bcc74099e5e2",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 12
+  },
+  "reproduce": "backend/.venv/bin/python scripts/experiments/p2*.py"
+}

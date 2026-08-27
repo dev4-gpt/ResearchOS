@@ -1,0 +1,1249 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_9"
+        }
+      ],
+      "lines": [
+        134
+      ],
+      "literal": "1{,}500"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "drift_growth_exponent"
+        }
+      ],
+      "lines": [
+        86,
+        336
+      ],
+      "literal": "0.9994"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "leakage_drift_ratio_max_over_min"
+        }
+      ],
+      "lines": [
+        348
+      ],
+      "literal": "5.6863"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_spread_across_ranks"
+        }
+      ],
+      "lines": [
+        153,
+        194,
+        347
+      ],
+      "literal": "0.079"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm0_05"
+        },
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_05"
+        },
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_05"
+        }
+      ],
+      "lines": [
+        325,
+        325,
+        325
+      ],
+      "literal": "0.124"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm0_1"
+        },
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_1"
+        },
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_1"
+        }
+      ],
+      "lines": [
+        326,
+        326,
+        326
+      ],
+      "literal": "0.248"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm0_2"
+        },
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_2"
+        }
+      ],
+      "lines": [
+        327,
+        327
+      ],
+      "literal": "0.496"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_2"
+        }
+      ],
+      "lines": [
+        327
+      ],
+      "literal": "0.497"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_rank32"
+        }
+      ],
+      "lines": [
+        332
+      ],
+      "literal": "0.972"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_4"
+        }
+      ],
+      "lines": [
+        328
+      ],
+      "literal": "0.991"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm0_4"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_rank16"
+        }
+      ],
+      "lines": [
+        328,
+        331
+      ],
+      "literal": "0.992"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_4"
+        }
+      ],
+      "lines": [
+        328
+      ],
+      "literal": "0.993"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_95"
+        }
+      ],
+      "lines": [
+        352
+      ],
+      "literal": "0.998"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_growth_exponent"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_7"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_8"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_9"
+        }
+      ],
+      "lines": [
+        24,
+        24,
+        88,
+        88,
+        163,
+        163,
+        349,
+        350,
+        351
+      ],
+      "literal": "0.999"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_rank8"
+        }
+      ],
+      "lines": [
+        335
+      ],
+      "literal": "1.003"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_rank4"
+        }
+      ],
+      "lines": [
+        333
+      ],
+      "literal": "1.009"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_leakage0_25"
+        }
+      ],
+      "lines": [
+        321
+      ],
+      "literal": "1.808"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_8"
+        }
+      ],
+      "lines": [
+        329
+      ],
+      "literal": "1.982"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm0_8"
+        }
+      ],
+      "lines": [
+        329
+      ],
+      "literal": "1.983"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_8"
+        }
+      ],
+      "lines": [
+        329
+      ],
+      "literal": "1.985"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_leakfilter_keep0_9"
+        }
+      ],
+      "lines": [
+        28,
+        140,
+        165,
+        343
+      ],
+      "literal": "15.08"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_keep0_95"
+        }
+      ],
+      "lines": [
+        340
+      ],
+      "literal": "22.53"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "signal_removed_keep0_95"
+        }
+      ],
+      "lines": [
+        356
+      ],
+      "literal": "22.56"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_leakfilter_keep0_8"
+        }
+      ],
+      "lines": [
+        141,
+        342
+      ],
+      "literal": "29.61"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_norm1_6"
+        }
+      ],
+      "lines": [
+        330
+      ],
+      "literal": "3.963"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm1_6"
+        }
+      ],
+      "lines": [
+        330
+      ],
+      "literal": "3.966"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_normfilter_keep0_9"
+        }
+      ],
+      "lines": [
+        28,
+        140,
+        165
+      ],
+      "literal": "33.30"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_keep0_9"
+        }
+      ],
+      "lines": [
+        339
+      ],
+      "literal": "35.26"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_leakage0_5"
+        }
+      ],
+      "lines": [
+        322
+      ],
+      "literal": "4.035"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_leakfilter_keep0_7"
+        }
+      ],
+      "lines": [
+        142,
+        341
+      ],
+      "literal": "44.69"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_leakage0_75"
+        }
+      ],
+      "lines": [
+        323
+      ],
+      "literal": "5.397"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "drift_deg_leakage1_0"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "leakage_drift_ratio_max_over_min"
+        }
+      ],
+      "lines": [
+        324
+      ],
+      "literal": "5.686"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_normfilter_keep0_8"
+        }
+      ],
+      "lines": [
+        141,
+        345
+      ],
+      "literal": "50.24"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_keep0_8"
+        }
+      ],
+      "lines": [
+        338
+      ],
+      "literal": "52.81"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "signal_removed_keep0_8"
+        }
+      ],
+      "lines": [
+        354
+      ],
+      "literal": "52.84"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_normfilter_keep0_7"
+        }
+      ],
+      "lines": [
+        142,
+        344
+      ],
+      "literal": "62.87"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_removed_keep0_7"
+        }
+      ],
+      "lines": [
+        337
+      ],
+      "literal": "65.38"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "signal_removed_keep0_7"
+        }
+      ],
+      "lines": [
+        353
+      ],
+      "literal": "65.41"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_leakage0_0"
+        }
+      ],
+      "lines": [
+        26,
+        100,
+        100,
+        149,
+        163
+      ],
+      "literal": "0.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_norm0_05"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_05"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_05"
+        }
+      ],
+      "lines": [
+        86
+      ],
+      "literal": "0.12"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_norm0_1"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_1"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_1"
+        }
+      ],
+      "lines": [
+        101
+      ],
+      "literal": "0.25"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_norm0_2"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_2"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_2"
+        }
+      ],
+      "lines": [
+        102
+      ],
+      "literal": "0.50"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_rank64"
+        }
+      ],
+      "lines": [
+        153,
+        334
+      ],
+      "literal": "0.93"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_norm0_4"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm0_4"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "drift_deg_norm0_4"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_rank16"
+        }
+      ],
+      "lines": [
+        106
+      ],
+      "literal": "0.99"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_rank8"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_growth_exponent"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_7"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_8"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_9"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "selection_efficiency_keep0_95"
+        }
+      ],
+      "lines": [
+        104
+      ],
+      "literal": "1.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_rank4"
+        }
+      ],
+      "lines": [
+        153
+      ],
+      "literal": "1.01"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_leakage0_25"
+        }
+      ],
+      "lines": [
+        101
+      ],
+      "literal": "1.81"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "discard_fraction_pct_keep0_9"
+        }
+      ],
+      "lines": [
+        319
+      ],
+      "literal": "10.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "discard_fraction_pct_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_leakfilter_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_normfilter_keep0_9"
+        }
+      ],
+      "lines": [
+        317,
+        318,
+        319,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346
+      ],
+      "literal": "1500"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "discard_fraction_pct_keep0_8"
+        }
+      ],
+      "lines": [
+        318
+      ],
+      "literal": "20.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_removed_keep0_95"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "selection_efficiency_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "selection_efficiency_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "selection_efficiency_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "selection_efficiency_keep0_95"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "signal_removed_keep0_7"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "signal_removed_keep0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "signal_removed_keep0_9"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "signal_removed_keep0_95"
+        }
+      ],
+      "lines": [
+        337,
+        338,
+        339,
+        340,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356
+      ],
+      "literal": "2000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_norm1_6"
+        },
+        {
+          "decimals": 2,
+          "field": "ci95_low",
+          "metric": "drift_deg_norm1_6"
+        }
+      ],
+      "lines": [
+        86,
+        330
+      ],
+      "literal": "3.96"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "discard_fraction_pct_keep0_7"
+        }
+      ],
+      "lines": [
+        317
+      ],
+      "literal": "30.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "drift_removed_normfilter_keep0_9"
+        }
+      ],
+      "lines": [
+        346
+      ],
+      "literal": "33.3"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "drift_removed_keep0_9"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "signal_removed_keep0_9"
+        }
+      ],
+      "lines": [
+        355
+      ],
+      "literal": "35.3"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_leakage0_5"
+        }
+      ],
+      "lines": [
+        102
+      ],
+      "literal": "4.04"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_leakage0_75"
+        }
+      ],
+      "lines": [
+        103
+      ],
+      "literal": "5.40"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "drift_deg_leakage1_0"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "leakage_drift_ratio_max_over_min"
+        }
+      ],
+      "lines": [
+        26,
+        104,
+        106,
+        149,
+        163
+      ],
+      "literal": "5.69"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "drift_deg_leakage0_0"
+        }
+      ],
+      "lines": [
+        320
+      ],
+      "literal": "0.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_rank16"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_rank32"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_rank4"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_rank64"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_rank8"
+        }
+      ],
+      "lines": [
+        331,
+        332,
+        333,
+        334,
+        335
+      ],
+      "literal": "150"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_leakage0_0"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_leakage0_25"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_leakage0_5"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_leakage0_75"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_leakage1_0"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "leakage_drift_ratio_max_over_min"
+        }
+      ],
+      "lines": [
+        320,
+        321,
+        322,
+        323,
+        324,
+        348
+      ],
+      "literal": "200"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm0_05"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm0_1"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm0_2"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm0_4"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm0_8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "drift_deg_norm1_6"
+        }
+      ],
+      "lines": [
+        82,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330
+      ],
+      "literal": "400"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "discard_fraction_pct_keep0_9"
+        }
+      ],
+      "lines": [
+        24,
+        88
+      ],
+      "literal": "10"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "discard_fraction_pct_keep0_7"
+        }
+      ],
+      "lines": [
+        88
+      ],
+      "literal": "30"
+    }
+  ],
+  "run_id": "draft-review_continual_safety_alignment_in_vision_language_models",
+  "stem": "review_continual_safety_alignment_in_vision_language_models"
+}

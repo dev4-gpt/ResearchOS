@@ -1,0 +1,12 @@
+{
+  "definition": "leakage = share of update energy mapping the subspace into its orthogonal complement",
+  "fixed_norm": 0.4,
+  "mean_drift_deg": {
+    "0.0": 5.960848732988171e-07,
+    "0.25": 1.8081895882884709,
+    "0.5": 4.035049046933122,
+    "0.75": 5.39665940821395,
+    "1.0": 5.686303527868013
+  },
+  "safety_rank": 16
+}

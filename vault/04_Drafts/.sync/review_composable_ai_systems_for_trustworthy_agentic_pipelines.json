@@ -1,0 +1,556 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "median_final_error_factor"
+        }
+      ],
+      "lines": [
+        567,
+        817
+      ],
+      "literal": "0.5591"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "contract_check_latency_us"
+        }
+      ],
+      "lines": [
+        809
+      ],
+      "literal": "1.3302"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth3"
+        }
+      ],
+      "lines": [
+        813
+      ],
+      "literal": "0.248"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth4"
+        }
+      ],
+      "lines": [
+        814
+      ],
+      "literal": "0.417"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth6"
+        }
+      ],
+      "lines": [
+        815
+      ],
+      "literal": "0.661"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth8"
+        }
+      ],
+      "lines": [
+        816
+      ],
+      "literal": "0.708"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth12"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "stages_executed_before_failure_deepest"
+        }
+      ],
+      "lines": [
+        811,
+        819
+      ],
+      "literal": "0.749"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth8"
+        }
+      ],
+      "lines": [
+        551,
+        808
+      ],
+      "literal": "11.57"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth6"
+        }
+      ],
+      "lines": [
+        550,
+        807
+      ],
+      "literal": "20.38"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "contract_check_latency_us"
+        }
+      ],
+      "lines": [
+        809
+      ],
+      "literal": "20000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth4"
+        }
+      ],
+      "lines": [
+        549
+      ],
+      "literal": "35.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth3"
+        }
+      ],
+      "lines": [
+        548
+      ],
+      "literal": "51.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth2"
+        }
+      ],
+      "lines": [
+        36,
+        547,
+        554,
+        627
+      ],
+      "literal": "73.60"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "pipelines_attenuating_error"
+        }
+      ],
+      "lines": [
+        40,
+        566,
+        572,
+        631
+      ],
+      "literal": "82.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "max_deviation_from_contraction_bound"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth2"
+        }
+      ],
+      "lines": [
+        40,
+        547,
+        559,
+        568,
+        631
+      ],
+      "literal": "0.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth3"
+        }
+      ],
+      "lines": [
+        548
+      ],
+      "literal": "0.25"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth4"
+        }
+      ],
+      "lines": [
+        549
+      ],
+      "literal": "0.42"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth6"
+        }
+      ],
+      "lines": [
+        550
+      ],
+      "literal": "0.66"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth8"
+        }
+      ],
+      "lines": [
+        551
+      ],
+      "literal": "0.71"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth12"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "stages_executed_before_failure_deepest"
+        }
+      ],
+      "lines": [
+        38,
+        552,
+        559,
+        579,
+        629
+      ],
+      "literal": "0.75"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "contract_check_latency_us"
+        }
+      ],
+      "lines": [
+        38,
+        578,
+        629
+      ],
+      "literal": "1.33"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth2"
+        }
+      ],
+      "lines": [
+        812
+      ],
+      "literal": "1056"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth3"
+        }
+      ],
+      "lines": [
+        813
+      ],
+      "literal": "1960"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth4"
+        }
+      ],
+      "lines": [
+        814
+      ],
+      "literal": "2600"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "max_deviation_from_contraction_bound"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "median_final_error_factor"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "pipelines_attenuating_error"
+        }
+      ],
+      "lines": [
+        40,
+        810,
+        817,
+        818
+      ],
+      "literal": "3000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth6"
+        }
+      ],
+      "lines": [
+        815
+      ],
+      "literal": "3185"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "composition_valid_depth4"
+        }
+      ],
+      "lines": [
+        806
+      ],
+      "literal": "35.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth8"
+        }
+      ],
+      "lines": [
+        816
+      ],
+      "literal": "3537"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "mean_first_failure_index_depth12"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "stages_executed_before_failure_deepest"
+        }
+      ],
+      "lines": [
+        811,
+        819
+      ],
+      "literal": "3631"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth12"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth2"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth3"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth4"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth6"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "composition_valid_depth8"
+        }
+      ],
+      "lines": [
+        537,
+        803,
+        804,
+        805,
+        806,
+        807,
+        808
+      ],
+      "literal": "4000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "composition_valid_depth3"
+        }
+      ],
+      "lines": [
+        805
+      ],
+      "literal": "51.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "composition_valid_depth2"
+        }
+      ],
+      "lines": [
+        804
+      ],
+      "literal": "73.6"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "pipelines_attenuating_error"
+        }
+      ],
+      "lines": [
+        818
+      ],
+      "literal": "82.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "composition_valid_depth12"
+        }
+      ],
+      "lines": [
+        36,
+        552,
+        554,
+        627,
+        803
+      ],
+      "literal": "9.22"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "max_deviation_from_contraction_bound"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "mean_first_failure_index_depth2"
+        }
+      ],
+      "lines": [
+        810,
+        812
+      ],
+      "literal": "0.0"
+    }
+  ],
+  "run_id": "draft-review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+  "stem": "review_composable_ai_systems_for_trustworthy_agentic_pipelines"
+}

@@ -1,0 +1,53 @@
+# Dependencies for the integrity checks in .github/workflows/integrity.yml.
+#
+# This list is not reasoned about, it is measured. Build a clean venv from it and
+# run `pytest backend/tests/` -- that is the only check that tells you whether it
+# is complete, and it is how the entries below were arrived at.
+#
+# Two earlier versions were assembled by reasoning instead, and both were wrong in
+# the same way. The argument was that CI runs the submission gate, the draft/run
+# agreement check and the tests, none of which calls a language model, so the
+# model libraries could be left out. What that missed is the difference between a
+# *credential* and an *import*. No check here needs an API key, and one that did
+# would be a check that quietly gets skipped -- that part was right. But
+# test_council.py and test_api.py are dry-run tests: they assert that no model is
+# called, and they import google.genai, langgraph and dspy at module scope in
+# order to assert it. Absent module, not absent key.
+#
+# CI reports only the first missing module per file, so a red run names one gap
+# and hides the rest behind it. Three pushes found three modules one at a time
+# before this was verified locally instead.
+#
+# Versions are pinned to those the measurements in runs/ were produced under.
+# z3-solver in particular decides p3's numbers, so a float here would let CI
+# disagree with the recorded run for reasons that have nothing to do with the
+# manuscripts.
+
+# Experiments and figures
+networkx==3.6.1
+numpy==2.5.2
+scipy==1.18.1
+matplotlib==3.11.1
+z3-solver==5.1.0.0
+
+# Imported at module scope by the dry-run tests, which assert these are never
+# actually called. openai arrives transitively via dspy-ai and needs no entry.
+google-genai==2.17.0
+langgraph==1.2.11
+dspy-ai==3.3.0
+
+# Backend service tests
+fastapi==0.136.3
+httpx==0.28.1
+pydantic==2.13.4
+uvicorn==0.47.0
+python-dotenv==1.2.2
+
+# Literature ingestion touched by the vault tests. PyPDF2 is deliberately absent:
+# the scripts that want it fall back to it only when pypdf is missing, and pypdf
+# is here. pymupdf is absent because no test imports it.
+pypdf==6.14.2
+
+# Test runner
+pytest==9.0.3
+pytest-asyncio==1.4.0

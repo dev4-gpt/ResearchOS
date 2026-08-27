@@ -1,0 +1,1058 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx131072"
+        }
+      ],
+      "lines": [
+        1033
+      ],
+      "literal": "320.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx4096"
+        }
+      ],
+      "lines": [
+        1031
+      ],
+      "literal": "10.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank4"
+        }
+      ],
+      "lines": [
+        1385
+      ],
+      "literal": "10.769"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx65536"
+        }
+      ],
+      "lines": [
+        937
+      ],
+      "literal": "160.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "routing_entropy_uncorrected"
+        }
+      ],
+      "lines": [
+        27,
+        1067,
+        1172,
+        1392
+      ],
+      "literal": "2.4539"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "routing_entropy_noisy_topk"
+        }
+      ],
+      "lines": [
+        1066
+      ],
+      "literal": "2.7180"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "routing_entropy_load_balanced"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "routing_entropy_noisy_topk"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "routing_entropy_uncorrected"
+        }
+      ],
+      "lines": [
+        1390,
+        1391,
+        1392
+      ],
+      "literal": "200000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "routing_entropy_load_balanced"
+        }
+      ],
+      "lines": [
+        27,
+        1065,
+        1172,
+        1390
+      ],
+      "literal": "3.4118"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx131072"
+        }
+      ],
+      "lines": [
+        938
+      ],
+      "literal": "320.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank16"
+        }
+      ],
+      "lines": [
+        1381
+      ],
+      "literal": "37.227"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx16384"
+        }
+      ],
+      "lines": [
+        1031
+      ],
+      "literal": "40.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "chinchilla_tokens_per_param_mean"
+        }
+      ],
+      "lines": [
+        1362
+      ],
+      "literal": "60.117"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "n",
+          "metric": "dead_experts_load_balanced"
+        },
+        {
+          "decimals": 3,
+          "field": "n",
+          "metric": "dead_experts_noisy_topk"
+        },
+        {
+          "decimals": 3,
+          "field": "n",
+          "metric": "dead_experts_uncorrected"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "kv_cache_gib_mha7b_128k"
+        },
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "rank_for_99pct_energy"
+        }
+      ],
+      "lines": [
+        1034
+      ],
+      "literal": "64.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank32"
+        }
+      ],
+      "lines": [
+        1384
+      ],
+      "literal": "64.475"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx32768"
+        }
+      ],
+      "lines": [
+        1033
+      ],
+      "literal": "80.000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank64"
+        }
+      ],
+      "lines": [
+        1386
+      ],
+      "literal": "99.449"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank128"
+        }
+      ],
+      "lines": [
+        1380
+      ],
+      "literal": "99.571"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank256"
+        }
+      ],
+      "lines": [
+        1383
+      ],
+      "literal": "99.744"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx4096"
+        }
+      ],
+      "lines": [
+        934
+      ],
+      "literal": "10.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank4"
+        }
+      ],
+      "lines": [
+        1048
+      ],
+      "literal": "10.77"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx32768"
+        }
+      ],
+      "lines": [
+        936,
+        1373
+      ],
+      "literal": "100.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx4096"
+        },
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_param_fraction_rank64"
+        }
+      ],
+      "lines": [
+        1052
+      ],
+      "literal": "12.50"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx65536"
+        }
+      ],
+      "lines": [
+        1370
+      ],
+      "literal": "160.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "routing_entropy_noisy_topk"
+        }
+      ],
+      "lines": [
+        1391
+      ],
+      "literal": "2.718"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank1"
+        }
+      ],
+      "lines": [
+        1379
+      ],
+      "literal": "2.813"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank8"
+        }
+      ],
+      "lines": [
+        1049,
+        1387
+      ],
+      "literal": "20.47"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx65536"
+        }
+      ],
+      "lines": [
+        1375
+      ],
+      "literal": "200.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx131072"
+        }
+      ],
+      "lines": [
+        1366
+      ],
+      "literal": "320.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank16"
+        }
+      ],
+      "lines": [
+        1050
+      ],
+      "literal": "37.23"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx16384"
+        }
+      ],
+      "lines": [
+        935
+      ],
+      "literal": "40.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx131072"
+        }
+      ],
+      "lines": [
+        1371
+      ],
+      "literal": "400.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "lora_energy_rank2"
+        }
+      ],
+      "lines": [
+        1382
+      ],
+      "literal": "5.514"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx16384"
+        }
+      ],
+      "lines": [
+        1054
+      ],
+      "literal": "50.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "chinchilla_tokens_per_param_mean"
+        }
+      ],
+      "lines": [
+        23,
+        1170
+      ],
+      "literal": "60.12"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank32"
+        }
+      ],
+      "lines": [
+        25,
+        1051,
+        1056,
+        1172
+      ],
+      "literal": "64.47"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx32768"
+        }
+      ],
+      "lines": [
+        936
+      ],
+      "literal": "80.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "kv_reduction_mqa_vs_mha"
+        }
+      ],
+      "lines": [
+        1378
+      ],
+      "literal": "96.88"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank64"
+        }
+      ],
+      "lines": [
+        25,
+        1052,
+        1056,
+        1172
+      ],
+      "literal": "99.45"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank128"
+        }
+      ],
+      "lines": [
+        1053
+      ],
+      "literal": "99.57"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank256"
+        }
+      ],
+      "lines": [
+        1054
+      ],
+      "literal": "99.74"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_param_fraction_d8192_r16"
+        }
+      ],
+      "lines": [
+        457,
+        457,
+        1047,
+        1388
+      ],
+      "literal": "0.39"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx4096"
+        }
+      ],
+      "lines": [
+        1369
+      ],
+      "literal": "10.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank1"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank128"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank16"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank2"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank256"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank32"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank4"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank64"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "lora_energy_rank8"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rank_for_90pct_energy"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rank_for_95pct_energy"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "rank_for_99pct_energy"
+        }
+      ],
+      "lines": [
+        1042,
+        1379,
+        1380,
+        1381,
+        1382,
+        1383,
+        1384,
+        1385,
+        1386,
+        1387
+      ],
+      "literal": "1024"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx4096"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "lora_param_fraction_rank64"
+        }
+      ],
+      "lines": [
+        25,
+        934,
+        1056,
+        1172,
+        1374,
+        1389
+      ],
+      "literal": "12.5"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank1"
+        }
+      ],
+      "lines": [
+        1046
+      ],
+      "literal": "2.81"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx16384"
+        }
+      ],
+      "lines": [
+        1367
+      ],
+      "literal": "40.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "lora_energy_rank2"
+        }
+      ],
+      "lines": [
+        1047
+      ],
+      "literal": "5.51"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx16384"
+        }
+      ],
+      "lines": [
+        935,
+        1372
+      ],
+      "literal": "50.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "rank_for_95pct_energy"
+        }
+      ],
+      "lines": [
+        1067
+      ],
+      "literal": "59.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "dead_experts_load_balanced"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "dead_experts_noisy_topk"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "dead_experts_uncorrected"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_cache_gib_mha7b_128k"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "rank_for_99pct_energy"
+        }
+      ],
+      "lines": [
+        23,
+        1037,
+        1170,
+        1376
+      ],
+      "literal": "64.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_reduction_gqa_vs_mha"
+        }
+      ],
+      "lines": [
+        23,
+        1037,
+        1170,
+        1377
+      ],
+      "literal": "75.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx32768"
+        }
+      ],
+      "lines": [
+        1368
+      ],
+      "literal": "80.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "kv_reduction_mqa_vs_mha"
+        }
+      ],
+      "lines": [
+        23,
+        1037,
+        1170
+      ],
+      "literal": "96.9"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "dead_experts_load_balanced"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "dead_experts_noisy_topk"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "dead_experts_uncorrected"
+        }
+      ],
+      "lines": [
+        1363,
+        1364,
+        1365
+      ],
+      "literal": "0.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx32768"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "lora_energy_rank128"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "lora_energy_rank256"
+        }
+      ],
+      "lines": [
+        430,
+        932,
+        940,
+        998,
+        1156,
+        1156,
+        1371,
+        1371,
+        1372,
+        1372,
+        1373,
+        1373,
+        1374,
+        1374,
+        1375,
+        1375
+      ],
+      "literal": "100"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx65536"
+        }
+      ],
+      "lines": [
+        27,
+        937,
+        1061
+      ],
+      "literal": "200"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_budget_pct_h100_ctx131072"
+        }
+      ],
+      "lines": [
+        938
+      ],
+      "literal": "400"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx4096"
+        }
+      ],
+      "lines": [
+        23,
+        23,
+        90,
+        90,
+        90,
+        107,
+        1018,
+        1019,
+        1019,
+        1020,
+        1020,
+        1021,
+        1022,
+        1022,
+        1023,
+        1023,
+        1025,
+        1025,
+        1164,
+        1164,
+        1164
+      ],
+      "literal": "10"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "dead_experts_load_balanced"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "dead_experts_noisy_topk"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "dead_experts_uncorrected"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_cache_gib_mha7b_128k"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "rank_for_99pct_energy"
+        }
+      ],
+      "lines": [
+        25,
+        27,
+        27,
+        1052,
+        1056,
+        1061,
+        1069,
+        1172,
+        1322,
+        1322,
+        1323,
+        1363,
+        1364,
+        1365,
+        1386,
+        1389,
+        1389
+      ],
+      "literal": "64"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_reduction_gqa_vs_mha"
+        }
+      ],
+      "lines": [
+        1400
+      ],
+      "literal": "75"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "kv_budget_gib_ctx32768"
+        }
+      ],
+      "lines": [
+        930,
+        932,
+        1371,
+        1372,
+        1373,
+        1374,
+        1375
+      ],
+      "literal": "80"
+    }
+  ],
+  "run_id": "draft-review_architectural_dynamics_long_12_page",
+  "stem": "review_architectural_dynamics_long_12_page"
+}

@@ -1,0 +1,1611 @@
+{
+  "strategy": "balanced",
+  "provenance": {
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems": {
+      "draft": "autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "run_id": "draft-autonomous_code_synthesis_and_self_healing_multi_agent_systems",
+      "total_claims": 17,
+      "experiment_backed": 17,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "97.94\\%",
+          "value": 97.94,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 23,
+          "sentence": "Syntactic validity is high across operators ($97.94\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "100.00\\%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 23,
+          "sentence": "Syntactic validity is high across operators ($97.94\\%$ to $100.00\\%$), confirming that compilation alone is a weak filter",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "44.78\\%",
+          "value": 44.78,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 23,
+          "sentence": "A three-stage pre-filter -- compilation, static name binding, then Z3-SMT reachability -- rejects $44.78\\%$ of candidates at a mean cost of $4.07$ ms each.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "0.00\\%",
+          "value": 0.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "Across 128 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\\%$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "97.94%",
+          "value": 97.94,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 894,
+          "sentence": "**97.94%**",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "0.64%",
+          "value": 0.64,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 900,
+          "sentence": "**0.64%** of what it sees.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "34.55%",
+          "value": 34.55,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 906,
+          "sentence": "least-filtered (34.55%) and most-filtered",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0008",
+          "raw": "64.92%",
+          "value": 64.92,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 907,
+          "sentence": "(64.92%)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0009",
+          "raw": "4.07 ms",
+          "value": 4.07,
+          "unit": "time",
+          "kind": "duration",
+          "line_no": 992,
+          "sentence": "4.07 ms/candidate",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
+        },
+        {
+          "claim_id": "C0010",
+          "raw": "44.42\\%",
+          "value": 44.42,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1007,
+          "sentence": "Static name binding rejects 44.42\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0011",
+          "raw": "0.00\\%",
+          "value": 0.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1007,
+          "sentence": "Static name binding rejects 44.42\\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0012",
+          "raw": "4.07 ms",
+          "value": 4.07,
+          "unit": "time",
+          "kind": "duration",
+          "line_no": 1007,
+          "sentence": "On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.07 ms per candidate is dominated by a stage that contributes nothing.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
+        },
+        {
+          "claim_id": "C0013",
+          "raw": "44.78\\%",
+          "value": 44.78,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1109,
+          "sentence": "The pipeline rejects 44.78\\% of candidates before any sandbox is started, at a mean cost of 4.07 ms each",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0014",
+          "raw": "44.42\\%",
+          "value": 44.42,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1109,
+          "sentence": "That saving is almost entirely attributable to static name binding, which rejects 44.42\\% of the candidates reaching it",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0015",
+          "raw": "0.00\\%",
+          "value": 0.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1109,
+          "sentence": "The Z3-SMT reachability stage, across 98 solved integer guards, rejected nothing that binding analysis had not already caught: a marginal rejection rate of 0.00\\%.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        },
+        {
+          "claim_id": "C0016",
+          "raw": "4.07 ms",
+          "value": 4.07,
+          "unit": "time",
+          "kind": "duration",
+          "line_no": 1109,
+          "sentence": "The pipeline rejects 44.78\\% of candidates before any sandbox is started, at a mean cost of 4.07 ms each",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_cost.json#fdf18a3e80db"
+        },
+        {
+          "claim_id": "C0017",
+          "raw": "100%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1265,
+          "sentence": "Always emitting an unbound name would make the binding filter reject 100% of this operator's output by construction, which would be an artifact of the generator rather than a property of the filter.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/mutation_results.json#03dd79f27771"
+        }
+      ],
+      "measurements_found": 28,
+      "grounded_ratio": 1.0
+    },
+    "review_architectural_dynamics_long_12_page": {
+      "draft": "review_architectural_dynamics_long_12_page",
+      "run_id": "draft-review_architectural_dynamics_long_12_page",
+      "total_claims": 25,
+      "experiment_backed": 23,
+      "citation_backed": 2,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "75.0\\%",
+          "value": 75.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 23,
+          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "96.9\\%",
+          "value": 96.9,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 23,
+          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "99.45\\%",
+          "value": 99.45,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "For parameter-efficient adaptation we measure subspace capacity directly by singular value decomposition on weight-shaped update matrices: a rank-64 factorisation captures 99.45\\% of update energy at 12.5\\% of dense parameter count, while rank 32 captures only 64.47\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "12.5\\%",
+          "value": 12.5,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "For parameter-efficient adaptation we measure subspace capacity directly by singular value decomposition on weight-shaped update matrices: a rank-64 factorisation captures 99.45\\% of update energy at 12.5\\% of dense parameter count, while rank 32 captures only 64.47\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "64.47\\%",
+          "value": 64.47,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "For parameter-efficient adaptation we measure subspace capacity directly by singular value decomposition on weight-shaped update matrices: a rank-64 factorisation captures 99.45\\% of update energy at 12.5\\% of dense parameter count, while rank 32 captures only 64.47\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "100\\%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 456,
+          "sentence": "\\mathcal{M}_{\\text{cap}}(r, d, k) = \\frac{r(d + k)}{d \\cdot k} \\times 100\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "0.39\\%",
+          "value": 0.39,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 485,
+          "sentence": "For $d = k = 8192$ and $r = 16$: $\\mathcal{M}_{\\text{cap}} = 0.39\\%$ \u2014 confirming that LoRA explores only $0.39\\%$ of the full parameter space.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0008",
+          "raw": "0.39\\%",
+          "value": 0.39,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 485,
+          "sentence": "For $d = k = 8192$ and $r = 16$: $\\mathcal{M}_{\\text{cap}} = 0.39\\%$ \u2014 confirming that LoRA explores only $0.39\\%$ of the full parameter space.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0009",
+          "raw": "12.5\\%",
+          "value": 12.5,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 994,
+          "sentence": "12.5\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0010",
+          "raw": "50.0\\%",
+          "value": 50.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 995,
+          "sentence": "50.0\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0011",
+          "raw": "100.0\\%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 996,
+          "sentence": "100.0\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0012",
+          "raw": "200\\%",
+          "value": 200.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 997,
+          "sentence": "**OOM** (200\\%)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0013",
+          "raw": "400\\%",
+          "value": 400.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 998,
+          "sentence": "**OOM** (400\\%)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0014",
+          "raw": "75.0\\%",
+          "value": 75.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1101,
+          "sentence": "Cache size is linear in context length and in the number of key-value heads, so grouped-query attention buys a 75.0\\% reduction at 32k and multi-query 96.9\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0015",
+          "raw": "96.9\\%",
+          "value": 96.9,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1101,
+          "sentence": "Cache size is linear in context length and in the number of key-value heads, so grouped-query attention buys a 75.0\\% reduction at 32k and multi-query 96.9\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0016",
+          "raw": "64.47\\%",
+          "value": 64.47,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1120,
+          "sentence": "Capacity is sharply non-linear around the planted intrinsic rank: rank 32 captures 64.47\\% of update energy while rank 64 captures 99.45\\%, at 12.5\\% of dense parameter count",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0017",
+          "raw": "99.45\\%",
+          "value": 99.45,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1120,
+          "sentence": "Capacity is sharply non-linear around the planted intrinsic rank: rank 32 captures 64.47\\% of update energy while rank 64 captures 99.45\\%, at 12.5\\% of dense parameter count",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0018",
+          "raw": "12.5\\%",
+          "value": 12.5,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1120,
+          "sentence": "Capacity is sharply non-linear around the planted intrinsic rank: rank 32 captures 64.47\\% of update energy while rank 64 captures 99.45\\%, at 12.5\\% of dense parameter count",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0019",
+          "raw": "0.01\\%",
+          "value": 0.01,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1208,
+          "sentence": "IA\u00b3 (Few-Shot Parameter-Efficient Fine-Tuning) is reported to achieve PEFT with as few as $0.01\\%$ of parameters.",
+          "cite_keys": [
+            "crossref_10_48550_arxiv_2106_09685",
+            "crossref_10_48550_arxiv_2305_14314"
+          ],
+          "grounding": "CITATION",
+          "evidence": "attributed to crossref_10_48550_arxiv_2106_09685"
+        },
+        {
+          "claim_id": "C0020",
+          "raw": "75.0\\%",
+          "value": 75.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1238,
+          "sentence": "Exact KV-cache arithmetic shows grouped-query attention reducing cache by 75.0\\% and multi-query by 96.9\\% at 32k context, with a multi-head 7B model at 128k requiring 64.0 GiB for a single sequence.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0021",
+          "raw": "96.9\\%",
+          "value": 96.9,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1238,
+          "sentence": "Exact KV-cache arithmetic shows grouped-query attention reducing cache by 75.0\\% and multi-query by 96.9\\% at 32k context, with a multi-head 7B model at 128k requiring 64.0 GiB for a single sequence.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
+        },
+        {
+          "claim_id": "C0022",
+          "raw": "99.45\\%",
+          "value": 99.45,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1240,
+          "sentence": "Singular value decomposition places low-rank adaptation capacity at 99.45\\% of update energy for rank 64 using 12.5\\% of dense parameters, with a sharp fall to 64.47\\% at rank 32 -- the intrinsic rank is a cliff, not a gradual trade-off",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0023",
+          "raw": "12.5\\%",
+          "value": 12.5,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1240,
+          "sentence": "Singular value decomposition places low-rank adaptation capacity at 99.45\\% of update energy for rank 64 using 12.5\\% of dense parameters, with a sharp fall to 64.47\\% at rank 32 -- the intrinsic rank is a cliff, not a gradual trade-off",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
+        },
+        {
+          "claim_id": "C0024",
+          "raw": "64.47\\%",
+          "value": 64.47,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 1240,
+          "sentence": "Singular value decomposition places low-rank adaptation capacity at 99.45\\% of update energy for rank 64 using 12.5\\% of dense parameters, with a sharp fall to 64.47\\% at rank 32 -- the intrinsic rank is a cliff, not a gradual trade-off",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
+        },
+        {
+          "claim_id": "C0025",
+          "raw": "48GB",
+          "value": 48.0,
+          "unit": "bytes",
+          "kind": "memory",
+          "line_no": 1257,
+          "sentence": "**QLoRA: Efficient Finetuning of Quantized LLMs** [[crossref_10_48550_arxiv_2305_14314]] reports: We present QLoRA, an efficient finetuning approach that reduces memory usage enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance",
+          "cite_keys": [
+            "crossref_10_48550_arxiv_2305_14314"
+          ],
+          "grounding": "CITATION",
+          "evidence": "attributed to crossref_10_48550_arxiv_2305_14314"
+        }
+      ],
+      "measurements_found": 35,
+      "grounded_ratio": 1.0
+    },
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines": {
+      "draft": "review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "run_id": "draft-review_composable_ai_systems_for_trustworthy_agentic_pipelines",
+      "total_claims": 9,
+      "experiment_backed": 9,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "73.60%",
+          "value": 73.6,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "A two-stage pipeline survives reordering 73.60% of the time; at depth 12 only 9.22% of orderings remain contract-sound",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "9.22%",
+          "value": 9.22,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "A two-stage pipeline survives reordering 73.60% of the time; at depth 12 only 9.22% of orderings remain contract-sound",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "82.00%",
+          "value": 82.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 40,
+          "sentence": "82.00% of valid pipelines attenuate error end to end, with a median multiplier of 0.5591.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/error_propagation.json#30192ccf15aa"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "73.60%",
+          "value": 73.6,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 582,
+          "sentence": "Soundness falls from 73.60% at depth 2 to 9.22% at depth 12",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "9.22%",
+          "value": 9.22,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 582,
+          "sentence": "Soundness falls from 73.60% at depth 2 to 9.22% at depth 12",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "82.00%",
+          "value": 82.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 600,
+          "sentence": "82.00% of valid pipelines attenuate error, so composition is usually but not always stabilising",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/error_propagation.json#30192ccf15aa"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "73.60%",
+          "value": 73.6,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 655,
+          "sentence": "Modelling stages as contracts and measuring what happens under reassembly shows it does not: a valid pipeline permuted at random remains sound 73.60% of the time at depth 2 and 9.22% at depth 12.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0008",
+          "raw": "9.22%",
+          "value": 9.22,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 655,
+          "sentence": "Modelling stages as contracts and measuring what happens under reassembly shows it does not: a valid pipeline permuted at random remains sound 73.60% of the time at depth 2 and 9.22% at depth 12.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/composition_validity.json#80db6aeb4ce7"
+        },
+        {
+          "claim_id": "C0009",
+          "raw": "82.00%",
+          "value": 82.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 659,
+          "sentence": "82.00% of valid pipelines attenuate error; the remainder amplify it, and the bound locates them without execution.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/error_propagation.json#30192ccf15aa"
+        }
+      ],
+      "measurements_found": 17,
+      "grounded_ratio": 1.0
+    },
+    "review_continual_safety_alignment_in_vision_language_models": {
+      "draft": "review_continual_safety_alignment_in_vision_language_models",
+      "run_id": "draft-review_continual_safety_alignment_in_vision_language_models",
+      "total_claims": 7,
+      "experiment_backed": 7,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "10\\%",
+          "value": 10.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 24,
+          "sentence": "Under isotropic updates, drift grows as $\\|\\Delta W\\|^{0.999}$ -- indistinguishable from linear -- and a filter that discards the largest updates removes drift and update mass in near-exact proportion (efficiency $0.999\\times$ at a 10\\% discard rate)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "33.30\\%",
+          "value": 33.3,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 28,
+          "sentence": "When magnitude is lognormally distributed and leakage uniform, discarding the largest-magnitude tenth of updates removes $33.30\\%$ of total drift while discarding the highest-leakage tenth removes only $15.08\\%$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "15.08\\%",
+          "value": 15.08,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 28,
+          "sentence": "When magnitude is lognormally distributed and leakage uniform, discarding the largest-magnitude tenth of updates removes $33.30\\%$ of total drift while discarding the highest-leakage tenth removes only $15.08\\%$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "10\\%",
+          "value": 10.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 88,
+          "sentence": "Applying a magnitude filter to a batch removes drift and update mass in proportion: at a 10\\% discard rate the efficiency ratio is $0.999$, and it stays at $0.999$ even discarding 30\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "30\\%",
+          "value": 30.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 88,
+          "sentence": "Applying a magnitude filter to a batch removes drift and update mass in proportion: at a 10\\% discard rate the efficiency ratio is $0.999$, and it stays at $0.999$ even discarding 30\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "33.30\\%",
+          "value": 33.3,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 165,
+          "sentence": "Discarding the largest-magnitude tenth of a batch removes $33.30\\%$ of total drift against $15.08\\%$ for the highest-leakage tenth, because magnitude carries more dispersion",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "15.08\\%",
+          "value": 15.08,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 165,
+          "sentence": "Discarding the largest-magnitude tenth of a batch removes $33.30\\%$ of total drift against $15.08\\%$ for the highest-leakage tenth, because magnitude carries more dispersion",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/filter_comparison.json#3d81576d3172"
+        }
+      ],
+      "measurements_found": 40,
+      "grounded_ratio": 1.0
+    },
+    "review_enterprise_adoption_of_multi_agent_ai_systems_infr": {
+      "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "run_id": "draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr",
+      "total_claims": 29,
+      "experiment_backed": 28,
+      "citation_backed": 1,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "N = 64",
+          "value": 64.0,
+          "unit": "n",
+          "kind": "sample_size",
+          "line_no": 34,
+          "sentence": "At $N = 64$ agents the mesh requires 4{,}032 coordination messages against 126 for the hierarchical tree, a $96.88\\%$ reduction.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "96.88\\%",
+          "value": 96.88,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 34,
+          "sentence": "At $N = 64$ agents the mesh requires 4{,}032 coordination messages against 126 for the hierarchical tree, a $96.88\\%$ reduction.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "d = 2.13",
+          "value": 2.13,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 36,
+          "sentence": "Under a Monte Carlo fault model with independent per-agent failure probability $0.02$ and $20{,}000$ trials per topology, the mean fraction of agents affected by a cascade is $72.06\\%$ (95\\% CI $[71.46, 72.66]$) for the unsupervised mesh and $2.84\\%$ (95\\% CI $[2.71, 2.96]$) for the hierarchical tree, a large and highly significant separation ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_significance.json#51a53501a35c"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "72.06\\%",
+          "value": 72.06,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "Under a Monte Carlo fault model with independent per-agent failure probability $0.02$ and $20{,}000$ trials per topology, the mean fraction of agents affected by a cascade is $72.06\\%$ (95\\% CI $[71.46, 72.66]$) for the unsupervised mesh and $2.84\\%$ (95\\% CI $[2.71, 2.96]$) for the hierarchical tree, a large and highly significant separation ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "2.84\\%",
+          "value": 2.84,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "Under a Monte Carlo fault model with independent per-agent failure probability $0.02$ and $20{,}000$ trials per topology, the mean fraction of agents affected by a cascade is $72.06\\%$ (95\\% CI $[71.46, 72.66]$) for the unsupervised mesh and $2.84\\%$ (95\\% CI $[2.71, 2.96]$) for the hierarchical tree, a large and highly significant separation ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "96.15\\%",
+          "value": 96.15,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "A two-state Discrete-Time Markov Chain, solved for its stationary distribution by eigenvector decomposition, yields steady-state availability from $96.15\\%$ to $99.80\\%$ across the four topologies for the stated MTTF and MTTR parameters.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "99.80\\%",
+          "value": 99.8,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 36,
+          "sentence": "A two-state Discrete-Time Markov Chain, solved for its stationary distribution by eigenvector decomposition, yields steady-state availability from $96.15\\%$ to $99.80\\%$ across the four topologies for the stated MTTF and MTTR parameters.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
+        },
+        {
+          "claim_id": "C0008",
+          "raw": "99.9\\%",
+          "value": 99.9,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 49,
+          "sentence": "Strict Service Level Agreements (SLAs): Multi-agent execution pipelines must provide bounded latency distributions ($p99 < 30\\text{ s}$) and guaranteed completion availability ($>99.9\\%$) [[crossref_10.1108_jeim-12-2025-1269]].",
+          "cite_keys": [
+            "crossref_10.1108_jeim-12-2025-1269"
+          ],
+          "grounding": "CITATION",
+          "evidence": "attributed to crossref_10.1108_jeim-12-2025-1269"
+        },
+        {
+          "claim_id": "C0009",
+          "raw": "44.37\\%",
+          "value": 44.37,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 540,
+          "sentence": "- Monolithic uncoordinated pipeline reliability: $\\mathcal{R}_{\\text{mono}} = 0.85^5 = 44.37\\%$ (unacceptable for enterprise).",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/pipeline_reliability.json#b85f3803f456"
+        },
+        {
+          "claim_id": "C0010",
+          "raw": "99.25\\%",
+          "value": 99.25,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 541,
+          "sentence": "- Hierarchical supervised pipeline reliability: $\\mathcal{R}_{\\text{hier}} = [1 - (0.15)(0.10)^2]^5 = [1 - 0.0015]^5 = 99.25\\%$ (meets enterprise SLA).",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/pipeline_reliability.json#b85f3803f456"
+        },
+        {
+          "claim_id": "C0011",
+          "raw": "72.06%",
+          "value": 72.06,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 555,
+          "sentence": "Under the unsupervised mesh, **72.06% of trials**",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0012",
+          "raw": "27.94%",
+          "value": 27.94,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 557,
+          "sentence": "**27.94%** stay under a twentieth of it",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0013",
+          "raw": "96.18%",
+          "value": 96.18,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 562,
+          "sentence": "**96.18%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0014",
+          "raw": "0.92%",
+          "value": 0.92,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 564,
+          "sentence": "**0.92%** reach half or more",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0015",
+          "raw": "63.47%",
+          "value": 63.47,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 577,
+          "sentence": "63.47% full containment at half the",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0016",
+          "raw": "N=64",
+          "value": 64.0,
+          "unit": "n",
+          "kind": "sample_size",
+          "line_no": 623,
+          "sentence": "Messages at $N=64$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0017",
+          "raw": "d = 2.13",
+          "value": 2.13,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 630,
+          "sentence": "Mesh versus hierarchical tree on cascade containment: Welch $t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$, $n = 20{,}000$ trials per arm.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_significance.json#51a53501a35c"
+        },
+        {
+          "claim_id": "C0018",
+          "raw": "N = 64",
+          "value": 64.0,
+          "unit": "n",
+          "kind": "sample_size",
+          "line_no": 632,
+          "sentence": "At $N = 64$ this is a $96.88\\%$ reduction in coordination messages between mesh and hierarchical tree.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0019",
+          "raw": "96.88\\%",
+          "value": 96.88,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 632,
+          "sentence": "At $N = 64$ this is a $96.88\\%$ reduction in coordination messages between mesh and hierarchical tree.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0020",
+          "raw": "4.00\\%",
+          "value": 4.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 637,
+          "sentence": "Second, contract-net achieves cascade containment within about one percentage point of the hierarchical tree ($4.00\\%$ against $2.84\\%$) at half the coordination depth, making it the stronger choice when latency is the binding constraint.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0021",
+          "raw": "2.84\\%",
+          "value": 2.84,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 637,
+          "sentence": "Second, contract-net achieves cascade containment within about one percentage point of the hierarchical tree ($4.00\\%$ against $2.84\\%$) at half the coordination depth, making it the stronger choice when latency is the binding constraint.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0022",
+          "raw": "N = 64",
+          "value": 64.0,
+          "unit": "n",
+          "kind": "sample_size",
+          "line_no": 733,
+          "sentence": "At $N = 64$ agents this is 4{,}032 messages against 126, a $96.88\\%$ reduction.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0023",
+          "raw": "96.88\\%",
+          "value": 96.88,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 733,
+          "sentence": "At $N = 64$ agents this is 4{,}032 messages against 126, a $96.88\\%$ reduction.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
+        },
+        {
+          "claim_id": "C0024",
+          "raw": "d = 2.13",
+          "value": 2.13,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 735,
+          "sentence": "Under an explicit independent-failure model with $20{,}000$ trials per topology, cascade containment separates sharply: $72.06\\%$ of agents affected in the mesh against $2.84\\%$ in the hierarchical supervisor tree ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_significance.json#51a53501a35c"
+        },
+        {
+          "claim_id": "C0025",
+          "raw": "72.06\\%",
+          "value": 72.06,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 735,
+          "sentence": "Under an explicit independent-failure model with $20{,}000$ trials per topology, cascade containment separates sharply: $72.06\\%$ of agents affected in the mesh against $2.84\\%$ in the hierarchical supervisor tree ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0026",
+          "raw": "2.84\\%",
+          "value": 2.84,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 735,
+          "sentence": "Under an explicit independent-failure model with $20{,}000$ trials per topology, cascade containment separates sharply: $72.06\\%$ of agents affected in the mesh against $2.84\\%$ in the hierarchical supervisor tree ($t = 213.39$, $p < 10^{-15}$, Cohen's $d = 2.13$)",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        },
+        {
+          "claim_id": "C0027",
+          "raw": "96.15\\%",
+          "value": 96.15,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 735,
+          "sentence": "A two-state DTMC solved by eigenvector decomposition places steady-state availability between $96.15\\%$ and $99.80\\%$ for the stated MTTF and MTTR parameters.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
+        },
+        {
+          "claim_id": "C0028",
+          "raw": "99.80\\%",
+          "value": 99.8,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 735,
+          "sentence": "A two-state DTMC solved by eigenvector decomposition places steady-state availability between $96.15\\%$ and $99.80\\%$ for the stated MTTF and MTTR parameters.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
+        },
+        {
+          "claim_id": "C0029",
+          "raw": "4.00\\%",
+          "value": 4.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 737,
+          "sentence": "Hierarchical coordination carries the deepest critical path of the four topologies -- 6 hops against 1 for a mesh broadcast -- so its message savings are paid for in serial latency, and contract-net reaches comparable containment ($4.00\\%$) at half that depth",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/cascade_trials.json#88527de8baa0"
+        }
+      ],
+      "measurements_found": 33,
+      "grounded_ratio": 1.0
+    },
+    "review_enterprise_genai_roi": {
+      "draft": "review_enterprise_genai_roi",
+      "run_id": "draft-review_enterprise_genai_roi",
+      "total_claims": 6,
+      "experiment_backed": 6,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "68.63\\%",
+          "value": 68.63,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "The literature is recent and dispersed: 68.63\\% appeared in 2023 or later, spread across 714 distinct venues, with median citation count 62 and only 0.51\\% uncited.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "0.51\\%",
+          "value": 0.51,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "The literature is recent and dispersed: 68.63\\% appeared in 2023 or later, spread across 714 distinct venues, with median citation count 62 and only 0.51\\% uncited.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "31.76\\%",
+          "value": 31.76,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 27,
+          "sentence": "Abstract-level screening for sample-size and study-design markers classifies 31.76\\% as empirical (bootstrap 95\\% lower bound 29.57\\%); the remainder is conceptual, positional, or descriptive",
+          "cite_keys": [
+            "crossref_10.2139_ssrn.6374778"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "29.57\\%",
+          "value": 29.57,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 27,
+          "sentence": "Abstract-level screening for sample-size and study-design markers classifies 31.76\\% as empirical (bootstrap 95\\% lower bound 29.57\\%); the remainder is conceptual, positional, or descriptive",
+          "cite_keys": [
+            "crossref_10.2139_ssrn.6374778"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "98.54\\%",
+          "value": 98.54,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 60,
+          "sentence": "Rates computed over it are biased upward: the 98.54\\% open-access share and median of 62 citations describe well-indexed, well-cited work and should not be read as properties of the field as a whole",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "31.76\\%",
+          "value": 31.76,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 60,
+          "sentence": "The measure we rely on -- the share of abstracts reporting data -- is biased in the same direction, which makes 31.76\\% an optimistic upper estimate",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/literature_census.json#b96a25dbca78"
+        }
+      ],
+      "measurements_found": 10,
+      "grounded_ratio": 1.0
+    },
+    "review_spatio_temporal_grounding_in_video_question_answering": {
+      "draft": "review_spatio_temporal_grounding_in_video_question_answering",
+      "run_id": "draft-review_spatio_temporal_grounding_in_video_question_answering",
+      "total_claims": 0,
+      "experiment_backed": 0,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [],
+      "measurements_found": 0,
+      "grounded_ratio": 1.0
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
+      "draft": "review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "run_id": "draft-review_symbol_graph_rag_vs_qlora_swe_bench_lite",
+      "total_claims": 15,
+      "experiment_backed": 14,
+      "citation_backed": 1,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "d = -0.0119",
+          "value": -0.0119,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 25,
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9220 against 0.9246 ($\\Delta = -0.0026$, Cohen's $d = -0.0119$), and P@1 87.88\\% against 88.48\\%",
+          "cite_keys": [
+            "arxiv_2501.02497"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#6dfb82e0afe1"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "87.88\\%",
+          "value": 87.88,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9220 against 0.9246 ($\\Delta = -0.0026$, Cohen's $d = -0.0119$), and P@1 87.88\\% against 88.48\\%",
+          "cite_keys": [
+            "arxiv_2501.02497"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_results.json#1ac3ca745190"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "88.48\\%",
+          "value": 88.48,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "Symbol-graph diffusion is statistically indistinguishable from the BM25 baseline it re-ranks: MRR 0.9220 against 0.9246 ($\\Delta = -0.0026$, Cohen's $d = -0.0119$), and P@1 87.88\\% against 88.48\\%",
+          "cite_keys": [
+            "arxiv_2501.02497"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_results.json#1ac3ca745190"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "63.41\\%",
+          "value": 63.41,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "Diffusion does raise P@5 there, from 63.41\\% to 70.73\\%, while lowering P@1 -- it widens the candidate set without sharpening the top of it.",
+          "cite_keys": [
+            "arxiv_2501.02497"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_retrieval.json#ac3b19afe066"
+        },
+        {
+          "claim_id": "C0005",
+          "raw": "70.73\\%",
+          "value": 70.73,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 25,
+          "sentence": "Diffusion does raise P@5 there, from 63.41\\% to 70.73\\%, while lowering P@1 -- it widens the candidate set without sharpening the top of it.",
+          "cite_keys": [
+            "arxiv_2501.02497"
+          ],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_retrieval.json#ac3b19afe066"
+        },
+        {
+          "claim_id": "C0006",
+          "raw": "100.00\\%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 27,
+          "sentence": "Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\\% single-file), and the problem statement already names the file to edit in 55.33\\% of cases (95\\% CI [49.67, 60.67])",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0007",
+          "raw": "55.33\\%",
+          "value": 55.33,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 27,
+          "sentence": "Every gold patch touches exactly one file (mean 1.000 files per patch, 100.00\\% single-file), and the problem statement already names the file to edit in 55.33\\% of cases (95\\% CI [49.67, 60.67])",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0008",
+          "raw": "90.30\\%",
+          "value": 90.3,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 297,
+          "sentence": "On 90.30\\% of queries",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_results.json#1ac3ca745190"
+        },
+        {
+          "claim_id": "C0009",
+          "raw": "d = -0.0119",
+          "value": -0.0119,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 409,
+          "sentence": "Paired difference in MRR: $\\Delta = -0.0026$, Cohen's $d = -0.0119$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#6dfb82e0afe1"
+        },
+        {
+          "claim_id": "C0010",
+          "raw": "100.00\\%",
+          "value": 100.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 422,
+          "sentence": "100.00\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0011",
+          "raw": "55.33\\%",
+          "value": 55.33,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 423,
+          "sentence": "55.33\\%",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0012",
+          "raw": "55.33\\%",
+          "value": 55.33,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 425,
+          "sentence": "Every gold patch in SWE-bench Lite modifies exactly one file, and in 55.33\\% of instances the problem statement already contains that file's name",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0013",
+          "raw": "d = -0.0119",
+          "value": -0.0119,
+          "unit": "",
+          "kind": "effect_size",
+          "line_no": 481,
+          "sentence": "With hyperparameters selected on a held-out split and reported on 165 unseen queries, Personalized PageRank over a symbol graph scores MRR 0.9220 against BM25's 0.9246 -- a difference of -0.0026 with Cohen's $d = -0.0119$, well inside the noise.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/retrieval_significance.json#6dfb82e0afe1"
+        },
+        {
+          "claim_id": "C0014",
+          "raw": "55.33\\%",
+          "value": 55.33,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 483,
+          "sentence": "We also find that SWE-bench Lite is an easier retrieval problem than its framing implies: all 300 gold patches are single-file, and 55.33\\% of problem statements name the file to be edited",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/swebench_census.json#cc53d4c67d3e"
+        },
+        {
+          "claim_id": "C0015",
+          "raw": "48GB",
+          "value": 48.0,
+          "unit": "bytes",
+          "kind": "memory",
+          "line_no": 498,
+          "sentence": "**QLoRA: Efficient Finetuning of Quantized LLMs** [[crossref_10_48550_arxiv_2305_14314]] reports: We present QLoRA, an efficient finetuning approach that reduces memory usage enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance",
+          "cite_keys": [
+            "crossref_10_48550_arxiv_2305_14314"
+          ],
+          "grounding": "CITATION",
+          "evidence": "attributed to crossref_10_48550_arxiv_2305_14314"
+        }
+      ],
+      "measurements_found": 35,
+      "grounded_ratio": 1.0
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification": {
+      "draft": "review_trustworthy_multi_agent_systems_formal_verification",
+      "run_id": "draft-review_trustworthy_multi_agent_systems_formal_verification",
+      "total_claims": 4,
+      "experiment_backed": 4,
+      "citation_backed": 0,
+      "ungrounded": 0,
+      "claims": [
+        {
+          "claim_id": "C0001",
+          "raw": "95\\%",
+          "value": 95.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 37,
+          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/byzantine_sweep.json#81008558d1f8"
+        },
+        {
+          "claim_id": "C0002",
+          "raw": "0.00\\%",
+          "value": 0.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 37,
+          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/deadlock_check.json#144ad5ed29ce"
+        },
+        {
+          "claim_id": "C0003",
+          "raw": "72.97%",
+          "value": 72.97,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 428,
+          "sentence": "**72.97%**",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/model_checking.json#f409fbd7626c"
+        },
+        {
+          "claim_id": "C0004",
+          "raw": "0.00\\%",
+          "value": 0.0,
+          "unit": "%",
+          "kind": "percentage",
+          "line_no": 511,
+          "sentence": "Agreement is total up to $f = 2$ and collapses to $0.00\\%$ at $f = 3$",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/deadlock_check.json#144ad5ed29ce"
+        }
+      ],
+      "measurements_found": 17,
+      "grounded_ratio": 1.0
+    }
+  },
+  "allocation": {
+    "review_enterprise_adoption_of_multi_agent_ai_systems_infr": {
+      "venue": "MDPI",
+      "tier": "open_access",
+      "score": 61.67,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 4/25 (matched: enterprise).",
+        "Length fits: ~8.2 of 12 pages (+20).",
+        "Acceptance weight +7.5."
+      ],
+      "warnings": [],
+      "runner_up": "IEEE_Access",
+      "estimated_pages": 8.2
+    },
+    "autonomous_code_synthesis_and_self_healing_multi_agent_systems": {
+      "venue": "ACM",
+      "tier": "reputable_journal",
+      "score": 66.25,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 12/25 (matched: code, program, repair).",
+        "Length fits: ~8.1 of 10 pages (+20).",
+        "Acceptance weight +3.8."
+      ],
+      "warnings": [],
+      "runner_up": "IEEE_Access",
+      "estimated_pages": 8.1
+    },
+    "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
+      "venue": "IEEE_Access",
+      "tier": "reputable_journal",
+      "score": 54.5,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 0/25 (matched: none).",
+        "Length fits: ~7.8 of 12 pages (+20).",
+        "Acceptance weight +4.5."
+      ],
+      "warnings": [],
+      "runner_up": "SpringerOpen",
+      "estimated_pages": 7.8
+    },
+    "review_architectural_dynamics_long_12_page": {
+      "venue": "ICML",
+      "tier": "competitive",
+      "score": 70.72,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 17/25 (matched: model, parameter, scaling, training).",
+        "Length fits: ~7.6 of 8 pages (+20).",
+        "Acceptance weight +4.1."
+      ],
+      "warnings": [],
+      "runner_up": "SpringerOpen",
+      "estimated_pages": 7.6
+    },
+    "review_enterprise_genai_roi": {
+      "venue": "SpringerOpen",
+      "tier": "reputable_journal",
+      "score": 50.08,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 8/25 (matched: adoption, enterprise).",
+        "Under-built: ~7.0 pages against a 14-page venue (7.0 pages short) (+5).",
+        "Acceptance weight +6.8."
+      ],
+      "warnings": [],
+      "runner_up": "IEEEtran",
+      "estimated_pages": 7.0
+    },
+    "review_trustworthy_multi_agent_systems_formal_verification": {
+      "venue": "IEEEtran",
+      "tier": "reputable_journal",
+      "score": 47.83,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 8/25 (matched: protocol, verification).",
+        "Under-built: ~7.0 pages against a 14-page venue (7.0 pages short) (+5).",
+        "Acceptance weight +4.5."
+      ],
+      "warnings": [],
+      "runner_up": "ACM",
+      "estimated_pages": 7.0
+    },
+    "review_composable_ai_systems_for_trustworthy_agentic_pipelines": {
+      "venue": "ACM",
+      "tier": "reputable_journal",
+      "score": 35.75,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 0/25 (matched: none).",
+        "Length fits: ~6.7 of 10 pages (+20).",
+        "Acceptance weight +3.8.",
+        "Already used by another manuscript in this batch (-18)."
+      ],
+      "warnings": [],
+      "runner_up": "arXiv",
+      "estimated_pages": 6.7
+    },
+    "review_continual_safety_alignment_in_vision_language_models": {
+      "venue": "ACM",
+      "tier": "reputable_journal",
+      "score": 35.75,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Scope fit 0/25 (matched: none).",
+        "Length fits: ~6.2 of 10 pages (+20).",
+        "Acceptance weight +3.8.",
+        "Already used by another manuscript in this batch (-18)."
+      ],
+      "warnings": [],
+      "runner_up": "arXiv",
+      "estimated_pages": 6.2
+    },
+    "review_spatio_temporal_grounding_in_video_question_answering": {
+      "venue": "arXiv",
+      "tier": "preprint",
+      "score": 35.0,
+      "rationale": [
+        "All quantitative claims trace to evidence (+30).",
+        "Under-built: ~4.3 pages against a 20-page venue (15.7 pages short) (+5).",
+        "Preprint: no acceptance weight; fallback only."
+      ],
+      "warnings": [
+        "Preprint server; no peer review, so it never counts as a publication."
+      ],
+      "runner_up": "IEEEtran",
+      "estimated_pages": 4.3
+    }
+  },
+  "identity_gaps": []
+}

@@ -1,0 +1,10 @@
+{
+  "with_priority": {
+    "cycle_found": false,
+    "states": 2
+  },
+  "without_priority": {
+    "cycle_found": true,
+    "states": 2
+  }
+}

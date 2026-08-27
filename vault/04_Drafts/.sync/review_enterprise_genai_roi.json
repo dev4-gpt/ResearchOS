@@ -1,0 +1,340 @@
+{
+  "anchors": [
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_distinct_venues"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_empirical_share"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_empirical_share_ci_low"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_identified_total"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_median_citations"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_open_access_share"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_recent_share"
+        },
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "literature_screened"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_screened"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_unique_after_dedup"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
+          "metric": "literature_zero_citation_share"
+        }
+      ],
+      "lines": [
+        540
+      ],
+      "literal": "1779.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "literature_unique_after_dedup"
+        }
+      ],
+      "lines": [
+        541
+      ],
+      "literal": "1893.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "literature_identified_total"
+        }
+      ],
+      "lines": [
+        536
+      ],
+      "literal": "2000.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "literature_empirical_share_ci_low"
+        }
+      ],
+      "lines": [
+        535
+      ],
+      "literal": "29.566"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_empirical_share_ci_low"
+        }
+      ],
+      "lines": [
+        27
+      ],
+      "literal": "29.57"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_empirical_share"
+        }
+      ],
+      "lines": [
+        27,
+        56,
+        60,
+        534
+      ],
+      "literal": "31.76"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_recent_share"
+        }
+      ],
+      "lines": [
+        25,
+        51,
+        539
+      ],
+      "literal": "68.63"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "literature_distinct_venues"
+        }
+      ],
+      "lines": [
+        533
+      ],
+      "literal": "714.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_open_access_share"
+        }
+      ],
+      "lines": [
+        55,
+        60,
+        538
+      ],
+      "literal": "98.54"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_zero_citation_share"
+        }
+      ],
+      "lines": [
+        25,
+        54,
+        542
+      ],
+      "literal": "0.51"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_distinct_venues"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_empirical_share"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_empirical_share_ci_low"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_identified_total"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_median_citations"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_open_access_share"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_recent_share"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "literature_screened"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_screened"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_unique_after_dedup"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "literature_zero_citation_share"
+        }
+      ],
+      "lines": [
+        25,
+        45,
+        47,
+        533,
+        534,
+        535,
+        536,
+        537,
+        538,
+        539,
+        540,
+        541,
+        542
+      ],
+      "literal": "1779"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "literature_unique_after_dedup"
+        }
+      ],
+      "lines": [
+        25,
+        44
+      ],
+      "literal": "1893"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "literature_identified_total"
+        }
+      ],
+      "lines": [
+        25,
+        43
+      ],
+      "literal": "2000"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "literature_median_citations"
+        }
+      ],
+      "lines": [
+        537
+      ],
+      "literal": "62.0"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "literature_distinct_venues"
+        }
+      ],
+      "lines": [
+        25,
+        52
+      ],
+      "literal": "714"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "literature_median_citations"
+        }
+      ],
+      "lines": [
+        25,
+        53,
+        60
+      ],
+      "literal": "62"
+    }
+  ],
+  "run_id": "draft-review_enterprise_genai_roi",
+  "stem": "review_enterprise_genai_roi"
+}

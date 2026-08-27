@@ -1,5 +1,6 @@
 import re
 import os
+import subprocess
 from typing import Dict, Any, List, Optional
 
 from domain.models import citation_key
@@ -55,7 +56,11 @@ VENUE_SPECS = {
         "format": "Two-column ACM article format",
         "page_limit": "12 - 20+ pages",
         "doc_class": "\\documentclass[manuscript,review]{acmart}",
-        "packages": "\\usepackage{booktabs}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
+        # \\let\\Bbbk\\relax: the real acmart loads newtxmath, which already defines
+        # \\Bbbk, so a plain \\usepackage{amssymb} after it aborts the build with
+        # "Command \\Bbbk already defined". Without this the package compiles only
+        # against the local acmart stub, never against ACM's own class.
+        "packages": "\\usepackage{booktabs}\n\\let\\Bbbk\\relax\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}",
         "template_style": "acm",
         "anonymization_rule": "Use the selected ACM publication's author and disclosure rules"
     },
@@ -121,6 +126,34 @@ class LaTeXExporterService:
         self.last_build_log = ""
         self.last_compile_used_package_fallback = False
         self.last_compile_fallback_replacements: List[str] = []
+        # {template filename: path actually used}. A path under backend/templates
+        # means the local stub was used because TeX could not find the real class,
+        # which is a caveat on any page count taken from that build.
+        self._template_sources: Dict[str, str] = {}
+
+    @staticmethod
+    def _installed_tex_file(filename: str) -> str:
+        """Where TeX would find *filename* on its own, or '' if it would not.
+
+        kpsewhich answers the same question pdflatex will ask, which is the only
+        answer that matters: if TeX can resolve the class, a copy of a stub in the
+        build directory silently outranks it.
+        """
+        for exe in ("kpsewhich", "/Library/TeX/texbin/kpsewhich", "/usr/bin/kpsewhich"):
+            try:
+                out = subprocess.run([exe, filename], capture_output=True,
+                                     text=True, timeout=15)
+            except (FileNotFoundError, OSError, subprocess.SubprocessError):
+                continue
+            path = out.stdout.strip().splitlines()
+            if out.returncode == 0 and path and os.path.exists(path[0]):
+                return path[0]
+            return ""
+        return ""
+
+    def template_provenance(self) -> Dict[str, str]:
+        """Which class/style file each build actually used, real or local stub."""
+        return dict(self._template_sources)
 
     @staticmethod
     def validate_latex_source(tex_code: str) -> List[str]:
@@ -171,6 +204,81 @@ class LaTeXExporterService:
             return "Systematic Review & Meta-Taxonomy of Generative AI in Enterprise Workflows"
         return title
 
+    #: Identity strings that are stand-ins rather than real author details. These
+    #: shipped into 108 venue packages unnoticed because they read as plausible.
+    PLACEHOLDER_IDENTITY = (
+        "institute for advanced ai systems",
+        "researcher@institute.org",
+        "your institution",
+        "example.com",
+        "affiliation not set",
+        "unspecified",
+        "unknown",
+        "tbd",
+    )
+
+    @classmethod
+    def is_placeholder_identity(cls, value: Optional[str]) -> bool:
+        """True when an author-identity field is a stand-in rather than real."""
+        if not value or not str(value).strip():
+            return True
+        lowered = str(value).strip().lower()
+        return any(token in lowered for token in cls.PLACEHOLDER_IDENTITY)
+
+    @classmethod
+    def _resolve_identity_field(cls, value: Optional[str], label: str) -> str:
+        """Return the real value, or a marker loud enough to stop a submission."""
+        if cls.is_placeholder_identity(value):
+            return f"[{label} NOT SET]"
+        return str(value).strip()
+
+    #: Terms too generic to index a paper by. The previous hardcoded keyword line
+    #: was built entirely from these and was identical on all nine manuscripts.
+    _GENERIC_KEYWORDS = frozenset({
+        "generative", "empirical", "evaluation", "systems", "system", "enterprise",
+        "operations", "review", "paper", "approach", "results", "study", "analysis",
+        "based", "using", "model", "models", "method", "methods", "data", "work",
+        "research", "framework", "table", "figure", "section", "theorem", "proof",
+        # Citation-key fragments: these are bibliography plumbing, not subject terms.
+        "arxiv", "crossref", "openalex", "europepmc", "pubmed", "plos", "doaj", "dblp",
+    })
+
+    def derive_keywords(self, title: str, body_markdown: str, limit: int = 6) -> str:
+        """Build an index term list from this manuscript's own vocabulary.
+
+        Terms in the title rank first — they are what the paper is actually about —
+        then distinctive body terms. Falls back to the title itself rather than to a
+        generic list, so two papers never carry identical keywords.
+        """
+        title_terms = [
+            w.lower() for w in re.findall(r"[A-Za-z][A-Za-z\-]{3,}", title or "")
+            if w.lower() not in self._GENERIC_KEYWORDS
+        ]
+
+        # Maths spans and TeX control sequences are notation, not subject matter:
+        # without this, '\mathcal' surfaces as an index term.
+        prose = re.sub(r"\$\$[\s\S]*?\$\$|\$[^\$\n]*\$", " ", body_markdown or "")
+        prose = re.sub(r"\\[A-Za-z]+", " ", prose)
+
+        frequency: Dict[str, int] = {}
+        for word in re.findall(r"[A-Za-z][A-Za-z\-]{4,}", prose.lower()):
+            if word in self._GENERIC_KEYWORDS or word in title_terms:
+                continue
+            frequency[word] = frequency.get(word, 0) + 1
+
+        body_terms = [w for w, n in sorted(frequency.items(), key=lambda kv: -kv[1]) if n >= 3]
+
+        ordered: List[str] = []
+        for term in title_terms + body_terms:
+            if term not in ordered:
+                ordered.append(term)
+            if len(ordered) >= limit:
+                break
+
+        if not ordered:
+            return self.sanitize_latex(title or "Artificial Intelligence")
+        return self.sanitize_latex(", ".join(t.replace("-", " ").title() for t in ordered)) + "."
+
     def sanitize_latex(self, text: str) -> str:
         """Preserves math blocks $$...$$, $...$, and \\cite{...} tags while cleaning special LaTeX and Unicode characters."""
         if not text:
@@ -181,22 +289,114 @@ class LaTeXExporterService:
             '┌': '+', '┐': '+', '─': '-', '│': '|', '├': '+', '┤': '+', '└': '+', '┘': '+', '┬': '+', '┴': '+', '┼': '+',
             '═': '=', '║': '|', '▲': '^', '▼': 'v', '◄': '<', '►': '>', '◆': '*', '●': '*', '★': '*', '✓': '[V]', '✗': '[X]',
             '░': ' ', '▒': ' ', '▓': ' ', '█': '#',
+            '−': '-', '§': '\\S{}',
             '🚀': '', '🎉': '', '📦': '', '🛡️': '', '🏛️': '', '📊': '', '💡': '', '🏆': '', '⚡': '', '🌐': ''
         }
         for char, repl in char_map.items():
             text = text.replace(char, repl)
 
         # Preserve math blocks $$...$$, $...$, \cite{...}, and [[...]] wikilinks so underscores inside cite keys are NOT escaped
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
+        # Inline math may not span a newline or a '|' cell boundary: a single unescaped
+        # currency '$' (e.g. a 'Cost ($)' header) would otherwise open a math run that
+        # swallows the rest of the table row.
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$\n|])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
         for i in range(0, len(parts), 2):
+            # Genuine math is already split out, so any '$' still here is literal currency.
+            # Escape it before the '<'/'>' rules below introduce math shifts of their own.
+            parts[i] = re.sub(r'(?<!\\)\$', r'\\$', parts[i])
             parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            # After underscore escaping, so that a '₂' -> '$_2$' subscript is not itself
+            # escaped into a literal '\_2'.
+            parts[i] = self._replace_math_glyphs(parts[i], inline=True)
             # Replace & and % with \& and \% ONLY if they are not already preceded by a backslash
             parts[i] = re.sub(r'(?<!\\)&', r'\\&', parts[i])
             parts[i] = re.sub(r'(?<!\\)%', r'\\%', parts[i])
         for i in range(1, len(parts), 2):
             if parts[i].startswith("\\cite{") or parts[i].startswith("[["):
                 parts[i] = parts[i].replace("\\_", "_")
+            else:
+                # Already inside $...$: emit the bare command, never a nested math shift.
+                parts[i] = self._replace_math_glyphs(parts[i], inline=False)
         return "".join(parts)
+
+    # pdflatex has no glyph for these, so an unmapped one is a hard compile error.
+    # They arrive mostly via table cells, which is why they stayed latent while the
+    # converter was still discarding every table.
+    _MATH_GLYPHS = {
+        '×': '\\times', '±': '\\pm', '≤': '\\leq', '≥': '\\geq', '≈': '\\approx',
+        '≠': '\\neq', '→': '\\rightarrow', '←': '\\leftarrow', '↑': '\\uparrow',
+        '↓': '\\downarrow', '∞': '\\infty', '·': '\\cdot', '†': '\\dagger',
+        '‡': '\\ddagger', '°': '^\\circ', '∈': '\\in', '∀': '\\forall', '∃': '\\exists',
+        '₀': '_0', '₁': '_1', '₂': '_2', '₃': '_3', '₄': '_4', '₅': '_5',
+        '⁰': '^0', '¹': '^1', '²': '^2', '³': '^3', '⁴': '^4', '⁵': '^5',
+    }
+
+    def _replace_math_glyphs(self, text: str, inline: bool) -> str:
+        """Map Unicode maths glyphs to TeX. `inline` wraps each in its own math shift,
+        for text that is not already inside a $...$ region."""
+        for char, cmd in self._MATH_GLYPHS.items():
+            if char in text:
+                text = text.replace(char, f'${cmd}$' if inline else cmd)
+        return text
+
+    # Markdown emphasis has to be resolved here rather than in step 11: step 11 holds
+    # every table environment aside as protected math, so '**47.2**' left inside a cell
+    # is restored verbatim and reaches the PDF as literal asterisks.
+    _CELL_BOLD = re.compile(r'\*\*(.+?)\*\*')
+    _CELL_ITALIC = re.compile(r'(?<!\*)\*([^\*]+?)\*(?!\*)')
+    _CAPTION_LINE = re.compile(r'^\s*\*\*\s*(Table[^*]*?)\s*\*\*\s*$')
+
+    def _format_cell(self, cell: str) -> str:
+        cell = self._CELL_BOLD.sub(lambda m: '\\textbf{' + m.group(1) + '}', cell)
+        cell = self._CELL_ITALIC.sub(lambda m: '\\textit{' + m.group(1) + '}', cell)
+        return cell.replace('*', '').strip()
+
+    def _emit_booktabs_table(self, table_rows: List[List[str]], final_lines: List[str]) -> None:
+        """Append one booktabs table built from collected Markdown rows.
+
+        Consumes a preceding '**Table N: ...**' line as the real \\caption, and clamps
+        the tabular to the text column so wide result tables cannot bleed into the
+        gutter (the shrink-only \\resizebox idiom leaves narrow tables at natural size).
+        """
+        valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
+        if len(valid_rows) < 2:
+            return
+        cols = max(len(r) for r in valid_rows)
+        rows = [[self._format_cell(c) for c in r] + [''] * (cols - len(r)) for r in valid_rows]
+
+        caption = None
+        while final_lines and not final_lines[-1].strip():
+            final_lines.pop()
+        if final_lines:
+            match = self._CAPTION_LINE.match(final_lines[-1])
+            if match:
+                # Drop the author's manual 'Table N:' prefix; \caption numbers itself.
+                caption = re.sub(r'^Table\s*\d+\s*[:.\-]\s*', '', match.group(1)).strip()
+                final_lines.pop()
+
+        # Numeric columns centre; the leading label column stays left-aligned.
+        def numericish(idx: int) -> bool:
+            body = [r[idx] for r in rows[1:] if r[idx]]
+            if not body:
+                return False
+            return sum(bool(re.search(r'\d', c)) and len(c) <= 18 for c in body) >= len(body) * 0.8
+
+        col_align = ''.join('l' if i == 0 or not numericish(i) else 'c' for i in range(cols))
+
+        final_lines.append('\\begin{table}[htbp]')
+        final_lines.append('\\centering')
+        if caption:
+            final_lines.append('\\caption{' + caption + '}')
+        final_lines.append('\\resizebox{\\ifdim\\width>\\columnwidth\\columnwidth\\else\\width\\fi}{!}{%')
+        final_lines.append('\\begin{tabular}{' + col_align + '}')
+        final_lines.append('\\toprule')
+        final_lines.append(' & '.join(rows[0]) + ' \\\\')
+        final_lines.append('\\midrule')
+        for r in rows[1:]:
+            final_lines.append(' & '.join(r) + ' \\\\')
+        final_lines.append('\\bottomrule')
+        final_lines.append('\\end{tabular}}')
+        final_lines.append('\\end{table}')
 
     def convert_markdown_body(self, body_markdown: str) -> str:
         """Converts Markdown headings, bold, italics, lists, tables, code blocks, and wikilinks to clean LaTeX commands."""
@@ -243,6 +443,25 @@ class LaTeXExporterService:
 
         text = re.sub(r'```[\w]*\n([\s\S]*?)```', replace_code_block, text)
 
+        # 1b. Markdown images become real floats. Without this the converter drops
+        # them silently, which is how 108 packages shipped with zero figures.
+        def replace_image(match):
+            caption = self.sanitize_latex(match.group(1).strip())
+            target = match.group(2).strip()
+            label = re.sub(r'[^a-zA-Z0-9]+', '-', os.path.splitext(
+                os.path.basename(target))[0]).strip('-')
+            body = (
+                "\\includegraphics[width=\\columnwidth]{"
+                + os.path.basename(target) + "}"
+            )
+            return (
+                "\n\\begin{figure}[htbp]\n\\centering\n" + body + "\n"
+                + (f"\\caption{{{caption}}}\n" if caption else "")
+                + f"\\label{{fig:{label}}}\n\\end{{figure}}\n"
+            )
+
+        text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', replace_image, text)
+
 
         # 2. Filter out raw ASCII box diagrams, hardcoded References sections, unparsed YAML frontmatter, raw audit logs, internal workflow diagrams, and metadata noise
         text = re.sub(r'>\s*ResearchingOS Multi-Agent Workflow:[\s\S]*?(?=\n\n|\n#{1,4}\s|\Z)', '', text, flags=re.IGNORECASE)
@@ -254,7 +473,13 @@ class LaTeXExporterService:
         text = re.sub(r'\\begin\{thebibliography\}[\s\S]*?(\\end\{thebibliography\}|$)', '', text, flags=re.IGNORECASE)
         text = re.sub(r'\\begin\{table\}[\s\S]*?\\end\{table\}', '', text)
         text = re.sub(r'\+[-=]+\+[\s\S]*?\+[-=]+\+', '', text)
-        text = re.sub(r'^[|\+].*[|\+]$', '', text, flags=re.MULTILINE)
+        # Strip ASCII box art only. Markdown table rows also start and end with '|',
+        # so they must survive this pass and be converted to booktabs in step 10.
+        text = re.sub(r'^\+.*\+$', '', text, flags=re.MULTILINE)
+        # '|====|' rules only. Markdown alignment rows ('|:---|:---:|') must be left in
+        # place: deleting them here inserts a blank line that splits the table in step 10,
+        # orphaning the header row. Step 10 skips them itself.
+        text = re.sub(r'^\|[=\s|]*\|$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^(INFERENCE-TIME|CARDIOLOGY-CHAT|THE EPISTEMOLOGICAL|PROPOSED METHODOLOGICAL).*$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^-{3,}$', '', text, flags=re.MULTILINE)
         text = re.sub(r'^\+->.*$', '', text, flags=re.MULTILINE)
@@ -325,7 +550,9 @@ class LaTeXExporterService:
         for i, line in enumerate(lines):
             stripped = line.strip()
             # Remove leading bullet artifacts if appended after item numbers like '1)•'
-            stripped = re.sub(r'^(\d+[\)\.])\s*[•*]\s*', r'\1 ', stripped)
+            # A lone bullet glyph, never the '**' of a bold run: '1. **Term**: body'
+            # must keep both asterisks or step 11 emits \textit{Term\textbf{: body}}.
+            stripped = re.sub(r'^(\d+[\)\.])\s*(?:•|\*(?!\*))\s*', r'\1 ', stripped)
 
             bullet_match = re.match(r'^[*\-\+•]\s+(.*)', stripped)
             enum_match = re.match(r'^\d+[\)\.]\s+(.*)', stripped)
@@ -391,41 +618,13 @@ class LaTeXExporterService:
                 in_table = True
             else:
                 if in_table and table_rows:
-                    valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
-                    if valid_rows and len(valid_rows) >= 2:
-                        cols = max(len(r) for r in valid_rows)
-                        col_align = 'l' * cols
-                        final_lines.append('\\begin{table}[htbp]')
-                        final_lines.append('\\centering')
-                        final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
-                        final_lines.append('\\toprule')
-                        final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
-                        final_lines.append('\\midrule')
-                        for r in valid_rows[1:]:
-                            final_lines.append(' & '.join(r) + ' \\\\')
-                        final_lines.append('\\bottomrule')
-                        final_lines.append('\\end{tabular}')
-                        final_lines.append('\\end{table}')
+                    self._emit_booktabs_table(table_rows, final_lines)
                     in_table = False
                     table_rows = []
                 final_lines.append(line)
 
         if in_table and table_rows:
-            valid_rows = [r for r in table_rows if any(c.strip() for c in r)]
-            if valid_rows and len(valid_rows) >= 2:
-                cols = max(len(r) for r in valid_rows)
-                col_align = 'l' * cols
-                final_lines.append('\\begin{table}[htbp]')
-                final_lines.append('\\centering')
-                final_lines.append(f'\\begin{{tabular}}{{{col_align}}}')
-                final_lines.append('\\toprule')
-                final_lines.append(' & '.join(valid_rows[0]) + ' \\\\')
-                final_lines.append('\\midrule')
-                for r in valid_rows[1:]:
-                    final_lines.append(' & '.join(r) + ' \\\\')
-                final_lines.append('\\bottomrule')
-                final_lines.append('\\end{tabular}')
-                final_lines.append('\\end{table}')
+            self._emit_booktabs_table(table_rows, final_lines)
 
         text = '\n'.join(final_lines)
 
@@ -594,8 +793,16 @@ class LaTeXExporterService:
 
         clean_provided_authors = [a for a in (authors or []) if a and "Unspecified" not in a and "Unknown" not in a]
         authors_list = ["Anonymous Authors"] if is_anonymous else (clean_provided_authors or ["Aryaman Singh Dev"])
-        affiliation = "" if is_anonymous else self.sanitize_latex(str(details.get("affiliation") or "Pennsylvania State University"))
-        email = "" if is_anonymous else self.sanitize_latex(str(details.get("email") or "asd5520@psu.edu"))
+        # A placeholder affiliation must never ship silently: a manuscript that names
+        # an institute the author has no association with is a misrepresentation, and
+        # it reached all 108 packages last time precisely because it looked filled in.
+        # Surfacing the gap in the typeset PDF is the only version nobody can miss.
+        affiliation = "" if is_anonymous else self.sanitize_latex(
+            self._resolve_identity_field(details.get("affiliation"), "AFFILIATION")
+        )
+        email = "" if is_anonymous else self.sanitize_latex(
+            self._resolve_identity_field(details.get("email"), "CONTACT EMAIL")
+        )
 
 
         neurips_authors = " \\And ".join(
@@ -621,6 +828,48 @@ class LaTeXExporterService:
         if contact_line:
             acl_author_parts.append(contact_line)
         acl_author_block = " \\\\\n".join(acl_author_parts)
+
+        # ACM (acmart) author block. acmart does not accept a bare \author{}: each
+        # author must be followed by its OWN \affiliation{\institution{...}} and
+        # \email{...}, in that order, before \maketitle. Emitting only the name
+        # silently drops the affiliation and contact metadata every ACM venue
+        # requires (ERR-046) — the build succeeds and the topmatter is simply blank.
+        acm_affiliation_extras = []
+        for detail_key, acm_macro in (
+            ("position", "position"),
+            ("department", "department"),
+            ("street_address", "streetaddress"),
+            ("city", "city"),
+            ("state", "state"),
+            ("postcode", "postcode"),
+            ("country", "country"),
+        ):
+            raw_value = details.get(detail_key)
+            if not is_anonymous and raw_value and not self.is_placeholder_identity(raw_value):
+                clean_value = self.sanitize_latex(str(raw_value).strip())
+                acm_affiliation_extras.append("  \\" + acm_macro + "{" + clean_value + "}")
+        # acmart raises a hard class Error on an affiliation with no \country, so the
+        # field is emitted unconditionally; an unset one shows the marker rather than
+        # aborting the ACM build.
+        if not is_anonymous and not any(x.startswith("  \\country") for x in acm_affiliation_extras):
+            acm_affiliation_extras.append(
+                "  \\country{"
+                + self.sanitize_latex(self._resolve_identity_field(details.get("country"), "COUNTRY"))
+                + "}"
+            )
+
+        acm_author_entries = []
+        for person in authors_list:
+            entry = ["\\author{" + person + "}"]
+            if affiliation:
+                affil_lines = ["\\affiliation{%", "  \\institution{" + affiliation + "}"]
+                affil_lines.extend(acm_affiliation_extras)
+                affil_lines.append("}")
+                entry.append("\n".join(affil_lines))
+            if email:
+                entry.append("\\email{" + email + "}")
+            acm_author_entries.append("\n".join(entry))
+        acm_author_block = "\n\n".join(acm_author_entries)
 
         # IEEE author block
         ieee_authors = " \\and ".join(authors_list)
@@ -778,13 +1027,13 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 
 \\title{{{clean_title}}}
 
-\\author{{{authors_list[0]}}}
-
-\\maketitle
+{acm_author_block}
 
 \\begin{{abstract}}
 {clean_abstract}
 \\end{{abstract}}
+
+\\maketitle
 
 {latex_body}
 
@@ -795,10 +1044,12 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 \\end{{document}}
 """
         else:
-            keywords_block = """\\begin{IEEEkeywords}
-Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-\\end{IEEEkeywords}""" if venue_key == "IEEEtran" else """\\noindent\\textbf{Keywords---} Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systematic Review.
-"""
+            keyword_text = self.derive_keywords(clean_title, body_markdown)
+            keywords_block = (
+                f"""\\begin{{IEEEkeywords}}\n{keyword_text}\n\\end{{IEEEkeywords}}"""
+                if venue_key == "IEEEtran"
+                else f"""\\noindent\\textbf{{Keywords---}} {keyword_text}\n"""
+            )
             balance_cmd = "\\balance" if venue_key == "IEEEtran" else ""
 
             doc_code = f"""{spec['doc_class']}
@@ -1036,6 +1287,32 @@ Generative AI, Empirical Evaluation, AI Systems, Enterprise Operations, Systemat
             if os.path.exists(templates_dir):
                 for fname in os.listdir(templates_dir):
                     src_f = os.path.join(templates_dir, fname)
+                    if not os.path.isfile(src_f):
+                        continue
+                    # A local template is a fallback, not a preference. Copying it
+                    # unconditionally put it in the build directory, where LaTeX
+                    # resolves it ahead of the installed class -- so every ACM
+                    # package was typeset by a 31-line \LoadClass{article} stub
+                    # instead of acmart, and its page count was measured against
+                    # the wrong document class (9 pages vs 16 on p3). Skip the
+                    # local copy whenever TeX can already find the real thing,
+                    # and say which was used rather than leaving it implicit.
+                    installed = self._installed_tex_file(fname)
+                    if installed:
+                        self._template_sources[fname] = installed
+                        continue
+                    self._template_sources[fname] = src_f
+                    shutil.copy(src_f, tmpdir)
+
+            # Figures live beside the drafts and are referenced by basename, so the
+            # build directory needs them too or every \includegraphics fails.
+            figures_dir = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "vault", "04_Drafts", "figures",
+            )
+            if os.path.isdir(figures_dir):
+                for fname in os.listdir(figures_dir):
+                    src_f = os.path.join(figures_dir, fname)
                     if os.path.isfile(src_f):
                         shutil.copy(src_f, tmpdir)
 

@@ -1,0 +1,8 @@
+{
+  "hierarchical": 0.9925224662753052,
+  "monolithic": 0.44370531249999995,
+  "retries_M": 2,
+  "stages_K": 5,
+  "supervisor_recovery_r": 0.9,
+  "worker_accuracy_p": 0.85
+}
