@@ -58,23 +58,32 @@ jobs:
       - name: Drafts agree with their recorded runs
         run: python scripts/experiments/resync_manuscripts.py --check
 
-      - name: Tests
-        run: python -m pytest backend/tests/ -q
-
       # Running the suite used to append to vault/harness_memory.json, a tracked
       # file, and 18 "test topic" entries had already been committed that way
       # before anyone noticed. A test that writes into project data is a test
       # whose results depend on how many times it has been run.
+      #
+      # Bracketed around the tests specifically, rather than comparing against a
+      # clean checkout. The gate step above legitimately rewrites its own report,
+      # so a whole-tree check blamed the tests for the gate's output -- it failed
+      # with "The test suite modified tracked files" naming a file pytest never
+      # touches. What matters is that the tests change nothing, not that the job
+      # as a whole writes nothing.
+      - name: Tests
+        run: |
+          git status --porcelain > /tmp/tree-before-tests.txt
+          python -m pytest backend/tests/ -q
+
       - name: Tests left the tree clean
         run: |
-          dirty=$(git status --porcelain)
-          if [ -n "$dirty" ]; then
+          git status --porcelain > /tmp/tree-after-tests.txt
+          if ! diff -q /tmp/tree-before-tests.txt /tmp/tree-after-tests.txt > /dev/null; then
             echo "::error::The test suite modified tracked files."
-            echo "$dirty"
+            diff /tmp/tree-before-tests.txt /tmp/tree-after-tests.txt || true
             git diff --stat
             exit 1
           fi
-          echo "Clean."
+          echo "Tests changed nothing."
 
       # The gate audits vault/04_Drafts. What a human submits is a PDF under
       # papers/. Nothing checked that those agreed, and they did not: every
