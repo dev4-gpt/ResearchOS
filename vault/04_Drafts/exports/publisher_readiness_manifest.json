@@ -1,7 +1,7 @@
 {
   "compiled_count": 12,
   "draft_count": 1,
-  "generated_at": "2026-08-26T16:26:22.886220+00:00",
+  "generated_at": "2026-08-26T23:59:30.061195+00:00",
   "ready_count": 12,
   "results": [
     {
@@ -14,7 +14,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 42110,
+          "rendered_chars": 41963,
           "score": 100
         },
         "clean_section_numbering": {
@@ -65,12 +65,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -193,12 +192,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -242,7 +240,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 56689,
+          "rendered_chars": 56763,
           "score": 100
         },
         "clean_section_numbering": {
@@ -293,12 +291,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -421,12 +418,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -470,7 +466,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 57142,
+          "rendered_chars": 57221,
           "score": 100
         },
         "clean_section_numbering": {
@@ -521,12 +517,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -649,12 +644,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -698,7 +692,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 37047,
+          "rendered_chars": 37091,
           "score": 100
         },
         "clean_section_numbering": {
@@ -749,12 +743,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -877,12 +870,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -926,7 +918,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 57347,
+          "rendered_chars": 57427,
           "score": 100
         },
         "clean_section_numbering": {
@@ -977,12 +969,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1105,12 +1096,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1154,7 +1144,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 40600,
+          "rendered_chars": 40643,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1205,12 +1195,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1333,12 +1322,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1382,7 +1370,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 57345,
+          "rendered_chars": 57425,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1433,12 +1421,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1561,12 +1548,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1610,7 +1596,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 37526,
+          "rendered_chars": 37572,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1661,12 +1647,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -1789,12 +1774,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -1838,7 +1822,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 57345,
+          "rendered_chars": 57425,
           "score": 100
         },
         "clean_section_numbering": {
@@ -1889,12 +1873,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2017,12 +2000,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2066,7 +2048,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 37526,
+          "rendered_chars": 37572,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2117,12 +2099,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2245,12 +2226,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2294,7 +2274,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 37526,
+          "rendered_chars": 37572,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2345,12 +2325,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2473,12 +2452,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },
@@ -2522,7 +2500,7 @@
           "detail": "Manuscript content is present in the rendered artifact",
           "missing_tables": [],
           "passed": true,
-          "rendered_chars": 37526,
+          "rendered_chars": 37572,
           "score": 100
         },
         "clean_section_numbering": {
@@ -2573,12 +2551,11 @@
               ],
               "grounded_count": 1,
               "measurement_backed_claims": [
-                "0.05 ms",
-                "0.922 s",
+                "0.732 s",
                 "72.97%"
               ],
               "metric_score": 100.0,
-              "total_numeric_claims": 4,
+              "total_numeric_claims": 3,
               "unverified_claims": [],
               "unverified_count": 0
             },
@@ -2701,12 +2678,11 @@
           ],
           "grounded_count": 1,
           "measurement_backed_claims": [
-            "0.05 ms",
-            "0.922 s",
+            "0.732 s",
             "72.97%"
           ],
           "metric_score": 100.0,
-          "total_numeric_claims": 4,
+          "total_numeric_claims": 3,
           "unverified_claims": [],
           "unverified_count": 0
         },

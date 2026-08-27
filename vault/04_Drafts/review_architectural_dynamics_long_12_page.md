@@ -20,7 +20,7 @@ checkmate_date: "2026-08-12"
 
 Transformer deployment is bounded by memory and compute budgets that parameter scaling alone cannot relieve [[arxiv_2005.14165], [arxiv_2406.00584]]. This paper derives those bounds analytically and verifies each derivation by computation rather than by hardware benchmark.
 
-We solve the compute-optimal allocation problem numerically under the constraint $C = 6ND$, recovering a mean token-to-parameter ratio of 60.12 across six compute budgets from $10^{19}$ to $10^{24}$ FLOPs. We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\% less cache than multi-head, and multi-query 96.9\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence [[arxiv_2404.01131]].
+We solve the compute-optimal allocation problem numerically under the constraint $C = 6ND$, recovering a mean token-to-parameter ratio of 60.12 across six compute budgets from $10^{19}$ to $10^{24}$ FLOPs. We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\% less cache than multi-head, and multi-query 96.9\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence.
 
 For parameter-efficient adaptation we measure subspace capacity directly by singular value decomposition on weight-shaped update matrices: a rank-64 factorisation captures 99.45\% of update energy at 12.5\% of dense parameter count, while rank 32 captures only 64.47\%. The capacity curve is sharply non-linear around the intrinsic rank, which bounds how far low-rank adaptation can be compressed before it degrades.
 
@@ -33,6 +33,7 @@ Every figure here is either exact arithmetic or a simulation whose code is relea
 ## Introduction
 
 Scaling laws in deep learning establish power-law relationships between compute budget $\mathcal{C}$ (measured in FLOPs), parameter count $\mathcal{N}$, dataset tokens $\mathcal{D}$, and test cross-entropy loss $\mathcal{L}$. The canonical Hoffmann et al. (Chinchilla) scaling law demonstrates that loss follows:
+
 
 
 
@@ -83,11 +84,12 @@ $$
 
 
 
+
 with fitted constants $E = 1.69$, $A = 406.4$, $B = 410.7$, $\alpha = 0.34$, $\beta = 0.28$ across models from $10^7$ to $10^{10}$ parameters. This law implies an optimal compute allocation: for a fixed budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ FLOPs, loss is minimized when $\mathcal{N}^* \propto \mathcal{C}^{0.5}$ and $\mathcal{D}^* \propto \mathcal{C}^{0.5}$ — i.e., parameters and tokens should scale equally.
 
 While monolithic parameter expansion historically drove state-of-the-art breakthroughs, production systems face severe operational bottlenecks: high serving costs, memory-bandwidth walls, multi-tenant GPU contention, and carbon-budget constraints [[arxiv_2406.00584], [crossref_10.1109_access.2026.3656309]]. The engineering challenge is to achieve Chinchilla-optimal training while maintaining deployment efficiency through architectural innovations that decouple capacity from compute cost during inference.
 
-To reconcile high-capacity reasoning with hardware constraints, modern architectures incorporate three complementary strategies: (1) **Parameter-Efficient Fine-Tuning (PEFT)** via low-rank adaptation that confines gradient updates to low-intrinsic-dimension manifolds [[arxiv_2305.18290], [arxiv_2208.14227]]; (2) **Sparse Mixture-of-Experts (MoE)** routing that activates only a fraction of parameters per forward pass [[arxiv_2412.06333]]; and (3) **Compound AI Systems** that externalize knowledge storage to retrieval indices, reducing parametric capacity requirements [[arxiv_2406.00584]]. Understanding the interaction dynamics, efficiency bounds, and performance trade-offs across these strategies at scale is essential for principled foundation model engineering.
+To reconcile high-capacity reasoning with hardware constraints, modern architectures incorporate three complementary strategies: (1) **Parameter-Efficient Fine-Tuning (PEFT)** via low-rank adaptation that confines gradient updates to low-intrinsic-dimension manifolds [[arxiv_2305.18290], [arxiv_2208.14227]]; (2) **Sparse Mixture-of-Experts (MoE)** routing that activates only a fraction of parameters per forward pass; and (3) **Compound AI Systems** that externalize knowledge storage to retrieval indices, reducing parametric capacity requirements [[arxiv_2406.00584]]. Understanding the interaction dynamics, efficiency bounds, and performance trade-offs across these strategies at scale is essential for principled foundation model engineering.
 
 ### Principal Contributions
 
@@ -131,6 +133,7 @@ The Hoffmann et al. scaling law [[arxiv_2005.14165]] characterizes test cross-en
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}(\mathcal{N}, \mathcal{D}) = & E \\
@@ -159,7 +162,9 @@ $$
 
 
 
+
 **Theorem 1 (Optimal Compute Allocation).** Under a fixed FLOPs budget $\mathcal{C} = 6\mathcal{N}\mathcal{D}$ (assuming 6 FLOPs per parameter per training token), the loss-minimizing allocation satisfies:
+
 
 
 
@@ -210,7 +215,9 @@ $$
 
 
 
+
 *Proof.* Minimize $\mathcal{L}$ subject to $\mathcal{C} = 6\mathcal{N}\mathcal{D}$. Substituting $\mathcal{D} = \mathcal{C}/(6\mathcal{N})$:
+
 
 
 
@@ -239,6 +246,7 @@ $$
 & + A\mathcal{N}^{-\alpha} + B\left(\frac{6\mathcal{N}}{\mathcal{C}}\right)^\beta
 \end{aligned}
 $$
+
 
 
 
@@ -290,11 +298,13 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
 $$
 \begin{aligned}
 \text{Pass@}k = 1 - (1-p)^k
 \end{aligned}
 $$
+
 
 
 
@@ -348,6 +358,7 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
 $$
 \begin{aligned}
 W = & W_0 \\
@@ -376,7 +387,9 @@ $$
 
 
 
+
 **Definition 1 (Subspace Capacity).** The rank-$r$ adaptation subspace capacity is:
+
 
 
 
@@ -426,9 +439,11 @@ $$
 
 
 
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ — confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 **Theorem 2 (Approximation Error Bound).** For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
+
 
 
 
@@ -457,6 +472,7 @@ $$
 & k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $$
+
 
 
 
@@ -508,11 +524,13 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
 $$
 \begin{aligned}
 \eta_{\text{eff}} = \frac{\gamma}{r} \cdot \eta_{\text{LoRA}}
 \end{aligned}
 $$
+
 
 
 
@@ -558,11 +576,13 @@ $$
 
 
 
+
 $$
 \begin{aligned}
 \|\nabla_{W_\ell}\mathcal{L}\|_F \approx \|\nabla_{B_\ell}\mathcal{L}\|_F \cdot \|A_\ell\|_F + \|B_\ell\|_F \cdot \|\nabla_{A_\ell}\mathcal{L}\|_F
 \end{aligned}
 $$
+
 
 
 
@@ -616,6 +636,7 @@ In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the to
 
 
 
+
 $$
 \begin{aligned}
 p_i(x) = \text{Softmax}(W_g x)_i = \frac{\exp(w_i^\top x)}{\sum_{j=1}^E \exp(w_j^\top x)}
@@ -643,11 +664,13 @@ $$
 
 
 
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 ### Load Balancing and Routing Entropy
 
 **Definition 2 (Routing Entropy).** The expert routing entropy for batch $\mathcal{B}$ is:
+
 
 
 
@@ -698,9 +721,11 @@ $$
 
 
 
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 **Theorem 3 (Routing Stability Under Auxiliary Loss).** The auxiliary load-balancing loss:
+
 
 
 
@@ -728,6 +753,7 @@ $$
 \mathcal{L}_{\text{aux}} = \alpha_{\text{aux}} \cdot E \sum_{i=1}^E f_i \cdot P_i
 \end{aligned}
 $$
+
 
 
 
@@ -779,6 +805,7 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
 $$
 \begin{aligned}
 \text{ActiveParams} = \mathcal{N}_{\text{attn}} + k \cdot \frac{\mathcal{N}_{\text{total}} - \mathcal{N}_{\text{attn}}}{E}
@@ -806,7 +833,8 @@ $$
 
 
 
-For Mixtral 8×7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B total — a $3.65\times$ parameter efficiency gain at inference time [[arxiv_2412.06333]].
+
+For Mixtral 8×7B ($E = 8$, $k = 2$): active params $\approx 12.8$B out of 46.7B total — a $3.65\times$ parameter efficiency gain at inference time.
 
 ---
 
@@ -837,12 +865,14 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{VRAM}} = & \underbrace{\mathcal{M}_{\text{weights}}}_{\text{model params}} + \underbrace{2 \cdot N_L \cdot d_{\text{model}} \cdot B \cdot L_{\text{ctx}} \cdot s_{\text{dtype}}}_{\text{KV cache}} \\
 & + \underbrace{\mathcal{M}_{\text{activations}}}_{\text{residual streams}} + \underbrace{\mathcal{M}_{\text{cuda}}}_{\text{CUDA overhead}}
 \end{aligned}
 $$
+
 
 
 
@@ -904,11 +934,13 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 
+
 $$
 \begin{aligned}
 \text{AI} = \frac{\text{FLOPs/token}}{2\mathcal{N} \cdot s_{\text{dtype}}} \approx \frac{1}{s_{\text{dtype}}} \text{ FLOP/byte}
 \end{aligned}
 $$
+
 
 
 
@@ -1030,11 +1062,13 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{compound}}(\mathcal{N}, \mathcal{D}, \mathcal{I}_{\text{ext}}) \approx E' + \frac{A}{\mathcal{N}^\alpha} + \frac{B}{(\mathcal{D} + \lambda\mathcal{I}_{\text{ext}})^\beta}
 \end{aligned}
 $$
+
 
 
 
@@ -1077,7 +1111,7 @@ Switch Transformer demonstrated that MoE scaling enables $4\times$ parameter gro
 
 ### Compound AI Systems
 
-Compound AI architectures [[arxiv_2406.00584]] decompose reasoning, memory, and retrieval into specialized components. RETRO [[arxiv_2310.09270]] demonstrates that retrieval-augmented training can reduce model size by $25\times$ at fixed perplexity. GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG extend retrieval to structured graph representations. Multi-agent orchestration [[arxiv_2404.01131], [crossref_10.1109_access.2026.3656309]] provides a deployment framework for compound systems at enterprise scale.
+Compound AI architectures [[arxiv_2406.00584]] decompose reasoning, memory, and retrieval into specialized components. RETRO demonstrates that retrieval-augmented training can reduce model size by $25\times$ at fixed perplexity. GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG extend retrieval to structured graph representations. Multi-agent orchestration [[arxiv_2404.01131], [crossref_10.1109_access.2026.3656309]] provides a deployment framework for compound systems at enterprise scale.
 
 ---
 
@@ -1085,11 +1119,11 @@ Compound AI architectures [[arxiv_2406.00584]] decompose reasoning, memory, and 
 
 ### Hardware Scope
 
-Our benchmark targets NVIDIA H100/A100 GPU clusters. Specialized ASIC accelerators (Google TPU v4/v5, Groq LPU, Cerebras CS-3) exhibit fundamentally different compute-to-memory bandwidth ratios, potentially altering the Pareto frontier. Vendor specifications report HBM bandwidth of 2.4 TB/s for TPU v5e against 3.35 TB/s for H100 but different precision support profiles [[pubmed_42380865]].
+Our benchmark targets NVIDIA H100/A100 GPU clusters. Specialized ASIC accelerators (Google TPU v4/v5, Groq LPU, Cerebras CS-3) exhibit fundamentally different compute-to-memory bandwidth ratios, potentially altering the Pareto frontier.
 
 ### Task Distribution
 
-Our benchmarks (MMLU, GSM8K, HumanEval) represent academic reasoning tasks. Production workload distributions differ significantly in sequence length distribution, domain specificity, and latency sensitivity, potentially altering the relative rankings of architecture families [[doaj_001772c2113c476d9d5d40452c8e10e1]].
+Our benchmarks (MMLU, GSM8K, HumanEval) represent academic reasoning tasks. Production workload distributions differ significantly in sequence length distribution, domain specificity, and latency sensitivity, potentially altering the relative rankings of architecture families.
 
 ### Scaling Law Extrapolation
 
@@ -1160,12 +1194,14 @@ The Chinchilla formulation models test loss as a function of parameter count $N$
 
 
 
+
 $$
 \begin{aligned}
 L(N, D) = & E \\
 & + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}
 \end{aligned}
 $$
+
 
 
 
@@ -1183,11 +1219,13 @@ During autoregressive decoding, attention reuses the key and value projections o
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{KV}} = 2 \cdot N_L \cdot H_{\text{kv}} \cdot d_h \cdot L_{\text{ctx}} \cdot B \cdot s
 \end{aligned}
 $$
+
 
 
 
@@ -1209,11 +1247,13 @@ The question this raises is how much of a real update such a factorisation can r
 
 
 
+
 $$
 \begin{aligned}
 \|\Delta W - \Delta W_r\|_F^2 = \sum_{i > r} \sigma_i^2 .
 \end{aligned}
 $$
+
 
 
 

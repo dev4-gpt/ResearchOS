@@ -118,6 +118,7 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -126,6 +127,7 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -179,6 +181,7 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -187,6 +190,7 @@ c_{ij} = & \langle \mathcal{I}_{ij}, \\
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -243,6 +247,7 @@ where:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -273,7 +278,8 @@ $}
 
 
 
-where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition holds, the composite contract guarantees end-to-end type safety and semantic invariant preservation without runtime schema mediation \cite{crossref_10_18653_v1_2026_findings_acl_1933}.
+
+where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition holds, the composite contract guarantees end-to-end type safety and semantic invariant preservation without runtime schema mediation.
 
 
 \subsection{Lyapunov Stability Analysis of Agent Error Dynamics}
@@ -282,6 +288,7 @@ where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition ho
 Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the state error vector of agent $v_i$ relative to the oracle ground-truth state $\mathbf{s}_t^{*(i)}$. In an unconstrained monolithic pipeline, error propagation follows a non-linear autoregressive process $\mathbf{e}_{t+1} = \mathbf{A}\mathbf{e}_t + \mathbf{w}_t$, where the spectral radius $\rho(\mathbf{A})$ frequently exceeds unity during complex multi-hop reasoning, triggering unbounded error divergence.
 
 \textbf{Theorem 1 (Lyapunov Stability of Contract-Gated Pipelines).} Let $V(\mathbf{e}_t) = \mathbf{e}_t^\top \mathbf{P} \mathbf{e}_t$ be a candidate Lyapunov function with symmetric positive definite matrix $\mathbf{P} \succ 0$. If every contract validation operator $\Pi_{c_{ij}}$ enforces a contract rejection bound such that the effective transition matrix satisfies \$\|\mathbf{A}\_{\text{gated}}\|\_2 \le \rho $<$ 1\$, then:
+
 
 
 
@@ -335,7 +342,9 @@ $}
 
 
 
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid \$\mathcal{B}\_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}\$ with radius:
+
 
 
 
@@ -389,7 +398,9 @@ $}
 
 
 
+
 \textit{Proof.} Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
 
 
 
@@ -443,7 +454,9 @@ $}
 
 
 
+
 By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{P} \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \lambda\_{\max}(\mathbf{P}) \|\mathbf{e}\_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \|\mathbf{e}\_t\|^2$. Subtracting $V(\mathbf{e}\_t) = \|\mathbf{e}\_t\|^2\$:
+
 
 
 
@@ -474,6 +487,7 @@ By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\to
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -556,12 +570,12 @@ Rather than storing context in unstructured conversation logs, Tier 2 maintains 
 
 \subsection{Tier 3: Deterministic Contract \& Safety Enforcement}
 
-Tier 3 serves as the active execution firewall. Every message $\mathbf{m}_{ij}$ between agents is intercepted and validated against $\Phi_{\text{pre}}$ and $\Phi_{\text{post}}$ using Z3-SMT solvers and Pydantic validators before being dispatched to downstream consumers. Invalid messages trigger immediate deterministic recovery actions (e.g., fallback routing or schema-constrained repair) rather than open-ended hallucination loops \cite{arxiv_2404_01131}.
+Tier 3 serves as the active execution firewall. Every message $\mathbf{m}_{ij}$ between agents is intercepted and validated against $\Phi_{\text{pre}}$ and $\Phi_{\text{post}}$ using Z3-SMT solvers and Pydantic validators before being dispatched to downstream consumers. Invalid messages trigger immediate deterministic recovery actions (e.g., fallback routing or schema-constrained repair) rather than open-ended hallucination loops.
 
 
 \subsection{Tier 4: Consensus Governance \& Byzantine Agreement}
 
-For critical decisions (e.g., executing code in production, committing financial transactions), Tier 4 executes an $M$-of-$N$ Byzantine consensus protocol. A proposal $P$ is approved if and only if $\sum_{i=1}^N w_i \cdot \mathbb{I}(\text{Verify}_i(P) = 1) \ge \Theta_{\text{threshold}}$, ensuring zero single-point-of-failure vulnerability \cite{crossref_10_1109_access_2026_3656309}.
+For critical decisions (e.g., executing code in production, committing financial transactions), Tier 4 executes an $M$-of-$N$ Byzantine consensus protocol. A proposal $P$ is approved if and only if $\sum_{i=1}^N w_i \cdot \mathbb{I}(\text{Verify}_i(P) = 1) \ge \Theta_{\text{threshold}}$, ensuring zero single-point-of-failure vulnerability.
 
 
 
@@ -677,7 +691,7 @@ Early multi-agent LLM systems--including AutoGPT, BabyAGI, MetaGPT \cite{crossre
 
 \subsection{Formal Methods in Artificial Intelligence}
 
-The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification \cite{crossref_10_18653_v1_2026_findings_acl_1933}. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams \cite{arxiv_2404_01131}.
+The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams.
 
 
 \subsection{Compound AI Systems and Retrieval Architectures}
@@ -715,7 +729,7 @@ Recent literature highlights the shift from monolithic model scaling to Compound
 We identify four strategic research frontiers for Composable AI Systems:
 \begin{enumerate}
   \item \textbf{Automated Contract Synthesis (Neuro-Symbolic Schema Generation):} Leveraging meta-agents to automatically infer and synthesize Z3 first-order logic invariants from historical runtime execution traces.
-  \item \textbf{Asynchronous Byzantine Pipeline Consensus:} Scaling Tier 4 consensus algorithms to support asynchronous, partially connected agent topologies spanning thousands of edge devices \cite{crossref_10_1109_access_2026_3656309}.
+  \item \textbf{Asynchronous Byzantine Pipeline Consensus:} Scaling Tier 4 consensus algorithms to support asynchronous, partially connected agent topologies spanning thousands of edge devices.
   \item \textbf{Formal Differential Privacy Contracts:} Integrating differential privacy guarantees ($\epsilon, \delta$) directly into the algebraic contract schema for secure cross-organizational data sharing.
   \item \textbf{Hardware-Accelerated Invariant Verification:} Implementing SMT predicate evaluation directly on FPGA and smartNIC hardware to reduce Tier 3 verification latency below 1 millisecond.
 \end{enumerate}
@@ -813,6 +827,7 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -822,6 +837,7 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -851,6 +867,7 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -858,6 +875,7 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 \end{aligned}
 $}
 \end{equation}
+
 
 
 

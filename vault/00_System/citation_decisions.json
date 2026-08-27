@@ -16,6 +16,110 @@
       "reason": "prose names 'AST transformations'; key resolves to 'Comparative Analysis of Deep Learning Models for Breast Cancer Classif', which is a different work",
       "title": "Comparative Analysis of Deep Learning Models for Breast Cancer Classif"
     },
+    "key::arxiv_2010.11146": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2010.11146",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2203.02155": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2203.02155",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2308.12898": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2308.12898",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2310.09270": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2310.09270",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2404.01131": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2404.01131",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2411.15594": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2411.15594",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2412.06333": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2412.06333",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::crossref_10.1109_access.2026.3656309": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "crossref_10.1109_access.2026.3656309",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::crossref_10.1145_3689096.3689462": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "crossref_10.1145_3689096.3689462",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::crossref_10.18653_v1_2026.findings-acl.1933": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "crossref_10.18653_v1_2026.findings-acl.1933",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::doaj_001772c2113c476d9d5d40452c8e10e1": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "doaj_001772c2113c476d9d5d40452c8e10e1",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::openalex_W4400993506": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "openalex_W4400993506",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::pubmed_42380865": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "pubmed_42380865",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
     "review_architectural_dynamics_long_12_page::arxiv_2005.14165::adapter layers": {
       "decision": "removed",
       "draft": "review_architectural_dynamics_long_12_page",

@@ -123,27 +123,49 @@ def strip_citation(line: str, name: str, key: str) -> str:
 
 
 
-def strip_key_everywhere(key: str) -> Tuple[int, int]:
-    """Remove every '[[key]]' from every draft. Returns (occurrences, drafts touched).
+def strip_key(key: str, flagged_lines: dict, every_occurrence: bool = False) -> Tuple[int, int]:
+    """Remove '[[key]]' citations. Returns (occurrences removed, drafts touched).
 
-    Deleting the *citation* is the correct operation. Deleting the vault note is
-    not: nothing treats a missing note as a broken link, so the manuscript would
-    go on citing a source that no longer exists and the bibliography would render
-    an empty entry. The note is a record of a paper that does exist; the defect is
-    that a sentence points at it.
+    By default this removes only the occurrences the relevance scorer actually
+    flagged, not every appearance of the key. The distinction is not academic: a
+    first version removed whole keys and took 76 citations when 40 were flagged,
+    because these keys also appear in positions the scorer rated relevant.
+    Distinct citation counts halved -- p1 went 16 to 10 against a 15-30 target --
+    for occurrences nobody had objected to. Ruling that a source is a poor fit for
+    one sentence is not the same as ruling it has no place in the paper.
+
+    Pass every_occurrence=True for the stronger ruling, when the source genuinely
+    does not belong in the corpus at all.
+
+    Either way this deletes the *citation*, never the vault note. Nothing treats a
+    missing note as a broken link, so deleting the note would leave the manuscript
+    citing a source that no longer exists and the bibliography rendering an empty
+    entry. The note records a paper that does exist; the defect is that a sentence
+    points at it.
     """
     removed = drafts = 0
     pattern = re.compile(r"\s*\[\[" + re.escape(key) + r"\]\]")
     for path in sorted(glob.glob(os.path.join(DRAFTS, "*.md"))):
-        text = open(path, encoding="utf-8").read()
-        hits = len(pattern.findall(text))
-        if not hits:
+        stem = os.path.basename(path)[:-3]
+        targets = flagged_lines.get((stem, key), set())
+        if not every_occurrence and not targets:
             continue
-        text = pattern.sub("", text)
-        text = re.sub(r" {2,}", " ", text).replace(" .", ".").replace(" ,", ",")
-        open(path, "w", encoding="utf-8").write(text)
-        removed += hits
-        drafts += 1
+        lines = open(path, encoding="utf-8").read().splitlines(keepends=True)
+        hits = 0
+        for idx, line in enumerate(lines):
+            if not every_occurrence and (idx + 1) not in targets:
+                continue
+            found = len(pattern.findall(line))
+            if not found:
+                continue
+            cleaned = pattern.sub("", line)
+            cleaned = re.sub(r" {2,}", " ", cleaned).replace(" .", ".").replace(" ,", ",")
+            lines[idx] = cleaned
+            hits += found
+        if hits:
+            open(path, "w", encoding="utf-8").write("".join(lines))
+            removed += hits
+            drafts += 1
     return removed, drafts
 
 
@@ -157,6 +179,10 @@ def main() -> int:
                              "28 keys carry all 83 flagged citations, and a source that "
                              "does not belong in this corpus does not belong in it 13 "
                              "times over.")
+    parser.add_argument("--all-occurrences", action="store_true",
+                        help="with --remove-key, strip every appearance of the key "
+                             "rather than only the flagged ones. The stronger ruling: "
+                             "this source has no place in the paper at all.")
     parser.add_argument("--keep-key", metavar="KEY", nargs="*", default=[],
                         help="record these keys as reviewed-and-kept, retiring their "
                              "flags without touching the drafts")
@@ -228,8 +254,16 @@ def main() -> int:
         print("  --remove-key <KEY> ... --apply     strip it from every draft")
         print("  --keep-key   <KEY> ... --apply     record it as reviewed, change nothing")
 
+    flagged_lines: dict = {}
+    if args.remove_key:
+        for st, us in service.audit_all(DRAFTS).items():
+            for u in us:
+                if u.verdict not in ("relevant", "strong"):
+                    flagged_lines.setdefault((st, u.key), set()).add(u.line_no)
+
     for key in args.remove_key:
-        removed, drafts = (strip_key_everywhere(key) if args.apply else (0, 0))
+        removed, drafts = (strip_key(key, flagged_lines, args.all_occurrences)
+                           if args.apply else (0, 0))
         note = (f"{removed} occurrence(s) in {drafts} draft(s)" if args.apply
                 else "(dry run; add --apply)")
         print(f"  remove-key {key}: {note}")

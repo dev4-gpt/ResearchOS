@@ -26,7 +26,7 @@ Five search strings against the OpenAlex corpus returned 2000 records, 1893 uniq
 
 The finding that matters for practice is how little of this literature reports data. Abstract-level screening for sample-size and study-design markers classifies 31.76\% as empirical (bootstrap 95\% lower bound 29.57\%); the remainder is conceptual, positional, or descriptive. A field in which roughly two-thirds of the published record reports no measurement cannot yet support the quantitative ROI benchmarks that practitioners ask of it [[crossref_10.2139_ssrn.6374778]].
 
-We therefore present a measurement framework and a taxonomy of what would need to be reported, rather than a pooled ROI estimate. Where individual studies report returns, those figures belong to the study that measured them and are attributed accordingly. This review conducted no survey of its own and reports no enterprise deployment count [[openalex_W4400993506]].
+We therefore present a measurement framework and a taxonomy of what would need to be reported, rather than a pooled ROI estimate. Where individual studies report returns, those figures belong to the study that measured them and are attributed accordingly. This review conducted no survey of its own and reports no enterprise deployment count.
 
 ---
 
@@ -120,12 +120,14 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
 $$
 \begin{aligned}
 C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
 & + C_{\text{infrastructure}} + C_{\text{storage}}
 \end{aligned}
 $$
+
 
 
 
@@ -236,7 +238,7 @@ Beyond technical infrastructure, human and organizational factors significantly 
 
 The realization of substantial enterprise GenAI ROI is inextricably linked to robust systems and infrastructure considerations. Addressing compute costs through judicious model selection and optimization, engineering for scalability, overcoming deployment bottlenecks with mature MLOps practices, establishing comprehensive governance frameworks, and navigating organizational challenges are not merely technical tasks but strategic imperatives. A holistic approach that integrates these concerns from initial ideation through continuous operation is essential for transforming the promise of GenAI into tangible, sustainable business value.
 
-[[openalex_W4400993506]]
+
 
 ---
 
@@ -293,12 +295,14 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
 $$
 \begin{aligned}
 Y = & \alpha + \tau X_{\text{GenAI}} \\
 & + \sum_{i=1}^k \eta_i Z_i + \epsilon
 \end{aligned}
 $$
+
 
 
 

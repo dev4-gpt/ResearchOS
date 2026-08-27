@@ -237,6 +237,16 @@ def main() -> int:
     rec.record("counterexample_depth_without_invariant",
                unenforced["counterexample_depth"], "n", art1, sha1,
                "shortest path to an ungrounded commit once the invariant is removed")
+    # The manuscript's "removing the safety invariant increases the reachable
+    # state count by 72.97%" was computed from this artifact and never recorded,
+    # so nothing could resolve it. It survived only because a citation happened to
+    # sit in the same sentence. Both terms of the ratio are recorded here so the
+    # figure is checkable and moves with the run.
+    rec.record("model_states_without_invariant", unenforced["states"], "n", art1, sha1,
+               "breadth-first reachable state count, invariant removed")
+    rec.record("state_space_growth_without_invariant", round(
+        (unenforced["states"] / enforced["states"] - 1.0) * 100, 2), "%", art1, sha1,
+        "increase in reachable states when the safety invariant is removed")
     safety_pct = 100.0 if enforced["safety_holds"] else 0.0
     rec.record("safety_invariant_holds", safety_pct, "%", art1, sha1,
                "exhaustive: no reachable state commits an ungrounded proposal",
@@ -279,6 +289,16 @@ def main() -> int:
         rec.record(f"byzantine_agreement_f{f}", round(rate * 100, 2), "%", art3, sha3,
                    f"randomised quorum consensus, {f} corrupt of {council}, "
                    f"95% message delivery", n=20000)
+
+    # The channel's delivery probability is an input to this simulation, and the
+    # manuscript states it. It was only ever written into the method string above,
+    # so nothing could resolve the sentence "95% message delivery" against
+    # evidence -- the claim was passing the gate on the strength of a citation to
+    # a paper about reward engineering, and became honestly ungrounded the moment
+    # that citation was removed. A parameter a manuscript quotes is a claim.
+    rec.record("channel_delivery_probability", 95.0, "%", art3, sha3,
+               "probability an inter-agent message is delivered, per trial",
+               n=20000)
 
     tolerated = max((f for f, r in sweep.items() if r == 1.0), default=-1)
     rec.record("max_tolerated_byzantine", tolerated, "n", art3, sha3,

@@ -56,7 +56,7 @@ The central empirical question we address is: \textit{which paradigm better supp
   \item A fully reproducible evaluation harness comparing Symbol-Graph RAG and QLoRA on all 300 SWE-bench Lite tasks under identical inference conditions.
   \item A formal graph-theoretic model of Symbol-Graph RAG grounded in Personalized PageRank and PAC-learning generalization theory.
   \item An information-theoretic lower bound on the structural information loss induced by QLoRA parametric compression relative to explicit graph retrieval.
-  \item A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline \cite{arxiv_2308_12898}.
+  \item A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline.
   \item An empirical cost analysis quantifying training VRAM, inference latency, amortized per-task compute, and carbon-equivalent expenditure \cite{arxiv_2406_00584}.
   \item A failure-mode taxonomy classifying all unresolved tasks by root cause, enabling targeted improvement roadmaps for both paradigms.
 \end{enumerate}
@@ -113,6 +113,7 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -121,6 +122,7 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -184,6 +186,7 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -191,6 +194,7 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -252,6 +256,7 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -259,6 +264,7 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -487,7 +493,7 @@ Real-world benchmarks SWE-bench \cite{arxiv_2505_23419}, SWE-bench Verified, and
 \subsection{Agentic Software Engineering}
 
 
-Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333} decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents \cite{crossref_10_18653_v1_2026_findings_acl_1933}.
+Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333} decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents.
 
 
 
@@ -499,13 +505,13 @@ Multi-agent software engineering systems \cite{arxiv_2404_01131,arxiv_2412_06333
 \subsection{Threats to Internal Validity}
 
 
-\textit{Evaluation harness contamination:} SWE-bench Lite repositories may appear in pre-training data for both QLoRA's base model and Symbol-Graph RAG's CodeBERT embeddings. We control for this by evaluating on repository commits post-dating training data cutoffs, but cannot fully eliminate test leakage risks. \textit{Hyperparameter tuning:} The $\alpha = 0.65$ PPR blending weight and $K = 10$ context size were tuned on a held-out development set of 50 tasks. Cross-validation on the 300 test tasks was not performed to avoid overfitting \cite{arxiv_2203_02155}.
+\textit{Evaluation harness contamination:} SWE-bench Lite repositories may appear in pre-training data for both QLoRA's base model and Symbol-Graph RAG's CodeBERT embeddings. We control for this by evaluating on repository commits post-dating training data cutoffs, but cannot fully eliminate test leakage risks. \textit{Hyperparameter tuning:} The $\alpha = 0.65$ PPR blending weight and $K = 10$ context size were tuned on a held-out development set of 50 tasks. Cross-validation on the 300 test tasks was not performed to avoid overfitting.
 
 
 \subsection{Threats to External Validity}
 
 
-\textit{Language specificity:} SWE-bench Lite focuses exclusively on Python repositories with `pytest`-based test suites. Generalizability to statically-typed languages (C++, Java, Rust) with more complex module systems and build toolchains requires separate evaluation \cite{doaj_001772c2113c476d9d5d40452c8e10e1}. \textit{Repository scale:} Our evaluation spans repositories up to 85,000 lines of code. Ultra-large monorepos ($>10^6$ LOC) may require hierarchical graph partitioning strategies \cite{arxiv_2411_15594}.
+\textit{Language specificity:} SWE-bench Lite focuses exclusively on Python repositories with `pytest`-based test suites. Generalizability to statically-typed languages (C++, Java, Rust) with more complex module systems and build toolchains requires separate evaluation. \textit{Repository scale:} Our evaluation spans repositories up to 85,000 lines of code. Ultra-large monorepos ($>10^6$ LOC) may require hierarchical graph partitioning strategies.
 
 
 \subsection{Future Work Directions}
@@ -608,6 +614,7 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -617,6 +624,7 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -660,6 +668,7 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -667,6 +676,7 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 \end{aligned}
 $}
 \end{equation}
+
 
 
 

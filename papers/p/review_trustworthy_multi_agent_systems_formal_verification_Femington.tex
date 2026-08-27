@@ -29,9 +29,9 @@ Pennsylvania State University \\
 \begin{abstract}
 The integration of autonomous multi-agent systems into safety-critical operations calls for guarantees that hold over every reachable execution, not averages over sampled runs \cite{arxiv_2005_14165,arxiv_2203_02155}. Probabilistic orchestration frameworks offer no deterministic bound against cascading hallucination, circular deadlock, or Byzantine agent behaviour \cite{arxiv_2312_03893,arxiv_2406_00584}. This paper develops a formal verification and governance framework for Trustworthy Autonomous Multi-Agent Systems (T-MAS) and verifies it by exhaustive model checking rather than by benchmark \cite{crossref_10_1109_access_2026_3656309}.
 
-We specify a contract verification calculus in Linear Temporal Logic and a Byzantine-Tolerant Council Consensus Protocol (BT-CCP). Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\Phi_{\text{safety}}$ is enforced. Removing that invariant makes the violation reachable in 4 steps, and the checker returns that counterexample.
+We specify a contract verification calculus in Linear Temporal Logic and a Byzantine-Tolerant Council Consensus Protocol (BT-CCP). Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in well under a millisecond, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\Phi_{\text{safety}}$ is enforced. Removing that invariant makes the violation reachable in 4 steps, and the checker returns that counterexample.
 
-Deadlock freedom is decided by cycle detection over the reachable graph: without the asymmetric priority ordering $\prec_{\text{council}}$ an unbounded rebuttal cycle exists; with it the cycle is absent. Byzantine agreement is simulated over an unreliable channel ($95\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \le 2$ corrupt members and agreement collapses to $0.00\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts \cite{arxiv_2404_01131}.
+Deadlock freedom is decided by cycle detection over the reachable graph: without the asymmetric priority ordering $\prec_{\text{council}}$ an unbounded rebuttal cycle exists; with it the cycle is absent. Byzantine agreement is simulated over an unreliable channel ($95\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \le 2$ corrupt members and agreement collapses to $0.00\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts.
 
 These are results about a protocol model. No language model was run, so this paper reports no interaction traces, no intercepted hallucinations, and no enterprise deployment figures. The specification, the checker and all recorded measurements are released for re-execution \cite{arxiv_2501_02497,crossref_10_1201_9788743808145_14}.
 \end{abstract}
@@ -131,6 +131,7 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -139,6 +140,7 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -188,6 +190,7 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -195,6 +198,7 @@ where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced b
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -255,6 +259,7 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -262,6 +267,7 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -318,6 +324,7 @@ $}
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -326,6 +333,7 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
 
 
 
@@ -395,6 +403,7 @@ To prevent infinite rebuttal loops between polarized personas (e.g., \textit{Sta
 
 
 
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -425,7 +434,8 @@ $}
 
 
 
-If rebuttal turns exceed $k_{\max} = 3$, the Chairman agent is granted unilateral synthesis authority to force consensus or escalate to human review \cite{arxiv_2412_06333}.
+
+If rebuttal turns exceed $k_{\max} = 3$, the Chairman agent is granted unilateral synthesis authority to force consensus or escalate to human review.
 
 
 
@@ -457,7 +467,7 @@ With the invariant enforced, the protocol reaches
 transitions -- a mean branching factor of
 \textbf{3.00} -- and terminates in one of
 10 commit or abort states. Exhaustive exploration
-completes in 0.05 ms.
+completes in well under a millisecond.
 
 That figure is what makes continuous model checking viable as an operational
 control rather than a design-time exercise. A council can re-verify its own
@@ -511,7 +521,7 @@ $\Phi_{\text{safety}}$ removed & 64 & -- & no & 4 steps \\
 \end{tabular}}
 \end{table}
 
-Exhaustive exploration completes in 0.05 ms. With the invariant enforced, no reachable state commits an ungrounded proposal; this is a property of every execution of the model, not an average over sampled ones. With the invariant removed the violation becomes reachable in 4 transitions, and the checker returns that trace for repair.
+Exhaustive exploration completes in well under a millisecond. With the invariant enforced, no reachable state commits an ungrounded proposal; this is a property of every execution of the model, not an average over sampled ones. With the invariant removed the violation becomes reachable in 4 transitions, and the checker returns that trace for repair.
 
  Table 2: Deadlock Freedom by Cycle Detection
 \begin{table}[htbp]
@@ -573,7 +583,7 @@ We do not report an ablation over agent backbones or debate strategies. That com
 Early multi-agent debate literature demonstrated that multi-persona argumentation enhances reasoning on mathematical and logic puzzles \cite{arxiv_2005_14165,arxiv_2203_02155}. However, unconstrained debate is prone to sycophancy, majority-vote bias, and hallucination contagion \cite{arxiv_2406_00584}. Our BT-CCP protocol resolves these failure modes by anchoring multi-agent consensus in formal distributed systems theory and Byzantine fault tolerance.
 
  Formal Methods, LTL, and Model Checking in AI
-Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have been widely applied to hardware verification, robotic motion planning, and autonomous cyber-physical systems \cite{crossref_10_18653_v1_2026_findings_acl_1933}. Recent literature investigates neuro-symbolic reasoning and SMT constraint solving for neural network safety \cite{arxiv_2404_01131}. T-MAS extends temporal logic to multi-agent generative deliberation, treating LLM agents as non-deterministic transitions within a formally verified state space.
+Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have been widely applied to hardware verification, robotic motion planning, and autonomous cyber-physical systems. Recent literature investigates neuro-symbolic reasoning and SMT constraint solving for neural network safety. T-MAS extends temporal logic to multi-agent generative deliberation, treating LLM agents as non-deterministic transitions within a formally verified state space.
 
  Zero-Hallucination Architectures \& External Grounding
 Retrieval-Augmented Generation (RAG), GraphRAG \cite{arxiv_2501_14050}, and automated fact-checking linters ground generative outputs against external knowledge repositories. T-MAS integrates these linters as atomic predicates within LTL safety invariants, ensuring that no state mutation is committed without cryptographic proof of factual grounding \cite{arxiv_2405_01543,crossref_10_1201_9788743808145_14}.
@@ -601,7 +611,7 @@ We identify four strategic research directions for trustworthy multi-agent gover
 \begin{enumerate}
   \item \textbf{Probabilistic \& Stochastic Temporal Logic Model Checking:} Extending LTL to PCTL (Probabilistic Computation Tree Logic) to verify continuous confidence distributions across uncertain epistemic states.
   \item \textbf{Zero-Knowledge Multi-Agent Consensus (ZK-MAS):} Implementing Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge (zk-SNARKs) to verify agent reasoning validity without exposing proprietary training weights or confidential enterprise prompts.
-  \item \textbf{Decentralized Multi-Agent DAO Governance:} Integrating smart contract protocols on enterprise distributed ledgers for autonomous multi-agent economic resource allocation and liability tracking \cite{crossref_10_1109_access_2026_3656309}.
+  \item \textbf{Decentralized Multi-Agent DAO Governance:} Integrating smart contract protocols on enterprise distributed ledgers for autonomous multi-agent economic resource allocation and liability tracking.
   \item \textbf{Human-in-the-Loop (HITL) Tiered Escalation Algebra:} Formulating formal escalation boundaries that mathematically determine when agent uncertainty warrants mandatory human sign-off.
 \end{enumerate}
 
@@ -611,7 +621,7 @@ We identify four strategic research directions for trustworthy multi-agent gover
 
 Autonomous multi-agent systems entering safety-critical use need guarantees that quantify over executions rather than averages over samples. We specified T-MAS as a transition system with an LTL safety invariant, an asymmetric priority ordering for liveness, and a $2f+1$ quorum rule for agreement, then decided each property by exhaustive search.
 
-Model checking explores 37 reachable states over 111 transitions in 0.05 ms and establishes that no execution commits an ungrounded proposal while $\Phi_{\text{safety}}$ is enforced. Removing the invariant makes that violation reachable in 4 steps. Cycle detection shows the rebuttal livelock exists without the priority ordering and is absent with it. Randomised Byzantine simulation places the agreement threshold at $f = 2$ for a council of seven, exactly the classical $\lfloor (n-1)/3 \rfloor$ bound.
+Model checking explores 37 reachable states over 111 transitions in well under a millisecond and establishes that no execution commits an ungrounded proposal while $\Phi_{\text{safety}}$ is enforced. Removing the invariant makes that violation reachable in 4 steps. Cycle detection shows the rebuttal livelock exists without the priority ordering and is absent with it. Randomised Byzantine simulation places the agreement threshold at $f = 2$ for a council of seven, exactly the classical $\lfloor (n-1)/3 \rfloor$ bound.
 
 The scope of these claims is the model. Whether a deployed council of language-model agents refines into this protocol faithfully is an empirical question this paper does not answer: no model was run, no interaction trace was collected, and no hallucination was intercepted. What the work provides is a specification precise enough to be checked, a checker that returns counterexamples, and the recorded measurements to re-derive every number here \cite{arxiv_2406_00584,crossref_10_1109_access_2026_3656309,crossref_10_1201_9788743808145_14}.
 
@@ -704,15 +714,15 @@ Property & Value \\
 \midrule
 Run identifier & `draft-review\\_trustworthy\\_multi\\_agent\\_systems\\_formal\\_verification` \\
 Random seed & 20260825 \\
-Repository revision & `af99c4e72108` \\
+Repository revision & `66e434cbd1be` \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `0.922 s` \\
-Measurements recorded & 12 \\
-Recorded at & 2026-08-25T18:08:42-0400 \\
+Wall-clock duration & `0.732 s` \\
+Measurements recorded & 15 \\
+Recorded at & 2026-08-26T19:51:55-0400 \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -771,7 +781,7 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 `livelock\_cycle\_with\_priority` & 0.0 & \% & 2 & -- & `DFS cycle detection over the reachable graph` \\
 `livelock\_cycle\_without\_priority` & 100.0 & \% & 2 & -- & `DFS cycle detection over the reachable graph` \\
 `max\_tolerated\_byzantine` & 2.0 & n & 7 & -- & `largest f at which honest agreement is total` \\
-`model\_check\_latency\_ms` & 0.0531 & ms & -- & -- & `wall-clock exhaustive exploration` \\
+`model\_check\_latency\_ms` & 0.0668 & ms & -- & -- & `wall-clock exhaustive exploration` \\
 `model\_states\_reachable` & 37.0 & n & -- & -- & `breadth-first reachable state count, invariant enforced` \\
 `model\_transitions` & 111.0 & n & -- & -- & `transitions explored, invariant enforced` \\
 `safety\_invariant\_holds` & 100.0 & \% & 37 & -- & `exhaustive: no reachable state commits an ungrounded proposal` \\

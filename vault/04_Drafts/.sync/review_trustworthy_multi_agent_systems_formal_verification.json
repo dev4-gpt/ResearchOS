@@ -21,25 +21,17 @@
           "decimals": 0,
           "field": "n",
           "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "channel_delivery_probability"
         }
       ],
       "lines": [
         37
       ],
       "literal": "20{,}000"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 4,
-          "field": "value",
-          "metric": "model_check_latency_ms"
-        }
-      ],
-      "lines": [
-        647
-      ],
-      "literal": "0.0531"
     },
     {
       "claims": [
@@ -70,11 +62,11 @@
         }
       ],
       "lines": [
-        639,
-        640,
-        641,
-        645,
-        650
+        659,
+        660,
+        661,
+        665,
+        670
       ],
       "literal": "100.0"
     },
@@ -87,7 +79,7 @@
         }
       ],
       "lines": [
-        649
+        669
       ],
       "literal": "111.0"
     },
@@ -112,13 +104,18 @@
           "decimals": 0,
           "field": "n",
           "metric": "byzantine_agreement_f3"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "channel_delivery_probability"
         }
       ],
       "lines": [
-        639,
-        640,
-        641,
-        642
+        659,
+        660,
+        661,
+        662
       ],
       "literal": "20000"
     },
@@ -143,24 +140,6 @@
     {
       "claims": [
         {
-          "decimals": 2,
-          "field": "value",
-          "metric": "model_check_latency_ms"
-        }
-      ],
-      "lines": [
-        35
-      ],
-      "literal": "0.05"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "mean_branching_factor"
-        },
-        {
           "decimals": 1,
           "field": "value",
           "metric": "model_states_reachable"
@@ -169,20 +148,10 @@
           "decimals": 1,
           "field": "n",
           "metric": "safety_invariant_holds"
-        },
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "state_space_growth_without_invariant"
-        },
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "terminal_states_enforced"
         }
       ],
       "lines": [
-        648
+        668
       ],
       "literal": "37.0"
     },
@@ -200,8 +169,8 @@
         }
       ],
       "lines": [
-        642,
-        644
+        662,
+        664
       ],
       "literal": "0.0"
     },
@@ -237,7 +206,7 @@
         }
       ],
       "lines": [
-        646
+        666
       ],
       "literal": "2.0"
     },
@@ -250,17 +219,12 @@
         }
       ],
       "lines": [
-        643
+        663
       ],
       "literal": "4.0"
     },
     {
       "claims": [
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "mean_branching_factor"
-        },
         {
           "decimals": 0,
           "field": "value",
@@ -270,23 +234,31 @@
           "decimals": 0,
           "field": "n",
           "metric": "safety_invariant_holds"
-        },
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "state_space_growth_without_invariant"
-        },
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "terminal_states_enforced"
         }
       ],
       "lines": [
         35,
-        650
+        670
       ],
       "literal": "37"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "channel_delivery_probability"
+        }
+      ],
+      "lines": [
+        37,
+        657,
+        659,
+        660,
+        661,
+        662
+      ],
+      "literal": "95"
     }
   ],
   "run_id": "draft-review_trustworthy_multi_agent_systems_formal_verification",

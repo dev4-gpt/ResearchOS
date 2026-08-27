@@ -220,9 +220,9 @@
     "review_architectural_dynamics_long_12_page": {
       "draft": "review_architectural_dynamics_long_12_page",
       "run_id": "draft-review_architectural_dynamics_long_12_page",
-      "total_claims": 27,
+      "total_claims": 25,
       "experiment_backed": 23,
-      "citation_backed": 4,
+      "citation_backed": 2,
       "ungrounded": 0,
       "claims": [
         {
@@ -232,10 +232,8 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 23,
-          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence [[arxiv_2404.01131]].",
-          "cite_keys": [
-            "arxiv_2404.01131"
-          ],
+          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence.",
+          "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
         },
@@ -246,10 +244,8 @@
           "unit": "%",
           "kind": "percentage",
           "line_no": 23,
-          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence [[arxiv_2404.01131]].",
-          "cite_keys": [
-            "arxiv_2404.01131"
-          ],
+          "sentence": "We give exact closed-form KV-cache arithmetic and evaluate it across attention variants: at a 32k context a grouped-query 7B configuration requires 75.0\\% less cache than multi-head, and multi-query 96.9\\% less, while a multi-head 7B model at 128k context needs 64.0 GiB for a single sequence.",
+          "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
         },
@@ -462,34 +458,6 @@
         },
         {
           "claim_id": "C0020",
-          "raw": "2.4 TB",
-          "value": 2.4,
-          "unit": "bytes",
-          "kind": "memory",
-          "line_no": 1088,
-          "sentence": "Vendor specifications report HBM bandwidth of 2.4 TB/s for TPU v5e against 3.35 TB/s for H100 but different precision support profiles [[pubmed_42380865]].",
-          "cite_keys": [
-            "pubmed_42380865"
-          ],
-          "grounding": "CITATION",
-          "evidence": "attributed to pubmed_42380865"
-        },
-        {
-          "claim_id": "C0021",
-          "raw": "3.35 TB",
-          "value": 3.35,
-          "unit": "bytes",
-          "kind": "memory",
-          "line_no": 1088,
-          "sentence": "Vendor specifications report HBM bandwidth of 2.4 TB/s for TPU v5e against 3.35 TB/s for H100 but different precision support profiles [[pubmed_42380865]].",
-          "cite_keys": [
-            "pubmed_42380865"
-          ],
-          "grounding": "CITATION",
-          "evidence": "attributed to pubmed_42380865"
-        },
-        {
-          "claim_id": "C0022",
           "raw": "75.0\\%",
           "value": 75.0,
           "unit": "%",
@@ -501,7 +469,7 @@
           "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
         },
         {
-          "claim_id": "C0023",
+          "claim_id": "C0021",
           "raw": "96.9\\%",
           "value": 96.9,
           "unit": "%",
@@ -513,7 +481,7 @@
           "evidence": "artifacts/kv_cache_scaling.json#946803b9288e"
         },
         {
-          "claim_id": "C0024",
+          "claim_id": "C0022",
           "raw": "99.45\\%",
           "value": 99.45,
           "unit": "%",
@@ -525,7 +493,7 @@
           "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
         },
         {
-          "claim_id": "C0025",
+          "claim_id": "C0023",
           "raw": "12.5\\%",
           "value": 12.5,
           "unit": "%",
@@ -537,7 +505,7 @@
           "evidence": "artifacts/kv_budget_70b.json#4eef61836ffb"
         },
         {
-          "claim_id": "C0026",
+          "claim_id": "C0024",
           "raw": "64.47\\%",
           "value": 64.47,
           "unit": "%",
@@ -549,7 +517,7 @@
           "evidence": "artifacts/lora_subspace.json#c61f5c0d92cd"
         },
         {
-          "claim_id": "C0027",
+          "claim_id": "C0025",
           "raw": "48GB",
           "value": 48.0,
           "unit": "bytes",
@@ -785,9 +753,9 @@
     "review_enterprise_adoption_of_multi_agent_ai_systems_infr": {
       "draft": "review_enterprise_adoption_of_multi_agent_ai_systems_infr",
       "run_id": "draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr",
-      "total_claims": 30,
+      "total_claims": 29,
       "experiment_backed": 28,
-      "citation_backed": 2,
+      "citation_backed": 1,
       "ungrounded": 0,
       "claims": [
         {
@@ -1046,20 +1014,6 @@
         },
         {
           "claim_id": "C0022",
-          "raw": "60s",
-          "value": 60.0,
-          "unit": "time",
-          "kind": "duration",
-          "line_no": 621,
-          "sentence": "- Layer 2 (Cryptographic JWT RBAC Tokens): Inter-agent requests must carry short-lived (60s), cryptographically signed JWT tokens containing explicit tool permission scopes [[pubmed_42380865]].",
-          "cite_keys": [
-            "pubmed_42380865"
-          ],
-          "grounding": "CITATION",
-          "evidence": "attributed to pubmed_42380865"
-        },
-        {
-          "claim_id": "C0023",
           "raw": "N = 64",
           "value": 64.0,
           "unit": "n",
@@ -1071,7 +1025,7 @@
           "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
         },
         {
-          "claim_id": "C0024",
+          "claim_id": "C0023",
           "raw": "96.88\\%",
           "value": 96.88,
           "unit": "%",
@@ -1083,7 +1037,7 @@
           "evidence": "artifacts/message_scaling.json#7bb8504d82ef"
         },
         {
-          "claim_id": "C0025",
+          "claim_id": "C0024",
           "raw": "d = 2.13",
           "value": 2.13,
           "unit": "",
@@ -1095,7 +1049,7 @@
           "evidence": "artifacts/cascade_significance.json#51a53501a35c"
         },
         {
-          "claim_id": "C0026",
+          "claim_id": "C0025",
           "raw": "72.06\\%",
           "value": 72.06,
           "unit": "%",
@@ -1107,7 +1061,7 @@
           "evidence": "artifacts/cascade_trials.json#88527de8baa0"
         },
         {
-          "claim_id": "C0027",
+          "claim_id": "C0026",
           "raw": "2.84\\%",
           "value": 2.84,
           "unit": "%",
@@ -1119,7 +1073,7 @@
           "evidence": "artifacts/cascade_trials.json#88527de8baa0"
         },
         {
-          "claim_id": "C0028",
+          "claim_id": "C0027",
           "raw": "96.15\\%",
           "value": 96.15,
           "unit": "%",
@@ -1131,7 +1085,7 @@
           "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
         },
         {
-          "claim_id": "C0029",
+          "claim_id": "C0028",
           "raw": "99.80\\%",
           "value": 99.8,
           "unit": "%",
@@ -1143,7 +1097,7 @@
           "evidence": "artifacts/dtmc_availability.json#b2bbe5305083"
         },
         {
-          "claim_id": "C0030",
+          "claim_id": "C0029",
           "raw": "4.00\\%",
           "value": 4.0,
           "unit": "%",
@@ -1436,53 +1390,37 @@
     "review_trustworthy_multi_agent_systems_formal_verification": {
       "draft": "review_trustworthy_multi_agent_systems_formal_verification",
       "run_id": "draft-review_trustworthy_multi_agent_systems_formal_verification",
-      "total_claims": 8,
-      "experiment_backed": 7,
-      "citation_backed": 1,
+      "total_claims": 4,
+      "experiment_backed": 4,
+      "citation_backed": 0,
       "ungrounded": 0,
       "claims": [
         {
           "claim_id": "C0001",
-          "raw": "0.05 ms",
-          "value": 0.05,
-          "unit": "time",
-          "kind": "duration",
-          "line_no": 35,
-          "sentence": "Exhaustive breadth-first exploration of the council protocol reaches 37 states over 111 transitions in 0.05 ms, and establishes that no reachable state commits an ungrounded proposal while the safety invariant $\\Phi_{\\text{safety}}$ is enforced",
-          "cite_keys": [],
-          "grounding": "EXPERIMENT",
-          "evidence": "artifacts/model_checking.json#77b86c3ca17d"
-        },
-        {
-          "claim_id": "C0002",
           "raw": "95\\%",
           "value": 95.0,
           "unit": "%",
           "kind": "percentage",
           "line_no": 37,
-          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts [[arxiv_2404.01131]].",
-          "cite_keys": [
-            "arxiv_2404.01131"
-          ],
-          "grounding": "CITATION",
-          "evidence": "attributed to arxiv_2404.01131"
+          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts.",
+          "cite_keys": [],
+          "grounding": "EXPERIMENT",
+          "evidence": "artifacts/byzantine_sweep.json#81008558d1f8"
         },
         {
-          "claim_id": "C0003",
+          "claim_id": "C0002",
           "raw": "0.00\\%",
           "value": 0.0,
           "unit": "%",
           "kind": "percentage",
           "line_no": 37,
-          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts [[arxiv_2404.01131]].",
-          "cite_keys": [
-            "arxiv_2404.01131"
-          ],
+          "sentence": "Byzantine agreement is simulated over an unreliable channel ($95\\%$ message delivery, $20{,}000$ trials per configuration) for a council of $7$: honest agents reach total agreement for $f \\le 2$ corrupt members and agreement collapses to $0.00\\%$ at $f = 3$, locating the threshold exactly where the bound $f < n/3$ predicts.",
+          "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/deadlock_check.json#144ad5ed29ce"
         },
         {
-          "claim_id": "C0004",
+          "claim_id": "C0003",
           "raw": "72.97%",
           "value": 72.97,
           "unit": "%",
@@ -1491,34 +1429,10 @@
           "sentence": "**72.97%**",
           "cite_keys": [],
           "grounding": "EXPERIMENT",
-          "evidence": "artifacts/model_checking.json#77b86c3ca17d"
+          "evidence": "artifacts/model_checking.json#f409fbd7626c"
         },
         {
-          "claim_id": "C0005",
-          "raw": "0.05 ms",
-          "value": 0.05,
-          "unit": "time",
-          "kind": "duration",
-          "line_no": 406,
-          "sentence": "completes in 0.05 ms.",
-          "cite_keys": [],
-          "grounding": "EXPERIMENT",
-          "evidence": "artifacts/model_checking.json#77b86c3ca17d"
-        },
-        {
-          "claim_id": "C0006",
-          "raw": "0.05 ms",
-          "value": 0.05,
-          "unit": "time",
-          "kind": "duration",
-          "line_no": 451,
-          "sentence": "Exhaustive exploration completes in 0.05 ms",
-          "cite_keys": [],
-          "grounding": "EXPERIMENT",
-          "evidence": "artifacts/model_checking.json#77b86c3ca17d"
-        },
-        {
-          "claim_id": "C0007",
+          "claim_id": "C0004",
           "raw": "0.00\\%",
           "value": 0.0,
           "unit": "%",
@@ -1528,18 +1442,6 @@
           "cite_keys": [],
           "grounding": "EXPERIMENT",
           "evidence": "artifacts/deadlock_check.json#144ad5ed29ce"
-        },
-        {
-          "claim_id": "C0008",
-          "raw": "0.05 ms",
-          "value": 0.05,
-          "unit": "time",
-          "kind": "duration",
-          "line_no": 524,
-          "sentence": "Model checking explores 37 reachable states over 111 transitions in 0.05 ms and establishes that no execution commits an ungrounded proposal while $\\Phi_{\\text{safety}}$ is enforced",
-          "cite_keys": [],
-          "grounding": "EXPERIMENT",
-          "evidence": "artifacts/model_checking.json#77b86c3ca17d"
         }
       ],
       "measurements_found": 15,
@@ -1582,12 +1484,12 @@
       "rationale": [
         "All quantitative claims trace to evidence (+30).",
         "Scope fit 17/25 (matched: model, parameter, scaling, training).",
-        "Length fits: ~7.7 of 8 pages (+20).",
+        "Length fits: ~7.6 of 8 pages (+20).",
         "Acceptance weight +4.1."
       ],
       "warnings": [],
       "runner_up": "IEEE_Access",
-      "estimated_pages": 7.7
+      "estimated_pages": 7.6
     },
     "review_symbol_graph_rag_vs_qlora_swe_bench_lite": {
       "venue": "IEEE_Access",

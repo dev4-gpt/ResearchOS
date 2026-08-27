@@ -45,7 +45,7 @@ The central empirical question we address is: *which paradigm better supports au
 1. A fully reproducible evaluation harness comparing Symbol-Graph RAG and QLoRA on all 300 SWE-bench Lite tasks under identical inference conditions.
 2. A formal graph-theoretic model of Symbol-Graph RAG grounded in Personalized PageRank and PAC-learning generalization theory.
 3. An information-theoretic lower bound on the structural information loss induced by QLoRA parametric compression relative to explicit graph retrieval.
-4. A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline [[arxiv_2308.12898]].
+4. A hyperparameter study over the diffusion's damping factor and seed breadth, selected on a held-out split, establishing that no configuration tested separates from the lexical baseline.
 5. An empirical cost analysis quantifying training VRAM, inference latency, amortized per-task compute, and carbon-equivalent expenditure [[arxiv_2406.00584]].
 6. A failure-mode taxonomy classifying all unresolved tasks by root cause, enabling targeted improvement roadmaps for both paradigms.
 
@@ -92,12 +92,14 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 
 
 
+
 $$
 \begin{aligned}
 \text{Rel}(v_i, q) = & \alpha \cdot \cos(\mathbf{x}_i, \\
 & \vec{q}) + (1 - \alpha) \cdot \text{PPR}(v_i \mid \mathcal{G}, S_q)
 \end{aligned}
 $$
+
 
 
 
@@ -157,11 +159,13 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 
 
 
+
 $$
 \begin{aligned}
 \mathbb{E}_{\mathcal{D}}[\text{Resolved}(h)] \geq \hat{\mathbb{E}}_n[\text{Resolved}(h)] - \sqrt{\frac{\log|\mathcal{H}| + \log(1/\delta)}{2n}}
 \end{aligned}
 $$
+
 
 
 
@@ -219,11 +223,13 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{I}(\mathcal{G}; \Delta W) \leq \sum_{k=1}^{r} \log\left(1 + \frac{\sigma_k^2(\mathcal{G})}{\sigma_{\text{noise}}^2}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -387,7 +393,7 @@ Real-world benchmarks SWE-bench [[arxiv_2505.23419]], SWE-bench Verified, and SW
 
 ### Agentic Software Engineering
 
-Multi-agent software engineering systems [[arxiv_2404.01131], [arxiv_2412.06333]] decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents [[crossref_10.18653_v1_2026.findings-acl.1933]].
+Multi-agent software engineering systems [[arxiv_2404.01131], [arxiv_2412.06333]] decompose repository-scale tasks across specialized agents (planner, coder, tester, reviewer). Reward-guided agent orchestration enforces behavioral alignment and safety in automated coding pipelines. Symbol-Graph RAG provides a natural retrieval backbone for such multi-agent architectures, with the graph serving as a shared symbolic workspace across agents.
 
 ---
 
@@ -395,11 +401,11 @@ Multi-agent software engineering systems [[arxiv_2404.01131], [arxiv_2412.06333]
 
 ### Threats to Internal Validity
 
-*Evaluation harness contamination:* SWE-bench Lite repositories may appear in pre-training data for both QLoRA's base model and Symbol-Graph RAG's CodeBERT embeddings. We control for this by evaluating on repository commits post-dating training data cutoffs, but cannot fully eliminate test leakage risks. *Hyperparameter tuning:* The $\alpha = 0.65$ PPR blending weight and $K = 10$ context size were tuned on a held-out development set of 50 tasks. Cross-validation on the 300 test tasks was not performed to avoid overfitting [[arxiv_2203.02155]].
+*Evaluation harness contamination:* SWE-bench Lite repositories may appear in pre-training data for both QLoRA's base model and Symbol-Graph RAG's CodeBERT embeddings. We control for this by evaluating on repository commits post-dating training data cutoffs, but cannot fully eliminate test leakage risks. *Hyperparameter tuning:* The $\alpha = 0.65$ PPR blending weight and $K = 10$ context size were tuned on a held-out development set of 50 tasks. Cross-validation on the 300 test tasks was not performed to avoid overfitting.
 
 ### Threats to External Validity
 
-*Language specificity:* SWE-bench Lite focuses exclusively on Python repositories with `pytest`-based test suites. Generalizability to statically-typed languages (C++, Java, Rust) with more complex module systems and build toolchains requires separate evaluation [[doaj_001772c2113c476d9d5d40452c8e10e1]]. *Repository scale:* Our evaluation spans repositories up to 85,000 lines of code. Ultra-large monorepos ($>10^6$ LOC) may require hierarchical graph partitioning strategies [[arxiv_2411.15594]].
+*Language specificity:* SWE-bench Lite focuses exclusively on Python repositories with `pytest`-based test suites. Generalizability to statically-typed languages (C++, Java, Rust) with more complex module systems and build toolchains requires separate evaluation. *Repository scale:* Our evaluation spans repositories up to 85,000 lines of code. Ultra-large monorepos ($>10^6$ LOC) may require hierarchical graph partitioning strategies.
 
 ### Future Work Directions
 
@@ -479,6 +485,7 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
 $$
 \begin{aligned}
 \mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
@@ -486,6 +493,7 @@ $$
 & + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
 \end{aligned}
 $$
+
 
 
 
@@ -521,11 +529,13 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
 $$
 \begin{aligned}
 \boldsymbol{\pi} = \alpha P^{\top} \boldsymbol{\pi} + (1 - \alpha)\mathbf{s}
 \end{aligned}
 $$
+
 
 
 

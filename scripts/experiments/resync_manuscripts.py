@@ -103,7 +103,14 @@ def candidate_literals(value: float) -> List[Tuple[str, int]]:
         if abs(float(lit) - value) > 0.5 * 10 ** (-decimals):
             continue  # not a faithful rounding at this precision
         exact = float(lit) == value
-        if not exact and sum(ch.isdigit() for ch in lit) < 3:
+        # Sub-unit values are exempt from the three-digit rule. '0.05' is a
+        # perfectly ordinary way to spell a 0.0531 ms latency, and it is nothing
+        # like as collision-prone as the bare '10' that rule exists to stop: the
+        # leading '0.' pins it to a magnitude. Without the exemption p9's model-
+        # checking latency could not be anchored at all, and three sentences
+        # quoting it went ungrounded when the value moved on a re-run.
+        sub_unit = lit.startswith("0.") or lit.startswith("-0.")
+        if not exact and not sub_unit and sum(ch.isdigit() for ch in lit) < 3:
             continue
         seen.setdefault(lit, decimals)
         # The drafts write thousands as '36{,}032' so LaTeX sets the comma

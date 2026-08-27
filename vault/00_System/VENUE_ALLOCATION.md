@@ -5,7 +5,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 | Manuscript | Venue | Tier | Pages | Ungrounded | Score |
 |:---|:---|:---|---:|---:|---:|
 | autonomous_code_synthesis_and_self_healing_m | ACM | reputable_journal | 8.1 | 0 | 66.25 |
-| review_architectural_dynamics_long_12_page | ICML | competitive | 7.7 | 0 | 70.72 |
+| review_architectural_dynamics_long_12_page | ICML | competitive | 7.6 | 0 | 70.72 |
 | review_composable_ai_systems_for_trustworthy | ACM | reputable_journal | 6.7 | 0 | 35.75 |
 | review_continual_safety_alignment_in_vision_ | ACM | reputable_journal | 6.2 | 0 | 35.75 |
 | review_enterprise_adoption_of_multi_agent_ai | MDPI | open_access | 8.2 | 0 | 61.67 |
@@ -27,7 +27,7 @@ One venue per manuscript. Concurrent submission of the same paper to multiple ve
 **Target:** ICML
 - All quantitative claims trace to evidence (+30).
 - Scope fit 17/25 (matched: model, parameter, scaling, training).
-- Length fits: ~7.7 of 8 pages (+20).
+- Length fits: ~7.6 of 8 pages (+20).
 - Acceptance weight +4.1.
 
 ### review_composable_ai_systems_for_trustworthy_agentic_pipelines

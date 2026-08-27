@@ -89,6 +89,7 @@ Let an enterprise multi-agent deployment be defined as a communication graph $\m
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{M}_{\text{mesh}}(N) = N(N - 1) = \mathcal{O}(N^2)
@@ -115,9 +116,11 @@ $$
 
 
 
-As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift [[arxiv_2412.06333]].
+
+As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift.
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
 
 
 
@@ -165,9 +168,11 @@ $$
 
 
 
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
 
 
 
@@ -215,9 +220,11 @@ $$
 
 
 
-where $|K|$ is the cardinality of the knowledge base [[crossref_10.1145_3689096.3689462]].
+
+where $|K|$ is the cardinality of the knowledge base.
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
 
 
 
@@ -265,11 +272,13 @@ $$
 
 
 
+
 ---
 
 ### Formal Econometric Cost Model
 
 Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
 
 
 
@@ -318,7 +327,9 @@ $$
 
 
 
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
 
 
 
@@ -366,7 +377,9 @@ $$
 
 
 
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
 
 
 
@@ -393,6 +406,7 @@ $$
 \mathcal{C}_{\text{hierarchical}} \propto \mathcal{O}\left(N \cdot T_{\text{turns}} \cdot P_{\text{in}}\right)
 \end{aligned}
 $$
+
 
 
 
@@ -444,11 +458,13 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
 
 
 
@@ -601,7 +617,7 @@ The cascade results in Table 2 measure how far a fault spreads, not how quickly 
 | Distributed State Checkpointing | probe plus checkpoint validity check | work completed before the last checkpoint | checkpoint write on each milestone |
 | Hierarchical Supervisor Resumption | supervisor observes child completion directly | subtree state held by the parent | folded into the existing tree edges |
 
-Hierarchical supervisor resumption is attractive here because its detection path reuses coordination edges the topology already maintains, so fault detection adds no messages beyond those counted in Table 2. Establishing that this translates into lower wall-clock recovery requires a deployed system with instrumented restarts, which is left to future work [[crossref_10.1145_3689096.3689462]].
+Hierarchical supervisor resumption is attractive here because its detection path reuses coordination edges the topology already maintains, so fault detection adds no messages beyond those counted in Table 2. Establishing that this translates into lower wall-clock recovery requires a deployed system with instrumented restarts, which is left to future work.
 
 ---
 
@@ -617,8 +633,8 @@ Multi-agent deployments introduce unique enterprise attack vectors [[arxiv_2404.
 ### Zero-Trust Sandboxing Architecture
 
 To mitigate these threats, we implement a 3-layer enterprise defense-in-depth architecture:
-- Layer 1 (Ephemeral Namespace Sandboxing): All tool-executing agents run in isolated gVisor and Firecracker microVMs with restricted system calls and zero root capabilities [[doaj_001772c2113c476d9d5d40452c8e10e1]].
-- Layer 2 (Cryptographic JWT RBAC Tokens): Inter-agent requests must carry short-lived (60s), cryptographically signed JWT tokens containing explicit tool permission scopes [[pubmed_42380865]].
+- Layer 1 (Ephemeral Namespace Sandboxing): All tool-executing agents run in isolated gVisor and Firecracker microVMs with restricted system calls and zero root capabilities.
+- Layer 2 (Cryptographic JWT RBAC Tokens): Inter-agent requests must carry short-lived, cryptographically signed JWT tokens containing explicit tool permission scopes.
 - Layer 3 (Egress Traffic Filtering): Outbound network connections are strictly restricted to whitelisted domain endpoints via Cilium eBPF network policies.
 
 ---
@@ -658,7 +674,7 @@ Empirical investigations into generative AI economics highlight labor productivi
 
 We outline four foundational directions for next-generation enterprise multi-agent infrastructure:
 1. Dynamic Adaptive Topology Reconfiguration: Algorithms that dynamically transition communication topologies (e.g., from Supervisor Tree to Bidding Marketplace) based on real-time task complexity and token pricing.
-2. Federated Cross-Enterprise Agent Swarms: Secure multi-party computation (SMPC) protocols enabling privacy-preserving agent collaboration across distinct corporate boundaries [[crossref_10.1109_access.2026.3656309]].
+2. Federated Cross-Enterprise Agent Swarms: Secure multi-party computation (SMPC) protocols enabling privacy-preserving agent collaboration across distinct corporate boundaries.
 3. Hardware-Accelerated Agent Telemetry: Implementing OpenTelemetry trace aggregation directly within eBPF kernel modules to eliminate monitoring latency overhead.
 4. Autonomous SLA Contract Negotiation: Smart-contract-driven micro-payments enabling agents to dynamically purchase GPU compute capacity based on task SLA urgency.
 
@@ -754,9 +770,11 @@ A two-state chain over $\{\textsf{UP}, \textsf{DOWN}\}$ with failure rate $\lamb
 
 
 
+
 $$
 P = \begin{pmatrix} 1 - \lambda & \lambda \\ \mu & 1 - \mu \end{pmatrix}
 $$
+
 
 
 

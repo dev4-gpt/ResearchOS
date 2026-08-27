@@ -103,12 +103,14 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
 $$
 \begin{aligned}
 \mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
 & \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $$
+
 
 
 
@@ -158,12 +160,14 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
 $$
 \begin{aligned}
 c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
 
 
 
@@ -216,6 +220,7 @@ where:
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
@@ -243,13 +248,15 @@ $$
 
 
 
-where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition holds, the composite contract guarantees end-to-end type safety and semantic invariant preservation without runtime schema mediation [[crossref_10.18653_v1_2026.findings-acl.1933]].
+
+where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition holds, the composite contract guarantees end-to-end type safety and semantic invariant preservation without runtime schema mediation.
 
 ### Lyapunov Stability Analysis of Agent Error Dynamics
 
 Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the state error vector of agent $v_i$ relative to the oracle ground-truth state $\mathbf{s}_t^{*(i)}$. In an unconstrained monolithic pipeline, error propagation follows a non-linear autoregressive process $\mathbf{e}_{t+1} = \mathbf{A}\mathbf{e}_t + \mathbf{w}_t$, where the spectral radius $\rho(\mathbf{A})$ frequently exceeds unity during complex multi-hop reasoning, triggering unbounded error divergence.
 
 **Theorem 1 (Lyapunov Stability of Contract-Gated Pipelines).** Let $V(\mathbf{e}_t) = \mathbf{e}_t^\top \mathbf{P} \mathbf{e}_t$ be a candidate Lyapunov function with symmetric positive definite matrix $\mathbf{P} \succ 0$. If every contract validation operator $\Pi_{c_{ij}}$ enforces a contract rejection bound such that the effective transition matrix satisfies $\|\mathbf{A}_{\text{gated}}\|_2 \le \rho < 1$, then:
+
 
 
 
@@ -299,7 +306,9 @@ $$
 
 
 
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
 
 
 
@@ -349,7 +358,9 @@ $$
 
 
 
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
 
 
 
@@ -399,7 +410,9 @@ $$
 
 
 
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
 
 
 
@@ -427,6 +440,7 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
 
 
 
@@ -491,10 +505,10 @@ Rather than storing context in unstructured conversation logs, Tier 2 maintains 
 - **Epistemic Certainty Cache:** An indexed store of verified assertions tagged with Bayesian confidence scores $\mathcal{B}(a) \in [0, 1]$.
 
 ### Tier 3: Deterministic Contract & Safety Enforcement
-Tier 3 serves as the active execution firewall. Every message $\mathbf{m}_{ij}$ between agents is intercepted and validated against $\Phi_{\text{pre}}$ and $\Phi_{\text{post}}$ using Z3-SMT solvers and Pydantic validators before being dispatched to downstream consumers. Invalid messages trigger immediate deterministic recovery actions (e.g., fallback routing or schema-constrained repair) rather than open-ended hallucination loops [[arxiv_2404.01131]].
+Tier 3 serves as the active execution firewall. Every message $\mathbf{m}_{ij}$ between agents is intercepted and validated against $\Phi_{\text{pre}}$ and $\Phi_{\text{post}}$ using Z3-SMT solvers and Pydantic validators before being dispatched to downstream consumers. Invalid messages trigger immediate deterministic recovery actions (e.g., fallback routing or schema-constrained repair) rather than open-ended hallucination loops.
 
 ### Tier 4: Consensus Governance & Byzantine Agreement
-For critical decisions (e.g., executing code in production, committing financial transactions), Tier 4 executes an $M$-of-$N$ Byzantine consensus protocol. A proposal $P$ is approved if and only if $\sum_{i=1}^N w_i \cdot \mathbb{I}(\text{Verify}_i(P) = 1) \ge \Theta_{\text{threshold}}$, ensuring zero single-point-of-failure vulnerability [[crossref_10.1109_access.2026.3656309]].
+For critical decisions (e.g., executing code in production, committing financial transactions), Tier 4 executes an $M$-of-$N$ Byzantine consensus protocol. A proposal $P$ is approved if and only if $\sum_{i=1}^N w_i \cdot \mathbb{I}(\text{Verify}_i(P) = 1) \ge \Theta_{\text{threshold}}$, ensuring zero single-point-of-failure vulnerability.
 
 ---
 
@@ -565,7 +579,7 @@ Tables 1 and 2 vary the two parameters this study can vary: pipeline depth and w
 Early multi-agent LLM systems—including AutoGPT, BabyAGI, MetaGPT [[crossref_10_48550_arxiv_2308_00352]], and ChatDev [[crossref_10_18653_v1_2024_acl_long_810]]—established the viability of role-playing agents for software development. However, these systems rely primarily on unconstrained natural language exchanges, rendering them non-deterministic and susceptible to conversational deadlocks. LangGraph, Semantic Kernel, and AutoGen introduce graph abstractions, but lack formal algebraic contracts and Lyapunov error bounds.
 
 ### Formal Methods in Artificial Intelligence
-The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification [[crossref_10.18653_v1_2026.findings-acl.1933]]. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams [[arxiv_2404.01131]].
+The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams.
 
 ### Compound AI Systems and Retrieval Architectures
 Recent literature highlights the shift from monolithic model scaling to Compound AI Systems [[arxiv_2406.00584], [arxiv_2005.14165]]. Systems such as GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG demonstrate that structured graph indexing outperforms brute-force fine-tuning. CAS serves as the overarching architectural operating system uniting structured retrieval, parameter-efficient adapters [[arxiv_2305.18290]], and multi-agent coordination under a unified contract framework.
@@ -588,7 +602,7 @@ Recent literature highlights the shift from monolithic model scaling to Compound
 
 We identify four strategic research frontiers for Composable AI Systems:
 1. **Automated Contract Synthesis (Neuro-Symbolic Schema Generation):** Leveraging meta-agents to automatically infer and synthesize Z3 first-order logic invariants from historical runtime execution traces.
-2. **Asynchronous Byzantine Pipeline Consensus:** Scaling Tier 4 consensus algorithms to support asynchronous, partially connected agent topologies spanning thousands of edge devices [[crossref_10.1109_access.2026.3656309]].
+2. **Asynchronous Byzantine Pipeline Consensus:** Scaling Tier 4 consensus algorithms to support asynchronous, partially connected agent topologies spanning thousands of edge devices.
 3. **Formal Differential Privacy Contracts:** Integrating differential privacy guarantees ($\epsilon, \delta$) directly into the algebraic contract schema for secure cross-organizational data sharing.
 4. **Hardware-Accelerated Invariant Verification:** Implementing SMT predicate evaluation directly on FPGA and smartNIC hardware to reduce Tier 3 verification latency below 1 millisecond.
 
@@ -664,6 +678,7 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 
 
 
+
 $$
 \begin{aligned}
 \sigma_0 = & \Sigma_{\text{init}}, \\
@@ -671,6 +686,7 @@ $$
 \sigma_{i} = \sigma_{i-1} \cup \mathrm{pro}_i \quad \text{provided} \quad \mathrm{req}_i \subseteq \sigma_{i-1}
 \end{aligned}
 $$
+
 
 
 
@@ -694,11 +710,13 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 
 
 
+
 $$
 \begin{aligned}
 \varepsilon_n = \varepsilon_0 \prod_{i=1}^{n} c_i
 \end{aligned}
 $$
+
 
 
 

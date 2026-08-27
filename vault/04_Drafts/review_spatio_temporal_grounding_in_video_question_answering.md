@@ -87,12 +87,14 @@ Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled fra
 
 
 
+
 $$
 \begin{aligned}
 Z_t = & f_{\theta_v}(I_t) \in \mathbb{R}^{K \times d_v}, \\
 & \quad \text{for } t = 1, \ldots, T
 \end{aligned}
 $$
+
 
 
 
@@ -140,11 +142,13 @@ Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard 
 
 
 
+
 $$
 \begin{aligned}
 \mathbf{A} = \text{Softmax}\left( \frac{(\mathbf{Q} \mathbf{W}_Q) (\mathbf{Z} \mathbf{W}_K)^\top}{\sqrt{d_k}} \right)
 \end{aligned}
 $$
+
 
 
 
@@ -198,11 +202,13 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
 $$
 \begin{aligned}
 \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} \right\|_F \le \frac{1}{\gamma T + (1 - \gamma)} \cdot \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{Q}} \right\|_F \cdot \|\mathbf{W}_Q\|_F \|\mathbf{W}_K\|_F
 \end{aligned}
 $$
+
 
 
 
@@ -252,12 +258,14 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
 $$
 \begin{aligned}
 \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \\
 & \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
 \end{aligned}
 $$
+
 
 
 
@@ -339,6 +347,7 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
 $$
 \begin{aligned}
 \Delta Z_t = & Z_{t+1} - Z_t, \\
@@ -367,9 +376,11 @@ $$
 
 
 
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 **Definition 2 (Orthogonal Projector Constraint).** We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
 
 
 
@@ -419,7 +430,9 @@ $$
 
 
 
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
 
 
 
@@ -447,6 +460,7 @@ $$
 \hat{\mathbf{Z}}_t = \mathbf{Z}_t \mathbf{W}_S + \lambda_T \cdot \left( \Delta \mathbf{Z}_t \mathbf{W}_T \right)
 \end{aligned}
 $$
+
 
 
 
@@ -498,12 +512,14 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
 $$
 \begin{aligned}
 \mathcal{L}_{\text{total}} = & \mathcal{L}_{\text{CE}}(Y \mid \hat{\mathbf{Z}}, \mathbf{Q}) \\
 & + \alpha_{\text{orth}} \mathcal{L}_{\text{orth}} + \beta_{\text{ent}} \mathcal{H}(\mathbf{A}_{\text{temporal}})
 \end{aligned}
 $$
+
 
 
 
@@ -574,7 +590,7 @@ Recent investigations in parameter-efficient fine-tuning (PEFT, LoRA) and dynami
 - **Extreme Camera Shake:** In high-velocity drone or action camera footage, global scene translation generates high $\Delta Z_t$ energy across background pixels, partially reducing velocity routing selectivity.
 
 ### External Validity
-- **Video Duration Limits:** Our benchmarks evaluate video clips up to 5 minutes ($T \le 64$ sampled frames). Full-length feature films ($>90$ minutes) require hierarchical long-term memory synthesis [[crossref_10.1145_3689096.3689462]].
+- **Video Duration Limits:** Our benchmarks evaluate video clips up to 5 minutes ($T \le 64$ sampled frames). Full-length feature films ($>90$ minutes) require hierarchical long-term memory synthesis.
 - **Audio-Visual Fusion:** Our evaluation focuses exclusively on visual and textual modalities; incorporating raw audio streams introduces orthogonal acoustic alignment dynamics.
 
 ---
@@ -582,9 +598,9 @@ Recent investigations in parameter-efficient fine-tuning (PEFT, LoRA) and dynami
 ## Future Research Roadmap
 
 We define a 4-phase strategic roadmap for next-generation video foundation models:
-1. **Phase 1: Native Continuous Spatio-Temporal Tokenizers:** Replacing discrete frame sampling with continuous 3D video tokenizers operating natively in space-time manifolds [[arxiv_2010.11146]].
+1. **Phase 1: Native Continuous Spatio-Temporal Tokenizers:** Replacing discrete frame sampling with continuous 3D video tokenizers operating natively in space-time manifolds.
 2. **Phase 2: Tri-Modal Audio-Visual-Language Orthogonal Grounding:** Extending DST-DR to jointly factorize acoustic pitch/intensity trajectories alongside visual velocity vectors.
-3. **Phase 3: Real-Time Streaming Video Reasoning:** Adapting DST-DR for zero-latency online video streaming on edge robotic hardware (e.g., autonomous driving, drone perception) [[doaj_001772c2113c476d9d5d40452c8e10e1]].
+3. **Phase 3: Real-Time Streaming Video Reasoning:** Adapting DST-DR for zero-latency online video streaming on edge robotic hardware (e.g., autonomous driving, drone perception).
 4. **Phase 4: World Models and Physical Dynamics Simulation:** Leveraging spatio-temporal velocity representations as generative priors for physics-accurate world simulators [[arxiv_2501.02497]].
 
 ---
@@ -637,11 +653,13 @@ Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mat
 
 
 
+
 $$
 \begin{aligned}
 a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(\mathbf{q}^{\top}\mathbf{k}_l / \sqrt{d})}
 \end{aligned}
 $$
+
 
 
 
