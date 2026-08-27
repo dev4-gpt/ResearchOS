@@ -135,6 +135,15 @@ The **integrity** problem is solved. The **contribution** problem is not.
 are in the Trash; **the four API keys they held are the live ones and still need
 rotating** — that part is the owner's).
 
+**Move this repository off iCloud.** It lives in `~/Library/Mobile Documents/`,
+and iCloud resolves write conflicts by duplicating files in place. That has now
+caused three separate failures: live API keys in duplicated `.env` files
+(ERR-063), duplicated modules entering p1's and p3's experimental corpora and
+*flipping the sign* of p1's headline result (ERR-071), and duplicated refs
+inside `.git` breaking `git fetch` outright (ERR-087). The CI check for tracked
+`<stem> 2.<ext>` files catches none of the last kind, because `.git` is not
+tracked. `git clone` it somewhere ordinary.
+
 **The corpus is the repository, so working on it moves the numbers.** p1 globs
 `backend/**` and `scripts/**`; adding two files to this repo changed its corpus from
 122 to 125 modules and moved every retrieval metric. p3 is narrower (`backend/services`)

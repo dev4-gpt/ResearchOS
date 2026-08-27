@@ -1,11 +1,11 @@
 {
   "title": "ResearchOS Master System Error Ledger & Prevention Registry",
   "version": "1.0.0",
-  "last_updated": "2026-08-27 11:50:39",
+  "last_updated": "2026-08-27 12:35:55",
   "stats": {
-    "total_errors_recorded": 86,
-    "resolved_count": 84,
-    "active_prevention_rules": 86,
+    "total_errors_recorded": 87,
+    "resolved_count": 85,
+    "active_prevention_rules": 87,
     "open_count": 2
   },
   "history": [
@@ -1049,6 +1049,18 @@
       "resolution": "Recorded as gate_detection_rate with a per-operator breakdown, and wired into CI with a floor that may rise and may not fall. Two instrument bugs were caught by the control operators before any finding was trusted: mu_orphan removed one of two measurements sharing a value and looked like a gate failure, and mu_transplant searched for a heading no draft contains and scored 0.00% without ever running. An operator that cannot run now reports 'not exercised' instead of zero.",
       "prevention_rule": "R86: Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless.",
       "status": "VERIFIED_RESOLVED"
+    },
+    {
+      "error_id": "ERR-087",
+      "timestamp": "2026-08-27 12:35:55",
+      "component": ".git (working tree on iCloud Drive)",
+      "stage": "version_control",
+      "error_type": "Sync Conflicts Inside The Git Directory",
+      "summary": "iCloud created conflict copies inside .git itself: eight copies of the index ('.git/index 2' through '.git/index 9'), a stale branch ref '.git/refs/heads/main 2' pointing at the initial commit from three months earlier, the matching '.git/refs/remotes/origin/main 2', and a copy under refs/codex/. Git read the duplicated refs as real branches, and `git fetch` failed outright with 'fatal: bad object refs/heads/main 2 -- did not send all necessary objects'. This surfaced immediately after merging PR #1, while confirming the merge had landed.",
+      "root_cause": "The repository lives in ~/Library/Mobile Documents/. iCloud resolves a write conflict by duplicating the file beside the original, and it applies that to .git the same as to anything else. Git's ref namespace is a directory tree, so a duplicated file becomes a branch.",
+      "resolution": "The eleven conflict copies were moved to the Trash; fetch, rev-parse and merge-base then worked, and the merge was confirmed on origin/main. No object loss: the duplicated refs pointed at commits already reachable, and only .git/index is ever read, so the numbered copies were inert.",
+      "prevention_rule": "R87: A git repository must not live inside a directory a sync client rewrites. This is the third form the same cause has taken -- credentials in duplicated .env files, duplicated modules entering an experimental corpus and flipping a result's sign, and now duplicated refs breaking fetch. The CI check for tracked '<stem> 2.<ext>' files cannot see any of these, because .git is not tracked. Move the repository off iCloud.",
+      "status": "VERIFIED_RESOLVED"
     }
   ],
   "prevention_rules": {
@@ -1137,6 +1149,7 @@
     "R83": "Define what counts as recorded evidence once, in one place, and have every grader read that definition. Enumerating fields per consumer guarantees the list is incomplete somewhere, and the symptom is always a true statement being refused.",
     "R84": "A run that overwrites shared evidence must declare what it owns and report what it removed. A namespace must be one no other experiment writes into, and 'replace everything' is only correct when a paper has exactly one experiment behind it.",
     "R85": "A field a manuscript prints is a field that must be projected. Enumerate them from the measurement schema rather than from the fields a passage happened to use when the code was written -- four omissions in one day all had that cause.",
-    "R86": "Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless."
+    "R86": "Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless.",
+    "R87": "A git repository must not live inside a directory a sync client rewrites. This is the third form the same cause has taken -- credentials in duplicated .env files, duplicated modules entering an experimental corpus and flipping a result's sign, and now duplicated refs breaking fetch. The CI check for tracked '<stem> 2.<ext>' files cannot see any of these, because .git is not tracked. Move the repository off iCloud."
   }
 }
