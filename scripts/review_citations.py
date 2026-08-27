@@ -238,8 +238,10 @@ def main() -> int:
 
     if args.by_key:
         results_ = service.audit_all(DRAFTS)
+        ruled = {d["key"] for d in record["decisions"].values()
+                 if d["decision"] == "keep" and d.get("draft") == "*"}
         flagged_ = [(st, u) for st, us in results_.items() for u in us
-                    if u.verdict not in ("relevant", "strong")]
+                    if u.verdict not in ("relevant", "strong") and u.key not in ruled]
         groups: dict = {}
         for st, u in flagged_:
             groups.setdefault((u.key, u.title), []).append((st, u))
@@ -292,9 +294,15 @@ def main() -> int:
     results = service.audit_all(DRAFTS)
     flagged = [(stem, u) for stem, us in results.items() for u in us
                if u.verdict not in ("relevant", "strong")]
-    kept = {(d["draft"], d["key"]) for d in record["decisions"].values()
-            if d["decision"] == "keep"}
-    open_items = [(s, u) for s, u in flagged if (s, u.key) not in kept]
+    # A ruling recorded per key applies to every draft, and stores "*" as the
+    # draft. Matching on the pair alone silently ignored those, so nine keeps
+    # were written to the record and the report still listed all 43 as open.
+    kept_keys = {d["key"] for d in record["decisions"].values()
+                 if d["decision"] == "keep" and d.get("draft") == "*"}
+    kept_pairs = {(d["draft"], d["key"]) for d in record["decisions"].values()
+                  if d["decision"] == "keep" and d.get("draft") != "*"}
+    open_items = [(st, u) for st, u in flagged
+                  if u.key not in kept_keys and (st, u.key) not in kept_pairs]
 
     print(f"\nflagged now: {len(flagged)}   ruled 'keep': {len(flagged) - len(open_items)}"
           f"   still needing an author: {len(open_items)}")

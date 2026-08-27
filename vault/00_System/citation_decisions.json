@@ -16,6 +16,14 @@
       "reason": "prose names 'AST transformations'; key resolves to 'Comparative Analysis of Deep Learning Models for Breast Cancer Classif', which is a different work",
       "title": "Comparative Analysis of Deep Learning Models for Breast Cancer Classif"
     },
+    "key::arxiv_2002.08155": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2002.08155",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
     "key::arxiv_2010.11146": {
       "decision": "removed",
       "draft": "*",
@@ -24,12 +32,36 @@
       "reason": "removed from every draft by author decision",
       "title": ""
     },
+    "key::arxiv_2101.00190": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2101.00190",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
     "key::arxiv_2203.02155": {
       "decision": "removed",
       "draft": "*",
       "key": "arxiv_2203.02155",
       "name": "(whole key)",
       "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2203.08975": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2203.08975",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
+    "key::arxiv_2203.11171": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2203.11171",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
       "title": ""
     },
     "key::arxiv_2308.12898": {
@@ -72,6 +104,22 @@
       "reason": "removed from every draft by author decision",
       "title": ""
     },
+    "key::arxiv_2501.02842": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2501.02842",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
+    "key::arxiv_2604.17215": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2604.17215",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
     "key::crossref_10.1109_access.2026.3656309": {
       "decision": "removed",
       "draft": "*",
@@ -94,6 +142,30 @@
       "key": "crossref_10.18653_v1_2026.findings-acl.1933",
       "name": "(whole key)",
       "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::crossref_10.2139_ssrn.6374778": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "crossref_10.2139_ssrn.6374778",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
+    "key::crossref_10_48550_arxiv_2308_00352": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "crossref_10_48550_arxiv_2308_00352",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
+    "key::crossref_10_48550_arxiv_2405_15793": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "crossref_10_48550_arxiv_2405_15793",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
       "title": ""
     },
     "key::doaj_001772c2113c476d9d5d40452c8e10e1": {
