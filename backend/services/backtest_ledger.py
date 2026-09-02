@@ -18,7 +18,7 @@ from typing import Any, Dict, Optional
 class BacktestLedger:
     """Persist a run manifest and append-only candidate events under the vault."""
 
-    EVALUATOR_VERSION = "researchingos-publication-evaluator-v1"
+    EVALUATOR_VERSION = "researchingos-publication-evaluator-v2"
 
     def __init__(self, vault_manager: Any):
         self.root = Path(vault_manager.vault_path) / "04_Drafts" / "backtest_runs"
@@ -33,7 +33,7 @@ class BacktestLedger:
         return datetime.now(timezone.utc).isoformat()
 
     def start(self, *, filename: str, venue: str, baseline_content: str,
-              max_iters: int) -> Dict[str, Any]:
+              max_iters: int, metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         run_id = f"backtest-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
         run_dir = self.root / run_id
         run_dir.mkdir(parents=True, exist_ok=False)
@@ -47,6 +47,8 @@ class BacktestLedger:
             "started_at": self._now(),
             "status": "RUNNING",
         }
+        if metadata:
+            manifest.update(metadata)
         self._write_json(run_dir / "manifest.json", manifest)
         return {"run_id": run_id, "run_dir": str(run_dir), "manifest": manifest}
 
@@ -64,8 +66,15 @@ class BacktestLedger:
             handle.write(json.dumps(event, sort_keys=True, ensure_ascii=False) + "\n")
         return event
 
+    def record_stage_event(self, run_id: str, event: Dict[str, Any]) -> Dict[str, Any]:
+        """Append a typed graph event without changing the candidate ledger."""
+        path = self.root / run_id / "stage_events.jsonl"
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(event, sort_keys=True, ensure_ascii=False) + "\n")
+        return event
+
     def finish(self, run_id: str, *, status: str, final_content: str,
-               iterations: int, reason: str = "") -> Dict[str, Any]:
+               iterations: int, reason: str = "", metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         path = self.root / run_id / "manifest.json"
         manifest = json.loads(path.read_text(encoding="utf-8"))
         manifest.update({
@@ -75,6 +84,8 @@ class BacktestLedger:
             "final_sha256": self.content_hash(final_content),
             "reason": reason,
         })
+        if metadata:
+            manifest.update(metadata)
         self._write_json(path, manifest)
         return manifest
 

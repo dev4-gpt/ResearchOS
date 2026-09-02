@@ -8,6 +8,7 @@ fresh run when a save arrives while the current run is still compiling.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import inspect
 import threading
 import uuid
 from typing import Any, Dict, List, Optional, Tuple
@@ -40,6 +41,15 @@ class PublisherReadinessJobManager:
             "error": None,
             "report": None,
             "next_job_id": None,
+            "run_id": None,
+            "evaluator_version": None,
+            "config_hash": None,
+            "current_stage": "prepare",
+            "progress": {
+                "drafts_tested": 0, "venues_tested": 0, "matrix_total": 0,
+                "compiled": 0, "blocked": 0, "ready": 0,
+            },
+            "stage_events": [],
         }
         self._active_job_id = job_id
         thread = threading.Thread(
@@ -67,6 +77,21 @@ class PublisherReadinessJobManager:
                     return response
             return self._start_locked(target_filename, venues, trigger)
 
+    def _progress_callback(self, job_id: str, event: Dict[str, Any]) -> None:
+        with self._lock:
+            job = self._jobs.get(job_id)
+            if not job:
+                return
+            job["current_stage"] = event.get("stage", job.get("current_stage"))
+            events = list(job.get("stage_events", []))
+            events.append(event)
+            job["stage_events"] = events[-250:]
+            diagnostics = event.get("diagnostics") or {}
+            if diagnostics.get("filename"):
+                job["progress"]["last_filename"] = diagnostics["filename"]
+            if diagnostics.get("venue"):
+                job["progress"]["last_venue"] = diagnostics["venue"]
+
     def _execute(
         self,
         job_id: str,
@@ -75,12 +100,24 @@ class PublisherReadinessJobManager:
         trigger: str,
     ) -> None:
         try:
-            report = self.service.run(target_filename=target_filename, venues=venues)
+            callback = lambda event: self._progress_callback(job_id, event)
+            run_method = self.service.run
+            accepts_callback = "progress_callback" in inspect.signature(run_method).parameters
+            if accepts_callback:
+                report = run_method(target_filename=target_filename, venues=venues, progress_callback=callback)
+            else:
+                report = run_method(target_filename=target_filename, venues=venues)
             with self._lock:
                 self._jobs[job_id].update({
                     "status": "completed",
                     "finished_at": self._now(),
                     "report": report,
+                    "run_id": report.get("run_id"),
+                    "evaluator_version": report.get("evaluator_version"),
+                    "config_hash": report.get("config_hash"),
+                    "current_stage": (report.get("progress") or {}).get("current_stage", "artifact_bundle"),
+                    "progress": report.get("progress") or self._jobs[job_id].get("progress", {}),
+                    "stage_events": report.get("stage_events") or self._jobs[job_id].get("stage_events", []),
                 })
         except Exception as error:
             with self._lock:

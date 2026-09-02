@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import hashlib
 import re
 from typing import Any, Dict, Iterable, List, Optional
 
 from domain.models import citation_key
+from services.publication_harness import ClaimEvidenceRecord, stable_hash
 
 
 NUMERIC_PATTERN = re.compile(
@@ -246,9 +248,158 @@ class FactCheckerService:
             )
         return updated
 
+    @staticmethod
+    def _normalize_claim(text: str) -> str:
+        return re.sub(r"\s+", " ", re.sub(r"[^A-Za-z0-9%<>=._-]+", " ", text.lower())).strip()
+
+    @staticmethod
+    def _sentence_for_match(paragraph: str, start: int, end: int) -> str:
+        boundaries = [0]
+        boundaries.extend(match.end() for match in re.finditer(r"[.!?](?:\s+|$)", paragraph))
+        left = max((point for point in boundaries if point <= start), default=0)
+        right = next((point for point in boundaries if point >= end), len(paragraph))
+        return paragraph[left:right].strip()
+
+    @staticmethod
+    def _source_match(claim: str, cited_keys: List[str], source_records: Dict[str, str]) -> bool:
+        normalized_sources = {citation_key(key): str(value).lower() for key, value in source_records.items()}
+        lower_claim = claim.lower()
+        for cited in cited_keys:
+            cited_key = citation_key(cited)
+            for known_key, source_text in normalized_sources.items():
+                if cited_key == known_key or cited_key in known_key or known_key in cited_key:
+                    if lower_claim in source_text:
+                        return True
+        return False
+
+    @staticmethod
+    def _claim_id(normalized: str, location: str, category: str) -> str:
+        return hashlib.sha256(f"{category}|{location}|{normalized}".encode("utf-8")).hexdigest()[:20]
+
+    def extract_claim_evidence_records(
+        self,
+        content: str,
+        source_records: Optional[Dict[str, str]] = None,
+        measurement_records: Optional[List[Dict[str, Any]]] = None,
+        measured_values: Optional[List[float]] = None,
+        strict: bool = True,
+    ) -> List[Dict[str, Any]]:
+        """Extract and verify quantitative and major-contribution claims.
+
+        A claim is only verified by a cited retrieved source or a recorded
+        experiment artifact. Surrounding words such as results or table are
+        intentionally insufficient evidence.
+        """
+        records: List[ClaimEvidenceRecord] = []
+        source_records = source_records or {}
+        measurement_records = measurement_records or []
+        artifact_refs = [str(item.get("artifact_ref") or item.get("path") or item.get("artifact") or "")
+                         for item in measurement_records]
+        artifact_refs = [item for item in artifact_refs if item]
+        artifact_hashes = [str(item.get("artifact_sha256") or item.get("sha256") or "")
+                           for item in measurement_records]
+        artifact_hashes = [item for item in artifact_hashes if item]
+        measurement_values = list(measured_values or [])
+        paragraphs = re.split(r"\n\s*\n", content)
+        offset = 0
+        seen = set()
+        for paragraph_index, paragraph in enumerate(paragraphs, start=1):
+            if not paragraph.strip():
+                offset += len(paragraph) + 2
+                continue
+            cited_keys = self.extract_citation_keys(paragraph)
+            for match in NUMERIC_PATTERN.finditer(paragraph):
+                claim_token = match.group(0)
+                if re.search(r"95%\s+CI", paragraph[max(0, match.start() - 5):match.end() + 5], re.I):
+                    continue
+                if is_non_metric_number(claim_token):
+                    continue
+                sentence = self._sentence_for_match(paragraph, match.start(), match.end())
+                normalized = self._normalize_claim(sentence)
+                location = f"paragraph:{paragraph_index}:offset:{offset + match.start()}"
+                key = ("quantitative", normalized, location)
+                if key in seen:
+                    continue
+                seen.add(key)
+                value_match = re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", claim_token.replace(",", ""))
+                value = float(value_match.group(0)) if value_match else None
+                measured = value is not None and any(round(value, 6) == round(float(measured_value), 6)
+                                                    for measured_value in measurement_values)
+                source_supported = self._source_match(sentence, cited_keys, source_records)
+                verified = source_supported or measured
+                if verified:
+                    method = "cited_source_text_match" if source_supported else "recorded_experiment_measurement"
+                    status, reason = "VERIFIED", ""
+                else:
+                    method = "not_run" if not source_records and not measurement_records else "no_matching_evidence"
+                    status = "BLOCKED" if strict else "UNVERIFIED"
+                    reason = "No cited source or experiment artifact verifies this quantitative claim"
+                records.append(ClaimEvidenceRecord(
+                    claim_id=self._claim_id(normalized, location, "quantitative"),
+                    normalized_text=normalized,
+                    manuscript_location=location,
+                    claim_category="quantitative",
+                    cited_source_keys=cited_keys,
+                    experiment_artifact_refs=artifact_refs if measured else [],
+                    artifact_sha256=artifact_hashes if measured else [],
+                    verification_method=method,
+                    status=status,
+                    blocking_reason=reason,
+                ).to_dict())
+            major_match = re.search(
+                r"\b(we (?:propose|present|introduce|develop|formalize|demonstrate)|our (?:contribution|findings?|results?)|novel (?:framework|method|approach|architecture)|this paper (?:contributes|introduces))\b",
+                paragraph, re.I,
+            )
+            if major_match:
+                sentence = self._sentence_for_match(paragraph, major_match.start(), major_match.end())
+                normalized = self._normalize_claim(sentence)
+                location = f"paragraph:{paragraph_index}:offset:{offset + major_match.start()}"
+                key = ("major_contribution", normalized, location)
+                if key not in seen:
+                    seen.add(key)
+                    verified_citations = set(self.validate_citations(paragraph, source_records=source_records)["verified_links"])
+                    source_supported = bool(set(cited_keys) & verified_citations)
+                    has_artifact = bool(artifact_refs) and bool(measurement_records)
+                    verified = source_supported or has_artifact
+                    if verified:
+                        method = "cited_source_text_match" if source_supported else "recorded_experiment_artifact"
+                        status, reason = "VERIFIED", ""
+                    else:
+                        method = "not_run" if not source_records and not measurement_records else "no_claim_provenance"
+                        status = "BLOCKED" if strict else "UNVERIFIED"
+                        reason = "Major contribution claim has no cited evidence or experiment artifact"
+                    records.append(ClaimEvidenceRecord(
+                        claim_id=self._claim_id(normalized, location, "major_contribution"),
+                        normalized_text=normalized,
+                        manuscript_location=location,
+                        claim_category="major_contribution",
+                        cited_source_keys=cited_keys,
+                        experiment_artifact_refs=artifact_refs if has_artifact else [],
+                        artifact_sha256=artifact_hashes if has_artifact else [],
+                        verification_method=method,
+                        status=status,
+                        blocking_reason=reason,
+                    ).to_dict())
+            offset += len(paragraph) + 2
+        return records
+
+    @staticmethod
+    def claim_report(records: List[Dict[str, Any]]) -> Dict[str, Any]:
+        blocked = [record for record in records if str(record.get("status", "")).upper() not in ("VERIFIED", "PASSED")]
+        return {
+            "claim_count": len(records),
+            "verified_count": len(records) - len(blocked),
+            "blocked_count": len(blocked),
+            "status": "passed" if not blocked else "blocked",
+            "claims": records,
+            "claim_report_hash": stable_hash(records),
+        }
+
     def audit_document(self, content: str, source_texts: Optional[List[str]] = None,
                        source_records: Optional[Dict[str, str]] = None,
-                       measured_values: Optional[List[float]] = None) -> Dict[str, Any]:
+                       measured_values: Optional[List[float]] = None,
+                       measurement_records: Optional[List[Dict[str, Any]]] = None,
+                       strict_evidence: bool = False) -> Dict[str, Any]:
         """Audit citations and numeric claims.
 
         ``measured_values`` carries the values a recorded experiment produced for
@@ -261,7 +412,22 @@ class FactCheckerService:
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
         if measured_values:
             metric_report = self._absolve_measured_claims(metric_report, measured_values)
+        claim_records = self.extract_claim_evidence_records(
+            content,
+            source_records=source_records,
+            measurement_records=measurement_records,
+            measured_values=measured_values,
+            strict=strict_evidence,
+        )
+        claim_report = self.claim_report(claim_records)
         blocking_errors: List[str] = []
+        if strict_evidence and claim_report["blocked_count"]:
+            blocking_errors.append(
+                "Missing claim provenance: " + ", ".join(
+                    record["claim_id"] for record in claim_records
+                    if record.get("status") not in ("VERIFIED", "PASSED")
+                )
+            )
         # Only block on citations that are genuinely malformed/non-existent — NOT plausible author-year keys
         if citation_report["broken_links"]:
             blocking_errors.append("Broken paper citations: " + ", ".join(citation_report["broken_links"]))
@@ -277,6 +443,8 @@ class FactCheckerService:
             "metric_report": metric_report,
             "status": "passed" if passed else "needs_review",
             "blocking_errors": sorted(set(blocking_errors)),
+            "claim_report": claim_report,
+            "failed_count": len(set(blocking_errors)),
             "verification_matrix": {
                 "verified_citations": citation_report["verified_links"],
                 "broken_citations": citation_report["broken_links"],
