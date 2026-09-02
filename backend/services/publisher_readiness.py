@@ -19,6 +19,7 @@ from services.checkmate_verifier import CheckmateVerifierService
 from services.fact_checker import FactCheckerService
 from services.latex_exporter import LaTeXExporterService
 from services.venue_profiles import SUPPORTED_VENUES, VENUE_PROFILES
+from domain.models import citation_key
 
 
 # New venue profiles automatically enter the all-venue readiness run. Each new
@@ -285,18 +286,47 @@ class PublisherReadinessService:
         else:
             selected = sorted(all_documents)
 
-        originality = self.audit_collection_originality(all_documents)
-        value_reports = {filename: self.audit_substantive_value(all_documents[filename]) for filename in selected}
+        # Evaluate the same normalized candidate that is compiled below. This
+        # prevents stale quality results when deterministic remediation changes
+        # the manuscript between the originality/value pass and PDF generation.
+        prepared_documents = {
+            filename: self.checkmate.auto_remediate_markdown(content)
+            for filename, content in all_documents.items()
+        }
+        originality = self.audit_collection_originality(prepared_documents)
+        value_reports = {filename: self.audit_substantive_value(prepared_documents[filename]) for filename in selected}
         exports_dir = os.path.join(self.vault_manager.vault_path, "04_Drafts", "exports")
         os.makedirs(exports_dir, exist_ok=True)
 
         results: List[Dict[str, Any]] = []
         manuscript_summaries: List[Dict[str, Any]] = []
         source_papers: List[Dict[str, Any]] = []
-        for paper in self.vault_manager.list_files("papers"):
+        # Build the literature evidence set once per matrix run. ``list_files``
+        # intentionally returns previews for the UI and therefore caused a
+        # second full read of all 1,000+ source papers here.
+        paper_folder = getattr(self.vault_manager, "folders", {}).get("papers")
+        cited_keys = {
+            key
+            for filename in selected
+            for key in self.fact_checker.extract_citation_keys(prepared_documents[filename])
+        }
+        # The citation key is the retrieval key for the local corpus. Read only
+        # cited records; unrelated papers cannot ground this manuscript and make
+        # a full-vault scan needlessly expensive.
+        paper_filenames = sorted(
+            name for name in os.listdir(paper_folder or "")
+            if name.endswith(".md") and (
+                not cited_keys or any(
+                    key == key_name or key in key_name or key_name in key
+                    for key in cited_keys
+                    for key_name in (citation_key(name),)
+                )
+            )
+        ) if paper_folder else []
+        for paper_name in paper_filenames:
             try:
-                source = self.vault_manager.read_markdown("papers", paper["filename"])
-                source["filename"] = paper["filename"]
+                source = self.vault_manager.read_markdown("papers", paper_name)
+                source["filename"] = paper_name
                 source_papers.append(source)
             except Exception:
                 continue
@@ -310,7 +340,7 @@ class PublisherReadinessService:
                 if key:
                     source_records[str(key)] = paper_text
         for filename in selected:
-            content = self.checkmate.auto_remediate_markdown(all_documents[filename])
+            content = prepared_documents[filename]
             meta = all_docs_meta[filename]
             title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
             authors = meta.get("authors", ["Aryaman Dev"])
@@ -411,8 +441,13 @@ class PublisherReadinessService:
                         "evidence_report": evidence_report,
                     })
                 except Exception as error:
-                    item_result["blocking_reasons"] = ["COMPILE_FAILED"]
+                    diagnostics = self.exporter.last_build_log.strip()
+                    item_result["blocking_reasons"] = [
+                        "LATEX_PREFLIGHT_FAILED" if diagnostics.startswith("LaTeX preflight failed") else "COMPILE_FAILED"
+                    ]
                     item_result["error"] = str(error)
+                    if diagnostics:
+                        item_result["compile_diagnostics"] = diagnostics[-2000:]
                 results.append(item_result)
                 venue_results[venue] = item_result
 
@@ -461,7 +496,8 @@ class PublisherReadinessService:
                         "filename", "title", "venue", "compiled", "publish_ready",
                         "blocking_reasons", "checkmate_passed", "checkmate_score",
                         "layout_passed", "checks", "evidence_report",
-                        "pdf_path", "tex_path", "bib_path",
+                        "pdf_path", "tex_path", "bib_path", "error",
+                        "compile_diagnostics",
                     )
                 }
                 for result in results

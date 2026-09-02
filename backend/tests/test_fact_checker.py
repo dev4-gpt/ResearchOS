@@ -16,6 +16,13 @@ def test_validate_numeric_claims():
     assert report["total_numeric_claims"] >= 2
     assert "85.4%" in report["grounded_claims"]
 
+def test_numeric_claims_ignore_confidence_interval_header():
+    checker = FactCheckerService()
+    draft = "| Metric | Value | 95% CI |\n|---|---:|---|\n| Drift | 3.96 degrees | -- |"
+    report = checker.validate_numeric_claims(draft, ["Drift was 3.96 degrees."])
+    assert "95%" not in report["unverified_claims"]
+
+
 def test_audit_document():
     checker = FactCheckerService()
     content = "# Review\nCitation [[arxiv_1234_5678]] shows 92.5% success rate."

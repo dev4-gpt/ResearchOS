@@ -91,9 +91,13 @@ class FactCheckerService:
     # e.g. "rogers2003", "feuerriegel2023generativeai", "wooldridge2009"
     _AUTHOR_YEAR_RE = re.compile(r"^[a-z]+\d{4}[a-z0-9]*$")
 
-    def validate_citations(self, content: str) -> Dict[str, Any]:
+    def validate_citations(self, content: str, source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
         keys = self.extract_citation_keys(content)
-        known = self._paper_keys()
+        # Read the already-retrieved evidence set when a caller supplies it. The
+        # readiness matrix audits many candidates; falling back to a full vault
+        # scan for every candidate turned retrieval into 108 repeated corpus
+        # scans. This mirrors a production RAG index: retrieve once, grade many.
+        known = {citation_key(key) for key in source_records} if source_records is not None else self._paper_keys()
         verified = []
         broken = []
         unresolved = []  # plausible academic keys not in vault (not a blocking error)
@@ -132,6 +136,9 @@ class FactCheckerService:
     def validate_numeric_claims(self, draft_content: str, source_texts: List[str],
                                 source_records: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
         clean_content_for_claims = re.sub(r"\[\[.*?\]\]|\\cite\{.*?\}|https?://\S+", " ", draft_content)
+        # Confidence-interval table headers are labels, not empirical claims.
+        # Do not block grounded measurement papers on the literal 95% header.
+        clean_content_for_claims = re.sub(r"\b95%\s+CI\b", " ", clean_content_for_claims, flags=re.IGNORECASE)
         raw_claims = sorted(set(NUMERIC_PATTERN.findall(clean_content_for_claims)))
         claims = [c for c in raw_claims if not is_non_metric_number(c)]
         grounded = []
@@ -250,7 +257,7 @@ class FactCheckerService:
         provenance gate and this checker disagree about the same manuscript, and
         a paper whose numbers all trace to artifacts still reports as blocked.
         """
-        citation_report = self.validate_citations(content)
+        citation_report = self.validate_citations(content, source_records=source_records)
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
         if measured_values:
             metric_report = self._absolve_measured_claims(metric_report, measured_values)

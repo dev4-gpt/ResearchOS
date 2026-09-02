@@ -37,6 +37,26 @@ def test_bibtex_generation():
     assert "Daniel Schwarcz and Dongyeop Kang" in bib_code
 
 
+def test_bibtex_escapes_tex_special_characters():
+    exporter = LaTeXExporterService()
+    bib_code = exporter.generate_bibtex([
+        {
+            "filename": "example.md",
+            "frontmatter": {
+                "title": "Systems & Safety_Review",
+                "authors": ["A_Researcher"],
+                "source": "Business & Information Systems Engineering",
+                "published": "2025",
+                "url": "https://example.org/a_b",
+            },
+        }
+    ])
+
+    assert "Business \\& Information Systems Engineering" in bib_code
+    assert "Systems \\& Safety\\_Review" in bib_code
+    assert "https://example.org/a\\_b" in bib_code
+
+
 def test_display_math_preserves_cases_rows_exponents_and_column_fit():
     exporter = LaTeXExporterService()
     body = r"""
@@ -55,6 +75,13 @@ $$\text{SecurityPass}(T') = \bigwedge_{i=1}^m (\text{NoUnsafePointer}(T') \land 
     assert "\\\\ 0" in tex_code
     assert "Nested equation environment inside resizebox" not in exporter.validate_latex_source(tex_code)
     assert exporter.validate_latex_source(tex_code) == []
+
+
+def test_latex_preflight_rejects_unbalanced_math_delimiters():
+    errors = LaTeXExporterService.validate_latex_source(
+        r"\documentclass{article}\begin{document}broken $x+1\end{document}"
+    )
+    assert "Unbalanced inline/display math delimiters" in errors[0]
 
 
 # --- ACM / acmart author topmatter (ERR-046) --------------------------------
@@ -160,3 +187,53 @@ def test_acm_anonymous_export_omits_identifying_metadata():
     assert "Pennsylvania State University" not in tex_code
     assert "asd5520@psu.edu" not in tex_code
     assert "\\affiliation{" not in tex_code
+
+
+def test_inline_math_with_set_cardinality_bars_remains_math():
+    exporter = LaTeXExporterService()
+    body = "The routing fraction is $|S|/|V|$ for the selected symbol set."
+    tex_code = exporter.markdown_to_ieeetran("Cardinality", ["Author"], "Abstract", body)
+
+    assert "$|S|/|V|$" in tex_code
+    assert r"\$|S|/|V|\$" not in tex_code
+
+
+def test_wide_formula_split_does_not_break_fraction_braces():
+    from services.checkmate_verifier import CheckmateVerifierService
+
+    verifier = CheckmateVerifierService()
+    source = r"$$N = \left(\frac{A}{B}\right)^{\frac{1}{\alpha+\beta}} + C + D$$"
+    remediated = verifier.auto_remediate_markdown(source)
+
+    assert r"\frac{1}{\alpha+\beta}" in remediated
+    assert r"\alpha \\" not in remediated
+
+
+def test_table_cells_escape_raw_tex_specials():
+    exporter = LaTeXExporterService()
+    body = """| Metric | Derivation |
+| --- | --- |
+| rank | `2d / d^2` |
+"""
+    tex_code = exporter.markdown_to_ieeetran("Table Safety", ["Author"], "Abstract", body)
+
+    assert r"\texttt{2d / d\^{}2}" in tex_code
+
+
+def test_nested_alignment_break_is_repaired_inside_fraction():
+    from services.checkmate_verifier import CheckmateVerifierService
+
+    verifier = CheckmateVerifierService()
+    source = r"$$N = \frac{1}{\alpha " + "\\\\\n" + r"& + \beta} + C + D$$"
+    remediated = verifier.auto_remediate_markdown(source)
+
+    assert r"\frac{1}{\alpha + \beta}" in remediated
+
+
+def test_exporter_preserves_theta_subscript_after_compatibility_cleanup():
+    exporter = LaTeXExporterService()
+    body = r"The angle is $\theta_1$ under the stated geometric model."
+    tex_code = exporter.markdown_to_ieeetran("Theta", ["Author"], "Abstract", body)
+
+    assert r"$\theta_1$" in tex_code
+    assert r"\th\eta" not in tex_code
