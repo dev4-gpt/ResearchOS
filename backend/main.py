@@ -470,6 +470,15 @@ def download_publisher_readiness_bundle():
         archive = io.BytesIO()
         with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
             bundle.writestr("publisher_readiness_manifest.json", json.dumps(manifest, indent=2, sort_keys=True))
+            stage_events_path = manifest.get("stage_events_path")
+            if stage_events_path and os.path.exists(stage_events_path):
+                safe_stage_path = os.path.realpath(stage_events_path)
+                runs_root = os.path.realpath(os.path.join(vault_manager.vault_path, "04_Drafts", "backtest_runs"))
+                if safe_stage_path.startswith(runs_root + os.sep):
+                    bundle.write(safe_stage_path, arcname="stage_events.jsonl")
+                    run_manifest_path = os.path.join(os.path.dirname(safe_stage_path), "manifest.json")
+                    if os.path.exists(run_manifest_path):
+                        bundle.write(run_manifest_path, arcname="run_manifest.json")
             included = set()
             for result in ready_results:
                 for key in ("pdf_path", "tex_path", "bib_path"):

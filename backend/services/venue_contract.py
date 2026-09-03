@@ -69,7 +69,32 @@ def audit_venue_contract(
     required_sections = list(getattr(profile, "required_sections", []) or []) if profile else []
     # Required-section checks are artifact checks: a heading in Markdown is not
     # evidence that the rendered PDF retained the section.
-    missing_sections = [section for section in required_sections if section.lower() not in normalized_pdf]
+    def rendered_section_present(section: str) -> bool:
+        if section.lower() in normalized_pdf:
+            return True
+        # acmart renders the abstract body without a text-extractable
+        # ``Abstract`` heading. Verify the rendered body instead of accepting a
+        # source-only heading, preserving the artifact-level contract check.
+        if venue_key == "ACM" and section.lower() == "abstract":
+            abstract_match = re.search(
+                r"#+\s*(?:\d+[.\s]*)?(?:Executive\s+)?Abstract[^\n]*\n+([\s\S]*?)(?=\n+#{1,2}\s+|\Z)",
+                manuscript,
+                flags=re.IGNORECASE,
+            )
+            if abstract_match:
+                abstract_body = re.sub(r"\[\[[^\]]+\]\]|\\cite\{[^}]+\}", " ", abstract_match.group(1))
+                abstract_body = re.sub(
+                    r"\b(?:arxiv|crossref|openalex|pubmed|doaj|plos|dblp|hal)[A-Za-z0-9_.-]*",
+                    " ",
+                    abstract_body,
+                    flags=re.IGNORECASE,
+                )
+                fingerprint_words = re.findall(r"[a-z0-9]+", abstract_body.lower())[:18]
+                rendered_words = set(re.findall(r"[a-z0-9]+", normalized_pdf))
+                return len(fingerprint_words) >= 8 and all(word in rendered_words for word in fingerprint_words)
+        return False
+
+    missing_sections = [section for section in required_sections if not rendered_section_present(section)]
     forbidden_tokens = list(getattr(profile, "forbidden_tokens", []) or []) if profile else []
     forbidden_found = [token for token in forbidden_tokens if token.lower() in normalized_pdf]
 

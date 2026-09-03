@@ -495,6 +495,11 @@ class CheckmateVerifierService:
         text = re.sub(r'\[\[woold\b', r'[[wooldridge2009', text)
         text = re.sub(r'\[\[feuerriegel\b', r'[[feuerriegel2023generativeai', text)
 
+        # Repair a legacy token split that turned ``\text{safety}`` into
+        # ``\textsafety`` and made otherwise valid math fail in TeX.
+        text = text.replace(r"\textsafety", r"\text{safety}")
+        text = text.replace(r"\th\eta", r"\theta")
+
         # 5. Fix common math subscript brace omissions
         text = re.sub(r'\\text\{([a-zA-Z0-9_]+)\$', r'\\text{\1}$', text)
         text = re.sub(r'\\text\{max\$', r'\\text{max}$', text)
@@ -520,12 +525,81 @@ class CheckmateVerifierService:
         text = re.sub(r'(?<!\\)eta([0-9])', lambda m: '\\eta_' + m.group(1), text)
         text = re.sub(r'(?<!\\)eta_([0-9])', lambda m: '\\eta_' + m.group(1), text)
 
+        # Normalize a legacy split theta token after eta cleanup.
+        text = re.sub(r"\\th\\eta(?=\s*[_^]?\s*\d)", r"\\theta", text)
+
+
 
 
 
         # 8. Automatically split wide single-line display math ($$ ... $$) into multi-line aligned blocks
+        def split_top_level(expression, separator):
+            """Split on a separator only outside LaTeX brace groups."""
+            pieces = []
+            start = 0
+            depth = 0
+            escaped = False
+            for index, char in enumerate(expression):
+                if escaped:
+                    escaped = False
+                    continue
+                if char == '\\':
+                    escaped = True
+                    continue
+                if char == '{':
+                    depth += 1
+                elif char == '}':
+                    depth = max(0, depth - 1)
+                elif char == separator and depth == 0:
+                    pieces.append(expression[start:index])
+                    start = index + 1
+            pieces.append(expression[start:])
+            return pieces
+        def repair_nested_alignment_breaks(expression):
+            """Remove stale ``\\``/``&`` breaks inside groups or paired delimiters."""
+            repaired = []
+            depth = 0
+            left_depth = 0
+            index = 0
+            while index < len(expression):
+                if expression.startswith(r"\left", index):
+                    left_depth += 1
+                    repaired.append(r"\left")
+                    index += len(r"\left")
+                    continue
+                if expression.startswith(r"\right", index):
+                    left_depth = max(0, left_depth - 1)
+                    repaired.append(r"\right")
+                    index += len(r"\right")
+                    continue
+                char = expression[index]
+                if char == '{':
+                    depth += 1
+                    repaired.append(char)
+                    index += 1
+                    continue
+                if char == '}':
+                    depth = max(0, depth - 1)
+                    repaired.append(char)
+                    index += 1
+                    continue
+                if (depth > 0 or left_depth > 0) and expression.startswith(r"\\", index):
+                    cursor = index + 2
+                    while cursor < len(expression) and expression[cursor].isspace():
+                        cursor += 1
+                    if cursor < len(expression) and expression[cursor] == '&':
+                        cursor += 1
+                        while cursor < len(expression) and expression[cursor].isspace():
+                            cursor += 1
+                        repaired.append(' ')
+                        index = cursor
+                        continue
+                repaired.append(char)
+                index += 1
+            return re.sub(r"[ \t]{2,}", " ", ''.join(repaired))
+
         def auto_split_display_math(match):
-            eq = match.group(1).strip()
+            eq = repair_nested_alignment_breaks(match.group(1).strip())
             if '\\begin{' in eq or '\\\\' in eq:
                 return f"\n$$\n{eq}\n$$\n"
             if len(eq) > 50 and ('+' in eq or '=' in eq):
@@ -533,20 +607,38 @@ class CheckmateVerifierService:
                     parts = eq.split('=', 1)
                     left = parts[0].strip()
                     right = parts[1].strip()
-                    tokens = right.split('+')
+                    tokens = split_top_level(right, '+')
                     if len(tokens) >= 3:
                         mid = len(tokens) // 2
                         part1 = "+".join(tokens[:mid]).strip()
                         part2 = "+".join(tokens[mid:]).strip()
                         return f"\n$$\n\\begin{{aligned}}\n{left} = & {part1} \\\\\n& + {part2}\n\\end{{aligned}}\n$$\n"
-                    elif ',' in right:
-                        comma_idx = right.find(',')
-                        part1 = right[:comma_idx+1].strip()
-                        part2 = right[comma_idx+1:].strip()
+                    else:
+                        comma_parts = split_top_level(right, ',')
+                        if len(comma_parts) < 2:
+                            return f"\n$$\n\\begin{{aligned}}\n{eq}\n\\end{{aligned}}\n$$\n"
+                        part1 = comma_parts[0].strip() + ','
+                        part2 = ','.join(comma_parts[1:]).strip()
                         return f"\n$$\n\\begin{{aligned}}\n{left} = & {part1} \\\\\n& {part2}\n\\end{{aligned}}\n$$\n"
             return f"\n$$\n\\begin{{aligned}}\n{eq}\n\\end{{aligned}}\n$$\n"
 
         text = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', auto_split_display_math, text)
+
+        # A few imported drafts contain a diagram fence without its closing
+        # delimiter. Close it before the next Markdown heading so the remainder
+        # of the paper is not rendered as one giant code quote.
+        balanced_lines = []
+        in_fence = False
+        for line in text.splitlines():
+            if in_fence and re.match(r'^#{1,6}\s+', line):
+                balanced_lines.append('```')
+                in_fence = False
+            balanced_lines.append(line)
+            if re.match(r'^```', line.strip()):
+                in_fence = not in_fence
+        if in_fence:
+            balanced_lines.append('```')
+        text = '\n'.join(balanced_lines)
 
         return text
 

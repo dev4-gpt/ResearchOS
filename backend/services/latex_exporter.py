@@ -159,6 +159,27 @@ class LaTeXExporterService:
     def validate_latex_source(tex_code: str) -> List[str]:
         """Fail closed on malformed math before pdflatex can emit a misleading PDF."""
         errors: List[str] = []
+        if not tex_code or not tex_code.strip():
+            return ["Empty LaTeX source"]
+
+        # Non-stop pdflatex can leave a PDF behind after a malformed formula.
+        # Count unescaped math delimiters before invoking TeX so preview cannot
+        # certify a candidate with an unterminated inline/display formula.
+        dollar_count = 0
+        index = 0
+        while index < len(tex_code):
+            if tex_code[index] == "\\":
+                index += 2
+                continue
+            if tex_code[index] == "$":
+                if index + 1 < len(tex_code) and tex_code[index + 1] == "$":
+                    dollar_count += 2
+                    index += 2
+                    continue
+                dollar_count += 1
+            index += 1
+        if dollar_count % 2:
+            errors.append("Unbalanced inline/display math delimiters ($)")
         environment_stack: List[str] = []
         tracked_environments = {"equation", "equation*", "aligned", "cases", "split", "gathered"}
         for match in re.finditer(r"\\(begin|end)\{([^}]+)\}", tex_code):
@@ -296,15 +317,20 @@ class LaTeXExporterService:
             text = text.replace(char, repl)
 
         # Preserve math blocks $$...$$, $...$, \cite{...}, and [[...]] wikilinks so underscores inside cite keys are NOT escaped
-        # Inline math may not span a newline or a '|' cell boundary: a single unescaped
-        # currency '$' (e.g. a 'Cost ($)' header) would otherwise open a math run that
-        # swallows the rest of the table row.
-        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^\$\n|])+?\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
+        # Inline math may not span a newline. The previous expression excluded
+        # ``|`` to protect table cells, but ``|`` is also valid math (set
+        # cardinality and conditional probability), so it escaped real formulas
+        # such as ``$|S|$`` and left the preview with unmatched math delimiters.
+        # A currency marker such as ``Cost ($)`` has no closing unescaped ``$``
+        # and therefore remains prose and is escaped below.
+        parts = re.split(r'(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\.|[^\$\n])*?(?<!\\)\$|\\cite\{[^}]+\}|\[\[[^\]]+\]\])', text)
         for i in range(0, len(parts), 2):
             # Genuine math is already split out, so any '$' still here is literal currency.
             # Escape it before the '<'/'>' rules below introduce math shifts of their own.
             parts[i] = re.sub(r'(?<!\\)\$', r'\\$', parts[i])
-            parts[i] = parts[i].replace('#', '').replace('_', '\\_').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            parts[i] = parts[i].replace('#', '').replace('<', '$<$').replace('>', '$>$').replace('¡', '').replace('¿', '')
+            parts[i] = re.sub(r'(?<!\\)_', r'\\_', parts[i])
+            parts[i] = re.sub(r'(?<!\\)\^', r'\\^{}', parts[i])
             # After underscore escaping, so that a '₂' -> '$_2$' subscript is not itself
             # escaped into a literal '\_2'.
             parts[i] = self._replace_math_glyphs(parts[i], inline=True)
@@ -349,7 +375,11 @@ class LaTeXExporterService:
     def _format_cell(self, cell: str) -> str:
         cell = self._CELL_BOLD.sub(lambda m: '\\textbf{' + m.group(1) + '}', cell)
         cell = self._CELL_ITALIC.sub(lambda m: '\\textit{' + m.group(1) + '}', cell)
-        return cell.replace('*', '').strip()
+        # Tables bypass the body sanitizer, so protect inline code and TeX
+        # specials here as well. A raw ``d^2`` in a derivation cell otherwise
+        # opens an implicit math expression and breaks the table at its footer.
+        cell = re.sub(r'`([^`]+)`', lambda m: '\\texttt{' + m.group(1) + '}', cell)
+        return self.sanitize_latex(cell.replace('*', '').strip())
 
     def _emit_booktabs_table(self, table_rows: List[List[str]], final_lines: List[str]) -> None:
         """Append one booktabs table built from collected Markdown rows.
@@ -387,7 +417,7 @@ class LaTeXExporterService:
         final_lines.append('\\centering')
         if caption:
             final_lines.append('\\caption{' + caption + '}')
-        final_lines.append('\\resizebox{\\ifdim\\width>\\columnwidth\\columnwidth\\else\\width\\fi}{!}{%')
+        final_lines.append('\\resizebox{\\columnwidth}{!}{%')
         final_lines.append('\\begin{tabular}{' + col_align + '}')
         final_lines.append('\\toprule')
         final_lines.append(' & '.join(rows[0]) + ' \\\\')
@@ -428,6 +458,12 @@ class LaTeXExporterService:
                         continue
                     lines.append(line)
                 clean_diagram_text = "\n".join(lines).strip()
+                # ASCII diagrams are rendered as text, not executable TeX. Strip
+                # legacy commands/braces from diagram labels before wrapping them
+                # in ``\texttt{...}``; otherwise labels such as ``\Delta Z_t``
+                # open math mode or invoke undefined commands in every venue.
+                clean_diagram_text = re.sub(r"\\([A-Za-z]+)", r"\1", clean_diagram_text)
+                clean_diagram_text = clean_diagram_text.replace("{", "(").replace("}", ")")
                 return f"\n\\begin{{quote}}\n\\small\\texttt{{{self.sanitize_latex(clean_diagram_text)}}}\n\\end{{quote}}\n"
 
             # Truncate or wrap lines over 42 characters to fit 3.5in IEEEtran columns
@@ -733,6 +769,12 @@ class LaTeXExporterService:
     ) -> str:
         """Converts Markdown manuscript into venue-specific LaTeX document."""
         spec = VENUE_SPECS.get(venue_key, VENUE_SPECS["IEEEtran"])
+        # The shared table renderer emits booktabs primitives for every venue.
+        # Make that dependency explicit at the adapter boundary instead of
+        # relying on individual venue templates to happen to load it.
+        packages = spec["packages"]
+        if "booktabs" not in packages:
+            packages += "\n\\usepackage{booktabs}"
         clean_title = self.clean_title_str(self.sanitize_latex(title), body_markdown)
 
         # Extract clean abstract from body_markdown if abstract parameter is default/placeholder
@@ -786,6 +828,9 @@ class LaTeXExporterService:
         body_for_export = re.sub(r'^#\s+.*$', '', body_for_export, flags=re.MULTILINE)
 
         latex_body = self.convert_markdown_body(body_for_export)
+        # Finalize legacy math-token repair after body conversion; the converter
+        # has compatibility normalization that can otherwise split \theta_n.
+        latex_body = re.sub(r"\\th\\eta(?=\s*[_^]?\s*\d)", r"\\theta", latex_body)
 
         details = author_details or {}
         anonymized_venues = {"NeurIPS", "ICML", "CVPR", "ACL"}
@@ -889,7 +934,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 
         if venue_key == "NeurIPS":
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 \\setlength{{\\emergencystretch}}{{3em}}
 
 \\title{{{clean_title}}}
@@ -925,7 +970,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 """
         elif venue_key == "ICML":
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 
 \\providecommand{{\\icmltitle}}[1]{{\\title{{#1}}}}
 \\providecommand{{\\icmlsetsymbol}}[2]{{}}
@@ -954,7 +999,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 """
         elif venue_key == "CVPR":
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 % orphan_spill_compression: tighten vertical spacing to prevent 3-line page spills
 \\setlength{{\\parskip}}{{0pt}}
 \\setlength{{\\parsep}}{{0pt}}
@@ -987,7 +1032,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 """
         elif venue_key in ("ACL", "ARR"):
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 % orphan_spill_compression: tighten vertical spacing to prevent 3-line page spills
 \\setlength{{\\parskip}}{{0pt}}
 \\setlength{{\\parsep}}{{0pt}}
@@ -1018,7 +1063,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 """
         elif venue_key == "ACM":
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 
 \\setcopyright{{none}}
 \\settopmatter{{printacmref=false}}
@@ -1053,7 +1098,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
             balance_cmd = "\\balance" if venue_key == "IEEEtran" else ""
 
             doc_code = f"""{spec['doc_class']}
-{spec['packages']}
+{packages}
 
 % Vertical compression: prevent 3-line orphan spill pages
 \\setlength{{\\parskip}}{{0pt plus 0.5pt}}
@@ -1109,6 +1154,28 @@ This empirical synthesis is subject to primary repository indexing limits and pu
         """Generates a complete, authoritative BibTeX references file with clean academic metadata."""
         bib_lines = []
         existing_keys = set()
+
+        def escape_bibtex_value(value: Any) -> str:
+            """Escape plain metadata before placing it inside a BibTeX field.
+
+            Bibliography metadata is a separate TeX input surface from the
+            manuscript body.  Reusing ``sanitize_latex`` here would corrupt
+            BibTeX commands and citation keys, so keep this escaping local to
+            field values and cover every TeX special character that can make
+            bibtex/pdflatex return a non-zero status while still leaving a PDF.
+            """
+            text = str(value or "")
+            replacements = {
+                "\\": r"\textbackslash{}",
+                "&": r"\&",
+                "%": r"\%",
+                "$": r"\$",
+                "#": r"\#",
+                "_": r"\_",
+                "{": r"\{",
+                "}": r"\}",
+            }
+            return "".join(replacements.get(char, char) for char in text)
 
         # Real metadata dictionary for known core citations
         KNOWN_CITATIONS = {
@@ -1194,11 +1261,11 @@ This empirical synthesis is subject to primary repository indexing limits and pu
             journal_name = frontmatter.get("source") or frontmatter.get("journal") or "IEEE Transactions on Software Engineering"
 
             entry = f"""@article{{{paper_id},
-  title={{{title}}},
-  author={{{authors}}},
-  journal={{{journal_name}}},
-  year={{{year}}},
-  url={{{url}}}
+  title={{{escape_bibtex_value(title)}}},
+  author={{{escape_bibtex_value(authors)}}},
+  journal={{{escape_bibtex_value(journal_name)}}},
+  year={{{escape_bibtex_value(year)}}},
+  url={{{escape_bibtex_value(url)}}}
 }}
 """
             bib_lines.append(entry)
@@ -1213,6 +1280,20 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                     k = self.clean_citation_key(subkey.strip())
                     if k:
                         cited_keys.add(k)
+            # Older drafts used a mixed form such as
+            # ``[[arxiv_2405.01543], [arxiv_2010.11146]]``. It is not a valid
+            # double-wikilink, but the identifiers are still unambiguous. Keep
+            # BibTeX complete rather than letting bibtex emit a PDF with missing
+            # database entries and a non-zero exit status.
+            for raw_key in re.findall(
+                r"\b(?:arxiv|crossref|openalex|pubmed|doaj|plos|dblp|hal)"
+                r"[A-Za-z0-9_.-]+",
+                manuscript_content,
+                flags=re.IGNORECASE,
+            ):
+                k = self.clean_citation_key(raw_key)
+                if k:
+                    cited_keys.add(k)
 
             for key in sorted(cited_keys):
                 if key not in existing_keys:
@@ -1239,10 +1320,10 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                         journal_str = "IEEE Transactions on Autonomous Systems"
 
                     entry = f"""@article{{{key},
-  title={{{title_str}}},
-  author={{{author_str}}},
-  journal={{{journal_str}}},
-  year={{{year_str}}}
+  title={{{escape_bibtex_value(title_str)}}},
+  author={{{escape_bibtex_value(author_str)}}},
+  journal={{{escape_bibtex_value(journal_str)}}},
+  year={{{escape_bibtex_value(year_str)}}}
 }}
 """
                     bib_lines.append(entry)
@@ -1330,6 +1411,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                 cmd_pdf = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
                 first = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 logs = [first.stdout, first.stderr]
+                compile_results = [first]
 
                 # Run bibtex if references.bib exists to resolve \cite{} keys to numeric [1], [2], [3]
                 if bib_code:
@@ -1344,11 +1426,38 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                     if bibtex_bin:
                         bib_result = subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                         logs.extend([bib_result.stdout, bib_result.stderr])
+                        compile_results.append(bib_result)
 
                 second = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
                 third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                compile_results.extend([second, third])
                 logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")
+
+                fatal_log_patterns = (
+                    r"! LaTeX Error:", r"! Undefined control sequence",
+                    r"! Emergency stop", r"Runaway argument", r"Fatal error occurred",
+                    r"! Missing", r"! Extra },", r"! Package .* Error:",
+                )
+                fatal_log = any(re.search(pattern, self.last_build_log, re.IGNORECASE)
+                                for pattern in fatal_log_patterns)
+                nonzero = [result.returncode for result in compile_results if result.returncode != 0]
+                if fatal_log or nonzero:
+                    diagnostic_lines = [
+                        line.strip() for line in self.last_build_log.splitlines()
+                        if line.lstrip().startswith("!")
+                        or "Error" in line
+                        or "Fatal" in line
+                        or "I was" in line
+                        or "Warning--" in line
+                    ]
+                    summary = (
+                        f"LaTeX build rejected (return codes: {nonzero or [0]}; "
+                        f"fatal log: {fatal_log}).\n"
+                        "Detected diagnostics: " + " | ".join(diagnostic_lines[:40]) + "\n"
+                    )
+                    self.last_build_log = summary + self.last_build_log
+                    return None
 
                 pdf_path = os.path.join(tmpdir, "document.pdf")
                 if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 100:

@@ -52,6 +52,31 @@ interface RunRecord {
   total_pages?: number;
 }
 
+interface ReadinessJob {
+  job_id: string;
+  status: string;
+  run_id?: string;
+  evaluator_version?: string;
+  config_hash?: string;
+  current_stage?: string;
+  progress?: {
+    drafts_tested?: number;
+    venues_tested?: number;
+    matrix_total?: number;
+    compiled?: number;
+    blocked?: number;
+    ready?: number;
+    last_filename?: string;
+    last_venue?: string;
+  };
+  report?: {
+    stage_events_path?: string;
+    artifact_manifest?: string;
+    release_note?: string;
+  } | null;
+  error?: string | null;
+}
+
 const FALLBACK_VENUES = ['IEEEtran'];
 const DEFAULT_DRAFT = 'autonomous_code_synthesis_and_self_healing_multi_agent_systems.md';
 
@@ -82,6 +107,7 @@ const BacktestLab: React.FC = () => {
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [readinessJob, setReadinessJob] = useState<ReadinessJob | null>(null);
 
   const selectedDraft = useMemo(
     () => drafts.find((draft) => draft.filename === filename),
@@ -171,6 +197,29 @@ const BacktestLab: React.FC = () => {
     }
   };
 
+  const runPublisherReadiness = async () => {
+    if (readinessJob?.status === 'running') return;
+    setError(null);
+    try {
+      const response = await apiFetch('/api/vault/publisher/readiness', { method: 'POST' });
+      if (!response.ok) throw new Error('Publisher matrix failed to start (HTTP ' + response.status + ')');
+      const data = await response.json();
+      let job: ReadinessJob = data.job;
+      setReadinessJob(job);
+      while (job?.status === 'running') {
+        await new Promise((resolve) => window.setTimeout(resolve, 1200));
+        const statusResponse = await apiFetch('/api/vault/publisher/readiness/status?job_id=' + encodeURIComponent(job.job_id));
+        if (!statusResponse.ok) throw new Error('Unable to read publisher progress (HTTP ' + statusResponse.status + ')');
+        const statusData = await statusResponse.json();
+        job = statusData.job;
+        setReadinessJob(job);
+      }
+      if (job?.status === 'failed') throw new Error(job.error || 'Publisher matrix failed.');
+    } catch (runError: any) {
+      setError(runError.message || 'The publisher matrix could not complete.');
+    }
+  };
+
   const score = Number(audit?.score ?? 0);
   const checks = Object.entries(audit?.checkmate_checks || {});
   const failedChecks = checks.filter(([, check]) => !check.passed).length;
@@ -224,10 +273,38 @@ const BacktestLab: React.FC = () => {
             {running ? <LoaderCircle size={15} className="spin" /> : <Play size={15} fill="currentColor" />}
             {running ? 'Running loop' : 'Run closed loop'}
           </button>
+          <button className="secondary-action" onClick={() => void runPublisherReadiness()} disabled={readinessJob?.status === 'running'}>
+            {readinessJob?.status === 'running' ? <LoaderCircle size={15} className="spin" /> : <ShieldCheck size={15} />}
+            {readinessJob?.status === 'running' ? 'Testing matrix' : 'Run all venue readiness'}
+          </button>
         </div>
       </section>
 
       {error && <div className="backtest-error"><AlertTriangle size={16} /><span>{error}</span></div>}
+
+      {readinessJob && (
+        <section className="backtest-panel glass readiness-panel">
+          <div className="panel-header">
+            <div><span className="panel-kicker">HITL publisher matrix</span><h2>Strict evidence readiness</h2></div>
+            <span className={readinessJob.status === 'completed' ? 'audit-count' : 'mono muted'}>
+              {readinessJob.status === 'completed' ? 'complete' : readinessJob.status}
+            </span>
+          </div>
+          <div className="readiness-summary">
+            <span><strong>{readinessJob.progress?.ready ?? 0}</strong> ready</span>
+            <span><strong>{readinessJob.progress?.blocked ?? 0}</strong> blocked</span>
+            <span><strong>{readinessJob.progress?.compiled ?? 0}</strong> compiled</span>
+            <span><strong>{readinessJob.progress?.matrix_total ?? 0}</strong> matrix cases</span>
+          </div>
+          <div className="readiness-detail">
+            <span>Evaluator {readinessJob.evaluator_version || 'v2'}</span>
+            <span>Stage {humanize(readinessJob.current_stage || 'prepare')}</span>
+            {readinessJob.progress?.last_filename && <span>{readinessJob.progress.last_filename} / {readinessJob.progress.last_venue || 'all venues'}</span>}
+            {readinessJob.status === 'completed' && <a href="/api/vault/publisher/readiness/bundle">Download verified bundle</a>}
+          </div>
+          <small>Strict evidence is fail-closed. "Ready" means ready for human review; external submission remains manual.</small>
+        </section>
+      )}
 
       <section className="backtest-kpis">
         <div className="backtest-kpi glass score-kpi">
