@@ -21,8 +21,17 @@ class BacktestLedger:
     EVALUATOR_VERSION = "researchingos-publication-evaluator-v2"
 
     def __init__(self, vault_manager: Any):
-        self.root = Path(vault_manager.vault_path) / "04_Drafts" / "backtest_runs"
-        self.root.mkdir(parents=True, exist_ok=True)
+        self._vault_manager = vault_manager
+        self._root: Optional[Path] = None
+
+    @property
+    def root(self) -> Path:
+        """Resolved lazily: callers that never touch the ledger (e.g. the
+        originality/value gates) can construct this class with no vault_manager."""
+        if self._root is None:
+            self._root = Path(self._vault_manager.vault_path) / "04_Drafts" / "backtest_runs"
+            self._root.mkdir(parents=True, exist_ok=True)
+        return self._root
 
     @staticmethod
     def content_hash(content: str) -> str:

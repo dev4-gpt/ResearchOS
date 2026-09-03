@@ -1,10 +1,10 @@
 # 🛡️ System Error Ledger & Quality Prevention Manual
 
-**Last Updated:** 2026-08-27 12:35:55
-**Total Tracked Incidents:** 87
+**Last Updated:** 2026-09-03 10:07:31
+**Total Tracked Incidents:** 88
 **Resolved & Verified:** 85
-**Open / Unresolved:** 2
-**Active Prevention Rules:** 87
+**Open / Unresolved:** 3
+**Active Prevention Rules:** 88
 
 ---
 
@@ -12,6 +12,7 @@
 
 - **[ERR-045]** `PARTIALLY_RESOLVED` — All 9 manuscripts are 3,100-5,300 words against an 8,000-14,000 word specification, carry 11-21 citations against a 15-30+ requirement with several topically irrelevant, and contain zero figures.
 - **[ERR-062]** `PARTIALLY_RESOLVED` — 84 citation occurrences remain flagged as having little topical overlap with the sentence citing them, listed in vault/00_System/CITATION_REVIEW.md.
+- **[ERR-088]** `OPEN` — run_submission_gate.py reported 72 of 112 claims ungrounded and GATE: BLOCKED across 4 of 9 manuscripts. Re-running the identical script minutes later, with no change to the manuscripts or measurements.jsonl files (confirmed via mtime), gave GATE: PASSED, 0 ungrounded, 112/112 grounded.
 
 ---
 
@@ -104,6 +105,7 @@
 - **[R85]**: A field a manuscript prints is a field that must be projected. Enumerate them from the measurement schema rather than from the fields a passage happened to use when the code was written -- four omissions in one day all had that cause.
 - **[R86]**: Measure a checker's coverage instead of inferring it from the defects it has caught. Keep a control group of mutations it must catch in full: when those slip, the instrument is broken and every other number in the table is meaningless.
 - **[R87]**: A git repository must not live inside a directory a sync client rewrites. This is the third form the same cause has taken -- credentials in duplicated .env files, duplicated modules entering an experimental corpus and flipping a result's sign, and now duplicated refs breaking fetch. The CI check for tracked '<stem> 2.<ext>' files cannot see any of these, because .git is not tracked. Move the repository off iCloud.
+- **[R88]**: A BLOCKED or failed verdict from any gate that reads files under this iCloud-backed repository (runs/**/measurements.jsonl included) must not be reported as fact from a single run. Re-run it once more, or force materialization first, before treating the result as real. This applies to every check in the pipeline, not only the provenance gate -- the same class of failure can silently under-report evidence anywhere a check reads many small iCloud-backed files in one process.
 
 ---
 
@@ -891,3 +893,12 @@
 - **Resolution:** The eleven conflict copies were moved to the Trash; fetch, rev-parse and merge-base then worked, and the merge was confirmed on origin/main. No object loss: the duplicated refs pointed at commits already reachable, and only .git/index is ever read, so the numbered copies were inert.
 - **Prevention Rule:** `R87: A git repository must not live inside a directory a sync client rewrites. This is the third form the same cause has taken -- credentials in duplicated .env files, duplicated modules entering an experimental corpus and flipping a result's sign, and now duplicated refs breaking fetch. The CI check for tracked '<stem> 2.<ext>' files cannot see any of these, because .git is not tracked. Move the repository off iCloud.`
 - **Status:** ✅ `VERIFIED_RESOLVED`
+
+### ⚠️ [ERR-088] run_submission_gate.py reported 72 of 112 claims ungrounded and GATE: BLOCKED across 4 of 9 manuscripts. Re-running the identical script minutes later, with no change to the manuscripts or measurements.jsonl files (confirmed via mtime), gave GATE: PASSED, 0 ungrounded, 112/112 grounded.
+- **Timestamp:** `2026-09-03 10:07:31`
+- **Component:** `ClaimProvenanceService / runs/**/measurements.jsonl on iCloud` (run_submission_gate.py)
+- **Error Type:** `Silent I/O Race -- False GATE BLOCKED`
+- **Root Cause:** ('ClaimProvenanceService.load_measurements() opens runs/<run_id>/measurements.jsonl with a plain open() call. That path is inside this iCloud-backed repository. When the file has not finished on-demand materialization from iCloud (e.g. after the machine was idle and the working set went cold), the read can silently return empty or truncated content instead of blocking until the download completes or raising an error. load_measurements() then returns zero/partial rows, so every claim in that manuscript falls through to UNGROUNDED even though the real measurement is present on disk and matches exactly once materialized. Independently confirmed the same session: git fetch and git show also hung on this repository while SSH auth to GitHub was instant, pointing at the same iCloud materialization cost rather than a network or code problem.',)
+- **Resolution:** Re-ran scripts/run_submission_gate.py after the repository had been warmed by earlier read activity this session; result reproduced cleanly and matches ground truth (verified by calling ClaimProvenanceService.audit_draft() directly and inspecting measurements.jsonl content by hand). No code change was made for this incident -- the underlying race is a workaround (re-run), not a fix.
+- **Prevention Rule:** `R88: A BLOCKED or failed verdict from any gate that reads files under this iCloud-backed repository (runs/**/measurements.jsonl included) must not be reported as fact from a single run. Re-run it once more, or force materialization first, before treating the result as real. This applies to every check in the pipeline, not only the provenance gate -- the same class of failure can silently under-report evidence anywhere a check reads many small iCloud-backed files in one process.`
+- **Status:** ⚠️ `OPEN`

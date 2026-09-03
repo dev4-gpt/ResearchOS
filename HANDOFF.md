@@ -95,13 +95,38 @@ causal factor.
 - `generate_appendices.py` / `generate_related_work.py` — Appendices A, C, D, E from
   artifacts and vetted citations.
 
-### 4. Current state
+### 4. Current state (re-verified 2026-09-03)
 
-**All 9 manuscripts: 116 claims, 0 ungrounded. Gate exits 0. 108/108 builds.**
-74 pages total, 6–11 pages each, all with figures and Appendices A–F.
+**All 9 manuscripts: 112 claims, 0 ungrounded. `run_submission_gate.py` exits 0,
+prints `GATE: PASSED. Every quantitative claim traces to evidence.`** 108/108 builds
+via `publisher_readiness_manifest.json` (72/108 draft×venue combinations pass every
+gate incl. layout/originality; the other 36 are blocked by real, specific reasons,
+not silently waved through).
 
 Venue allocation: p2→ICML (competitive), p9→IEEEtran, p1→IEEE Access,
 p3/p6/p7→ACM, p4→SpringerOpen, p5→MDPI, p8→arXiv.
+
+**Two commits landed 2026-09-02 on top of this** (`088472d`, `0d45170`, committed but
+not pushed): a bounded backtest/self-heal loop with an append-only SHA-256 ledger
+(`backtest_ledger.py`), and the `publication_harness.py` reproducibility-snapshot
+layer. One regression from that work: `BacktestLedger.__init__` started eagerly
+dereferencing `vault_manager.vault_path`, breaking `PublisherReadinessService(None)`
+callers (3 tests in `test_publisher_readiness.py`). Fixed 2026-09-03 by making the
+ledger's root path lazy — see `backtest_ledger.py`. Run the full suite
+(`backend/.venv/bin/python -m pytest backend/tests`, ~2 minutes on this filesystem,
+230 tests) before trusting any earlier claim of "all tests pass" — a narrower run
+against 3-4 files was reported as if it were the whole suite at least once.
+
+**ERR-088 (new, OPEN, not just this one incident):** a gate that reads
+`runs/**/measurements.jsonl` (or any other file) on this iCloud-backed repo can
+silently see empty/truncated content and report a false `BLOCKED`/failed verdict if
+the file has not finished on-demand materialization from iCloud. Reproduced live:
+`run_submission_gate.py` reported 72/112 claims ungrounded and `GATE: BLOCKED`
+once, then `GATE: PASSED, 0 ungrounded` minutes later on an identical re-run with
+unchanged inputs (confirmed via mtime). `git fetch` and `git show` hung the same
+session while SSH to GitHub was instant — same underlying cause. **Never trust a
+single BLOCKED/failed run on this filesystem; re-run once before reporting it as
+fact.**
 
 ---
 
@@ -131,18 +156,34 @@ The **integrity** problem is solved. The **contribution** problem is not.
    strong-acceptance papers at a top conference, and nobody should tell the user they are.
 5. **p8 reports no results at all** — correctly, since it needs GPUs.
 
-**Also open:** ERR-046 (ACM branch emits no author metadata), ERR-063 (`Projects 2` and `Projects 4`
-are in the Trash; **the four API keys they held are the live ones and still need
-rotating** — that part is the owner's).
+**Also open:** ERR-046 (ACM branch emits no author metadata), ERR-088 (iCloud
+materialization races can produce a false BLOCKED gate verdict — see above).
 
-**Move this repository off iCloud.** It lives in `~/Library/Mobile Documents/`,
-and iCloud resolves write conflicts by duplicating files in place. That has now
-caused three separate failures: live API keys in duplicated `.env` files
-(ERR-063), duplicated modules entering p1's and p3's experimental corpora and
-*flipping the sign* of p1's headline result (ERR-071), and duplicated refs
-inside `.git` breaking `git fetch` outright (ERR-087). The CI check for tracked
-`<stem> 2.<ext>` files catches none of the last kind, because `.git` is not
-tracked. `git clone` it somewhere ordinary.
+**ERR-063 status as of 2026-09-03:** `Projects 2` and `Projects 4` no longer exist
+anywhere under `~/Library/Mobile Documents/com~apple~CloudDocs/` — checked directly,
+not assumed. Only an empty, unrelated `Projects 3` stub (0 bytes, one empty `route/`
+folder, no ResearchingOS content) remains, and it holds nothing worth deleting.
+`.env` in this repo is gitignored and was never committed (checked). **This does not
+mean the keys were rotated** — if those folders held live keys before they were
+removed, rotate the keys regardless; their disappearance doesn't tell you whether
+they leaked in the meantime. That part is still the owner's call, not something to
+infer from a clean directory listing.
+
+**Moving this repository off iCloud is the standing recommendation, not a decision
+already made — do not act on it without asking first.** It lives in
+`~/Library/Mobile Documents/`, and iCloud resolves write conflicts by duplicating
+files in place, or serves stale/empty content mid-download. That has now caused
+several distinct failures: live API keys in duplicated `.env` files (ERR-063,
+historical), duplicated modules entering p1's and p3's experimental corpora and
+*flipping the sign* of p1's headline result (ERR-071), duplicated refs inside
+`.git` breaking `git fetch` outright (ERR-087, a small `refs/codex/turn-diffs/
+captures 2` duplicate found 2026-09-03), and a false-negative provenance gate
+(ERR-088). `.git` itself is 435M and iCloud-backed, which alone makes plain `git
+fetch`/`git show` hang for minutes on this repo even with no code change. The CI
+check for tracked `<stem> 2.<ext>` files catches none of the `.git`-internal kind,
+because `.git` is not tracked. `git clone` it somewhere ordinary — **but confirm with
+the user first**; an unprompted attempt at this on 2026-09-02 was correctly stopped
+mid-copy because it hadn't been asked for.
 
 **The corpus is the repository, so working on it moves the numbers.** p1 globs
 `backend/**` and `scripts/**`; adding two files to this repo changed its corpus from
@@ -162,23 +203,35 @@ Ranked by what actually moves the needle:
    modelling. One paper with a genuine SWE-bench Lite run behind it is worth more than
    nine analytical ones. This needs GPU access or cloud credits, and it is the single
    highest-value thing outstanding.
-2. ~~Wire the gate into CI.~~ **Done, but it does not yet *block* anything.**
-   `main` is unprotected and this is a **public** repo, so required status checks are
-   available for free. Until a PR + branch protection requiring the `integrity` check
-   exists, CI reports and nobody is stopped. That is the remaining half of this item.
+2. ~~Wire the gate into CI.~~ ~~Done, but it does not yet *block* anything.~~
+   **Fully done as of 2026-09-03, verified directly:** `main` now has branch
+   protection requiring the `integrity` status check (`strict: true`), and recent
+   `integrity` runs on `main` push events all show `success`. This item is closed —
+   don't re-open it without checking `gh api repos/{owner}/{repo}/branches/main/
+   protection` first, since this doc previously said the opposite for a while after
+   it was actually fixed.
 
    **Runs can take ~20 minutes to appear.** A push registers a PushEvent immediately
    and the workflow run is created much later; polling within a minute shows nothing
    and looks like a failure to trigger. It is not. Wait, or use
    `gh workflow run integrity --ref <branch>` to get an immediate one.
 
-   Original entry: — `.github/workflows/integrity.yml` runs the
-   gate, the draft/run agreement check, the tests and a sync-conflict-copy check on
-   every push. Dependencies are pinned in `requirements-ci.txt`.
+   `.github/workflows/integrity.yml` runs the gate, the draft/run agreement check,
+   the tests and a sync-conflict-copy check on every push. Dependencies are pinned
+   in `requirements-ci.txt`. **The two 2026-09-02 commits (`088472d`, `0d45170`) are
+   committed but not pushed**, so CI has not validated them yet — push before
+   trusting the green checkmark covers current `main`.
 3. **Retire the rest of the legacy audit chain.** FactCheckerService is fixed (ERR-075:
-   it used to mark a claim grounded because the paragraph said "benchmark"). **Checkmate
-   is not** and still reports 100.0 on drafts the provenance gate rejects. Two graders
-   that disagree is a defect in the graders (ERR-056).
+   it used to mark a claim grounded because the paragraph said "benchmark"). Checkmate's
+   own structural/PDF audit is intentionally weaker than the evidence gate for
+   index-only venues like DOAJ (`venue_passed = is_index_only or checkmate_passed` in
+   `publisher_readiness.py`) — that's a deliberate carve-out, not the ERR-056 defect;
+   the evidence/citation check is still ANDed in independently and is never bypassed.
+   ERR-056 itself (FactCheckerService vs. ClaimProvenanceService disagreeing) is marked
+   `VERIFIED_RESOLVED` in the ledger from 2026-08-25. What *is* still open in this
+   family is ERR-088 (iCloud file-read races producing false BLOCKED verdicts — see
+   above) — don't assume every "two checks disagree" report is a code defect before
+   ruling out a stale/cold read on this filesystem first.
 4. **Finish the main bodies.** Deliberate authorship, not generation. Padding will
    reintroduce exactly what was removed.
 5. **Then submit — one venue per paper, sequentially.** Not 108 packages.
@@ -211,6 +264,16 @@ Ranked by what actually moves the needle:
   is fabrication with a checksum on it.
 - **When you find a defect, record it** in the ledger via `ErrorLedgerService`, with a
   prevention rule. That is the point of the system.
+- **A BLOCKED/failed gate result on this filesystem gets one free re-run before you
+  report it as fact.** ERR-088: this repo's iCloud backing can make a file read come
+  back empty mid-download, and `run_submission_gate.py` reported 72 ungrounded claims
+  and `GATE: BLOCKED` once, then `GATE: PASSED` on an unchanged re-run minutes later.
+- **Don't act on repo-location or infrastructure changes (moving off iCloud, deleting
+  directories, killing background jobs) without asking first**, even when a doc like
+  this one recommends them. A same-day incident: an all-caps line inside a longer
+  multi-item message was read as authorization to start copying this repo off iCloud;
+  it wasn't, and had to be stopped and cleaned up. Recommendations in this file are
+  for you to raise with the user, not to execute unprompted.
 
 ---
 
