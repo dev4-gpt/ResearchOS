@@ -1,3 +1,5 @@
+import _langsmith_stub  # noqa: F401 -- must run before anything imports langchain_core; see ERR-097
+
 import os
 import re
 import json
