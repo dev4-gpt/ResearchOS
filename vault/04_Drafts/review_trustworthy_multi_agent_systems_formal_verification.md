@@ -44,10 +44,10 @@ These are results about a protocol model. No language model was run, so this pap
 
 ### Motivation: Trustworthiness in Autonomous Multi-Agent Ecosystems
 
-Multi-agent foundation systems—in which specialized autonomous personas (e.g., planners, analysts, systems engineers, statisticians, peer reviewers, writers) collaborate to perform complex reasoning, code synthesis, and scientific literature discovery—have emerged as the premier architecture for complex problem solving [[arxiv_2005.14165], [arxiv_2405.01543]]. However, current orchestrations remain fundamentally vulnerable to non-deterministic failure modes and adversarial manipulation [[arxiv_2312.03893]].
+Multi-agent foundation systems—in which specialized autonomous personas (e.g., planners, analysts, systems engineers, statisticians, peer reviewers, writers) collaborate to perform complex reasoning, code synthesis, and scientific literature discovery—have emerged as the premier architecture for complex problem solving [[arxiv_2005.14165], [arxiv_2405.01543]]. However, current orchestrations remain fundamentally vulnerable to non-deterministic failure modes and adversarial manipulation.
 
 In multi-agent council deliberations, three core failure categories dominate:
-1. **Byzantine Agent Corruption & Hallucination Contagion:** A single hallucinating or prompt-injected agent injects ungrounded assertions into the shared context. Downstream agents uncritically cite these synthetic assertions as ground truth, leading the entire council into false consensus [[arxiv_2406.00584]].
+1. **Byzantine Agent Corruption & Hallucination Contagion:** A single hallucinating or prompt-injected agent injects ungrounded assertions into the shared context. Downstream agents uncritically cite these synthetic assertions as ground truth, leading the entire council into false consensus.
 2. **Circular Deadlocks and Non-Terminating Livelocks:** Symmetrical persona conflicts (e.g., an aggressive reviewer agent continuously rejecting a synthesizer agent's output without specific constructive constraints) trigger infinite rebuttal loops that consume GPU tokens without convergence.
 3. **Ungrounded State Mutations & Action Drift:** Agents executing tool invocations or modifying shared knowledge graphs without formal pre-condition and post-condition checks induce silent state corruptions that compromise enterprise databases [[arxiv_2404.04289]].
 
@@ -111,12 +111,35 @@ We formulate safety and liveness properties using standard Linear Temporal Logic
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-\Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, \\
-& s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
+\Phi_{\text{safety}} = & \square \left( \text{StateMutation}(s, s') \implies \left( \text{ContractVerified}(s, s') \land \text{CitationGroundingScore}(s') \ge \tau_{\text{ground}} \right) \right)
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,6 +169,18 @@ $$
 where $\tau_{\text{ground}} = 0.95$ is the strict grounding threshold enforced by the FactChecker verification linter.
 
 **Definition 2 (Deadlock-Free Liveness Invariant $\Phi_{\text{liveness}}$).** From any deliberation state $s \in \mathcal{S}$, the council is guaranteed to eventually reach either consensus agreement ($S_{\text{consensus}}$) or an explicit, bounded escalation halt ($S_{\text{escalate}}$) within finite turns:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -203,11 +238,23 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 ### Byzantine-Tolerant Council Consensus Protocol (BT-CCP)
 
-Let up to $f$ agents out of $n$ total council members be Byzantine (i.e., generating hallucinated arguments, refusing to cooperate, or actively colluding to subvert consensus) [[arxiv_2406.00584]].
+Let up to $f$ agents out of $n$ total council members be Byzantine (i.e., generating hallucinated arguments, refusing to cooperate, or actively colluding to subvert consensus).
 
 Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds:
 1. **Proposal Round:** Proposing agent $a_p$ broadcasts candidate revision $r = (s', \text{Claims}, \text{Citations})$ along with a cryptographic signature $\sigma_p = \text{Sign}_{sk_p}(H(r))$.
@@ -239,11 +286,35 @@ Under BT-CCP, deliberation proceeds in three cryptographically verifiable rounds
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}| = \sum_{i=1}^n \mathbb{I}\left( \text{VerifySig}(\mathbf{v}_i) = 1 \land \text{Vote}(\mathbf{v}_i) = \text{VALID} \right) \ge 2f + 1
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -302,12 +373,36 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 |\mathcal{Q}_1 \cap \mathcal{Q}_2| = & |\mathcal{Q}_1| + |\mathcal{Q}_2| - |\mathcal{Q}_1 \cup \mathcal{Q}_2| \ge (2f + 1) \\
 & + (2f + 1) - n = 4f + 2 - n
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -349,6 +444,7 @@ Because there are at most $f$ Byzantine agents in the entire system, the interse
 |                    T-MAS Deliberation Council                   |
 |  
 
+```
 ### Continuous Model-Checking Engine
 The Continuous Model-Checking Engine intercepts every agent proposal and converts the proposed state mutation into a symbolic Promela model evaluated against LTL specifications using the Spin model checker. Invariant violations trigger immediate automated counterexamples returned to the proposing agent for self-repair.
 
@@ -380,11 +476,35 @@ To prevent infinite rebuttal loops between polarized personas (e.g., *Statistici
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Reviewer2} \prec \text{Statistician} \prec \text{Engineer} \prec \text{Analyst} \prec \text{Chairman}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -469,13 +589,15 @@ T-MAS is evaluated by exhaustive state-space exploration of its protocol model, 
 
 Three properties are decided:
 
-1. **Safety** ($\Phi_{\textsafety}$): no reachable state commits an ungrounded proposal. Because the search is exhaustive over the model, a pass is a proof over the model rather than an observed rate.
+1. **Safety** ($\Phi_{\text{safety}}$): no reachable state commits an ungrounded proposal. Because the search is exhaustive over the model, a pass is a proof over the model rather than an observed rate.
 2. **Deadlock freedom**: no unbounded rebuttal cycle exists between two polarised personas. Decided by depth-first cycle detection over the reachable graph. The model is defined on the turn alone; bounding the objection count would make the graph acyclic by construction and the check vacuous.
 3. **Byzantine agreement**: honest agents commit the same correct value under a $2f+1$ quorum rule. Simulated over an unreliable channel, because without message loss the outcome is a deterministic function of $(n, f)$ and repeated trials of it would carry no information.
 
 ### Baseline Comparison
 
 We do not report a comparison against unconstrained debate, self-refine, or PBFT agent implementations. Such a comparison requires running language-model agents against an adversarial workload, which this study does not do. The comparison made here is between the protocol with and without each of its own mechanisms, which the model checker can decide exactly.
+
+The two kinds of comparison answer different questions and neither substitutes for the other. A benchmark comparison against unconstrained debate would report a rate: how often T-MAS avoided a failure that unconstrained debate did not, over some sampled workload. That rate is a property of the workload sampled as much as of the protocol, and a favourable rate on one workload does not bound behaviour on an unseen one. The comparison reported here instead asks whether a specific failure is reachable at all under a specific mechanism configuration, and answers it exhaustively rather than by sampling, which is a stronger claim about the mechanism but a narrower one about deployed behaviour: it says nothing about how often a language-model council would attempt the adversarial path that the model shows is blocked. Table 3's Byzantine threshold is the one result in this paper closer to a rate than a proof, because it is decided by simulation over an unreliable channel rather than by exhaustive search, and its precision is exactly the boundary a benchmark comparison would also need -- $20{,}000$ trials to locate a threshold to within the reported confidence, not the single exact answer that Tables 1 and 2 provide by construction.
 
 ---
 
@@ -519,6 +641,16 @@ Agreement is total up to $f = 2$ and collapses to $0.00\%$ at $f = 3$. The theor
 
 Tables 1 and 2 already decide what each mechanism contributes: removing $\Phi_{\text{safety}}$ makes an ungrounded commit reachable, and removing the priority ordering reintroduces the rebuttal cycle. Both are exact results over the model rather than measured deltas.
 
+### The Three Mechanisms Fail Independently
+
+T-MAS combines three separate controls -- the safety invariant, the priority ordering, and the Byzantine quorum -- and it is worth stating plainly that the model checker verifies each in isolation, holding the other two fixed. Table 1 removes $\Phi_{\text{safety}}$ while the priority ordering and quorum rule stay in force; Table 2 removes the priority ordering while $\Phi_{\text{safety}}$ and the quorum rule stay in force; Table 3 varies $f$ while both other mechanisms stay in force. No configuration in this study removes two mechanisms at once, so the results establish that each control is individually necessary for the property it targets, not that the three are jointly sufficient against a fault that defeats more than one simultaneously -- an agent that is both Byzantine and exempt from the priority ordering, for instance, is outside what any of the three tables decides.
+
+This is a real limitation of exhaustive verification applied piecewise rather than a limitation of the mechanisms themselves. A joint ablation -- $\Phi_{\text{safety}}$ removed *and* the priority ordering removed, checked together -- is a state space this checker can compute exactly, since it is still exhaustive search over a finite model; it is not reported here because the single-mechanism results already identify where the protocol's guarantees come from, and a combinatorial sweep over all eight on/off configurations of three binary controls does not change which mechanism protects which property, only how quickly guarantees compound away.
+
+### What the Magnitudes Say, Not Just the Direction
+
+Each table reports a definite result rather than an estimate, but the three definite results are not equally close to their respective boundary. Byzantine agreement fails completely and immediately at $f = 3$ -- honest agreement drops from 100.00\% to 0.00\% with no intermediate degradation -- which is the sharpest possible margin: the protocol offers no partial credit for being one corrupt agent over the classical bound. The safety invariant's contribution is smaller in relative terms but larger in absolute reach: removing it does not merely permit one bad state, it grows the reachable space by 72.97\% (from 37 to 64 states), meaning most of the additional states the unconstrained protocol can enter are not the violating state itself but states that become reachable only because the check that would have pruned them is gone. The priority ordering's contribution is the least quantifiable of the three by this method: cycle detection is a boolean (present or absent), so Table 2 cannot say whether removing the ordering makes livelock likely or merely possible, only that it makes livelock reachable at all. A council operator deciding which control to prioritize under limited engineering effort learns three different things from these three results, not one uniform "each mechanism helps."
+
 We do not report an ablation over agent backbones or debate strategies. That comparison requires running language-model agents against an adversarial workload, which this study does not do.
 
 ---
@@ -526,7 +658,7 @@ We do not report an ablation over agent backbones or debate strategies. That com
 ## Related Work & Taxonomic Synthesis
 
 ### Multi-Agent Debate & Consensus Protocols
-Early multi-agent debate literature demonstrated that multi-persona argumentation enhances reasoning on mathematical and logic puzzles [[arxiv_2005.14165], [arxiv_2203.02155]]. However, unconstrained debate is prone to sycophancy, majority-vote bias, and hallucination contagion [[arxiv_2406.00584]]. Our BT-CCP protocol resolves these failure modes by anchoring multi-agent consensus in formal distributed systems theory and Byzantine fault tolerance.
+Early multi-agent debate literature demonstrated that multi-persona argumentation enhances reasoning on mathematical and logic puzzles [[arxiv_2005.14165], [arxiv_2203.02155]]. However, unconstrained debate is prone to sycophancy, majority-vote bias, and hallucination contagion. Our BT-CCP protocol resolves these failure modes by anchoring multi-agent consensus in formal distributed systems theory and Byzantine fault tolerance.
 
 ### Formal Methods, LTL, and Model Checking in AI
 Linear Temporal Logic (LTL) and Computation Tree Logic (CTL) model checking have been widely applied to hardware verification, robotic motion planning, and autonomous cyber-physical systems. Recent literature investigates neuro-symbolic reasoning and SMT constraint solving for neural network safety. T-MAS extends temporal logic to multi-agent generative deliberation, treating LLM agents as non-deterministic transitions within a formally verified state space.
@@ -541,6 +673,7 @@ Retrieval-Augmented Generation (RAG), GraphRAG [[arxiv_2501.14050]], and automat
 ### Internal Validity
 - **State Space Explosion:** Complex multi-agent execution graphs with unbounded memory variables can induce state space explosion during LTL model checking. T-MAS mitigates this via modular property decomposition and symbolic invariant abstraction.
 - **Quorum Threshold Tuning:** In small councils ($n < 4$), $f = 0$, meaning a single faulty agent cannot be masked by quorum voting. Enterprise deployments should maintain $n \ge 7$ members ($f \ge 2$) for critical decisions.
+- **Tractability at the measured scale, not proven beyond it:** exhaustive exploration is feasible here because the reachable space is small -- 37 states, 111 transitions, a mean branching factor of 3.00 -- for a council of 7 with the retry bound $k_{\max} = 3$ stated in Section 4. Finiteness is bought by that retry bound, not discovered; a council that permits unbounded rebuttal has no finite state space to exhaustively search at all, and the checker used here would not terminate on it. This paper reports the state space at $n = 7$ and does not report how the reachable state count grows with council size or with a larger retry bound, so no claim is made that exhaustive checking remains tractable at, for instance, $n = 50$. Whether it does is an empirical question about the growth rate of a specific finite automaton, not a property this study establishes.
 
 ### External Validity
 - **Computational Verification Overhead:** Evaluating LTL properties and cryptographic signatures adds $+94$ ms of latency overhead per deliberation round. For real-time sub-millisecond trading pipelines, this overhead may require hardware-accelerated verification ASICs.
@@ -700,16 +833,21 @@ The main text reports the measurements that carry the argument. This appendix li
 | `byzantine_agreement_f1` | 100.0 | % | 20000 | — | `randomised quorum consensus, 1 corrupt of 7, 95% message delivery` |
 | `byzantine_agreement_f2` | 100.0 | % | 20000 | — | `randomised quorum consensus, 2 corrupt of 7, 95% message delivery` |
 | `byzantine_agreement_f3` | 0.0 | % | 20000 | — | `randomised quorum consensus, 3 corrupt of 7, 95% message delivery` |
+| `channel_delivery_probability` | 95.0 | % | 20000 | — | `probability an inter-agent message is delivered, per trial` |
 | `counterexample_depth_without_invariant` | 4.0 | n | — | — | `shortest path to an ungrounded commit once the invariant is removed` |
 | `livelock_cycle_with_priority` | 0.0 | % | 2 | — | `DFS cycle detection over the reachable graph` |
 | `livelock_cycle_without_priority` | 100.0 | % | 2 | — | `DFS cycle detection over the reachable graph` |
 | `max_tolerated_byzantine` | 2.0 | n | 7 | — | `largest f at which honest agreement is total` |
+| `mean_branching_factor` | 3.0 | x | 37 | — | `transitions per reachable state under the enforced invariant` |
 | `model_check_latency_ms` | 0.0668 | ms | — | — | `wall-clock exhaustive exploration` |
 | `model_states_reachable` | 37.0 | n | — | — | `breadth-first reachable state count, invariant enforced` |
+| `model_states_without_invariant` | 64.0 | n | — | — | `breadth-first reachable state count, invariant removed` |
 | `model_transitions` | 111.0 | n | — | — | `transitions explored, invariant enforced` |
 | `safety_invariant_holds` | 100.0 | % | 37 | — | `exhaustive: no reachable state commits an ungrounded proposal` |
+| `state_space_growth_without_invariant` | 72.97 | % | — | — | `increase in reachable states when the safety invariant is removed` |
+| `terminal_states_enforced` | 10.0 | n | 37 | — | `reachable commit or abort states` |
 
-**12 measurements across 3 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+**17 measurements across 3 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
 ## Artifact Digests
 

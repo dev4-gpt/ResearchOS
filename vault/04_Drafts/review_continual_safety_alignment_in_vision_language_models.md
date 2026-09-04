@@ -37,6 +37,8 @@ Safety alignment is fragile under continued training. A model that reliably refu
 
 The remedy works. What is missing is an account of *why* magnitude should be the right thing to rank by, and that gap matters for anyone extending the method to a new setting -- a vision-language model, a different adaptation scheme -- where the empirical calibration cannot simply be transferred.
 
+The gap is not merely academic. A practitioner adopting the antecedent method inherits a rule -- discard the highest-gradient samples -- without inheriting a way to predict when that rule will stop working. If magnitude were understood as a direct proxy for harm, there would be little reason to expect it to fail anywhere; if it is instead a proxy for a different, more fundamental quantity that magnitude happens to correlate with under the conditions the original study measured, the correlation can be expected to break wherever those conditions change. Distinguishing between these two readings of the same empirical result is exactly what a mechanism-level account can do that a benchmark result, however well replicated, cannot: a benchmark tells a practitioner that a rule worked on the setting tested, not what property of that setting made it work.
+
 This paper supplies a geometric account and tests it. We adopt the standard framing in which alignment behaviour is carried by a low-rank subspace of weight space, and ask what kinds of update move that subspace. The question is answerable by computation, needs no accelerator, and produces a sharper claim than a benchmark comparison would.
 
 ### What We Find
@@ -74,6 +76,8 @@ Principal angles are the appropriate measure here because they are invariant to 
 ### Why Not a Behavioural Benchmark
 
 The natural alternative is to fine-tune a model and measure refusal rates. That requires an accelerator, which this environment does not have, and it answers a different question: it measures how much safety was lost, not what kind of update caused the loss. The geometric measurement isolates the mechanism; a benchmark confounds it with data composition, optimiser dynamics and evaluation-set construction.
+
+The confound is not merely inconvenient, it is the specific reason a benchmark result could not have produced this paper's second finding on its own. A refusal-rate comparison between magnitude-filtered and leakage-filtered fine-tuning runs would report which rule preserved more safety behaviour, but it could not say why, because the training run mixes the geometric effect this paper isolates with everything else that differs between two fine-tuning runs -- learning rate schedule, data order, which specific samples a given retention fraction happens to keep. Two runs that filtered on different criteria and produced different refusal rates would be consistent with the geometric account above, but so would several other explanations a benchmark cannot rule out on its own. The geometric measurement is not offered as a replacement for that comparison; it is offered as the piece of evidence a benchmark result could not by itself supply, which is what makes the two complementary rather than substitutes for each other.
 
 ---
 
@@ -127,6 +131,8 @@ We state both rules over a batch of updates $\{\Delta W_i\}$ with a retention fr
 
 The leakage rule requires knowing $\mathcal{S}$, which the magnitude rule does not. That is a real cost: it presumes the safety subspace has been identified, whereas gradient norm is available for free during training. We set that cost aside to ask the prior question of whether leakage would be the better criterion if it were available.
 
+That question has a definite answer independent of the cost, and it is the one Section 5 measures: even granted free access to the true safety subspace -- an assumption strictly more favourable to the leakage rule than any real deployment could offer, since identifying $\mathcal{S}$ in a trained model is itself unsolved -- the leakage rule still does not win. This is worth stating plainly because it forecloses an otherwise natural response to the negative result in Section 4: one might grant that magnitude alone cannot explain disproportionate drift, concede that leakage is the true mechanism, and still expect that a practical leakage-aware filter would outperform the magnitude heuristic once the subspace-identification cost is paid. Section 5 shows that expectation is false even in the idealised setting where the cost has already been paid, which means the case for switching from magnitude to leakage as a selection criterion is weaker than the mechanism alone would suggest, not stronger.
+
 ---
 
 ## Experiments
@@ -154,6 +160,8 @@ The low-rank assumption is the paper's main modelling commitment, so we vary it.
 
 The conclusions therefore do not hinge on choosing the rank correctly, which is fortunate, because in a real model the rank is not known.
 
+The direction of the effect, though not its exact size, is what dimension counting predicts. This sweep applies the same isotropic ambient update used throughout Section 4 -- not one constructed to hit a chosen leakage fraction -- and a random update drawn from the full $512$-dimensional space carries a larger share of its energy inside a larger subspace simply because there is more subspace for it to land in. A rank-$64$ subspace therefore captures more of a random update's energy internally than a rank-$4$ one does, leaving proportionally less to leak out and rotate the span, which is consistent with the observed monotone decrease. We do not derive the exact magnitude of this effect from the projector geometry here; the rank$=16$ point in this sweep reproduces the norm$=0.4$ baseline from Section 4 exactly ($0.992$ degrees both times, the same subspace rank used everywhere else in the paper), which is the internal consistency check that matters for the paper's other claims.
+
 ---
 
 ## Conclusion
@@ -165,6 +173,8 @@ Magnitude is not the mechanism: drift is linear in update norm ($\|\Delta W\|^{0
 Yet magnitude is the better selection criterion. Discarding the largest-magnitude tenth of a batch removes $33.30\%$ of total drift against $15.08\%$ for the highest-leakage tenth, because magnitude carries more dispersion. The antecedent method is therefore well-founded, but for a reason its own framing does not state: gradient norm is an effective proxy for drift not because it identifies harmful directions, but because it captures the larger source of variance in a quantity that is the product of both.
 
 The practical reading is that a norm-based rule should be expected to weaken wherever gradient magnitudes are compressed -- late in training, under gradient clipping, or with normalised optimisers -- because that is precisely when the factor it ranks on stops dominating. Testing that prediction requires the fine-tuning runs this environment cannot perform, and it is the experiment we would run with access to one.
+
+This reframes rather than undermines the antecedent method. Bach et al.'s finding that magnitude-based filtering preserves alignment at little cost to task learning is not disputed by anything measured here; every number in this paper is consistent with that result holding exactly as reported. What changes is the warrant for extrapolating it. A rule justified as "identifies harmful updates" carries an implicit claim to work wherever harmful updates occur, including regimes this paper's account predicts it will fail in. A rule understood instead as "captures the dominant source of drift variance under typical training dynamics" carries a narrower, more accurate warranty -- one that names the conditions under which the method should be re-examined rather than assumed to transfer. The distinction matters most exactly where the antecedent work cannot be directly consulted: a vision-language model under an adaptation scheme its gradient-magnitude calibration was never measured against.
 
 Everything reported here is a property of a stated geometric model. No vision-language model was loaded, trained or evaluated; no benchmark score is reported or implied. The harness, all 40 measurements and their artifacts are released so the account can be checked or refuted [[arxiv_2604.17215]].
 
@@ -201,7 +211,9 @@ Every result here is a property of a stated geometric model, and three of its as
 
 The prediction most worth testing is the one in the conclusion: a norm-based selection rule should weaken wherever gradient-magnitude dispersion is compressed. Gradient clipping, normalised optimisers, and late-training regimes all compress it. If magnitude-based filtering retains its advantage under clipping, the dispersion explanation is wrong and the mechanism lies elsewhere.
 
-Measuring gradient leakage directly against a candidate safety subspace during fine-tuning would test the geometric account itself. That requires identifying the subspace, which is an open problem in its own right and one this paper does not address.
+This prediction is falsifiable in a specific, checkable way. The dispersion account in Section 5 attributes magnitude's advantage entirely to the width of its distribution relative to leakage's bounded $[0,1]$ range, so it predicts a threshold rather than a gradual decline: as gradient-magnitude dispersion is compressed toward the bound leakage already sits within, the two selection rules should converge in effectiveness and, past some compression level, magnitude's advantage should vanish or reverse. A study that varied clipping thresholds and measured drift removed by each rule at every threshold would trace out exactly this curve, and a curve that stayed flat -- magnitude retaining a constant advantage regardless of how compressed its dispersion became -- would falsify the account given here even if the underlying leakage mechanism from Section 4 remained correct, because it would mean something other than relative dispersion is doing the work Section 5 attributes to it.
+
+Measuring gradient leakage directly against a candidate safety subspace during fine-tuning would test the geometric account itself. That requires identifying the subspace, which is an open problem in its own right and one this paper does not address. A weaker but more immediately tractable test does not require solving that problem: it requires only that a candidate subspace, however imperfectly identified, be held fixed across a fine-tuning run so leakage against it can be tracked alongside magnitude, without requiring that the candidate be the true safety-relevant subspace this paper's model assumes exists.
 
 ## What This Paper Does Not Contain
 
@@ -221,7 +233,7 @@ This non-uniqueness is why the paper measures with principal angles rather than 
 
 For subspaces with orthonormal bases $B$ and $B'$, let $\sigma_1 \ge \dots \ge \sigma_r$ be the singular values of $B^{\top}B'$. All lie in $[0, 1]$, and the principal angles are $\theta_i = \arccos \sigma_i$.
 
-The angles have a direct interpretation: $\th\eta_1$ is the smallest angle between any vector of $\mathcal{S}$ and any vector of $\mathcal{S}'$, and successive angles repeat that minimisation on the orthogonal complements of the vectors already chosen. They are zero exactly when the subspaces coincide and $\pi/2$ when they are orthogonal, and they are invariant to the choice of basis within each subspace, which is the property required above.
+The angles have a direct interpretation: $\theta_1$ is the smallest angle between any vector of $\mathcal{S}$ and any vector of $\mathcal{S}'$, and successive angles repeat that minimisation on the orthogonal complements of the vectors already chosen. They are zero exactly when the subspaces coincide and $\pi/2$ when they are orthogonal, and they are invariant to the choice of basis within each subspace, which is the property required above.
 
 We report the mean angle in degrees. The mean rather than the largest, because a single strongly rotated direction in an otherwise stable subspace is a different phenomenon from uniform rotation, and the paper is concerned with aggregate displacement.
 
@@ -237,12 +249,41 @@ Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\per
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-\Delta W B = & \underbrace{P \, \\
-& \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
+\Delta W B = & \underbrace{P \, \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

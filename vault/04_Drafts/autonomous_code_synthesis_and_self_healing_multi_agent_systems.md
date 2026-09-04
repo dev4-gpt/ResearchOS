@@ -5,11 +5,11 @@ authors:
 affiliation: "Pennsylvania State University"
 email: "asd5520@psu.edu"
 country: "USA"
-publisher_readiness: "READY_FOR_HUMAN_REVIEW"
+publisher_readiness: "BLOCKED_UNVERIFIED_EVIDENCE"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: ""
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -24,13 +24,13 @@ We define five AST mutation operators and apply them to a corpus of 26 real Pyth
 
 The central empirical finding is negative and, we argue, useful. Across 128 integer guards submitted to the solver, Z3-SMT reachability checking rejected no candidate that the far cheaper static binding check had not already caught: its marginal rejection rate is $0.00\%$. On this corpus the expensive symbolic stage is redundant, and the binding check carries the filter. We report this in place of the widely assumed benefit of SMT pre-filtering.
 
-Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.57$ steps with a worst case of $19$, consistent with the finite-termination bound of Theorem 1 [[arxiv_2501.02497]]. All measurements, the harness that produced them, and their raw artifacts are released for re-execution.
+Repair convergence is measured over 300 seeded defects: the node-multiset distance to the original tree reaches zero in a mean of $6.57$ steps with a worst case of $19$, consistent with the finite-termination bound of Theorem 1. All measurements, the harness that produced them, and their raw artifacts are released for re-execution.
 
 ---
 
 ## Introduction
 
-Enterprise program repair presents challenges that extend far beyond single-function syntax completion benchmarks. Enterprise software defects emerge across multi-repository symbol dependency graphs, where minor schema mutations trigger severe microservice regression cascades, subtle deadlock conditions, and silent memory corruptions [[arxiv_2405.01543], [arxiv_2203.02155]]. Traditional Automated Program Repair (APR) methodologies operate via heuristic search over Concrete Syntax Trees or symbolic execution engines. Symbolic solvers provide formal correctness guarantees but are constrained by state-space explosion in high-dimensional continuous domains. Probabilistic generative models exhibit strong semantic reasoning but suffer hallucinations, syntax errors, and non-terminating regression loops [[arxiv_2005.14165]].
+Enterprise program repair presents challenges that extend far beyond single-function syntax completion benchmarks. Enterprise software defects emerge across multi-repository symbol dependency graphs, where minor schema mutations trigger severe microservice regression cascades, subtle deadlock conditions, and silent memory corruptions [[arxiv_2405.01543], [arxiv_2203.02155]]. Traditional Automated Program Repair (APR) methodologies operate via heuristic search over Concrete Syntax Trees or symbolic execution engines. Symbolic solvers provide formal correctness guarantees but are constrained by state-space explosion in high-dimensional continuous domains. Probabilistic generative models exhibit strong semantic reasoning but suffer hallucinations, syntax errors, and non-terminating regression loops.
 
 The SHACS framework frames program repair as constrained search over an AST state space, with transitions governed by specialised agent roles operating under explicit verification bounds. The premise we set out to test is that formal constraint pre-filtering -- specifically Z3-SMT path-sensitive analysis -- eliminates most invalid patch candidates before expensive sandbox evaluation.
 
@@ -86,11 +86,53 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{sub}}(T, v, v') = T[v \leftarrow v']\ \text{(node substitution)}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -208,12 +250,67 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-\mu_{\text{del}}(T, v) = & T \setminus \{v\} \setminus E_v\ \text{(node deletion, \\
-& } E_v \text{ = incident edges)}
+\mu_{\text{del}}(T, v) = & T \setminus \{v\} \setminus E_v\ \text{(node deletion, } E_v \text{ = incident edges)}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -332,12 +429,54 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mu_{\text{move}}(T, v, p) = & \text{reparent}(T, \\
 & v, p)\ \text{(subtree relocation)}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -403,11 +542,53 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Patch} \rightarrow \text{HunkList}\ |\ \epsilon
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -525,11 +706,67 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \text{Hunk} \rightarrow \text{Header}\ \text{ContextLines}\ \text{ChangeLines}\ \text{ContextLines}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -620,6 +857,20 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run.
 
 ---
@@ -635,6 +886,20 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 - $V: \mathcal{S} \rightarrow \mathbb{R}_{\geq 0}$: Lyapunov energy function
 
 **Definition 3 (Lyapunov Energy Function).** Let $T^*$ be the target (defect-free) program state. Define:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -699,9 +964,37 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 **Theorem 1 (Lyapunov Termination).** Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -765,6 +1058,20 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 steps, where $T_{\max}$ is the hard timeout and $V(T_0)$ is the initial tree-edit distance.
 
 *Proof.* We show $V$ is a strict Lyapunov function for the repair dynamics. At each step $t$, the repair agent applies action $a_t \in \mathcal{A}$ selected by the Oracle acceptance criterion (patch passes all test cases). Define the energy decrease: $\Delta V_t = V(T_t) - V(T_{t+1})$.
@@ -777,9 +1084,25 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 **Corollary 1.** For seeded defects with mean node-multiset distance $\bar{V}$ and $c_{\min} = 1$, the bound gives $k^* \leq \min(T_{\max}, \lfloor \bar{V} \rfloor)$ accepted steps. Our 300 seeded defects converged in a mean of 6.57 steps with a worst case of 19 (Table 3), so every trial terminated well inside the bound.
 
+The bound is worst-case and the measured distribution is far from it in the typical case. A mean of 6.57 against a worst case of 19 is a ratio of roughly 1:3, and since the theorem bounds every trial individually rather than the mean, the interesting question is not whether the bound holds -- Theorem 1 guarantees that by construction, since $c_{\min} = 1$ was chosen to match how the multiset distance actually decreases per accepted step -- but how much slack it leaves. A repair loop that consumed close to $\lfloor V(T_0) \rfloor$ steps on every trial would indicate the mutation operators rarely produce a patch that closes more than one unit of distance per accepted action; a loop that converges in a small fraction of that budget, as observed here, indicates most accepted repairs close several units of distance at once. The 300-trial distribution supports the latter reading, though this study does not decompose which mutation operators or repair actions are responsible for the larger single-step reductions, since that decomposition was not the question the convergence measurement was designed to answer.
+
 ### Convergence Rate Analysis
 
 **Proposition 2.** If the patch acceptance probability at step $t$ is $p_t \geq p_{\min} > 0$ (lower-bounded by the LLM's minimum correct-patch generation rate), then the expected termination time satisfies:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -814,6 +1137,20 @@ $$
 \mathbb{E}[k^*] \leq \frac{V(T_0)}{p_{\min} \cdot c_{\min}}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -909,6 +1246,8 @@ introduce a name -- guard insertion above all -- are caught almost immediately b
 binding analysis, while operators that only rearrange existing, already-bound code
 survive it. Filtering effectiveness is a property of the defect distribution, not
 of the filter alone.
+
+The two operators that touch name resolution most directly are also the two most rejected, and by different mechanisms. Guard insertion ($\mu_{\text{ins}}$) is deliberately built to name an unbound identifier half the time (Appendix D); that even-split design-time rate is a floor, not the observed number, and the measured rejection of 64.92\% sits well above it. The gap is not attributable to compilation, since guard insertion's syntactic validity is 100.00\% -- every rejected mutant in this operator reaches the binding stage and fails there. The remaining margin is site selection: an insertion point chosen near the top of a function body sees fewer prior bindings than one chosen near the bottom, so the binding check catches insertions the coin flip alone would not, at whichever sites happen to precede fewer definitions. Statement deletion ($\mu_{\text{del}}$) reaches 53.16\% rejection with no such built-in unbound-name mechanism at all: every rejection there is a downstream consequence of removing a definition that a later statement in the same body still reads. That the two highest-rejection operators arrive at similar magnitudes by different routes -- one by direct construction, one by an emergent dependency the operator does not track -- is itself evidence that binding analysis is catching real structural violations rather than only the ones the mutation design anticipated.
 
 ### The Solver Sees Almost Nothing to Decide
 
@@ -1006,11 +1345,29 @@ The pipeline has three stages and Table 2 reports each one's marginal contributi
 
 What the staged measurement does establish is an ordering argument for filter design. Static name binding rejects 44.42\% of the candidates reaching it at negligible cost, while Z3-SMT reachability rejects 0.00\% of the candidates reaching it while carrying the highest per-candidate cost in the pipeline. On this corpus a two-stage filter is strictly preferable to the three-stage design we began with, and the mean pre-filter cost of 4.07 ms per candidate is dominated by a stage that contributes nothing.
 
+The staging order matters independently of which stage is removed. Because binding analysis runs before the solver, only 518 of 938 candidates -- those that already survived compilation and binding -- ever reach Z3, and every one of those 518 is a candidate the solver had no chance to reject beyond what stage 2 had already decided. Reversing the order would not change which candidates are ultimately accepted, since each stage's rejection is independent of the others' order, but it would change the cost accounting: running Z3 first against all 938 candidates rather than the 518 that survive stage 2 would submit 420 additional guards to the solver for no additional rejections, since binding failures are not solver-relevant failures. Stage ordering is therefore a cost-only decision on this corpus, not a correctness one, and the ordering that minimizes total solver calls is binding-before-SMT precisely because binding is the cheaper and more productive filter.
+
+A caveat belongs beside this conclusion. Reaching zero marginal SMT rejections required 128 integer guards to be extractable and solvable at all, and the corpus produced them from only 13.65 guards per hundred mutants -- the pipeline's conclusion rests on a comparatively small evidentiary base for the solver's own stage, even though the pooled rejection counts across all three stages are in the hundreds. A corpus with a higher density of integer-bounded branches -- array indexing, buffer length checks, off-by-one arithmetic -- would submit more guards to the solver and could in principle produce a nonzero marginal rate; this study reports what one real corpus's guard density actually was, not a claim that no corpus would ever exercise the solver.
+
 ---
 
 ## PAC Generalization Bound for Cross-Repository Transfer
 
 **Theorem 2 (PAC Repair Policy Generalization).** Let $\Pi$ be the class of SHACS repair policies parameterized by SMT filter configuration and topology type, with $|\Pi| = 48$ total configurations. With probability $1 - \delta = 0.95$ over $n = 500$ sampled defects:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1074,7 +1431,23 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The bound is stated but not instantiated here. Instantiating it requires an empirical defect-resolution rate measured against an executable benchmark, which this study does not have: our measurements concern pre-filter behaviour and repair-loop convergence, not end-to-end resolution. We give the bound in symbolic form and leave its numerical instantiation to a study that runs a repair agent against executable tests.
+
+What the symbolic form does establish is the shape of the tradeoff a future instantiation would face. The generalization gap shrinks as $\log|\Pi|$ shrinks and as $n$ grows, and $|\Pi| = 48$ here is itself a product of the design choices this paper measures: four topologies (Section 4) times the SMT filter configuration space. Section 6's finding that the SMT stage contributes nothing on this corpus is, in that light, also an argument for a smaller $\Pi$ -- a policy class that drops the SMT-configuration axis entirely, since a filter dimension that never changes which candidates survive does not need to be searched over, reduces $|\Pi|$ and tightens the generalization bound for the same $n$ without giving up anything the measured filter behaviour showed to matter. This is a consequence of the empirical pre-filter result for the theoretical bound's practical use, not an additional experiment.
 
 ---
 
@@ -1097,6 +1470,8 @@ SMT solver integration (Z3, CVC5) enables path-sensitive program analysis for lo
 ## Limitations and Future Work
 
 **Limitations.** (1) Z3 analysis is limited to local function-level path analysis; inter-procedural analysis across module boundaries is not performed, limiting detection of cross-module invariant violations. (2) The tree-edit distance Lyapunov function measures syntactic distance to the target, which may not accurately reflect semantic correctness distance for complex refactoring tasks. (3) Concurrent multi-agent execution introduces non-deterministic race conditions in the shared AST state that are not modeled by our sequential termination proof.
+
+Each of these interacts with the empirical result rather than standing apart from it. The zero marginal SMT rejection rate (Table 2) was measured under exactly the function-local scope limitation in (1); an inter-procedural solver could in principle extract guards this pipeline's function-scoped extraction misses entirely, which would change the guard count denominator, not just the rejection numerator, and this study cannot distinguish "the solver adds nothing" from "the solver was never given the guards where it would add something." Limitation (2) bears on Theorem 1's practical relevance rather than its correctness: the theorem is proved for the node-multiset distance exactly as defined, so it holds regardless of whether that distance tracks semantic correctness, but a repair loop that drives multiset distance to zero without driving semantic distance to zero would satisfy the formal termination guarantee while producing a patch that is syntactically identical to the target and behaviourally wrong -- a possibility the convergence measurement in Table 3 cannot rule out, since it was never designed to check semantic equivalence. Limitation (3) is the one this study's own methodology avoids rather than resolves: every measurement here is a single-agent sequential run, so nothing in Table 3 is evidence about concurrent behaviour one way or the other. Extending the termination proof and its empirical validation to a concurrent SHACS deployment is not among the four directions listed below; it is a fifth gap this paper leaves fully open rather than partially addresses.
 
 **Future Work.** (1) Integrate interprocedural SMT analysis using LLVM IR intermediate representation for cross-module invariant checking. (2) Extend to compiled languages (C++, Java, Rust) requiring different AST grammar and type system models. (3) Develop semantic distance metrics grounded in program behavior equivalence rather than syntactic edit distance. (4) Investigate reinforcement learning-guided patch policy optimization to reduce $\mathbb{E}[k^*]$ below the theoretical bound.
 
@@ -1194,12 +1569,39 @@ True tree-edit distance is expensive to compute. We use the multiset distance ov
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-d(T_1, T_2) = & \sum_{c} \left| \, \\
-& |\{v \in T_1 : \lambda(v) = c\}| - |\{v \in T_2 : \lambda(v) = c\}| \, \right|
+d(T_1, T_2) = & \sum_{c} \left| \, |\{v \in T_1 : \lambda(v) = c\}| - |\{v \in T_2 : \lambda(v) = c\}| \, \right|
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

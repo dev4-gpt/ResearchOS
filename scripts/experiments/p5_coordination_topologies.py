@@ -208,6 +208,35 @@ def main() -> int:
                    "Monte Carlo, independent per-agent faults", n=trials,
                    ci95=[round(ci[0] * 100, 3), round(ci[1] * 100, 3)])
 
+    # The mesh rule marks a trial 0% or 100%, never partial (see message_count
+    # docstring / simulate_cascades): a trial's outcome is entirely determined
+    # by whether at least one of the n_ref agents failed. That makes the mesh's
+    # Monte Carlo mean an estimate of the closed-form P(>=1 failure), which is
+    # exact and cheap to compute rather than simulate, and is recorded as a
+    # check on the simulation rather than as a replacement for it.
+    closed_form_mesh_p_ge1_fail = 1.0 - (1.0 - p_fail) ** n_ref
+    rec.record("closed_form_mesh_p_ge1_fail", round(closed_form_mesh_p_ge1_fail * 100, 2),
+               "%", art2, sha2,
+               f"1 - (1 - p_fail)^n_ref, exact, not sampled; n_ref={n_ref}, p_fail={p_fail}")
+    print(f"    mesh closed-form P(>=1 failure): {closed_form_mesh_p_ge1_fail*100:.2f}% "
+          f"(Monte Carlo mesh cascade rate should approach this)")
+
+    # Distributional detail behind the mean cascade rate: "fully contained"
+    # (affected fraction under a twentieth) and "catastrophic" (affected
+    # fraction at half or more) are two tail definitions the mean alone does
+    # not report. This restores the analysis this paper's "Containment Is
+    # Bimodal, Not Graded" section describes; no prior code in this script
+    # computed it.
+    for topology in TOPOLOGIES:
+        samples = cascade_samples[topology]
+        contained = float(np.mean(samples < 0.05) * 100)
+        rec.record(f"trials_fully_contained_{topology}", round(contained, 2), "%",
+                   art2, sha2, "share of trials with affected fraction under 1/20", n=trials)
+        catastrophic = float(np.mean(samples >= 0.5) * 100)
+        rec.record(f"trials_catastrophic_{topology}", round(catastrophic, 2), "%",
+                   art2, sha2, "share of trials with affected fraction at half or more", n=trials)
+    print(f"    fully-contained / catastrophic rates recorded for all 4 topologies")
+
     stats = rec.welch_t(cascade_samples["mesh"].tolist(),
                         cascade_samples["hierarchical"].tolist())
     art3, sha3 = rec.save_artifact("cascade_significance.json", stats)

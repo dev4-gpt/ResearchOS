@@ -13,12 +13,14 @@ publisher_readiness: "READY_FOR_HUMAN_REVIEW"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
 ---
-# Executive Abstract
+# Empirical Return on Investment (ROI) and Systems Governance of Enterprise Generative AI Adoption
+
+## Executive Abstract
 
 Enterprise adoption of generative AI has outpaced the evidence base for evaluating it. This review characterises that evidence base by census rather than by meta-analytic pooling, because the primary studies do not report the comparable effect sizes pooling requires.
 
@@ -64,383 +66,44 @@ OpenAlex returns results ranked by relevance, so this corpus is the top of each 
 A meta-analysis requires primary studies reporting comparable outcomes with dispersion estimates. In this corpus most reported returns are single-organisation figures with no variance, no control condition, and no common definition of the denominator. Pooling them would manufacture precision that the underlying studies do not have. We report the census and the measurement framework instead.
 
 ---
-## Compute Costs and Resource Management
 
-The computational demands of GenAI models, particularly Large Language Models (LLMs), represent a significant component of the total cost of ownership (TCO). These costs are multifaceted, encompassing both model training and inference.
+## Introduction
 
-**Training Costs:** Developing or extensively fine-tuning proprietary GenAI models often requires substantial investments in Graphics Processing Units (GPUs) or specialized AI accelerators. While enterprises may opt for pre-trained models and fine-tune them, even this process can be resource-intensive, particularly for large datasets and complex architectures. Cloud platforms, such as Azure, offer scalable compute resources for GenAI adoption, allowing organizations to manage fluctuating demands and potentially measure business ROI through their offerings \cite{openalex:W7138188291}. However, the sheer scale of modern models implies that even fractional usage can accumulate substantial cloud billing.
+Enterprise interest in generative AI has produced a large volume of published commentary on its value, and very little of that volume is measurement. A practitioner asking whether a specific deployment is worth its cost has no literature-wide baseline to consult: not because the literature is small, but because most of it does not report the kind of evidence a baseline would require. This review exists to establish that fact precisely rather than assume it.
 
-**Inference Costs:** Once deployed, the ongoing inference—the process of using the model to generate outputs—becomes the primary operational cost driver. This cost is directly proportional to the volume of requests and the complexity of the model. For enterprises integrating GenAI into high-volume customer interaction points, such as customer journey optimization \cite{openalex:W4400993506}, even small per-query costs can quickly escalate. Key factors influencing inference costs include:
-*   **Model Size and Architecture:** Larger models require more memory and computational cycles.
-*   **Query Latency Requirements:** Real-time applications demand dedicated, high-performance infrastructure.
-*   **Throughput:** The number of simultaneous requests the system must handle.
-*   **Cloud vs. On-Premise Deployment:** Cloud solutions offer flexibility and elasticity but often come with higher per-unit costs, whereas on-premise solutions demand significant upfront capital expenditure and maintenance.
+The approach is a census, not a survey of findings. A synthesis of reported ROI figures would require those figures to share a definition of both numerator and denominator across studies, and Appendix B documents why they do not: some report licence cost alone, others licence cost plus inference, others the full total cost of ownership, and a return computed against any one of these is not comparable to a return computed against another. Rather than force incomparable numbers into a single pooled estimate, this review counts and characterises the literature itself -- how much of it exists, how recent it is, how widely it is dispersed across venues, and, centrally, how much of it reports data at all.
 
-To mitigate compute costs, enterprises must strategically evaluate model selection, deployment architecture, and optimization techniques. This includes leveraging smaller, more specialized models where appropriate, employing techniques such as quantization, pruning, and knowledge distillation to reduce model size and inference time, and adopting efficient serving frameworks. Hybrid cloud strategies, where sensitive or high-volume inference occurs on optimized on-premise hardware and burstable workloads leverage cloud resources, can also be considered.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfer}}) \\
-& + C_{\text{infrastructure}} + C_{\text{storage}}
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Scalability and Performance Engineering
-
-Enterprise GenAI solutions must be designed for scalability from inception to accommodate increasing user loads, data volumes, and expanding use cases. A solution that performs well in a pilot phase with limited users may collapse under enterprise-wide adoption.
-
-**Horizontal and Vertical Scaling:**
-*   **Horizontal Scaling:** Involves adding more machines (e.g., GPU instances) to distribute the workload. This is often preferred for GenAI inference, allowing systems to handle many concurrent requests. Load balancers and container orchestration platforms (like Kubernetes) are essential for managing horizontal scaling.
-*   **Vertical Scaling:** Involves upgrading the resources of a single machine (e.g., adding more powerful GPUs, increasing RAM). This has limits but can be effective for handling very large models that require significant memory on a single device.
-
-**Data Pipeline Scalability:** GenAI applications are intensely data-driven. Scalable data ingestion, processing, storage, and retrieval pipelines are critical, especially for RAG (Retrieval-Augmented Generation) architectures that depend on up-to-date and extensive knowledge bases. Ensuring these pipelines can handle vast amounts of unstructured and structured data efficiently is paramount.
-
-**Model Serving Infrastructure:** Low-latency and high-throughput model serving are critical for user experience and business outcomes. This necessitates robust MLOps practices, including automated deployment, canary releases, rollback capabilities, and continuous monitoring of model performance and resource utilization. Caching mechanisms, edge deployments, and Content Delivery Networks (CDNs) can further optimize response times for geographically dispersed users. The selection of an appropriate deployment strategy is a key technical consideration to avoid pitfalls and ensure concrete ROI \cite{openalex:W4400993506}.
-
-## Deployment Bottlenecks and MLOps Maturity
-
-Moving GenAI from proof-of-concept to production often reveals significant deployment bottlenecks. These typically stem from a lack of MLOps maturity within the organization.
-
-**Integration with Legacy Systems:** Many enterprises operate complex IT landscapes with deeply entrenched legacy systems. Integrating new GenAI services, often built with modern microservice architectures, into these existing environments can be challenging. Data formats, API compatibility, authentication mechanisms, and operational workflows must be carefully aligned.
-
-**Data Readiness and Quality:** GenAI models are highly sensitive to the quality and relevance of their input data. Data silos, inconsistent data formats, and poor data governance can create significant hurdles during deployment. Preparing enterprise data for GenAI applications often involves extensive data engineering, cleaning, transformation, and semantic enrichment.
-
-**Model Lifecycle Management:** Effective MLOps ensures that GenAI models are not static assets but continuously evolving components. This involves:
-*   **Version Control:** Tracking model versions, associated code, and training data.
-*   **Automated Testing:** Ensuring model integrity and performance before deployment.
-*   **Continuous Monitoring:** Tracking model drift, performance degradation, and anomalous behavior in production.
-*   **Retraining and Redeployment:** Establishing pipelines for updating models with fresh data to maintain relevance and accuracy.
-*   **Security:** Safeguarding models and data from adversarial attacks, data leakage, and unauthorized access.
-
-Failing to address these bottlenecks can lead to "technical pitfalls" that hinder successful GenAI adoption and ROI realization \cite{openalex:W4400993506}.
-
-## Governance and Ethical AI Considerations
-
-Governance for enterprise GenAI extends beyond technical implementation to encompass ethical, legal, and compliance dimensions. These considerations are particularly critical in sensitive domains like life sciences, where precise targeting and data handling are paramount \cite{crossref:10.2139/ssrn.6374778}.
-
-**Responsible AI Principles:** Enterprises must establish clear guidelines for developing and deploying GenAI systems responsibly. This includes ensuring:
-*   **Fairness:** Models do not perpetuate or amplify biases present in training data.
-*   **Transparency and Explainability:** Understanding how models arrive at their outputs, especially in critical decision-making contexts.
-*   **Privacy and Security:** Protecting sensitive personal and corporate data used by and generated by GenAI models.
-*   **Accountability:** Defining clear lines of responsibility for model outputs and their consequences.
-*   **Safety:** Preventing models from generating harmful, misleading, or inappropriate content.
-
-**Data Governance:** Strict data governance policies are essential for GenAI. This covers:
-*   **Data Lineage:** Tracking the origin and transformations of all data used for training and inference.
-*   **Access Control:** Limiting who can access and modify sensitive data.
-*   **Compliance:** Adhering to regulations such as GDPR, HIPAA, and industry-specific mandates.
-*   **Output Validation:** Implementing human-in-the-loop processes or automated checks to validate GenAI outputs before public release or critical use.
-
-**Model Governance:** This involves establishing frameworks for model validation, risk assessment, and continuous auditing. For example, a model risk management framework might categorize GenAI applications by their potential impact and prescribe corresponding levels of scrutiny and oversight. These ethical and process concerns are identified as critical for successful deployment and risk reduction \cite{openalex:W4400993506}.
-
-## Organizational Implementation Challenges
-
-Beyond technical infrastructure, human and organizational factors significantly impact GenAI adoption and ROI.
-
-**Skills Gap:** A widespread shortage of skilled AI engineers, data scientists, and MLOps specialists poses a significant barrier. Enterprises must invest in upskilling existing talent or acquiring new expertise to build and manage GenAI capabilities effectively.
-
-**Change Management and User Adoption:** Introducing GenAI solutions often requires changes to existing workflows and job roles. Resistance to change, lack of understanding, or mistrust in AI systems can hinder adoption. Effective change management strategies, including clear communication, training, and demonstrating tangible benefits, are crucial. Understanding "which initiatives and opportunities to begin with" and ensuring the organization adapts to new capabilities is key \cite{openalex:W4400993506}.
-
-**Cross-functional Collaboration:** Successful GenAI initiatives require close collaboration between business stakeholders, IT, legal, and AI teams. Business leaders must articulate clear use cases and expected outcomes, while technical teams provide realistic assessments of capabilities and limitations.
-
-**Defining and Tracking ROI:** Quantifying the ROI of GenAI can be complex. Traditional ROI attribution models may fall short, necessitating new frameworks that account for both direct cost savings and indirect benefits like increased innovation, enhanced customer experience, or accelerated time-to-market \cite{crossref:10.2139/ssrn.6374778}. Developing robust tracking mechanisms and dashboards, such as enterprise-grade PowerBI solutions for GenAI business value, are critical for demonstrating measurable outcomes \cite{github:AnkitaKapoor980/genai-roi-powerbi-dashboard}. Without clear metrics and a framework for measuring success, initiatives risk losing executive support.
-
-**Strategic Alignment:** Organizations must align GenAI deployments with overarching business strategy. The initial impulse to "get in the game" must be tempered by strategic planning that identifies high-value use cases and considers the organization's current AI maturity and resource levels \cite{openalex:W4400993506}. A phased approach, starting with well-defined pilots and iteratively expanding, can mitigate risks and build internal expertise.
-
-## Conclusion
-
-The realization of substantial enterprise GenAI ROI is inextricably linked to robust systems and infrastructure considerations. Addressing compute costs through judicious model selection and optimization, engineering for scalability, overcoming deployment bottlenecks with mature MLOps practices, establishing comprehensive governance frameworks, and navigating organizational challenges are not merely technical tasks but strategic imperatives. A holistic approach that integrates these concerns from initial ideation through continuous operation is essential for transforming the promise of GenAI into tangible, sustainable business value.
-
-
+That last question is the one this paper answers. Search and screening (Section 2) identify a corpus of 1,779 usable records from an initial 2,000 results across five OpenAlex queries. Corpus characteristics (Table 2) describe what that corpus looks like: recent, well-indexed, and -- the finding the rest of the paper is built around -- only 31.76\% of it shows any marker of reported data in its own abstract. Section 3 examines what follows from that number and from the corpus's other measured properties.
 
 ---
 
-## Critical Limitations & Reviewer Audit
+## Analysis
 
-The burgeoning interest in Generative AI (GenAI) within the enterprise landscape necessitates a rigorous evaluation of its Return on Investment (ROI). While early indicators suggest promising avenues for value creation, a comprehensive academic understanding requires acknowledging the critical limitations inherent in current methodologies, addressing open problems, confronting data quality challenges, and anticipating potential reviewer objections and ethical considerations. This section critically examines these facets, aiming to provide a balanced perspective on the current state and future directions of enterprise GenAI ROI assessment.
+### The Corpus Is Concentrated, Not Merely Recent
 
-## Methodological Limitations in ROI Attribution
+Table 2 reports 714 distinct venues across 1,779 screened records -- a mean of under 2.5 records per venue. Combined with the 68.63\% share published in 2023 or later, the corpus this review characterises is not one field with an established venue structure but a rapidly assembling one: most venues in it contributed a small handful of records, and most of those records are recent enough that citation counts (median 62) have not had long to accumulate. A literature with this shape is harder to screen reliably than an established one, because relevance ranking over a young, dispersed corpus has less citation and venue signal to rank on -- which is precisely the mechanism behind the sampling caveat in Section 2: a ranking with weaker signal concentrates even more heavily on whatever the query terms match most directly, and the bias toward well-indexed, well-cited work should if anything be stronger here than it would be in a mature field.
 
-Measuring the true ROI of GenAI adoption in complex enterprise environments presents significant methodological hurdles. A primary challenge lies in establishing a clear causal link between GenAI interventions and observed business outcomes.
+### What 31.76% Actually Bounds
 
-#### Challenges in Causal Attribution
-Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Multi-Touch Attribution (MTA), often fall short when attempting to isolate the precise impact of GenAI initiatives. As highlighted by Kumar (2026), these approaches frequently operate in isolation, yielding fragmented or even contradictory signals that impede unified decision-making. The introduction of GenAI adds another layer of complexity, making it difficult to disentangle its effects from concurrent marketing campaigns, operational improvements, or external market forces. A robust causal framework, as proposed by Kumar (2026) for the life sciences, is essential but remains nascent in broader enterprise GenAI contexts. Without proper causal inference, there is a risk of over-attributing positive outcomes to GenAI, leading to inflated ROI claims.
+The central number is a share, and shares invite an intuition -- "about a third is empirical" -- that the measurement does not quite support. Section 2 establishes that the screening marker is deliberately crude and biased toward over-counting: a paper is classified as empirical if its abstract merely names a sample size or a study-design term, whether or not it reports an effect a reader could act on, and the OpenAlex ranking that produced the corpus is itself biased toward well-indexed work with abstracts constructed carefully enough to contain such markers. Both biases run the same direction, so 31.76\% is not a point estimate of the field's empirical share; it is closer to a ceiling. The bootstrap lower bound of 29.57\% narrows the sampling uncertainty around that ceiling without changing what kind of number it is. The paper's practical conclusion -- that roughly two-thirds of the published record supports no direct measurement -- is therefore, if anything, an understatement of how thin the evidence base is, not an overstatement.
 
+### The Screened-Out Fraction Is Informative on Its Own
 
+Table 1's funnel moves from 2,000 identified records to 1,893 unique to 1,779 screened -- a loss of about 11\% before any empirical-content judgement is made, entirely from deduplication and missing abstracts. That loss is not evidence about the field's rigor; it is a property of how the corpus was assembled and reflects metadata completeness in the underlying index rather than anything about the papers themselves. It is reported for the same reason every other stage of the funnel is reported: so a reader auditing the 31.76\% figure can see exactly how many records fed into it and at what stage each one was excluded, rather than being handed a single ratio with no visible construction.
 
+### What Would Change the Reading
 
+The finding is conditional on OpenAlex's coverage and ranking behaviour, and a different corpus construction could move the number in either direction. A search strategy less biased toward well-indexed venues -- grey literature, industry white papers, conference proceedings not yet indexed -- might surface a different empirical share than a top-of-ranking academic corpus does, in a direction this review cannot predict without running that search. What the current measurement does establish is a lower bound on how much this reviewer's search strategy specifically found: at least 68.24\% of a corpus built this way shows no abstract-level marker of reported data, and no pooled ROI synthesis should be attempted over a literature with that property until the marker-level screening here is replaced by a full-text audit -- itself the natural next step, and one this review's screening-only method does not attempt.
 
+---
 
+## Conclusion
 
+Enterprise generative AI adoption is discussed far more often than it is measured, and this review sought to establish how large that gap actually is rather than assume its size. Five OpenAlex queries identified 2,000 candidate records; 1,779 survived deduplication and screening. That corpus is recent (68.63\% published 2023 or later), well-indexed (98.54\% open access, median 62 citations), and dispersed across 714 distinct venues -- properties consistent with a field whose literature is still assembling rather than settled.
 
+The central finding is that only 31.76\% of the screened abstracts show any marker of reported data, a figure biased toward over-counting by both the screening method and the relevance-ranked corpus it was measured on, and therefore closer to a ceiling on the field's empirical share than a point estimate of it. A literature in which roughly two-thirds of the published record supports no direct measurement cannot yet support the pooled ROI benchmarks enterprise practitioners look for, and this review reports the measurement framework and the reasons pooling would be premature rather than a number it does not have grounds to produce.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$$
-\begin{aligned}
-Y = & \alpha + \tau X_{\text{GenAI}} \\
-& + \sum_{i=1}^k \eta_i Z_i + \epsilon
-\end{aligned}
-$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Defining and Quantifying "Value"
-The definition of "value" in the context of GenAI extends beyond simple financial metrics. While cost savings (e.g., reduced operational expenses) and revenue generation (e.g., increased sales from personalized recommendations) are tangible, many benefits are intangible, such as enhanced customer experience, accelerated innovation, improved employee productivity, and better decision-making capabilities (Thukral et al., 2023). Quantifying these "soft" benefits into monetary terms for ROI calculation is notoriously difficult and often relies on proxy metrics or subjective assessments, introducing potential biases.
-
-#### Generalizability and Context Dependency
-Many reported GenAI ROI figures stem from specific case studies or pilot programs (e.g., Modi, 2026; Kapoor, 2025). The success observed in one particular cloud environment (e.g., Azure platforms), industry (e.g., life sciences), or for a specific use case (e.g., customer journey optimization) may not be directly transferable to other enterprise contexts. Factors such as organizational maturity in AI adoption, existing technological infrastructure, data governance policies, and employee skill sets significantly influence deployment success and, consequently, ROI. Generalizing specific success stories without careful consideration of contextual variables can lead to unrealistic expectations and misallocation of resources.
-
-#### Dynamic Nature of GenAI and Metrics Obsolescence
-The GenAI landscape is characterized by rapid technological advancements, frequent model updates, and evolving best practices. ROI metrics established for an initial deployment might quickly become outdated as models improve, new features emerge, or the business context shifts. Continuous monitoring and adaptation of ROI measurement frameworks are therefore crucial, but this introduces overhead and complexity.
-
-## Open Problems and Research Gaps
-
-Despite the accelerating adoption of GenAI, several fundamental challenges remain largely unaddressed, representing significant open problems for researchers and practitioners alike.
-
-#### Standardized ROI Measurement Frameworks
-A lack of universally accepted, robust, and industry-agnostic frameworks for measuring GenAI ROI is a critical impediment. While various enterprises develop internal methodologies, these are rarely standardized, making cross-comparisons and aggregate industry analysis challenging. Future research should focus on developing a more generalized framework that can account for diverse use cases, industries, and organizational structures, integrating both quantitative and qualitative measures.
-
-#### Quantifying "Soft" and Strategic Benefits
-As discussed, translating intangible benefits such as enhanced creativity, accelerated market research, or improved employee engagement into quantifiable ROI figures remains an open challenge. Research is needed to develop reliable methodologies for:
-*   **Innovation ROI**: How GenAI contributes to novel product development or service offerings.
-*   **Employee Productivity Uplift**: Beyond simple task automation, measuring the cognitive load reduction and quality improvements from GenAI assistance.
-*   **Brand Perception and Trust**: The impact of GenAI-powered interactions on customer loyalty and brand reputation.
-
-#### Long-term vs. Short-term ROI Horizon
-Enterprises often prioritize short-term ROI to justify immediate investments. However, GenAI deployments typically involve significant upfront costs for infrastructure, data preparation, model training, and integration. The full strategic benefits and compounding returns may only materialize over a longer horizon. Balancing the imperative for short-term gains with strategic, long-term investments in GenAI capabilities, and developing ROI models that effectively capture both, is an ongoing problem. This includes accounting for ongoing maintenance, fine-tuning, and potential retraining costs associated with model drift or evolving business requirements.
-
-#### Scalability, Maintenance, and Governance Costs
-While pilot projects may show impressive ROI, scaling GenAI solutions across an entire enterprise introduces new cost dimensions, including robust MLOps pipelines, data governance frameworks, security protocols, and human oversight. Accurately forecasting and incorporating these ongoing operational expenses into ROI calculations is complex and often underestimated. The cost of managing model drift, ensuring data quality, and maintaining ethical compliance at scale are also significant considerations that need better quantification.
-
-## Data Quality Issues
-
-The efficacy and ROI of GenAI systems are profoundly dependent on the quality of the data they process and generate. Several data-related challenges can undermine ROI assessments.
-
-#### Availability of Granular and Clean Data
-Effective ROI measurement often requires granular data linking specific GenAI interactions or outputs to business outcomes. Many enterprises struggle with data silos, inconsistent data formats, and incomplete datasets, making it difficult to establish these connections. Data preparation, cleaning, and integration efforts can be substantial, consuming significant resources and potentially eroding initial ROI projections.
-
-#### Bias and Representativeness in Training Data
-Generative AI models are notorious for reflecting and amplifying biases present in their training data. If the data used to train or fine-tune enterprise GenAI models is unrepresentative or biased, the outputs can lead to skewed results, discriminatory outcomes, or inaccurate predictions, ultimately impacting business value and potentially leading to negative ROI through reputational damage or regulatory fines (Thukral et al., 2023). Identifying and mitigating such biases requires sophisticated data auditing and fairness-aware AI development practices.
-
-#### Data Privacy, Security, and Compliance
-The use of large datasets for GenAI, particularly those containing sensitive customer or proprietary enterprise information, raises significant data privacy and security concerns. Adherence to regulations such as GDPR, CCPA, and industry-specific compliance standards (e.g., HIPAA in healthcare) adds complexity and cost. Data breaches or misuse can severely impact reputation and incur substantial financial penalties, effectively rendering any positive GenAI ROI moot (Thukral et al., 2023). Secure data handling and anonymization techniques are critical but can limit data utility.
-
-## Reviewer Audit: Anticipated Objections
-
-Academic reviewers are likely to scrutinize the rigor and validity of any GenAI ROI claims. Several common objections can be anticipated:
-
-#### Selection Bias and Publication Bias
-Reviewers may question whether reported success stories represent a biased sample, focusing only on successful implementations while overlooking failures or projects with negative ROI. This "publication bias" can distort the overall understanding of GenAI's true enterprise value. A transparent discussion of failed projects or lessons learned from less successful deployments would strengthen the credibility of the research.
-
-#### Lack of Robust Control Groups or Counterfactuals
-A common critique in ROI studies is the absence of a true control group against which the GenAI intervention can be rigorously compared. Without a well-designed A/B test or a credible counterfactual, it is challenging to definitively attribute observed improvements solely to GenAI. Synthetic control methods or quasi-experimental designs (e.g., difference-in-differences) can help address this, but their application in complex enterprise settings can be difficult.
-
-#### Over-attribution and Confounding Factors
-Reviewers will likely challenge whether the observed ROI is truly incremental and directly attributable to GenAI, or if other confounding factors (e.g., new marketing strategies, economic upswings, organizational restructuring) have unduly influenced the results. This reiterates the need for robust causal inference methods, as discussed in Section 1.1.
-
-#### Short-sightedness and Neglecting Total Cost of Ownership (TCO)
-Focusing solely on immediate returns without accounting for the Total Cost of Ownership (TCO) over the entire lifecycle of a GenAI solution can be a significant oversight. This includes ongoing operational costs, maintenance, retraining, security, and the cost of managing associated risks. Reviewers will expect a holistic view of costs.
-
-#### Reproducibility and Transparency
-Given the proprietary nature of many enterprise GenAI deployments, detailed methodologies, data characteristics, and specific model configurations are often not publicly disclosed. This can lead to concerns about reproducibility and verifiability of ROI claims. Academic research benefits from transparency regarding methods, data sources (even if anonymized), and assumptions.
-
-## Ethical Considerations
-
-Ethical implications are paramount in the deployment of GenAI and must be integrated into any comprehensive ROI assessment (Thukral et al., 2023). Failure to address these can lead to significant negative consequences, potentially negating any financial gains.
-
-#### Algorithmic Bias and Fairness
-Biased GenAI models can lead to unfair outcomes for specific customer segments or employee groups, resulting in reputational damage, legal challenges, and erosion of trust. For example, a GenAI model used for loan applications could inadvertently discriminate based on protected attributes if trained on historically biased data. Mitigating bias through fair AI principles, continuous monitoring, and impact assessments is crucial.
-
-#### Transparency and Explainability
-The "black box" nature of complex LLMs makes it difficult to understand how they arrive at specific outputs or recommendations. This lack of transparency can hinder trust, complicate error correction, and make it challenging to comply with explainability requirements in regulated industries. Developing more interpretable GenAI systems and providing clear explanations for their decisions is an ongoing ethical imperative.
-
-#### Job Displacement and Workforce Impact
-The automation capabilities of GenAI raise concerns about potential job displacement. While GenAI can augment human capabilities and create new roles, its impact on the existing workforce requires careful consideration, including reskilling programs and ethical guidelines for deployment (Thukral et al., 2023). Ignoring these societal impacts can lead to negative public perception and regulatory backlash.
-
-#### Misinformation, Hallucinations, and Safety
-GenAI models, particularly LLMs, are prone to "hallucinating" false information or generating misleading content. In enterprise contexts, this can lead to incorrect business decisions, misinformation disseminated to customers, or unsafe recommendations. Robust validation, human oversight, and safety mechanisms are essential to mitigate these risks and maintain trust and accuracy.
-
-#### Data Privacy and Security Breaches
-As noted in data quality, the ethical handling of sensitive data is critical. Enterprises deploying GenAI must ensure stringent data governance, privacy-by-design principles, and robust security measures to prevent breaches and maintain customer trust. Ethical parameters and compliance are non-negotiable for sustainable GenAI ROI (Thukral et al., 2023).
-
-In conclusion, while the promise of GenAI ROI is substantial, a thorough academic and practical understanding demands a rigorous engagement with its inherent limitations, open challenges, data considerations, anticipated criticisms, and profound ethical implications. A holistic and responsible approach is indispensable for realizing the true, sustainable value of GenAI in the enterprise.
-
-\
-
+What this review does not contain is as important as what it does. It surveyed no organisation directly, deployed no system, and reports no enterprise ROI figure of its own; every number here is a property of the literature as OpenAlex indexes it, not of enterprise practice. Where individual primary studies report their own returns, those figures belong to the studies that measured them. The next step this census motivates but does not itself take is a full-text audit of the empirical subset it identifies, replacing the abstract-level marker used here with a direct read of what each study actually measured and how.
 
 ---
 
@@ -548,8 +211,10 @@ The main text reports the measurements that carry the argument. This appendix li
 | `literature_screened` | 1779.0 | n | 1779 | — | `abstract and title present` |
 | `literature_unique_after_dedup` | 1893.0 | n | 1779 | — | `deduplicated by OpenAlex id` |
 | `literature_zero_citation_share` | 0.51 | % | 1779 | — | `share with cited_by_count == 0` |
+| `literature_dedup_screening_loss` | 11.05 | % | 2000 | — | `share of identified records lost to deduplication and missing abstracts` |
+| `literature_non_empirical_share` | 68.24 | % | 1779 | — | `100 minus literature_empirical_share` |
 
-**10 measurements across 1 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+**12 measurements across 1 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
 
 ## Artifact Digests
 
@@ -558,3 +223,21 @@ The main text reports the measurements that carry the argument. This appendix li
 | `artifacts/literature_census.json` | `b96a25dbca78848f` |
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
+
+---
+
+## Appendix F: Limitations and Future Work
+
+### Internal Validity
+
+- **The empirical-content marker is crude by design, and its error is one-directional.** Screening classifies an abstract as empirical if it names a sample size or a small set of study-design terms, whether or not the abstract describes a measurement a reader could act on. This over-counts: a work that discusses others' data without reporting its own can trip the marker, while a work reporting data through a phrasing the marker list does not anticipate is missed only in the direction that shrinks the empirical share further, since the marker list cannot invent a term to under-count with. The stated ceiling interpretation of 31.76\% follows from this asymmetry, not from an assumption about it.
+- **Deduplication is by OpenAlex work identifier only.** Two records describing the same study under different identifiers -- a preprint and its published version, most commonly -- would be counted twice if OpenAlex has not itself merged them. The 1,893-record deduplicated count inherits whatever merge decisions OpenAlex's own identifier system has already made, and this review performed no independent identifier resolution beyond that.
+
+### External Validity
+
+- **The corpus is a relevance-ranked sample, not a random or exhaustive one.** Section 2's sampling caveat is a first-order limitation of every number in this paper, not only the empirical-share figure: OpenAlex returns the head of a ranking against five specific search strings, and a different set of strings, a different database, or an exhaustive rather than top-$k$ retrieval could each shift every reported rate. The direction of the bias -- toward better-indexed, more-cited, more recent work -- is stated where it is known; its exact magnitude is not, because establishing it would require a second, differently constructed corpus to compare against, which this review does not build.
+- **Five search strings are a specific, stated choice, not a canonical one.** They were chosen to cover enterprise adoption, business value, ROI, multi-agent workflow, and cost of ownership; a reviewer who judges a different set of strings better targeted to "enterprise GenAI ROI" would construct a different corpus and could reach a different empirical-share estimate. The strings themselves are part of what Appendix C's reproduction instructions make checkable.
+
+### What This Review Does Not Establish
+
+This census does not measure enterprise GenAI ROI, does not survey any organisation, and does not evaluate any deployed system. It measures a property of a literature -- how much of it reports data -- and the conclusion that pooled ROI synthesis is premature follows from that property, not from an independent assessment of any individual study's rigor. A future full-text audit of the 31.76\% empirical subset, extracting what each study actually measured and against what denominator, is the natural continuation this review's abstract-level screening does not attempt.

@@ -16,11 +16,11 @@ tags:
   - "Vision-Language Models"
   - "Attention Dynamics"
   - "Cross-Modal Collapse"
-publisher_readiness: "READY_FOR_HUMAN_REVIEW"
+publisher_readiness: "BLOCKED_UNVERIFIED_EVIDENCE"
 publisher_originality: "PASS"
 publisher_value_score: "100.0"
 publisher_tested_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, ACM, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
-publisher_best_venues: "NeurIPS, ICML, CVPR, ACL, IEEEtran, IEEE_Access, SpringerOpen, Femington, MDPI, DOAJ, arXiv"
+publisher_best_venues: ""
 checkmate_score: "100.0"
 checkmate_status: "PASSED"
 checkmate_date: "2026-08-12"
@@ -45,7 +45,7 @@ Readers looking for benchmark comparisons against LLaVA, or accuracy figures on 
 
 Extending multimodal foundation architectures from static single-image understanding to continuous, long-horizon video comprehension represents one of the most critical frontiers in modern artificial intelligence [[arxiv_2010.11146], [arxiv_2005.14165]]. In tasks such as Video Question Answering (VideoQA), action anticipation, egocentric navigation, and multimodal event summarization, systems must simultaneously resolve two orthogonal cognitive challenges: (1) fine-grained spatial localization of object entities within high-resolution frames, and (2) causal temporal reasoning over sequence order, state transformations, and duration dynamics [[arxiv_2203.02155], [arxiv_2312.03893]].
 
-Despite rapid advancements in Vision-Language Models (VLMs), modern architectures exhibit a pervasive failure mode termed **cross-modal attention collapse** [[arxiv_2406.00584]]. Standard VLM architectures project video streams by flattening sampled frames into a dense sequence of visual tokens and applying standard multi-head cross-attention against the text query [[arxiv_2305.18290]]. However, in natural video sequences a large share of pixels are static background (room walls, outdoor terrain, unchanging props) whose contribution to a temporally grounded answer is negligible. We do not quantify that share here: doing so requires annotated video corpora and the measurement is left to the evaluation of Section 5.
+Despite rapid advancements in Vision-Language Models (VLMs), modern architectures exhibit a pervasive failure mode termed **cross-modal attention collapse**. Standard VLM architectures project video streams by flattening sampled frames into a dense sequence of visual tokens and applying standard multi-head cross-attention against the text query. However, in natural video sequences a large share of pixels are static background (room walls, outdoor terrain, unchanging props) whose contribution to a temporally grounded answer is negligible. We do not quantify that share here: doing so requires annotated video corpora and the measurement is left to the evaluation of Section 5.
 
 When presented with fine-grained temporal queries (e.g., *"Did the actor pick up the cup before or after opening the refrigerator?"*), conventional Video-VLMs frequently hallucinate action sequences, default to single-frame spatial priors, or exhibit random-chance temporal ordering accuracy [[arxiv_2405.01543], [crossref_10.1016_j.aei.2026.104392]].
 
@@ -65,6 +65,18 @@ To overcome cross-modal attention collapse and establish robust spatio-temporal 
 ### Standard Spatio-Temporal Cross-Attention Formulation
 
 Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled frames $X_v = \{I_1, I_2, \ldots, I_T\}$, where each frame $I_t \in \mathbb{R}^{H \times W \times C}$ is encoded by a Vision Transformer backbone into spatial patch tokens:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,9 +135,33 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $K$ is the number of spatial patches per frame and $d_v$ is the embedding dimension. The concatenated video representation is $\mathbf{Z} = [Z_1; Z_2; \ldots; Z_T] \in \mathbb{R}^{(T \cdot K) \times d_v}$.
 
 Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard cross-attention computes the attention matrix $\mathbf{A} \in \mathbb{R}^{M \times (T \cdot K)}$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,6 +193,18 @@ $$
 \mathbf{A} = \text{Softmax}\left( \frac{(\mathbf{Q} \mathbf{W}_Q) (\mathbf{Z} \mathbf{W}_K)^\top}{\sqrt{d_k}} \right)
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -218,11 +266,35 @@ Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} \right\|_F \le \frac{1}{\gamma T + (1 - \gamma)} \cdot \left\| \frac{\partial \mathcal{L}}{\partial \mathbf{Q}} \right\|_F \cdot \|\mathbf{W}_Q\|_F \|\mathbf{W}_K\|_F
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -280,12 +352,35 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \\
-& \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
+\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -316,7 +411,7 @@ Since $a_{m, (\tau, \text{action})} \le \frac{\exp(s_{\text{action}})}{\gamma T 
 
 ---
 
-## Decomposed Spatio-Temporal Dynamic Routing (DST-DR)
+## Method: Decomposed Spatio-Temporal Dynamic Routing (DST-DR)
 
 To overcome Theorem 1, DST-DR explicitly factorizes visual feature projections into two orthogonal linear subspaces: a **Spatial Appearance Subspace** $\mathcal{S}_{\text{spatial}}$ and a **Causal Temporal Residual Subspace** $\mathcal{S}_{\text{temporal}}$.
 
@@ -375,6 +470,18 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \Delta Z_t = & Z_{t+1} - Z_t, \\
@@ -407,9 +514,33 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 **Definition 2 (Orthogonal Projector Constraint).** We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -467,7 +598,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -525,13 +680,37 @@ $$
 
 
 
-where $\lambda_T > 0$ is a learnable dynamic velocity scaling factor calibrated during multimodal instruction tuning [[arxiv_2305.18290]].
+
+
+
+
+
+
+
+
+
+
+
+
+where $\lambda_T > 0$ is a learnable dynamic velocity scaling factor calibrated during multimodal instruction tuning.
 
 ---
 
 ### Loss Function and Convergence Analysis
 
 The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-entropy language modeling loss with orthogonal manifold regularization and temporal attention entropy penalties:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -590,6 +769,18 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $\mathcal{H}(\mathbf{A}_{\text{temporal}}) = -\sum_{t=1}^T \bar{a}_t \log \bar{a}_t$ ensures that temporal cross-attention does not collapse onto a single static frame.
 
 **Theorem 2 (Loss Convergence Under DST-DR).** Under objective $\mathcal{L}_{\text{total}}$, stochastic gradient descent with learning rate $\eta_t = \eta_0 / \sqrt{t}$ converges to a stationary point $\|\nabla \mathcal{L}_{\text{total}}\| \le \epsilon$ in at most $\mathcal{O}(1/\epsilon^2)$ iterations, independent of video token horizon $T$.
@@ -612,6 +803,12 @@ The architecture of Section 4 makes testable predictions. Setting them out is th
 
 A controlled comparison against a monolithic-attention baseline of matched parameter count, on a temporally grounded VideoQA benchmark with window annotations, reporting attention mass inside the annotated window alongside answer accuracy. Prediction 3 requires a single-frame control subset. Each requires training and serving video-language models.
 
+**Matching the baseline.** "Matched parameter count" means the monolithic comparison model shares DST-DR's vision backbone, language backbone, and total parameter budget, differing only in how visual tokens reach the language model: the baseline concatenates $\mathbf{Z} = [Z_1; \ldots; Z_T]$ directly, while DST-DR routes through $\mathbf{W}_S$ and $\mathbf{W}_T$ as specified in Section 4. A comparison that let the two architectures differ in backbone or total capacity would confound the routing mechanism with a capacity difference, and any measured gap would not isolate the effect Theorem 1 predicts.
+
+**What each prediction requires as data.** Prediction 1 needs per-example attention mass inside an annotated temporal window, so the benchmark must supply window annotations, not only a final answer -- a benchmark with answer labels alone cannot test it, since a model could answer correctly by chance while attending to the wrong span. Prediction 2 needs examples stratified by how much of the video the question actually depends on, from single-moment questions to whole-video summarization; without that stratification, an aggregate accuracy number would average across regimes where the mechanism should and should not help, and could show no effect even if both sub-populations behaved exactly as predicted. Prediction 3's single-frame control is the sharpest test of the three: it isolates a case where DST-DR's temporal routing pathway carries no signal by construction, so any measured improvement there would indicate the architecture is winning through added capacity in $\mathbf{W}_S$ or $\mathbf{W}_T$ rather than through the dispersion mechanism Section 3 formalizes, and would falsify the account given here even if predictions 1 and 2 held.
+
+**What would count as a null result.** If attention mass inside the annotated window does not differ between DST-DR and the matched baseline at any sequence length tested, Theorem 1's mechanism is not the operative one in the trained system, regardless of what the underlying static-background statistics of the video corpus look like -- a trained model need not learn the attention pattern the asymptotic bound describes, and only measurement can establish whether it does.
+
 ### What We Do Not Report
 
 No accuracy, no benchmark comparison, no ablation over model backbones, and no attention statistics from a trained model. Earlier drafts of this manuscript contained such figures; they described experiments that were never run and have been removed rather than revised.
@@ -621,10 +818,10 @@ No accuracy, no benchmark comparison, no ablation over model backbones, and no a
 ## Related Work & Taxonomic Synthesis
 
 ### Video Question Answering & Spatio-Temporal Modeling
-Foundational VideoQA research pioneered dual-stream convolutional architectures and recurrent spatio-temporal memory networks [[arxiv_2010.11146], [arxiv_2203.02155]]. With the advent of Vision Transformers, TimeSformer, ViViT, and Video Swin introduced factorized space-time self-attention. Our DST-DR framework advances this lineage by replacing monolithic space-time blocks with orthogonal projection manifolds that dynamically decouple static scene geometry from velocity vector fields [[arxiv_2305.18290]].
+Foundational VideoQA research pioneered dual-stream convolutional architectures and recurrent spatio-temporal memory networks [[arxiv_2010.11146], [arxiv_2203.02155]]. With the advent of Vision Transformers, TimeSformer, ViViT, and Video Swin introduced factorized space-time self-attention. Our DST-DR framework advances this lineage by replacing monolithic space-time blocks with orthogonal projection manifolds that dynamically decouple static scene geometry from velocity vector fields.
 
 ### Vision-Language Foundation Models (VLMs)
-Multimodal foundation models (CLIP, LLaVA, BLIP-2, PaLI) map visual patch tokens into autoregressive language embedding spaces [[arxiv_2005.14165], [arxiv_2305.18290]]. Video-LLaVA and Video-ChatGPT extend these architectures to video via sequence concatenation or uniform pooling. However, as proven in Theorem 1, uniform sequence scaling induces cross-modal attention collapse [[arxiv_2406.00584]]. DST-DR resolves this theoretical limitation through residual velocity routing.
+Multimodal foundation models (CLIP, LLaVA, BLIP-2, PaLI) map visual patch tokens into autoregressive language embedding spaces [[arxiv_2005.14165], [arxiv_2305.18290]]. Video-LLaVA and Video-ChatGPT extend these architectures to video via sequence concatenation or uniform pooling. However, as proven in Theorem 1, uniform sequence scaling induces cross-modal attention collapse. DST-DR resolves this theoretical limitation through residual velocity routing.
 
 ### Continual Alignment & Dynamic Routing
 Recent investigations in parameter-efficient fine-tuning (PEFT, LoRA) and dynamic mixture-of-experts [[arxiv_2305.18290], [arxiv_2412.06333]] demonstrate that task-specific routing preserves specialized capabilities. Our orthogonal projection algebra applies dynamic routing principles to multimodal video token streams, ensuring stable gradient propagation across long temporal contexts.
@@ -638,8 +835,11 @@ Recent investigations in parameter-efficient fine-tuning (PEFT, LoRA) and dynami
 - **Extreme Camera Shake:** In high-velocity drone or action camera footage, global scene translation generates high $\Delta Z_t$ energy across background pixels, partially reducing velocity routing selectivity.
 
 ### External Validity
-- **Video Duration Limits:** Our benchmarks evaluate video clips up to 5 minutes ($T \le 64$ sampled frames). Full-length feature films ($>90$ minutes) require hierarchical long-term memory synthesis.
-- **Audio-Visual Fusion:** Our evaluation focuses exclusively on visual and textual modalities; incorporating raw audio streams introduces orthogonal acoustic alignment dynamics.
+
+**A correction before these limitations.** An earlier version of this section described benchmarks evaluating video clips up to 5 minutes and an evaluation restricted to visual and textual modalities. No benchmark and no evaluation were run, as Section 5 and the Conclusion both state; there is no measured video-duration limit and no measured audio-visual scope to report. The limitations below describe what the theoretical account and architecture specification above can and cannot establish absent that evidence.
+
+- **Video Duration Is an Unstated Parameter of the Theory, Not a Tested Limit:** Theorem 1's bound is asymptotic in $T$ and gives no finite threshold at which dispersion becomes practically significant for a real model and a real dataset; the theorem says gradients shrink as $\mathcal{O}(1/T)$, not at what $T$ that shrinkage first degrades measured accuracy. Establishing a duration limit -- the point past which DST-DR's advantage should appear -- is exactly the kind of number the proposed evaluation in Section 5 would produce and this paper does not.
+- **Audio Is Outside the Model, Not Merely Untested:** The formalization in Sections 3 and 4 defines $Z_t$ only over visual patch tokens; the architecture as specified has no audio pathway to evaluate even if hardware were available. Extending DST-DR to a tri-modal setting, as Future Research Roadmap Phase 2 proposes, requires a model change before it requires an experiment.
 
 ---
 
@@ -649,7 +849,7 @@ We define a 4-phase strategic roadmap for next-generation video foundation model
 1. **Phase 1: Native Continuous Spatio-Temporal Tokenizers:** Replacing discrete frame sampling with continuous 3D video tokenizers operating natively in space-time manifolds.
 2. **Phase 2: Tri-Modal Audio-Visual-Language Orthogonal Grounding:** Extending DST-DR to jointly factorize acoustic pitch/intensity trajectories alongside visual velocity vectors.
 3. **Phase 3: Real-Time Streaming Video Reasoning:** Adapting DST-DR for zero-latency online video streaming on edge robotic hardware (e.g., autonomous driving, drone perception).
-4. **Phase 4: World Models and Physical Dynamics Simulation:** Leveraging spatio-temporal velocity representations as generative priors for physics-accurate world simulators [[arxiv_2501.02497]].
+4. **Phase 4: World Models and Physical Dynamics Simulation:** Leveraging spatio-temporal velocity representations as generative priors for physics-accurate world simulators.
 
 ---
 
@@ -705,11 +905,35 @@ Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mat
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(\mathbf{q}^{\top}\mathbf{k}_l / \sqrt{d})}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -735,9 +959,10 @@ The proposed architecture factors attention into a temporal stage that selects c
 
 The mechanism this targets is specific: it addresses dispersion, not representation quality. A question answerable from a single frame gains nothing, because the temporal stage has nothing to select and the spatial stage sees what it would have seen anyway. This is what makes prediction 3 in Section 5 a genuine test rather than a corollary -- if decomposition improves single-frame questions too, the improvement is coming from added capacity rather than from the mechanism claimed.
 
+This specificity is also the architecture's main exposure. A mechanism that targets exactly one failure mode helps only where that failure mode is the one actually limiting performance, and the theoretical account in Section 3 argues dispersion is significant for long sequences with high background correlation without establishing that it is the *dominant* failure mode relative to others a trained video-language model exhibits -- representation quality of the visual encoder, alignment between visual and textual embedding spaces, or insufficient training data coverage of temporally compositional questions could each independently bound accuracy below what fixing dispersion alone would achieve. A positive result on predictions 1 and 2 would show the mechanism works as specified; it would not by itself show that dispersion was the binding constraint on the baseline's overall accuracy, which is a stronger and separate claim this paper's protocol does not attempt to test.
+
 ## The State of the Evidence
 
 We are describing a mechanism and an architecture, not reporting that either works. The literature establishes that attention dispersion occurs and that grounding accuracy degrades with sequence length; it does not establish that this particular decomposition is the remedy, and neither does this paper.
 
 That distinction is the reason Section 5 states predictions and an experimental protocol instead of results. A reader should treat the architecture as a hypothesis with a specified test, and the appropriate response to it is to run that test.
-

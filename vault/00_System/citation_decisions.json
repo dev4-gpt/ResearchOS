@@ -24,6 +24,14 @@
       "reason": "reviewed and kept by author decision",
       "title": ""
     },
+    "key::arxiv_2005.14165": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2005.14165",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
     "key::arxiv_2010.11146": {
       "decision": "removed",
       "draft": "*",
@@ -64,6 +72,14 @@
       "reason": "reviewed and kept by author decision",
       "title": ""
     },
+    "key::arxiv_2305.18290": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2305.18290",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
     "key::arxiv_2308.12898": {
       "decision": "removed",
       "draft": "*",
@@ -80,10 +96,34 @@
       "reason": "removed from every draft by author decision",
       "title": ""
     },
+    "key::arxiv_2312.03893": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2312.03893",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
     "key::arxiv_2404.01131": {
       "decision": "removed",
       "draft": "*",
       "key": "arxiv_2404.01131",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2404.04289": {
+      "decision": "keep",
+      "draft": "*",
+      "key": "arxiv_2404.04289",
+      "name": "(whole key)",
+      "reason": "reviewed and kept by author decision",
+      "title": ""
+    },
+    "key::arxiv_2406.00584": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2406.00584",
       "name": "(whole key)",
       "reason": "removed from every draft by author decision",
       "title": ""
@@ -100,6 +140,14 @@
       "decision": "removed",
       "draft": "*",
       "key": "arxiv_2412.06333",
+      "name": "(whole key)",
+      "reason": "removed from every draft by author decision",
+      "title": ""
+    },
+    "key::arxiv_2501.02497": {
+      "decision": "removed",
+      "draft": "*",
+      "key": "arxiv_2501.02497",
       "name": "(whole key)",
       "reason": "removed from every draft by author decision",
       "title": ""

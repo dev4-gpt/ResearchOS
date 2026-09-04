@@ -49,7 +49,7 @@ Enterprise operational environments impose strict non-functional constraints tha
 1. Strict Service Level Agreements (SLAs): Multi-agent execution pipelines must provide bounded latency distributions ($p99 < 30\text{ s}$) and guaranteed completion availability ($>99.9\%$) [[crossref_10.1108_jeim-12-2025-1269]].
 2. Deterministic Governance and Auditing: Every agent decision, intermediate tool invocation, and state mutation must be cryptographically logged to satisfy regulatory compliance (e.g., SOC 2, HIPAA, GDPR, SEC Rule 17a-4).
 3. Multi-Tenant Isolation and Zero-Trust Security: Autonomous agents executing arbitrary code or querying production databases must operate within unprivileged, isolated sandboxes governed by fine-grained Role-Based Access Control (RBAC) [[arxiv_2404.04289], [doaj_001772c2113c476d9d5d40452c8e10e1]].
-4. Economic Predictability and Unit Economics: Enterprise Total Cost of Ownership (TCO) requires linear or sub-linear compute scaling with respect to task complexity, avoiding explosive prompt-chain loops [[arxiv_2406.00584]].
+4. Economic Predictability and Unit Economics: Enterprise Total Cost of Ownership (TCO) requires linear or sub-linear compute scaling with respect to task complexity, avoiding explosive prompt-chain loops.
 
 ### Principal Research Contributions
 
@@ -68,6 +68,18 @@ To address these enterprise infrastructure and economic challenges, this paper d
 Let an enterprise multi-agent deployment be defined as a communication graph $\mathcal{G}_{\text{comm}} = (V_{\text{agents}}, E_{\text{msg}})$, where $|V_{\text{agents}}| = N$. The choice of coordination topology fundamentally dictates message overhead, context window utilization, and system failure dynamics [[arxiv_2203.08975]].
 
 **Definition 1 (Fully Connected Mesh $\mathcal{K}_N$).** Every agent broadcasts its state diffs to all $N-1$ peers. The total message complexity per coordination round is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,9 +135,33 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift.
 
 **Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).** A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,9 +217,33 @@ $$
 
 
 
-Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) [[arxiv_2406.00584]].
+
+
+
+
+
+
+
+
+
+
+
+
+Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$).
 
 **Definition 3 (Shared Blackboard Architecture).** Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -239,9 +299,33 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $|K|$ is the cardinality of the knowledge base.
 
 **Definition 4 (Contract-Net Bidding Marketplace).** An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -297,11 +381,35 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 ### Formal Econometric Cost Model
 
-Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs [[arxiv_2406.00584]]. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}(a, t)$ be the input prompt token length for agent $a$ at turn $t$, $L_{\text{gen}}(a, t)$ be the output token length, $P_{\text{in}}$ and $P_{\text{out}}$ be the unit pricing per token, and $\mathcal{C}_{\text{tool}}$ represent external API and database compute costs. The total economic cost $\mathcal{C}_{\text{task}}$ per enterprise task is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -329,8 +437,7 @@ Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}
 
 $$
 \begin{aligned}
-\mathcal{C}_{\text{task}} = & \sum_{t=1}^{T_{\text{turns}}} \sum_{a=1}^{N_{\text{agents}}} \left( L_{\text{prompt}}(a, t) \cdot P_{\text{in}} \\
-& + L_{\text{gen}}(a, t) \cdot P_{\text{out}} \right) + \sum_{k=1}^{K_{\text{tools}}} \mathcal{C}_{\text{tool}}(k)
+\mathcal{C}_{\text{task}} = & \sum_{t=1}^{T_{\text{turns}}} \sum_{a=1}^{N_{\text{agents}}} \left( L_{\text{prompt}}(a, t) \cdot P_{\text{in}} + L_{\text{gen}}(a, t) \cdot P_{\text{out}} \right) + \sum_{k=1}^{K_{\text{tools}}} \mathcal{C}_{\text{tool}}(k)
 \end{aligned}
 $$
 
@@ -358,7 +465,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -414,7 +545,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -470,7 +625,19 @@ $$
 
 
 
-This theoretical derivation explains why hierarchical topologies achieve dramatic economic savings at scale [[arxiv_2501.02497]].
+
+
+
+
+
+
+
+
+
+
+
+
+This theoretical derivation explains why hierarchical topologies achieve dramatic economic savings at scale.
 
 ---
 
@@ -504,11 +671,35 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{R}_{\text{hierarchical}} = \prod_{k=1}^K \left( 1 - (1 - p_k)(1 - r_k)^M \right)
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -593,6 +784,8 @@ We evaluate four coordination topologies on a common task: $N$ agents must joint
 
 Faults are modelled as independent per-agent failures with probability $p_{\text{fail}} = 0.02$. Propagation follows each topology's dependency structure: an unsupervised mesh broadcast contaminates every peer it reached; a corrupt blackboard entry is read by every subsequent reader; contract-net re-lets the failed bidder's task, containing the fault; and a supervisor retry barrier confines a fault to the failed subtree. Every configuration is run for $20{,}000$ Monte Carlo trials under a fixed seed.
 
+The mesh rule is a hard step function by construction, not an emergent property of the trials: any trial with at least one failed agent marks the entire population as affected, and a trial with zero failures marks none. A per-trial outcome for the mesh can therefore only be $0\%$ or $100\%$, never partial, and the reported $72.06\%$ mean is the empirical share of trials with at least one failure among 64 agents at $p_{\text{fail}} = 0.02$ -- close to the closed-form $1 - (1 - 0.02)^{64} \approx 72.55\%$, with the difference attributable to Monte Carlo sampling noise. The bimodal shape reported in Section 6 for the mesh specifically is therefore guaranteed by the propagation rule, not an independent empirical discovery about it; the other three topologies' distributions are not similarly constrained to two outcomes, and their shapes are genuinely measured.
+
 ### Table 1: Simulation Parameters
 
 | Parameter | Value | Basis |
@@ -666,6 +859,8 @@ The cascade results in Table 2 measure how far a fault spreads, not how quickly 
 | Hierarchical Supervisor Resumption | supervisor observes child completion directly | subtree state held by the parent | folded into the existing tree edges |
 
 Hierarchical supervisor resumption is attractive here because its detection path reuses coordination edges the topology already maintains, so fault detection adds no messages beyond those counted in Table 2. Establishing that this translates into lower wall-clock recovery requires a deployed system with instrumented restarts, which is left to future work.
+
+The four topologies do not share a detection cost even though the mechanism is the same for all of them. A heartbeat or checkpoint probe rides an existing coordination edge, so its marginal overhead scales with Table 2's measured depth: one hop for the mesh, up to six for the hierarchical tree. The hierarchical tree therefore pays the most per-probe latency of any topology precisely where it also has the lowest cascade rate, so lower fault exposure is bought at higher detection latency, not obtained for free.
 
 ---
 
@@ -822,9 +1017,33 @@ A two-state chain over $\{\textsf{UP}, \textsf{DOWN}\}$ with failure rate $\lamb
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 P = \begin{pmatrix} 1 - \lambda & \lambda \\ \mu & 1 - \mu \end{pmatrix}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -849,15 +1068,15 @@ Every number reported in this paper was produced by a single scripted run whose 
 |:---|:---|
 | Run identifier | `draft-review_enterprise_adoption_of_multi_agent_ai_systems_infr` |
 | Random seed | 20260825 |
-| Repository revision | `90967292066d` |
+| Repository revision | `474f900d16c0` |
 | Python | 3.13.5 |
 | Platform | macOS-26.5.2-arm64-arm-64bit-Mach-O |
 | Architecture | arm64 |
 | Logical CPUs | 12 |
 | Accelerator | none; no GPU was used at any point |
-| Wall-clock duration | `2.877 s` |
-| Measurements recorded | 25 |
-| Recorded at | 2026-08-25T17:29:03-0400 |
+| Wall-clock duration | `2.423 s` |
+| Measurements recorded | 34 |
+| Recorded at | 2026-09-03T14:32:23-0400 |
 
 ## Reproduction
 
@@ -922,8 +1141,17 @@ The main text reports the measurements that carry the argument. This appendix li
 | `messages_at_n64_mesh` | 4032.0 | messages | 64 | — | `exact protocol message count` |
 | `pipeline_reliability_hierarchical` | 99.25 | % | 5 | — | `[1-(1-p)(1-r)^M]^K with p=0.85, r=0.9, M=2, K=5` |
 | `pipeline_reliability_monolithic` | 44.37 | % | 5 | — | `p^K with p=0.85, K=5` |
+| `closed_form_mesh_p_ge1_fail` | 72.55 | % | — | — | `1 - (1 - p_fail)^n_ref, exact, not sampled; n_ref=64, p_fail=0.02` |
+| `trials_fully_contained_blackboard` | 27.80 | % | 20000 | — | `share of trials with affected fraction under 1/20` |
+| `trials_fully_contained_contract_net` | 63.47 | % | 20000 | — | `share of trials with affected fraction under 1/20` |
+| `trials_fully_contained_hierarchical` | 96.18 | % | 20000 | — | `share of trials with affected fraction under 1/20` |
+| `trials_fully_contained_mesh` | 27.94 | % | 20000 | — | `share of trials with affected fraction under 1/20` |
+| `trials_catastrophic_blackboard` | 72.20 | % | 20000 | — | `share of trials with affected fraction at half or more` |
+| `trials_catastrophic_contract_net` | 0.00 | % | 20000 | — | `share of trials with affected fraction at half or more` |
+| `trials_catastrophic_hierarchical` | 0.92 | % | 20000 | — | `share of trials with affected fraction at half or more` |
+| `trials_catastrophic_mesh` | 72.06 | % | 20000 | — | `share of trials with affected fraction at half or more` |
 
-**25 measurements across 6 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless.
+**34 measurements across 7 artifacts.** Confidence intervals are percentile bootstrap where reported; an em dash marks a quantity that is exact rather than sampled, for which an interval would be meaningless. `trials_catastrophic_mesh` equals `cascade_rate_mesh` exactly because the mesh propagation rule is a hard step function (Section 5): a trial's affected fraction is only ever $0\%$ or $100\%$, so "mean fraction affected" and "share of trials at half or more" are the same quantity for this topology alone.
 
 ## Artifact Digests
 
@@ -935,5 +1163,6 @@ The main text reports the measurements that carry the argument. This appendix li
 | `artifacts/dtmc_availability.json` | `b2bbe53050834991` |
 | `artifacts/message_scaling.json` | `7bb8504d82efc8db` |
 | `artifacts/pipeline_reliability.json` | `b85f3803f45690d0` |
+| `artifacts/run_timing.json` | `0ace97431e887d06` |
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
