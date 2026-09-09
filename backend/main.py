@@ -3,6 +3,7 @@ import _langsmith_stub  # noqa: F401 -- must run before anything imports langcha
 import os
 import re
 import json
+import time
 import asyncio
 import threading
 from typing import Dict, List, Any, Optional
@@ -63,6 +64,16 @@ error_ledger_service = ErrorLedgerService()
 from agents.meta_review_council import MetaReviewCouncil
 meta_review_council = MetaReviewCouncil(vault_path)
 
+from services.feynman_service import FeynmanService
+from services.autoresearch_loop import AutonomousResearchHarness
+from services.fx_bridge import FXBridge
+from services.fx_mcp_server import ResearchOSMCPServer
+
+fx_bridge = FXBridge()
+feynman_service = FeynmanService(vault_manager, fx_bridge=fx_bridge)
+autoresearch_harness = AutonomousResearchHarness(vault_manager)
+fx_mcp_server = ResearchOSMCPServer(vault_manager.vault_path)
+
 # In-memory log store for streaming active research runs and meta-reviews
 # key: project_id, value: asyncio.Queue containing log dicts
 log_queues: Dict[str, asyncio.Queue] = {}
@@ -95,6 +106,32 @@ class UserProfileUpdate(BaseModel):
     target_timeline: Optional[str] = None
     submission_goals: Optional[str] = None
     publication_history: Optional[List[Dict[str, Any]]] = None
+
+class FeynmanAuditRequest(BaseModel):
+    draft_filename: str
+    code_path: Optional[str] = None
+
+class FeynmanLitRequest(BaseModel):
+    topic: Optional[str] = "Multi-Agent Systems"
+    paper_names: Optional[List[str]] = None
+
+class FeynmanReviewRequest(BaseModel):
+    draft_filename: str
+    venue: Optional[str] = "IEEEtran"
+
+class FeynmanAutoresearchRequest(BaseModel):
+    draft_filename: str
+    venue: Optional[str] = "IEEEtran"
+    max_iterations: Optional[int] = 3
+
+class FXDispatchRequest(BaseModel):
+    prompt: str
+    context: Optional[str] = None
+    timeout_sec: Optional[int] = 30
+
+class FXMCPCallRequest(BaseModel):
+    tool_name: str
+    arguments: Optional[Dict[str, Any]] = None
 
 @app.get("/")
 def root_index():
@@ -922,7 +959,8 @@ def run_meta_review_sync(filename: str, target_venue: str, target_length: str, s
             )
 
     try:
-        meta, content = vault_manager.read_markdown("drafts", filename)
+        doc = vault_manager.read_markdown("drafts", filename)
+        meta, content = doc.get("frontmatter", {}), doc.get("content", "")
         result = meta_review_council.run_alignment_cycle(
             draft_content=content,
             target_venue=target_venue,
@@ -1098,10 +1136,84 @@ def get_prime_harness_status():
     from harness.prime_harness import prime_agent_harness
     return {"success": True, **prime_agent_harness.get_harness_status()}
 
+# ---------------------------------------------------------------------------
+# Feynman Research Assistant Endpoints (companion-inc/feynman)
+# ---------------------------------------------------------------------------
+
+@app.post("/api/feynman/audit")
+def feynman_audit_endpoint(req: FeynmanAuditRequest):
+    """Audits manuscript empirical claims against actual experiment code AST."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    try:
+        doc = vault_manager.read_markdown("drafts", draft_name)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Draft {draft_name} not found")
+    content = doc.get("content", "")
+    return feynman_service.audit_paper_against_code(content, code_dir_or_file=req.code_path)
+
+@app.post("/api/feynman/lit")
+def feynman_lit_endpoint(req: FeynmanLitRequest):
+    """Synthesizes consensus, active debates, and open gaps across vault papers."""
+    return feynman_service.synthesize_literature_matrix(topic=req.topic or "", paper_names=req.paper_names)
+
+@app.post("/api/feynman/review")
+def feynman_review_endpoint(req: FeynmanReviewRequest):
+    """Performs simulated peer review triage with [BLOCKER], [MAJOR], [MINOR] tags."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    try:
+        doc = vault_manager.read_markdown("drafts", draft_name)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Draft {draft_name} not found")
+    content = doc.get("content", "")
+    return feynman_service.simulated_peer_review(content, venue=req.venue or "IEEEtran")
+
+@app.post("/api/feynman/autoresearch")
+def feynman_autoresearch_endpoint(req: FeynmanAutoresearchRequest):
+    """Triggers Karpathy-style closed-loop manuscript hill-climbing optimization."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    return autoresearch_harness.optimize(
+        draft_name, target_venue=req.venue or "IEEEtran", max_iterations=req.max_iterations or 3
+    )
+
+# ---------------------------------------------------------------------------
+# Vercel Labs fx Agent Engine & MCP Endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/api/fx/status")
+def fx_status_endpoint():
+    """Returns Vercel Labs fx engine installation status, execution mode, and capabilities."""
+    return fx_bridge.get_status()
+
+@app.post("/api/fx/dispatch")
+def fx_dispatch_endpoint(req: FXDispatchRequest):
+    """Dispatches an autonomous research query to the fx agent harness."""
+    return fx_bridge.dispatch_research(
+        prompt=req.prompt,
+        context=req.context,
+        timeout_sec=req.timeout_sec or 30,
+    )
+
+@app.get("/api/fx/mcp/tools")
+def fx_mcp_tools_endpoint():
+    """Lists MCP tool definitions exposed by ResearchingOS for external agents."""
+    return {"tools": fx_mcp_server.get_tool_definitions()}
+
+@app.post("/api/fx/mcp/call")
+def fx_mcp_call_endpoint(req: FXMCPCallRequest):
+    """Executes a ResearchingOS MCP tool call."""
+    try:
+        res = fx_mcp_server.call_tool(req.tool_name, req.arguments or {})
+        return {"success": True, "result": res}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 if __name__ == "__main__":
     import uvicorn
     # Read configuration from environment loaded via python-dotenv
     port = int(os.getenv("PORT", "8000"))
     host = os.getenv("HOST", "127.0.0.1")
+    frontend_port = int(os.getenv("FRONTEND_PORT", "3000"))
     print(f"Starting uvicorn server on http://{host}:{port}")
+    print(f"Frontend (run separately): http://{host}:{frontend_port}")
     uvicorn.run("main:app", host=host, port=port, reload=True)

@@ -4,10 +4,18 @@ Shared fixtures for ResearchingOS backend tests.
 All vault fixtures use tmp_path to guarantee isolation from the real vault.
 """
 
+import _langsmith_stub  # noqa: F401 -- must run before anything imports langchain_core; see ERR-097
 import inspect
 import os
 import sys
-import pytest
+try:
+    import pytest
+except ImportError:
+    class _DummyPytest:
+        @staticmethod
+        def fixture(*args, **kwargs):
+            return lambda fn: fn
+    pytest = _DummyPytest()
 
 # Make sure the backend package root is importable regardless of cwd.
 BACKEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

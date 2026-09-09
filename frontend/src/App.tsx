@@ -8,7 +8,8 @@ import {
   AlertCircle,
   HelpCircle,
   FlaskConical,
-  Layers
+  Layers,
+  Cpu
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Boardroom from './components/Boardroom';
@@ -16,6 +17,7 @@ import GraphView from './components/GraphView';
 import DocEditor from './components/DocEditor';
 import BacktestLab from './components/BacktestLab';
 import MetaReviewCouncil from './components/MetaReviewCouncil';
+import { FeynmanWorkbench } from './components/FeynmanWorkbench';
 
 import { apiFetch } from './api';
 
@@ -28,7 +30,7 @@ export interface AgentLog {
   data?: any;
 }
 
-export type ViewType = 'dashboard' | 'boardroom' | 'metareview' | 'graph' | 'editor' | 'backtest';
+export type ViewType = 'dashboard' | 'boardroom' | 'metareview' | 'graph' | 'editor' | 'backtest' | 'feynman';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
@@ -231,6 +233,22 @@ const App: React.FC = () => {
                 <span style={{ fontSize: '9px', background: 'rgba(45,212,191,0.15)', color: '#2dd4bf', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>Loop</span>
               </span>
             </button>
+
+            <button
+              onClick={() => setCurrentView('feynman')}
+              className="sidebar-nav-btn"
+              style={{
+                backgroundColor: currentView === 'feynman' ? 'var(--primary-glow)' : 'transparent',
+                color: currentView === 'feynman' ? 'var(--primary)' : 'var(--text-secondary)',
+                fontWeight: currentView === 'feynman' ? '600' : '400',
+              }}
+            >
+              <Cpu size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+              <span className="sidebar-text" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+                <span>Feynman Lab</span>
+                <span style={{ fontSize: '9px', background: 'rgba(56,189,248,0.15)', color: '#38bdf8', padding: '1px 6px', borderRadius: '10px', fontWeight: '600' }}>CLI</span>
+              </span>
+            </button>
           </nav>
         </div>
 
@@ -304,6 +322,9 @@ const App: React.FC = () => {
         )}
         {currentView === 'backtest' && (
           <BacktestLab />
+        )}
+        {currentView === 'feynman' && (
+          <FeynmanWorkbench />
         )}
       </main>
     </div>

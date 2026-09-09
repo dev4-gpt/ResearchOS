@@ -46,10 +46,13 @@ class PublicationStage(str, Enum):
     CLAIM_EXTRACTION = "claim_extraction"
     EVIDENCE_RETRIEVAL = "evidence_retrieval"
     EVIDENCE_GRADING = "evidence_grading"
+    EVIDENCE_REMEDIATION = "evidence_remediation"
     VENUE_RENDERING = "venue_rendering"
     COMPILE = "compile"
+    LATEX_REMEDIATION = "latex_remediation"
     PDF_AUDIT = "pdf_audit"
     LAYOUT_AUDIT = "layout_audit"
+    LAYOUT_REMEDIATION = "layout_remediation"
     VENUE_CONTRACT = "venue_contract"
     CONVERGENCE_DECISION = "convergence_decision"
     ARTIFACT_BUNDLE = "artifact_bundle"
@@ -140,13 +143,16 @@ class PublicationRunState:
         PublicationStage.ORIGINALITY.value: (PublicationStage.CLAIM_EXTRACTION.value,),
         PublicationStage.CLAIM_EXTRACTION.value: (PublicationStage.EVIDENCE_RETRIEVAL.value,),
         PublicationStage.EVIDENCE_RETRIEVAL.value: (PublicationStage.EVIDENCE_GRADING.value,),
-        PublicationStage.EVIDENCE_GRADING.value: (PublicationStage.VENUE_RENDERING.value,),
+        PublicationStage.EVIDENCE_GRADING.value: (PublicationStage.VENUE_RENDERING.value, PublicationStage.EVIDENCE_REMEDIATION.value),
+        PublicationStage.EVIDENCE_REMEDIATION.value: (PublicationStage.EVIDENCE_GRADING.value, PublicationStage.CLAIM_EXTRACTION.value, PublicationStage.VENUE_RENDERING.value),
         PublicationStage.VENUE_RENDERING.value: (PublicationStage.COMPILE.value,),
-        PublicationStage.COMPILE.value: (PublicationStage.PDF_AUDIT.value,),
+        PublicationStage.COMPILE.value: (PublicationStage.PDF_AUDIT.value, PublicationStage.LATEX_REMEDIATION.value),
+        PublicationStage.LATEX_REMEDIATION.value: (PublicationStage.COMPILE.value, PublicationStage.VENUE_CONTRACT.value),
         PublicationStage.PDF_AUDIT.value: (PublicationStage.LAYOUT_AUDIT.value,),
-        PublicationStage.LAYOUT_AUDIT.value: (PublicationStage.VENUE_CONTRACT.value,),
+        PublicationStage.LAYOUT_AUDIT.value: (PublicationStage.VENUE_CONTRACT.value, PublicationStage.LAYOUT_REMEDIATION.value),
+        PublicationStage.LAYOUT_REMEDIATION.value: (PublicationStage.COMPILE.value, PublicationStage.VENUE_CONTRACT.value),
         PublicationStage.VENUE_CONTRACT.value: (PublicationStage.CONVERGENCE_DECISION.value,),
-        PublicationStage.CONVERGENCE_DECISION.value: (PublicationStage.ARTIFACT_BUNDLE.value,),
+        PublicationStage.CONVERGENCE_DECISION.value: (PublicationStage.ARTIFACT_BUNDLE.value, PublicationStage.EVIDENCE_REMEDIATION.value, PublicationStage.LAYOUT_REMEDIATION.value),
         PublicationStage.ARTIFACT_BUNDLE.value: (),
     }, repr=False)
 
@@ -155,6 +161,14 @@ class PublicationRunState:
         if next_value not in self._allowed.get(self.current_stage, ()):
             raise ValueError(f"Invalid publication graph transition: {self.current_stage} -> {next_value}")
         self.current_stage = next_value
+
+    def record_retry(self, stage: str) -> int:
+        count = self.retries.get(stage, 0) + 1
+        self.retries[stage] = count
+        return count
+
+    def can_retry(self, stage: str, max_retries: int = 3) -> bool:
+        return self.retries.get(stage, 0) < max_retries
 
 
 @dataclass
