@@ -7,8 +7,10 @@ and zero-placeholder enforcement before human review.
 
 import re
 import os
-from typing import Dict, Any, List, Optional
-import pypdf
+try:
+    import pypdf
+except ImportError:
+    pypdf = None
 
 
 # Floor for extractable text in a rendered manuscript PDF. Every package this
