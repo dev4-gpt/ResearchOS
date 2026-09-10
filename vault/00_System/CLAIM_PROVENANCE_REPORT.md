@@ -8,12 +8,12 @@ support.
 
 | Manuscript | Claims | Experiment | Citation | Ungrounded | Grounded % |
 |:---|---:|---:|---:|---:|---:|
-| autonomous_code_synthesis_and_self_healing_multi_agent_systems | 17 | 17 | 0 | 0 | 100.0% |
-| review_architectural_dynamics_long_12_page | 25 | 23 | 2 | 0 | 100.0% |
-| review_composable_ai_systems_for_trustworthy_agentic_pipelines | 9 | 9 | 0 | 0 | 100.0% |
+| autonomous_code_synthesis_and_self_healing_multi_agent_systems | 20 | 20 | 0 | 0 | 100.0% |
+| review_architectural_dynamics_long_12_page | 29 | 27 | 2 | 0 | 100.0% |
+| review_composable_ai_systems_for_trustworthy_agentic_pipelines | 12 | 12 | 0 | 0 | 100.0% |
 | review_continual_safety_alignment_in_vision_language_models | 7 | 7 | 0 | 0 | 100.0% |
-| review_enterprise_adoption_of_multi_agent_ai_systems_infr | 29 | 28 | 1 | 0 | 100.0% |
-| review_enterprise_genai_roi | 6 | 6 | 0 | 0 | 100.0% |
+| review_enterprise_adoption_of_multi_agent_ai_systems_infr | 35 | 34 | 1 | 0 | 100.0% |
+| review_enterprise_genai_roi | 30 | 30 | 0 | 0 | 100.0% |
 | review_spatio_temporal_grounding_in_video_question_answering | 0 | 0 | 0 | 0 | 100.0% |
-| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 15 | 14 | 1 | 0 | 100.0% |
-| review_trustworthy_multi_agent_systems_formal_verification | 4 | 4 | 0 | 0 | 100.0% |
+| review_symbol_graph_rag_vs_qlora_swe_bench_lite | 18 | 17 | 1 | 0 | 100.0% |
+| review_trustworthy_multi_agent_systems_formal_verification | 9 | 9 | 0 | 0 | 100.0% |

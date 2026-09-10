@@ -110,6 +110,18 @@ Let a video stream $V$ be represented as a sequence of $T$ uniformly sampled fra
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -145,9 +157,33 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $K$ is the number of spatial patches per frame and $d_v$ is the embedding dimension. The concatenated video representation is $\mathbf{Z} = [Z_1; Z_2; \ldots; Z_T] \in \mathbb{R}^{(T \cdot K) \times d_v}$.
 
 Given textual query tokens $\mathbf{Q} \in \mathbb{R}^{M \times d_t}$, standard cross-attention computes the attention matrix $\mathbf{A} \in \mathbb{R}^{M \times (T \cdot K)}$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -209,6 +245,18 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $\mathbf{W}_Q \in \mathbb{R}^{d_t \times d_k}$ and $\mathbf{W}_K \in \mathbb{R}^{d_v \times d_k}$ are learnable projection matrices.
 
 
@@ -217,9 +265,21 @@ where $\mathbf{W}_Q \in \mathbb{R}^{d_t \times d_k}$ and $\mathbf{W}_K \in \math
 \subsection{The Cross-Modal Attention Collapse Theorem}
 
 
-Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t$ and spatial coordinate $k$. In natural video sequences, static background patches satisfy $\mathbf{z}_{t, k} = \mathbf{z}_{\text{bg}, k} + \boldsymbol{\epsilon}_{t, k}$ with \$\|\boldsymbol{\epsilon}\_{t, k}\| \ll \|\mathbf{z}\_{\text{bg}, k}\|$, such that inter-frame correlation $\rho(\mathbf{z}\_{t, k}, \mathbf{z}\_{t+1, k}) \approx 1\$.
+Let $\mathbf{z}_{t, k} \in \mathbb{R}^{d_v}$ denote the visual token at frame $t$ and spatial coordinate $k$. In natural video sequences, static background patches satisfy $\mathbf{z}_{t, k} = \mathbf{z}_{\text{bg}, k} + \boldsymbol{\epsilon}_{t, k}$ with $\|\boldsymbol{\epsilon}_{t, k}\| \ll \|\mathbf{z}_{\text{bg}, k}\|$, such that inter-frame correlation $\rho(\mathbf{z}_{t, k}, \mathbf{z}_{t+1, k}) \approx 1$.
 
 \textbf{Theorem 1 (Cross-Modal Gradient Dilution).} Let $\gamma \in (0, 1)$ denote the fraction of visual tokens corresponding to static background features. As sequence length $T \to \infty$, the cross-attention gradient with respect to a transient action token $\mathbf{z}_{\text{action}, \tau}$ at critical timestamp $\tau$ vanishes asymptotically:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,6 +341,18 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \textit{Proof.} The cross-attention output for query token $\mathbf{q}_m$ is $\mathbf{o}_m = \sum_{t=1}^T \sum_{k=1}^K a_{m, (t,k)} \mathbf{z}_{t, k} \mathbf{W}_V$, where $a_{m, (t,k)} = \frac{\exp(s_{m, (t,k)})}{\sum_{t', k'} \exp(s_{m, (t',k')})}$. 
 
 For static background tokens, the logits are approximately invariant across frames: $s_{m, (t, k)} \approx s_{m, (\text{bg}, k)}$ for all $t$. The denominator is bounded below by $\sum_{t=1}^T \sum_{k \in \text{bg}} \exp(s_{m, (\text{bg}, k)}) = \gamma T K \cdot \exp(s_{\text{bg}})$. 
@@ -313,14 +385,37 @@ Differentiating $\mathcal{L}$ with respect to the transient action token $\mathb
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \\
-& \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
+\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\text{action}, \tau}} = & \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top \frac{\partial \mathbf{o}_m}{\partial \mathbf{z}_{\text{action}, \tau}} = \sum_{m=1}^M \frac{\partial \mathcal{L}}{\partial \mathbf{o}_m} \mathbf{W}_V^\top a_{m, (\tau, \text{action})} \left( \mathbf{I} - a_{m, (\tau, \text{action})} \mathbf{z}_{\text{action}, \tau} \mathbf{z}_{\text{action}, \tau}^\top \right)
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -360,18 +455,18 @@ To overcome Theorem 1, DST-DR explicitly factorizes visual feature projections i
 
 
 \begin{quote}
-\small\texttt{Video Frames X\\_v = {I\\_1, ..., I\\_T}
+\small\texttt{Video Frames X\_v = (I\_1, ..., I\_T)
         v
   Vision Transformer (ViT-H/14)
         v                                   v
 Spatial Feature Extraction          Temporal Frame Differences
-   Z\\_t = f\\_v(I\\_t)                     \Delta Z\\_t = Z\\_{t+1} - Z\\_t
+   Z\_t = f\_v(I\_t)                     Delta Z\_t = Z\_(t+1) - Z\_t
         v                                   v
 Spatial Projection Matrix          Temporal Dynamic Router
-   P\\_S (Static Scene Gating)          P\\_T (Causal Action Tracking)
+   P\_S (Static Scene Gating)          P\_T (Causal Action Tracking)
                           v
                Orthogonal Fusion Manifold
-               \hat{Z}\\_v = P\\_S(Z) + \lambda\\_T P\\_T(\Delta Z)
+               hat(Z)\_v = P\_S(Z) + lambda\_T P\_T(Delta Z)
                           v
                Autoregressive LLM Backbone}
 \end{quote}
@@ -382,6 +477,18 @@ Spatial Projection Matrix          Temporal Dynamic Router
 
 
 \textbf{Definition 1 (Temporal Frame-Difference Residuals).} For consecutive visual embeddings $Z_t, Z_{t+1} \in \mathbb{R}^{K \times d_v}$, define the discrete velocity operator:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -444,9 +551,33 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 Static background regions yield $\Delta Z_t \approx \mathbf{0}$, while dynamic actions produce high-energy feature trajectories.
 
 \textbf{Definition 2 (Orthogonal Projector Constraint).} We define learnable spatial projection matrix $\mathbf{W}_S \in \mathbb{R}^{d_v \times d_{\text{model}}}$ and temporal projection matrix $\mathbf{W}_T \in \mathbb{R}^{d_v \times d_{\text{model}}}$, constrained by the orthogonality penalty:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -508,7 +639,31 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R}^{T \times K \times d_{\text{model}}}$ is constructed as:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -543,6 +698,18 @@ The unified grounded visual token representation $\hat{\mathbf{Z}} \in \mathbb{R
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -606,6 +773,18 @@ The total optimization objective $\mathcal{L}_{\text{total}}$ combines cross-ent
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -641,9 +820,21 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $\mathcal{H}(\mathbf{A}_{\text{temporal}}) = -\sum_{t=1}^T \bar{a}_t \log \bar{a}_t$ ensures that temporal cross-attention does not collapse onto a single static frame.
 
-\textbf{Theorem 2 (Loss Convergence Under DST-DR).} Under objective $\mathcal{L}_{\text{total}}$, stochastic gradient descent with learning rate $\eta_t = \eta_0 / \sqrt{t}$ converges to a stationary point \$\|\nabla \mathcal{L}\_{\text{total}}\| \le \epsilon$ in at most $\mathcal{O}(1/\epsilon^2)$ iterations, independent of video token horizon $T\$.
+\textbf{Theorem 2 (Loss Convergence Under DST-DR).} Under objective $\mathcal{L}_{\text{total}}$, stochastic gradient descent with learning rate $\eta_t = \eta_0 / \sqrt{t}$ converges to a stationary point $\|\nabla \mathcal{L}_{\text{total}}\| \le \epsilon$ in at most $\mathcal{O}(1/\epsilon^2)$ iterations, independent of video token horizon $T$.
 
 \textit{Proof.} By the orthogonal projection constraint $\mathcal{L}_{\text{orth}}$, $\mathbf{W}_S$ and $\mathbf{W}_T$ span mutually orthogonal subspaces $\mathcal{S}_S \perp \mathcal{S}_T$. The Hessian $\nabla^2 \mathcal{L}_{\text{total}}$ is block-diagonalized, eliminating cross-modal coupling terms between static spatial keys and dynamic velocity residuals. The Lipschitz constant of the gradient is bounded by $L_{\max} = \max(L_S, L_T) < \infty$. By standard non-convex SGD convergence theory under $L$-smoothness, the iteration complexity is $\mathcal{O}(L_{\max} \sigma^2 / \epsilon^2)$, establishing sequence-length-independent convergence. $\square$
 
@@ -807,6 +998,18 @@ Scaled dot-product attention computes, for a query $\mathbf{q}$ and keys $\{\mat
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -814,6 +1017,18 @@ a_j = \frac{\exp(\mathbf{q}^{\top}\mathbf{k}_j / \sqrt{d})}{\sum_{l=1}^{T} \exp(
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -851,8 +1066,6 @@ The mechanism this targets is specific: it addresses dispersion, not representat
 We are describing a mechanism and an architecture, not reporting that either works. The literature establishes that attention dispersion occurs and that grounding accuracy degrades with sequence length; it does not establish that this particular decomposition is the remedy, and neither does this paper.
 
 That distinction is the reason Section 5 states predictions and an experimental protocol instead of results. A reader should treat the architecture as a hypothesis with a specified test, and the appropriate response to it is to run that test.
-
-
 
 \par\vspace{0.5em}
 \balance

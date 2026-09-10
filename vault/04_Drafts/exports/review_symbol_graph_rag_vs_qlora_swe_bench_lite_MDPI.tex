@@ -89,11 +89,23 @@ Let $\mathcal{R}$ denote a software repository with source files $\mathcal{F} = 
 \begin{itemize}
   \item $V = \{v_i\}$ is the node set representing AST entities: functions, classes, modules, constants, and type definitions.
   \item $E \subseteq V \times V \times \mathcal{T}$ is the typed edge set with $\mathcal{T} = \{\texttt{calls}, \texttt{imports}, \texttt{inherits}, \texttt{references}, \texttt{defines}\}$.
-  \item \$\mathbf{X} \in \mathbb{R}^{|V| \times d}$ is the node feature matrix with $\mathbf{x}\_i = \text{CodeBERT}(v\_i) \in \mathbb{R}^d\$.
-  \item \$\mathbf{T} \in \mathcal{T}^{|E|}\$ is the edge-type tensor.
+  \item $\mathbf{X} \in \mathbb{R}^{|V| \times d}$ is the node feature matrix with $\mathbf{x}_i = \text{CodeBERT}(v_i) \in \mathbb{R}^d$.
+  \item $\mathbf{T} \in \mathcal{T}^{|E|}$ is the edge-type tensor.
 \end{itemize}
 
 \textbf{Definition 1 (Relevance Score).} Given query $q$ (the issue description) with embedding $\vec{q} = \text{CodeBERT}(q)$, the relevance score of node $v_i$ is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -162,17 +174,41 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score of $v_i$ with restart distribution concentrated on the seed set $S_q = \{v_j : \cos(\mathbf{x}_j, \vec{q}) > \tau\}$, and $\alpha = 0.65$ is calibrated via cross-validation on a held-out development set.
 
 \textbf{Theorem 1 (PPR Convergence).} The Personalized PageRank iteration $\pi^{(t+1)} = (1-\beta) \mathbf{A}_{\text{norm}} \pi^{(t)} + \beta \mathbf{s}$ converges geometrically to the unique fixed point $\pi^* = \beta(I - (1-\beta)\mathbf{A}_{\text{norm}})^{-1}\mathbf{s}$ in $O(\log(1/\epsilon) / \log(1/\rho))$ iterations, where $\rho$ is the spectral radius of $(1-\beta)\mathbf{A}_{\text{norm}}$ and $\epsilon$ is the desired convergence tolerance.
 
-\textit{Proof.} Let $\mathbf{M} = (1-\beta)\mathbf{A}_{\text{norm}}$. Since $\mathbf{A}_{\text{norm}}$ is a row-stochastic matrix, its spectral radius $\rho(\mathbf{A}_{\text{norm}}) = 1$, hence $\rho(\mathbf{M}) = 1-\beta < 1$. By the Banach fixed-point theorem, the affine map $T(\pi) = \mathbf{M}\pi + \beta\mathbf{s}$ is a contraction on \$(\mathbb{R}^{|V|}, \|\cdot\|\_1)$ with Lipschitz constant $1-\beta$. The error after $t$ iterations satisfies $\|\pi^{(t)} - \pi^\textit{\|\_1 \leq (1-\beta)^t \|\pi^{(0)} - \pi^}\|\_1$, giving convergence in $O(\log(1/\epsilon)/\log(1/(1-\beta)))$ steps. $\square\$
+\textit{Proof.} Let $\mathbf{M} = (1-\beta)\mathbf{A}_{\text{norm}}$. Since $\mathbf{A}_{\text{norm}}$ is a row-stochastic matrix, its spectral radius $\rho(\mathbf{A}_{\text{norm}}) = 1$, hence $\rho(\mathbf{M}) = 1-\beta < 1$. By the Banach fixed-point theorem, the affine map $T(\pi) = \mathbf{M}\pi + \beta\mathbf{s}$ is a contraction on $(\mathbb{R}^{|V|}, \|\cdot\|_1)$ with Lipschitz constant $1-\beta$. The error after $t$ iterations satisfies $\|\pi^{(t)} - \pi^*\|_1 \leq (1-\beta)^t \|\pi^{(0)} - \pi^*\|_1$, giving convergence in $O(\log(1/\epsilon)/\log(1/(1-\beta)))$ steps. $\square$
 
 
 \subsection{PAC-Learning Generalization Bound for Graph Retrieval}
 
 
 \textbf{Theorem 2 (Graph Retrieval Generalization).} Let $\mathcal{H}$ be the hypothesis class of graph-guided resolution policies parameterized by $\alpha \in [0,1]$ and $K \in \{1,\ldots,K_{\max}\}$. With probability $1-\delta$ over $n = 300$ i.i.d. tasks drawn from task distribution $\mathcal{D}$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -210,6 +246,18 @@ where $\text{PPR}(v_i \mid \mathcal{G}, S_q)$ is the Personalized PageRank score
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -279,6 +327,18 @@ Let $\mathcal{I}(\mathcal{G})$ denote the mutual information between the full re
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -316,7 +376,19 @@ $}
 
 
 
-where $\{\sigma_k(\mathcal{G})\}$ are the singular values of the graph adjacency representation. For typical repository graphs (\$|V| \sim 5{,}000$ nodes, $r = 16$), this bound is approximately $16 \times \log(1 + 312.5) = 82.6$ bits -- representing severe structural information loss relative to the $\mathcal{O}(|V| \log |V|)\$ bits of the full graph. Symbol-Graph RAG retains the full graph at inference time, incurring zero compression loss.
+
+
+
+
+
+
+
+
+
+
+
+
+where $\{\sigma_k(\mathcal{G})\}$ are the singular values of the graph adjacency representation. For typical repository graphs ($|V| \sim 5{,}000$ nodes, $r = 16$), this bound is approximately $16 \times \log(1 + 312.5) = 82.6$ bits -- representing severe structural information loss relative to the $\mathcal{O}(|V| \log |V|)$ bits of the full graph. Symbol-Graph RAG retains the full graph at inference time, incurring zero compression loss.
 
 
 
@@ -401,7 +473,7 @@ seed breadth are the values selected on the held-out split above, applied
 unchanged to data they have never seen.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 System & P@1 (\%) & P@5 (\%) & MRR \\
@@ -477,7 +549,7 @@ Precision@1, Precision@5 and Mean Reciprocal Rank, each with a percentile bootst
 \subsection{Table 1: Retrieval Quality on Held-Out Queries ($n = 165$)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccccc}
 \toprule
 System & P@1 (\%) & 95\% CI & P@5 (\%) & 95\% CI & MRR & 95\% CI \\
@@ -506,7 +578,7 @@ The honest reading is that symbol-graph diffusion does not help here. Two proper
 \subsection{Table 2: Retrieval Signal in SWE-bench Lite ($N = 300$ instances)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcl}
 \toprule
 Property & Value & Basis \\
@@ -693,12 +765,23 @@ Okapi BM25 scores a document $d$ against a query $q$ as a sum over query terms:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
 \mathrm{BM25}(q, d) = & \sum_{t \in q} \mathrm{idf}(t) \cdot
-\frac{f(t, d) \cdot (k_1 + 1)}{f(t, d) \\
-& + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
+\frac{f(t, d) \cdot (k_1 + 1)}{f(t, d) + k_1 \left(1 - b + b \frac{|d|}{\overline{|d|}}\right)}
 \end{aligned}
 $}
 \end{equation}
@@ -715,7 +798,19 @@ $}
 
 
 
-where $f(t, d)$ is the term frequency, \$|d|$ the document length, $\overline{|d|}$ the mean length over the collection, and $\mathrm{idf}(t) = \log\left(1 + \frac{N - n\_t + 0.5}{n\_t + 0.5}\right)$ with $n\_t$ the number of documents containing $t\$.
+
+
+
+
+
+
+
+
+
+
+
+
+where $f(t, d)$ is the term frequency, $|d|$ the document length, $\overline{|d|}$ the mean length over the collection, and $\mathrm{idf}(t) = \log\left(1 + \frac{N - n_t + 0.5}{n_t + 0.5}\right)$ with $n_t$ the number of documents containing $t$.
 
 Two parameters govern its behaviour. The saturation parameter $k_1$ controls how quickly repeated occurrences of a term stop adding score, and the length normalisation $b$ controls how strongly long documents are penalised. We use the conventional $k_1 = 1.5$, $b = 0.75$ throughout, and do not tune them: tuning the baseline while leaving the method untuned, or the reverse, is a common way to manufacture a difference that reflects effort rather than mechanism.
 
@@ -753,6 +848,18 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -760,6 +867,18 @@ Given a seed distribution $\mathbf{s}$ over $V$, personalized PageRank solves fo
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -783,7 +902,7 @@ Diffusion mass is projected back onto modules by summing the stationary probabil
 \section{Evaluation Measures}
 
 
-Precision@$k$ is the fraction of queries whose gold module appears in the top $k$ results. Mean reciprocal rank is \$\frac{1}{|Q|}\sum\_{q} \frac{1}{\mathrm{rank}\_q}\$, taking the reciprocal of the gold module's position and zero when it is absent.
+Precision@$k$ is the fraction of queries whose gold module appears in the top $k$ results. Mean reciprocal rank is $\frac{1}{|Q|}\sum_{q} \frac{1}{\mathrm{rank}_q}$, taking the reciprocal of the gold module's position and zero when it is absent.
 
 MRR is the more informative of the two here because it is sensitive to movement anywhere in the ranking, whereas P@1 registers only crossings of the top position. A method that consistently promotes the gold module from rank 5 to rank 2 improves MRR and leaves P@1 unchanged, and reporting only the latter would hide it.
 
@@ -798,20 +917,20 @@ Confidence intervals are percentile bootstrap over queries: resample the per-que
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_symbol\_graph\_rag\_vs\_qlora\_swe\_bench\_lite` \\
+Run identifier & \texttt{draft-review\_symbol\_graph\_rag\_vs\_qlora\_swe\_bench\_lite} \\
 Random seed & 20260825 \\
-Repository revision & `c0619ab8303e` \\
+Repository revision & \texttt{c0619ab8303e} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `8.901 s` \\
+Wall-clock duration & \texttt{8.901 s} \\
 Measurements recorded & 19 \\
 Recorded at & 2026-08-27T11:48:14-0400 \\
 \bottomrule
@@ -868,23 +987,23 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`mrr\_bm25` & 0.9246 & -- & 165 & [0.8884, 0.9547] & `BM25 over docstring queries, gold = defining module` \\
-`mrr\_delta\_ppr\_minus\_bm25` & -0.00258 & -- & 165 & -- & `paired difference in MRR` \\
-`mrr\_ppr` & 0.9220 & -- & 165 & [0.8852, 0.9531] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`p\_at\_1\_bm25` & 88.4848 & \% & 165 & [83.0303, 92.7273] & `BM25 over docstring queries, gold = defining module` \\
-`p\_at\_1\_ppr` & 87.8788 & \% & 165 & [82.4242, 92.7273] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`p\_at\_5\_bm25` & 96.3636 & \% & 165 & [93.3333, 98.7879] & `BM25 over docstring queries, gold = defining module` \\
-`p\_at\_5\_ppr` & 95.7576 & \% & 165 & [92.1212, 98.7879] & `Symbol+PPR over docstring queries, gold = defining module` \\
-`retrieval\_cohens\_d` & -0.0119 & -- & 165 & -- & `Welch t-test, PPR vs BM25 MRR` \\
-`swebench\_gold\_file\_named\_rate` & 55.33 & \% & 300 & [49.6670, 60.6670] & `gold filename stem appears in problem statement` \\
-`swebench\_instances` & 300.0 & n & 300 & -- & `rows fetched from the public dataset` \\
-`swebench\_mean\_files\_per\_patch` & 1.0 & n & 300 & -- & `parsed from gold patch headers` \\
-`swebench\_single\_file\_patch\_rate` & 100.0 & \% & 300 & -- & `share of gold patches touching exactly one file` \\
+\texttt{mrr\_bm25} & 0.9246 & -- & 165 & [0.8884, 0.9547] & \texttt{BM25 over docstring queries, gold = defining module} \\
+\texttt{mrr\_delta\_ppr\_minus\_bm25} & -0.00258 & -- & 165 & -- & \texttt{paired difference in MRR} \\
+\texttt{mrr\_ppr} & 0.9220 & -- & 165 & [0.8852, 0.9531] & \texttt{Symbol+PPR over docstring queries, gold = defining module} \\
+\texttt{p\_at\_1\_bm25} & 88.4848 & \% & 165 & [83.0303, 92.7273] & \texttt{BM25 over docstring queries, gold = defining module} \\
+\texttt{p\_at\_1\_ppr} & 87.8788 & \% & 165 & [82.4242, 92.7273] & \texttt{Symbol+PPR over docstring queries, gold = defining module} \\
+\texttt{p\_at\_5\_bm25} & 96.3636 & \% & 165 & [93.3333, 98.7879] & \texttt{BM25 over docstring queries, gold = defining module} \\
+\texttt{p\_at\_5\_ppr} & 95.7576 & \% & 165 & [92.1212, 98.7879] & \texttt{Symbol+PPR over docstring queries, gold = defining module} \\
+\texttt{retrieval\_cohens\_d} & -0.0119 & -- & 165 & -- & \texttt{Welch t-test, PPR vs BM25 MRR} \\
+\texttt{swebench\_gold\_file\_named\_rate} & 55.33 & \% & 300 & [49.6670, 60.6670] & \texttt{gold filename stem appears in problem statement} \\
+\texttt{swebench\_instances} & 300.0 & n & 300 & -- & \texttt{rows fetched from the public dataset} \\
+\texttt{swebench\_mean\_files\_per\_patch} & 1.0 & n & 300 & -- & \texttt{parsed from gold patch headers} \\
+\texttt{swebench\_single\_file\_patch\_rate} & 100.0 & \% & 300 & -- & \texttt{share of gold patches touching exactly one file} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -895,20 +1014,19 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \section{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/retrieval\_results.json` & `3f00497402092e3b` \\
-`artifacts/retrieval\_significance.json` & `6f7eafd9526f7175` \\
-`artifacts/swebench\_census.json` & `cc53d4c67d3e7b2a` \\
+\texttt{artifacts/retrieval\_results.json} & \texttt{3f00497402092e3b} \\
+\texttt{artifacts/retrieval\_significance.json} & \texttt{6f7eafd9526f7175} \\
+\texttt{artifacts/swebench\_census.json} & \texttt{cc53d4c67d3e7b2a} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 \par\vspace{0.5em}
 

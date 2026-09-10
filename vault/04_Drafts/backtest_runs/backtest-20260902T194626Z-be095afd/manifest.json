@@ -1,0 +1,73 @@
+{
+  "baseline_sha256": "dee0679058d30926d18c207251e576404be8fe6a533854da7a473829f9e3f599",
+  "config_hash": "87b547e407f8bebe9485774f58f15c9c517113fedeb25f10bba64b54a3277513",
+  "draft_count": 1,
+  "evaluator_source_hash": "c34c452fc675b7be57270680f175e1cbc08e0f722917cffe1f499da75086f069",
+  "evaluator_version": "researchingos-publication-evaluator-v2",
+  "filename": "review_continual_safety_alignment_in_vision_language_models.md",
+  "final_sha256": "a4ba0677b24ae11a4554cb43ec8286f1a5bcaabc40db1c770ab65f8a9fe97440",
+  "finished_at": "2026-09-02T19:46:31.289632+00:00",
+  "iterations": 0,
+  "max_iterations": 3,
+  "progress": {
+    "blocked": 0,
+    "compiled": 1,
+    "current_stage": "artifact_bundle",
+    "drafts_tested": 1,
+    "matrix_total": 1,
+    "ready": 1,
+    "venues_tested": 1
+  },
+  "reason": "",
+  "reproducibility_snapshot": {
+    "artifact_sha256": {
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEEtran.pdf": "2a3b6628dc2f941ff7d96bb2f79105cd1075b9b45348bda83b8f7a4851954c7a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEEtran.tex": "a022d80e40a034df34e4839116da8bdcc5a229e00128dcd51dc5f3edc9a2e254",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_references.bib": "5dc65aa48d0a3c61244967d122aeea235bcb001398876daa7a5c3b9ebab7928f"
+    },
+    "bibtex_version": "BibTeX 0.99d (TeX Live 2024)",
+    "config_hash": "87b547e407f8bebe9485774f58f15c9c517113fedeb25f10bba64b54a3277513",
+    "evaluator_source_hash": "c34c452fc675b7be57270680f175e1cbc08e0f722917cffe1f499da75086f069",
+    "evaluator_version": "researchingos-publication-evaluator-v2",
+    "git_commit": "088472d9d10b6200a97c893967d20d706f4c2cde",
+    "git_worktree_dirty": true,
+    "machine": "arm64",
+    "manuscript_baseline_hashes": {
+      "review_continual_safety_alignment_in_vision_language_models.md": "bb2f3c8ef13c5410e21e616343f2a61d4979b68e2f6daa2fe730dd7f37e6265f"
+    },
+    "pdflatex_version": "pdfTeX 3.141592653-2.6-1.40.26 (TeX Live 2024)",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python_packages": {
+      "fastapi": "0.135.1",
+      "pydantic": "2.12.5",
+      "pytest": "8.4.2",
+      "python-multipart": "0.0.9",
+      "requests": "2.32.5"
+    },
+    "python_version": "3.11.6 (main, Feb  7 2025, 13:40:10) [Clang 16.0.0 (clang-1600.0.26.4)]",
+    "source_corpus_snapshot_hash": "4eec9c343d45870065a2762b67a08d21c221dfad472fcf1eb570b78b1b2b76c8",
+    "stage_timings_ms": {
+      "artifact_bundle": 0.0,
+      "claim_extraction": 0.0,
+      "compile": 0.0,
+      "convergence_decision": 0.0,
+      "evidence_grading": 0.0,
+      "evidence_retrieval": 0.0,
+      "layout_audit": 0.0,
+      "originality": 0.0,
+      "pdf_audit": 0.0,
+      "prepare": 0.0,
+      "venue_contract": 0.0,
+      "venue_rendering": 0.0
+    },
+    "venue_profile_hash": "55e3149dad13db01ca947d1423b13cd6365ddaaa006794bae04796316c887ff7"
+  },
+  "run_id": "backtest-20260902T194626Z-be095afd",
+  "scope": "matrix",
+  "stage_events_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/backtest_runs/backtest-20260902T194626Z-be095afd/stage_events.jsonl",
+  "started_at": "2026-09-02T19:46:26.788497+00:00",
+  "status": "COMPLETED",
+  "venue": "ALL",
+  "venue_count": 1,
+  "venue_profile_hash": "55e3149dad13db01ca947d1423b13cd6365ddaaa006794bae04796316c887ff7"
+}

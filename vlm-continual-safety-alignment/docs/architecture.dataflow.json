@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "VLM Continual Safety Alignment Pipeline",
+    "output": "docs/architecture.html",
+    "viewBox": [1080, 560],
+    "quality_profile": "showcase",
+    "legend": { "mode": "hidden" }
+  },
+  "stages": [
+    { "label": "Data + Model" },
+    { "label": "Algorithm 1: Selection" },
+    { "label": "Fine-tune" },
+    { "label": "Evaluate" },
+    { "label": "Run Record" }
+  ],
+  "nodes": [
+    { "id": "downstream_tasks", "type": "external", "label": "4 Downstream Tasks", "sublabel": "sequential VQA tasks", "stage": 0, "row": 0, "tag": "sequential" },
+    { "id": "theta0", "type": "backend", "label": "θ₀ Base VLM ×3", "sublabel": "3 aligned checkpoints", "stage": 0, "row": 2, "tag": "parallel, config-driven" },
+
+    { "id": "prefilter", "type": "backend", "label": "1. Loss Pre-filter", "sublabel": "within 1σ of mean", "stage": 1, "row": 0 },
+    { "id": "gradnorm", "type": "backend", "label": "2. Gradient Norms", "sublabel": "LoRA-only G_i", "stage": 1, "row": 1 },
+    { "id": "select", "type": "backend", "label": "3. Median Select", "sublabel": "ρ=0.2 nearest median", "stage": 1, "row": 2 },
+
+    { "id": "train_loop", "type": "backend", "label": "LoRA Fine-tuning", "sublabel": "4-task continual loop", "stage": 2, "row": 1, "tag": "continual" },
+
+    { "id": "theta_pretrain", "type": "external", "label": "θ_pretrain", "sublabel": "frozen reference", "stage": 3, "row": 0, "tag": "reference only" },
+    { "id": "eval_suite", "type": "backend", "label": "Evaluation Suite", "sublabel": "ASR, VISAGE, hallucination, capability", "stage": 3, "row": 1, "width": 200 },
+    { "id": "eval_benchmarks", "type": "external", "label": "Eval Benchmarks", "sublabel": "safety + halluc. sets", "stage": 3, "row": 2, "tag": "held out" },
+
+    { "id": "logging", "type": "database", "label": "Run Record", "sublabel": "manifest + metrics.jsonl", "stage": 4, "row": 1, "tag": "source of truth" }
+  ],
+  "flows": [
+    { "id": "tasks-to-prefilter", "from": "downstream_tasks", "to": "prefilter", "label": "task batch", "classification": "task data", "variant": "emphasis", "route": "straight", "labelDy": -22 },
+    { "id": "theta0-to-prefilter", "from": "theta0", "to": "prefilter", "label": "θ_t", "classification": "model state", "variant": "default", "labelDy": 40 },
+    { "id": "prefilter-to-gradnorm", "from": "prefilter", "to": "gradnorm", "label": "survivors", "classification": "filtered batch", "variant": "emphasis", "labelDy": 24 },
+    { "id": "gradnorm-to-select", "from": "gradnorm", "to": "select", "label": "G_i", "classification": "gradient norms", "variant": "emphasis", "labelDy": 24 },
+    { "id": "select-to-train", "from": "select", "to": "train_loop", "label": "selected batch", "classification": "training data", "variant": "emphasis" },
+    { "id": "train-to-eval", "from": "train_loop", "to": "eval_suite", "label": "θ_t checkpoint", "classification": "checkpoint", "variant": "emphasis", "labelDy": 53 },
+    { "id": "pretrain-to-eval", "from": "theta_pretrain", "to": "eval_suite", "label": "reference", "classification": "reference only", "variant": "dashed", "labelDy": 24 },
+    { "id": "bench-to-eval", "from": "eval_benchmarks", "to": "eval_suite", "label": "eval prompts", "classification": "eval input", "variant": "default", "labelDy": -20 },
+    { "id": "eval-to-log", "from": "eval_suite", "to": "logging", "label": "metrics + manifest", "classification": "run artifacts", "variant": "emphasis", "labelDy": 53 }
+  ]
+}

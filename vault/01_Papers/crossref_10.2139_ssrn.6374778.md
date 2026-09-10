@@ -30,16 +30,3 @@ In the life sciences industry, commercial effectiveness hinges on the ability to
 
 ## Content Snippet
 In the life sciences industry, commercial effectiveness hinges on the ability to allocate marketing spend efficiently, target the right healthcare professionals (HCPs), and drive measurable outcomes across both digital and offline channels. Traditional approaches to ROI attribution-such as Marketing Mix Modelling (MMM) and Multi-Touch Attribution (MTA)-typically operate in isolation from each other and from downstream operational systems, yielding fragmented or even contradictory signals that impede unified decision-making [1, 2]. This paper introduces a multi-layered Causal ROI Framework purpose-built for life sciences, designed to attribute, optimize, and activate commercial spend across the HCP engagement journey.
-
-
-## Empirical Benchmarks & Panel Data
-- Evaluated across 18 months of telemetry from 45 enterprise engineering organizations.
-- Labor productivity gains: 19.2%, 34.2%, 48.6% (p < 0.001, sigma = 1.42).
-
-
-## Architectural Dynamics and Multi-Agent Systems Benchmarks
-Investigated across 45 organizations and 45 enterprise engineering organizations covering 500 production defects.
-- Production Function & Labor: Demonstrates marginal productivity delta of 0.31 additional engineer per compute unit.
-- Multi-Agent Topology Performance: Manager-Worker resolution rate 71.4%, Contract-Net 68.2%, Shared Blackboard 78.3%, Peer-to-Peer Mesh 66.7%.
-- Invariant & Safety Pruning: Upstream AST pre-filtering prunes 74% of invalid AST mutations, reducing sandbox compute overhead from 61 s to 21 s per iteration (p < 0.001, N = 500).
-- Robustness & Governance: In-production defect repair achieves 91.7% passing test rate with 8.3% runtime failures, regression risk 6.7%, security invariant violations 2.1%, and OOM rate 0.4%.

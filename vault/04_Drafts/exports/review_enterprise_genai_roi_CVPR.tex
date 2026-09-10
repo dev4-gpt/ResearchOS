@@ -46,7 +46,7 @@ The corpus was assembled by querying the OpenAlex API with five search strings c
 \subsection{Table 1: Identification and Screening}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 Stage & Records \\
@@ -62,7 +62,7 @@ Screened (abstract and title present) & 1779 \\
 \subsection{Table 2: Corpus Characteristics ($n = 1779$)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 Property & Value \\
@@ -155,6 +155,18 @@ To mitigate compute costs, enterprises must strategically evaluate model selecti
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -163,6 +175,18 @@ C_{\text{op}} = & N_{\text{req}} \times (C_{\text{inference}} + C_{\text{transfe
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -364,6 +388,18 @@ Traditional ROI attribution models, such as Marketing Mix Modeling (MMM) and Mul
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -372,6 +408,18 @@ Y = & \alpha + \tau X_{\text{GenAI}} \\
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -625,20 +673,20 @@ These are not small differences of accounting. A deployment that returns three t
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_enterprise\_genai\_roi` \\
+Run identifier & \texttt{draft-review\_enterprise\_genai\_roi} \\
 Random seed & 20260825 \\
-Repository revision & `cbc42b88617a` \\
+Repository revision & \texttt{cbc42b88617a} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `21.582 s` \\
+Wall-clock duration & \texttt{21.582 s} \\
 Measurements recorded & 10 \\
 Recorded at & 2026-08-25T17:24:19-0400 \\
 \bottomrule
@@ -687,21 +735,21 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`literature\_distinct\_venues` & 714.0 & n & 1779 & -- & `distinct primary sources` \\
-`literature\_empirical\_share` & 31.76 & \% & 1779 & -- & `abstract contains a sample-size or study marker` \\
-`literature\_empirical\_share\_ci\_low` & 29.566 & \% & 1779 & -- & `bootstrap lower bound on empirical share` \\
-`literature\_identified\_total` & 2000.0 & n & 1779 & -- & `sum of per-query result counts` \\
-`literature\_median\_citations` & 62.0 & n & 1779 & -- & `median of cited\_by\_count` \\
-`literature\_open\_access\_share` & 98.54 & \% & 1779 & -- & `OpenAlex is\_oa flag` \\
-`literature\_recent\_share` & 68.63 & \% & 1779 & -- & `publication year $>$= 2023` \\
-`literature\_screened` & 1779.0 & n & 1779 & -- & `abstract and title present` \\
-`literature\_unique\_after\_dedup` & 1893.0 & n & 1779 & -- & `deduplicated by OpenAlex id` \\
-`literature\_zero\_citation\_share` & 0.51 & \% & 1779 & -- & `share with cited\_by\_count == 0` \\
+\texttt{literature\_distinct\_venues} & 714.0 & n & 1779 & -- & \texttt{distinct primary sources} \\
+\texttt{literature\_empirical\_share} & 31.76 & \% & 1779 & -- & \texttt{abstract contains a sample-size or study marker} \\
+\texttt{literature\_empirical\_share\_ci\_low} & 29.566 & \% & 1779 & -- & \texttt{bootstrap lower bound on empirical share} \\
+\texttt{literature\_identified\_total} & 2000.0 & n & 1779 & -- & \texttt{sum of per-query result counts} \\
+\texttt{literature\_median\_citations} & 62.0 & n & 1779 & -- & \texttt{median of cited\_by\_count} \\
+\texttt{literature\_open\_access\_share} & 98.54 & \% & 1779 & -- & \texttt{OpenAlex is\_oa flag} \\
+\texttt{literature\_recent\_share} & 68.63 & \% & 1779 & -- & \texttt{publication year $>$= 2023} \\
+\texttt{literature\_screened} & 1779.0 & n & 1779 & -- & \texttt{abstract and title present} \\
+\texttt{literature\_unique\_after\_dedup} & 1893.0 & n & 1779 & -- & \texttt{deduplicated by OpenAlex id} \\
+\texttt{literature\_zero\_citation\_share} & 0.51 & \% & 1779 & -- & \texttt{share with cited\_by\_count == 0} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -712,18 +760,17 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \section{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/literature\_census.json` & `b96a25dbca78848f` \\
+\texttt{artifacts/literature\_census.json} & \texttt{b96a25dbca78848f} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 
 

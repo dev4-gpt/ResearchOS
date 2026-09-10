@@ -1,0 +1,627 @@
+{
+  "baseline_sha256": "a838d9eeb77a6d76034070c790879e5f4f12c09ee1ed2f1816a66e2657843327",
+  "config_hash": "b4951e1ea9584c6534b3ca95f08ae8054aeae1405d5146868e341d703dcc7471",
+  "draft_count": 9,
+  "evaluator_source_hash": "788aa49089d751dae46b9a3d3cae5c06adf8320eea5ec847335c7f8cb982a3f7",
+  "evaluator_version": "researchingos-publication-evaluator-v2",
+  "failure_history": [
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "NeurIPS"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "ICML"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "CVPR"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "ACL"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "IEEEtran"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "ACM"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "IEEE_Access"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "SpringerOpen"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "Femington"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "MDPI"
+    },
+    {
+      "blocking_reasons": [
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "DOAJ"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md",
+      "venue": "arXiv"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "NeurIPS"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "ICML"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "CVPR"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "ACL"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "IEEEtran"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "ACM"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "IEEE_Access"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "SpringerOpen"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "Femington"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "MDPI"
+    },
+    {
+      "blocking_reasons": [
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "DOAJ"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_spatio_temporal_grounding_in_video_question_answering.md",
+      "venue": "arXiv"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "NeurIPS"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "ICML"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "CVPR"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "ACL"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "IEEEtran"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "ACM"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "IEEE_Access"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "SpringerOpen"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "Femington"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "MDPI"
+    },
+    {
+      "blocking_reasons": [
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "DOAJ"
+    },
+    {
+      "blocking_reasons": [
+        "CHECKMATE_REMEDIATION",
+        "UNVERIFIED_EVIDENCE_OR_CITATIONS"
+      ],
+      "error": "",
+      "filename": "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md",
+      "venue": "arXiv"
+    }
+  ],
+  "filename": "__all_drafts__",
+  "final_decision": "COMPLETED_WITH_BLOCKED_CASES",
+  "final_sha256": "200c7bc2ca1be0e5dd2fb0f7d04234eb996f34e7c209f68eaf60661c897d5e05",
+  "finished_at": "2026-09-02T20:43:20.776948+00:00",
+  "iterations": 0,
+  "max_iterations": 3,
+  "progress": {
+    "blocked": 36,
+    "compiled": 108,
+    "current_stage": "artifact_bundle",
+    "drafts_tested": 9,
+    "matrix_total": 108,
+    "ready": 72,
+    "venues_tested": 12
+  },
+  "reason": "One or more matrix cases remain blocked",
+  "reproducibility_snapshot": {
+    "artifact_sha256": {
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.pdf": "24451876b6f3f995d9e9900b1ae0f593e4db6c4b8722402d3cbe432879016db2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACL.tex": "88dd3c96b4832280cd30246c399c627659b8ca221509d6fb5458d87e7d64843b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.pdf": "877a4d52592afd6a7dfcd3049239962096c4e2dfbb43da09f7af5ec1d894ae5a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ACM.tex": "002cd4aad2c076460224bd62a68e56625183e3dd1afffa04f5d426891269befa",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.pdf": "220807c8f1feaa8b904c881bb068d57544297b32e35887391b03b03f3db6cc76",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_CVPR.tex": "48a931de9c2242b28832e54a0d7326db77be7f84adff3a16e4bd530b26181ac6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.pdf": "d4026fda7f68d381f054cc70f0d7094da9001f036e03915c66e26f296c89abf8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_DOAJ.tex": "8723f6d736b8f7d145f4bffb40fd5a3b2dee119a215d622960698b0e7f67f3ca",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.pdf": "9a10bff8d88c1c294e3dd7f5ac26d489fedbcd8830cfbf7693026c0ac72cb145",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_Femington.tex": "8cfff9fb0ddcf6c1d8b26684592127fa80eb449a9864bebd7269008846706523",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.pdf": "1d4eb4b254cb211b6c708a2b5551a8e5aa7fc0f8ee5ba06f3bc06fdaaf30c453",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_ICML.tex": "204907f5d0a842141d769b40251fff6a0aade5ab46a04b758d8d7be14305f03e",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.pdf": "f5dd087209f39d203eb25eb26aa7e37b8f7d8c5029ca7654675ee7c17c6f1087",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEE_Access.tex": "34f248c9e34f288593dc30b4c944a131b89f4be594987423015d05f61d1bc120",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.pdf": "f6739e4f689acc43a48a206dfce3120c6b72b9dc79d6997e02b49c044f39a08e",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_IEEEtran.tex": "914cb93c1fb38f529f27625a85ac5f251ac883040a674958c48bcc5b79fa21d3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.pdf": "116843e104a0a3ae7bcb1e3f8c90983c72c1a358559c7a96d735ce37413f75c7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_MDPI.tex": "8723f6d736b8f7d145f4bffb40fd5a3b2dee119a215d622960698b0e7f67f3ca",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.pdf": "779b67b63937d285e936b0fbc0ec6dfd6611f48e5a26bfcc33c9ee0c4964ae54",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_NeurIPS.tex": "1f77a4b8373661d8f163b0dbede968840b2217ad26e0543f8a4c3427ed7a3efd",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.pdf": "fef35509a9ac14207b710d168195c3f11ad9d3c80cba91cfbfaf7cd426ffdaed",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_SpringerOpen.tex": "8723f6d736b8f7d145f4bffb40fd5a3b2dee119a215d622960698b0e7f67f3ca",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.pdf": "40ec910236d2f83e21523e3ba36c37b75455038df22f3bd62b8c6397dbe6ed97",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_arXiv.tex": "8723f6d736b8f7d145f4bffb40fd5a3b2dee119a215d622960698b0e7f67f3ca",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/autonomous_code_synthesis_and_self_healing_multi_agent_systems_references.bib": "ef2f63a951c7d8ee979a622fd8f122d1621f2f5aea764d65d841ecbfa608a696",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACL.pdf": "968d46002013e63f36c9fcd916bf0b5600f98af0e3d92a91fc66364cdfcdd684",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACL.tex": "b5a0e32beeb1cb5a7eb43b2ecca07f3542104db39ec7eb9a636ed7d0a2de6e6a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACM.pdf": "b967c9ec194e1debb86226b85415043b995d30b716cef00d3442ada0838b0cc7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ACM.tex": "e5db72c715da727c94006819b38cc585c5650ea30fc0e250f1828419860f298c",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_CVPR.pdf": "03c9457fb2b78131622958f0a528ce088ab05d5f8067de7a2c6e0f79f2350eee",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_CVPR.tex": "79cefc3f1301cf2fbefccbcccd88aabcbd05eb42fa3eb8774e1ed665600a87b2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_DOAJ.pdf": "fc3f22443b949c160186a156a6ab648e82589f8a95e01b212ac9376c4dbfd9ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_DOAJ.tex": "abae84bff8c5badd82c91df95472a9a083aca69234bf3c37528bb4c6c30130ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_Femington.pdf": "fdf0a72244bf73abcb3e269864caeb59145662321aba8feb38d412536fc451e6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_Femington.tex": "704eb3fb8a28af8b95c5d13e2987e8dcb000132920ee6c43b7ecdad5e40350e3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ICML.pdf": "63154e75e2788e7350cddd5f39d83c1bf533afb5165c0b4da42bac2c49c87770",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_ICML.tex": "39df7f5fb47e9dc878a50c3df2e51a2161ebf962f0df4f4a4cb0230ed2b2d0e2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEE_Access.pdf": "5a30f18952b5f2003bc0ba6b25e5fc7c415a09e8b9c7ad9328b338bf23325424",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEE_Access.tex": "ffd33fe782d2cbd4ebea12c95e947688808859d4b324950e9fd0d9468e85340f",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEEtran.pdf": "0fd255f18abab094229170a4918baa6e605e7d3252011b74cdf3bc85ec7a7c20",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_IEEEtran.tex": "3bef85139f5bbc452aa55308c93f03978033679246e53419c054cb7f62e19cd9",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_MDPI.pdf": "044152974d0077a7702ebdddcef698a31b16a83deba70cb1bf429d99820c27b9",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_MDPI.tex": "abae84bff8c5badd82c91df95472a9a083aca69234bf3c37528bb4c6c30130ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_NeurIPS.pdf": "bcc5be947b83697535925300da5b3be1784e13d401f7b0346cd445905236da85",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_NeurIPS.tex": "6d27cadcd9a1069c7b0ecd7f62c1ab4e6efb1be3f67e13d828391cd2ad8d2a3b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_SpringerOpen.pdf": "99904250905afb2a6fdba0927458b28f29ce5c98e9b8eb112260ac37bf991d27",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_SpringerOpen.tex": "abae84bff8c5badd82c91df95472a9a083aca69234bf3c37528bb4c6c30130ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_arXiv.pdf": "56cb9cb17ff5489c0112be9793d154775a1becdf7942b46fa79869dd47d478cc",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_arXiv.tex": "abae84bff8c5badd82c91df95472a9a083aca69234bf3c37528bb4c6c30130ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_architectural_dynamics_long_12_page_references.bib": "ea18be8222a4fe425ae4a9aa4d60bd7af16bde1b539fc912ccfb8449c2262064",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ACL.pdf": "dcc7c9a50beb17d9eef639c0cbfcf826c695b3f9deb0c1ca1c2567bc06218e67",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ACL.tex": "228919db0393a9616ce9451af9a7e1bdfe65fff4a34c632271382329876b63ce",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ACM.pdf": "084bb701a3faf913eeefe48e1b1a0acc025426aade92b6c89339b45bfe72cefa",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ACM.tex": "93bdf9ce9f51eb215dfe5e892bed998fa998cd365fe8ce0b983c0b0f50c10e28",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_CVPR.pdf": "fc6243bef5de5a3673565ed3266ab284ec44cefad12b593e206d98e19d9a1aa3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_CVPR.tex": "906319e4bfa8b78413b8a77643b99143dfca27ad30a581da62472a66f40b140b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_DOAJ.pdf": "b87233afbd876cd31497de8ae7809d0b329f5e78cc20350838d543fa6a774659",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_DOAJ.tex": "8c818666181d21d203ed598f6139a599b63bef8b8c3ad2d830369bd8abe9569a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_Femington.pdf": "34493d4f918cc93da3c9095537e43b3d6b3f163d3dfaead63a99580c610f8eea",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_Femington.tex": "d2eacb84ec9fa98b180f64c0dccefdfddfabced25e3856365c98f437f69a7dce",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ICML.pdf": "9f63520c761efc7917e4fdc7626f7ccc6370d77a14aefc7b7c377d88236fc574",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_ICML.tex": "54b5da8eb9758e7b8d85612060fd88844b901dc97a1fc3bc991214f1580b4b86",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_IEEE_Access.pdf": "4cb217cbc5d82bf110248a11c095e9014b27adec53277a3e26af91fd2c7653bb",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_IEEE_Access.tex": "878eeab0ce674ee6386db04237cf8cf90714b2375aa7907f957e4c6c472b20bf",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_IEEEtran.pdf": "ae7636b9628cc85d68e93b94e979603d6de22d438922d9c40fb5357f44537eaf",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_IEEEtran.tex": "07b96288d2ea2e22c20f3713cfa6d69afc075d4c4700d55c712e36a11dc4e474",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_MDPI.pdf": "57c1f790975be4076bf9dde1686674afca30901c0df4b87838d8561e324abd0d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_MDPI.tex": "8c818666181d21d203ed598f6139a599b63bef8b8c3ad2d830369bd8abe9569a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_NeurIPS.pdf": "50b851f97f8b1722ff4e15c66d0c7625209234b5b7d2c8fbe26d230785cd6f6f",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_NeurIPS.tex": "6ed7f7b5c8c23418207a2f847f3ee777fd6e0a46a27d71e9688663fe1b8a0372",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_SpringerOpen.pdf": "66fad27250d2628921a48c6b064cb1f2b77494c57ea6a9eb254276a59ad137ff",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_SpringerOpen.tex": "8c818666181d21d203ed598f6139a599b63bef8b8c3ad2d830369bd8abe9569a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_arXiv.pdf": "8bbfb1bd0d99fac711f33d7db4732277150b3e50de4868b7b76d90e59ca43abe",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_arXiv.tex": "8c818666181d21d203ed598f6139a599b63bef8b8c3ad2d830369bd8abe9569a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_composable_ai_systems_for_trustworthy_agentic_pipelines_references.bib": "846a9304c4ed7aa399c92c913732f2f7750a3fd4f079b2544191516f946e456b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ACL.pdf": "0aa650df3a53f5d9699f6c28c7142c616a7e9872b47d4fd48242fc74e556dd07",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ACL.tex": "4eca18383aa909c68de7ab0ad308d07afd3fda18897d64f0fecfd49611dc5d71",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ACM.pdf": "40db3456088f2d3dab85e240c85c2c14760c918c0d1a0ba18e2e6dfdebf52df2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ACM.tex": "c08f49a9b8db8202409f2091236280d318243dab7913824738521d4b75d794a1",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_CVPR.pdf": "e4db043721d18da3d25e54c021254f99fe23fc1afb75195047cd856158577e16",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_CVPR.tex": "da71ac229246141cfc7238e27ae0b756a6b9ae0f3f1aec3edfb54013743de7e2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_DOAJ.pdf": "1f3363d3116dc950fb9ca3cedfabc255818383fb3cb346b0eab24c5daf09dd50",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_DOAJ.tex": "b4c49cce35b904aa148776775cac05ab13ed59f977c954d7feff5c1239273db6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_Femington.pdf": "159b903e681b95c3a3b07a21edd3ab1bffc0ef49cb1ef40ae94d89e767c52549",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_Femington.tex": "07f5132c236efa6ddc957cef5dff496f4351a820a4edb33ae062b14b170debed",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ICML.pdf": "78a5339799a89ba59b5c3c61aa0b14007aae25d6625a6694a9d9b02cd1a1af1d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_ICML.tex": "baa166f4d4e239b58e35c036f3fff2eb14e2166eef19258d8c3387f825169ef0",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEE_Access.pdf": "24ef515c6135f85a7349bb36f3a1b6f0da6e8877e8234b13fc8171afd5a73227",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEE_Access.tex": "18f02959c115e7d0ffd9cbd3e51e84af93a709b71970024cc6a0de7d875e230d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEEtran.pdf": "87d5cd9b3ccb12f277cb0db5dd6bc54b1b216f9c25bbde3a1df7015361464f80",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_IEEEtran.tex": "4a952a2cdfe58784a38aecd9be41aac9dda61ab2dfd6f0f1911a9b2ac7286c01",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_MDPI.pdf": "4e1f3cfb5da670414237bfdb943fbedb5d3048b00f65c6800711567cb77d4ce8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_MDPI.tex": "b4c49cce35b904aa148776775cac05ab13ed59f977c954d7feff5c1239273db6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_NeurIPS.pdf": "dcc58840c80865f31ea201ceb9fc47a40fe31e0aaa2b38dbba1e1d330014051b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_NeurIPS.tex": "1c07f6844963bc6b7478b99f22df33c29076fa547f5825398d255df23425a173",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_SpringerOpen.pdf": "fd326d6942fb73d2b6640cba904f1aca3da783457d4c285f73c85b770318b784",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_SpringerOpen.tex": "b4c49cce35b904aa148776775cac05ab13ed59f977c954d7feff5c1239273db6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_arXiv.pdf": "2a786733bd238b4af6e1abadd791a3f7b1e21084733efcb8eab0de3e3a2ee925",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_arXiv.tex": "b4c49cce35b904aa148776775cac05ab13ed59f977c954d7feff5c1239273db6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_continual_safety_alignment_in_vision_language_models_references.bib": "d5e5f2edcdda905b32768eab2a529950ee81395e34818947451773f529ded3e8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.pdf": "85565a554253bc223c537874e9141073162e94879cc352698ef7a96345cc348a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACL.tex": "b81573b5b50449b7406285e3abe5d096047e163cd6e799ff01b54032fe278d96",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACM.pdf": "8779fc9bdb97c5c922a4890ed284f498378ea778e6fc3fbdb1a445cd0ebda9fb",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ACM.tex": "d7b41b52d1c2b9d5b6ffec86eda10c5c77048ef4a0fdd55627b6d8811ecd46e8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.pdf": "1e7f0c043d1c0e8af61538141f4f0e17696109c2d222002d7c22f2dd86a2bb12",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_CVPR.tex": "ae9fa47b9bb2ff9eaf9ea1f3c9494ffad068c604ec972d9e9ca004c1f0adb95f",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_DOAJ.pdf": "398615ec6f2145aa42bf2265dab997b20bc1ffd54b2a159fadb8fb0620389efd",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_DOAJ.tex": "a185578850a7c50727d54c7549935db9bcabd36a11f5d5bea99cef45a9319f90",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_Femington.pdf": "87d60640bcc095a0c804824ddfcb816a098db1d1acfdf5e4fd9f9def8d7a4866",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_Femington.tex": "35e40ab60f3f3ec9aab4254fad291225bf6f3a1fb7b814ac46f7cf242dfb9f51",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ICML.pdf": "dc5dfc0ae43f1407b31d231f68bdddfe9d52958eb8271098e7f598197bd96352",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_ICML.tex": "621a852d5367c7265f50bcbd4ff53a1d888549050aede30b1fc338aab23be6a7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEE_Access.pdf": "1236320880895726d238a3d3ecf1e9e365eb947413386c6e94476f6b00e3d9ba",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEE_Access.tex": "22f0c380689b4580abd2824de2c5512c2b77054c9cbeedaff12f0df50fbe093b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEEtran.pdf": "f97834885e327daa752ca6142115a07eaee55e1739f05b0f561b4356ae1f9377",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_IEEEtran.tex": "92988039b72697d9955dd47387d50b5a5f5d4bbeb82d7ab83303fdd97428b4ae",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_MDPI.pdf": "9136a9df6fa4e8223194986660731776c148ae4728081ebb3df12224d9b26949",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_MDPI.tex": "a185578850a7c50727d54c7549935db9bcabd36a11f5d5bea99cef45a9319f90",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.pdf": "da44172d1d40750ed532dbcb1d271218634908a22049b40864677813249439a1",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_NeurIPS.tex": "d84e0e2f0d437ea8e05a5ffd7238cdcce245c03a2d394dad00d40e11a1ba7221",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_SpringerOpen.pdf": "ed756f1f0e88aef3daf2732fd6916a5e600403d0e8c6c799095a807a00477154",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_SpringerOpen.tex": "a185578850a7c50727d54c7549935db9bcabd36a11f5d5bea99cef45a9319f90",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_arXiv.pdf": "44c8af083915061fca39afd2f98d1f62dafc7eab8633aa4e480f2b8cf03b1fcf",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_arXiv.tex": "a185578850a7c50727d54c7549935db9bcabd36a11f5d5bea99cef45a9319f90",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_adoption_of_multi_agent_ai_systems_infr_references.bib": "afcf92735897a42a3897a21f2ccb21113f273a2e8df748431d8f030e39f51787",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACL.pdf": "29f54be67db8a80a24859179500adc494c174dd46ca332b146d51521d0d52492",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACL.tex": "f4e35f8cbb5cd3276021ecc0d15f1d4003587c60c0d41c71ebf92c728b5e654e",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACM.pdf": "4b8fbeb9fb18a658a240c3751fb8d0787669ab11fa25420517d92ae4e5fd5cd7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ACM.tex": "103ccf451206aa33436efd38a4a4413fe32f234db4112f949458e88d7790fc78",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_CVPR.pdf": "0af9ab50af23eb273ce14cc6b9e90a069412c6285c19be128250e08e283bcc8a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_CVPR.tex": "1688ce51f5f794f8cf4ba0824d04707648e98b7a1dcc91490b8d2f1098dece1b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_DOAJ.pdf": "ad9925eeba6c7ae291c66efe36679cf44c140b553dd90e3cc8cba62d5c2d7284",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_DOAJ.tex": "2fc66ff6874423b1f3f7c9481ab0147120aadbe9574ce2f40776a7729400ffe6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_Femington.pdf": "4b47abbcd527c23a0ef78966551167c8a6a8bebca7a5026d81bfd47bba4d7ba9",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_Femington.tex": "c5deaab2bbd1d25c1c54ebaea7818839e8702e6ea61aec6c57964065f01c093a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ICML.pdf": "ba9245a5cf7ba1fb304203595edddca926e7ec4e4a7871fb87417b9e981d53d3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_ICML.tex": "d8bbb5b7eef0f1f5050b6e92ffbcf398a7ac56884d35b4c847b4b0ee4f415c6e",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEE_Access.pdf": "1a347ae06e13407478edbd3530a19a65b4a378a666bbf5a3bd5ad1e37ad8e0b0",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEE_Access.tex": "4e8b26f4378f3621a514395e1fd2e51835bf5dd7889958cd1748257e41785997",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEEtran.pdf": "5ab995d8f7b8148102ec4e4eb0de71e18bea5d5e8cf1d1be4c0eb2fa987794a1",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_IEEEtran.tex": "a9446240ad76a987516a57e9a3a7e82461d6fc2ddca4f04d7a89d1c9a57f8ce5",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_MDPI.pdf": "55c526a56fd386ebba0858ad5ecb1bd4cccacae674ea9a59b7355b3503c3c022",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_MDPI.tex": "2fc66ff6874423b1f3f7c9481ab0147120aadbe9574ce2f40776a7729400ffe6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_NeurIPS.pdf": "4a7a15585fa83712834731f57d8687b86b58baa97921aef79e985e15fe12a65d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_NeurIPS.tex": "1ce6911bd81b63879fc2ee0946bc2789b80daf273f3de38d9174cb5c90a927dd",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_SpringerOpen.pdf": "b2113a09866af97cda44e5530573a7a338205e0d2649ab475c757f3f49c124b5",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_SpringerOpen.tex": "2fc66ff6874423b1f3f7c9481ab0147120aadbe9574ce2f40776a7729400ffe6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_arXiv.pdf": "8662e41e74a2d5aaa2a5fd0fabc00e9ff0d72dd0b23b1d63cc3e1cfb60eab99f",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_arXiv.tex": "2fc66ff6874423b1f3f7c9481ab0147120aadbe9574ce2f40776a7729400ffe6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_enterprise_genai_roi_references.bib": "885abd65b5ae579522b5b97d8a736c1ad737ff491ce29d93434717f20ab1ab53",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ACL.pdf": "9e070c3bae39e74e9dd889e4c8e5f4a9d1440aae9198030fc634795b9cc9fdf7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ACL.tex": "eb8e6ccc28d884c67d0c1d5935a794bfcc55bf21dea2f96493dd6901586753ab",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ACM.pdf": "06ee8335dff5ccb0521b2c93e75e2ca0abfcad2396f81de5b7da7620bf13aa34",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ACM.tex": "5d1b73d620f1ff912ee60dc95c42ec18e5e907651c31b113e1ed98a69fa12cfc",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_CVPR.pdf": "5b75ed09d85c79933f40bbe431a1642b7d2787b63d0062afd306e44a5b35c3e0",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_CVPR.tex": "39607f2ef3d456b57e964fbe34626ad454add8197464d70fdce507d974afc373",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_DOAJ.pdf": "1bb97bcb5fe1872702e1fa725f1461eabe8e7c728d86bfa32b35303348cd83f2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_DOAJ.tex": "5be0ecfc8e419972750daae6b8f1bec2134f6ac3d9a55ee94a3c2d3296e08616",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_Femington.pdf": "7aaa8c6e6a1a1ee6125366e63f505446edb2c2e15ab8fe1f3978f3e222456f6d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_Femington.tex": "923315e7d0f1a4f7079abe85aec456726f5214bda3ef69e80b5825f36461f88b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ICML.pdf": "7698e671b878cf3d8064082088d56e2ab95b34a570fdb2ba809a5ef320ab07a9",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_ICML.tex": "b8a7f830274297aa7515c8f329f9ddb1fcfd588cd236a244023b2103bd62bcc8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_IEEE_Access.pdf": "71f0a0a2e99b70e47061ca425762d983bf643a221af1cecc727cce608643fa2f",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_IEEE_Access.tex": "9dd860bd45400c74ac7a1e0e53def51bc8ec183caee7b69f945bb32677648bff",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_IEEEtran.pdf": "c6bcdf41a42a7816d618a67db17f176d65ecb39f0c5ad55cf41d57d56357e490",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_IEEEtran.tex": "167bfcef60fb2ffe13cf58498ceca5754a478bda9595e80565491ac1768ebc0a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_MDPI.pdf": "656f21b1ce4138c39ec50b037bbf698e97996423f31191b1e0036b7bb0450c22",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_MDPI.tex": "5be0ecfc8e419972750daae6b8f1bec2134f6ac3d9a55ee94a3c2d3296e08616",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_NeurIPS.pdf": "6548b952885dcee6270b21e41c76122d4eb4be09e152da4ecec86f2b733a5dcc",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_NeurIPS.tex": "3ba37b94569212ffc4db5678f7fa088aeee27bdea6c977d9b4c98915a75ac267",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_SpringerOpen.pdf": "660a6f93b7bb9428ff948c98e6547517bee48ffafe789024ac9948011e0b2036",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_SpringerOpen.tex": "5be0ecfc8e419972750daae6b8f1bec2134f6ac3d9a55ee94a3c2d3296e08616",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_arXiv.pdf": "73a033b8ab5bef0057a768c54fc758557864f71966921501cfc38e90bd910191",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_arXiv.tex": "5be0ecfc8e419972750daae6b8f1bec2134f6ac3d9a55ee94a3c2d3296e08616",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_spatio_temporal_grounding_in_video_question_answering_references.bib": "5af130fef416ef4e9d634b5848ce18da576af6d7fb8876658c6ee44003fd6344",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACL.pdf": "df27333e920b7b123e1ead2667d650fd61910650c0186d0e26213c7608b495d1",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACL.tex": "e1869fcb63595db7be0b5874e230b78fdb0837187543b0d4d296e25d364093e3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACM.pdf": "76a6aa6c264c2a12c23f593ebf7cfb3c8aaff10c9f1264e1495d36d29f671493",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ACM.tex": "8b953e328967a795282f49459b2ee1ecf4e267512e2fa3bde9004fd2301d0a17",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_CVPR.pdf": "f63c6b0337410300b47246f0f8eb4869deabf97e7c81763157be4123818103b7",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_CVPR.tex": "73701c2e0cc2011b2eb59acdaa5520d4bfcb3d8dcf79d3eec8249f46de9af235",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_DOAJ.pdf": "14b8ce5160b1c6c0cc1641064858ab234332e203d0c7d91dc1de36aa991a7837",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_DOAJ.tex": "e59cf99684bb92350f482562767dcd79e51654376356138ec68c43597b20d812",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_Femington.pdf": "da25703514c865fa41d0ac185e3a4706f639891df0f5120a93f889600281d644",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_Femington.tex": "16c981a56f47aecafc0d6f99be7558aec2487436acf96b9f2c5e2d22400646b9",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ICML.pdf": "3484004cd930bda4d63321bd6cdf2ef8809295cc93ecdeee51113c40bb4346f6",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_ICML.tex": "e0d0826d560aae3a82b9c030d55239633896ad38accaab041935f98137516722",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEE_Access.pdf": "76f614690cdae2dddf4dc531223c138fb39f278b8c0b4ea5c350f2850576d7fb",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEE_Access.tex": "b8f1a3167a3975de4e4daa08f29729ee4a449af5ea2b48b2fe840d492d439c24",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEEtran.pdf": "c8eba1eee3e6818d143c46e3e2f9d94de3d573a76bbe5eefd21a989f3fd3b0c3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_IEEEtran.tex": "2e2ba8a9a180e85e3938fb06f3cdc425a40beba7280cbb25b30afab74887dcb5",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_MDPI.pdf": "0c0025e29cc7e2ecad185650d58d3033f2a7c2937b7927c0609fe856728c6d3c",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_MDPI.tex": "e59cf99684bb92350f482562767dcd79e51654376356138ec68c43597b20d812",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_NeurIPS.pdf": "39625ea375b1c95563fe8f15ca40119bf9f847e504658f7baada51bfef658d8c",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_NeurIPS.tex": "c7026f51dc8700857bb518e51d8398be70983f6186c59733d9325ff7283dc411",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_SpringerOpen.pdf": "cb33852aa0f9dc2026a07cd40fdab636247bde9c00dc4af5b952effc77e1834a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_SpringerOpen.tex": "e59cf99684bb92350f482562767dcd79e51654376356138ec68c43597b20d812",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_arXiv.pdf": "71bd7a51d6376e44b16bf53ef6f2bf707e7453e3460091fdf3289491235ee8cb",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_arXiv.tex": "e59cf99684bb92350f482562767dcd79e51654376356138ec68c43597b20d812",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_symbol_graph_rag_vs_qlora_swe_bench_lite_references.bib": "467249d3b5a81557f5783dd2e9e7c4ea2c68c83d617f859d600f6e9a663157ae",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.pdf": "b4e22a9b0f266488cdf2ff77bd2ef338bc700c454757207dceeea691f8c31720",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACL.tex": "d8eb0e3a0e04478692f4ada1c229c11a5280600c8fb289c5261ffc2fcdafbcba",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.pdf": "9c3cc163caad82a1903a767dde005574d039a92a5723bfbe68a03329ac28d094",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ACM.tex": "b4feb9b746d048c78a572dde8ae7a31e7098922bd13a2459181a9e03bd0e6ab2",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.pdf": "d6a8bf52a0d35430c9b717036d215e22386c794af2e6ee554dee60540bb944db",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_CVPR.tex": "494e1daa0ae9624a50c06ee0cbf58cd36ae40b7c9931707a2bf7a4d89a5148ae",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_DOAJ.pdf": "e432da29c4b14064702a16ae254e2b48e98b55f46b73aedf3e605859180936cb",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_DOAJ.tex": "018504f16d61425e8eafaa5c222fb251a44219df9d04b14d7d44489158d3d48d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_Femington.pdf": "96f51881a9aadde0fe11debd757561ceb8eb8e6e428004bf284b80d11ed97f4b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_Femington.tex": "787bc1e16ba6bf9412a1f2172c4fcdaa1f813e68ea022f3d7b4c4322ac745a0b",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.pdf": "9a0acf813f0970051f23cbfffa7cd8063ff3865590c8519c2feea81925edf4ef",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_ICML.tex": "a8fe3f2d8a27f0bd188bfd52dc2fb273eb878d4beb2f2a71e3e5ed59df1b87ae",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.pdf": "eb55738f06010146b92d00cf512f00fc90c0c5cdc0414fffcd2af573453f7d94",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEE_Access.tex": "23e946f461f68529c0ae389cba471da8bf9e1e5fb5eb0f2b2476856b21f13370",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.pdf": "4e24ceb0ec68683392d85cabe06fea2e7588a65f9598ed48236e37c9a2755931",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_IEEEtran.tex": "f1cd90ef40f21e0331ed4faa9e9b047b0ee60c825f1a4a790e68c55c1a1a01d3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_MDPI.pdf": "fa808f7937636d2ea8d22ea265ad5236abec7f45af1ecea39128b6b6debd5749",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_MDPI.tex": "018504f16d61425e8eafaa5c222fb251a44219df9d04b14d7d44489158d3d48d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.pdf": "715a9683bc2c999f89e624070a14b430c057a1f5d92d46737e59227b528025d3",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_NeurIPS.tex": "26d575926b7813d0b931f897dc5ac4351ef9538bb6162e92b72d97d8224a6d11",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.pdf": "e050d88fd55ca1bad865a3d887dcda06bff55ccc25aa9a0fe1ad67f734c02db8",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_SpringerOpen.tex": "018504f16d61425e8eafaa5c222fb251a44219df9d04b14d7d44489158d3d48d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_arXiv.pdf": "105c9c234f436f94f8835704eccaf123249cd2f61ebb731e275e19c7714afb9a",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_arXiv.tex": "018504f16d61425e8eafaa5c222fb251a44219df9d04b14d7d44489158d3d48d",
+      "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/exports/review_trustworthy_multi_agent_systems_formal_verification_references.bib": "2b801db31a52fc29f2a63ab67fdfa2d78da93198296177f06197a4513e882308"
+    },
+    "bibtex_version": "BibTeX 0.99d (TeX Live 2024)",
+    "config_hash": "b4951e1ea9584c6534b3ca95f08ae8054aeae1405d5146868e341d703dcc7471",
+    "evaluator_source_hash": "788aa49089d751dae46b9a3d3cae5c06adf8320eea5ec847335c7f8cb982a3f7",
+    "evaluator_version": "researchingos-publication-evaluator-v2",
+    "git_commit": "caac79352a76586f37f9c60f06a2656c1e388156",
+    "git_worktree_dirty": true,
+    "machine": "arm64",
+    "manuscript_baseline_hashes": {
+      "autonomous_code_synthesis_and_self_healing_multi_agent_systems.md": "d30134f3cefc2542091ddb5c1968e684a40ddfa2f9836fc305dd4e401f3111c6",
+      "review_architectural_dynamics_long_12_page.md": "0cc436489ca109f7ddc984c587312c4b9d3bcc206ab6e92f5d2f33c543d5676d",
+      "review_composable_ai_systems_for_trustworthy_agentic_pipelines.md": "eb39bca8cb66c3834f0cd351731a6425cb9b269019bc1a6bd3f5feaf65ecd935",
+      "review_continual_safety_alignment_in_vision_language_models.md": "22e3266552fcfba8246c6d38de9ae3b7bd712ab5f8cd3f8a63017bd3a1102cdc",
+      "review_enterprise_adoption_of_multi_agent_ai_systems_infr.md": "156e62dd8b6e0fc3dc2cc78ebd8ecc0371ee666a016fda26d3b25825ad38abf2",
+      "review_enterprise_genai_roi.md": "92bcdb04ec0f36ee104ce9698ba9d923d70bff3e68e9648cc1f027c2e7d8abf3",
+      "review_spatio_temporal_grounding_in_video_question_answering.md": "1b6f2cbbdd440cb686059024e84a66bd3200655473a4d28b0ac1e23eefc05686",
+      "review_symbol_graph_rag_vs_qlora_swe_bench_lite.md": "9f0e25675acd4f3282261d007bc43d834f726ce1774d77f4f5c1dea82d9e208d",
+      "review_trustworthy_multi_agent_systems_formal_verification.md": "c01113e6751d5c3471450b8acadcb9209b5b4bc6930b39161969c3c0943cc7b0"
+    },
+    "pdflatex_version": "pdfTeX 3.141592653-2.6-1.40.26 (TeX Live 2024)",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python_packages": {
+      "fastapi": "0.135.1",
+      "pydantic": "2.12.5",
+      "pytest": "8.4.2",
+      "python-multipart": "0.0.9",
+      "requests": "2.32.5"
+    },
+    "python_version": "3.11.6 (main, Feb  7 2025, 13:40:10) [Clang 16.0.0 (clang-1600.0.26.4)]",
+    "source_corpus_snapshot_hash": "dd7b024befea82c51243dda8494917e664f002f6034b0d19fe365cd2c2d2e08a",
+    "stage_timings_ms": {
+      "artifact_bundle": 0.007,
+      "claim_extraction": 0.023,
+      "compile": 0.101,
+      "convergence_decision": 0.004,
+      "evidence_grading": 0.014,
+      "evidence_retrieval": 0.015,
+      "layout_audit": 0.019,
+      "originality": 0.036,
+      "pdf_audit": 0.015,
+      "prepare": 0.025,
+      "venue_contract": 0.007,
+      "venue_rendering": 0.003
+    },
+    "venue_profile_hash": "55e3149dad13db01ca947d1423b13cd6365ddaaa006794bae04796316c887ff7"
+  },
+  "run_id": "backtest-20260902T203639Z-99a65485",
+  "scope": "matrix",
+  "stage_events_path": "/Users/aryamandev/Library/Mobile Documents/com~apple~CloudDocs/Projects/ResearchingOS/vault/04_Drafts/backtest_runs/backtest-20260902T203639Z-99a65485/stage_events.jsonl",
+  "started_at": "2026-09-02T20:36:39.729963+00:00",
+  "status": "COMPLETED",
+  "venue": "ALL",
+  "venue_count": 12,
+  "venue_profile_hash": "55e3149dad13db01ca947d1423b13cd6365ddaaa006794bae04796316c887ff7"
+}

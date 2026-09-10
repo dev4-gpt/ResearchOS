@@ -8,7 +8,7 @@ authors:
   - "Konstantinos Margetis"
 url: "https://doi.org/10.2196/81134"
 published: "2026-5-3"
-citations: "1"
+citations: "2"
 source: "Crossref & DOAJ"
 id: "crossref:10.2196/81134"
 full_pdf_ingested: "False"
@@ -19,7 +19,7 @@ tags:
 # Application of Sparse Autoencoders to Enhance Mechanistic Interpretability of Large Language Models in Medicine
 
 **Authors**: Andre Metzger, Shiv Patil, Lauren R Sugarmann, Mert Karabacak, Konstantinos Margetis
-**Published**: 2026-5-3 | **Citations**: 1 | **Source**: Crossref & DOAJ
+**Published**: 2026-5-3 | **Citations**: 2 | **Source**: Crossref & DOAJ
 **URL**: https://doi.org/10.2196/81134
 
 ## Executive Summary & Abstract

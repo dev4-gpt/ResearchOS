@@ -4,7 +4,7 @@ authors:
   - "ElanaPearl"
 url: "https://github.com/ElanaPearl/InterPLM"
 published: "2024-11-10"
-citations: "300"
+citations: "302"
 source: "GitHub"
 id: "github:ElanaPearl/InterPLM"
 full_pdf_ingested: "False"
@@ -15,11 +15,11 @@ tags:
 # Repository: ElanaPearl/InterPLM (Python)
 
 **Authors**: ElanaPearl
-**Published**: 2024-11-10 | **Citations**: 300 | **Source**: GitHub
+**Published**: 2024-11-10 | **Citations**: 302 | **Source**: GitHub
 **URL**: https://github.com/ElanaPearl/InterPLM
 
 ## Executive Summary & Abstract
-GitHub Repository: Discovering Interpretable Features in Protein Language Models via Sparse Autoencoders (Stars: 300, Language: Python)
+GitHub Repository: Discovering Interpretable Features in Protein Language Models via Sparse Autoencoders (Stars: 302, Language: Python)
 
 ## Methodological Insights & System Architectures
 - Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.
@@ -29,4 +29,4 @@ GitHub Repository: Discovering Interpretable Features in Protein Language Models
 - Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.
 
 ## Content Snippet
-GitHub Repository: Discovering Interpretable Features in Protein Language Models via Sparse Autoencoders (Stars: 300, Language: Python)
+GitHub Repository: Discovering Interpretable Features in Protein Language Models via Sparse Autoencoders (Stars: 302, Language: Python)

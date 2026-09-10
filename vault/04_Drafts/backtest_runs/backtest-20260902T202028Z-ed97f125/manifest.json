@@ -1,0 +1,16 @@
+{
+  "baseline_sha256": "4cfc416d708d582b04658bb5e0729546b69821a687d23361d1b99df6a5beb470",
+  "config_hash": "6fc620a483b4944d282f258c8b3f87ac7084ed16781e6c2ae65a6011514b2928",
+  "draft_count": 9,
+  "evaluator_source_hash": "eed2ed4942abc327664fea52f87eb060b3478a4f1e422c2cd0005f53bce8057f",
+  "evaluator_version": "researchingos-publication-evaluator-v2",
+  "filename": "__all_drafts__",
+  "max_iterations": 3,
+  "run_id": "backtest-20260902T202028Z-ed97f125",
+  "scope": "matrix",
+  "started_at": "2026-09-02T20:20:28.607518+00:00",
+  "status": "RUNNING",
+  "venue": "ALL",
+  "venue_count": 12,
+  "venue_profile_hash": "55e3149dad13db01ca947d1423b13cd6365ddaaa006794bae04796316c887ff7"
+}

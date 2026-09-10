@@ -8,6 +8,7 @@
 \usepackage{algorithmic}
 \usepackage{hyperref}
 \usepackage{amsmath,amssymb}
+\usepackage{booktabs}
 
 \providecommand{\icmltitle}[1]{\title{#1}}
 \providecommand{\icmlsetsymbol}[2]{}
@@ -72,7 +73,7 @@ This manuscript provides five principal contributions to the field of trustworth
 \begin{enumerate}
   \item \textbf{4-Tier Composable Abstraction Hierarchy:} We establish a formal layered architecture decoupling agent pipelines into Perceptual Routing, Memory Synthesis, Contract Enforcement, and Consensus Governance layers.
   \item \textbf{Formal Contract Algebra and SMT Verification:} We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers.
-  \item \textbf{Lyapunov Stability and Error Propagation Theorems:} We prove that contract-gated verification graphs guarantee bounded state error variance \$\mathbb{E}[\|\mathbf{e}\_t\|^2] \le \sigma\_{\max}^2 / (1 - \rho^2)\$, eliminating compounding divergence \cite{arxiv_2501_02497}.
+  \item \textbf{Lyapunov Stability and Error Propagation Theorems:} We prove that contract-gated verification graphs guarantee bounded state error variance $\mathbb{E}[\|\mathbf{e}_t\|^2] \le \sigma_{\max}^2 / (1 - \rho^2)$, eliminating compounding divergence \cite{arxiv_2501_02497}.
   \item \textbf{Reproducible Composition Benchmark:} A contract-algebra harness measuring soundness under reassembly, failure position, error propagation against the contraction bound, and checking cost, released with every recorded measurement so each result can be re-derived. No language model is invoked, and no claim is made about deployed agentic systems.
   \item \textbf{Ablation and Fault-Tolerance Analysis:} We quantify the isolated contributions of contract verification, state immutability, and consensus routing under induced network delays and adversarial hallucinations.
 \end{enumerate}
@@ -123,14 +124,37 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
-& \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
+\mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,6 +216,18 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -200,6 +236,18 @@ c_{ij} = & \langle \mathcal{I}_{ij}, \\
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -264,6 +312,18 @@ where:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -271,6 +331,18 @@ where:
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -306,7 +378,19 @@ where $\sqsubseteq$ denotes semantic subtype compatibility. If this condition ho
 
 Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the state error vector of agent $v_i$ relative to the oracle ground-truth state $\mathbf{s}_t^{*(i)}$. In an unconstrained monolithic pipeline, error propagation follows a non-linear autoregressive process $\mathbf{e}_{t+1} = \mathbf{A}\mathbf{e}_t + \mathbf{w}_t$, where the spectral radius $\rho(\mathbf{A})$ frequently exceeds unity during complex multi-hop reasoning, triggering unbounded error divergence.
 
-\textbf{Theorem 1 (Lyapunov Stability of Contract-Gated Pipelines).} Let $V(\mathbf{e}_t) = \mathbf{e}_t^\top \mathbf{P} \mathbf{e}_t$ be a candidate Lyapunov function with symmetric positive definite matrix $\mathbf{P} \succ 0$. If every contract validation operator $\Pi_{c_{ij}}$ enforces a contract rejection bound such that the effective transition matrix satisfies \$\|\mathbf{A}\_{\text{gated}}\|\_2 \le \rho $<$ 1\$, then:
+\textbf{Theorem 1 (Lyapunov Stability of Contract-Gated Pipelines).} Let $V(\mathbf{e}_t) = \mathbf{e}_t^\top \mathbf{P} \mathbf{e}_t$ be a candidate Lyapunov function with symmetric positive definite matrix $\mathbf{P} \succ 0$. If every contract validation operator $\Pi_{c_{ij}}$ enforces a contract rejection bound such that the effective transition matrix satisfies $\|\mathbf{A}_{\text{gated}}\|_2 \le \rho < 1$, then:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -368,7 +452,31 @@ $}
 
 
 
-where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid \$\mathcal{B}\_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}\$ with radius:
+
+
+
+
+
+
+
+
+
+
+
+
+where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -430,7 +538,31 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \textit{Proof.} Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -492,7 +624,31 @@ $}
 
 
 
-By Rayleigh quotient bounds, \$\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{P} \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \lambda\_{\max}(\mathbf{P}) \|\mathbf{e}\_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}\_t^\top \mathbf{A}\_{\text{gated}}^\top \mathbf{A}\_{\text{gated}} \mathbf{e}\_t \le \rho^2 \|\mathbf{e}\_t\|^2$. Subtracting $V(\mathbf{e}\_t) = \|\mathbf{e}\_t\|^2\$:
+
+
+
+
+
+
+
+
+
+
+
+
+By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -554,7 +710,19 @@ $}
 
 
 
-Since $\rho < 1$, the first term is strictly negative whenever \$\|\mathbf{e}\_t\|^2 $>$ \frac{\sigma\_{\text{leak}}^2 \cdot d}{1 - \rho^2}$. By Lyapunov drift criteria, the discrete state error converges exponentially into the bounded compact set $\mathcal{B}\_\eta$, establishing uniform boundedness and preventing compounding hallucination cascades. $\square\$
+
+
+
+
+
+
+
+
+
+
+
+
+Since $\rho < 1$, the first term is strictly negative whenever $\|\mathbf{e}_t\|^2 > \frac{\sigma_{\text{leak}}^2 \cdot d}{1 - \rho^2}$. By Lyapunov drift criteria, the discrete state error converges exponentially into the bounded compact set $\mathcal{B}_\eta$, establishing uniform boundedness and preventing compounding hallucination cascades. $\square$
 
 
 
@@ -570,7 +738,7 @@ The CAS specification organizes agent execution into four decoupled, independent
                                v
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{l}
 \toprule
 Tier 3: Deterministic Contract \& Safety Enforcement Layer \\
@@ -582,7 +750,7 @@ Tier 3: Deterministic Contract \& Safety Enforcement Layer \\
                                v
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{l}
 \toprule
 Tier 2: Stateful Memory \& Context Synthesis Layer \\
@@ -646,7 +814,7 @@ Every configuration is 4000 trials under a fixed seed. No language model is invo
 \subsection{Table 1: Soundness Under Reordering}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcc}
 \toprule
 Pipeline depth & Permutations remaining sound (\%) & Mean stage index of first failure \\
@@ -679,7 +847,7 @@ The failure position moves later with depth, from stage 0.00 to stage 0.75. That
 \subsection{Table 2: Error Propagation Against the Contraction Bound}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 Quantity & Value \\
@@ -700,7 +868,7 @@ The deviation is zero to numerical precision, which establishes that the contrac
 \subsection{Table 3: Cost of Checking}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 Quantity & Value \\
@@ -874,6 +1042,18 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -883,6 +1063,18 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -920,6 +1112,18 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -927,6 +1131,18 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -950,20 +1166,20 @@ This is a discrete analogue of Lyapunov stability, with $\log \varepsilon$ as th
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_composable\_ai\_systems\_for\_trustworthy\_agentic\_pipelines` \\
+Run identifier & \texttt{draft-review\_composable\_ai\_systems\_for\_trustworthy\_agentic\_pipelines} \\
 Random seed & 20260825 \\
-Repository revision & `0eb205cacfde` \\
+Repository revision & \texttt{0eb205cacfde} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `2.328 s` \\
+Wall-clock duration & \texttt{2.328 s} \\
 Measurements recorded & 17 \\
 Recorded at & 2026-08-25T22:24:31-0400 \\
 \bottomrule
@@ -1018,28 +1234,28 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`composition\_valid\_depth12` & 9.22 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`composition\_valid\_depth2` & 73.6 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`composition\_valid\_depth3` & 51.0 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`composition\_valid\_depth4` & 35.0 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`composition\_valid\_depth6` & 20.38 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`composition\_valid\_depth8` & 11.57 & \% & 4000 & -- & `random permutations of a valid pipeline that remain contract-sound` \\
-`contract\_check\_latency\_us` & 1.3302 & time & 20000 & -- & `wall-clock cost of statically checking one depth-8 composition` \\
-`max\_deviation\_from\_contraction\_bound` & 0.0 & -- & 3000 & -- & `largest gap between measured final error and the algebra's bound` \\
-`mean\_first\_failure\_index\_depth12` & 0.749 & n & 3631 & -- & `mean stage index at which composition first fails` \\
-`mean\_first\_failure\_index\_depth2` & 0.0 & n & 1056 & -- & `mean stage index at which composition first fails` \\
-`mean\_first\_failure\_index\_depth3` & 0.248 & n & 1960 & -- & `mean stage index at which composition first fails` \\
-`mean\_first\_failure\_index\_depth4` & 0.417 & n & 2600 & -- & `mean stage index at which composition first fails` \\
-`mean\_first\_failure\_index\_depth6` & 0.661 & n & 3185 & -- & `mean stage index at which composition first fails` \\
-`mean\_first\_failure\_index\_depth8` & 0.708 & n & 3537 & -- & `mean stage index at which composition first fails` \\
-`median\_final\_error\_factor` & 0.5591 & x & 3000 & -- & `median end-to-end error multiplier` \\
-`pipelines\_attenuating\_error` & 82.0 & \% & 3000 & -- & `valid pipelines whose end-to-end error factor is below one` \\
-`stages\_executed\_before\_failure\_deepest` & 0.749 & n & 3631 & -- & `stages run before an invalid depth-12 pipeline is caught at runtime` \\
+\texttt{composition\_valid\_depth12} & 9.22 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{composition\_valid\_depth2} & 73.6 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{composition\_valid\_depth3} & 51.0 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{composition\_valid\_depth4} & 35.0 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{composition\_valid\_depth6} & 20.38 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{composition\_valid\_depth8} & 11.57 & \% & 4000 & -- & \texttt{random permutations of a valid pipeline that remain contract-sound} \\
+\texttt{contract\_check\_latency\_us} & 1.3302 & time & 20000 & -- & \texttt{wall-clock cost of statically checking one depth-8 composition} \\
+\texttt{max\_deviation\_from\_contraction\_bound} & 0.0 & -- & 3000 & -- & \texttt{largest gap between measured final error and the algebra's bound} \\
+\texttt{mean\_first\_failure\_index\_depth12} & 0.749 & n & 3631 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{mean\_first\_failure\_index\_depth2} & 0.0 & n & 1056 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{mean\_first\_failure\_index\_depth3} & 0.248 & n & 1960 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{mean\_first\_failure\_index\_depth4} & 0.417 & n & 2600 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{mean\_first\_failure\_index\_depth6} & 0.661 & n & 3185 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{mean\_first\_failure\_index\_depth8} & 0.708 & n & 3537 & -- & \texttt{mean stage index at which composition first fails} \\
+\texttt{median\_final\_error\_factor} & 0.5591 & x & 3000 & -- & \texttt{median end-to-end error multiplier} \\
+\texttt{pipelines\_attenuating\_error} & 82.0 & \% & 3000 & -- & \texttt{valid pipelines whose end-to-end error factor is below one} \\
+\texttt{stages\_executed\_before\_failure\_deepest} & 0.749 & n & 3631 & -- & \texttt{stages run before an invalid depth-12 pipeline is caught at runtime} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -1050,20 +1266,19 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \subsection{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/check\_cost.json` & `762a5219a0d004df` \\
-`artifacts/composition\_validity.json` & `80db6aeb4ce7feeb` \\
-`artifacts/error\_propagation.json` & `30192ccf15aa078b` \\
+\texttt{artifacts/check\_cost.json} & \texttt{762a5219a0d004df} \\
+\texttt{artifacts/composition\_validity.json} & \texttt{80db6aeb4ce7feeb} \\
+\texttt{artifacts/error\_propagation.json} & \texttt{30192ccf15aa078b} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 \par\vspace{0.5em}
 \bibliographystyle{plain}
