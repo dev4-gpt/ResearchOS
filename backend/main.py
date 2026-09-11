@@ -717,16 +717,6 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             venue_cycle=profile.cycle if profile else None,
             synthetic=synthetic,
         )
-        decision = release_controller.evaluate(
-            manifest=manifest,
-            fact_audit=fact_audit,
-            bibliography_report=bibliography_report,
-            qa_report={"status": "passed", "errors": []},
-            peer_review=peer_review,
-            synthetic=synthetic,
-        )
-        print("BUILD DECISION STATUS:", decision.status)
-        print("BUILD DECISION ERRORS:", decision.errors)
         pdf_bytes = exporter.compile_pdflatex(
             tex_code,
             bib_code=bib_code,
@@ -742,6 +732,24 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         pdf_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.pdf")
         with open(pdf_path, "wb") as f:
             f.write(pdf_bytes)
+
+        # release_controller.evaluate() is a fail-closed gate; it previously
+        # ran here with a hardcoded {"status": "passed", "errors": []} qa_report
+        # -- passed by construction regardless of the actual PDF, before the
+        # PDF even existed. pdf_qa.inspect_pdf() already implements exactly the
+        # {"status", "errors"} shape this gate expects but was never called
+        # anywhere. Run it on the real compiled PDF now that one exists.
+        qa_report = pdf_qa.inspect_pdf(pdf_path, profile=profile.model_dump() if profile else None)
+        decision = release_controller.evaluate(
+            manifest=manifest,
+            fact_audit=fact_audit,
+            bibliography_report=bibliography_report,
+            qa_report=qa_report,
+            peer_review=peer_review,
+            synthetic=synthetic,
+        )
+        print("BUILD DECISION STATUS:", decision.status)
+        print("BUILD DECISION ERRORS:", decision.errors)
 
         # Execute Checkmate audit
         report = checkmate_verifier.audit_pdf(

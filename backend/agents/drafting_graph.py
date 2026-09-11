@@ -450,20 +450,27 @@ def red_team_node(state: DraftState):
         response = red_teamer(draft=state["draft"][:15000])
         state["red_team_critique"] = response.critique
     except Exception as e:
-        state["red_team_critique"] = f"Red team audit passed with minor notices: {e}"
+        state["red_team_critique"] = f"Red-team audit could not be completed (call failed: {e}); treat this draft as unaudited, not as passing."
     return state
 
 def peer_review_node(state: DraftState):
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated peer review audit against conference rubrics...")
     reviewer = dspy.Predict(PeerReviewAudit)
 
+    # Fail closed: if the real review call errors or its response doesn't
+    # parse, this must not read as an accepted paper. It previously defaulted
+    # to a fabricated "STRONG ACCEPT" with invented perfect scores and
+    # specific fake strengths ("theoretical framework MAHI", "evaluation
+    # metrics MAES and HIS") -- any LLM/parsing failure silently passed a
+    # paper that was never actually reviewed, and review_routing below used
+    # that fabricated decision to end the revision loop.
     peer_review_data = {
-        "schema_valid": True,
-        "overall_decision": "STRONG ACCEPT",
-        "scores": {"novelty": 9, "technical_rigor": 9, "empirical_grounding": 9, "presentation_clarity": 9},
-        "key_strengths": ["Hierarchical multi-section paper structure", "Original theoretical framework MAHI", "Novel evaluation metrics MAES and HIS"],
-        "fatal_weaknesses": [],
-        "required_revisions": [],
+        "schema_valid": False,
+        "overall_decision": "NEEDS_REVISION",
+        "scores": {},
+        "key_strengths": [],
+        "fatal_weaknesses": ["Automated peer review could not be completed (LLM call failed or its response did not parse)."],
+        "required_revisions": ["Re-run peer review; no valid automated review was obtained for this iteration."],
     }
 
     try:
@@ -480,12 +487,12 @@ def peer_review_node(state: DraftState):
     state["peer_review"] = peer_review_data
     state["iteration"] += 1
 
-    decision = peer_review_data.get("overall_decision", "STRONG ACCEPT")
+    decision = peer_review_data.get("overall_decision", "NEEDS_REVISION")
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", f"Peer Review Decision: {decision}", peer_review_data)
     return state
 
 def review_routing(state: DraftState):
-    decision = state["peer_review"].get("overall_decision", "STRONG ACCEPT")
+    decision = state["peer_review"].get("overall_decision", "NEEDS_REVISION")
     if decision in ["STRONG ACCEPT", "ACCEPT"] or state["iteration"] >= state["max_iterations"]:
         return "end"
     return "rewrite"
