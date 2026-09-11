@@ -19,6 +19,19 @@ NUMERIC_PATTERN = re.compile(
     r")"
 )
 
+# Decimal places used when comparing a claim's numeric token to a recorded
+# measurement value. `main` used 6 (fewer values collapse into the same
+# bucket -> stricter, fewer false "verified"s). The icloud-git-corruption
+# branch's rewrite quietly loosened this to 4 while also adding the CI95
+# bounds check below. For a gate whose entire purpose is catching fabricated
+# claims (see ERR-044, and the "108/108 ZERO DEFECTS" incident that PR #1
+# exists because of), loosening tolerance is a strictness regression, not a
+# refactor -- so this reconciliation keeps main's 6 and layers the branch's
+# CI95 check on top of it, rather than accepting the branch's looser value.
+# If 6 turns out to reject legitimate matches in practice, lower it
+# deliberately and note why here.
+MEASUREMENT_MATCH_DECIMALS = 6
+
 
 def is_non_metric_number(claim: str) -> bool:
     s = claim.strip()
@@ -268,6 +281,11 @@ class FactCheckerService:
         1. The exact sentence appears in the source, OR
         2. The numeric token appears in the cited source within a paragraph or passage
            that shares topical context/anchor keywords with the claim sentence.
+
+        (Adopted from the icloud-git-corruption branch's rewrite — this is a real
+        improvement over main's plain lowercase substring match: it catches
+        paraphrased claims and rejects numeric coincidences that share no
+        topical context with the source passage.)
         """
         if not cited_keys or not source_records:
             return False
@@ -329,6 +347,9 @@ class FactCheckerService:
         records: List[ClaimEvidenceRecord] = []
         source_records = source_records or {}
         measurement_records = measurement_records or []
+        # dict.fromkeys preserves order while deduping, and filters at
+        # construction time instead of building then re-filtering (branch's fix
+        # over main's two-pass list comprehension -- same result, one pass).
         artifact_refs = list(dict.fromkeys(
             str(item.get("artifact_ref") or item.get("path") or item.get("artifact") or "")
             for item in measurement_records if item.get("artifact_ref") or item.get("path") or item.get("artifact")
@@ -362,8 +383,14 @@ class FactCheckerService:
                 value_match = re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", claim_token.replace(",", ""))
                 value = float(value_match.group(0)) if value_match else None
 
-                matched_artifact_refs = []
-                matched_artifact_hashes = []
+                # Per-claim artifact attribution (branch's fix): only attach the
+                # artifact ref/hash of the measurement that actually matched this
+                # claim, instead of main's behavior of attaching every artifact in
+                # measurement_records to any claim verified by any measurement.
+                # main's version over-attributed evidence -- a claim could end up
+                # citing an artifact that has nothing to do with it.
+                matched_artifact_refs: List[str] = []
+                matched_artifact_hashes: List[str] = []
                 measured = False
                 if value is not None and measurement_records:
                     for m in measurement_records:
@@ -371,9 +398,12 @@ class FactCheckerService:
                         if m_val is not None:
                             try:
                                 m_float = float(m_val)
-                                if round(value, 4) == round(m_float, 4) or (
+                                if round(value, MEASUREMENT_MATCH_DECIMALS) == round(m_float, MEASUREMENT_MATCH_DECIMALS) or (
                                     "ci95" in m and isinstance(m["ci95"], (list, tuple)) and len(m["ci95"]) == 2
-                                    and (round(value, 4) == round(float(m["ci95"][0]), 4) or round(value, 4) == round(float(m["ci95"][1]), 4))
+                                    and (
+                                        round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(m["ci95"][0]), MEASUREMENT_MATCH_DECIMALS)
+                                        or round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(m["ci95"][1]), MEASUREMENT_MATCH_DECIMALS)
+                                    )
                                 ):
                                     measured = True
                                     ref = str(m.get("artifact_ref") or m.get("path") or m.get("artifact") or "")
@@ -385,7 +415,13 @@ class FactCheckerService:
                             except (ValueError, TypeError):
                                 pass
                 elif value is not None and measurement_values:
-                    measured = any(round(value, 4) == round(float(mv), 4) for mv in measurement_values)
+                    # Legacy path: no structured measurement_records, just bare
+                    # values. Falls back to the shared artifact list since there's
+                    # no per-record ref/hash to attribute individually.
+                    measured = any(
+                        round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(mv), MEASUREMENT_MATCH_DECIMALS)
+                        for mv in measurement_values
+                    )
                     if measured and artifact_refs:
                         matched_artifact_refs = artifact_refs[:1]
                     if measured and artifact_hashes:
@@ -425,6 +461,15 @@ class FactCheckerService:
                     seen.add(key)
                     verified_citations = set(self.validate_citations(paragraph, source_records=source_records)["verified_links"])
                     source_supported = bool(set(cited_keys) & verified_citations)
+                    # Branch's stricter gate: an artifact only counts as backing a
+                    # "major contribution" claim when the sentence itself uses
+                    # contribution language, not merely whenever any measurement
+                    # happens to exist somewhere in the run. main's version
+                    # verified from bool(artifact_refs) and bool(measurement_records)
+                    # alone, which could pass a contribution claim on the strength
+                    # of an unrelated measurement. Kept as-is: this is strictly
+                    # more conservative than main, which is the right direction
+                    # for a fraud-detection gate.
                     has_artifact = bool(measurement_records) and any(
                         term in normalized for term in ("propose", "present", "introduce", "develop", "framework", "architecture", "method", "results", "findings", "demonstrate")
                     )
