@@ -7,6 +7,7 @@ and zero-placeholder enforcement before human review.
 
 import re
 import os
+from typing import Dict, Any, List, Optional
 try:
     import pypdf
 except ImportError:
