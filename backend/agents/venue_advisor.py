@@ -391,7 +391,10 @@ For EACH of the top 3 venues, write a 2-3 sentence personalized submission ratio
 
 Return ONLY a valid JSON object: {{"venue_key": "rationale text", ...}}"""
 
-            raw = llm_router.generate_content(prompt, provider="GROQ", model="llama-3.1-8b-instant")
+            # ERR-102/103: was a single hardcoded GROQ call with a since-retired
+            # model ID and no fallback beyond the static templates below. Now
+            # falls through the rest of the provider chain first.
+            raw = llm_router.generate_content_with_fallback(prompt, preferred_provider="GROQ")
             if raw:
                 json_match = re.search(r'\{[\s\S]*\}', raw)
                 if json_match:

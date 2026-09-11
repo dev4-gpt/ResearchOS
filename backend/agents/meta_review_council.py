@@ -56,7 +56,7 @@ META_COUNCIL_PERSONAS = {
         "name": "Technical Depth & Rigor Auditor",
         "role": "Formal Proofs, Tables & Empirical Rigor",
         "provider": "GROQ",
-        "model": "llama-3.1-8b-instant",
+        "model": "openai/gpt-oss-20b",  # ERR-103: llama-3.1-8b-instant retired, verified live replacement
         "instruction": (
             "You are a Principal Systems Auditor and Quantitative Methods Specialist. "
             "You evaluate drafts for mathematical rigor, formal LaTeX equations, tabular comparison matrices "

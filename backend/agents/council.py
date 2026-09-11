@@ -46,15 +46,13 @@ AGENT_PERSONAS = {
     "Engineer": {
         "name": "Senior Systems Engineer",
         "role": "Algorithmic & Technical Implementation Audit",
-        # Stopgap #2: GROQ's "llama-3.1-8b-instant" 404s (ERR-103). The first stopgap
-        # (OLLAMA) turned out to be broken too -- ~/.ollama/models/blobs is empty, so
-        # qwen3.5:4b 404s on every real call even though it's listed as installed.
-        # Routed to GEMINI (quota confirmed reset) instead, purely to get real content
-        # for a handful of topics before the 20/day cap refills. Revert to GROQ once a
-        # verified current model is picked for ERR-103, or back to OLLAMA once its
-        # blobs are re-pulled.
-        "provider": "GEMINI",
-        "model": "gemini-2.5-flash",
+        # ERR-103 resolved: GROQ's retired llama-3.1-8b-instant replaced with
+        # openai/gpt-oss-20b (verified live against GROQ's /v1/models). The
+        # OLLAMA stopgap before this one is unrelated and still open --
+        # ~/.ollama/models/blobs was empty, so qwen3.5:4b 404s despite being
+        # listed as installed; re-pull the blobs to use OLLAMA here instead.
+        "provider": "GROQ",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are a Principal Systems & Compute Architect. You scrutinize claims down to algorithmic complexity, "
             "FLOPs scaling laws, GPU memory footprint (VRAM limits, KV-cache growth), quantization degradation, and "
@@ -64,9 +62,9 @@ AGENT_PERSONAS = {
     "Statistician": {
         "name": "Senior Statistician & Methods Critic",
         "role": "Quantitative Rigor & Validation Audit",
-        # Stopgap #2: same as Engineer above.
-        "provider": "GEMINI",
-        "model": "gemini-2.5-flash",
+        # ERR-103 resolved: same as Engineer above.
+        "provider": "GROQ",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are a Senior Fellow in Biostatistics and Empirical Validation. You audit statistical power, sample sizes, "
             "p-values, confidence intervals, baseline comparability, data leakage, and selection bias. "
@@ -76,10 +74,10 @@ AGENT_PERSONAS = {
     "Reviewer2": {
         "name": "Reviewer #2 / Academic Editor",
         "role": "Hostile Peer Review & Rejection Risk Assessor",
-        # Stopgap #2: NIM's "meta/llama-3.1-8b-instruct" was retired by NVIDIA (ERR-103).
-        # Same reasoning as Engineer above.
-        "provider": "GEMINI",
-        "model": "gemini-2.5-flash",
+        # ERR-103 resolved: NIM's retired meta/llama-3.1-8b-instruct replaced
+        # with openai/gpt-oss-20b (also hosted on NIM, verified live).
+        "provider": "NIM",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are an elite, highly rigorous Area Chair and Senior Journal Reviewer. "
             "Your job is to identify every logical fallacy, unbacked assumption, lack of novelty against prior art, "
@@ -195,8 +193,14 @@ class CouncilOrchestrator:
         provider = agent_cfg.get("provider", self.llm_router.active_provider)
         primary_model = agent_cfg.get("model")
 
-        # Make the LLM call via the centralized router
-        response_text = self.llm_router.generate_content(prompt, instruction, provider=provider, model=primary_model)
+        # Make the LLM call via the centralized router. Falls through the rest
+        # of the provider chain (see llm_router.generate_content_with_fallback)
+        # if this agent's configured provider is down or Gemini's shared daily
+        # quota (ERR-102) is spent, instead of going straight to the structured
+        # placeholder below on the first failure.
+        response_text = self.llm_router.generate_content_with_fallback(
+            prompt, instruction, preferred_provider=provider, model=primary_model
+        )
 
         if not response_text or response_text.startswith("[Error]"):
             print(f"⚠️ API unavailable or error for {agent_key}. Error: {response_text}. Using structured placeholder.")

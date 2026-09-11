@@ -1,7 +1,60 @@
+import json
 import os
+import time
+from datetime import date, datetime, timezone
+
 import dspy
 from google import genai as modern_genai
 from openai import OpenAI
+
+# GROQ retired llama-3.1-8b-instant for free/developer-tier keys (ERR-103); its
+# own migration doc recommends this replacement. NVIDIA NIM independently
+# retired meta/llama-3.1-8b-instruct (410 Gone, EOL 2026-08-26); this is also
+# hosted on NIM, so one model covers both providers' defaults instead of
+# tracking two separate names. Verified live against both providers'
+# /v1/models on 2026-09-11 -- if either 404s again, re-check that endpoint
+# before hardcoding a replacement (that live check is what ERR-103 skipped).
+_FAST_FALLBACK_MODEL = "openai/gpt-oss-20b"
+
+# Gemini's free tier caps at 20 requests/day, shared across every feature that
+# reads GEMINI_API_KEY (graphify semantic extraction, CouncilOrchestrator
+# debate/research generation, drafting) -- see ERR-102. This file tracks a
+# process-independent daily count so one feature exhausting the budget fails
+# fast and falls through to another provider instead of every caller finding
+# out separately via a live 429.
+_GEMINI_QUOTA_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "..", "vault", "00_System", "gemini_quota_state.json"
+)
+_GEMINI_DAILY_LIMIT = int(os.getenv("GEMINI_DAILY_REQUEST_LIMIT", "20"))
+
+
+def _gemini_quota_remaining() -> int:
+    today = date.today().isoformat()
+    try:
+        with open(_GEMINI_QUOTA_PATH, "r", encoding="utf-8") as f:
+            state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        state = {}
+    if state.get("date") != today:
+        state = {"date": today, "count": 0}
+    return max(0, _GEMINI_DAILY_LIMIT - state.get("count", 0))
+
+
+def _gemini_quota_record_use() -> None:
+    today = date.today().isoformat()
+    try:
+        with open(_GEMINI_QUOTA_PATH, "r", encoding="utf-8") as f:
+            state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        state = {}
+    if state.get("date") != today:
+        state = {"date": today, "count": 0}
+    state["count"] = state.get("count", 0) + 1
+    state["last_used_at"] = datetime.now(timezone.utc).isoformat()
+    os.makedirs(os.path.dirname(_GEMINI_QUOTA_PATH), exist_ok=True)
+    with open(_GEMINI_QUOTA_PATH, "w", encoding="utf-8") as f:
+        json.dump(state, f, indent=2)
+
 
 class LLMRouter:
     def __init__(self):
@@ -33,7 +86,7 @@ class LLMRouter:
         prov = (provider or self.active_provider).upper()
 
         if prov == "NIM" and self.nim_api_key:
-            nim_model = model or os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.1-8b-instruct")
+            nim_model = model or os.getenv("NVIDIA_NIM_MODEL", _FAST_FALLBACK_MODEL)
             return dspy.LM(f"openai/{nim_model}", api_key=self.nim_api_key, api_base="https://integrate.api.nvidia.com/v1", max_tokens=4096)
 
         elif prov == "OLLAMA":
@@ -41,7 +94,7 @@ class LLMRouter:
             return dspy.LM(model=f"openai/{m}", api_key="ollama", api_base=self.ollama_base_url, max_tokens=4096)
 
         elif prov == "GROQ" and self.groq_api_key:
-            m = model or "llama-3.1-8b-instant"
+            m = model or _FAST_FALLBACK_MODEL
             return dspy.LM(model=f"openai/{m}", api_key=self.groq_api_key, api_base="https://api.groq.com/openai/v1", max_tokens=4096)
 
         elif prov == "OPENROUTER" and self.openrouter_api_key:
@@ -70,7 +123,7 @@ class LLMRouter:
 
             elif prov == "GROQ":
                 if not self.groq_client: return "[Error] GROQ_API_KEY not set."
-                m = model or "llama-3.1-8b-instant"
+                m = model or _FAST_FALLBACK_MODEL
                 response = self.groq_client.chat.completions.create(model=m, messages=messages, temperature=0.2, max_tokens=2048)
                 return response.choices[0].message.content
 
@@ -82,7 +135,7 @@ class LLMRouter:
 
             elif prov == "NIM":
                 if not self.nim_client: return "[Error] NVIDIA_NIM_API_KEY not set."
-                m = model or os.getenv("NVIDIA_NIM_MODEL", "meta/llama-3.1-8b-instruct")
+                m = model or os.getenv("NVIDIA_NIM_MODEL", _FAST_FALLBACK_MODEL)
                 response = self.nim_client.chat.completions.create(model=m, messages=messages, temperature=0.2, max_tokens=2048)
                 return response.choices[0].message.content
 
@@ -101,6 +154,49 @@ class LLMRouter:
         except Exception as e:
             print(f"{prov} Error: {e}")
             return ""
+
+    def _provider_available(self, prov: str) -> bool:
+        if prov == "GEMINI":
+            return bool(self.genai_clients) and _gemini_quota_remaining() > 0
+        if prov == "GROQ":
+            return bool(self.groq_client)
+        if prov == "OPENROUTER":
+            return bool(self.openrouter_client)
+        if prov == "NIM":
+            return bool(self.nim_client)
+        if prov == "OLLAMA":
+            return True  # local, no key required; a real failure surfaces from the call itself
+        return False
+
+    def generate_content_with_fallback(
+        self, prompt: str, system_instruction: str = "", preferred_provider: str = None, model: str = None
+    ) -> str:
+        """Try preferred_provider first, then walk the rest of the chain on failure.
+
+        Centralizes what council.py/meta_review_council.py/venue_advisor.py each
+        used to implement separately as a hardcoded single provider (ERR-102/103):
+        one broken model ID or one exhausted Gemini quota no longer means every
+        call site fails independently and falls back to placeholder text. Skips
+        Gemini automatically once its shared daily quota (ERR-102) is spent,
+        rather than spending a request finding that out live.
+        """
+        order = ["GEMINI", "GROQ", "OPENROUTER", "NIM", "OLLAMA"]
+        preferred = (preferred_provider or "").upper()
+        if preferred in order:
+            order = [preferred] + [p for p in order if p != preferred]
+
+        attempted = []
+        for prov in order:
+            if not self._provider_available(prov):
+                continue
+            attempted.append(prov)
+            if prov == "GEMINI":
+                _gemini_quota_record_use()
+            result = self.generate_content(prompt, system_instruction, provider=prov, model=model if prov == preferred else None)
+            if result and not result.startswith("[Error]"):
+                return result
+
+        return f"[Error] All providers exhausted or unavailable (tried: {', '.join(attempted) or 'none configured'})"
 
 # Singleton instance
 llm_router = LLMRouter()
