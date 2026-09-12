@@ -300,36 +300,47 @@ def planner_node(state: DraftState):
     state["outline"] = DEFAULT_OUTLINE
     return state
 
-def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str, synthesis_content: str) -> str:
-    """Generates rich, topic-specific prose using llm_router if writer model encounters timeout, eliminating placeholder stubs."""
-    from services.llm_router import llm_router
+def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str, synthesis_content: str, is_dry_run: bool = False) -> str:
+    """Generates rich, topic-specific prose using llm_router if writer model encounters timeout, eliminating placeholder stubs.
+
+    is_dry_run=True skips the network call entirely and returns the local
+    template below directly. Before this parameter existed, the dry-run
+    branch in section_writer_node called this function anyway, so "dry run"
+    silently made a real llm_router.generate_content() call for every
+    section -- burning real API quota and, with no client-side timeout on
+    the underlying HTTP call, capable of hanging indefinitely. That is
+    exactly what a "no real network or LLM calls happen" dry run is meant
+    to prevent (see backend/tests/test_council.py's module docstring).
+    """
     clean_synthesis = re.sub(r'\[Director’s Synthesis[^\]]*\]|\[Idowu et al\.[^\]]*\]|Senior Systems Engineer', '', synthesis_content[:2000])
 
-    prompt = (
-        f"{WRITER_SYSTEM_DIRECTIVE}\n\n"
-        f"Write a detailed, exhaustive 2000-3000 word technical academic section for a peer-reviewed journal paper.\n"
-        f"Topic: {topic}\n"
-        f"Section Title: {sec_title}\n"
-        f"Instructions: {instructions}\n"
-        f"Synthesis Context: {clean_synthesis[:1000]}\n\n"
-        f"MANDATORY CHECKLIST before returning — your output MUST contain:\n"
-        f"- [ ] >=2 named subsections at ### level\n"
-        f"- [ ] >=1 LaTeX equation (\\begin{{equation}}...\\end{{equation}})\n"
-        f"- [ ] >=3 [[paper_id]] wikilink citations distributed across paragraphs\n"
-        f"- [ ] If experiments/results section: >=1 \\begin{{tabular}} comparison table\n"
-        f"- [ ] Zero banned phrases (delve, tapestry, crucial role, game-changer, deep dive)\n\n"
-        f"Do NOT include meta-commentary, prompt template text, or repeated introductory fluff. "
-        f"Write at IEEE TKDE / ACM Computing Surveys depth."
-    )
+    if not is_dry_run:
+        from services.llm_router import llm_router
+        prompt = (
+            f"{WRITER_SYSTEM_DIRECTIVE}\n\n"
+            f"Write a detailed, exhaustive 2000-3000 word technical academic section for a peer-reviewed journal paper.\n"
+            f"Topic: {topic}\n"
+            f"Section Title: {sec_title}\n"
+            f"Instructions: {instructions}\n"
+            f"Synthesis Context: {clean_synthesis[:1000]}\n\n"
+            f"MANDATORY CHECKLIST before returning — your output MUST contain:\n"
+            f"- [ ] >=2 named subsections at ### level\n"
+            f"- [ ] >=1 LaTeX equation (\\begin{{equation}}...\\end{{equation}})\n"
+            f"- [ ] >=3 [[paper_id]] wikilink citations distributed across paragraphs\n"
+            f"- [ ] If experiments/results section: >=1 \\begin{{tabular}} comparison table\n"
+            f"- [ ] Zero banned phrases (delve, tapestry, crucial role, game-changer, deep dive)\n\n"
+            f"Do NOT include meta-commentary, prompt template text, or repeated introductory fluff. "
+            f"Write at IEEE TKDE / ACM Computing Surveys depth."
+        )
 
-    try:
-        content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
-        if content and len(content) > 300 and "Addressing " not in content[:50]:
-            if not content.strip().startswith("#"):
-                content = f"## {sec_title}\n\n" + content
-            return content
-    except Exception as e:
-        print(f"Fallback generation note for {sec_title}: {e}")
+        try:
+            content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
+            if content and len(content) > 300 and "Addressing " not in content[:50]:
+                if not content.strip().startswith("#"):
+                    content = f"## {sec_title}\n\n" + content
+                return content
+        except Exception as e:
+            print(f"Fallback generation note for {sec_title}: {e}")
 
     return (
         f"## {sec_title}\n\n"
