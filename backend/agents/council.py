@@ -163,19 +163,32 @@ class CouncilOrchestrator:
         self.harness_controller = AutonomousHarnessController()
         self.evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(self.vault.vault_path), "runs"))
 
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        self.nim_api_key = os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY")
         self.run_mode = os.getenv("RESEARCHINGOS_RUN_MODE", "auto").strip().lower()
         if self.run_mode not in {"auto", "dry_run", "live"}:
             raise ValueError("RESEARCHINGOS_RUN_MODE must be one of: auto, dry_run, live")
-        provider_configured = bool(self.api_key or self.nim_api_key)
-        self.is_dry_run = self.run_mode == "dry_run" or (self.run_mode == "auto" and not provider_configured)
-        if self.run_mode == "live" and not provider_configured:
+        if self.run_mode == "live" and not self._provider_configured():
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
         from services.llm_router import llm_router
         self.llm_router = llm_router
         print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Provider: {self.llm_router.active_provider}, Dry Run: {self.is_dry_run}")
+
+    @staticmethod
+    def _provider_configured() -> bool:
+        return bool(os.getenv("GEMINI_API_KEY") or os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY"))
+
+    @property
+    def is_dry_run(self) -> bool:
+        """Whether calls should be mocked instead of hitting a real provider.
+
+        Read live from the environment on every access rather than cached
+        once at construction time: this orchestrator is a module-level
+        singleton (see main.py), so a cached value could never reflect an
+        API key set or cleared after the process started -- which is
+        exactly what backend/tests/test_api.py's
+        test_is_dry_run_true_when_no_api_key exercises via monkeypatch.
+        """
+        return self.run_mode == "dry_run" or (self.run_mode == "auto" and not self._provider_configured())
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke LLM providers via LLMRouter."""
