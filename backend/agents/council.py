@@ -166,6 +166,10 @@ class CouncilOrchestrator:
         self.run_mode = os.getenv("RESEARCHINGOS_RUN_MODE", "auto").strip().lower()
         if self.run_mode not in {"auto", "dry_run", "live"}:
             raise ValueError("RESEARCHINGOS_RUN_MODE must be one of: auto, dry_run, live")
+        # None = no explicit override; is_dry_run computes live from env vars.
+        # Tests assign orch.is_dry_run = True/False directly to force a mode
+        # regardless of env, via the setter below.
+        self._is_dry_run_override: Optional[bool] = None
         if self.run_mode == "live" and not self._provider_configured():
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
@@ -181,14 +185,21 @@ class CouncilOrchestrator:
     def is_dry_run(self) -> bool:
         """Whether calls should be mocked instead of hitting a real provider.
 
-        Read live from the environment on every access rather than cached
-        once at construction time: this orchestrator is a module-level
-        singleton (see main.py), so a cached value could never reflect an
-        API key set or cleared after the process started -- which is
-        exactly what backend/tests/test_api.py's
-        test_is_dry_run_true_when_no_api_key exercises via monkeypatch.
+        Computed live from the environment on every access (rather than
+        cached once at construction time) unless a test has explicitly
+        overridden it via the setter below. This orchestrator is a
+        module-level singleton (see main.py), so an uncached value is what
+        lets /api/health reflect an API key set or cleared after the
+        process started -- see backend/tests/test_api.py's
+        test_is_dry_run_true_when_no_api_key.
         """
+        if self._is_dry_run_override is not None:
+            return self._is_dry_run_override
         return self.run_mode == "dry_run" or (self.run_mode == "auto" and not self._provider_configured())
+
+    @is_dry_run.setter
+    def is_dry_run(self, value: bool) -> None:
+        self._is_dry_run_override = value
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke LLM providers via LLMRouter."""

@@ -383,7 +383,7 @@ def section_writer_node(state: DraftState):
         state["log_callback"]("Drafting", "Senior Research Writer & Publisher", f"Expanding Section {idx+1}/{total_sections}: {clean_sec_title}...")
 
         if state.get("is_dry_run"):
-            section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"])
+            section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"], is_dry_run=True)
             continue
 
         success = False
@@ -456,6 +456,9 @@ def assembler_node(state: DraftState):
 
 def red_team_node(state: DraftState):
     state["log_callback"]("Red-Team", "Adversarial Red-Teamer", "Auditing assembled manuscript for weak baselines and logical gaps...")
+    if state.get("is_dry_run"):
+        state["red_team_critique"] = "[DRY RUN] Red-team audit skipped; no network call made."
+        return state
     red_teamer = dspy.Predict(RedTeamAudit)
     try:
         response = red_teamer(draft=state["draft"][:15000])
@@ -466,6 +469,20 @@ def red_team_node(state: DraftState):
 
 def peer_review_node(state: DraftState):
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated peer review audit against conference rubrics...")
+    if state.get("is_dry_run"):
+        peer_review_data = {
+            "schema_valid": True,
+            "overall_decision": "STRONG ACCEPT",
+            "scores": {"novelty": 0, "technical_rigor": 0, "empirical_grounding": 0, "presentation_clarity": 0},
+            "key_strengths": [],
+            "fatal_weaknesses": [],
+            "required_revisions": [],
+            "dry_run": True,
+        }
+        state["peer_review"] = peer_review_data
+        state["iteration"] += 1
+        state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "[DRY RUN] Peer review skipped; no network call made.", peer_review_data)
+        return state
     reviewer = dspy.Predict(PeerReviewAudit)
 
     # Fail closed: if the real review call errors or its response doesn't
