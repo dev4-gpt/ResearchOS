@@ -28,6 +28,36 @@ def _load_master_prompt() -> str:
     except Exception:
         return ""
 
+
+_WIKILINK_RE = re.compile(r"\[\[(.*?)\]\]")
+
+
+def _citation_ids(text: str) -> set:
+    """Extracts the paper-id half of every [[id]] or [[id|Label]] wikilink.
+
+    Mirrors VaultManager.get_knowledge_graph's wikilink_re (services/vault.py) so
+    citation counts here agree with the vault's own notion of what's cited --
+    a plain `\\[\\[([^\\]]+)\\]\\]` would count "id|Label" as a distinct citation
+    from "id" and fail to recognize an aliased link as already present.
+    """
+    return {link.split("|", 1)[0].strip() for link in _WIKILINK_RE.findall(text)}
+
+
+def _extract_json_array(text: str) -> List[str]:
+    """Pulls a JSON array of strings out of an LLM response, tolerating markdown fences/prose."""
+    if not text:
+        return []
+    match = re.search(r"\[.*\]", text, flags=re.DOTALL)
+    if not match:
+        return []
+    try:
+        parsed = json.loads(match.group(0))
+    except (json.JSONDecodeError, ValueError):
+        return []
+    if not isinstance(parsed, list):
+        return []
+    return [str(item) for item in parsed if isinstance(item, (str, int, float))]
+
 META_COUNCIL_PERSONAS = {
     "CouncilChair": {
         "name": "Meta-Review Council Chair",
@@ -56,7 +86,7 @@ META_COUNCIL_PERSONAS = {
         "name": "Technical Depth & Rigor Auditor",
         "role": "Formal Proofs, Tables & Empirical Rigor",
         "provider": "GROQ",
-        "model": "openai/gpt-oss-20b",  # ERR-103: llama-3.1-8b-instant retired, verified live replacement
+        "model": "llama-3.1-8b-instant",
         "instruction": (
             "You are a Principal Systems Auditor and Quantitative Methods Specialist. "
             "You evaluate drafts for mathematical rigor, formal LaTeX equations, tabular comparison matrices "
@@ -114,7 +144,7 @@ class MetaReviewCouncil:
 
         # Step 1: Chair Audit
         initial_words = len(draft_content.split())
-        initial_citations = len(set(re.findall(r'\[\[([^\]]+)\]\]', draft_content)))
+        initial_citations = len(_citation_ids(draft_content))
         initial_tables = len(re.findall(r'\\begin\{tabular\}', draft_content))
         initial_equations = len(re.findall(r'\\begin\{equation\}|\$\$', draft_content))
 
@@ -128,46 +158,106 @@ class MetaReviewCouncil:
              })
 
         # Step 2: Citation Graph Expander
+        missing_requirements: List[str] = []
+        warnings: List[str] = []
         _log("Citation-Expansion", "Citation Graph Expander", "Scanning vault paper corpus to expand citations toward 20-30+ density target...")
         vault_papers = self.vault_manager.list_files("papers")
-        available_paper_ids = [p.replace(".md", "") for p in vault_papers if not p.startswith(".")]
+        available_papers = [
+            {
+                "id": p["filename"].replace(".md", ""),
+                "title": p.get("title", ""),
+                "preview": p.get("content_preview", ""),
+            }
+            for p in vault_papers
+            if not p["filename"].startswith(".")
+        ]
 
         expanded_draft = draft_content
-        # Ensure minimum key papers are cited if not present
-        sample_refs = ["arxiv_2604.17215", "arxiv_2010.11146", "arxiv_2005.14165", "arxiv_2305.18290", "arxiv_2406.00584", "arxiv_2501.02497"]
-        for ref_id in sample_refs:
-            if f"[[{ref_id}]]" not in expanded_draft and len(available_paper_ids) > 0:
-                # Intelligently ground within relevant sections
-                if "## References" in expanded_draft:
-                    expanded_draft = expanded_draft.replace("## References", f"- [[{ref_id}]]\n## References", 1)
+        newly_cited: List[str] = []
+        if not available_papers:
+            _log("Citation-Expansion", "Citation Graph Expander", "Vault paper corpus is empty; no candidate citations exist to ground the draft in.")
+        else:
+            # A fixed reference list forced into every manuscript regardless of
+            # relevance is the same fabrication pattern as the empirical table:
+            # it hits a density target with content that may not exist in the
+            # vault or have anything to do with the draft. Instead, ask the
+            # CitationExpander LLM to pick only from papers that genuinely exist
+            # in the vault, and only insert ids it names -- never an invented one.
+            persona = META_COUNCIL_PERSONAS["CitationExpander"]
+            already_cited = _citation_ids(expanded_draft)
+            candidates = [p for p in available_papers if p["id"] not in already_cited]
+            if not candidates:
+                _log("Citation-Expansion", "Citation Graph Expander", "Every vault paper is already cited in this draft.")
+            elif is_dry_run:
+                # Mirrors CouncilOrchestrator's dry-run contract elsewhere in this
+                # codebase: a dry run must never place a live, potentially billed
+                # API call. main.py already threads is_dry_run through for this.
+                _log(
+                    "Citation-Expansion",
+                    "Citation Graph Expander",
+                    f"Dry run: skipping live relevance check against {len(candidates)} candidate paper(s); no citations added.",
+                )
+            else:
+                catalog = "\n".join(
+                    f"- {p['id']}: {p['title']} — {p['preview'][:150]}" for p in candidates
+                )
+                prompt = (
+                    f"Manuscript draft (target venue: {target_venue}):\n{draft_content[:6000]}\n\n"
+                    f"Candidate vault papers (id: title — preview):\n{catalog}\n\n"
+                    "List ONLY the paper ids from the candidate list above that are topically relevant to this "
+                    "draft's actual claims and would genuinely belong in its References section. Respond with a "
+                    "JSON array of ids only, e.g. [\"arxiv_1234.5678\"]. If none are relevant, respond with []. "
+                    "Never invent an id that is not in the candidate list."
+                )
+                response = llm_router.generate_content(
+                    prompt,
+                    system_instruction=persona["instruction"],
+                    provider=persona["provider"],
+                    model=persona["model"],
+                )
+                if not response or response.startswith("[Error]"):
+                    warnings.append("citation_expansion_unavailable")
+                    _log(
+                        "Citation-Expansion",
+                        "Citation Graph Expander",
+                        f"LLM relevance check unavailable ({response or 'no response'}); no citations added without grounding.",
+                    )
+                else:
+                    valid_ids = {p["id"] for p in candidates}
+                    for ref_id in _extract_json_array(response):
+                        if (
+                            ref_id in valid_ids
+                            and ref_id not in _citation_ids(expanded_draft)
+                            and "## References" in expanded_draft
+                        ):
+                            expanded_draft = expanded_draft.replace("## References", f"- [[{ref_id}]]\n## References", 1)
+                            newly_cited.append(ref_id)
 
-        final_citations = len(set(re.findall(r'\[\[([^\]]+)\]\]', expanded_draft)))
-        _log("Citation-Expansion", "Citation Graph Expander", f"Citation Expansion Complete: Grounded {final_citations} distinct peer-reviewed citations.")
+        final_citations = len(_citation_ids(expanded_draft))
+        _log(
+            "Citation-Expansion",
+            "Citation Graph Expander",
+            f"Citation Expansion Complete: {final_citations} distinct citations grounded in real vault papers"
+            + (f" ({len(newly_cited)} newly added: {', '.join(newly_cited)})" if newly_cited else ""),
+        )
 
         # Step 3: Technical Depth & Rigor Auditor
         _log("Rigor-Audit", "Technical Depth & Rigor Auditor", "Auditing formal proofs, Lyapunov stability constraints, and experimental tables...")
         if "\\begin{tabular}" not in expanded_draft:
-            _log("Rigor-Audit", "Technical Depth & Rigor Auditor", "Notice: Injecting formal empirical evaluation table for publication gate compliance.")
-            table_snippet = """\n\n\\begin{table*}[t]
-\\centering
-\\caption{Empirical Quantitative Benchmarking across Standard Baselines ($N = 14,850$).}
-\\label{tab:meta_benchmark_results}
-\\small
-\\begin{tabular}{lcccc}
-\\hline
-\\textbf{Methodology} & \\textbf{Primary Accuracy (\\%)} & \\textbf{Safety Retention (\\%)} & \\textbf{Latency (ms)} & \\textbf{Pass@1 (\\%)} \\\\
-\\hline
-Baseline Unconstrained & 74.2 $\\pm$ 0.8 & 46.2 $\\pm$ 1.2 & 142 & 28.4 \\\\
-Parameter-Isolated PEFT & 81.6 $\\pm$ 0.5 & 71.3 $\\pm$ 0.8 & 156 & 31.2 \\\\
-Experience Replay Buffer & 82.9 $\\pm$ 0.4 & 89.2 $\\pm$ 0.5 & 318 & 34.6 \\\\
-\\textbf{Gradient-Constrained (Ours)} & \\textbf{83.6 $\\pm$ 0.4} & \\textbf{93.8 $\\pm$ 0.4} & \\textbf{156} & \\textbf{36.8} \\\\
-\\hline
-\\end{tabular}
-\\end{table*}\n\n"""
-            if "## 6 Results" in expanded_draft:
-                expanded_draft = expanded_draft.replace("## 6 Results", f"## 6 Results{table_snippet}", 1)
-            elif "## Results" in expanded_draft:
-                expanded_draft = expanded_draft.replace("## Results", f"## Results{table_snippet}", 1)
+            # This council has no wired source of real measured results (no
+            # ExperimentRecorder/ledger access -- only the paper/concept/debate/
+            # draft vault categories). Inventing benchmark numbers here would be
+            # exactly the "estimate instead of measure" failure this project's
+            # gate exists to catch (HANDOFF.md: "if a claim cannot be measured,
+            # delete it, do not estimate"). Flag the gap instead of fabricating it.
+            missing_requirements.append("empirical_results_table")
+            _log(
+                "Rigor-Audit",
+                "Technical Depth & Rigor Auditor",
+                "Gate failure: manuscript has no empirical results table (\\begin{tabular}), and no measured "
+                "experiment data is available to this council to generate one. Refusing to fabricate results -- "
+                "add a \\begin{tabular} table sourced from a real experiment run before resubmission."
+            )
 
         # Step 4: Venue Rectifier & Sanitizer
         _log("Venue-Rectification", "Cross-Venue Publisher & Sanitizer", f"Sanitizing AI filler phrases and aligning layout to {target_venue} style profile...")
@@ -188,14 +278,24 @@ Experience Replay Buffer & 82.9 $\\pm$ 0.4 & 89.2 $\\pm$ 0.5 & 318 & 34.6 \\\\
         final_tables = len(re.findall(r'\\begin\{tabular\}', expanded_draft))
         final_equations = len(re.findall(r'\\begin\{equation\}|\$\$', expanded_draft))
 
-        _log("Consensus", "Meta-Review Council Chair", 
-             f"Meta-Review Alignment Council Concluded: Output ready for compilation. Final words: {final_words}, Citations: {final_citations}, Tables: {final_tables}, Equations: {final_equations}.",
+        # The decision must reflect what was actually found, not a constant --
+        # the council cannot certify a manuscript as publication-ready while a
+        # required element (the results table) is known to be missing.
+        decision = "REMEDIATION_REQUIRED" if missing_requirements else "APPROVED_FOR_HUMAN_REVIEW"
+
+        _log("Consensus", "Meta-Review Council Chair",
+             f"Meta-Review Alignment Council Concluded: Final words: {final_words}, Citations: {final_citations}, "
+             f"Tables: {final_tables}, Equations: {final_equations}. Decision: {decision}"
+             + (f" (missing: {', '.join(missing_requirements)})" if missing_requirements else "")
+             + (f" (warnings: {', '.join(warnings)})" if warnings else ""),
              {
                  "final_words": final_words,
                  "final_citations": final_citations,
                  "final_tables": final_tables,
                  "final_equations": final_equations,
-                 "decision": "STRONG ACCEPT"
+                 "decision": decision,
+                 "missing_requirements": missing_requirements,
+                 "warnings": warnings,
              })
 
         return {
@@ -211,5 +311,7 @@ Experience Replay Buffer & 82.9 $\\pm$ 0.4 & 89.2 $\\pm$ 0.5 & 318 & 34.6 \\\\
             "initial_equations": initial_equations,
             "final_equations": final_equations,
             "revised_draft": expanded_draft,
-            "decision": "STRONG ACCEPT"
+            "decision": decision,
+            "missing_requirements": missing_requirements,
+            "warnings": warnings,
         }
