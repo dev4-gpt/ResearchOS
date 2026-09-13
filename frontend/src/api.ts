@@ -4,7 +4,7 @@
  * falls back to direct `http://127.0.0.1:8000/api/...` endpoint.
  */
 
-const DIRECT_BACKEND_URL = 'http://127.0.0.1:8000';
+const DIRECT_BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:8000';
 
 export async function apiFetch(endpoint: string, options?: RequestInit): Promise<Response> {
   const url = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
