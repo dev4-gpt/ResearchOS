@@ -27,6 +27,10 @@ from services.vault import VaultManager
 from services.evomap_autoresearch import IdeaForgeService
 from services.voxcpm_service import VoiceControlParser, VoxCPMAudioService
 from services.ecc_skill_loader import ECCSkillLoader
+from services.academic_voice_linter import AcademicVoiceLinter
+from services.conference_slides_service import ConferenceSlidesService
+from services.diagram_generator import DiagramGeneratorService
+from services.universal_skills import UniversalSkillsService
 
 
 def cmd_audit(args: argparse.Namespace, feynman: FeynmanService, vault: VaultManager) -> int:
@@ -315,6 +319,137 @@ def cmd_ecc(args: argparse.Namespace) -> int:
     return 1
 
 
+def cmd_slop(args: argparse.Namespace, vault: VaultManager) -> int:
+    linter = AcademicVoiceLinter()
+    text = args.text
+    if not text and args.draft:
+        draft_name = args.draft if args.draft.endswith(".md") else f"{args.draft}.md"
+        doc = vault.read_markdown("drafts", draft_name)
+        text = doc.get("content", "")
+        if not text:
+            print(f"Error: Draft '{draft_name}' not found or empty.")
+            return 1
+
+    if not text:
+        print("Error: Specify either a draft name or provide --text.")
+        return 1
+
+    if args.slop_action == "audit":
+        res = linter.audit_prose(text)
+        print(f"\n========================================================")
+        print(f" Academic Voice & Anti-Slop Audit (hardikpandya/stop-slop)")
+        print(f"========================================================")
+        print(f"Academic Voice Score: {res['academic_voice_score']}% [{res['rating']}]")
+        print(f"Total AI tells identified: {res['total_findings']}")
+        print(f"Blockers: {res['breakdown']['blockers']} | Majors: {res['breakdown']['majors']} | Minors: {res['breakdown']['minors']}\n")
+        if res["findings"]:
+            print("--- Top Findings ---")
+            for idx, f in enumerate(res["findings"][:10], start=1):
+                print(f"  [{f['severity']}] Line {f['line_number']}: \"{f['matched_text']}\"")
+                print(f"       Action: {f['recommendation']}")
+        return 0
+
+    elif args.slop_action == "humanize":
+        res = linter.humanize_text(text)
+        print(f"\n========================================================")
+        print(f" Humanized Academic Scholarly Prose (blader/humanizer)")
+        print(f"========================================================")
+        print(f"Score Improvement: {res['original_score']}% -> {res['cleaned_score']}% (+{res['score_improvement']}%)")
+        print(f"Findings Reduced:  {res['original_findings_count']} -> {res['cleaned_findings_count']}\n")
+        print("--- Humanized Output Preview ---")
+        print(res["humanized_text"][:800])
+        return 0
+    return 1
+
+
+def cmd_slides(args: argparse.Namespace, vault: VaultManager) -> int:
+    service = ConferenceSlidesService(vault.vault_path)
+    title = args.title or "Conference Presentation"
+    text = args.text
+    if not text and args.draft:
+        draft_name = args.draft if args.draft.endswith(".md") else f"{args.draft}.md"
+        doc = vault.read_markdown("drafts", draft_name)
+        text = doc.get("content", "")
+        title = doc.get("frontmatter", {}).get("title", draft_name)
+        if not text:
+            print(f"Error: Draft '{draft_name}' not found or empty.")
+            return 1
+
+    if not text:
+        text = f"# {title}\n\nExecutive Abstract: Autonomous research presentation generated via ResearchingOS."
+
+    res = service.generate_deck_from_manuscript(
+        draft_title=title,
+        manuscript_text=text,
+        venue=args.venue or "IEEEtran / ACM Conference",
+    )
+    print(f"\n========================================================")
+    print(f" 16:9 Presentation Slides (zarazhangrui/frontend-slides)")
+    print(f"========================================================")
+    print(f"Deck Title:   {res['title']}")
+    print(f"Total Slides: {res['total_slides']}")
+    print(f"HTML File:    {res['file_path']}")
+    print(f"Open URL:     http://127.0.0.1:8000{res['relative_url']}\n")
+    return 0
+
+
+def cmd_diagram(args: argparse.Namespace, vault: VaultManager) -> int:
+    service = DiagramGeneratorService(vault.vault_path)
+    title = args.title or "ResearchingOS Multi-Agent Autonomous Council Pipeline"
+    res = service.generate_pipeline_diagram(title=title)
+    print(f"\n========================================================")
+    print(f" Publication Architecture Diagram (cathrynlavery/diagram-design)")
+    print(f"========================================================")
+    print(f"Title:     {res['title']}")
+    print(f"SVG File:  {res['file_path']}")
+    print(f"Open URL:  http://127.0.0.1:8000{res['relative_url']}\n")
+    return 0
+
+
+def cmd_skills(args: argparse.Namespace) -> int:
+    service = UniversalSkillsService()
+    if args.skills_action == "summary":
+        summary = service.get_summary()
+        print(f"\n========================================================")
+        print(f" Universal Installed Skills Summary (Zero Storage Duplication)")
+        print(f"========================================================")
+        print(f"Global Path:      {summary['global_path']}")
+        print(f"Total Skills:     {summary['total_skills_installed']}")
+        print(f"Zero Duplication: {summary['zero_storage_duplication']}\n")
+        print("Curated Skill Breakdown:")
+        for k, v in summary["highlighted_curations"].items():
+            print(f"  • {k}: {v} skills")
+        print("\nAll Categories:")
+        for cat, cnt in summary["categories"].items():
+            print(f"  • {cat}: {cnt} skills")
+        return 0
+
+    elif args.skills_action == "list":
+        skills = service.list_universal_skills(category=args.category)
+        print(f"\n========================================================")
+        print(f" Universal Skills Catalog ({len(skills)} found)")
+        print(f"========================================================")
+        for s in skills:
+            print(f"  • {s['name']:<28} [{s['category']}] (by {s['author']})")
+        return 0
+
+    elif args.skills_action == "show":
+        if not args.skill_name:
+            print("Error: specify skill name to inspect")
+            return 1
+        details = service.get_skill_details(args.skill_name)
+        if not details:
+            print(f"Error: Skill '{args.skill_name}' not found.")
+            return 1
+        print(f"\n========================================================")
+        print(f" Universal Skill: {details['name']} (by {details['author']})")
+        print(f" Category: {details['category']} | Path: {details['path']}")
+        print(f"========================================================")
+        print(details["content"][:1200])
+        return 0
+    return 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Feynman CLI for ResearchingOS")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -365,6 +500,29 @@ def main() -> int:
     p_ecc.add_argument("--query", default=None, help="Search query")
     p_ecc.add_argument("--limit", type=int, default=50, help="Max skills to show")
 
+    # slop
+    p_slop = subparsers.add_parser("slop", help="Anti-slop linter and academic voice humanizer")
+    p_slop.add_argument("slop_action", choices=["audit", "humanize"], help="Action: audit or humanize")
+    p_slop.add_argument("draft", nargs="?", default=None, help="Draft filename (e.g. paper.md)")
+    p_slop.add_argument("--text", default=None, help="Direct prose text to audit or humanize")
+
+    # slides
+    p_slides = subparsers.add_parser("slides", help="Generate 16:9 presentation slide deck")
+    p_slides.add_argument("draft", nargs="?", default=None, help="Draft filename")
+    p_slides.add_argument("--title", default=None, help="Slide deck presentation title")
+    p_slides.add_argument("--text", default=None, help="Raw markdown content")
+    p_slides.add_argument("--venue", default="IEEEtran / ACM Conference", help="Target venue")
+
+    # diagram
+    p_diagram = subparsers.add_parser("diagram", help="Generate publication architecture SVG diagram")
+    p_diagram.add_argument("--title", default="ResearchingOS Multi-Agent Autonomous Council Pipeline", help="Diagram title")
+
+    # skills
+    p_skills = subparsers.add_parser("skills", help="Universal skills catalog inspection")
+    p_skills.add_argument("skills_action", choices=["summary", "list", "show"], default="summary", nargs="?", help="Action: summary, list, or show")
+    p_skills.add_argument("skill_name", nargs="?", default=None, help="Skill name to inspect")
+    p_skills.add_argument("--category", default=None, help="Filter by category")
+
     args = parser.parse_args()
     vault = VaultManager(os.getenv("VAULT_PATH", "vault"))
     feynman = FeynmanService(vault_manager=vault)
@@ -385,6 +543,14 @@ def main() -> int:
         return cmd_voice(args, vault)
     elif args.command == "ecc":
         return cmd_ecc(args)
+    elif args.command == "slop":
+        return cmd_slop(args, vault)
+    elif args.command == "slides":
+        return cmd_slides(args, vault)
+    elif args.command == "diagram":
+        return cmd_diagram(args, vault)
+    elif args.command == "skills":
+        return cmd_skills(args)
 
     return 0
 

@@ -10,6 +10,7 @@ from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, Response, FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -47,6 +48,8 @@ app.add_middleware(
 # Initialize service classes
 vault_path = os.getenv("VAULT_PATH", "../vault")
 vault_manager = VaultManager(vault_path)
+if os.path.exists(vault_manager.vault_path):
+    app.mount("/vault", StaticFiles(directory=vault_manager.vault_path, html=True), name="vault")
 fact_checker = FactCheckerService(vault_manager)
 orchestrator = CouncilOrchestrator(vault_path)
 pdf_qa = PDFQualityAssurance()
@@ -71,6 +74,10 @@ from services.fx_mcp_server import ResearchOSMCPServer
 from services.evomap_autoresearch import IdeaForgeService
 from services.voxcpm_service import VoiceControlParser, VoxCPMAudioService
 from services.ecc_skill_loader import ECCSkillLoader
+from services.academic_voice_linter import AcademicVoiceLinter
+from services.conference_slides_service import ConferenceSlidesService
+from services.diagram_generator import DiagramGeneratorService
+from services.universal_skills import UniversalSkillsService
 
 fx_bridge = FXBridge()
 feynman_service = FeynmanService(vault_manager, fx_bridge=fx_bridge)
@@ -80,6 +87,10 @@ evomap_service = IdeaForgeService(vault_manager)
 voice_control_parser = VoiceControlParser()
 voxcpm_audio_service = VoxCPMAudioService(vault_manager.vault_path)
 ecc_skill_loader = ECCSkillLoader()
+academic_voice_linter = AcademicVoiceLinter()
+conference_slides_service = ConferenceSlidesService(vault_manager.vault_path)
+diagram_generator_service = DiagramGeneratorService(vault_manager.vault_path)
+universal_skills_service = UniversalSkillsService()
 
 # In-memory log store for streaming active research runs and meta-reviews
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -154,6 +165,25 @@ class VoiceCommandRequest(BaseModel):
 class VoiceSynthesizeRequest(BaseModel):
     text: str
     persona: Optional[str] = "chairman"
+
+class SlopAuditRequest(BaseModel):
+    text: Optional[str] = None
+    draft_filename: Optional[str] = None
+
+class SlopHumanizeRequest(BaseModel):
+    text: Optional[str] = None
+    draft_filename: Optional[str] = None
+
+class SlideDeckRequest(BaseModel):
+    draft_filename: Optional[str] = None
+    title: Optional[str] = None
+    text: Optional[str] = None
+    author: Optional[str] = "ResearchingOS Autonomous Academic Council"
+    venue: Optional[str] = "IEEEtran / ACM Conference"
+
+class DiagramGenerateRequest(BaseModel):
+    title: Optional[str] = "ResearchingOS Multi-Agent Autonomous Council Pipeline"
+    nodes: Optional[List[Dict[str, str]]] = None
 
 @app.get("/")
 def root_index():
@@ -1303,6 +1333,83 @@ def ecc_skill_detail_endpoint(name: str):
 def ecc_sync_endpoint():
     """Syncs vital core ECC skills directly to workspace .agents/skills/ecc/."""
     return ecc_skill_loader.sync_core_skills_to_workspace()
+
+# ---------------------------------------------------------------------------
+# Universal Skills, Academic Voice (Stop-Slop), Slides & Diagram Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/slop/audit")
+def slop_audit_endpoint(req: SlopAuditRequest):
+    """Audits text or draft manuscript for AI clichés, staging contrasts, and throat-clearing."""
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return academic_voice_linter.audit_prose(content)
+
+@app.post("/api/slop/humanize")
+def slop_humanize_endpoint(req: SlopHumanizeRequest):
+    """Rewrites text or draft manuscript eliminating AI tells and restoring scholarly voice."""
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return academic_voice_linter.humanize_text(content)
+
+@app.post("/api/slides/generate")
+def slides_generate_endpoint(req: SlideDeckRequest):
+    """Generates a zero-dependency 16:9 fixed-stage HTML slide deck from draft manuscript."""
+    title = req.title or "Conference Slide Presentation"
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+        title = doc.get("frontmatter", {}).get("title", filename)
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return conference_slides_service.generate_deck_from_manuscript(
+        draft_title=title,
+        manuscript_text=content,
+        author=req.author or "ResearchingOS Autonomous Academic Council",
+        venue=req.venue or "IEEEtran / ACM Conference",
+    )
+
+@app.post("/api/diagram/generate")
+def diagram_generate_endpoint(req: DiagramGenerateRequest):
+    """Generates an editorial SVG architecture diagram for paper or dashboard."""
+    return diagram_generator_service.generate_pipeline_diagram(
+        title=req.title or "ResearchingOS Multi-Agent Autonomous Council Pipeline",
+        nodes=req.nodes,
+    )
+
+@app.get("/api/skills/universal")
+def universal_skills_endpoint(category: Optional[str] = None):
+    """Lists universally installed skills across UI, design, anti-slop, slides, and diagrams."""
+    return {
+        "summary": universal_skills_service.get_summary(),
+        "skills": universal_skills_service.list_universal_skills(category=category),
+    }
+
+@app.get("/api/skills/universal/{name}")
+def universal_skill_detail_endpoint(name: str):
+    """Retrieves full documentation and guidelines for a specific universally installed skill."""
+    details = universal_skills_service.get_skill_details(name)
+    if not details:
+        raise HTTPException(status_code=404, detail=f"Skill '{name}' not found")
+    return details
 
 
 if __name__ == "__main__":

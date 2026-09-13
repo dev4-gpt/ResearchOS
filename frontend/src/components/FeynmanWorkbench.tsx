@@ -15,6 +15,8 @@ import {
   Volume2,
   FolderSync,
   Layers,
+  ExternalLink,
+  FileText,
 } from 'lucide-react';
 import { apiFetch } from '../api';
 
@@ -82,7 +84,7 @@ interface AutoresearchResult {
 }
 
 export const FeynmanWorkbench: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'fx' | 'evomap' | 'voice' | 'ecc'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
   const [drafts, setDrafts] = useState<string[]>([]);
   const [selectedDraft, setSelectedDraft] = useState<string>('');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
@@ -131,12 +133,31 @@ export const FeynmanWorkbench: React.FC = () => {
   const [selectedEccSkill, setSelectedEccSkill] = useState<any | null>(null);
   const [eccSyncMsg, setEccSyncMsg] = useState<string | null>(null);
 
+  // States for Academic Voice (Stop-Slop & Humanizer)
+  const [slopText, setSlopText] = useState<string>('');
+  const [slopResult, setSlopResult] = useState<any | null>(null);
+  const [humanizeResult, setHumanizeResult] = useState<any | null>(null);
+
+  // States for Conference Slides (frontend-slides)
+  const [slidesResult, setSlidesResult] = useState<any | null>(null);
+
+  // States for Diagram Generator (diagram-design)
+  const [diagramTitle, setDiagramTitle] = useState<string>('ResearchingOS Multi-Agent Autonomous Council Pipeline');
+  const [diagramResult, setDiagramResult] = useState<any | null>(null);
+
+  // States for Universal Skills (Zero Duplication)
+  const [universalSkills, setUniversalSkills] = useState<any[]>([]);
+  const [universalSummary, setUniversalSummary] = useState<any | null>(null);
+  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>('');
+  const [selectedUniversalSkill, setSelectedUniversalSkill] = useState<any | null>(null);
+
   useEffect(() => {
     fetchDrafts();
     fetchFxStatus();
     fetchVoiceStatus();
     fetchEccSkills();
     fetchNegativeResults();
+    fetchUniversalSkills();
   }, []);
 
   const fetchFxStatus = async () => {
@@ -418,6 +439,95 @@ export const FeynmanWorkbench: React.FC = () => {
     }
   };
 
+  const fetchUniversalSkills = async (cat?: string) => {
+    try {
+      const url = cat ? `/api/skills/universal?category=${encodeURIComponent(cat)}` : '/api/skills/universal';
+      const res = await apiFetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        setUniversalSummary(data.summary);
+        setUniversalSkills(data.skills || []);
+      }
+    } catch (e) {
+      console.error('Failed to fetch universal skills:', e);
+    }
+  };
+
+  const runSlopAudit = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const payload = slopText.trim() ? { text: slopText } : { draft_filename: selectedDraft };
+      const res = await apiFetch('/api/slop/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('Slop audit failed');
+      setSlopResult(await res.json());
+    } catch (e: any) {
+      setError(e.message || 'Error running anti-slop audit');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runSlopHumanize = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const payload = slopText.trim() ? { text: slopText } : { draft_filename: selectedDraft };
+      const res = await apiFetch('/api/slop/humanize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('Humanize failed');
+      setHumanizeResult(await res.json());
+    } catch (e: any) {
+      setError(e.message || 'Error humanizing prose');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runGenerateSlides = async () => {
+    if (!selectedDraft) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/slides/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ draft_filename: selectedDraft, venue: selectedVenue }),
+      });
+      if (!res.ok) throw new Error('Slides generation failed');
+      setSlidesResult(await res.json());
+    } catch (e: any) {
+      setError(e.message || 'Error generating conference slides');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runGenerateDiagram = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/diagram/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: diagramTitle }),
+      });
+      if (!res.ok) throw new Error('Diagram generation failed');
+      setDiagramResult(await res.json());
+    } catch (e: any) {
+      setError(e.message || 'Error generating architecture diagram');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ padding: '24px', maxWidth: '1280px', margin: '0 auto', color: 'var(--text-primary)' }}>
       {/* Header Banner */}
@@ -478,16 +588,20 @@ export const FeynmanWorkbench: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
         {[
-          { id: 'audit', label: 'Paper-to-Code Audit (/audit)', icon: Code },
-          { id: 'lit', label: 'Literature Matrix (/lit)', icon: BookOpen },
-          { id: 'review', label: 'Simulated Peer Review (/review)', icon: ShieldAlert },
-          { id: 'autoresearch', label: 'Autoresearch Hill-Climber', icon: Sparkles },
-          { id: 'fx', label: 'fx Engine (Vercel Labs)', icon: Terminal },
-          { id: 'evomap', label: 'Idea Forge (EvoMap)', icon: Lightbulb },
-          { id: 'voice', label: 'Voice Control (VoxCPM)', icon: Mic },
-          { id: 'ecc', label: 'ECC Skills Catalog', icon: Layers },
+          { id: 'audit', label: 'Paper-to-Code (/audit)', icon: Code },
+          { id: 'slop', label: 'Anti-Slop (/slop)', icon: FileText },
+          { id: 'slides', label: '16:9 Slides (/slides)', icon: Play },
+          { id: 'diagram', label: 'Diagrams (/diagram)', icon: Cpu },
+          { id: 'skills', label: 'Universal Skills', icon: Layers },
+          { id: 'lit', label: 'Lit Matrix (/lit)', icon: BookOpen },
+          { id: 'review', label: 'Peer Review (/review)', icon: ShieldAlert },
+          { id: 'autoresearch', label: 'Autoresearch', icon: Sparkles },
+          { id: 'fx', label: 'fx Engine', icon: Terminal },
+          { id: 'evomap', label: 'Idea Forge', icon: Lightbulb },
+          { id: 'voice', label: 'Voice Control', icon: Mic },
+          { id: 'ecc', label: 'ECC Catalog', icon: Layers },
         ].map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
@@ -1503,6 +1617,504 @@ export const FeynmanWorkbench: React.FC = () => {
                   <p style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '12px' }}>{selectedEccSkill.description}</p>
                   <pre style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '6px', fontSize: '12px', overflowX: 'auto', whiteSpace: 'pre-wrap', color: '#cbd5e1' }}>
                     {selectedEccSkill.body}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB: Academic Voice & Anti-Slop (Stop-Slop & Humanizer) */}
+      {activeTab === 'slop' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Academic Voice & Anti-Slop Linter</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Integrates <code style={{ color: '#38bdf8' }}>hardikpandya/stop-slop</code> and <code style={{ color: '#38bdf8' }}>blader/humanizer</code> to eliminate AI tells, staging contrasts, and throat-clearing clichés.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={runSlopAudit}
+                disabled={loading}
+                style={{
+                  padding: '8px 16px',
+                  background: '#0284c7',
+                  border: 'none',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Audit Draft Prose
+              </button>
+              <button
+                onClick={runSlopHumanize}
+                disabled={loading}
+                style={{
+                  padding: '8px 16px',
+                  background: 'rgba(16, 185, 129, 0.2)',
+                  border: '1px solid #10b981',
+                  borderRadius: '6px',
+                  color: '#34d399',
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Clean & Humanize
+              </button>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px' }}>
+              Optional Custom Text (Leave empty to audit selected draft: <strong style={{ color: '#fff' }}>{selectedDraft}</strong>):
+            </label>
+            <textarea
+              value={slopText}
+              onChange={(e) => setSlopText(e.target.value)}
+              placeholder="Paste specific paragraph or draft text here to test for AI writing patterns..."
+              rows={4}
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                borderRadius: '6px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {slopResult && (
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '16px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Academic Voice Score</div>
+                  <div style={{
+                    fontSize: '28px',
+                    fontWeight: '700',
+                    color: slopResult.academic_voice_score >= 90 ? '#34d399' : slopResult.academic_voice_score >= 75 ? '#38bdf8' : slopResult.academic_voice_score >= 60 ? '#fbbf24' : '#f87171',
+                    marginTop: '4px',
+                  }}>
+                    {slopResult.academic_voice_score}%
+                  </div>
+                  <div style={{ fontSize: '10px', color: 'var(--text-secondary)', marginTop: '2px' }}>{slopResult.rating}</div>
+                </div>
+
+                <div style={{ background: 'rgba(239, 68, 68, 0.06)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '16px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', color: '#f87171' }}>Blockers (Fatal Tells)</div>
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: '#f87171', marginTop: '4px' }}>
+                    {slopResult.breakdown.blockers}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#fca5a5', marginTop: '2px' }}>Tapestry, beacon, groundbreaking</div>
+                </div>
+
+                <div style={{ background: 'rgba(245, 158, 11, 0.06)', border: '1px solid rgba(245, 158, 11, 0.2)', padding: '16px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', color: '#fbbf24' }}>Majors (Staging & Cliches)</div>
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: '#fbbf24', marginTop: '4px' }}>
+                    {slopResult.breakdown.majors}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#fde68a', marginTop: '2px' }}>Delve into, not only X but Y</div>
+                </div>
+
+                <div style={{ background: 'rgba(56, 189, 248, 0.06)', border: '1px solid rgba(56, 189, 248, 0.2)', padding: '16px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', color: '#38bdf8' }}>Minors (Filler Adverbs)</div>
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: '#38bdf8', marginTop: '4px' }}>
+                    {slopResult.breakdown.minors}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#bae6fd', marginTop: '2px' }}>Crucially, fundamentally</div>
+                </div>
+              </div>
+
+              {slopResult.findings.length > 0 ? (
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', overflow: 'hidden' }}>
+                  <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', fontWeight: '600', fontSize: '13px' }}>
+                    Identified AI Patterns ({slopResult.total_findings})
+                  </div>
+                  <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                    {slopResult.findings.map((f: any, idx: number) => (
+                      <div key={idx} style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255, 255, 255, 0.04)', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                        <span style={{
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          fontSize: '10px',
+                          fontWeight: '700',
+                          background: f.severity === 'BLOCKER' ? 'rgba(239, 68, 68, 0.2)' : f.severity === 'MAJOR' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(56, 189, 248, 0.2)',
+                          color: f.severity === 'BLOCKER' ? '#f87171' : f.severity === 'MAJOR' ? '#fbbf24' : '#38bdf8',
+                        }}>
+                          {f.severity}
+                        </span>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: '600', color: '#fff' }}>
+                            Line {f.line_number}: <span style={{ color: '#f87171', background: 'rgba(239, 68, 68, 0.1)', padding: '1px 4px', borderRadius: '3px' }}>"{f.matched_text}"</span>
+                          </div>
+                          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '3px' }}>
+                            Action: {f.recommendation}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ padding: '16px', background: 'rgba(52, 211, 153, 0.1)', border: '1px solid rgba(52, 211, 153, 0.3)', borderRadius: '8px', color: '#34d399', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle2 size={18} />
+                  <span>Zero AI tells or slop detected. Text meets strict human scholarly publication standards.</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {humanizeResult && (
+            <div style={{ background: 'rgba(16, 185, 129, 0.04)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: '8px', padding: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Sparkles size={18} color="#34d399" />
+                  <span style={{ fontWeight: '600', fontSize: '14px', color: '#34d399' }}>Humanized Scholarly Output</span>
+                  <span style={{ fontSize: '11px', background: 'rgba(52, 211, 153, 0.15)', color: '#34d399', padding: '2px 8px', borderRadius: '12px' }}>
+                    Score: {humanizeResult.original_score}% → {humanizeResult.cleaned_score}% (+{humanizeResult.score_improvement}%)
+                  </span>
+                </div>
+              </div>
+              <pre style={{
+                background: '#090d16',
+                padding: '14px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                color: '#e2e8f0',
+                whiteSpace: 'pre-wrap',
+                lineHeight: '1.6',
+                maxHeight: '300px',
+                overflowY: 'auto',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}>
+                {humanizeResult.humanized_text}
+              </pre>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB: 16:9 Presentation Slides (frontend-slides) */}
+      {activeTab === 'slides' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>16:9 Conference Slides Engine</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Integrates <code style={{ color: '#38bdf8' }}>zarazhangrui/frontend-slides</code> to synthesize zero-dependency 16:9 fixed-stage presentations from draft manuscripts.
+              </p>
+            </div>
+            <button
+              onClick={runGenerateSlides}
+              disabled={loading || !selectedDraft}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 16px',
+                background: '#0284c7',
+                border: 'none',
+                borderRadius: '6px',
+                color: '#fff',
+                fontWeight: '600',
+                fontSize: '13px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+              }}
+            >
+              <Play size={14} />
+              Generate Slides for Draft
+            </button>
+          </div>
+
+          {slidesResult ? (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '12px 16px', borderRadius: '8px', marginBottom: '16px' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: '600', color: '#fff' }}>{slidesResult.title}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {slidesResult.total_slides} slides generated • {slidesResult.file_path}
+                  </div>
+                </div>
+                <a
+                  href={`http://127.0.0.1:8000${slidesResult.relative_url}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 12px',
+                    background: 'rgba(56, 189, 248, 0.15)',
+                    border: '1px solid #38bdf8',
+                    borderRadius: '6px',
+                    color: '#38bdf8',
+                    fontSize: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                  }}
+                >
+                  <ExternalLink size={14} />
+                  Open Fullscreen Stage
+                </a>
+              </div>
+
+              <div style={{ border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '8px', overflow: 'hidden', background: '#000' }}>
+                <iframe
+                  src={`http://127.0.0.1:8000${slidesResult.relative_url}`}
+                  style={{ width: '100%', height: '560px', border: 'none' }}
+                  title="Conference Slides Preview"
+                />
+              </div>
+            </div>
+          ) : (
+            <div style={{ padding: '40px 20px', textAlign: 'center', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '8px' }}>
+              <Play size={36} color="#38bdf8" style={{ margin: '0 auto 12px auto', opacity: 0.8 }} />
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#fff' }}>No Slide Deck Generated Yet</div>
+              <p style={{ fontSize: '12px', color: 'var(--text-secondary)', maxWidth: '440px', margin: '6px auto 16px auto' }}>
+                Click "Generate Slides for Draft" to compile <span style={{ color: '#38bdf8' }}>{selectedDraft || 'your manuscript'}</span> into a 16:9 presentation deck with KaTeX mathematics.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB: Publication Architecture Diagrams (diagram-design) */}
+      {activeTab === 'diagram' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Publication Architecture Diagrams</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Integrates <code style={{ color: '#38bdf8' }}>cathrynlavery/diagram-design</code> to generate crisp, editorial vector SVG pipeline diagrams for LaTeX manuscripts.
+              </p>
+            </div>
+            <button
+              onClick={runGenerateDiagram}
+              disabled={loading}
+              style={{
+                padding: '8px 16px',
+                background: '#0284c7',
+                border: 'none',
+                borderRadius: '6px',
+                color: '#fff',
+                fontWeight: '600',
+                fontSize: '13px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+              }}
+            >
+              Generate SVG Schematic
+            </button>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px' }}>
+              Diagram Title:
+            </label>
+            <input
+              type="text"
+              value={diagramTitle}
+              onChange={(e) => setDiagramTitle(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {diagramResult && (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '12px 16px', borderRadius: '8px', marginBottom: '16px' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: '600', color: '#fff' }}>{diagramResult.title}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {diagramResult.file_path}
+                  </div>
+                </div>
+                <a
+                  href={`http://127.0.0.1:8000${diagramResult.relative_url}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  download
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 12px',
+                    background: 'rgba(56, 189, 248, 0.15)',
+                    border: '1px solid #38bdf8',
+                    borderRadius: '6px',
+                    color: '#38bdf8',
+                    fontSize: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                  }}
+                >
+                  <ExternalLink size={14} />
+                  Open Raw SVG
+                </a>
+              </div>
+
+              <div
+                style={{ background: '#0b1329', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '8px', padding: '20px', overflowX: 'auto' }}
+                dangerouslySetInnerHTML={{ __html: diagramResult.svg }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB: Universal Skills Catalog (Zero Storage Duplication) */}
+      {activeTab === 'skills' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Universal Skills Registry</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Directly indexes all 136 universally installed skills from <code style={{ color: '#38bdf8' }}>~/.claude/skills</code> with <strong style={{ color: '#34d399' }}>Zero Storage Duplication</strong>.
+              </p>
+            </div>
+          </div>
+
+          {universalSummary && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '10px', marginBottom: '20px' }}>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Total Skills</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#38bdf8', marginTop: '2px' }}>{universalSummary.total_skills_installed}</div>
+                <div style={{ fontSize: '9px', color: '#34d399', marginTop: '2px' }}>Zero Duplication</div>
+              </div>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>UI/UX Pro Max</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#a855f7', marginTop: '2px' }}>{universalSummary.highlighted_curations.ui_ux_pro_max}</div>
+                <div style={{ fontSize: '9px', color: 'var(--text-secondary)', marginTop: '2px' }}>nextlevelbuilder</div>
+              </div>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Taste Skill</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#f59e0b', marginTop: '2px' }}>{universalSummary.highlighted_curations.taste_skill}</div>
+                <div style={{ fontSize: '9px', color: 'var(--text-secondary)', marginTop: '2px' }}>Leonxlnx</div>
+              </div>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Understand Any</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#10b981', marginTop: '2px' }}>{universalSummary.highlighted_curations.understand_anything}</div>
+                <div style={{ fontSize: '9px', color: 'var(--text-secondary)', marginTop: '2px' }}>Egonex-AI</div>
+              </div>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Academic Voice</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#ec4899', marginTop: '2px' }}>{universalSummary.highlighted_curations.academic_voice}</div>
+                <div style={{ fontSize: '9px', color: 'var(--text-secondary)', marginTop: '2px' }}>stop-slop/humanizer</div>
+              </div>
+              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '12px', borderRadius: '6px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Slides & Diag</div>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: '#06b6d4', marginTop: '2px' }}>{universalSummary.highlighted_curations.presentations + universalSummary.highlighted_curations.diagrams}</div>
+                <div style={{ fontSize: '9px', color: 'var(--text-secondary)', marginTop: '2px' }}>16:9 & SVG</div>
+              </div>
+            </div>
+          )}
+
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
+            {[
+              { id: '', label: 'All Skills' },
+              { id: 'ui_ux_design', label: 'UI/UX Pro Max' },
+              { id: 'frontend_taste', label: 'Frontend Taste & Impeccable' },
+              { id: 'academic_voice', label: 'Academic Voice (Stop-Slop)' },
+              { id: 'presentation', label: 'Conference Slides' },
+              { id: 'diagrams', label: 'Diagram Design' },
+              { id: 'code_comprehension', label: 'Understand Anything' },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setSkillCategoryFilter(cat.id);
+                  fetchUniversalSkills(cat.id);
+                }}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: '16px',
+                  background: skillCategoryFilter === cat.id ? '#0284c7' : 'rgba(255, 255, 255, 0.05)',
+                  border: skillCategoryFilter === cat.id ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.1)',
+                  color: skillCategoryFilter === cat.id ? '#fff' : 'var(--text-secondary)',
+                  fontSize: '12px',
+                  fontWeight: skillCategoryFilter === cat.id ? '600' : '400',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Skills Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+            {universalSkills.map((s: any, idx: number) => (
+              <div
+                key={idx}
+                onClick={async () => {
+                  try {
+                    const res = await apiFetch(`/api/skills/universal/${s.name}`);
+                    if (res.ok) setSelectedUniversalSkill(await res.json());
+                  } catch (e) {
+                    console.error('Failed to load skill details:', e);
+                  }
+                }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '6px',
+                  padding: '12px',
+                  cursor: 'pointer',
+                  transition: 'border 0.2s',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#38bdf8' }}>{s.name}</div>
+                  <span style={{ fontSize: '10px', color: 'var(--text-secondary)' }}>by {s.author}</span>
+                </div>
+                <span style={{ fontSize: '10px', background: 'rgba(255, 255, 255, 0.05)', color: '#34d399', padding: '2px 6px', borderRadius: '8px' }}>
+                  {s.category}
+                </span>
+                <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                  {s.description ? s.description.slice(0, 110) + '...' : 'Universal skill.'}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Skill Detail Modal */}
+          {selectedUniversalSkill && (
+            <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+              <div style={{ background: '#111827', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '8px', width: '700px', maxWidth: '90vw', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ padding: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: '#38bdf8' }}>{selectedUniversalSkill.name}</h3>
+                    <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>by {selectedUniversalSkill.author} • {selectedUniversalSkill.category}</span>
+                  </div>
+                  <button
+                    onClick={() => setSelectedUniversalSkill(null)}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', fontSize: '18px', cursor: 'pointer' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '16px', overflowY: 'auto', flex: 1, fontSize: '13px', lineHeight: '1.6' }}>
+                  <pre style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '6px', fontSize: '12px', overflowX: 'auto', whiteSpace: 'pre-wrap', color: '#cbd5e1' }}>
+                    {selectedUniversalSkill.content}
                   </pre>
                 </div>
               </div>
