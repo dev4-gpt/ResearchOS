@@ -73,3 +73,7 @@ scratch/
 # Agent tooling state, not project source
 .claude-flow/
 .claude/
+
+# Voice audio cache (generated on demand)
+vault/00_System/voice_cache/*.wav
+vault/00_System/voice_cache/*.aiff

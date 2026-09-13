@@ -24,6 +24,9 @@ if str(BACKEND_DIR) not in sys.path:
 from services.autoresearch_loop import AutonomousResearchHarness
 from services.feynman_service import FeynmanService
 from services.vault import VaultManager
+from services.evomap_autoresearch import IdeaForgeService
+from services.voxcpm_service import VoiceControlParser, VoxCPMAudioService
+from services.ecc_skill_loader import ECCSkillLoader
 
 
 def cmd_audit(args: argparse.Namespace, feynman: FeynmanService, vault: VaultManager) -> int:
@@ -173,6 +176,145 @@ def cmd_fx(args: argparse.Namespace, feynman: FeynmanService) -> int:
     return 1
 
 
+def cmd_evomap(args: argparse.Namespace, vault: VaultManager) -> int:
+    forge = IdeaForgeService(vault_manager=vault)
+    if args.evo_action == "forge":
+        topic = args.topic or "Mixture of Experts"
+        print(f"\n========================================================")
+        print(f" EvoMap Idea Forge: Cross-Domain Ideation on '{topic}'")
+        print(f"========================================================")
+        ideas = forge.forge_ideas(topic=topic, count=args.count)
+        print(f"Generated {len(ideas)} candidate hypotheses with Tri-Critic review:\n")
+        for idx, entry in enumerate(ideas, start=1):
+            idea = entry["idea"]
+            review = entry["review"]
+            dec_color = "[✓ ACCEPTED]" if review["decision"] == "ACCEPTED" else f"[{review['decision']}]"
+            print(f"Idea #{idx}: {idea['title']}")
+            print(f"  Status:       {dec_color} (Composite: {review['composite_score']}/10.0)")
+            print(f"  Novelty:      {review['novelty_score']}/10.0 | Feasibility: {review['feasibility_score']}/10.0 | Verifiability: {review['verifiability_score']}/10.0")
+            print(f"  Hypothesis:   {idea['formal_hypothesis']}")
+            print(f"  Metric Delta: +{idea['expected_delta']}% over {idea['baseline']}")
+            print(f"  Feedback:     {review['feedback_summary']}\n")
+        return 0
+
+    elif args.evo_action == "pilot":
+        topic = args.topic or "Dynamic Sparse Attention"
+        ideas = forge.forge_ideas(topic=topic, count=1)
+        if not ideas:
+            print("Error: No idea generated for pilot testing.")
+            return 1
+        idea = ideas[0]["idea"]
+        print(f"\n========================================================")
+        print(f" EvoMap Pilot-Before-Scaling Gate: {idea['title']}")
+        print(f"========================================================")
+        res = forge.run_pilot(idea)
+        status_tag = "[PASS]" if res["passed"] else "[FAIL]"
+        print(f"Status:             {status_tag} ({res['status']})")
+        print(f"Proxy Task:         {res['proxy_task']}")
+        print(f"Observed Metric:    {res['observed_metric']} (Threshold: {res['min_acceptable_metric']})")
+        print(f"Ready for Scaling:  {res['ready_for_full_autoresearch']}")
+        return 0
+
+    elif args.evo_action == "negative":
+        results = forge.get_negative_results(limit=args.limit or 20)
+        print(f"\n========================================================")
+        print(f" EvoMap Negative Results & Falsification Ledger ({len(results)} entries)")
+        print(f"========================================================")
+        if not results:
+            print("No negative results recorded yet in vault/00_System/negative_results.jsonl.")
+            return 0
+        for r in results:
+            print(f"[{r.get('failure_type')}] {r.get('title')}")
+            print(f"  Hypothesis: {r.get('hypothesis')}")
+            print(f"  Lessons:    {r.get('lessons_learned')}")
+            print(f"  Patterns:   {', '.join(r.get('forbidden_patterns', []))}\n")
+        return 0
+    return 1
+
+
+def cmd_voice(args: argparse.Namespace, vault: VaultManager) -> int:
+    parser = VoiceControlParser()
+    audio_service = VoxCPMAudioService(vault_path=vault.vault_path)
+
+    if args.voice_action == "command":
+        text = args.text or "Run checkmate audit on latest draft"
+        print(f"\n========================================================")
+        print(f" VoxCPM Voice Command Parsing: \"{text}\"")
+        print(f"========================================================")
+        parsed = parser.parse_command(text)
+        print(f"Intent:          {parsed['intent']}")
+        print(f"Confidence:      {int(parsed['confidence'] * 100)}%")
+        print(f"Parameters:      {parsed['parameters']}")
+        print(f"Spoken Response: \"{parsed['spoken_response']}\"\n")
+        return 0
+
+    elif args.voice_action == "speak":
+        text = args.text or "The research council has completed zero-hallucination verification."
+        persona = args.persona or "chairman"
+        print(f"\n========================================================")
+        print(f" VoxCPM Speech Synthesis ({persona}): \"{text}\"")
+        print(f"========================================================")
+        res = audio_service.synthesize_speech(text, persona=persona)
+        print(f"Success:     {res['success']}")
+        print(f"Engine:      {res['engine_used']}")
+        print(f"Persona:     {res['persona_title']}")
+        print(f"Audio Path:  {res['audio_path']}\n")
+        return 0
+
+    elif args.voice_action == "status":
+        status = audio_service.get_engine_status()
+        print(f"\n========================================================")
+        print(f" VoxCPM Speech Engine Status")
+        print(f"========================================================")
+        print(f"Active Engine:       {status['engine']}")
+        print(f"Neural Model Present:{status['neural_voxcpm_installed']}")
+        print(f"macOS 'say' Present: {status['macos_say_available']}")
+        print(f"Personas:            {', '.join(status['personas'])}")
+        print(f"Sample Rate:         {status['sample_rate_hz']} Hz")
+        print(f"Cached Audio Files:  {status['cached_audio_files']}\n")
+        return 0
+    return 1
+
+
+def cmd_ecc(args: argparse.Namespace) -> int:
+    loader = ECCSkillLoader()
+    if args.ecc_action == "list":
+        dept = args.dept
+        q = args.query
+        skills = loader.list_skills(department=dept, query=q, limit=args.limit or 50)
+        print(f"\n========================================================")
+        print(f" ECC Departmental Skills Catalog ({len(skills)} shown)")
+        print(f"========================================================")
+        for s in skills:
+            print(f"• {s['name']} [{s['department']}]")
+            print(f"  {s['description'][:100]}...\n")
+        return 0
+
+    elif args.ecc_action == "show":
+        skill = loader.get_skill(args.skill_name)
+        if not skill:
+            print(f"Error: Skill '{args.skill_name}' not found in ECC catalog.")
+            return 1
+        print(f"\n========================================================")
+        print(f" ECC Skill: {skill['name']} ({skill['department']})")
+        print(f"========================================================")
+        print(f"Description: {skill['description']}\n")
+        print("--- Skill Body Preview ---")
+        print(skill['body'][:1200])
+        return 0
+
+    elif args.ecc_action == "sync":
+        res = loader.sync_core_skills_to_workspace()
+        print(f"\n========================================================")
+        print(f" Syncing Core ECC Skills to Workspace")
+        print(f"========================================================")
+        print(f"Destination:  {res['destination']}")
+        print(f"Copied Count: {res['copied_count']}")
+        print(f"Skills:       {', '.join(res['skills'])}\n")
+        return 0
+    return 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Feynman CLI for ResearchingOS")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -202,6 +344,27 @@ def main() -> int:
     p_fx.add_argument("fx_action", choices=["status", "run"], help="Action to execute")
     p_fx.add_argument("prompt", nargs="?", default=None, help="Research prompt for fx run")
 
+    # evomap
+    p_evo = subparsers.add_parser("evomap", help="EvoMap idea forge and pilot-before-scaling gate")
+    p_evo.add_argument("evo_action", choices=["forge", "pilot", "negative"], help="Action: forge, pilot, or negative")
+    p_evo.add_argument("--topic", default="Mixture of Experts", help="Research topic")
+    p_evo.add_argument("--count", type=int, default=2, help="Number of ideas to generate")
+    p_evo.add_argument("--limit", type=int, default=20, help="Max negative results to display")
+
+    # voice
+    p_voice = subparsers.add_parser("voice", help="VoxCPM speech synthesis and voice control")
+    p_voice.add_argument("voice_action", choices=["command", "speak", "status"], help="Action: command, speak, or status")
+    p_voice.add_argument("text", nargs="?", default=None, help="Text to speak or voice command to parse")
+    p_voice.add_argument("--persona", default="chairman", choices=["chairman", "reviewer2", "analyst", "feynman"], help="Persona voice")
+
+    # ecc
+    p_ecc = subparsers.add_parser("ecc", help="affaan-m/ECC departmental skills integration")
+    p_ecc.add_argument("ecc_action", choices=["list", "show", "sync"], help="Action: list, show, or sync")
+    p_ecc.add_argument("skill_name", nargs="?", default=None, help="Skill name to show")
+    p_ecc.add_argument("--dept", default=None, help="Filter by department")
+    p_ecc.add_argument("--query", default=None, help="Search query")
+    p_ecc.add_argument("--limit", type=int, default=50, help="Max skills to show")
+
     args = parser.parse_args()
     vault = VaultManager(os.getenv("VAULT_PATH", "vault"))
     feynman = FeynmanService(vault_manager=vault)
@@ -216,6 +379,12 @@ def main() -> int:
         return cmd_autoresearch(args, vault)
     elif args.command == "fx":
         return cmd_fx(args, feynman)
+    elif args.command == "evomap":
+        return cmd_evomap(args, vault)
+    elif args.command == "voice":
+        return cmd_voice(args, vault)
+    elif args.command == "ecc":
+        return cmd_ecc(args)
 
     return 0
 

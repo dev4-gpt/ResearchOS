@@ -68,11 +68,18 @@ from services.feynman_service import FeynmanService
 from services.autoresearch_loop import AutonomousResearchHarness
 from services.fx_bridge import FXBridge
 from services.fx_mcp_server import ResearchOSMCPServer
+from services.evomap_autoresearch import IdeaForgeService
+from services.voxcpm_service import VoiceControlParser, VoxCPMAudioService
+from services.ecc_skill_loader import ECCSkillLoader
 
 fx_bridge = FXBridge()
 feynman_service = FeynmanService(vault_manager, fx_bridge=fx_bridge)
 autoresearch_harness = AutonomousResearchHarness(vault_manager)
 fx_mcp_server = ResearchOSMCPServer(vault_manager.vault_path)
+evomap_service = IdeaForgeService(vault_manager)
+voice_control_parser = VoiceControlParser()
+voxcpm_audio_service = VoxCPMAudioService(vault_manager.vault_path)
+ecc_skill_loader = ECCSkillLoader()
 
 # In-memory log store for streaming active research runs and meta-reviews
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -132,6 +139,21 @@ class FXDispatchRequest(BaseModel):
 class FXMCPCallRequest(BaseModel):
     tool_name: str
     arguments: Optional[Dict[str, Any]] = None
+
+class EvoMapForgeRequest(BaseModel):
+    topic: str
+    domain_b: Optional[str] = None
+    count: Optional[int] = 2
+
+class EvoMapPilotRequest(BaseModel):
+    idea: Dict[str, Any]
+
+class VoiceCommandRequest(BaseModel):
+    text: str
+
+class VoiceSynthesizeRequest(BaseModel):
+    text: str
+    persona: Optional[str] = "chairman"
 
 @app.get("/")
 def root_index():
@@ -1214,6 +1236,73 @@ def fx_mcp_call_endpoint(req: FXMCPCallRequest):
         return {"success": True, "result": res}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+# ---------------------------------------------------------------------------
+# EvoMap/AutoResearch Idea Forge & Pilot Gate Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/evomap/forge")
+def evomap_forge_endpoint(req: EvoMapForgeRequest):
+    """Generates cross-domain hypotheses with Tri-Critic review."""
+    return {"ideas": evomap_service.forge_ideas(topic=req.topic, domain_b=req.domain_b, count=req.count or 2)}
+
+@app.post("/api/evomap/pilot")
+def evomap_pilot_endpoint(req: EvoMapPilotRequest):
+    """Executes pilot validation gate on a candidate research hypothesis."""
+    return evomap_service.run_pilot(req.idea)
+
+@app.get("/api/evomap/negative-results")
+def evomap_negative_results_endpoint(limit: int = Query(default=50, ge=1, le=500)):
+    """Retrieves negative and falsified empirical outcomes ledger."""
+    return {"negative_results": evomap_service.get_negative_results(limit=limit)}
+
+# ---------------------------------------------------------------------------
+# OpenBMB/VoxCPM Speech Synthesis & Voice Control Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/voice/command")
+def voice_command_endpoint(req: VoiceCommandRequest):
+    """Parses natural language speech-to-intent commands for hands-free control."""
+    return voice_control_parser.parse_command(req.text)
+
+@app.post("/api/voice/synthesize")
+def voice_synthesize_endpoint(req: VoiceSynthesizeRequest):
+    """Synthesizes speech audio using selected council persona voice."""
+    return voxcpm_audio_service.synthesize_speech(req.text, persona=req.persona or "chairman")
+
+@app.get("/api/voice/status")
+def voice_status_endpoint():
+    """Returns status of VoxCPM speech synthesis engine and persona voices."""
+    return voxcpm_audio_service.get_engine_status()
+
+# ---------------------------------------------------------------------------
+# affaan-m/ECC Departmental Skills Catalog Endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/api/ecc/skills")
+def ecc_skills_endpoint(
+    dept: Optional[str] = None,
+    query: Optional[str] = None,
+    limit: int = Query(default=100, ge=1, le=300),
+):
+    """Lists departmental skills from affaan-m/ECC catalog."""
+    return {
+        "status": ecc_skill_loader.get_status(),
+        "skills": ecc_skill_loader.list_skills(department=dept, query=query, limit=limit),
+    }
+
+@app.get("/api/ecc/skill/{name}")
+def ecc_skill_detail_endpoint(name: str):
+    """Retrieves complete content and metadata of a specific ECC skill."""
+    skill = ecc_skill_loader.get_skill(name)
+    if not skill:
+        raise HTTPException(status_code=404, detail=f"ECC Skill '{name}' not found")
+    return skill
+
+@app.post("/api/ecc/sync")
+def ecc_sync_endpoint():
+    """Syncs vital core ECC skills directly to workspace .agents/skills/ecc/."""
+    return ecc_skill_loader.sync_core_skills_to_workspace()
 
 
 if __name__ == "__main__":

@@ -10,7 +10,11 @@ import {
   XCircle,
   Cpu,
   Terminal,
-  Zap
+  Lightbulb,
+  Mic,
+  Volume2,
+  FolderSync,
+  Layers,
 } from 'lucide-react';
 import { apiFetch } from '../api';
 
@@ -78,7 +82,7 @@ interface AutoresearchResult {
 }
 
 export const FeynmanWorkbench: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'fx'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'fx' | 'evomap' | 'voice' | 'ecc'>('audit');
   const [drafts, setDrafts] = useState<string[]>([]);
   const [selectedDraft, setSelectedDraft] = useState<string>('');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
@@ -105,9 +109,34 @@ export const FeynmanWorkbench: React.FC = () => {
   const [fxPrompt, setFxPrompt] = useState<string>('Analyze linear attention vs state space models parameter scaling');
   const [fxResult, setFxResult] = useState<any | null>(null);
 
+  // States for EvoMap/AutoResearch
+  const [evoTopic, setEvoTopic] = useState<string>('Dynamic Sparse Attention');
+  const [evoDomainB, setEvoDomainB] = useState<string>('State Space Models');
+  const [evoIdeas, setEvoIdeas] = useState<any[]>([]);
+  const [pilotResults, setPilotResults] = useState<Record<string, any>>({});
+  const [negativeResults, setNegativeResults] = useState<any[]>([]);
+
+  // States for VoxCPM Voice Control
+  const [voiceInput, setVoiceInput] = useState<string>('Run checkmate audit on latest draft');
+  const [voiceParsed, setVoiceParsed] = useState<any | null>(null);
+  const [voicePersona, setVoicePersona] = useState<string>('chairman');
+  const [voiceAudioBase64, setVoiceAudioBase64] = useState<string | null>(null);
+  const [voiceEngineStatus, setVoiceEngineStatus] = useState<any | null>(null);
+
+  // States for ECC Department Skills
+  const [eccSkills, setEccSkills] = useState<any[]>([]);
+  const [eccStatus, setEccStatus] = useState<any | null>(null);
+  const [eccDeptFilter, setEccDeptFilter] = useState<string>('');
+  const [eccSearchQuery, setEccSearchQuery] = useState<string>('');
+  const [selectedEccSkill, setSelectedEccSkill] = useState<any | null>(null);
+  const [eccSyncMsg, setEccSyncMsg] = useState<string | null>(null);
+
   useEffect(() => {
     fetchDrafts();
     fetchFxStatus();
+    fetchVoiceStatus();
+    fetchEccSkills();
+    fetchNegativeResults();
   }, []);
 
   const fetchFxStatus = async () => {
@@ -138,6 +167,155 @@ export const FeynmanWorkbench: React.FC = () => {
       }
     } catch (e: any) {
       setError(e.message || 'Error executing fx subagent');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchVoiceStatus = async () => {
+    try {
+      const res = await apiFetch('/api/voice/status');
+      if (res.ok) setVoiceEngineStatus(await res.json());
+    } catch (e) {
+      console.error('Failed to fetch voice status:', e);
+    }
+  };
+
+  const fetchNegativeResults = async () => {
+    try {
+      const res = await apiFetch('/api/evomap/negative-results');
+      if (res.ok) {
+        const data = await res.json();
+        setNegativeResults(data.negative_results || []);
+      }
+    } catch (e) {
+      console.error('Failed to fetch negative results:', e);
+    }
+  };
+
+  const fetchEccSkills = async () => {
+    try {
+      let url = '/api/ecc/skills?limit=100';
+      if (eccDeptFilter) url += `&dept=${encodeURIComponent(eccDeptFilter)}`;
+      if (eccSearchQuery) url += `&query=${encodeURIComponent(eccSearchQuery)}`;
+      const res = await apiFetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        setEccStatus(data.status);
+        setEccSkills(data.skills || []);
+      }
+    } catch (e) {
+      console.error('Failed to fetch ECC skills:', e);
+    }
+  };
+
+  const runEvoForge = async () => {
+    if (!evoTopic) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/evomap/forge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: evoTopic, domain_b: evoDomainB, count: 2 }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setEvoIdeas(data.ideas || []);
+        fetchNegativeResults();
+      } else {
+        setError('Failed to forge ideas with EvoMap');
+      }
+    } catch (e: any) {
+      setError(e.message || 'EvoMap execution error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runEvoPilot = async (idea: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/evomap/pilot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idea }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPilotResults((prev) => ({ ...prev, [idea.idea_id]: data }));
+        fetchNegativeResults();
+      } else {
+        setError('Failed to run pilot gate');
+      }
+    } catch (e: any) {
+      setError(e.message || 'Pilot gate error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runVoiceCommand = async () => {
+    if (!voiceInput) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/voice/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: voiceInput }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVoiceParsed(data);
+        if (data.spoken_response) {
+          runVoiceSynthesize(data.spoken_response, voicePersona);
+        }
+      }
+    } catch (e: any) {
+      setError(e.message || 'Voice parsing error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runVoiceSynthesize = async (textToSpeak?: string, personaToUse?: string) => {
+    const text = textToSpeak || voiceInput;
+    const persona = personaToUse || voicePersona;
+    if (!text) return;
+    setLoading(true);
+    try {
+      const res = await apiFetch('/api/voice/synthesize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, persona }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.audio_base64) {
+          setVoiceAudioBase64(data.audio_base64);
+        }
+      }
+    } catch (e: any) {
+      console.error('Voice synthesis error:', e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const syncEccSkills = async () => {
+    setLoading(true);
+    setEccSyncMsg(null);
+    try {
+      const res = await apiFetch('/api/ecc/sync', { method: 'POST' });
+      if (res.ok) {
+        const data = await res.json();
+        setEccSyncMsg(`Synced ${data.copied_count} core skills to .agents/skills/ecc/!`);
+        fetchEccSkills();
+      }
+    } catch (e: any) {
+      setError(e.message || 'Failed to sync ECC skills');
     } finally {
       setLoading(false);
     }
@@ -307,6 +485,9 @@ export const FeynmanWorkbench: React.FC = () => {
           { id: 'review', label: 'Simulated Peer Review (/review)', icon: ShieldAlert },
           { id: 'autoresearch', label: 'Autoresearch Hill-Climber', icon: Sparkles },
           { id: 'fx', label: 'fx Engine (Vercel Labs)', icon: Terminal },
+          { id: 'evomap', label: 'Idea Forge (EvoMap)', icon: Lightbulb },
+          { id: 'voice', label: 'Voice Control (VoxCPM)', icon: Mic },
+          { id: 'ecc', label: 'ECC Skills Catalog', icon: Layers },
         ].map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
@@ -826,6 +1007,507 @@ export const FeynmanWorkbench: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* TAB 6: EvoMap / AutoResearch Idea Forge */}
+      {activeTab === 'evomap' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>EvoMap: From Idea to Paper-Ready Evidence</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Cross-domain idea generation, 3-model Tri-Critic review (Novelty, Feasibility, Verifiability), and pilot-before-scaling gate.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '16px', marginBottom: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '12px', alignItems: 'end' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Primary Topic / Domain A</label>
+                <input
+                  type="text"
+                  value={evoTopic}
+                  onChange={(e) => setEvoTopic(e.target.value)}
+                  placeholder="e.g. Dynamic Sparse Attention"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'var(--text-primary)',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Cross-Domain Bridge / Domain B</label>
+                <input
+                  type="text"
+                  value={evoDomainB}
+                  onChange={(e) => setEvoDomainB(e.target.value)}
+                  placeholder="e.g. State Space Models"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'var(--text-primary)',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+              <button
+                onClick={runEvoForge}
+                disabled={loading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '9px 16px',
+                  borderRadius: '6px',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  border: 'none',
+                  color: '#fff',
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1,
+                  height: '37px',
+                }}
+              >
+                <Lightbulb size={16} />
+                Forge Ideas
+              </button>
+            </div>
+          </div>
+
+          {/* Generated Ideas Grid */}
+          {evoIdeas.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+              <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: '600' }}>Tri-Critic Evaluated Hypotheses</h4>
+              {evoIdeas.map((entry: any, idx: number) => {
+                const idea = entry.idea;
+                const review = entry.review;
+                const isAccepted = review.decision === 'ACCEPTED';
+                const pilot = pilotResults[idea.idea_id];
+                return (
+                  <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                      <div>
+                        <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '600', color: '#f59e0b' }}>{idea.title}</h4>
+                        <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                          Bridge: {idea.domain_a} × {idea.domain_b}
+                        </span>
+                      </div>
+                      <span
+                        style={{
+                          padding: '4px 10px',
+                          borderRadius: '12px',
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          background: isAccepted ? 'rgba(52, 211, 153, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                          color: isAccepted ? '#34d399' : '#f87171',
+                        }}
+                      >
+                        {review.decision} ({review.composite_score}/10)
+                      </span>
+                    </div>
+
+                    <div style={{ background: 'rgba(0, 0, 0, 0.2)', padding: '10px 12px', borderRadius: '6px', fontSize: '12px', fontFamily: 'monospace', marginBottom: '12px', color: '#e2e8f0' }}>
+                      {idea.formal_hypothesis}
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '14px' }}>
+                      <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px' }}>
+                        <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Novelty (Critic A)</div>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#38bdf8' }}>{review.novelty_score}/10</div>
+                      </div>
+                      <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px' }}>
+                        <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Feasibility (Critic B)</div>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#10b981' }}>{review.feasibility_score}/10</div>
+                      </div>
+                      <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px' }}>
+                        <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Verifiability (Critic C)</div>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#a855f7' }}>{review.verifiability_score}/10</div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                        Baseline: <strong style={{ color: 'var(--text-primary)' }}>{idea.baseline}</strong> (+{idea.expected_delta}% {idea.target_metric})
+                      </div>
+                      <button
+                        onClick={() => runEvoPilot(idea)}
+                        disabled={loading}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          background: pilot?.passed ? 'rgba(52, 211, 153, 0.2)' : 'rgba(56, 189, 248, 0.15)',
+                          border: '1px solid rgba(56, 189, 248, 0.3)',
+                          color: pilot?.passed ? '#34d399' : '#38bdf8',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Play size={14} />
+                        {pilot ? `Pilot: ${pilot.status}` : 'Run Pilot Gate (90s)'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Negative Results Ledger Panel */}
+          {negativeResults.length > 0 && (
+            <div style={{ background: 'rgba(239, 68, 68, 0.04)', border: '1px solid rgba(239, 68, 68, 0.15)', borderRadius: '8px', padding: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <ShieldAlert size={16} color="#f87171" />
+                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '600', color: '#f87171' }}>
+                  Negative Results & Falsification Avoidance Ledger ({negativeResults.length} records)
+                </h4>
+              </div>
+              <p style={{ margin: '0 0 10px 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
+                EvoMap cross-checks new hypotheses against these falsified empirical outcomes to prevent dead-end recurrence.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {negativeResults.slice(0, 4).map((nr: any, idx: number) => (
+                  <div key={idx} style={{ background: 'rgba(0, 0, 0, 0.2)', padding: '8px 12px', borderRadius: '6px', fontSize: '12px' }}>
+                    <div style={{ fontWeight: '600', color: '#fca5a5' }}>[{nr.failure_type}] {nr.title}</div>
+                    <div style={{ color: 'var(--text-secondary)', marginTop: '2px' }}>{nr.lessons_learned}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 7: VoxCPM Voice Control */}
+      {activeTab === 'voice' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>OpenBMB/VoxCPM Voice Control & Council Speech</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                Diffusion autoregressive continuous speech synthesis and hands-free natural language command execution.
+              </p>
+            </div>
+            {voiceEngineStatus && (
+              <span style={{ fontSize: '11px', background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', padding: '4px 10px', borderRadius: '12px', fontWeight: '600' }}>
+                Engine: {voiceEngineStatus.engine} ({voiceEngineStatus.sample_rate_hz}Hz)
+              </span>
+            )}
+          </div>
+
+          {/* Voice Command Input Card */}
+          <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '16px', marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              Spoken Natural Language Command
+            </label>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
+              <input
+                type="text"
+                value={voiceInput}
+                onChange={(e) => setVoiceInput(e.target.value)}
+                placeholder="e.g. Run checkmate audit on latest draft"
+                style={{
+                  flex: 1,
+                  padding: '10px 14px',
+                  borderRadius: '6px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: 'var(--text-primary)',
+                  fontSize: '13px',
+                }}
+              />
+              <button
+                onClick={runVoiceCommand}
+                disabled={loading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '10px 18px',
+                  borderRadius: '6px',
+                  background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
+                  border: 'none',
+                  color: '#fff',
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1,
+                }}
+              >
+                <Mic size={16} />
+                Parse & Execute
+              </button>
+            </div>
+
+            {/* Quick Command Suggestions */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {[
+                'Run checkmate audit on latest draft',
+                'Start autoresearch loop',
+                'Have Reviewer 2 critique the paper',
+                'Forge hypothesis on dynamic sparse attention',
+                'Brief me on executive findings',
+              ].map((cmd, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setVoiceInput(cmd)}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: 'var(--text-secondary)',
+                    fontSize: '11px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {cmd}
+                </button>
+              ))}
+            </div>
+
+            {/* Parsed Intent Result */}
+            {voiceParsed && (
+              <div style={{ marginTop: '16px', background: 'rgba(0, 0, 0, 0.25)', padding: '14px', borderRadius: '6px', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: '#c084fc' }}>Intent: {voiceParsed.intent}</span>
+                    <span style={{ fontSize: '11px', color: '#34d399', background: 'rgba(52,211,153,0.1)', padding: '2px 8px', borderRadius: '10px' }}>
+                      {Math.round(voiceParsed.confidence * 100)}% confidence
+                    </span>
+                  </div>
+                </div>
+                <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                  "{voiceParsed.spoken_response}"
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Voice Synthesis & Briefing Player Card */}
+          <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '16px' }}>
+            <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600' }}>Executive Council Voice Persona</h4>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+              {[
+                { id: 'chairman', name: 'Chairman', desc: 'Authoritative & Measured' },
+                { id: 'reviewer2', name: 'Reviewer #2', desc: 'Skeptical & Fastidious' },
+                { id: 'analyst', name: 'Analyst', desc: 'Objective & Empirical' },
+                { id: 'feynman', name: 'Feynman', desc: 'Intuitive & Direct' },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => setVoicePersona(p.id)}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    borderRadius: '6px',
+                    background: voicePersona === p.id ? 'rgba(168, 85, 247, 0.2)' : 'rgba(255, 255, 255, 0.03)',
+                    border: voicePersona === p.id ? '1px solid #a855f7' : '1px solid rgba(255, 255, 255, 0.08)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: voicePersona === p.id ? '#c084fc' : 'var(--text-primary)' }}>{p.name}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{p.desc}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <button
+                onClick={() => runVoiceSynthesize(voiceInput, voicePersona)}
+                disabled={loading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '9px 16px',
+                  borderRadius: '6px',
+                  background: 'rgba(56, 189, 248, 0.15)',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  color: '#38bdf8',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                }}
+              >
+                <Volume2 size={16} />
+                Synthesize Speech
+              </button>
+
+              {voiceAudioBase64 && (
+                <audio
+                  controls
+                  autoPlay
+                  src={`data:audio/wav;base64,${voiceAudioBase64}`}
+                  style={{ height: '36px', flex: 1 }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 8: ECC Skills Catalog */}
+      {activeTab === 'ecc' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>affaan-m/ECC Departmental Skills Catalog</h3>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                {eccStatus?.total_skills_discovered || 286} autonomous skills discovered across Engineering, Empirical Research, QA, and Architecture Strategy.
+              </p>
+            </div>
+            <button
+              onClick={syncEccSkills}
+              disabled={loading}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 14px',
+                borderRadius: '6px',
+                background: 'rgba(52, 211, 153, 0.15)',
+                border: '1px solid rgba(52, 211, 153, 0.3)',
+                color: '#34d399',
+                fontSize: '12px',
+                fontWeight: '600',
+                cursor: 'pointer',
+              }}
+            >
+              <FolderSync size={14} />
+              Sync Core Skills to Workspace
+            </button>
+          </div>
+
+          {eccSyncMsg && (
+            <div style={{ padding: '10px 14px', background: 'rgba(52, 211, 153, 0.1)', border: '1px solid rgba(52, 211, 153, 0.3)', borderRadius: '6px', color: '#34d399', marginBottom: '16px', fontSize: '12px' }}>
+              {eccSyncMsg}
+            </div>
+          )}
+
+          {/* Filter Bar */}
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+            <select
+              value={eccDeptFilter}
+              onChange={(e) => setEccDeptFilter(e.target.value)}
+              style={{
+                padding: '8px 12px',
+                borderRadius: '6px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+              }}
+            >
+              <option value="" style={{ background: '#111827' }}>All Departments (288+ skills)</option>
+              <option value="Engineering" style={{ background: '#111827' }}>Engineering & Autonomous Systems</option>
+              <option value="Research" style={{ background: '#111827' }}>Research & Empirical Methodology</option>
+              <option value="Quality" style={{ background: '#111827' }}>Quality Assurance & Security</option>
+              <option value="Product" style={{ background: '#111827' }}>Product & Architecture Strategy</option>
+            </select>
+
+            <input
+              type="text"
+              value={eccSearchQuery}
+              onChange={(e) => setEccSearchQuery(e.target.value)}
+              placeholder="Search skills by keyword..."
+              style={{
+                flex: 1,
+                padding: '8px 12px',
+                borderRadius: '6px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+              }}
+            />
+
+            <button
+              onClick={fetchEccSkills}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '6px',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+                cursor: 'pointer',
+              }}
+            >
+              Filter
+            </button>
+          </div>
+
+          {/* Skills Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+            {eccSkills.map((skill: any, idx: number) => (
+              <div
+                key={idx}
+                onClick={() => setSelectedEccSkill(skill)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '6px',
+                  padding: '12px',
+                  cursor: 'pointer',
+                  transition: 'border 0.2s',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#38bdf8' }}>{skill.name}</div>
+                </div>
+                <span style={{ fontSize: '10px', background: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-secondary)', padding: '2px 6px', borderRadius: '8px' }}>
+                  {skill.department}
+                </span>
+                <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                  {skill.description ? skill.description.slice(0, 110) + '...' : 'Specialized agent skill.'}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Skill Detail Modal */}
+          {selectedEccSkill && (
+            <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+              <div style={{ background: '#111827', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '8px', width: '700px', maxWidth: '90vw', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ padding: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: '#38bdf8' }}>{selectedEccSkill.name}</h3>
+                    <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{selectedEccSkill.department}</span>
+                  </div>
+                  <button
+                    onClick={() => setSelectedEccSkill(null)}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', fontSize: '18px', cursor: 'pointer' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '16px', overflowY: 'auto', flex: 1, fontSize: '13px', lineHeight: '1.6' }}>
+                  <p style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '12px' }}>{selectedEccSkill.description}</p>
+                  <pre style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '6px', fontSize: '12px', overflowX: 'auto', whiteSpace: 'pre-wrap', color: '#cbd5e1' }}>
+                    {selectedEccSkill.body}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
