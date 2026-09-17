@@ -38,19 +38,19 @@ export function parseRichMarkdownLinks(mdText: string): string {
 
   // 4. Standard Markdown Links: [Label](URL) -> External Link with target="_blank" rel="noopener noreferrer"
   html = html.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g,
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer" class="external-link-btn" style="color: #60a5fa; text-decoration: underline; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;">$1 ↗</a>'
   );
 
   // 5. Raw URLs (https://... or http://...) not already wrapped in href="..."
   html = html.replace(
-    /(?<!href="|">)(https?:\/\/[^\s<>\)"]+)/g,
+    /(?<!href="|">)(https?:\/\/[^\s<>)"]+)/g,
     '<a href="$1" target="_blank" rel="noopener noreferrer" class="external-link-btn" style="color: #60a5fa; text-decoration: underline; font-weight: 500; cursor: pointer; word-break: break-all;">$1 ↗</a>'
   );
 
   // 6. Obsidian Wikilinks: [[filename|Alias]] or [[filename]]
   html = html.replace(
-    /\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g,
+    /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,
     (_match, p1, p2) => {
       const target = p1.trim();
       const label = (p2 || p1).trim();

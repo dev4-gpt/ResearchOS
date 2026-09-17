@@ -4,10 +4,19 @@ Shared fixtures for ResearchingOS backend tests.
 All vault fixtures use tmp_path to guarantee isolation from the real vault.
 """
 
-import _langsmith_stub  # noqa: F401 -- must run before anything imports langchain_core; see ERR-097
 import inspect
 import os
 import sys
+
+# Make the backend package root importable before loading the tracing stub. CI
+# invokes pytest from the repository root, where `_langsmith_stub` is not a
+# top-level module until this path is registered. Local invocations from
+# `backend/` happened to mask that packaging mistake.
+BACKEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if BACKEND_DIR not in sys.path:
+    sys.path.insert(0, BACKEND_DIR)
+
+import _langsmith_stub  # noqa: F401 -- must run before anything imports langchain_core; see ERR-097
 try:
     import pytest
 except ImportError:
@@ -16,11 +25,6 @@ except ImportError:
         def fixture(*args, **kwargs):
             return lambda fn: fn
     pytest = _DummyPytest()
-
-# Make sure the backend package root is importable regardless of cwd.
-BACKEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if BACKEND_DIR not in sys.path:
-    sys.path.insert(0, BACKEND_DIR)
 
 REPO_ROOT = os.path.abspath(os.path.join(BACKEND_DIR, ".."))
 REAL_HARNESS_MEMORY = os.path.join(REPO_ROOT, "vault", "harness_memory.json")

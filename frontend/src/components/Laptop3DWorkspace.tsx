@@ -17,7 +17,7 @@ export const Laptop3DWorkspace: React.FC<Laptop3DWorkspaceProps> = ({ onEnterWor
 
     const handleScroll = () => {
       let scrollY = 0;
-      let maxScroll = 600;
+      const maxScroll = 600;
 
       if (scrollParent === window) {
         scrollY = window.scrollY;

@@ -204,7 +204,7 @@ const DocEditor: React.FC = () => {
       } else {
         setSaveStatus('error');
       }
-    } catch (err) {
+    } catch {
       setSaveStatus('error');
     }
   };
@@ -772,7 +772,7 @@ const DocEditor: React.FC = () => {
                               URL.revokeObjectURL(bibUrl);
                             }
                           }
-                        } catch (e) { alert('Export failed'); }
+                        } catch { alert('Export failed'); }
                       }}
                       style={{ background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.4)', padding: '6px 12px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
                     >
