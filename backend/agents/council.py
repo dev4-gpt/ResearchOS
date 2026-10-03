@@ -4,7 +4,7 @@ import json
 import time
 import hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, Any, Callable, Optional
+from typing import Dict, Any, Callable, Optional, List
 from dotenv import load_dotenv
 
 # Load env variables from root or backend folder
@@ -210,7 +210,13 @@ class CouncilOrchestrator:
         agent_cfg = AGENT_PERSONAS[agent_key]
         base_instruction = system_instruction or agent_cfg["instruction"]
         durable_refinement = self.continual_memory.get_agent_refinements(agent_key)
-        instruction = f"{base_instruction}\n\n[Durable Harness Memory Refinement]: {durable_refinement}" if durable_refinement else base_instruction
+        # Plain sentence, not a bracketed internal label -- a bracketed
+        # "[Durable Harness Memory Refinement]:" tag was previously echoed
+        # verbatim by the Chairman as a section heading in published output
+        # (harness-internal label leaking into manuscript-facing text). The
+        # guidance itself should still reach the model; its internal name
+        # should not.
+        instruction = f"{base_instruction}\n\n{durable_refinement}" if durable_refinement else base_instruction
 
         time.sleep(1.5)
 
@@ -239,7 +245,7 @@ class CouncilOrchestrator:
 
         return response_text
 
-    def _run_ingestion_critique_debate(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+    def _run_ingestion_critique_debate(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25, anchor_arxiv_ids: Optional[List[str]] = None) -> Dict[str, Any]:
         """Stages 1-4: paper discovery, technical critique, boardroom debate, and
         chairman synthesis. Saves the debate summary to vault/03_Debates and returns
         everything Stage 5+ (drafting, in run_research) needs to continue.
@@ -248,6 +254,18 @@ class CouncilOrchestrator:
         run_debate_only (added to let a debate be regenerated without touching
         vault/04_Drafts) can never drift out of sync with each other -- there is
         exactly one place paper discovery, critique, and debate prompts live.
+
+        anchor_arxiv_ids: arXiv IDs (e.g. "2604.17215") that the caller already
+        knows are central to the topic -- typically the paper being extended.
+        Unlike IDs merely mentioned in the topic string, these are (1) always
+        fetched directly regardless of what the topic text says, (2) exempt
+        from the relevance-gate drop below, and (3) given a much larger
+        full-text budget in both the saved note and the critique prompt, so
+        the paper's own stated limitations (e.g. a disclosed compute overhead)
+        are not truncated away before any agent sees them -- see ERR-audit
+        "council-stage-2026-09-25": the debate previously "discovered" that a
+        cost the paper disclosed in its own text was unaddressed, because that
+        text never made it past the 1500-character excerpt.
         """
         project_id = f"project_{int(time.time())}"
         start_time = time.time()
@@ -315,8 +333,13 @@ class CouncilOrchestrator:
                 }
             ]
         else:
-            # 1. Extract potential arXiv IDs from the topic using regex
-            arxiv_ids = re.findall(r'\b\d{4}\.\d{4,5}\b', topic)
+            # 1. Extract potential arXiv IDs from the topic using regex, plus
+            # any caller-supplied anchor IDs (deduplicated, anchors first so
+            # they survive later truncation to max_papers).
+            topic_arxiv_ids = re.findall(r'\b\d{4}\.\d{4,5}\b', topic)
+            anchor_ids = [a for a in (anchor_arxiv_ids or []) if a]
+            arxiv_ids = anchor_ids + [i for i in topic_arxiv_ids if i not in anchor_ids]
+            anchor_id_set = set(anchor_ids)
 
             # Fetch papers by exact IDs first
             papers_by_id = []
@@ -324,6 +347,8 @@ class CouncilOrchestrator:
                 send_log("Ingestion", "Senior Scout Researcher", f"Detected specific arXiv IDs in topic: {arxiv_ids}. Fetching directly...")
                 papers_by_id = self.search_service.fetch_arxiv_by_ids(arxiv_ids)
                 send_log("Ingestion", "Senior Scout Researcher", f"Successfully retrieved {len(papers_by_id)} paper(s) by ID.")
+            for p in papers_by_id:
+                p["_is_anchor"] = bool(anchor_id_set) and any(a in str(p.get("id", "")) for a in anchor_id_set)
 
             # 2. Extract search terms/keywords using Gemini if the topic is a long prompt
             search_queries = [topic]
@@ -369,7 +394,47 @@ class CouncilOrchestrator:
                     seen_titles.add(title_key)
                     all_papers.append(p)
 
-            papers = all_papers[:max_papers]
+            # Relevance gate: run_combined_search fans out across 12 general
+            # and biomedical indexes with no topical filter, so a raw
+            # max_papers slice is dominated by whatever came back first --
+            # audited on this topic (2026-09-25) at ~15% on-topic, including
+            # GitHub "Repository: ..." rows that are not papers at all. Score
+            # every non-anchor candidate by lexical overlap with the topic
+            # (the same tokenizer citation_relevance.py uses to flag
+            # off-topic citations) and keep only the top-scoring ones, so a
+            # fixed max_papers budget is spent on the most on-topic material
+            # available rather than on search order.
+            from services.citation_relevance import tokenize as _tokenize
+            topic_tokens = _tokenize(topic)
+
+            def _is_repo_entry(p: Dict[str, Any]) -> bool:
+                return str(p.get("source", "")).strip().lower() == "github" and str(p.get("title", "")).startswith("Repository:")
+
+            def _relevance(p: Dict[str, Any]) -> int:
+                doc_tokens = _tokenize(f"{p.get('title', '')} {p.get('abstract', '')}")
+                return len(topic_tokens & doc_tokens)
+
+            anchors = [p for p in all_papers if p.get("_is_anchor")]
+            candidates = [p for p in all_papers if not p.get("_is_anchor")]
+            n_repos = sum(1 for p in candidates if _is_repo_entry(p))
+            candidates = [p for p in candidates if not _is_repo_entry(p)]
+            candidates.sort(key=_relevance, reverse=True)
+
+            # Never let the relevance gate zero out the corpus outright (e.g.
+            # a topic too short to tokenize meaningfully) -- fall back to
+            # search order rather than aborting the run.
+            if topic_tokens and any(_relevance(p) > 0 for p in candidates):
+                dropped = [p for p in candidates if _relevance(p) == 0]
+                candidates = [p for p in candidates if _relevance(p) > 0]
+                if dropped or n_repos:
+                    send_log(
+                        "Ingestion", "Senior Scout Researcher",
+                        f"Relevance gate: kept {len(candidates)} paper(s) sharing vocabulary with the topic, "
+                        f"dropped {len(dropped)} with none, excluded {n_repos} GitHub repository entr{'y' if n_repos == 1 else 'ies'}.",
+                    )
+
+            remaining_budget = max(0, max_papers - len(anchors))
+            papers = anchors + candidates[:remaining_budget]
 
         if not papers:
             send_log("Ingestion", "System", "No papers discovered. Aborting pipeline.", {"success": False})
@@ -391,38 +456,59 @@ class CouncilOrchestrator:
                 ingest_msg += " [Full PDF Ingested]"
             send_log("Ingestion", "Lead Analyst", ingest_msg)
 
-            full_text_snippet = paper.get("full_text", "")[:12000]
+            # Anchor papers get a much larger full-text budget: the critique
+            # stage previously read only a 1500-character excerpt of every
+            # paper (effectively the abstract), so an anchor's own disclosed
+            # limitations -- e.g. Bach et al.'s stated ~51% training
+            # overhead, in its appendix -- never reached any agent, and the
+            # council then "discovered" that exact cost as an unaddressed gap.
+            is_anchor = bool(paper.get("_is_anchor"))
+            full_text_cap = 45000 if is_anchor else 12000
+            full_text_snippet = paper.get("full_text", "")[:full_text_cap]
 
-            prompt = (
-                f"Analyze this scientific paper metadata, abstract, and full-text content, and create a highly structured Obsidian vault summary.\n\n"
-                f"Paper Title: {paper['title']}\n"
-                f"Authors: {', '.join(paper['authors'])}\n"
-                f"Source/URL: {paper['url']}\n"
-                f"Publication Date: {paper['published']}\n"
-                f"Citations: {paper['citations']}\n"
-                f"Abstract: {paper['abstract']}\n"
-                f"Full Text Content:\n{full_text_snippet}\n\n"
-                f"Your output must be structured as an Obsidian note, starting with YAML frontmatter. Provide:\n"
-                f"- exact claims, hypotheses, and mathematical formulas\n"
-                f"- methodologies, algorithms, and system architecture used\n"
-                f"- experimental results, datasets, sample sizes, and quantitative benchmarks\n"
-                f"- limitations acknowledged by the authors\n"
-                f"Ensure you format references and concepts with Obsidian links [[ConceptName]] or [[PaperId]]."
+            def _tail_before_references(text: str, max_chars: int) -> str:
+                """The last stretch of body text before the bibliography.
+
+                A paper's conclusion and self-disclosed limitations sit
+                immediately before "References" far more reliably than any
+                keyword search finds them: searching for the first
+                occurrence of "Limitations" or "Appendix" instead (an
+                earlier version of this function did that) can land on an
+                inline cross-reference like "...see Appendix B for extended
+                discussion" in section 2, well before the real ending --
+                confirmed on this project's own anchor paper, where that
+                search silently returned the wrong 3000 characters while the
+                paper's actual disclosed "51% computational overhead" sentence,
+                two paragraphs before its own References heading, was missed.
+                """
+                idx = text.rfind("\nReferences")
+                if idx == -1:
+                    idx = text.lower().rfind("\nreferences")
+                if idx == -1:
+                    return ""
+                start = max(0, idx - max_chars)
+                return text[start:idx]
+
+            limitations_excerpt = _tail_before_references(
+                paper.get("full_text", ""), 3000 if is_anchor else 800
             )
 
-            # Build high-speed structured paper note directly without slow 25-round LLM network loops
+            # Prior versions of this note ignored the paper entirely: a
+            # hard-coded "Methodological Insights" section describing
+            # "enterprise LLM capabilities" and "operational ROI, labor
+            # market skill distribution" was written for every paper on
+            # every topic (visible verbatim in vault/01_Papers regardless of
+            # what was actually ingested) instead of being derived from the
+            # ingested content. This note is built only from fields fetched
+            # for this specific paper.
             note_content = (
                 f"# {paper['title']}\n\n"
                 f"**Authors**: {', '.join(paper['authors'])}\n"
                 f"**Published**: {paper['published']} | **Citations**: {paper['citations']} | **Source**: {paper['source']}\n"
                 f"**URL**: {paper['url']}\n\n"
-                f"## Executive Summary & Abstract\n{paper['abstract']}\n\n"
-                f"## Methodological Insights & System Architectures\n"
-                f"- Evaluates enterprise LLM capabilities, inference scalability, and task boundaries.\n"
-                f"- Examines empirical performance metrics, baseline comparisons, and statistical significance.\n\n"
-                f"## Key Quantitative Findings & Benchmarks\n"
-                f"- Focuses on operational ROI, labor market skill distribution, and multi-agent coordination.\n\n"
-                f"## Content Snippet\n{full_text_snippet[:1500]}\n"
+                f"## Abstract\n{paper['abstract']}\n\n"
+                f"## Full-Text Excerpt{' (anchor paper -- extended budget)' if is_anchor else ''}\n{full_text_snippet}\n"
+                + (f"\n## Disclosed Limitations / Late-Document Excerpt\n{limitations_excerpt}\n" if limitations_excerpt else "")
             )
 
             # Format frontmatter for the vault file
@@ -451,7 +537,9 @@ class CouncilOrchestrator:
                 "url": paper.get("url", ""),
                 "filename": filename,
                 "content": note_content,
-                "full_text": full_text_snippet
+                "full_text": full_text_snippet,
+                "is_anchor": is_anchor,
+                "tail_excerpt": limitations_excerpt,
             })
 
         send_log("Ingestion", "Lead Analyst", "All research papers successfully ingested and saved into the Obsidian Vault under '01_Papers/'.")
@@ -477,8 +565,25 @@ class CouncilOrchestrator:
         send_log("Critique", "System", "Spawning parallel auditing council (Systems Engineer, Statistician, Reviewer #2)...")
 
         # Gather concise summaries for critique prompt to avoid token explosion & timeouts
+        # Excerpt budget was a flat 1500 characters for every paper -- close
+        # to abstract-only -- so the critique council never saw a paper's own
+        # method/limitations text. Anchor papers (the work being extended)
+        # get a much larger head excerpt PLUS an explicit tail excerpt (the
+        # text immediately before "References"): a flat head-only slice, even
+        # a generous one, still lands well before a several-thousand-word
+        # paper's own conclusion -- confirmed on this project's anchor paper,
+        # where a 20000-character head slice cut off ~2000 characters before
+        # its self-disclosed "51% computational overhead" sentence, two
+        # sentences before its own References heading.
+        def _anchor_summary(p: Dict[str, Any]) -> str:
+            parts = [f"Abstract:\n{p.get('abstract', '')}", f"Body excerpt (start of paper):\n{p.get('full_text', '')[:14000]}"]
+            if p.get("tail_excerpt"):
+                parts.append(f"Author's own conclusion / limitations excerpt (immediately precedes this paper's own References section):\n{p['tail_excerpt']}")
+            return "\n\n".join(parts)
+
         summaries_text = "\n\n---\n\n".join([
-            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\nAbstract & Key Content:\n{p.get('abstract', p.get('content', ''))[:1500]}"
+            f"Paper ID: {p['id']}\nTitle: {p['title']}\nAuthors: {', '.join(p['authors']) if isinstance(p['authors'], list) else p['authors']}\nPublished: {p.get('published', '2024')}\n"
+            + (_anchor_summary(p) if p.get('is_anchor') else "Abstract & Key Content:\n" + p.get('abstract', p.get('content', ''))[:4000])
             for p in extracted_papers_info
         ])
 
@@ -520,45 +625,61 @@ class CouncilOrchestrator:
         # --- STAGE 3: THE BOARDROOM DEBATE ---
         send_log("Debate", "System", "Convening the LLM Council Boardroom Debate...")
 
-        # Simulate a threaded debate where agents review each other's opinions
+        # Simulate a threaded debate where agents review each other's opinions.
+        #
+        # Every turn below used to be handed to the next agent (and to the
+        # transcript itself) truncated to 300-400 characters. On this topic
+        # that meant the Statistician saw only the Engineer's preamble and
+        # first heading -- for a single unrelated paper -- and then rebutted
+        # an "engineering claim" ("selection is cheap") that literally does
+        # not appear anywhere in what the Engineer wrote; the Chairman then
+        # reported that fabricated rebuttal as "unanimous consensus". Agents
+        # now receive each other's full critiques; only the console/SSE log
+        # preview below is still shortened for display.
         debate_log = []
+        anti_strawman = (
+            "Only rebut claims that literally appear, in substance, in the quoted text above. "
+            "Do not invent or assume a claim the other party did not make; if you have no real "
+            "objection to something they wrote, say so rather than inventing one."
+        )
 
         # Turn 1: Systems Engineer presents major technical flags
+        engineer_full = f"From a systems perspective, here is my core audit regarding '{topic}':\n\n" + critiques["Engineer"]
         debate_log.append({
             "agent": "Senior Systems Engineer",
-            "message": f"From a systems perspective, here is my core audit regarding '{topic}':\n\n" + critiques["Engineer"][:400] + "..."
+            "message": engineer_full,
         })
-        send_log("Debate", "Senior Systems Engineer", debate_log[-1]["message"])
+        send_log("Debate", "Senior Systems Engineer", engineer_full[:400] + ("..." if len(engineer_full) > 400 else ""))
 
         # Turn 2: Statistician highlights methodological flaws
         stat_response_prompt = (
-            f"You are in a boardroom debate about '{topic}'. The Systems Engineer has just shared their initial thoughts:\n"
+            f"You are in a boardroom debate about '{topic}'. The Systems Engineer has just shared their full audit:\n"
             f"'{debate_log[-1]['message']}'\n\n"
             f"Here is your own quantitative analysis:\n{critiques['Statistician']}\n\n"
-            f"Combine your analysis and respond directly to the Systems Engineer's claims. Agree, extend, or debate their points."
+            f"Combine your analysis and respond directly to the Systems Engineer's claims. Agree, extend, or debate their points. {anti_strawman}"
         )
         stat_reply = self._call_gemini("Statistician", stat_response_prompt)
         debate_log.append({
             "agent": "Senior Statistician & Methods Critic",
             "message": stat_reply
         })
-        send_log("Debate", "Senior Statistician & Methods Critic", stat_reply[:400] + "...")
+        send_log("Debate", "Senior Statistician & Methods Critic", stat_reply[:400] + ("..." if len(stat_reply) > 400 else ""))
 
         # Turn 3: Reviewer #2 interjects with rejection risks
         rev2_response_prompt = (
-            f"You are in a boardroom debate about '{topic}'. The Systems Engineer and Statistician have discussed the technicalities:\n"
-            f"Engineer: '{debate_log[0]['message'][:300]}...'\n"
-            f"Statistician: '{debate_log[1]['message'][:300]}...'\n\n"
+            f"You are in a boardroom debate about '{topic}'. The Systems Engineer and Statistician have discussed the technicalities in full:\n"
+            f"Engineer: '{debate_log[0]['message']}'\n\n"
+            f"Statistician: '{debate_log[1]['message']}'\n\n"
             f"Here is your Reviewer #2 list of objections:\n{critiques['Reviewer2']}\n\n"
             f"Interject in the debate. Challenge both of their assumptions and point out why these papers collectively might still fail "
-            f"the novelty bar for important journals."
+            f"the novelty bar for important journals. {anti_strawman}"
         )
         rev2_reply = self._call_gemini("Reviewer2", rev2_response_prompt)
         debate_log.append({
             "agent": "Reviewer #2 / Academic Editor",
             "message": rev2_reply
         })
-        send_log("Debate", "Reviewer #2 / Academic Editor", rev2_reply[:400] + "...")
+        send_log("Debate", "Reviewer #2 / Academic Editor", rev2_reply[:400] + ("..." if len(rev2_reply) > 400 else ""))
 
         # --- STAGE 4: CHAIRMAN SYNTHESIS ---
         send_log("Synthesis", "CEO / Institute Chairman", "Consolidating council opinions and structuring synthesis outline...")
@@ -567,12 +688,16 @@ class CouncilOrchestrator:
 
         chairman_prompt = (
             f"You are moderating the research council debate on the topic '{topic}'.\n\n"
-            f"Here is the debate transcript between the Systems Engineer, Statistician, and Reviewer #2:\n\n{debate_transcript}\n\n"
+            f"Here is the full debate transcript between the Systems Engineer, Statistician, and Reviewer #2:\n\n{debate_transcript}\n\n"
             f"Review the original paper summaries:\n\n{summaries_text}\n\n"
             f"Write a comprehensive moderator's synthesis. You must:\n"
-            f"1. Summarize the major agreements (consensus) reached by the council.\n"
-            f"2. Detail the critical points of disagreement or skepticism.\n"
-            f"3. Create a detailed structural outline for our final published literature review, outlining key concepts to be researched further."
+            f"1. Summarize the major agreements (consensus) reached by the council. Report something as consensus only if at least "
+            f"two participants state it, in their own words, in the transcript above -- do not introduce a claim that is not actually "
+            f"present in the transcript or the paper summaries, even if it sounds plausible.\n"
+            f"2. Detail the critical points of disagreement or skepticism, quoting or closely paraphrasing what was actually said.\n"
+            f"3. Create a detailed structural outline for our final published literature review, outlining key concepts to be researched further.\n"
+            f"If a paper's own text already discloses a limitation (e.g. a stated compute overhead), report it as the authors' own "
+            f"disclosure, not as a gap the council uncovered."
         )
 
         synthesis_content = self._call_gemini("Chairman", chairman_prompt)
@@ -605,7 +730,7 @@ class CouncilOrchestrator:
             "send_log": send_log,
         }
 
-    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25, anchor_arxiv_ids: Optional[List[str]] = None) -> Dict[str, Any]:
         """Runs the full multi-agent research and LLM council debate pipeline.
 
         Stages:
@@ -616,7 +741,7 @@ class CouncilOrchestrator:
         5. Drafting: Writer creates the final paper in LaTeX/Markdown style.
         6. FactCheck: Linter validates citation links & metric grounding.
         """
-        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers)
+        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers, anchor_arxiv_ids=anchor_arxiv_ids)
         if not stage_result.get("success"):
             return stage_result
 
@@ -787,7 +912,7 @@ class CouncilOrchestrator:
             "manuscript_content": final_paper_content
         }
 
-    def run_debate_only(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+    def run_debate_only(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25, anchor_arxiv_ids: Optional[List[str]] = None) -> Dict[str, Any]:
         """Runs Stages 1-4 only (paper discovery, critique, boardroom debate, synthesis)
         and stops after saving to vault/03_Debates.
 
@@ -801,7 +926,7 @@ class CouncilOrchestrator:
         unreachable from this code path regardless of what Stage 5+ does or how it
         changes in the future.
         """
-        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers)
+        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers, anchor_arxiv_ids=anchor_arxiv_ids)
         if not stage_result.get("success"):
             return stage_result
 
