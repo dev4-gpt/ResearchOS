@@ -73,3 +73,6 @@ scratch/
 # Agent tooling state, not project source
 .claude-flow/
 .claude/
+
+# Runtime state
+vault/00_System/gemini_quota_state.json
