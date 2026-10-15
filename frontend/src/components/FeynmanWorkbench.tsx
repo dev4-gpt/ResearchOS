@@ -19,6 +19,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { apiFetch } from '../api';
+import { OpenResearchPanel } from './OpenResearchPanel';
 
 interface AuditItem {
   claim_text: string;
@@ -84,7 +85,7 @@ interface AutoresearchResult {
 }
 
 export const FeynmanWorkbench: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'openresearch' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
   const [drafts, setDrafts] = useState<string[]>([]);
   const [selectedDraft, setSelectedDraft] = useState<string>('');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
@@ -529,9 +530,9 @@ export const FeynmanWorkbench: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '24px', maxWidth: '1280px', margin: '0 auto', color: 'var(--text-primary)' }}>
+    <div style={{ padding: '24px', width: '100%', minWidth: 0, maxWidth: '1280px', margin: '0 auto', color: 'var(--text-primary)' }}>
       {/* Header Banner */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Cpu size={28} color="#38bdf8" />
@@ -546,11 +547,12 @@ export const FeynmanWorkbench: React.FC = () => {
         </div>
 
         {/* Global Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '100%', alignItems: 'center', gap: '12px' }}>
           <select
             value={selectedDraft}
             onChange={(e) => setSelectedDraft(e.target.value)}
             style={{
+              maxWidth: 'min(100%, 320px)',
               padding: '8px 12px',
               borderRadius: '8px',
               background: 'rgba(255, 255, 255, 0.05)',
@@ -598,6 +600,7 @@ export const FeynmanWorkbench: React.FC = () => {
           { id: 'lit', label: 'Lit Matrix (/lit)', icon: BookOpen },
           { id: 'review', label: 'Peer Review (/review)', icon: ShieldAlert },
           { id: 'autoresearch', label: 'Autoresearch', icon: Sparkles },
+          { id: 'openresearch', label: 'OpenResearch', icon: BookOpen },
           { id: 'fx', label: 'fx Engine', icon: Terminal },
           { id: 'evomap', label: 'Idea Forge', icon: Lightbulb },
           { id: 'voice', label: 'Voice Control', icon: Mic },
@@ -637,6 +640,7 @@ export const FeynmanWorkbench: React.FC = () => {
       )}
 
       {/* TAB 1: Paper-to-Code Audit */}
+      {activeTab === 'openresearch' && <OpenResearchPanel />}
       {activeTab === 'audit' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>

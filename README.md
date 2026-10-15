@@ -9,6 +9,13 @@ Topic → Scout → Analyst → [ Engineer | Statistician | Reviewer #2 ] → Bo
 
 ---
 
+## OpenResearch
+
+Optional [alphaXiv/OpenResearch](https://github.com/alphaXiv/OpenResearch) integration
+adds keyword and semantic literature discovery to Scout and an **OpenResearch** tab
+in the Feynman Workbench for local projects, experiment trees, and run history.
+See [setup and API documentation](docs/openresearch.md).
+
 ## System Architecture
 
 ResearchingOS operates a **Dual-Phase Multi-Agent Orchestration Architecture**:

@@ -35,6 +35,8 @@ from services.publisher_jobs import PublisherReadinessJobManager
 from domain.models import RunManifest, citation_key
 
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
+from openresearch_api import router as openresearch_router
+app.include_router(openresearch_router)
 
 # Add CORS Middleware to connect with Vite React frontend
 app.add_middleware(

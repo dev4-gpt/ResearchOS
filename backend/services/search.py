@@ -8,11 +8,13 @@ _CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "aryamandev777@gmail.com")
 _POLITE_UA = f"ResearchingOS/0.1 (mailto:{_CONTACT_EMAIL})"
 
 from services.pdf_extractor import PDFExtractionService
+from services.openresearch import OpenResearchService
 
 class AcademicSearchService:
     def __init__(self):
         self.client = httpx.Client(timeout=20.0, follow_redirects=True)
         self.pdf_extractor = PDFExtractionService()
+        self.openresearch = OpenResearchService()
 
     def fetch_full_text_for_paper(self, paper: Dict[str, Any]) -> Dict[str, Any]:
         """Downloads full PDF text if available and attaches structured text to paper dict."""
@@ -692,7 +694,7 @@ class AcademicSearchService:
             return []
 
     def run_combined_search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
-        """Queries all 12 academic sources in parallel, de-duplicates, and ranks via RRF + citations."""
+        """Queries scholarly sources and optional OpenResearch retrieval, then ranks via RRF."""
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
         batch = limit * 2
@@ -710,9 +712,15 @@ class AcademicSearchService:
             ("github",         lambda: self.search_github(query, limit=batch)),
             ("huggingface",    lambda: self.search_huggingface(query, limit=batch)),
         ]
+        if self.openresearch.available:
+            for strategy in ("keyword", "embedding"):
+                search_fns.append((
+                    f"openresearch_{strategy}",
+                    lambda strategy=strategy: self.openresearch.search_for_scout(query, strategy, batch),
+                ))
 
         source_results: dict[str, List[Dict[str, Any]]] = {}
-        with ThreadPoolExecutor(max_workers=12) as executor:
+        with ThreadPoolExecutor(max_workers=len(search_fns)) as executor:
             futures = {executor.submit(fn): name for name, fn in search_fns}
             for future in as_completed(futures):
                 name = futures[future]
@@ -748,6 +756,7 @@ class AcademicSearchService:
             "openalex", "arxiv", "semanticscholar", "europepmc",
             "crossref", "doaj", "plos", "hal", "pubmed", "dblp",
             "github", "huggingface",
+            "openresearch_keyword", "openresearch_embedding",
         ]
         for src in ordered_sources:
             for rank, p in enumerate(source_results.get(src, [])):

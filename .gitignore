@@ -71,6 +71,7 @@ runs/*/*
 scratch/
 
 # Agent tooling state, not project source
+.tools/
 .claude-flow/
 .claude/
 
