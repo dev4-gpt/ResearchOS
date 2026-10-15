@@ -4,7 +4,17 @@ import re
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field
+try:
+    from pydantic import BaseModel, Field
+except ImportError:
+    class BaseModel:
+        def __init__(self, **kwargs):
+            for k, v in kwargs.items():
+                setattr(self, k, v)
+        def model_dump(self):
+            return self.__dict__
+    def Field(default=None, default_factory=None):
+        return default_factory() if default_factory else default
 
 
 def utc_now() -> str:

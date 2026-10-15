@@ -354,16 +354,71 @@ def main() -> int:
                        ci95=[round(c * (100 if metric != "mrr" else 1), 4) for c in ci])
 
     delta_mrr = float(np.mean(col("ppr", 2)) - np.mean(col("bm25", 2)))
+    # welch_t() is an independent two-sample test (df = n_ppr + n_bm25 - 2 = 328).
+    # The two systems are scored on the *same* 165 queries, which is a paired
+    # design (df = n - 1 = 164); paired_t() is the statistically appropriate
+    # test here and is what "paired difference in MRR" below actually reports.
+    # welch_t() is kept and recorded alongside for transparency, not as the
+    # headline statistic.
     stats = rec.welch_t(col("ppr", 2), col("bm25", 2))
+    paired = rec.paired_t(col("ppr", 2), col("bm25", 2))
     art2, sha2 = rec.save_artifact("retrieval_significance.json",
-                                   {"delta_mrr": delta_mrr, **stats})
+                                   {"delta_mrr": delta_mrr, **stats,
+                                    "paired": paired})
     rec.record("mrr_delta_ppr_minus_bm25", round(delta_mrr, 5), "", art2, sha2,
                "paired difference in MRR", n=n)
     rec.record("retrieval_cohens_d", stats["cohens_d"], "", art2, sha2,
-               "Welch t-test, PPR vs BM25 MRR", n=n)
+               "independent two-sample Welch t-test, PPR vs BM25 MRR (not the paired design)", n=n)
+    rec.record("retrieval_paired_t", paired["t"], "", art2, sha2,
+               "paired t-test on the per-query MRR difference, PPR vs BM25", n=n)
+    rec.record("retrieval_paired_df", paired["df"], "", art2, sha2,
+               "paired t-test degrees of freedom (n - 1)", n=n)
+    rec.record("retrieval_paired_p", paired["p"], "", art2, sha2,
+               "paired t-test two-sided p-value", n=n)
+    rec.record("retrieval_cohens_dz", paired["cohens_dz"], "", art2, sha2,
+               "paired Cohen's dz (mean difference / std of differences)", n=n)
     verdict = "improves" if delta_mrr > 0 else "does not improve"
     print(f"\n  symbol-graph diffusion {verdict} MRR: delta={delta_mrr:+.4f}, "
-          f"p={stats['p']:.3e}, d={stats['cohens_d']}")
+          f"paired t({paired['df']})={paired['t']}, p={paired['p']:.3e}, dz={paired['cohens_dz']}")
+
+    # Per-query rank breakdown: MRR = 1/rank for a single query (rank_metrics()
+    # returns reciprocal rank, or 0.0 when the gold module was not retrieved at
+    # all), so the exact rank is recoverable from the MRR already saved per
+    # query above -- no re-scoring needed. This restores the analysis this
+    # paper's "Where Does Structural Retrieval Change the Ranking?" section
+    # reports; it previously had no code computing it in this script.
+    def rank_of(mrr: float) -> Optional[int]:
+        return round(1.0 / mrr) if mrr > 1e-9 else None
+
+    bm25_ranks = [rank_of(v) for v in col("bm25", 2)]
+    ppr_ranks = [rank_of(v) for v in col("ppr", 2)]
+    unchanged = sum(1 for b, p in zip(bm25_ranks, ppr_ranks) if b == p)
+    improved = sum(1 for b, p in zip(bm25_ranks, ppr_ranks)
+                   if b != p and (p is not None) and (b is None or p < b))
+    degraded = sum(1 for b, p in zip(bm25_ranks, ppr_ranks)
+                   if b != p and (b is not None) and (p is None or b < p))
+    bm25_top1 = sum(1 for b in bm25_ranks if b == 1)
+    bm25_top1_damaged = sum(1 for b, p in zip(bm25_ranks, ppr_ranks) if b == 1 and p != 1)
+    bm25_missed_recovered = sum(1 for b, p in zip(bm25_ranks, ppr_ranks) if b != 1 and p == 1)
+    inert_rate = round(100.0 * unchanged / n, 2) if n else 0.0
+
+    rec.record("queries_unchanged_by_diffusion", unchanged, "n", art2, sha2,
+               "rank unchanged, PPR vs BM25, derived from per-query MRR", n=n)
+    rec.record("queries_improved_by_diffusion", improved, "n", art2, sha2,
+               "rank improved, PPR vs BM25, derived from per-query MRR", n=n)
+    rec.record("queries_degraded_by_diffusion", degraded, "n", art2, sha2,
+               "rank degraded, PPR vs BM25, derived from per-query MRR", n=n)
+    rec.record("diffusion_inert_rate", inert_rate, "%", art2, sha2,
+               "share of queries where diffusion left the ranking unchanged", n=n)
+    rec.record("bm25_top1_queries", bm25_top1, "n", art2, sha2,
+               "queries where BM25 already ranks the gold module first", n=n)
+    rec.record("bm25_top1_damaged_by_diffusion", bm25_top1_damaged, "n", art2, sha2,
+               "of BM25's top-1 queries, count diffusion demotes out of first place", n=n)
+    rec.record("bm25_missed_recovered_by_diffusion", bm25_missed_recovered, "n", art2, sha2,
+               "of queries BM25 does not rank first, count diffusion promotes into first place", n=n)
+    print(f"  rank changes: unchanged={unchanged} improved={improved} degraded={degraded} "
+          f"(inert_rate={inert_rate}%); BM25 top-1={bm25_top1}, "
+          f"damaged={bm25_top1_damaged}, recovered={bm25_missed_recovered}")
 
     # -------------------------------------------------- B. swe-bench census
     print("\n  fetching SWE-bench Lite (public, 300 instances)...")

@@ -1,4 +1,3 @@
-import pytest
 from services.fact_checker import FactCheckerService
 
 def test_validate_citations():

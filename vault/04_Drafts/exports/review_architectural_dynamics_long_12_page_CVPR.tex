@@ -68,6 +68,23 @@ Scaling laws in deep learning establish power-law relationships between compute 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -76,6 +93,23 @@ Scaling laws in deep learning establish power-law relationships between compute 
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,6 +200,23 @@ The Hoffmann et al. scaling law \cite{arxiv_2005_14165} characterizes test cross
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -174,6 +225,23 @@ The Hoffmann et al. scaling law \cite{arxiv_2005_14165} characterizes test cross
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -229,14 +297,47 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\mathcal{N}^* = & \left(\frac{A\alpha}{B\beta}\right)^{\frac{1}{\alpha \\
-& + \beta}} \cdot \left(\frac{\mathcal{C}}{6}\right)^{\frac{\beta}{\alpha+\beta}}, \quad \mathcal{D}^* = \frac{\mathcal{C}}{6\mathcal{N}^*}
+\mathcal{N}^* = & \left(\frac{A\alpha}{B\beta}\right)^{\frac{1}{\alpha + \beta}} \cdot \left(\frac{\mathcal{C}}{6}\right)^{\frac{\beta}{\alpha+\beta}}, \quad \mathcal{D}^* = \frac{\mathcal{C}}{6\mathcal{N}^*}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -292,6 +393,23 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -300,6 +418,23 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -363,6 +498,23 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -370,6 +522,23 @@ For the Chinchilla constants ($\alpha = 0.34$, $\beta = 0.28$): $\mathcal{N}^* \
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -437,6 +606,23 @@ Let $W_0 \in \mathbb{R}^{d \times k}$ be a pre-trained frozen projection matrix 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -472,7 +658,41 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \textbf{Definition 1 (Subspace Capacity).} The rank-$r$ adaptation subspace capacity is:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -534,6 +754,23 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirming that LoRA explores only $0.39\%$ of the full parameter space.
 
 \textbf{Theorem 2 (Approximation Error Bound).} For any target weight update $\Delta W^*$ with numerical rank $\rho$, the best rank-$r$ approximation $\Delta\hat{W} = B^*A^*$ satisfies:
@@ -564,14 +801,47 @@ For $d = k = 8192$ and $r = 16$: $\mathcal{M}_{\text{cap}} = 0.39\%$ -- confirmi
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\|\Delta W^* - \Delta\hat{W}\|_F^2 = & \sum_{i=r+1}^{\min(d, \\
-& k)} \sigma_i(\Delta W^*)^2
+\|\Delta W^* - \Delta\hat{W}\|_F^2 = & \sum_{i=r+1}^{\min(d, k)} \sigma_i(\Delta W^*)^2
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -635,6 +905,23 @@ During LoRA training, only $A$ and $B$ receive gradient updates. The effective l
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -669,7 +956,41 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \textbf{Proposition 2.} The gradient signal at layer $\ell$ in the low-rank subspace satisfies:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -731,7 +1052,24 @@ $}
 
 
 
-Since $B$ is initialized to zero and $A$ is initialized with Gaussian noise, the early training dynamics are dominated by \$\|A\_\ell\|\_F\$, providing stable gradient flow without the vanishing-gradient problem that afflicts deep adapter stacks \cite{arxiv_2305_18290}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Since $B$ is initialized to zero and $A$ is initialized with Gaussian noise, the early training dynamics are dominated by $\|A_\ell\|_F$, providing stable gradient flow without the vanishing-gradient problem that afflicts deep adapter stacks \cite{arxiv_2305_18290}.
 
 
 
@@ -744,6 +1082,23 @@ Since $B$ is initialized to zero and $A$ is initialized with Gaussian noise, the
 
 
 In a sparse MoE layer with $E$ experts, each input token $x$ is routed to the top-$k$ experts by a gating network:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -805,6 +1160,23 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \text{Expert}_i(x)$
 
 
@@ -812,6 +1184,23 @@ The sparse output is: $\text{MoE}(x) = \sum_{i \in \text{top-}k} p_i(x) \cdot \t
 
 
 \textbf{Definition 2 (Routing Entropy).} The expert routing entropy for batch $\mathcal{B}$ is:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -874,9 +1263,43 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Maximum entropy $H_{\text{route}} = \log E$ corresponds to perfectly balanced load; minimum entropy $H_{\text{route}} = 0$ corresponds to complete expert collapse (all tokens to one expert).
 
 \textbf{Theorem 3 (Routing Stability Under Auxiliary Loss).} The auxiliary load-balancing loss:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -938,7 +1361,24 @@ $}
 
 
 
-where \$f\_i = |\{x \in \mathcal{B} : i \in \text{top-}k(x)\}|/|\mathcal{B}|$ and $P\_i = \bar{p}\_i$, drives the routing distribution toward the uniform distribution when $\alpha\_{\text{aux}} $>$ 0$. Specifically, the gradient of $\mathcal{L}\_{\text{aux}}$ with respect to $w\_i$ is proportional to $f\_i - 1/E\$, creating a restoring force toward balanced routing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+where $f_i = |\{x \in \mathcal{B} : i \in \text{top-}k(x)\}|/|\mathcal{B}|$ and $P_i = \bar{p}_i$, drives the routing distribution toward the uniform distribution when $\alpha_{\text{aux}} > 0$. Specifically, the gradient of $\mathcal{L}_{\text{aux}}$ with respect to $w_i$ is proportional to $f_i - 1/E$, creating a restoring force toward balanced routing.
 
 \textit{Proof.} $\partial \mathcal{L}_{\text{aux}}/\partial P_i = \alpha_{\text{aux}} \cdot E \cdot f_i > 0$ when $f_i > 0$. Since $P_i$ is a softmax output, increasing $\mathcal{L}_{\text{aux}}$ with respect to $P_i$ decreases the logit $w_i^\top x$ for overloaded experts. When all $f_i = 1/E$, the gradient vanishes, confirming the uniform distribution is the stable fixed point. $\square$
 
@@ -974,6 +1414,23 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -981,6 +1438,23 @@ For a MoE model with $E$ experts, top-$k$ routing, and expert FFN size $d_{\text
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1048,6 +1522,23 @@ The total serving VRAM footprint $\mathcal{M}_{\text{VRAM}}$ decomposes as:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1083,12 +1574,29 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 where $N_L$ = number of layers, $B$ = batch size, $L_{\text{ctx}}$ = context length, $s_{\text{dtype}}$ = bytes per element (2 for bfloat16).
 
 \begin{table}[htbp]
 \centering
 \caption{KV Cache Memory at Various Context Lengths ($N_L = 80$, $d_{\text{model}} = 8192$, $B = 1$, bfloat16)}
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccl}
 \toprule
 Context $L_{\text{ctx}}$ & KV Cache Size & Growth Rate & \% of 80 GiB H100 \\
@@ -1109,6 +1617,23 @@ Linear context expansion imposes linear KV cache memory scaling $\mathcal{O}(L_{
 
 
 \textbf{Proposition 3.} For autoregressive inference of a dense transformer, the arithmetic intensity is:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1170,6 +1695,23 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 For bfloat16: AI $\approx 0.5$ FLOP/byte. Modern H100 GPU peak AI = 300 FLOP/byte (Tensor Core FP16), meaning autoregressive inference is \textbf{600$\times$ memory-bandwidth bound}, not compute bound. This fundamentally motivates parameter sparsity and quantization as efficiency levers -- reducing $\mathcal{N}$ directly reduces memory bandwidth pressure \cite{arxiv_2406_00584}.
 
 
@@ -1194,7 +1736,7 @@ What is therefore absent: throughput, realised VRAM occupancy, benchmark accurac
 \subsection{Table 1: Compute-Optimal Allocation Under $C = 6ND$}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 Compute budget (FLOPs) & Optimal parameters $N$ & Optimal tokens $D$ & $D/N$ \\
@@ -1215,7 +1757,7 @@ The ratio rises monotonically with budget, from 32.1 at $10^{19}$ FLOPs to 97.7 
 \subsection{Table 2: Exact KV Cache Size (GiB, batch 1, fp16)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 Configuration & 2,048 & 8,192 & 32,768 & 131,072 \\
@@ -1245,7 +1787,7 @@ Cache size is linear in context length and in the number of key-value heads, so 
 \subsection{Table 3: Low-Rank Subspace Capacity (measured by SVD, $d_{\text{model}} = 1024$)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcc}
 \toprule
 Rank $r$ & Update energy captured (\%) & Parameters vs dense (\%) \\
@@ -1279,7 +1821,7 @@ Capacity is sharply non-linear around the planted intrinsic rank: rank 32 captur
 \subsection{Table 4: Simulated MoE Routing Entropy (200{,}000 assignments, 64 experts)}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 Routing scheme & Entropy (nats) & Fraction of maximum (\%) & Dead experts \\
@@ -1326,6 +1868,23 @@ We extend the Chinchilla framework to compound architectures where external retr
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1333,6 +1892,23 @@ We extend the Chinchilla framework to compound architectures where external retr
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1504,6 +2080,23 @@ The Chinchilla formulation models test loss as a function of parameter count $N$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1512,6 +2105,23 @@ L(N, D) = & E \\
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1541,6 +2151,23 @@ During autoregressive decoding, attention reuses the key and value projections o
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1548,6 +2175,23 @@ During autoregressive decoding, attention reuses the key and value projections o
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1581,6 +2225,23 @@ The question this raises is how much of a real update such a factorisation can r
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1588,6 +2249,23 @@ The question this raises is how much of a real update such a factorisation can r
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1617,20 +2295,20 @@ Entropy is the natural summary here because the failure mode it detects is asymm
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_architectural\_dynamics\_long\_12\_page` \\
+Run identifier & \texttt{draft-review\_architectural\_dynamics\_long\_12\_page} \\
 Random seed & 20260825 \\
-Repository revision & `af99c4e72108` \\
+Repository revision & \texttt{af99c4e72108} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `0.711 s` \\
+Wall-clock duration & \texttt{0.711 s} \\
 Measurements recorded & 31 \\
 Recorded at & 2026-08-25T18:17:02-0400 \\
 \bottomrule
@@ -1681,42 +2359,42 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcllll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`chinchilla\_tokens\_per\_param\_mean` & 60.117 & x & 6 & -- & `mean D/N over six compute budgets` \\
-`dead\_experts\_load\_balanced` & 0.0 & n & 64 & -- & `experts receiving zero tokens` \\
-`dead\_experts\_noisy\_topk` & 0.0 & n & 64 & -- & `experts receiving zero tokens` \\
-`dead\_experts\_uncorrected` & 0.0 & n & 64 & -- & `experts receiving zero tokens` \\
-`kv\_budget\_gib\_ctx131072` & 320.0 & bytes & -- & -- & `exact KV arithmetic, batch 1, bf16` \\
-`kv\_budget\_gib\_ctx16384` & 40.0 & bytes & -- & -- & `exact KV arithmetic, batch 1, bf16` \\
-`kv\_budget\_gib\_ctx32768` & 80.0 & bytes & -- & -- & `exact KV arithmetic, batch 1, bf16` \\
-`kv\_budget\_gib\_ctx4096` & 10.0 & bytes & -- & -- & `exact KV arithmetic, batch 1, bf16` \\
-`kv\_budget\_gib\_ctx65536` & 160.0 & bytes & -- & -- & `exact KV arithmetic, batch 1, bf16` \\
-`kv\_budget\_pct\_h100\_ctx131072` & 400.0 & \% & -- & -- & `share of an 80 GiB H100, batch 1` \\
-`kv\_budget\_pct\_h100\_ctx16384` & 50.0 & \% & -- & -- & `share of an 80 GiB H100, batch 1` \\
-`kv\_budget\_pct\_h100\_ctx32768` & 100.0 & \% & -- & -- & `share of an 80 GiB H100, batch 1` \\
-`kv\_budget\_pct\_h100\_ctx4096` & 12.5 & \% & -- & -- & `share of an 80 GiB H100, batch 1` \\
-`kv\_budget\_pct\_h100\_ctx65536` & 200.0 & \% & -- & -- & `share of an 80 GiB H100, batch 1` \\
-`kv\_cache\_gib\_mha7b\_128k` & 64.0 & bytes & -- & -- & `exact KV cache at 128k context` \\
-`kv\_reduction\_gqa\_vs\_mha` & 75.0 & \% & -- & -- & `exact KV cache ratio at 32k context, 7B shape` \\
-`kv\_reduction\_mqa\_vs\_mha` & 96.88 & \% & -- & -- & `exact KV cache ratio at 32k context, 7B shape` \\
-`lora\_energy\_rank1` & 2.813 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank128` & 99.571 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank16` & 37.227 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank2` & 5.514 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank256` & 99.744 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank32` & 64.475 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank4` & 10.769 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank64` & 99.449 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_energy\_rank8` & 20.47 & \% & 1024 & -- & `SVD energy captured by rank-r truncation` \\
-`lora\_param\_fraction\_d8192\_r16` & 0.39 & \% & -- & -- & `2\textit{d}r / d^2 at d=k=8192, r=16` \\
-`lora\_param\_fraction\_rank64` & 12.5 & \% & -- & -- & `2\textit{d}r / d^2 at r=64` \\
-`routing\_entropy\_load\_balanced` & 3.4118 & -- & 200000 & -- & `Shannon entropy of expert assignment counts` \\
-`routing\_entropy\_noisy\_topk` & 2.718 & -- & 200000 & -- & `Shannon entropy of expert assignment counts` \\
-`routing\_entropy\_uncorrected` & 2.4539 & -- & 200000 & -- & `Shannon entropy of expert assignment counts` \\
+\texttt{chinchilla\_tokens\_per\_param\_mean} & 60.117 & x & 6 & -- & \texttt{mean D/N over six compute budgets} \\
+\texttt{dead\_experts\_load\_balanced} & 0.0 & n & 64 & -- & \texttt{experts receiving zero tokens} \\
+\texttt{dead\_experts\_noisy\_topk} & 0.0 & n & 64 & -- & \texttt{experts receiving zero tokens} \\
+\texttt{dead\_experts\_uncorrected} & 0.0 & n & 64 & -- & \texttt{experts receiving zero tokens} \\
+\texttt{kv\_budget\_gib\_ctx131072} & 320.0 & bytes & -- & -- & \texttt{exact KV arithmetic, batch 1, bf16} \\
+\texttt{kv\_budget\_gib\_ctx16384} & 40.0 & bytes & -- & -- & \texttt{exact KV arithmetic, batch 1, bf16} \\
+\texttt{kv\_budget\_gib\_ctx32768} & 80.0 & bytes & -- & -- & \texttt{exact KV arithmetic, batch 1, bf16} \\
+\texttt{kv\_budget\_gib\_ctx4096} & 10.0 & bytes & -- & -- & \texttt{exact KV arithmetic, batch 1, bf16} \\
+\texttt{kv\_budget\_gib\_ctx65536} & 160.0 & bytes & -- & -- & \texttt{exact KV arithmetic, batch 1, bf16} \\
+\texttt{kv\_budget\_pct\_h100\_ctx131072} & 400.0 & \% & -- & -- & \texttt{share of an 80 GiB H100, batch 1} \\
+\texttt{kv\_budget\_pct\_h100\_ctx16384} & 50.0 & \% & -- & -- & \texttt{share of an 80 GiB H100, batch 1} \\
+\texttt{kv\_budget\_pct\_h100\_ctx32768} & 100.0 & \% & -- & -- & \texttt{share of an 80 GiB H100, batch 1} \\
+\texttt{kv\_budget\_pct\_h100\_ctx4096} & 12.5 & \% & -- & -- & \texttt{share of an 80 GiB H100, batch 1} \\
+\texttt{kv\_budget\_pct\_h100\_ctx65536} & 200.0 & \% & -- & -- & \texttt{share of an 80 GiB H100, batch 1} \\
+\texttt{kv\_cache\_gib\_mha7b\_128k} & 64.0 & bytes & -- & -- & \texttt{exact KV cache at 128k context} \\
+\texttt{kv\_reduction\_gqa\_vs\_mha} & 75.0 & \% & -- & -- & \texttt{exact KV cache ratio at 32k context, 7B shape} \\
+\texttt{kv\_reduction\_mqa\_vs\_mha} & 96.88 & \% & -- & -- & \texttt{exact KV cache ratio at 32k context, 7B shape} \\
+\texttt{lora\_energy\_rank1} & 2.813 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank128} & 99.571 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank16} & 37.227 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank2} & 5.514 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank256} & 99.744 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank32} & 64.475 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank4} & 10.769 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank64} & 99.449 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_energy\_rank8} & 20.47 & \% & 1024 & -- & \texttt{SVD energy captured by rank-r truncation} \\
+\texttt{lora\_param\_fraction\_d8192\_r16} & 0.39 & \% & -- & -- & \texttt{2\textit{d}r / d\^{}2 at d=k=8192, r=16} \\
+\texttt{lora\_param\_fraction\_rank64} & 12.5 & \% & -- & -- & \texttt{2\textit{d}r / d\^{}2 at r=64} \\
+\texttt{routing\_entropy\_load\_balanced} & 3.4118 & -- & 200000 & -- & \texttt{Shannon entropy of expert assignment counts} \\
+\texttt{routing\_entropy\_noisy\_topk} & 2.718 & -- & 200000 & -- & \texttt{Shannon entropy of expert assignment counts} \\
+\texttt{routing\_entropy\_uncorrected} & 2.4539 & -- & 200000 & -- & \texttt{Shannon entropy of expert assignment counts} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -1727,22 +2405,21 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \subsection{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/chinchilla\_allocation.json` & `abd75fba0c2e938d` \\
-`artifacts/kv\_budget\_70b.json` & `4eef61836ffb4339` \\
-`artifacts/kv\_cache\_scaling.json` & `946803b9288e78d5` \\
-`artifacts/lora\_subspace.json` & `c61f5c0d92cd90a9` \\
-`artifacts/moe\_routing.json` & `aabd77a2874c57a9` \\
+\texttt{artifacts/chinchilla\_allocation.json} & \texttt{abd75fba0c2e938d} \\
+\texttt{artifacts/kv\_budget\_70b.json} & \texttt{4eef61836ffb4339} \\
+\texttt{artifacts/kv\_cache\_scaling.json} & \texttt{946803b9288e78d5} \\
+\texttt{artifacts/lora\_subspace.json} & \texttt{c61f5c0d92cd90a9} \\
+\texttt{artifacts/moe\_routing.json} & \texttt{aabd77a2874c57a9} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 
 

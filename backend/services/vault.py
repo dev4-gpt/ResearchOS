@@ -1,5 +1,6 @@
 import os
 import re
+import tempfile
 from typing import Dict, List, Any, Optional
 
 class VaultManager:
@@ -78,8 +79,22 @@ class VaultManager:
 
         file_content += content
 
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(file_content)
+        # Write to a temp file in the same directory then atomically replace the
+        # target. A plain open(file_path, "w") truncates the file in place, so a
+        # crash or a concurrent iCloud sync mid-write can leave a truncated or
+        # zero-byte record (this is the same class of fault as ERR-088). Same
+        # directory + os.replace keeps the swap on one filesystem/volume so the
+        # replace is atomic rather than a cross-volume copy.
+        target_dir = os.path.dirname(file_path)
+        fd, tmp_path = tempfile.mkstemp(dir=target_dir, prefix=".tmp-", suffix=".md")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write(file_content)
+            os.replace(tmp_path, file_path)
+        except BaseException:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+            raise
 
         return file_path
 

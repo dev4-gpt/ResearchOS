@@ -290,3 +290,30 @@ class ExperimentRecorder:
             "cohens_d": round(cohens_d, 4),
             "df": len(x) + len(y) - 2,
         }
+
+    @staticmethod
+    def paired_t(a: List[float], b: List[float]) -> Dict[str, float]:
+        """Paired t-test and Cohen's dz, for two measurements on the same units.
+
+        welch_t() runs an independent two-sample test (df = n_a + n_b - 2); that
+        is the wrong test when a and b are the same items measured twice (e.g.
+        the same queries scored under two systems), which is a paired design
+        (df = n - 1) and should use the per-item differences, not the pooled
+        variance of two separate samples.
+        """
+        import numpy as np
+        from scipy import stats
+
+        x, y = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+        if len(x) != len(y):
+            raise ValueError("paired_t requires equal-length, index-aligned samples")
+        diff = x - y
+        t_stat, p_value = stats.ttest_rel(x, y)
+        cohens_dz = float(diff.mean() / diff.std(ddof=1)) if diff.std(ddof=1) else 0.0
+        return {
+            "t": round(float(t_stat), 4),
+            "p": float(p_value),
+            "cohens_dz": round(cohens_dz, 4),
+            "df": len(x) - 1,
+            "mean_diff": round(float(diff.mean()), 6),
+        }

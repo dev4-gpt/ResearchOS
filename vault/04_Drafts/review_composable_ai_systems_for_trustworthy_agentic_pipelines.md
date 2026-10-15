@@ -47,11 +47,11 @@ These are properties of the algebra, established by computation. No language mod
 
 ### Motivation: The Structural Fragility of Monolithic Pipelines
 
-Autonomous multi-agent systems have demonstrated remarkable potential across software engineering, scientific literature synthesis, and enterprise data analytics [[arxiv_2005.14165], [arxiv_2203.02155]]. However, prevailing industry deployments rely predominantly on monolithic prompt-chaining frameworks (e.g., standard single-prompt ReAct, loose scratchpad reflections, or unstructured auto-agent loops) that lack formal execution guarantees and modular isolation [[arxiv_2312.03893]].
+Autonomous multi-agent systems have demonstrated remarkable potential across software engineering, scientific literature synthesis, and enterprise data analytics [[arxiv_2005.14165], [arxiv_2203.02155]]. However, prevailing industry deployments rely predominantly on monolithic prompt-chaining frameworks (e.g., standard single-prompt ReAct, loose scratchpad reflections, or unstructured auto-agent loops) that lack formal execution guarantees and modular isolation.
 
 In mission-critical enterprise domains—such as quantitative algorithmic trading, automated regulatory compliance, distributed healthcare records synthesis, and robotic industrial automation—monolithic pipelines exhibit severe structural failure modes:
-1. **Compounding Hallucination Cascades:** Unverified reasoning errors in early pipeline stages propagate exponentially through downstream prompts, amplifying hallucinated assumptions into catastrophic execution failures [[arxiv_2406.00584]].
-2. **State Divergence & Race Conditions:** Unstructured shared scratchpads lack deterministic serialization and atomic lock semantics, inducing state divergence and contradictory actions across asynchronous agents [[arxiv_2501.02497]].
+1. **Compounding Hallucination Cascades:** Unverified reasoning errors in early pipeline stages propagate exponentially through downstream prompts, amplifying hallucinated assumptions into catastrophic execution failures.
+2. **State Divergence & Race Conditions:** Unstructured shared scratchpads lack deterministic serialization and atomic lock semantics, inducing state divergence and contradictory actions across asynchronous agents.
 3. **Unbounded Compute & Token Thrashing:** Unbounded self-reflection loops trigger runaway token consumption without convergence guarantees, causing extreme latency spikes and GPU budget exhaustion [[arxiv_2405.01543], [arxiv_2406.04028]].
 4. **Vendor Lock-in and Brittle Coupling:** Tight coupling between prompt formatting and specific foundation model weights prevents zero-downtime model migration and heterogeneous multi-model tiering [[arxiv_2305.18290], [arxiv_2208.14227]].
 
@@ -64,9 +64,9 @@ To resolve these critical vulnerabilities, we propose **Composable Agentic Syste
 This manuscript provides five principal contributions to the field of trustworthy AI systems:
 1. **4-Tier Composable Abstraction Hierarchy:** We establish a formal layered architecture decoupling agent pipelines into Perceptual Routing, Memory Synthesis, Contract Enforcement, and Consensus Governance layers.
 2. **Formal Contract Algebra and SMT Verification:** We define the algebraic structure of inter-agent behavioral contracts $\mathcal{C}$ and demonstrate automated invariant checking via SMT solvers.
-3. **Lyapunov Stability and Error Propagation Theorems:** We prove that contract-gated verification graphs guarantee bounded state error variance $\mathbb{E}[\|\mathbf{e}_t\|^2] \le \sigma_{\max}^2 / (1 - \rho^2)$, eliminating compounding divergence [[arxiv_2501.02497]].
+3. **Lyapunov Stability and Error Propagation Theorems:** We prove that contract-gated verification graphs guarantee bounded state error variance $\mathbb{E}[\|\mathbf{e}_t\|^2] \le \sigma_{\max}^2 / (1 - \rho^2)$, eliminating compounding divergence.
 4. **Reproducible Composition Benchmark:** A contract-algebra harness measuring soundness under reassembly, failure position, error propagation against the contraction bound, and checking cost, released with every recorded measurement so each result can be re-derived. No language model is invoked, and no claim is made about deployed agentic systems.
-5. **Ablation and Fault-Tolerance Analysis:** We quantify the isolated contributions of contract verification, state immutability, and consensus routing under induced network delays and adversarial hallucinations.
+5. **Ablation of the Checking Regime:** A contract-algebra harness that varies the two parameters this study's Tier 3 measurements admit -- pipeline depth and whether checking happens statically or at runtime -- isolating each one's effect on soundness, error propagation, and checking cost. No ablation over agent backbones, task workloads, or the other three tiers is reported, because no agent was executed and Tiers 1, 2 and 4 are unmeasured here; an earlier version of this contribution claimed an ablation over "state immutability" and "consensus routing under induced network delays and adversarial hallucinations" that this study never ran, and the corrected wording above matches what the Ablation of the Checking Regime section and Table 1 and Table 2 actually report.
 
 ---
 
@@ -107,12 +107,35 @@ The state update of agent node $v_j$ at discrete step $t+1$ is governed by:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
-\mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \\
-& \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
+\mathbf{s}_{t+1}^{(j)} = & \mathcal{F}_j\left(\mathbf{s}_t^{(j)}, \bigoplus_{i \in \mathcal{N}_{\text{in}}(j)} \Pi_{c_{ij}}(\mathbf{m}_{ij}^{(t)})\right)
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -170,12 +193,36 @@ where $\mathbf{s}_t^{(j)} \in \mathcal{S}_j$ represents the internal state vecto
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 c_{ij} = & \langle \mathcal{I}_{ij}, \\
 & \mathcal{O}_{ij}, \Phi_{\text{pre}}, \Phi_{\text{post}}, \tau_{\max} \rangle
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -236,11 +283,35 @@ where:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mathcal{O}_{ij} \sqsubseteq \mathcal{I}_{jk} \quad \text{and} \quad \forall x \in \mathcal{I}_{ij},\ \Phi_{\text{post}, ij}(x, v_j(x)) \implies \Phi_{\text{pre}, jk}(v_j(x))
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -300,6 +371,18 @@ Let $\mathbf{e}_t^{(i)} = \mathbf{s}_t^{(i)} - \mathbf{s}_t^{*(i)}$ denote the s
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \lambda_{\min}(\mathbf{P}) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \text{Tr}(\mathbf{P})
@@ -331,7 +414,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 where $\sigma_{\text{leak}}^2$ is the residual error variance admitted by the schema validator. The system is Globally Exponentially Stable within a bounded invariant ellipsoid $\mathcal{B}_\eta = \{\mathbf{e} \mid \|\mathbf{e}\|^2 \le \eta\}$ with radius:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -389,7 +496,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 *Proof.* Expanding the conditional expectation of $V(\mathbf{e}_{t+1})$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -447,7 +578,31 @@ $$
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 By Rayleigh quotient bounds, $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{P} \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \lambda_{\max}(\mathbf{P}) \|\mathbf{e}_t\|^2$. Choosing $\mathbf{P} = \mathbf{I}$, we have $\mathbf{e}_t^\top \mathbf{A}_{\text{gated}}^\top \mathbf{A}_{\text{gated}} \mathbf{e}_t \le \rho^2 \|\mathbf{e}_t\|^2$. Subtracting $V(\mathbf{e}_t) = \|\mathbf{e}_t\|^2$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -479,6 +634,18 @@ $$
 \mathbb{E}[V(\mathbf{e}_{t+1}) \mid \mathbf{e}_t] - V(\mathbf{e}_t) \le -(1 - \rho^2) \|\mathbf{e}_t\|^2 + \sigma_{\text{leak}}^2 \cdot d
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -552,6 +719,10 @@ Tier 3 serves as the active execution firewall. Every message $\mathbf{m}_{ij}$ 
 ### Tier 4: Consensus Governance & Byzantine Agreement
 For critical decisions (e.g., executing code in production, committing financial transactions), Tier 4 executes an $M$-of-$N$ Byzantine consensus protocol. A proposal $P$ is approved if and only if $\sum_{i=1}^N w_i \cdot \mathbb{I}(\text{Verify}_i(P) = 1) \ge \Theta_{\text{threshold}}$, ensuring zero single-point-of-failure vulnerability.
 
+### What Is Designed Versus What Is Measured, Across the Four Tiers
+
+The specification above describes all four tiers because a complete architecture claim requires describing what each layer is for; the Empirical Evaluation Protocol below measures only Tier 3. Tier 1's dynamic model-tiering dispatch, Tier 2's symbol-graph memory and epistemic cache, and Tier 4's Byzantine consensus protocol are each specified precisely enough to implement, but none is benchmarked here -- no routing decision was measured for cost-effectiveness, no cache hit rate was recorded, and no consensus round was run against adversarial proposals. This is not an oversight; it follows the same discipline as the rest of this paper, which reports contract-algebra properties it can establish exactly rather than architectural claims it cannot yet measure. A reader should take the Tier 1, 2 and 4 descriptions as a specification of what a complete CAS deployment would need to implement and could in principle be measured, not as a report of measurements already taken. The gap between a four-tier specification and a one-tier measurement is the honest scope of this paper, restated here before the measured results themselves are presented.
+
 ---
 
 ## Empirical Evaluation Protocol
@@ -609,6 +780,28 @@ The deviation is zero to numerical precision, which establishes that the contrac
 Checking is effectively free relative to what it prevents. The comparison we can make is with the algebra, not with a deployed system: we have not measured an agent stage's execution cost, and the claim that a model call is orders of magnitude more expensive than a microsecond is an appeal to the reader's knowledge of the setting rather than a measurement reported here.
 
 ---
+
+## Analysis: Why Depth Is the Variable That Matters
+
+The three tables above report three different quantities -- soundness under reordering, error attenuation, and checking cost -- and each is a function of pipeline depth. This section asks what that shared dependence implies, since none of the three tables states it directly.
+
+### Depth Is a Tax on Reuse, Not on Length
+
+Table 1's soundness collapse (73.60\% at depth 2 to 9.22\% at depth 12) is easy to misread as a claim about long pipelines being fragile in general. It is not that. Every pipeline in this study is generated valid in its original stage order; what Table 1 measures is what happens to that same, already-correct set of stages under a *different* ordering. A pipeline that is never reordered pays none of this cost regardless of depth -- the soundness figures are a property of the space of reassemblies a fixed stage library admits, not a property of running a long pipeline in the order it was designed for. The practical reading is narrower and more actionable than "deep pipelines are fragile": it is that a stage library assembled once and reused across multiple pipeline configurations becomes less safe to reassemble, specifically, as the library and the depth of assemblies drawn from it both grow, because the number of orderings that could violate some stage's pre-condition grows faster than the number that cannot.
+
+### The Contraction Bound and the Soundness Result Are About Different Failure Modes
+
+Table 2's finding that 82.00\% of valid pipelines attenuate error, with the bound attained exactly, describes pipelines that are already sound -- every stage's pre-condition is met, so the pipeline runs to completion, and the question Table 2 answers is only how error introduced at one stage propagates through the ones after it. Table 1 describes a different failure mode entirely: a pipeline whose reordering violates some stage's pre-condition does not run to completion at all, so it never reaches the point where Table 2's error-propagation question would apply. A pipeline can therefore fail in exactly one of these two ways for a given reordering, never both, and a complete safety argument for a reassembled pipeline needs both checks: the soundness check to establish that it runs, and the contraction bound to establish that if it runs, it does not amplify error. Neither table's result implies the other's, and a design process that checked only one would miss failures the other catches.
+
+### What the Cost Result Licenses
+
+Table 3's microsecond-scale checking cost is what makes running both checks on every candidate reassembly practical rather than merely correct. Because a static contract check is orders of magnitude cheaper than the model call it protects (Table 3), and because the two checks in Table 1 and Table 2 test different failure modes (above), the design this analysis supports is: check every candidate ordering against both its soundness and its contraction bound before executing a single stage, rather than sampling a subset of orderings or checking only one property. The cost result is what turns "check everything" from an aspiration into the strictly dominant choice -- at $1.33$ microseconds per depth-8 check, there is no depth or reassembly frequency at which skipping the check would be justified purely on cost grounds, though Table 3's own limitation applies here too: that comparison is against the algebra's own cost, not a measured agent-stage execution cost, and rests on the reader's independent knowledge that a model call costs vastly more than a microsecond.
+
+### Where This Sits in the Four-Tier Architecture
+
+The measurements above are all properties of Tier 3, the deterministic contract and safety enforcement layer, evaluated in isolation from Tiers 1, 2 and 4. That isolation is deliberate and worth naming: the pre/post-condition pairs Tables 1 and 2 reason over are exactly the kind of validation the architecture section assigns to Tier 3's message interception, so this study measures the layer whose job is checking, using the same six-property contract model that layer would enforce. Tiers 1, 2 and 4 are not measured here at all -- Tier 1's model-tiering dispatch, Tier 2's epistemic cache, and Tier 4's Byzantine consensus each raise their own questions this contract algebra does not address, and nothing in Tables 1 through 3 should be read as evidence about any of them. The architecture section states what a four-tier system would need to do; this paper measures one property of one of those four tiers, exactly, and does not extend the claim further.
+
+---
 ## Ablation of the Checking Regime
 
 Tables 1 and 2 vary the two parameters this study can vary: pipeline depth and whether checking happens statically or at runtime. We report no ablation over agent backbones or task workloads, because no agent was executed.
@@ -620,27 +813,45 @@ Tables 1 and 2 vary the two parameters this study can vary: pipeline depth and w
 ### Multi-Agent Orchestration Frameworks
 Early multi-agent LLM systems—including AutoGPT, BabyAGI, MetaGPT [[crossref_10_48550_arxiv_2308_00352]], and ChatDev [[crossref_10_18653_v1_2024_acl_long_810]]—established the viability of role-playing agents for software development. However, these systems rely primarily on unconstrained natural language exchanges, rendering them non-deterministic and susceptible to conversational deadlocks. LangGraph, Semantic Kernel, and AutoGen introduce graph abstractions, but lack formal algebraic contracts and Lyapunov error bounds.
 
+None of the four frameworks named above reports a soundness measurement under pipeline reassembly, because none of them poses the question Table 1 answers: a graph-abstraction framework typically checks that a graph is well-formed at authoring time, not that an arbitrary reordering of already-validated stages remains well-formed after reassembly. That distinction matters specifically for the failure mode Table 1 measures. A system built on LangGraph's or Semantic Kernel's graph primitives inherits whatever authoring-time validation those frameworks provide, but nothing in that validation addresses what happens when stages from a shared library are recombined into a pipeline the original author did not write and did not check -- which is exactly the scenario the soundness experiment constructs. The gap this paper's contract algebra targets is therefore not a gap these frameworks failed to close; it is a question orthogonal to the one graph-based orchestration was designed to answer, since graph well-formedness at authoring time and soundness under later reassembly are formally distinct properties even when both are called "orchestration correctness" informally.
+
 ### Formal Methods in Artificial Intelligence
 The integration of SMT solvers (Z3, CVC5) with neural architectures has a rich history in neuro-symbolic reasoning and program verification. Prior works investigate formal verification for neural network robustness bounds (Reluplex, Marabou). Our CAS framework extends formal methods to agent orchestration graphs, using SMT solvers not to verify model weights directly, but to enforce strict behavioral contracts over inter-agent data streams.
 
+Reluplex and Marabou verify properties of a fixed neural network's weights against an input specification; the object of verification is the network itself. This paper's contract algebra verifies a different object entirely -- not a network's weights, but the sequencing of opaque agent stages treated as black boxes satisfying declared pre- and post-conditions -- and the two kinds of verification compose rather than compete. A pipeline stage's internal weights could in principle be Reluplex-verified for robustness while the pipeline's stage ordering is separately verified by the contract algebra reported here; neither verification implies the other, since a robustly verified single model can still be composed into an unsound pipeline if its declared contract is violated by the stage before it, and a provably sound pipeline ordering says nothing about whether any individual stage's weights are themselves robust. Table 3's cost result reflects a check over six typed contract properties, which is a categorically cheaper object to verify than a neural network's weight space, and the two costs are not comparable on the same axis for that reason.
+
 ### Compound AI Systems and Retrieval Architectures
-Recent literature highlights the shift from monolithic model scaling to Compound AI Systems [[arxiv_2406.00584], [arxiv_2005.14165]]. Systems such as GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG demonstrate that structured graph indexing outperforms brute-force fine-tuning. CAS serves as the overarching architectural operating system uniting structured retrieval, parameter-efficient adapters [[arxiv_2305.18290]], and multi-agent coordination under a unified contract framework.
+Recent literature highlights the shift from monolithic model scaling to Compound AI Systems [[arxiv_2406.00584], [arxiv_2005.14165]]. Systems such as GraphRAG [[arxiv_2501.14050]] and Symbol-Graph RAG demonstrate that structured graph indexing outperforms brute-force fine-tuning. CAS serves as the overarching architectural operating system uniting structured retrieval, parameter-efficient adapters, and multi-agent coordination under a unified contract framework.
+
+GraphRAG's structured-retrieval advantage over brute-force fine-tuning is a claim about retrieval quality, evaluated against a fixed retrieval task; it says nothing about what happens when a retrieval stage is one component in a longer, reassembled pipeline of the kind Table 1 studies. CAS's four-tier architecture places retrieval concerns inside Tier 2's epistemic caching layer, which this paper's contract algebra does not itself measure -- Tables 1 through 3 are Tier 3 results exclusively, as the Analysis section above states directly. A retrieval-augmented stage that is individually high-quality by GraphRAG's own standard could still violate a downstream stage's pre-condition if its output schema is not declared as a contract Tier 3 can check, which is precisely the class of failure the soundness table measures independent of what any individual stage retrieves or how well it retrieves it. Compound AI systems that combine retrieval with multi-agent orchestration inherit both kinds of risk -- retrieval quality, which this paper does not address, and composition soundness, which it does -- and conflating the two would understate what a contract-checked architecture actually adds on top of a well-retrieved pipeline.
+
+### Where the Three Bodies of Literature Leave a Gap
+
+The three subsections above address orchestration structure, formal verification, and retrieval architecture as three separate literatures, and it is worth stating explicitly what none of them, individually or together, provides: a soundness argument for recombining already-validated pipeline stages into new configurations. Orchestration frameworks validate graphs at authoring time; formal-methods work verifies models or, separately, program properties; compound-AI-systems work evaluates retrieval quality end-to-end. A team assembling a pipeline from a shared stage library by drawing on all three literatures at once -- a well-formed orchestration graph, individually-verified model components, and a high-quality retrieval stage -- would still have no answer to the question Table 1 poses, because none of the three literatures poses it. This is the specific gap the contract algebra targets, not a claim that the three literatures are individually deficient in what they set out to establish.
 
 ---
 
 ## Threats to Validity & Limitations
 
+**A correction before the limitations.** An earlier version of this section claimed lower-capacity model backbones ($\le 3$B parameters) exhibit higher schema violation rates, and that benchmarks were conducted on NVIDIA H100 and A100 GPU clusters. Neither happened: the Empirical Evaluation Protocol above states plainly that no language model is invoked at any point in this study, and the Conclusion restates it. No backbone of any size was tested, and no GPU cluster of any kind was used. The limitations below describe what the contract-algebra measurements above can and cannot establish, without implying a model evaluation this paper never ran.
+
 ### Internal Validity
-- **Contract Specification Overhead:** Defining formal Pydantic schemas and SMT predicates requires upfront domain engineering. For novel, exploratory tasks with ill-defined boundaries, contract authoring can add initial developer friction.
-- **SMT Solver Timeouts:** Highly complex relational invariants spanning unbounded dynamic arrays may trigger SMT solver timeouts, falling back to heuristic verification.
+- **Contract Specification Overhead:** Defining formal Pydantic schemas and SMT predicates requires upfront domain engineering. This is a design-cost claim about the specification burden, not a measured quantity; this study did not time or otherwise measure contract-authoring effort, so no figure is reported for it.
+- **SMT Solver Timeouts:** Highly complex relational invariants spanning unbounded dynamic arrays may trigger SMT solver timeouts in a real deployment. Table 3's $1.33$ microsecond figure is the cost of the contracts this study actually checked, which are the six typed properties in the Empirical Evaluation Protocol; it is not a bound on solver cost for arbitrarily complex invariants, and this study does not measure where that cost grows unacceptable.
 
 ### External Validity
-- **Model Backbone Dependence:** While CAS is model-agnostic, lower-capacity backbones ($\le 3$B parameters) exhibit higher initial schema violation rates, increasing Tier 3 rejection and re-prompting cycles.
-- **Hardware Architecture Scope:** Benchmarks were conducted on NVIDIA H100 and A100 GPU clusters; edge NPU deployment requires lightweight SMT solver optimizations.
+- **Whether Real Agents Honour Their Contracts:** The soundness and error-propagation results in Tables 1 and 2 are properties of the contract algebra applied to synthetic, valid pipelines under random reordering. They say nothing about whether a real agent stage, given a task within its declared pre-condition, reliably produces output satisfying its declared post-condition -- that compliance rate is an empirical property of specific models and specific contracts this study does not measure, and the whole analysis is conditional on it being high enough that contract violations are the exception rather than the norm.
+- **Contract Expressiveness:** The six typed properties modelled here are a simplification of what a real agent pipeline's state actually carries. A contract algebra expressive enough to capture six abstract property types may not capture the full pre/post-condition surface a production system needs, and this paper's soundness numbers are conditional on the properties tested being the ones that matter.
+
+### Tier Interaction Not Modeled
+
+Tables 1 through 3 measure Tier 3 in isolation, and the Analysis section above states that scope directly; it is worth restating here as a limitation in its own right rather than only as a scoping note. A production composable system would run all four tiers simultaneously -- Tier 1 routing a request to a model size, Tier 2 serving or missing an epistemic cache lookup, Tier 3 checking the resulting stage sequence's contracts, Tier 4 reconciling disagreement across redundant agents -- and nothing in this paper's three tables models the joint behaviour of a pipeline where a Tier 2 cache miss changes which stages Tier 3 must check, or where Tier 4's consensus step introduces its own reordering that Tier 3 would need to re-validate. The contraction bound in Table 2 in particular is stated for a fixed pipeline of declared stages; a Tier 4 consensus mechanism that retries a stage with a different agent instance introduces a source of variation the bound as measured does not account for, since the sampled pipelines behind that bound are each a single execution path, not a path subject to mid-execution consensus revision.
 
 ---
 
 ## Future Research Roadmap
+
+Each direction below responds to a specific gap this paper's own measurements leave open rather than a generic aspiration. Automated contract synthesis responds to the specification-overhead limitation noted above under Internal Validity: hand-authoring six typed properties does not scale to the property surface a production system needs. Asynchronous Byzantine consensus responds to the tier-interaction gap noted above: Tier 4 is entirely unmeasured here, and its interaction with Tier 3's checking is the first place the isolated measurement would need to be extended. Formal differential-privacy contracts and hardware-accelerated verification are extensions to the contract algebra's expressiveness and to Tier 3's checking cost respectively, not departures from what this paper measures.
 
 We identify four strategic research frontiers for Composable AI Systems:
 1. **Automated Contract Synthesis (Neuro-Symbolic Schema Generation):** Leveraging meta-agents to automatically infer and synthesize Z3 first-order logic invariants from historical runtime execution traces.
@@ -658,7 +869,7 @@ Two consequences follow. First, composition needs checking rather than conventio
 
 For error, the algebra's contraction bound is attained rather than approached -- the largest deviation across 3,000 valid depth-8 pipelines is 0.00e+00 -- so a pipeline's end-to-end error multiplier is computable from its stages. 82.00% of valid pipelines attenuate error; the remainder amplify it, and the bound locates them without execution.
 
-The scope of these claims is the algebra. Whether contracts written for real agent stages are as expressive as the model assumes, and whether real stages honour their post-conditions, are empirical questions this study does not answer: no language model was invoked and no pipeline was executed. The harness and all recorded measurements are released so the account can be checked.
+The scope of these claims is the algebra. Whether contracts written for real agent stages are as expressive as the model assumes, and whether real stages honour their post-conditions, are empirical questions this study does not answer: no language model was invoked and no pipeline was executed. The specification also covers Tiers 1, 2 and 4 -- routing, memory, and consensus -- none of which is measured here; only Tier 3's contract enforcement is. The harness and all recorded measurements are released so the account can be checked.
 
 
 
@@ -724,6 +935,18 @@ Pipeline state is a set of properties currently guaranteed. Composition threads 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \sigma_0 = & \Sigma_{\text{init}}, \\
@@ -731,6 +954,18 @@ $$
 \sigma_{i} = \sigma_{i-1} \cup \mathrm{pro}_i \quad \text{provided} \quad \mathrm{req}_i \subseteq \sigma_{i-1}
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -762,11 +997,35 @@ Each stage carries a contraction factor $c_i > 0$ relating output error to input
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 $$
 \begin{aligned}
 \varepsilon_n = \varepsilon_0 \prod_{i=1}^{n} c_i
 \end{aligned}
 $$
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

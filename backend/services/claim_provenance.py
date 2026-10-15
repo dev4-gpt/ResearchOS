@@ -23,6 +23,7 @@ claim" and "go run the experiment" are not interchangeable.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -237,6 +238,37 @@ class ClaimProvenanceService:
                     records.append(json.loads(raw_line))
                 except json.JSONDecodeError:
                     continue
+        # Run metadata is evidence for reproducibility-table claims (for example,
+        # wall-clock duration, seed, and recorded measurement count).  Keep it
+        # separate from measurements.jsonl on disk, but expose it through the same
+        # provenance interface with a hash of the manifest so built artifacts can be
+        # checked against the exact run that produced them.
+        manifest_path = os.path.join(self.runs_root, run_id, "experiment_manifest.json")
+        if os.path.exists(manifest_path):
+            try:
+                with open(manifest_path, "rb") as handle:
+                    manifest_bytes = handle.read()
+                manifest = json.loads(manifest_bytes.decode("utf-8"))
+                manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+                for field, metric, unit in (
+                    ("duration_s", "run_duration", "time"),
+                    ("seed", "run_seed", ""),
+                    ("measurement_count", "measurement_count", "n"),
+                ):
+                    value = manifest.get(field)
+                    if isinstance(value, (int, float)) and not isinstance(value, bool):
+                        record = {
+                            "metric": metric,
+                            "value": value,
+                            "unit": unit,
+                            "artifact": "experiment_manifest.json",
+                            "sha256": manifest_sha,
+                        }
+                        if field == "measurement_count":
+                            record["n"] = value
+                        records.append(record)
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError, TypeError, ValueError):
+                pass
         return records
 
     #: A claim is only backed by a measurement in a compatible unit. Without this,

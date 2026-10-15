@@ -1,0 +1,32 @@
+filters:
+  and:
+    - file.folder == "04_Drafts"
+    - file.ext == "md"
+
+views:
+  - type: table
+    name: Manuscripts
+    order:
+      - file.name
+      - target_venue
+      - target_length
+      - status
+      - publisher_readiness
+      - checkmate_status
+      - checkmate_date
+      - date
+      - tags
+    sort:
+      - property: publisher_readiness
+        direction: ASC
+
+  - type: table
+    name: Blocked only
+    filters:
+      and:
+        - publisher_readiness == "BLOCKED_UNVERIFIED_EVIDENCE"
+    order:
+      - file.name
+      - target_venue
+      - status
+      - checkmate_date

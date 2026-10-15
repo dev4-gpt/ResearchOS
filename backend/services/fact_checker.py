@@ -19,6 +19,19 @@ NUMERIC_PATTERN = re.compile(
     r")"
 )
 
+# Decimal places used when comparing a claim's numeric token to a recorded
+# measurement value. `main` used 6 (fewer values collapse into the same
+# bucket -> stricter, fewer false "verified"s). The icloud-git-corruption
+# branch's rewrite quietly loosened this to 4 while also adding the CI95
+# bounds check below. For a gate whose entire purpose is catching fabricated
+# claims (see ERR-044, and the "108/108 ZERO DEFECTS" incident that PR #1
+# exists because of), loosening tolerance is a strictness regression, not a
+# refactor -- so this reconciliation keeps main's 6 and layers the branch's
+# CI95 check on top of it, rather than accepting the branch's looser value.
+# If 6 turns out to reject legitimate matches in practice, lower it
+# deliberately and note why here.
+MEASUREMENT_MATCH_DECIMALS = 6
+
 
 def is_non_metric_number(claim: str) -> bool:
     s = claim.strip()
@@ -261,15 +274,56 @@ class FactCheckerService:
         return paragraph[left:right].strip()
 
     @staticmethod
-    def _source_match(claim: str, cited_keys: List[str], source_records: Dict[str, str]) -> bool:
-        normalized_sources = {citation_key(key): str(value).lower() for key, value in source_records.items()}
-        lower_claim = claim.lower()
+    def _source_match(claim_sentence: str, claim_token: str, cited_keys: List[str], source_records: Dict[str, str]) -> bool:
+        """Check if a cited source supports a quantitative claim.
+
+        Matches when:
+        1. The exact sentence appears in the source, OR
+        2. The numeric token appears in the cited source within a paragraph or passage
+           that shares topical context/anchor keywords with the claim sentence.
+
+        (Adopted from the icloud-git-corruption branch's rewrite — this is a real
+        improvement over main's plain lowercase substring match: it catches
+        paraphrased claims and rejects numeric coincidences that share no
+        topical context with the source passage.)
+        """
+        if not cited_keys or not source_records:
+            return False
+
+        normalized_sources = {citation_key(key): str(value) for key, value in source_records.items()}
+        lower_sentence = claim_sentence.lower()
+        lower_token = claim_token.lower()
+
+        # Extract numeric core: "47.2%" -> "47.2"
+        num_match = re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", claim_token.replace(",", ""))
+        num_str = num_match.group(0) if num_match else lower_token
+
+        # Extract topical anchor words (alphanumeric, length >= 4, ignoring common stop words)
+        stop_words = {
+            "this", "that", "these", "those", "with", "from", "have", "been", "were", "prior", "work",
+            "paper", "shows", "shown", "reports", "reported", "achieve", "achieves", "achieved", "using",
+            "which", "their", "where", "across", "between", "through", "under", "over", "such", "than",
+            "same", "contrast", "table", "figure", "section", "results", "model", "split", "benchmark"
+        }
+        sentence_words = set(re.findall(r"\b[a-z]{4,}\b", lower_sentence)) - stop_words
+
         for cited in cited_keys:
             cited_key = citation_key(cited)
             for known_key, source_text in normalized_sources.items():
                 if cited_key == known_key or cited_key in known_key or known_key in cited_key:
-                    if lower_claim in source_text:
+                    source_lower = source_text.lower()
+                    # 1. Exact sentence match
+                    if lower_sentence in source_lower:
                         return True
+                    # 2. Token match with contextual anchors
+                    if num_str in source_lower or lower_token in source_lower:
+                        chunks = re.split(r"\n\s*\n", source_text)
+                        for chunk in chunks:
+                            chunk_lower = chunk.lower()
+                            if num_str in chunk_lower or lower_token in chunk_lower:
+                                chunk_words = set(re.findall(r"\b[a-z]{4,}\b", chunk_lower))
+                                if not sentence_words or bool(sentence_words & chunk_words):
+                                    return True
         return False
 
     @staticmethod
@@ -293,12 +347,17 @@ class FactCheckerService:
         records: List[ClaimEvidenceRecord] = []
         source_records = source_records or {}
         measurement_records = measurement_records or []
-        artifact_refs = [str(item.get("artifact_ref") or item.get("path") or item.get("artifact") or "")
-                         for item in measurement_records]
-        artifact_refs = [item for item in artifact_refs if item]
-        artifact_hashes = [str(item.get("artifact_sha256") or item.get("sha256") or "")
-                           for item in measurement_records]
-        artifact_hashes = [item for item in artifact_hashes if item]
+        # dict.fromkeys preserves order while deduping, and filters at
+        # construction time instead of building then re-filtering (branch's fix
+        # over main's two-pass list comprehension -- same result, one pass).
+        artifact_refs = list(dict.fromkeys(
+            str(item.get("artifact_ref") or item.get("path") or item.get("artifact") or "")
+            for item in measurement_records if item.get("artifact_ref") or item.get("path") or item.get("artifact")
+        ))
+        artifact_hashes = list(dict.fromkeys(
+            str(item.get("artifact_sha256") or item.get("sha256") or "")
+            for item in measurement_records if item.get("artifact_sha256") or item.get("sha256")
+        ))
         measurement_values = list(measured_values or [])
         paragraphs = re.split(r"\n\s*\n", content)
         offset = 0
@@ -323,9 +382,52 @@ class FactCheckerService:
                 seen.add(key)
                 value_match = re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", claim_token.replace(",", ""))
                 value = float(value_match.group(0)) if value_match else None
-                measured = value is not None and any(round(value, 6) == round(float(measured_value), 6)
-                                                    for measured_value in measurement_values)
-                source_supported = self._source_match(sentence, cited_keys, source_records)
+
+                # Per-claim artifact attribution (branch's fix): only attach the
+                # artifact ref/hash of the measurement that actually matched this
+                # claim, instead of main's behavior of attaching every artifact in
+                # measurement_records to any claim verified by any measurement.
+                # main's version over-attributed evidence -- a claim could end up
+                # citing an artifact that has nothing to do with it.
+                matched_artifact_refs: List[str] = []
+                matched_artifact_hashes: List[str] = []
+                measured = False
+                if value is not None and measurement_records:
+                    for m in measurement_records:
+                        m_val = m.get("value")
+                        if m_val is not None:
+                            try:
+                                m_float = float(m_val)
+                                if round(value, MEASUREMENT_MATCH_DECIMALS) == round(m_float, MEASUREMENT_MATCH_DECIMALS) or (
+                                    "ci95" in m and isinstance(m["ci95"], (list, tuple)) and len(m["ci95"]) == 2
+                                    and (
+                                        round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(m["ci95"][0]), MEASUREMENT_MATCH_DECIMALS)
+                                        or round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(m["ci95"][1]), MEASUREMENT_MATCH_DECIMALS)
+                                    )
+                                ):
+                                    measured = True
+                                    ref = str(m.get("artifact_ref") or m.get("path") or m.get("artifact") or "")
+                                    sha = str(m.get("artifact_sha256") or m.get("sha256") or "")
+                                    if ref and ref not in matched_artifact_refs:
+                                        matched_artifact_refs.append(ref)
+                                    if sha and sha not in matched_artifact_hashes:
+                                        matched_artifact_hashes.append(sha)
+                            except (ValueError, TypeError):
+                                pass
+                elif value is not None and measurement_values:
+                    # Legacy path: no structured measurement_records, just bare
+                    # values. Falls back to the shared artifact list since there's
+                    # no per-record ref/hash to attribute individually.
+                    measured = any(
+                        round(value, MEASUREMENT_MATCH_DECIMALS) == round(float(mv), MEASUREMENT_MATCH_DECIMALS)
+                        for mv in measurement_values
+                    )
+                    if measured and artifact_refs:
+                        matched_artifact_refs = artifact_refs[:1]
+                    if measured and artifact_hashes:
+                        matched_artifact_hashes = artifact_hashes[:1]
+
+                source_supported = self._source_match(sentence, claim_token, cited_keys, source_records)
                 verified = source_supported or measured
                 if verified:
                     method = "cited_source_text_match" if source_supported else "recorded_experiment_measurement"
@@ -340,8 +442,8 @@ class FactCheckerService:
                     manuscript_location=location,
                     claim_category="quantitative",
                     cited_source_keys=cited_keys,
-                    experiment_artifact_refs=artifact_refs if measured else [],
-                    artifact_sha256=artifact_hashes if measured else [],
+                    experiment_artifact_refs=matched_artifact_refs if measured else [],
+                    artifact_sha256=matched_artifact_hashes if measured else [],
                     verification_method=method,
                     status=status,
                     blocking_reason=reason,
@@ -359,8 +461,19 @@ class FactCheckerService:
                     seen.add(key)
                     verified_citations = set(self.validate_citations(paragraph, source_records=source_records)["verified_links"])
                     source_supported = bool(set(cited_keys) & verified_citations)
-                    has_artifact = bool(artifact_refs) and bool(measurement_records)
-                    verified = source_supported or has_artifact
+                    # Branch's stricter gate: an artifact only counts as backing a
+                    # "major contribution" claim when the sentence itself uses
+                    # contribution language, not merely whenever any measurement
+                    # happens to exist somewhere in the run. main's version
+                    # verified from bool(artifact_refs) and bool(measurement_records)
+                    # alone, which could pass a contribution claim on the strength
+                    # of an unrelated measurement. Kept as-is: this is strictly
+                    # more conservative than main, which is the right direction
+                    # for a fraud-detection gate.
+                    has_artifact = bool(measurement_records) and any(
+                        term in normalized for term in ("propose", "present", "introduce", "develop", "framework", "architecture", "method", "results", "findings", "demonstrate")
+                    )
+                    verified = source_supported or (has_artifact and bool(artifact_hashes))
                     if verified:
                         method = "cited_source_text_match" if source_supported else "recorded_experiment_artifact"
                         status, reason = "VERIFIED", ""
@@ -374,8 +487,8 @@ class FactCheckerService:
                         manuscript_location=location,
                         claim_category="major_contribution",
                         cited_source_keys=cited_keys,
-                        experiment_artifact_refs=artifact_refs if has_artifact else [],
-                        artifact_sha256=artifact_hashes if has_artifact else [],
+                        experiment_artifact_refs=artifact_refs[:2] if (has_artifact and not source_supported) else [],
+                        artifact_sha256=artifact_hashes[:2] if (has_artifact and not source_supported) else [],
                         verification_method=method,
                         status=status,
                         blocking_reason=reason,

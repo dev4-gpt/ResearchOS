@@ -12,7 +12,7 @@ __pycache__/
 *.egg-info/
 dist/
 build/
-.venv/
+.venv
 venv/
 env/
 *.egg
@@ -76,3 +76,7 @@ scratch/
 
 # Runtime state
 vault/00_System/gemini_quota_state.json
+
+# Voice audio cache (generated on demand)
+vault/00_System/voice_cache/*.wav
+vault/00_System/voice_cache/*.aiff

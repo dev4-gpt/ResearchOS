@@ -83,9 +83,21 @@ To address these enterprise infrastructure and economic challenges, this paper d
 \subsection{Communication Topologies and Asymptotic Complexity}
 
 
-Let an enterprise multi-agent deployment be defined as a communication graph $\mathcal{G}_{\text{comm}} = (V_{\text{agents}}, E_{\text{msg}})$, where \$|V\_{\text{agents}}| = N\$. The choice of coordination topology fundamentally dictates message overhead, context window utilization, and system failure dynamics \cite{arxiv_2203_08975}.
+Let an enterprise multi-agent deployment be defined as a communication graph $\mathcal{G}_{\text{comm}} = (V_{\text{agents}}, E_{\text{msg}})$, where $|V_{\text{agents}}| = N$. The choice of coordination topology fundamentally dictates message overhead, context window utilization, and system failure dynamics \cite{arxiv_2203_08975}.
 
 \textbf{Definition 1 (Fully Connected Mesh $\mathcal{K}_N$).} Every agent broadcasts its state diffs to all $N-1$ peers. The total message complexity per coordination round is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -145,9 +157,33 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 As $N$ scales beyond 6 agents, context windows become rapidly saturated with redundant inter-agent chatter, triggering exponential token consumption and high cognitive drift.
 
 \textbf{Definition 2 (Hierarchical Supervisor Tree $\mathcal{T}_N$).} A tree of depth $D$ with branching factor $b$ where leaf worker agents communicate exclusively with designated supervisor nodes. The message complexity is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -207,9 +243,33 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 Hierarchical decomposition localizes context: worker agents receive only task-relevant instructions ($L_{\text{task}}$), while supervisors maintain aggregated milestone summaries ($L_{\text{summary}} \ll L_{\text{full}}$) \cite{arxiv_2406_00584}.
 
 \textbf{Definition 3 (Shared Blackboard Architecture).} Agents read and write state asynchronously to a centralized vector and symbol-graph store. The message complexity is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -269,9 +329,33 @@ $}
 
 
 
-where \$|K|\$ is the cardinality of the knowledge base.
+
+
+
+
+
+
+
+
+
+
+
+
+where $|K|$ is the cardinality of the knowledge base.
 
 \textbf{Definition 4 (Contract-Net Bidding Marketplace).} An auctioneer agent broadcasts task specifications; candidate worker agents submit capability bids. Message complexity per task is:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -334,6 +418,18 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Formal Econometric Cost Model}
 
 
@@ -364,11 +460,22 @@ Let $N_{\text{agents}}$ be the count of participating agents, $L_{\text{prompt}}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\mathcal{C}_{\text{task}} = & \sum_{t=1}^{T_{\text{turns}}} \sum_{a=1}^{N_{\text{agents}}} \left( L_{\text{prompt}}(a, t) \cdot P_{\text{in}} \\
-& + L_{\text{gen}}(a, t) \cdot P_{\text{out}} \right) + \sum_{k=1}^{K_{\text{tools}}} \mathcal{C}_{\text{tool}}(k)
+\mathcal{C}_{\text{task}} = & \sum_{t=1}^{T_{\text{turns}}} \sum_{a=1}^{N_{\text{agents}}} \left( L_{\text{prompt}}(a, t) \cdot P_{\text{in}} + L_{\text{gen}}(a, t) \cdot P_{\text{out}} \right) + \sum_{k=1}^{K_{\text{tools}}} \mathcal{C}_{\text{tool}}(k)
 \end{aligned}
 $}
 \end{equation}
@@ -398,7 +505,31 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 In uncoordinated mesh networks, prompt length accumulates previous conversational history linearly with turns: $L_{\text{prompt}}(a, t) = L_0 + \sum_{\tau=1}^{t-1} \sum_{j \ne a} L_{\text{gen}}(j, \tau)$. Substituting into the cost function yields quadratic cost growth with respect to turn count $T_{\text{turns}}$:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -458,7 +589,31 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruning and structured message summaries, bounding prompt length to $L_{\text{prompt}}(a, t) \le L_{\text{sys}} + L_{\text{subtask}} + \mathcal{O}(1)$. The resulting cost scaling is strictly linear:
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -492,6 +647,18 @@ In contrast, our Hierarchical Supervisor Tree architecture enforces prompt pruni
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -555,6 +722,18 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -562,6 +741,18 @@ We model a multi-agent task execution pipeline as an absorbing Discrete-Time Mar
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -665,7 +856,7 @@ Faults are modelled as independent per-agent failures with probability $p_{\text
 \subsection{Table 1: Simulation Parameters}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcl}
 \toprule
 Parameter & Value & Basis \\
@@ -706,7 +897,7 @@ We report four measured quantities:
 \subsection{Table 2: Measured Message Complexity and Cascade Containment}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccccc}
 \toprule
 Topology & Growth exponent $k$ & Messages at $N=64$ & Coordination depth (hops) & Cascade-affected agents (\%) & 95\% CI \\
@@ -753,7 +944,7 @@ Two results qualify the naive reading that hierarchy dominates. First, coordinat
 \subsection{Table 3: DTMC Steady-State Availability}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 Topology & MTTF (steps) & MTTR (steps) & Steady-state availability (\%) \\
@@ -777,7 +968,7 @@ These availabilities are exact consequences of the stated MTTF and MTTR paramete
 The cascade results in Table 2 measure how far a fault spreads, not how quickly a system recovers from it. Recovery latency depends on runtime details -- container scheduling, checkpoint store round-trips, heartbeat intervals -- that this simulation does not model, and we therefore report no recovery timings. What follows is a design comparison of four mechanisms, stated qualitatively.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llll}
 \toprule
 Recovery Mechanism & Detection basis & State preserved on failure & Coordination overhead \\
@@ -1008,6 +1199,18 @@ A two-state chain over $\{\textsf{UP}, \textsf{DOWN}\}$ with failure rate $\lamb
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -1015,6 +1218,18 @@ P = \begin{pmatrix} 1 - \lambda & \lambda \\ \mu & 1 - \mu \end{pmatrix}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1039,20 +1254,20 @@ The closed form $\mathrm{MTTF}/(\mathrm{MTTF} + \mathrm{MTTR})$ is available and
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_enterprise\_adoption\_of\_multi\_agent\_ai\_systems\_infr` \\
+Run identifier & \texttt{draft-review\_enterprise\_adoption\_of\_multi\_agent\_ai\_systems\_infr} \\
 Random seed & 20260825 \\
-Repository revision & `90967292066d` \\
+Repository revision & \texttt{90967292066d} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `2.877 s` \\
+Wall-clock duration & \texttt{2.877 s} \\
 Measurements recorded & 25 \\
 Recorded at & 2026-08-25T17:29:03-0400 \\
 \bottomrule
@@ -1094,7 +1309,7 @@ This appendix documents each procedure as implemented, taken from the executing 
 
 \textbf{`coordination\_depth`.} Critical-path hop count, which sets latency under equal per-hop cost.
 
-\textbf{`fit\_growth\_exponent`.} Fit counts ~ N^k in log-log space and return k.
+\textbf{`fit\_growth\_exponent`.} Fit counts ~ N\^{}k in log-log space and return k.
 
 \textbf{`simulate\_cascades`.} Monte Carlo cascade simulation. Each agent fails independently with probability ``p\_fail``. A failure then propagates to everyone that depends on the failed agent: mesh no supervisor, so a fault reaches every peer it messaged contract\_net the failed bidder's task is re-let, containing the fault blackboard a corrupt write is read by all subsequent readers hierarchical the parent retries the child, containing the subtree Returns the fraction of agents affected in each trial.
 
@@ -1109,36 +1324,36 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`availability\_blackboard` & 99.3377 & \% & -- & -- & `2-state DTMC stationary distribution` \\
-`availability\_contract\_net` & 98.5222 & \% & -- & -- & `2-state DTMC stationary distribution` \\
-`availability\_hierarchical` & 99.8004 & \% & -- & -- & `2-state DTMC stationary distribution` \\
-`availability\_mesh` & 96.1538 & \% & -- & -- & `2-state DTMC stationary distribution` \\
-`cascade\_cohens\_d\_mesh\_vs\_hier` & 2.1339 & d & 20000 & -- & `Welch t-test on Monte Carlo samples` \\
-`cascade\_rate\_blackboard` & 36.72 & \% & 20000 & [36.403, 37.051] & `Monte Carlo, independent per-agent faults` \\
-`cascade\_rate\_contract\_net` & 4.0 & \% & 20000 & [3.957, 4.051] & `Monte Carlo, independent per-agent faults` \\
-`cascade\_rate\_hierarchical` & 2.84 & \% & 20000 & [2.709, 2.96] & `Monte Carlo, independent per-agent faults` \\
-`cascade\_rate\_mesh` & 72.06 & \% & 20000 & [71.455, 72.655] & `Monte Carlo, independent per-agent faults` \\
-`cascade\_t\_statistic` & 213.3862 & t & 20000 & -- & `Welch t-test on Monte Carlo samples` \\
-`coordination\_depth\_blackboard` & 2.0 & hops & 64 & -- & `critical path through protocol` \\
-`coordination\_depth\_contract\_net` & 3.0 & hops & 64 & -- & `critical path through protocol` \\
-`coordination\_depth\_hierarchical` & 6.0 & hops & 64 & -- & `critical path through protocol` \\
-`coordination\_depth\_mesh` & 1.0 & hops & 64 & -- & `critical path through protocol` \\
-`growth\_exponent\_blackboard` & 1.0000000000000002 & exponent & 7 & -- & `log-log fit of exact protocol message counts` \\
-`growth\_exponent\_contract\_net` & 1.0278174191259293 & exponent & 7 & -- & `log-log fit of exact protocol message counts` \\
-`growth\_exponent\_hierarchical` & 1.059329345204773 & exponent & 7 & -- & `log-log fit of exact protocol message counts` \\
-`growth\_exponent\_mesh` & 2.0593293452047727 & exponent & 7 & -- & `log-log fit of exact protocol message counts` \\
-`message\_reduction\_hier\_vs\_mesh` & 96.88 & \% & 64 & -- & `exact counts at N=64: 4032 vs 126` \\
-`messages\_at\_n64\_blackboard` & 128.0 & messages & 64 & -- & `exact protocol message count` \\
-`messages\_at\_n64\_contract\_net` & 127.0 & messages & 64 & -- & `exact protocol message count` \\
-`messages\_at\_n64\_hierarchical` & 126.0 & messages & 64 & -- & `exact protocol message count` \\
-`messages\_at\_n64\_mesh` & 4032.0 & messages & 64 & -- & `exact protocol message count` \\
-`pipeline\_reliability\_hierarchical` & 99.25 & \% & 5 & -- & `[1-(1-p)(1-r)^M]^K with p=0.85, r=0.9, M=2, K=5` \\
-`pipeline\_reliability\_monolithic` & 44.37 & \% & 5 & -- & `p^K with p=0.85, K=5` \\
+\texttt{availability\_blackboard} & 99.3377 & \% & -- & -- & \texttt{2-state DTMC stationary distribution} \\
+\texttt{availability\_contract\_net} & 98.5222 & \% & -- & -- & \texttt{2-state DTMC stationary distribution} \\
+\texttt{availability\_hierarchical} & 99.8004 & \% & -- & -- & \texttt{2-state DTMC stationary distribution} \\
+\texttt{availability\_mesh} & 96.1538 & \% & -- & -- & \texttt{2-state DTMC stationary distribution} \\
+\texttt{cascade\_cohens\_d\_mesh\_vs\_hier} & 2.1339 & d & 20000 & -- & \texttt{Welch t-test on Monte Carlo samples} \\
+\texttt{cascade\_rate\_blackboard} & 36.72 & \% & 20000 & [36.403, 37.051] & \texttt{Monte Carlo, independent per-agent faults} \\
+\texttt{cascade\_rate\_contract\_net} & 4.0 & \% & 20000 & [3.957, 4.051] & \texttt{Monte Carlo, independent per-agent faults} \\
+\texttt{cascade\_rate\_hierarchical} & 2.84 & \% & 20000 & [2.709, 2.96] & \texttt{Monte Carlo, independent per-agent faults} \\
+\texttt{cascade\_rate\_mesh} & 72.06 & \% & 20000 & [71.455, 72.655] & \texttt{Monte Carlo, independent per-agent faults} \\
+\texttt{cascade\_t\_statistic} & 213.3862 & t & 20000 & -- & \texttt{Welch t-test on Monte Carlo samples} \\
+\texttt{coordination\_depth\_blackboard} & 2.0 & hops & 64 & -- & \texttt{critical path through protocol} \\
+\texttt{coordination\_depth\_contract\_net} & 3.0 & hops & 64 & -- & \texttt{critical path through protocol} \\
+\texttt{coordination\_depth\_hierarchical} & 6.0 & hops & 64 & -- & \texttt{critical path through protocol} \\
+\texttt{coordination\_depth\_mesh} & 1.0 & hops & 64 & -- & \texttt{critical path through protocol} \\
+\texttt{growth\_exponent\_blackboard} & 1.0000000000000002 & exponent & 7 & -- & \texttt{log-log fit of exact protocol message counts} \\
+\texttt{growth\_exponent\_contract\_net} & 1.0278174191259293 & exponent & 7 & -- & \texttt{log-log fit of exact protocol message counts} \\
+\texttt{growth\_exponent\_hierarchical} & 1.059329345204773 & exponent & 7 & -- & \texttt{log-log fit of exact protocol message counts} \\
+\texttt{growth\_exponent\_mesh} & 2.0593293452047727 & exponent & 7 & -- & \texttt{log-log fit of exact protocol message counts} \\
+\texttt{message\_reduction\_hier\_vs\_mesh} & 96.88 & \% & 64 & -- & \texttt{exact counts at N=64: 4032 vs 126} \\
+\texttt{messages\_at\_n64\_blackboard} & 128.0 & messages & 64 & -- & \texttt{exact protocol message count} \\
+\texttt{messages\_at\_n64\_contract\_net} & 127.0 & messages & 64 & -- & \texttt{exact protocol message count} \\
+\texttt{messages\_at\_n64\_hierarchical} & 126.0 & messages & 64 & -- & \texttt{exact protocol message count} \\
+\texttt{messages\_at\_n64\_mesh} & 4032.0 & messages & 64 & -- & \texttt{exact protocol message count} \\
+\texttt{pipeline\_reliability\_hierarchical} & 99.25 & \% & 5 & -- & \texttt{[1-(1-p)(1-r)\^{}M]\^{}K with p=0.85, r=0.9, M=2, K=5} \\
+\texttt{pipeline\_reliability\_monolithic} & 44.37 & \% & 5 & -- & \texttt{p\^{}K with p=0.85, K=5} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -1149,23 +1364,22 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \section{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/cascade\_significance.json` & `51a53501a35c3371` \\
-`artifacts/cascade\_trials.json` & `88527de8baa06f95` \\
-`artifacts/coordination\_depth.json` & `c783009e1db39108` \\
-`artifacts/dtmc\_availability.json` & `b2bbe53050834991` \\
-`artifacts/message\_scaling.json` & `7bb8504d82efc8db` \\
-`artifacts/pipeline\_reliability.json` & `b85f3803f45690d0` \\
+\texttt{artifacts/cascade\_significance.json} & \texttt{51a53501a35c3371} \\
+\texttt{artifacts/cascade\_trials.json} & \texttt{88527de8baa06f95} \\
+\texttt{artifacts/coordination\_depth.json} & \texttt{c783009e1db39108} \\
+\texttt{artifacts/dtmc\_availability.json} & \texttt{b2bbe53050834991} \\
+\texttt{artifacts/message\_scaling.json} & \texttt{7bb8504d82efc8db} \\
+\texttt{artifacts/pipeline\_reliability.json} & \texttt{b85f3803f45690d0} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 \par\vspace{0.5em}
 
