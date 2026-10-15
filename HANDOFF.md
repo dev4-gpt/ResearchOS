@@ -95,13 +95,16 @@ causal factor.
 - `generate_appendices.py` / `generate_related_work.py` — Appendices A, C, D, E from
   artifacts and vetted citations.
 
-### 4. Current state (re-verified 2026-09-03)
+### 4. Current state (re-verified 2026-09-03, after the citation + main-body pass below)
 
-**All 9 manuscripts: 112 claims, 0 ungrounded. `run_submission_gate.py` exits 0,
-prints `GATE: PASSED. Every quantitative claim traces to evidence.`** 108/108 builds
-via `publisher_readiness_manifest.json` (72/108 draft×venue combinations pass every
-gate incl. layout/originality; the other 36 are blocked by real, specific reasons,
-not silently waved through).
+**All 9 manuscripts: 144 claims, 0 ungrounded. `run_submission_gate.py` exits 0,
+prints `GATE: PASSED. Every quantitative claim traces to evidence.`** (Claim count
+rose from 112 to 144 as real content was added — see item 5 below.)
+`publisher_readiness_manifest.json`'s "108/108 builds, 72/108 ready" figures are now
+**stale** relative to this pass — that matrix has not been re-run since the citation/
+content changes below (it compiles LaTeX for all 108 draft×venue combinations and is
+slow; re-run `run_submission_gate.py` output above is the current source of truth for
+claim grounding, not that file, until the matrix is regenerated).
 
 Venue allocation: p2→ICML (competitive), p9→IEEEtran, p1→IEEE Access,
 p3/p6/p7→ACM, p4→SpringerOpen, p5→MDPI, p8→arXiv.
@@ -134,22 +137,69 @@ fact.**
 
 The **integrity** problem is solved. The **contribution** problem is not.
 
-**Blocking:**
+**Blocking, re-verified 2026-09-03 after a full citation-backlog + main-body pass:**
 
-1. **Main bodies are 200–2,300 words under target.** Appendices are well-provisioned;
-   the argument sections are thin. p3 (composable AI) is 2,871 against 5,182; p5
-   (enterprise adoption) is nearly there at 4,955. Run `paper_template.py` for current
+1. **Main bodies are closer but still under target.** Gaps closed substantially this
+   session (word counts, not padding — see item 5): symbol_graph_rag_vs_qlora and
+   enterprise_adoption are effectively at target (0 and 8 words short); trustworthy_MAS
+   and autonomous_code_synthesis are close (147, 413); architectural_dynamics,
+   continual_safety_alignment, composable_ai_systems remain 980–1,300 short;
+   enterprise_genai_roi has a *larger* gap than before (2,613, up from 785) because
+   ~400 lines of fabricated/disconnected content were removed from it (item 5) —
+   that gap is now honest, the old number was not. spatio_temporal_grounding is
+   deliberately left at 1,599 short — see item 6. Run `paper_template.py` for current
    gaps — they move whenever a draft is re-synced.
-2. **83 citations remain flagged** (`vault/00_System/CITATION_REVIEW.md`). The 22 that
-   were outright false attributions — prose naming one work, key resolving to another —
-   have been removed by `scripts/review_citations.py`, which records every decision in
-   `citation_decisions.json` so the list can actually shrink. What remains needs author
-   judgement; do **not** auto-replace. A previous attempt proposed swapping InstructGPT
-   for *"Automated Fracture Image Captioning."* Note the flagged set is carried by ~30
-   keys, a handful of which were used as generic filler across all nine papers — the
-   real question for most of them is whether the sentence needs a citation at all.
-3. **Four papers are missing template sections** (p2 Experiments, p7 Analysis, p4
-   abstract/intro/analysis, p8 several by design).
+2. **Citation backlog: closed.** All 32 flagged occurrences (6 distinct keys)
+   resolved — 5 removed (`arxiv_2406.00584`, `arxiv_2501.02497`, `arxiv_2305.18290`,
+   `arxiv_2005.14165`, `arxiv_2312.03893`), 1 kept (`arxiv_2404.04289`) after reading
+   each flagged sentence against what its source actually says. `review_citations.py
+   --by-key` reports 0 open. Do **not** auto-replace a citation if this backlog reopens
+   — read the sentence and the source yourself.
+3. **Missing template sections: mostly closed.** `architectural_dynamics` (Experiments)
+   and `composable_ai_systems` (Analysis) both now have the section, with real
+   cross-table synthesis, not a bare rename — the underlying heading just didn't match
+   `paper_template.py`'s alias list before. `enterprise_genai_roi` needed Abstract levelled
+   from H1→H2, plus a real Introduction, Analysis, Conclusion, and Appendix F built
+   around its actual 12 measurements (see item 5). `spatio_temporal_grounding` still
+   shows `experiments, extended_setup, methodology, additional_results` missing —
+   correctly: no `runs/` directory or `p8_*.py` script exists for it (needs GPU, out
+   of scope), and forcing those sections to "exist" would mean fabricating exactly what
+   this project's discipline exists to prevent.
+5. **A real, recurring content-integrity defect was found and fixed in 4 of the 9
+   papers — not by the automated gate, by reading.** `run_submission_gate.py`'s claim
+   extractor has real, confirmed blind spots (bare `$\lambda = 8.3$`-style LaTeX
+   assignments, `$\times$` spacing variants, "lines of code" as a unit — none matched
+   by its regex patterns), and manuscripts contain prose that slips through them:
+   - `architectural_dynamics`: a fabricated empirical result ("our fit gives λ=8.3...
+     Symbol-RAG 14B exceeds a 70B dense model on MMLU") and a Limitations section
+     describing H100/A100 benchmarks and R²-fitted scaling laws that never happened.
+   - `composable_ai_systems`: a Limitations section claiming H100/A100 benchmarks and
+     backbone-dependence results, same pattern.
+   - `spatio_temporal_grounding`: a Limitations section claiming "our benchmarks
+     evaluate video clips up to 5 minutes" and "our evaluation focuses on visual and
+     textual modalities" — this paper's own Abstract and Section 5 title
+     ("Proposed Evaluation, and Why It Is Not Reported") directly contradict it.
+   - `symbol_graph_rag_vs_qlora`: a Limitations bullet citing "85,000 lines of code" —
+     no LOC metric exists anywhere in this paper's 37 measurements.
+   - `enterprise_genai_roi` was worse than a stray paragraph: ~400 of ~600 lines were a
+     second, disconnected, ungrounded essay (generic "GenAI ROI" business-consulting
+     content, `\cite{}` syntax instead of the project's `[[key]]` format, citations to
+     sources — "Thukral et al., 2023", "Kumar (2026)" — never in the bibliography) with
+     zero reference to the paper's own 1,779-paper literature census. Removed entirely;
+     the paper is now the ~65 lines of real census plus honestly-scoped new sections.
+   All 6 recorded in the ledger (ERR-093 through ERR-096) with root cause and a
+   prevention rule: **a clean gate result does not mean a manuscript is honest, only
+   that the current regex patterns didn't catch what's wrong with it.** Every
+   Limitations/Threats section across all 9 papers was read against that paper's own
+   stated scope this session; no further instances were found, but this was checked
+   by reading, not by grep, and a keyword grep for this defect class is not sufficient
+   on its own (the first sweep missed 2 of the 6 instances for exactly that reason).
+6. **spatio_temporal_grounding is deliberately incomplete, not just short.** No GPU
+   access (confirmed permanently out of scope by the user, 2026-09-03) means its
+   4 empirical sections cannot be honestly filled. Only what's writable without
+   invented numbers — motivation, method description, experimental protocol design —
+   was expanded. Do not "finish" this paper's word count without either GPU access or
+   an explicit decision to redesign its evaluation around CPU-feasible measurements.
 4. **The contributions are modest.** Honest, reproducible, and modest. p3's finding is
    "an SMT stage we added contributed nothing." p1's is "our method didn't beat BM25."
    These are publishable as negative results in the right venue, but they are not
@@ -159,15 +209,13 @@ The **integrity** problem is solved. The **contribution** problem is not.
 **Also open:** ERR-046 (ACM branch emits no author metadata), ERR-088 (iCloud
 materialization races can produce a false BLOCKED gate verdict — see above).
 
-**ERR-063 status as of 2026-09-03:** `Projects 2` and `Projects 4` no longer exist
-anywhere under `~/Library/Mobile Documents/com~apple~CloudDocs/` — checked directly,
-not assumed. Only an empty, unrelated `Projects 3` stub (0 bytes, one empty `route/`
-folder, no ResearchingOS content) remains, and it holds nothing worth deleting.
-`.env` in this repo is gitignored and was never committed (checked). **This does not
-mean the keys were rotated** — if those folders held live keys before they were
-removed, rotate the keys regardless; their disappearance doesn't tell you whether
-they leaked in the meantime. That part is still the owner's call, not something to
-infer from a clean directory listing.
+**ERR-063 status as of 2026-09-03: resolved, confirmed by the owner.** `Projects 2`
+and `Projects 4` no longer exist anywhere under `~/Library/Mobile Documents/
+com~apple~CloudDocs/` — checked directly, not assumed. The leftover empty
+`Projects 3` stub (0 bytes, one empty `route/` folder, no ResearchingOS content) has
+been moved to `~/.Trash`. `.env` in this repo is gitignored and was never committed
+(checked). The owner has confirmed the key rotation from this incident is already
+done — do not re-raise ERR-063 as an open item.
 
 **Moving this repository off iCloud is the standing recommendation, not a decision
 already made — do not act on it without asking first.** It lives in
@@ -199,10 +247,15 @@ working tree) is the standing fix and has not been done.
 
 Ranked by what actually moves the needle:
 
-1. **Get one paper grounded on a real benchmark.** Everything here is CPU-measurable
-   modelling. One paper with a genuine SWE-bench Lite run behind it is worth more than
-   nine analytical ones. This needs GPU access or cloud credits, and it is the single
-   highest-value thing outstanding.
+1. **Get one paper grounded on a real benchmark — currently blocked, not just deprioritized.**
+   Everything here is CPU-measurable modelling. One paper with a genuine SWE-bench Lite
+   run behind it would be worth more than nine analytical ones, but **the user has
+   confirmed (2026-09-03) they do not have GPU access, full stop** — this isn't a
+   "get around to it" constraint, and Colab/vLLM was raised once as a possible free-tier
+   option and explicitly ruled out by the user, not adopted. Do not propose this as the
+   next actionable step or assume free-tier cloud GPU is available; treat it as
+   permanently out of scope until the user says otherwise. Everything else in this list
+   is CPU-only and is where actual progress happens.
 2. ~~Wire the gate into CI.~~ ~~Done, but it does not yet *block* anything.~~
    **Fully done as of 2026-09-03, verified directly:** `main` now has branch
    protection requiring the `integrity` status check (`strict: true`), and recent

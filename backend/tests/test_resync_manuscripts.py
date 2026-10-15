@@ -5,17 +5,24 @@ the exact failure the provenance gate was built to catch downstream. These tests
 pin the two rules that keep it safe: what a literal is allowed to match, and what
 the pass must refuse to decide on its own.
 """
+import importlib.util
 import json
 import os
-import sys
 
 import pytest
 
-SCRIPTS = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..",
-                                       "scripts", "experiments"))
-sys.path.insert(0, SCRIPTS)
-
-import resync_manuscripts as rs  # noqa: E402
+# Load by file path rather than sys.path + `import resync_manuscripts`: this
+# repo also has backend/harness/ (a package) and scripts/experiments/harness.py
+# (a module) both importable as bare "harness". Prepending scripts/experiments
+# to sys.path to reach this file used to make whichever test ran later in the
+# same pytest process resolve "harness" to the wrong one (ERR-091). Loading
+# resync_manuscripts.py directly by path never touches sys.path, so no other
+# test's import order can be affected by this one.
+_RESYNC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..",
+                                            "scripts", "experiments", "resync_manuscripts.py"))
+_spec = importlib.util.spec_from_file_location("resync_manuscripts_under_test", _RESYNC_PATH)
+rs = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(rs)
 
 
 # --------------------------------------------------------- literal generation

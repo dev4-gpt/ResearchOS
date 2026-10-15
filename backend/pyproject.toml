@@ -25,3 +25,12 @@ dev-dependencies = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 norecursedirs = ["scratch", ".venv", "node_modules"]
+# langsmith registers a pytest plugin via entry_points that pytest autoloads
+# at session start, before any test file is collected. On this iCloud-backed
+# repo that plugin's own init makes collection hang indefinitely (previously
+# reported as "the full suite hung for 4+ minutes with no result"). No test or
+# application code here uses the langsmith pytest plugin -- backend/main.py
+# already stubs the langsmith *library* import for the same slowness reason
+# (backend/_langsmith_stub.py); this addresses pytest's separate, independent
+# autoload of it as a plugin.
+addopts = "-p no:langsmith"

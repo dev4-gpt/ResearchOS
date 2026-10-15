@@ -202,6 +202,17 @@ def main() -> int:
                round(rec.bootstrap_ci(empirical, 2000)[0] * 100, 3), "%", art, sha,
                "bootstrap lower bound on empirical share", n=len(screened))
 
+    # Two simple derived quantities the manuscript states in prose: the funnel
+    # loss from identification to screening, and the non-empirical complement
+    # of the headline share. Recording them (rather than typing the arithmetic
+    # into the draft) keeps every stated number traceable to this run.
+    dedup_screening_loss = round(100.0 * (total_identified - len(screened)) / total_identified, 2)
+    rec.record("literature_dedup_screening_loss", dedup_screening_loss, "%", art, sha,
+               "share of identified records lost to deduplication and missing abstracts",
+               n=total_identified)
+    rec.record("literature_non_empirical_share", round(100.0 - empirical_share, 2), "%",
+               art, sha, "100 minus literature_empirical_share", n=len(screened))
+
     rec.finalize()
     print("\n  NOTE: this counts papers, not enterprise deployments. Any ROI or payback")
     print("  figure in the review belongs to the study that reported it and must be")

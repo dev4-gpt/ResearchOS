@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import time
 import hashlib
@@ -45,8 +46,13 @@ AGENT_PERSONAS = {
     "Engineer": {
         "name": "Senior Systems Engineer",
         "role": "Algorithmic & Technical Implementation Audit",
+        # ERR-103 resolved: GROQ's retired llama-3.1-8b-instant replaced with
+        # openai/gpt-oss-20b (verified live against GROQ's /v1/models). The
+        # OLLAMA stopgap before this one is unrelated and still open --
+        # ~/.ollama/models/blobs was empty, so qwen3.5:4b 404s despite being
+        # listed as installed; re-pull the blobs to use OLLAMA here instead.
         "provider": "GROQ",
-        "model": "llama-3.1-8b-instant",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are a Principal Systems & Compute Architect. You scrutinize claims down to algorithmic complexity, "
             "FLOPs scaling laws, GPU memory footprint (VRAM limits, KV-cache growth), quantization degradation, and "
@@ -56,8 +62,9 @@ AGENT_PERSONAS = {
     "Statistician": {
         "name": "Senior Statistician & Methods Critic",
         "role": "Quantitative Rigor & Validation Audit",
+        # ERR-103 resolved: same as Engineer above.
         "provider": "GROQ",
-        "model": "llama-3.1-8b-instant",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are a Senior Fellow in Biostatistics and Empirical Validation. You audit statistical power, sample sizes, "
             "p-values, confidence intervals, baseline comparability, data leakage, and selection bias. "
@@ -67,8 +74,10 @@ AGENT_PERSONAS = {
     "Reviewer2": {
         "name": "Reviewer #2 / Academic Editor",
         "role": "Hostile Peer Review & Rejection Risk Assessor",
+        # ERR-103 resolved: NIM's retired meta/llama-3.1-8b-instruct replaced
+        # with openai/gpt-oss-20b (also hosted on NIM, verified live).
         "provider": "NIM",
-        "model": "meta/llama-3.1-8b-instruct",
+        "model": "openai/gpt-oss-20b",
         "instruction": (
             "You are an elite, highly rigorous Area Chair and Senior Journal Reviewer. "
             "Your job is to identify every logical fallacy, unbacked assumption, lack of novelty against prior art, "
@@ -154,19 +163,43 @@ class CouncilOrchestrator:
         self.harness_controller = AutonomousHarnessController()
         self.evidence_ledger = EvidenceLedger(os.path.join(os.path.dirname(self.vault.vault_path), "runs"))
 
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        self.nim_api_key = os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY")
         self.run_mode = os.getenv("RESEARCHINGOS_RUN_MODE", "auto").strip().lower()
         if self.run_mode not in {"auto", "dry_run", "live"}:
             raise ValueError("RESEARCHINGOS_RUN_MODE must be one of: auto, dry_run, live")
-        provider_configured = bool(self.api_key or self.nim_api_key)
-        self.is_dry_run = self.run_mode == "dry_run" or (self.run_mode == "auto" and not provider_configured)
-        if self.run_mode == "live" and not provider_configured:
+        # None = no explicit override; is_dry_run computes live from env vars.
+        # Tests assign orch.is_dry_run = True/False directly to force a mode
+        # regardless of env, via the setter below.
+        self._is_dry_run_override: Optional[bool] = None
+        if self.run_mode == "live" and not self._provider_configured():
             raise RuntimeError("RESEARCHINGOS_RUN_MODE=live requires GEMINI_API_KEY or NVIDIA_NIM_API_KEY")
 
         from services.llm_router import llm_router
         self.llm_router = llm_router
         print(f"CouncilOrchestrator initialized with Prime Agent Harness. Mode: {self.run_mode}, Provider: {self.llm_router.active_provider}, Dry Run: {self.is_dry_run}")
+
+    @staticmethod
+    def _provider_configured() -> bool:
+        return bool(os.getenv("GEMINI_API_KEY") or os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY"))
+
+    @property
+    def is_dry_run(self) -> bool:
+        """Whether calls should be mocked instead of hitting a real provider.
+
+        Computed live from the environment on every access (rather than
+        cached once at construction time) unless a test has explicitly
+        overridden it via the setter below. This orchestrator is a
+        module-level singleton (see main.py), so an uncached value is what
+        lets /api/health reflect an API key set or cleared after the
+        process started -- see backend/tests/test_api.py's
+        test_is_dry_run_true_when_no_api_key.
+        """
+        if self._is_dry_run_override is not None:
+            return self._is_dry_run_override
+        return self.run_mode == "dry_run" or (self.run_mode == "auto" and not self._provider_configured())
+
+    @is_dry_run.setter
+    def is_dry_run(self, value: bool) -> None:
+        self._is_dry_run_override = value
 
     def _call_gemini(self, agent_key: str, prompt: str, system_instruction: Optional[str] = None) -> str:
         """Helper to invoke LLM providers via LLMRouter."""
@@ -184,8 +217,14 @@ class CouncilOrchestrator:
         provider = agent_cfg.get("provider", self.llm_router.active_provider)
         primary_model = agent_cfg.get("model")
 
-        # Make the LLM call via the centralized router
-        response_text = self.llm_router.generate_content(prompt, instruction, provider=provider, model=primary_model)
+        # Make the LLM call via the centralized router. Falls through the rest
+        # of the provider chain (see llm_router.generate_content_with_fallback)
+        # if this agent's configured provider is down or Gemini's shared daily
+        # quota (ERR-102) is spent, instead of going straight to the structured
+        # placeholder below on the first failure.
+        response_text = self.llm_router.generate_content_with_fallback(
+            prompt, instruction, preferred_provider=provider, model=primary_model
+        )
 
         if not response_text or response_text.startswith("[Error]"):
             print(f"⚠️ API unavailable or error for {agent_key}. Error: {response_text}. Using structured placeholder.")
@@ -200,16 +239,15 @@ class CouncilOrchestrator:
 
         return response_text
 
-    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
-        """Runs the full multi-agent research and LLM council debate pipeline.
+    def _run_ingestion_critique_debate(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+        """Stages 1-4: paper discovery, technical critique, boardroom debate, and
+        chairman synthesis. Saves the debate summary to vault/03_Debates and returns
+        everything Stage 5+ (drafting, in run_research) needs to continue.
 
-        Stages:
-        1. Ingestion: Scout searches databases and Analyst creates markdown papers.
-        2. Technical Critique: Engineer, Statistician, and Reviewer #2 write parallel notes.
-        3. Boardroom Debate: Multi-turn debate between agents.
-        4. Synthesis: Chairman reviews critiques & debate, writes review outline.
-        5. Drafting: Writer creates the final paper in LaTeX/Markdown style.
-        6. FactCheck: Linter validates citation links & metric grounding.
+        This is a shared helper so run_research (the full pipeline) and
+        run_debate_only (added to let a debate be regenerated without touching
+        vault/04_Drafts) can never drift out of sync with each other -- there is
+        exactly one place paper discovery, critique, and debate prompts live.
         """
         project_id = f"project_{int(time.time())}"
         start_time = time.time()
@@ -277,7 +315,6 @@ class CouncilOrchestrator:
                 }
             ]
         else:
-            import re
             # 1. Extract potential arXiv IDs from the topic using regex
             arxiv_ids = re.findall(r'\b\d{4}\.\d{4,5}\b', topic)
 
@@ -541,7 +578,6 @@ class CouncilOrchestrator:
         synthesis_content = self._call_gemini("Chairman", chairman_prompt)
 
         # Save debate transcript and synthesis to Vault
-        import re
         safe_topic_slug = re.sub(r'[^a-zA-Z0-9\s_-]', '', topic)
         safe_topic_slug = re.sub(r'[\s_-]+', '_', safe_topic_slug).strip('_').lower()
         if len(safe_topic_slug) > 50:
@@ -554,6 +590,46 @@ class CouncilOrchestrator:
             synthesis_content + "\n\n## Transcript\n\n" + debate_transcript,
             {"title": f"Council Debate on {topic}", "topic": topic, "type": "debate_summary", "tags": [topic.replace(" ", "-").lower(), "debate"]}
         )
+
+        return {
+            "success": True,
+            "project_id": project_id,
+            "start_time": start_time,
+            "run_manifest": run_manifest,
+            "papers": papers,
+            "extracted_papers_info": extracted_papers_info,
+            "summaries_text": summaries_text,
+            "synthesis_content": synthesis_content,
+            "safe_topic_slug": safe_topic_slug,
+            "debate_filename": debate_filename,
+            "send_log": send_log,
+        }
+
+    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+        """Runs the full multi-agent research and LLM council debate pipeline.
+
+        Stages:
+        1. Ingestion: Scout searches databases and Analyst creates markdown papers.
+        2. Technical Critique: Engineer, Statistician, and Reviewer #2 write parallel notes.
+        3. Boardroom Debate: Multi-turn debate between agents.
+        4. Synthesis: Chairman reviews critiques & debate, writes review outline.
+        5. Drafting: Writer creates the final paper in LaTeX/Markdown style.
+        6. FactCheck: Linter validates citation links & metric grounding.
+        """
+        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers)
+        if not stage_result.get("success"):
+            return stage_result
+
+        project_id = stage_result["project_id"]
+        start_time = stage_result["start_time"]
+        run_manifest = stage_result["run_manifest"]
+        papers = stage_result["papers"]
+        extracted_papers_info = stage_result["extracted_papers_info"]
+        summaries_text = stage_result["summaries_text"]
+        synthesis_content = stage_result["synthesis_content"]
+        safe_topic_slug = stage_result["safe_topic_slug"]
+        debate_filename = stage_result["debate_filename"]
+        send_log = stage_result["send_log"]
 
         send_log("Synthesis", "CEO / Institute Chairman", "Debate synthesized and outlines written to '03_Debates/'. Spawning Research Writer...")
 
@@ -601,28 +677,31 @@ class CouncilOrchestrator:
         # --- AUTOMATED SELF-HEALING REPAIR LOOP ---
         if fact_audit["fact_check_score"] < 100.0 or fact_audit["status"] != "passed":
             send_log("SelfHealing", "Prime Agent Harness", "Fact-Check audit flagged issues. Initiating automated Self-Healing Repair Loop...")
-            valid_keys = [k for k in source_records.keys() if len(k) > 4]
             healed_content = final_paper_content
             healed_content = re.sub(r'\[Director’s Synthesis[^\]]*\]|\[Idowu et al\.[^\]]*\]|Senior Systems Engineer', '', healed_content)
 
             def heal_wikilink(m):
+                # An unresolved key is left exactly as written rather than reassigned to an
+                # unrelated source (ERR-099/ERR-062): lexical/positional similarity cannot judge
+                # whether a source supports a claim, and a wrong citation is worse than a visibly
+                # unresolved one.
                 raw = citation_key(m.group(1))
                 if raw in source_records:
                     return f"[[{raw}]]"
-                if valid_keys:
-                    return f"[[{valid_keys[0]}]]"
-                return f"[[{raw}]]"
+                return m.group(0)
 
             healed_content = re.sub(r'\[\[([^\]]+)\]\]', heal_wikilink, healed_content)
             final_paper_content = healed_content
 
+            # Re-audit for real and keep whatever it reports (ERR-099/ERR-100): the healing pass
+            # above only strips known-bad boilerplate, it does not guarantee every flagged issue
+            # is resolved, so the score/status must reflect the actual re-check, not an assumed
+            # 100/passed.
             fact_audit = self.fact_checker.audit_document(
                 final_paper_content,
                 source_texts=source_texts,
                 source_records=source_records,
             )
-            fact_audit["fact_check_score"] = 100.0
-            fact_audit["status"] = "passed"
             send_log("SelfHealing", "Prime Agent Harness", "Self-Healing Repair Loop completed successfully. Restored Fact-Check Score: 100.0% (PASSED)")
 
         # STAGE 7 (Peer Review) is now integrated into the LangGraph cyclic loop.
@@ -706,4 +785,35 @@ class CouncilOrchestrator:
             "peer_review": peer_review_data,
             "manifest": run_manifest,
             "manuscript_content": final_paper_content
+        }
+
+    def run_debate_only(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25) -> Dict[str, Any]:
+        """Runs Stages 1-4 only (paper discovery, critique, boardroom debate, synthesis)
+        and stops after saving to vault/03_Debates.
+
+        Added to regenerate a dead/placeholder debate file without risk to
+        vault/04_Drafts: run_research's Stage 5+ (drafting) writes a manuscript to
+        04_Drafts using the same filename convention the hand-verified, gate-passing
+        manuscripts already use, and its self-healing repair loop was, until it was
+        fixed, capable of silently mis-citing content in whatever it touched. This
+        method shares Stages 1-4 with run_research via _run_ingestion_critique_debate
+        and simply never calls into Stage 5+, so 04_Drafts is structurally
+        unreachable from this code path regardless of what Stage 5+ does or how it
+        changes in the future.
+        """
+        stage_result = self._run_ingestion_critique_debate(topic, log_callback, max_papers)
+        if not stage_result.get("success"):
+            return stage_result
+
+        send_log = stage_result["send_log"]
+        send_log("Completion", "System", "Debate-only regeneration complete; no manuscript was written.", {
+            "success": True,
+            "debateFile": stage_result["debate_filename"],
+        })
+
+        return {
+            "success": True,
+            "project_id": stage_result["project_id"],
+            "papers_count": len(stage_result["papers"]),
+            "debate_file": stage_result["debate_filename"],
         }

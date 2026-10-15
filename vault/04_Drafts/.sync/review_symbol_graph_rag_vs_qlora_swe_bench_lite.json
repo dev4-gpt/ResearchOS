@@ -9,9 +9,40 @@
         }
       ],
       "lines": [
-        671
+        822
       ],
-      "literal": "-0.00258"
+      "literal": "-0.00543"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 5,
+          "field": "value",
+          "metric": "swebench_retrieval_mrr_delta"
+        }
+      ],
+      "lines": [
+        841
+      ],
+      "literal": "-0.02434"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_5_ppr"
+        },
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_single_file_patch_rate"
+        }
+      ],
+      "lines": [
+        819
+      ],
+      "literal": "100.0000"
     },
     {
       "claims": [
@@ -23,27 +54,11 @@
       ],
       "lines": [
         25,
-        272,
-        397,
-        469
+        356,
+        481,
+        553
       ],
-      "literal": "-0.0026"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 4,
-          "field": "value",
-          "metric": "retrieval_cohens_d"
-        }
-      ],
-      "lines": [
-        25,
-        397,
-        469,
-        677
-      ],
-      "literal": "-0.0119"
+      "literal": "-0.0054"
     },
     {
       "claims": [
@@ -54,7 +69,7 @@
         }
       ],
       "lines": [
-        346
+        430
       ],
       "literal": "-0.0243"
     },
@@ -62,12 +77,142 @@
       "claims": [
         {
           "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_cohens_d"
+        }
+      ],
+      "lines": [
+        823
+      ],
+      "literal": "-0.0260"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_cohens_dz"
+        }
+      ],
+      "lines": [
+        827
+      ],
+      "literal": "-0.0540"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_paired_t"
+        }
+      ],
+      "lines": [
+        824
+      ],
+      "literal": "-0.7080"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        836
+      ],
+      "literal": "14.6341"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        835
+      ],
+      "literal": "19.5122"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        836
+      ],
+      "literal": "26.8293"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        835
+      ],
+      "literal": "31.7073"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        836
+      ],
+      "literal": "41.4634"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        835
+      ],
+      "literal": "46.3415"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        837
+      ],
+      "literal": "48.7805"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
           "field": "ci95_low",
           "metric": "swebench_gold_file_named_rate"
         }
       ],
       "lines": [
-        678
+        847
       ],
       "literal": "49.6670"
     },
@@ -75,12 +220,25 @@
       "claims": [
         {
           "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        838
+      ],
+      "literal": "56.0976"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
           "field": "ci95_high",
           "metric": "swebench_gold_file_named_rate"
         }
       ],
       "lines": [
-        678
+        847
       ],
       "literal": "60.6670"
     },
@@ -88,14 +246,66 @@
       "claims": [
         {
           "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        837
+      ],
+      "literal": "63.4146"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "swebench_retrieval_p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        838
+      ],
+      "literal": "70.7317"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_p_at_5_bm25"
+        }
+      ],
+      "lines": [
+        837
+      ],
+      "literal": "78.0488"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
           "field": "ci95_low",
           "metric": "p_at_1_ppr"
         }
       ],
       "lines": [
-        674
+        817
       ],
-      "literal": "82.4242"
+      "literal": "81.9767"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        838
+      ],
+      "literal": "82.9268"
     },
     {
       "claims": [
@@ -106,9 +316,9 @@
         }
       ],
       "lines": [
-        673
+        816
       ],
-      "literal": "83.0303"
+      "literal": "83.7209"
     },
     {
       "claims": [
@@ -119,9 +329,9 @@
         }
       ],
       "lines": [
-        674
+        817
       ],
-      "literal": "87.8788"
+      "literal": "87.2093"
     },
     {
       "claims": [
@@ -132,30 +342,12 @@
         }
       ],
       "lines": [
-        673
+        816
       ],
-      "literal": "88.4848"
+      "literal": "88.3721"
     },
     {
       "claims": [
-        {
-          "decimals": 4,
-          "field": "ci95_low",
-          "metric": "p_at_5_ppr"
-        }
-      ],
-      "lines": [
-        676
-      ],
-      "literal": "92.1212"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 4,
-          "field": "ci95_high",
-          "metric": "p_at_1_bm25"
-        },
         {
           "decimals": 4,
           "field": "ci95_high",
@@ -163,10 +355,22 @@
         }
       ],
       "lines": [
-        673,
-        674
+        817
       ],
-      "literal": "92.7273"
+      "literal": "91.8605"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        816
+      ],
+      "literal": "93.0233"
     },
     {
       "claims": [
@@ -177,22 +381,22 @@
         }
       ],
       "lines": [
-        675
+        818
       ],
-      "literal": "93.3333"
+      "literal": "94.7674"
     },
     {
       "claims": [
         {
           "decimals": 4,
-          "field": "value",
+          "field": "ci95_low",
           "metric": "p_at_5_ppr"
         }
       ],
       "lines": [
-        676
+        819
       ],
-      "literal": "95.7576"
+      "literal": "95.9302"
     },
     {
       "claims": [
@@ -203,9 +407,22 @@
         }
       ],
       "lines": [
-        675
+        818
       ],
-      "literal": "96.3636"
+      "literal": "97.6744"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        819
+      ],
+      "literal": "98.2558"
     },
     {
       "claims": [
@@ -213,18 +430,68 @@
           "decimals": 4,
           "field": "ci95_high",
           "metric": "p_at_5_bm25"
-        },
-        {
-          "decimals": 4,
-          "field": "ci95_high",
-          "metric": "p_at_5_ppr"
         }
       ],
       "lines": [
-        675,
-        676
+        818
       ],
-      "literal": "98.7879"
+      "literal": "99.4186"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "retrieval_cohens_dz"
+        }
+      ],
+      "lines": [
+        25,
+        481,
+        553
+      ],
+      "literal": "-0.054"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "retrieval_paired_t"
+        }
+      ],
+      "lines": [
+        25,
+        481,
+        553
+      ],
+      "literal": "-0.708"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_mrr_ppr"
+        }
+      ],
+      "lines": [
+        840
+      ],
+      "literal": "0.3330"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_low",
+          "metric": "swebench_retrieval_mrr_bm25"
+        }
+      ],
+      "lines": [
+        839
+      ],
+      "literal": "0.3528"
     },
     {
       "claims": [
@@ -236,7 +503,8 @@
       ],
       "lines": [
         25,
-        339
+        423,
+        840
       ],
       "literal": "0.4421"
     },
@@ -249,8 +517,9 @@
         }
       ],
       "lines": [
-        338,
-        342
+        422,
+        426,
+        839
       ],
       "literal": "0.4664"
     },
@@ -258,15 +527,54 @@
       "claims": [
         {
           "decimals": 4,
+          "field": "value",
+          "metric": "retrieval_paired_p"
+        }
+      ],
+      "lines": [
+        826
+      ],
+      "literal": "0.4799"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_mrr_ppr"
+        }
+      ],
+      "lines": [
+        840
+      ],
+      "literal": "0.5595"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
+          "field": "ci95_high",
+          "metric": "swebench_retrieval_mrr_bm25"
+        }
+      ],
+      "lines": [
+        839
+      ],
+      "literal": "0.5920"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 4,
           "field": "ci95_low",
           "metric": "mrr_ppr"
         }
       ],
       "lines": [
-        395,
-        672
+        479,
+        821
       ],
-      "literal": "0.8852"
+      "literal": "0.8906"
     },
     {
       "claims": [
@@ -277,10 +585,10 @@
         }
       ],
       "lines": [
-        394,
-        670
+        478,
+        820
       ],
-      "literal": "0.8884"
+      "literal": "0.8982"
     },
     {
       "claims": [
@@ -292,11 +600,11 @@
       ],
       "lines": [
         25,
-        395,
-        469,
-        672
+        479,
+        553,
+        821
       ],
-      "literal": "0.9220"
+      "literal": "0.9223"
     },
     {
       "claims": [
@@ -308,12 +616,12 @@
       ],
       "lines": [
         25,
-        342,
-        394,
-        469,
-        670
+        426,
+        478,
+        553,
+        820
       ],
-      "literal": "0.9246"
+      "literal": "0.9277"
     },
     {
       "claims": [
@@ -324,10 +632,10 @@
         }
       ],
       "lines": [
-        395,
-        672
+        479,
+        821
       ],
-      "literal": "0.9531"
+      "literal": "0.9522"
     },
     {
       "claims": [
@@ -338,13 +646,18 @@
         }
       ],
       "lines": [
-        394,
-        670
+        478,
+        820
       ],
-      "literal": "0.9547"
+      "literal": "0.9583"
     },
     {
       "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_5_ppr"
+        },
         {
           "decimals": 2,
           "field": "value",
@@ -353,9 +666,25 @@
       ],
       "lines": [
         27,
-        410
+        479,
+        494
       ],
       "literal": "100.00"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 3,
+          "field": "value",
+          "metric": "retrieval_paired_p"
+        }
+      ],
+      "lines": [
+        25,
+        481,
+        553
+      ],
+      "literal": "0.480"
     },
     {
       "claims": [
@@ -367,7 +696,7 @@
       ],
       "lines": [
         27,
-        409
+        493
       ],
       "literal": "1.000"
     },
@@ -375,12 +704,17 @@
       "claims": [
         {
           "decimals": 1,
+          "field": "ci95_high",
+          "metric": "p_at_5_ppr"
+        },
+        {
+          "decimals": 1,
           "field": "value",
           "metric": "swebench_single_file_patch_rate"
         }
       ],
       "lines": [
-        681
+        846
       ],
       "literal": "100.0"
     },
@@ -393,42 +727,9 @@
         }
       ],
       "lines": [
-        339
+        423
       ],
       "literal": "26.83"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "swebench_gold_file_named_rate"
-        },
-        {
-          "decimals": 1,
-          "field": "value",
-          "metric": "swebench_instances"
-        },
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "swebench_instances"
-        },
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "swebench_mean_files_per_patch"
-        },
-        {
-          "decimals": 1,
-          "field": "n",
-          "metric": "swebench_single_file_patch_rate"
-        }
-      ],
-      "lines": [
-        679
-      ],
-      "literal": "300.0"
     },
     {
       "claims": [
@@ -439,7 +740,7 @@
         }
       ],
       "lines": [
-        338
+        422
       ],
       "literal": "31.71"
     },
@@ -466,10 +767,10 @@
       ],
       "lines": [
         27,
-        411,
-        413,
-        471,
-        678
+        495,
+        497,
+        555,
+        847
       ],
       "literal": "55.33"
     },
@@ -496,7 +797,7 @@
       ],
       "lines": [
         25,
-        338
+        422
       ],
       "literal": "63.41"
     },
@@ -510,7 +811,7 @@
       ],
       "lines": [
         25,
-        339
+        423
       ],
       "literal": "70.73"
     },
@@ -523,9 +824,9 @@
         }
       ],
       "lines": [
-        395
+        479
       ],
-      "literal": "82.42"
+      "literal": "81.98"
     },
     {
       "claims": [
@@ -536,9 +837,9 @@
         }
       ],
       "lines": [
-        394
+        478
       ],
-      "literal": "83.03"
+      "literal": "83.72"
     },
     {
       "claims": [
@@ -550,9 +851,9 @@
       ],
       "lines": [
         25,
-        395
+        479
       ],
-      "literal": "87.88"
+      "literal": "87.21"
     },
     {
       "claims": [
@@ -564,9 +865,35 @@
       ],
       "lines": [
         25,
-        394
+        478
       ],
-      "literal": "88.48"
+      "literal": "88.37"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_1_ppr"
+        }
+      ],
+      "lines": [
+        479
+      ],
+      "literal": "91.86"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "ci95_high",
+          "metric": "p_at_1_bm25"
+        }
+      ],
+      "lines": [
+        478
+      ],
+      "literal": "93.02"
     },
     {
       "claims": [
@@ -577,41 +904,10 @@
         }
       ],
       "lines": [
-        285
+        369,
+        831
       ],
-      "literal": "90.30"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 2,
-          "field": "ci95_low",
-          "metric": "p_at_5_ppr"
-        }
-      ],
-      "lines": [
-        395
-      ],
-      "literal": "92.12"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 2,
-          "field": "ci95_high",
-          "metric": "p_at_1_bm25"
-        },
-        {
-          "decimals": 2,
-          "field": "ci95_high",
-          "metric": "p_at_1_ppr"
-        }
-      ],
-      "lines": [
-        394,
-        395
-      ],
-      "literal": "92.73"
+      "literal": "94.19"
     },
     {
       "claims": [
@@ -622,22 +918,22 @@
         }
       ],
       "lines": [
-        394
+        478
       ],
-      "literal": "93.33"
+      "literal": "94.77"
     },
     {
       "claims": [
         {
           "decimals": 2,
-          "field": "value",
+          "field": "ci95_low",
           "metric": "p_at_5_ppr"
         }
       ],
       "lines": [
-        395
+        479
       ],
-      "literal": "95.76"
+      "literal": "95.93"
     },
     {
       "claims": [
@@ -648,9 +944,22 @@
         }
       ],
       "lines": [
-        394
+        478
       ],
-      "literal": "96.36"
+      "literal": "97.67"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "p_at_5_ppr"
+        }
+      ],
+      "lines": [
+        479
+      ],
+      "literal": "98.26"
     },
     {
       "claims": [
@@ -658,18 +967,12 @@
           "decimals": 2,
           "field": "ci95_high",
           "metric": "p_at_5_bm25"
-        },
-        {
-          "decimals": 2,
-          "field": "ci95_high",
-          "metric": "p_at_5_ppr"
         }
       ],
       "lines": [
-        394,
-        395
+        478
       ],
-      "literal": "98.79"
+      "literal": "99.42"
     },
     {
       "claims": [
@@ -681,12 +984,18 @@
       ],
       "lines": [
         23,
-        378
+        462,
+        813
       ],
-      "literal": "1184"
+      "literal": "1273"
     },
     {
       "claims": [
+        {
+          "decimals": 1,
+          "field": "value",
+          "metric": "retrieval_paired_p"
+        },
         {
           "decimals": 1,
           "field": "value",
@@ -694,8 +1003,8 @@
         }
       ],
       "lines": [
-        554,
-        554
+        665,
+        665
       ],
       "literal": "0.5"
     },
@@ -708,7 +1017,7 @@
         }
       ],
       "lines": [
-        680
+        845
       ],
       "literal": "1.0"
     },
@@ -722,17 +1031,13 @@
       ],
       "lines": [
         23,
-        371
+        455,
+        809
       ],
-      "literal": "137"
+      "literal": "143"
     },
     {
       "claims": [
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "bm25_top1_damaged_by_diffusion"
-        },
         {
           "decimals": 0,
           "field": "value",
@@ -740,9 +1045,10 @@
         }
       ],
       "lines": [
-        296
+        380,
+        832
       ],
-      "literal": "146"
+      "literal": "152"
     },
     {
       "claims": [
@@ -753,21 +1059,52 @@
         }
       ],
       "lines": [
-        282
+        366,
+        828
       ],
-      "literal": "149"
+      "literal": "162"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "dev_queries"
+        },
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "retrieval_paired_df"
+        }
+      ],
+      "lines": [
+        23,
+        25,
+        457,
+        481,
+        535,
+        553,
+        814,
+        825
+      ],
+      "literal": "171"
     },
     {
       "claims": [
         {
           "decimals": 0,
           "field": "n",
-          "metric": "bm25_top1_queries"
+          "metric": "bm25_missed_recovered_by_diffusion"
         },
         {
           "decimals": 0,
-          "field": "value",
-          "metric": "dev_queries"
+          "field": "n",
+          "metric": "bm25_top1_damaged_by_diffusion"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "bm25_top1_queries"
         },
         {
           "decimals": 0,
@@ -831,28 +1168,60 @@
         },
         {
           "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_cohens_dz"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_paired_df"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_paired_p"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
+          "metric": "retrieval_paired_t"
+        },
+        {
+          "decimals": 0,
           "field": "value",
           "metric": "test_queries"
         }
       ],
       "lines": [
         23,
-        280,
-        297,
-        373,
-        373,
-        390,
-        469,
-        670,
-        671,
-        672,
-        673,
-        674,
-        675,
-        676,
-        677
+        364,
+        381,
+        457,
+        474,
+        535,
+        553,
+        815,
+        816,
+        817,
+        818,
+        819,
+        820,
+        821,
+        822,
+        823,
+        824,
+        825,
+        826,
+        827,
+        828,
+        829,
+        830,
+        831,
+        832,
+        833,
+        834
       ],
-      "literal": "165"
+      "literal": "172"
     },
     {
       "claims": [
@@ -863,7 +1232,8 @@
         }
       ],
       "lines": [
-        344
+        428,
+        843
       ],
       "literal": "198"
     },
@@ -898,15 +1268,15 @@
       "lines": [
         27,
         45,
-        138,
-        404,
-        408,
-        451,
-        471,
-        678,
-        679,
-        680,
-        681
+        166,
+        488,
+        492,
+        555,
+        844,
+        844,
+        845,
+        846,
+        847
       ],
       "literal": "300"
     },
@@ -919,9 +1289,23 @@
         }
       ],
       "lines": [
-        373
+        457,
+        811
       ],
-      "literal": "330"
+      "literal": "343"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 0,
+          "field": "value",
+          "metric": "corpus_docstring_queries"
+        }
+      ],
+      "lines": [
+        810
+      ],
+      "literal": "355"
     },
     {
       "claims": [
@@ -933,22 +1317,10 @@
       ],
       "lines": [
         23,
-        378
+        462,
+        812
       ],
-      "literal": "573"
-    },
-    {
-      "claims": [
-        {
-          "decimals": 0,
-          "field": "n",
-          "metric": "bm25_missed_recovered_by_diffusion"
-        }
-      ],
-      "lines": [
-        629
-      ],
-      "literal": "19"
+      "literal": "611"
     },
     {
       "claims": [
@@ -999,7 +1371,17 @@
         }
       ],
       "lines": [
-        25
+        25,
+        769,
+        835,
+        836,
+        837,
+        838,
+        839,
+        840,
+        841,
+        842,
+        843
       ],
       "literal": "41"
     }

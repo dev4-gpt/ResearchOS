@@ -1,0 +1,30 @@
+filters:
+  and:
+    - file.folder == "01_Papers"
+    - file.ext == "md"
+
+views:
+  - type: table
+    name: Literature Census
+    order:
+      - title
+      - authors
+      - source
+      - published
+      - citations
+      - full_pdf_ingested
+      - url
+    sort:
+      - property: citations
+        direction: DESC
+
+  - type: table
+    name: Not yet PDF-ingested
+    filters:
+      and:
+        - full_pdf_ingested == "False"
+    order:
+      - title
+      - source
+      - published
+      - url

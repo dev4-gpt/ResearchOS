@@ -29,7 +29,7 @@ Fine-tuning a safety-aligned model on benign data degrades its safety behaviour,
 
 We represent safety behaviour as a low-rank subspace of weight space and measure drift as the mean principal angle between that subspace before and after an update. Three results follow, all computed rather than asserted.
 
-First, magnitude alone explains nothing. Under isotropic updates, drift grows as \$\|\Delta W\|^{0.999}$ -- indistinguishable from linear -- and a filter that discards the largest updates removes drift and update mass in near-exact proportion (efficiency $0.999\times\$ at a 10\% discard rate). A purely magnitude-based account predicts no disproportionate benefit, contradicting the empirical finding it is meant to explain.
+First, magnitude alone explains nothing. Under isotropic updates, drift grows as $\|\Delta W\|^{0.999}$ -- indistinguishable from linear -- and a filter that discards the largest updates removes drift and update mass in near-exact proportion (efficiency $0.999\times$ at a 10\% discard rate). A purely magnitude-based account predicts no disproportionate benefit, contradicting the empirical finding it is meant to explain.
 
 Second, direction explains everything. An update that maps the safety subspace into itself preserves its span exactly, however large: at a fixed norm of $0.4$, a fully in-subspace update produces $0.00$ degrees of drift while a fully leaking one produces $5.69$. Drift is governed by the component that carries basis vectors out of the subspace, not by how far they move within it.
 
@@ -132,7 +132,7 @@ The geometry supplies the missing factor. Decompose $\Delta W$ by where it sends
 Holding the norm fixed at $0.4$ and varying leakage -- the share of update energy in the orthogonal component -- gives:
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 Leakage & Mean drift (degrees) \\
@@ -177,7 +177,7 @@ The antecedent method ranks training samples by gradient magnitude and withholds
 We state both rules over a batch of updates $\{\Delta W_i\}$ with a retention fraction $\kappa$:
 
 \begin{itemize}
-  \item \textbf{Magnitude rule.} Retain the $\kappa$ fraction with smallest \$\|\Delta W\_i\|\$.
+  \item \textbf{Magnitude rule.} Retain the $\kappa$ fraction with smallest $\|\Delta W_i\|$.
   \item \textbf{Leakage rule.} Retain the $\kappa$ fraction with smallest $\ell_i$, where $\ell_i$ is the share of $\Delta W_i$'s energy mapping $\mathcal{S}$ into $\mathcal{S}^{\perp}$.
 \end{itemize}
 
@@ -195,7 +195,7 @@ We draw a batch of $1{,}500$ updates with magnitude lognormally distributed and 
 \subsection{Table 1: Drift Removed by Each Selection Rule}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcc}
 \toprule
 Retention $\kappa$ & Magnitude rule (\%) & Leakage rule (\%) \\
@@ -237,7 +237,7 @@ The conclusions therefore do not hinge on choosing the rank correctly, which is 
 
 We set out to explain, geometrically, why high-gradient training samples degrade safety alignment disproportionately, and the explanation we found is not the one we expected.
 
-Magnitude is not the mechanism: drift is linear in update norm (\$\|\Delta W\|^{0.999}$), so magnitude-based filtering removes drift and task signal in near-exact proportion ($0.999\times$). Leakage is the mechanism: at fixed norm, an update confined to the safety subspace produces $0.00$ degrees of drift and a fully leaking one produces $5.69\$, so direction accounts for the entire effect.
+Magnitude is not the mechanism: drift is linear in update norm ($\|\Delta W\|^{0.999}$), so magnitude-based filtering removes drift and task signal in near-exact proportion ($0.999\times$). Leakage is the mechanism: at fixed norm, an update confined to the safety subspace produces $0.00$ degrees of drift and a fully leaking one produces $5.69$, so direction accounts for the entire effect.
 
 Yet magnitude is the better selection criterion. Discarding the largest-magnitude tenth of a batch removes $33.30\%$ of total drift against $15.08\%$ for the highest-leakage tenth, because magnitude carries more dispersion. The antecedent method is therefore well-founded, but for a reason its own framing does not state: gradient norm is an effective proxy for drift not because it identifies harmful directions, but because it captures the larger source of variance in a quantity that is the product of both.
 
@@ -318,7 +318,7 @@ This non-uniqueness is why the paper measures with principal angles rather than 
 
 For subspaces with orthonormal bases $B$ and $B'$, let $\sigma_1 \ge \dots \ge \sigma_r$ be the singular values of $B^{\top}B'$. All lie in $[0, 1]$, and the principal angles are $\theta_i = \arccos \sigma_i$.
 
-The angles have a direct interpretation: $\th\eta_1$ is the smallest angle between any vector of $\mathcal{S}$ and any vector of $\mathcal{S}'$, and successive angles repeat that minimisation on the orthogonal complements of the vectors already chosen. They are zero exactly when the subspaces coincide and $\pi/2$ when they are orthogonal, and they are invariant to the choice of basis within each subspace, which is the property required above.
+The angles have a direct interpretation: $\theta_1$ is the smallest angle between any vector of $\mathcal{S}$ and any vector of $\mathcal{S}'$, and successive angles repeat that minimisation on the orthogonal complements of the vectors already chosen. They are zero exactly when the subspaces coincide and $\pi/2$ when they are orthogonal, and they are invariant to the choice of basis within each subspace, which is the property required above.
 
 We report the mean angle in degrees. The mean rather than the largest, because a single strongly rotated direction in an otherwise stable subspace is a different phenomenon from uniform rotation, and the paper is concerned with aggregate displacement.
 
@@ -337,14 +337,43 @@ Let $P = BB^{\top}$ be the orthogonal projector onto $\mathcal{S}$, and $P^{\per
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\Delta W B = & \underbrace{P \, \\
-& \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
+\Delta W B = & \underbrace{P \, \Delta W \, B}_{\text{stays inside } \mathcal{S}} + \underbrace{P^{\perp} \Delta W \, B}_{\text{leaves } \mathcal{S}}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -376,20 +405,20 @@ QR is the appropriate choice because it preserves the span exactly: the column s
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-review\_continual\_safety\_alignment\_in\_vision\_language\_models` \\
+Run identifier & \texttt{draft-review\_continual\_safety\_alignment\_in\_vision\_language\_models} \\
 Random seed & 20260825 \\
-Repository revision & `3588bc9f677c` \\
+Repository revision & \texttt{3588bc9f677c} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `41.155 s` \\
+Wall-clock duration & \texttt{41.155 s} \\
 Measurements recorded & 40 \\
 Recorded at & 2026-08-25T22:22:05-0400 \\
 \bottomrule
@@ -444,51 +473,51 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`discard\_fraction\_pct\_keep0\_7` & 30.0 & \% & 1500 & -- & `share of the batch withheld by the selection rule` \\
-`discard\_fraction\_pct\_keep0\_8` & 20.0 & \% & 1500 & -- & `share of the batch withheld by the selection rule` \\
-`discard\_fraction\_pct\_keep0\_9` & 10.0 & \% & 1500 & -- & `share of the batch withheld by the selection rule` \\
-`drift\_deg\_leakage0\_0` & 0.0 & -- & 200 & -- & `mean principal angle at fixed update norm, varying orthogonal leakage` \\
-`drift\_deg\_leakage0\_25` & 1.808 & -- & 200 & -- & `mean principal angle at fixed update norm, varying orthogonal leakage` \\
-`drift\_deg\_leakage0\_5` & 4.035 & -- & 200 & -- & `mean principal angle at fixed update norm, varying orthogonal leakage` \\
-`drift\_deg\_leakage0\_75` & 5.397 & -- & 200 & -- & `mean principal angle at fixed update norm, varying orthogonal leakage` \\
-`drift\_deg\_leakage1\_0` & 5.686 & -- & 200 & -- & `mean principal angle at fixed update norm, varying orthogonal leakage` \\
-`drift\_deg\_norm0\_05` & 0.124 & -- & 400 & [0.124, 0.124] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_norm0\_1` & 0.248 & -- & 400 & [0.248, 0.248] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_norm0\_2` & 0.496 & -- & 400 & [0.496, 0.497] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_norm0\_4` & 0.992 & -- & 400 & [0.991, 0.993] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_norm0\_8` & 1.983 & -- & 400 & [1.982, 1.985] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_norm1\_6` & 3.963 & -- & 400 & [3.96, 3.966] & `mean principal angle between original and updated safety subspace` \\
-`drift\_deg\_rank16` & 0.992 & -- & 150 & -- & `mean principal angle at fixed update norm` \\
-`drift\_deg\_rank32` & 0.972 & -- & 150 & -- & `mean principal angle at fixed update norm` \\
-`drift\_deg\_rank4` & 1.009 & -- & 150 & -- & `mean principal angle at fixed update norm` \\
-`drift\_deg\_rank64` & 0.93 & -- & 150 & -- & `mean principal angle at fixed update norm` \\
-`drift\_deg\_rank8` & 1.003 & -- & 150 & -- & `mean principal angle at fixed update norm` \\
-`drift\_growth\_exponent` & 0.9994 & exponent & 6 & -- & `log-log fit of mean drift against update norm` \\
-`drift\_removed\_keep0\_7` & 65.38 & \% & 2000 & -- & `share of total subspace rotation removed by the selection rule` \\
-`drift\_removed\_keep0\_8` & 52.81 & \% & 2000 & -- & `share of total subspace rotation removed by the selection rule` \\
-`drift\_removed\_keep0\_9` & 35.26 & \% & 2000 & -- & `share of total subspace rotation removed by the selection rule` \\
-`drift\_removed\_keep0\_95` & 22.53 & \% & 2000 & -- & `share of total subspace rotation removed by the selection rule` \\
-`drift\_removed\_leakfilter\_keep0\_7` & 44.69 & \% & 1500 & -- & `drift removed by discarding the highest-leakage updates` \\
-`drift\_removed\_leakfilter\_keep0\_8` & 29.61 & \% & 1500 & -- & `drift removed by discarding the highest-leakage updates` \\
-`drift\_removed\_leakfilter\_keep0\_9` & 15.08 & \% & 1500 & -- & `drift removed by discarding the highest-leakage updates` \\
-`drift\_removed\_normfilter\_keep0\_7` & 62.87 & \% & 1500 & -- & `drift removed by discarding the largest-magnitude updates` \\
-`drift\_removed\_normfilter\_keep0\_8` & 50.24 & \% & 1500 & -- & `drift removed by discarding the largest-magnitude updates` \\
-`drift\_removed\_normfilter\_keep0\_9` & 33.3 & \% & 1500 & -- & `drift removed by discarding the largest-magnitude updates` \\
-`drift\_spread\_across\_ranks` & 0.079 & -- & 5 & -- & `range of mean drift across assumed ranks 4 to 64` \\
-`leakage\_drift\_ratio\_max\_over\_min` & 5.6863 & -- & 200 & -- & `drift at full leakage minus drift at zero, both at norm 0.4` \\
-`selection\_efficiency\_keep0\_7` & 0.999 & x & 2000 & -- & `drift removed per unit of update mass removed` \\
-`selection\_efficiency\_keep0\_8` & 0.999 & x & 2000 & -- & `drift removed per unit of update mass removed` \\
-`selection\_efficiency\_keep0\_9` & 0.999 & x & 2000 & -- & `drift removed per unit of update mass removed` \\
-`selection\_efficiency\_keep0\_95` & 0.998 & x & 2000 & -- & `drift removed per unit of update mass removed` \\
-`signal\_removed\_keep0\_7` & 65.41 & \% & 2000 & -- & `share of total update magnitude removed by the same rule` \\
-`signal\_removed\_keep0\_8` & 52.84 & \% & 2000 & -- & `share of total update magnitude removed by the same rule` \\
-`signal\_removed\_keep0\_9` & 35.3 & \% & 2000 & -- & `share of total update magnitude removed by the same rule` \\
-`signal\_removed\_keep0\_95` & 22.56 & \% & 2000 & -- & `share of total update magnitude removed by the same rule` \\
+\texttt{discard\_fraction\_pct\_keep0\_7} & 30.0 & \% & 1500 & -- & \texttt{share of the batch withheld by the selection rule} \\
+\texttt{discard\_fraction\_pct\_keep0\_8} & 20.0 & \% & 1500 & -- & \texttt{share of the batch withheld by the selection rule} \\
+\texttt{discard\_fraction\_pct\_keep0\_9} & 10.0 & \% & 1500 & -- & \texttt{share of the batch withheld by the selection rule} \\
+\texttt{drift\_deg\_leakage0\_0} & 0.0 & -- & 200 & -- & \texttt{mean principal angle at fixed update norm, varying orthogonal leakage} \\
+\texttt{drift\_deg\_leakage0\_25} & 1.808 & -- & 200 & -- & \texttt{mean principal angle at fixed update norm, varying orthogonal leakage} \\
+\texttt{drift\_deg\_leakage0\_5} & 4.035 & -- & 200 & -- & \texttt{mean principal angle at fixed update norm, varying orthogonal leakage} \\
+\texttt{drift\_deg\_leakage0\_75} & 5.397 & -- & 200 & -- & \texttt{mean principal angle at fixed update norm, varying orthogonal leakage} \\
+\texttt{drift\_deg\_leakage1\_0} & 5.686 & -- & 200 & -- & \texttt{mean principal angle at fixed update norm, varying orthogonal leakage} \\
+\texttt{drift\_deg\_norm0\_05} & 0.124 & -- & 400 & [0.124, 0.124] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_norm0\_1} & 0.248 & -- & 400 & [0.248, 0.248] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_norm0\_2} & 0.496 & -- & 400 & [0.496, 0.497] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_norm0\_4} & 0.992 & -- & 400 & [0.991, 0.993] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_norm0\_8} & 1.983 & -- & 400 & [1.982, 1.985] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_norm1\_6} & 3.963 & -- & 400 & [3.96, 3.966] & \texttt{mean principal angle between original and updated safety subspace} \\
+\texttt{drift\_deg\_rank16} & 0.992 & -- & 150 & -- & \texttt{mean principal angle at fixed update norm} \\
+\texttt{drift\_deg\_rank32} & 0.972 & -- & 150 & -- & \texttt{mean principal angle at fixed update norm} \\
+\texttt{drift\_deg\_rank4} & 1.009 & -- & 150 & -- & \texttt{mean principal angle at fixed update norm} \\
+\texttt{drift\_deg\_rank64} & 0.93 & -- & 150 & -- & \texttt{mean principal angle at fixed update norm} \\
+\texttt{drift\_deg\_rank8} & 1.003 & -- & 150 & -- & \texttt{mean principal angle at fixed update norm} \\
+\texttt{drift\_growth\_exponent} & 0.9994 & exponent & 6 & -- & \texttt{log-log fit of mean drift against update norm} \\
+\texttt{drift\_removed\_keep0\_7} & 65.38 & \% & 2000 & -- & \texttt{share of total subspace rotation removed by the selection rule} \\
+\texttt{drift\_removed\_keep0\_8} & 52.81 & \% & 2000 & -- & \texttt{share of total subspace rotation removed by the selection rule} \\
+\texttt{drift\_removed\_keep0\_9} & 35.26 & \% & 2000 & -- & \texttt{share of total subspace rotation removed by the selection rule} \\
+\texttt{drift\_removed\_keep0\_95} & 22.53 & \% & 2000 & -- & \texttt{share of total subspace rotation removed by the selection rule} \\
+\texttt{drift\_removed\_leakfilter\_keep0\_7} & 44.69 & \% & 1500 & -- & \texttt{drift removed by discarding the highest-leakage updates} \\
+\texttt{drift\_removed\_leakfilter\_keep0\_8} & 29.61 & \% & 1500 & -- & \texttt{drift removed by discarding the highest-leakage updates} \\
+\texttt{drift\_removed\_leakfilter\_keep0\_9} & 15.08 & \% & 1500 & -- & \texttt{drift removed by discarding the highest-leakage updates} \\
+\texttt{drift\_removed\_normfilter\_keep0\_7} & 62.87 & \% & 1500 & -- & \texttt{drift removed by discarding the largest-magnitude updates} \\
+\texttt{drift\_removed\_normfilter\_keep0\_8} & 50.24 & \% & 1500 & -- & \texttt{drift removed by discarding the largest-magnitude updates} \\
+\texttt{drift\_removed\_normfilter\_keep0\_9} & 33.3 & \% & 1500 & -- & \texttt{drift removed by discarding the largest-magnitude updates} \\
+\texttt{drift\_spread\_across\_ranks} & 0.079 & -- & 5 & -- & \texttt{range of mean drift across assumed ranks 4 to 64} \\
+\texttt{leakage\_drift\_ratio\_max\_over\_min} & 5.6863 & -- & 200 & -- & \texttt{drift at full leakage minus drift at zero, both at norm 0.4} \\
+\texttt{selection\_efficiency\_keep0\_7} & 0.999 & x & 2000 & -- & \texttt{drift removed per unit of update mass removed} \\
+\texttt{selection\_efficiency\_keep0\_8} & 0.999 & x & 2000 & -- & \texttt{drift removed per unit of update mass removed} \\
+\texttt{selection\_efficiency\_keep0\_9} & 0.999 & x & 2000 & -- & \texttt{drift removed per unit of update mass removed} \\
+\texttt{selection\_efficiency\_keep0\_95} & 0.998 & x & 2000 & -- & \texttt{drift removed per unit of update mass removed} \\
+\texttt{signal\_removed\_keep0\_7} & 65.41 & \% & 2000 & -- & \texttt{share of total update magnitude removed by the same rule} \\
+\texttt{signal\_removed\_keep0\_8} & 52.84 & \% & 2000 & -- & \texttt{share of total update magnitude removed by the same rule} \\
+\texttt{signal\_removed\_keep0\_9} & 35.3 & \% & 2000 & -- & \texttt{share of total update magnitude removed by the same rule} \\
+\texttt{signal\_removed\_keep0\_95} & 22.56 & \% & 2000 & -- & \texttt{share of total update magnitude removed by the same rule} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -499,22 +528,21 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \section{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/drift\_by\_norm.json` & `d4d915c4c08b5077` \\
-`artifacts/filter\_comparison.json` & `3d81576d3172d485` \\
-`artifacts/leakage\_effect.json` & `b55e1e368ef96786` \\
-`artifacts/rank\_sensitivity.json` & `266dc78424f564a4` \\
-`artifacts/selection\_effect.json` & `b5294b57ed449856` \\
+\texttt{artifacts/drift\_by\_norm.json} & \texttt{d4d915c4c08b5077} \\
+\texttt{artifacts/filter\_comparison.json} & \texttt{3d81576d3172d485} \\
+\texttt{artifacts/leakage\_effect.json} & \texttt{b55e1e368ef96786} \\
+\texttt{artifacts/rank\_sensitivity.json} & \texttt{266dc78424f564a4} \\
+\texttt{artifacts/selection\_effect.json} & \texttt{b5294b57ed449856} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 \par\vspace{0.5em}
 

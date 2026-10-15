@@ -116,6 +116,20 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -123,6 +137,34 @@ Section 2 formalizes the AST state space and mutation algebra. Section 3 develop
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -246,14 +288,69 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-\mu_{\text{del}}(T, v) = & T \setminus \{v\} \setminus E_v\ \text{(node deletion, \\
-& } E_v \text{ = incident edges)}
+\mu_{\text{del}}(T, v) = & T \setminus \{v\} \setminus E_v\ \text{(node deletion, } E_v \text{ = incident edges)}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -378,6 +475,34 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -386,6 +511,20 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -455,6 +594,20 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -462,6 +615,34 @@ The LLM patch generator operates within the production grammar $G_{\text{patch}}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -585,6 +766,34 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -592,6 +801,34 @@ $}
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -687,6 +924,20 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Any candidate patch not derivable from $G_{\text{patch}}$ is rejected syntactically before Z3 analysis. In our mutation study this grammatical and binding stage carries essentially the whole filter (Table 2); we make no claim about its rejection rate on model-generated proposals, since no model was run.
 
 
@@ -708,6 +959,20 @@ Model the SHACS repair loop as a discrete dynamical system $(\mathcal{S}, \mathc
 \end{itemize}
 
 \textbf{Definition 3 (Lyapunov Energy Function).} Let $T^*$ be the target (defect-free) program state. Define:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -776,9 +1041,37 @@ $}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 the tree-edit distance from the current state $T$ to the target state $T^*$ under the unit-cost APTED algorithm.
 
 \textbf{Theorem 1 (Lyapunov Termination).} Let $c_{\min} > 0$ be the minimum energy decrease per successful repair action, and $B_{\max}$ be the maximum repair budget (test suite evaluations). The SHACS repair cycle terminates in at most:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -816,6 +1109,20 @@ k^* \leq \min\!\left(T_{\max},\ \left\lfloor \frac{V(T_0)}{c_{\min}} \right\rflo
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -893,6 +1200,20 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
@@ -900,6 +1221,20 @@ Since $V(T) \geq 0$ by definition and $V(T^*) = 0$, and each accepted step decre
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1084,7 +1419,7 @@ Reporting the marginal contribution of each stage, rather than only the pooled r
 \subsection{Table 1: Mutation Operator Yield and Pre-Filter Rejection}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 Mutation operator & Mutants generated & Syntactic validity (\%) & Rejected pre-execution (\%) \\
@@ -1105,7 +1440,7 @@ Syntactic validity is near-total for every operator. Compilation is therefore a 
 \subsection{Table 2: Marginal Contribution by Pre-Filter Stage}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 Stage & Candidates entering & Rejected at this stage & Marginal rejection (\%) \\
@@ -1135,7 +1470,7 @@ This is the paper's most consequential result and it runs against our starting p
 \subsection{Table 3: Pre-Filter Cost and Repair Convergence}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcl}
 \toprule
 Quantity & Value & Basis \\
@@ -1175,7 +1510,21 @@ What the staged measurement does establish is an ordering argument for filter de
 \section{PAC Generalization Bound for Cross-Repository Transfer}
 
 
-\textbf{Theorem 2 (PAC Repair Policy Generalization).} Let $\Pi$ be the class of SHACS repair policies parameterized by SMT filter configuration and topology type, with \$|\Pi| = 48$ total configurations. With probability $1 - \delta = 0.95$ over $n = 500\$ sampled defects:
+\textbf{Theorem 2 (PAC Repair Policy Generalization).} Let $\Pi$ be the class of SHACS repair policies parameterized by SMT filter configuration and topology type, with $|\Pi| = 48$ total configurations. With probability $1 - \delta = 0.95$ over $n = 500$ sampled defects:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1213,6 +1562,20 @@ What the staged measurement does establish is an ordering argument for filter de
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1400,14 +1763,41 @@ True tree-edit distance is expensive to compute. We use the multiset distance ov
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{equation}
 \resizebox{\columnwidth}{!}{$\displaystyle
 \begin{aligned}
-d(T_1, T_2) = & \sum_{c} \left| \, \\
-& |\{v \in T_1 : \lambda(v) = c\}| - |\{v \in T_2 : \lambda(v) = c\}| \, \right|
+d(T_1, T_2) = & \sum_{c} \left| \, |\{v \in T_1 : \lambda(v) = c\}| - |\{v \in T_2 : \lambda(v) = c\}| \, \right|
 \end{aligned}
 $}
 \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1434,20 +1824,20 @@ This is a lower bound on tree-edit distance rather than a substitute for it: two
 Every number reported in this paper was produced by a single scripted run whose environment, seed and revision are recorded alongside its output. The table below reproduces that record verbatim so a reader can establish exactly what was executed.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ll}
 \toprule
 Property & Value \\
 \midrule
-Run identifier & `draft-autonomous\_code\_synthesis\_and\_self\_healing\_multi\_agent\_systems` \\
+Run identifier & \texttt{draft-autonomous\_code\_synthesis\_and\_self\_healing\_multi\_agent\_systems} \\
 Random seed & 20260825 \\
-Repository revision & `01f46675e9f8` \\
+Repository revision & \texttt{01f46675e9f8} \\
 Python & 3.13.5 \\
 Platform & macOS-26.5.2-arm64-arm-64bit-Mach-O \\
 Architecture & arm64 \\
 Logical CPUs & 12 \\
 Accelerator & none; no GPU was used at any point \\
-Wall-clock duration & `10.575 s` \\
+Wall-clock duration & \texttt{10.575 s} \\
 Measurements recorded & 23 \\
 Recorded at & 2026-08-26T00:33:57-0400 \\
 \bottomrule
@@ -1514,34 +1904,34 @@ This appendix documents each procedure as implemented, taken from the executing 
 The main text reports the measurements that carry the argument. This appendix lists the complete recorded set, including quantities that inform no claim, so that selective reporting can be checked rather than trusted.
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lclcll}
 \toprule
 Metric & Value & Unit & n & 95\% CI & Derivation \\
 \midrule
-`corpus\_ast\_nodes` & 38301.0 & n & 26 & -- & `ast.walk node count over the corpus` \\
-`corpus\_modules` & 26.0 & n & 26 & -- & `files parsed from backend/services/.py` \\
-`max\_repair\_steps` & 19.0 & n & 300 & -- & `worst observed convergence over 300 seeded repairs` \\
-`mean\_prefilter\_latency\_ms` & 4.0683 & ms & 938 & [3.535, 4.976] & `syntax + binding + Z3 reachability per candidate` \\
-`mean\_repair\_steps` & 6.573 & n & 300 & [6.173333, 7.08675] & `steps to drive node-multiset distance to zero` \\
-`prefilter\_rejection\_rate\_overall` & 44.78 & \% & 938 & -- & `all operators pooled` \\
-`rejection\_rate\_mu\_del` & 53.16 & \% & 190 & -- & `fraction of generated mutants rejected before execution` \\
-`rejection\_rate\_mu\_ins` & 64.92 & \% & 191 & -- & `fraction of generated mutants rejected before execution` \\
-`rejection\_rate\_mu\_reorder` & 34.55 & \% & 191 & -- & `fraction of generated mutants rejected before execution` \\
-`rejection\_rate\_mu\_sub` & 34.88 & \% & 172 & -- & `fraction of generated mutants rejected before execution` \\
-`rejection\_rate\_mu\_wrap` & 35.57 & \% & 194 & -- & `fraction of generated mutants rejected before execution` \\
-`smt\_guards\_checked` & 128.0 & n & 938 & -- & `integer guards extracted and solved` \\
-`smt\_marginal\_rejection\_rate` & 0.0 & \% & 518 & -- & `extra mutants rejected by Z3 beyond the static binding check` \\
-`stage\_entering\_binding` & 932.0 & n & 932 & -- & `candidates entering stage 2` \\
-`stage\_entering\_compile` & 938.0 & n & 938 & -- & `candidates entering stage 1` \\
-`stage\_entering\_smt` & 518.0 & n & 518 & -- & `candidates entering stage 3` \\
-`stage\_marginal\_rejection\_binding` & 44.4 & \% & 932 & -- & `mutants rejected by the static binding check, over those that compiled` \\
-`stage\_marginal\_rejection\_compile` & 0.64 & \% & 938 & -- & `mutants failing to compile, over all generated` \\
-`syntactic\_validity\_mu\_del` & 100.0 & \% & 190 & -- & `fraction of mutants that compile` \\
-`syntactic\_validity\_mu\_ins` & 100.00 & \% & 191 & -- & `fraction of mutants that compile` \\
-`syntactic\_validity\_mu\_reorder` & 98.95 & \% & 191 & -- & `fraction of mutants that compile` \\
-`syntactic\_validity\_mu\_sub` & 100.0 & \% & 172 & -- & `fraction of mutants that compile` \\
-`syntactic\_validity\_mu\_wrap` & 97.94 & \% & 194 & -- & `fraction of mutants that compile` \\
+\texttt{corpus\_ast\_nodes} & 38301.0 & n & 26 & -- & \texttt{ast.walk node count over the corpus} \\
+\texttt{corpus\_modules} & 26.0 & n & 26 & -- & \texttt{files parsed from backend/services/.py} \\
+\texttt{max\_repair\_steps} & 19.0 & n & 300 & -- & \texttt{worst observed convergence over 300 seeded repairs} \\
+\texttt{mean\_prefilter\_latency\_ms} & 4.0683 & ms & 938 & [3.535, 4.976] & \texttt{syntax + binding + Z3 reachability per candidate} \\
+\texttt{mean\_repair\_steps} & 6.573 & n & 300 & [6.173333, 7.08675] & \texttt{steps to drive node-multiset distance to zero} \\
+\texttt{prefilter\_rejection\_rate\_overall} & 44.78 & \% & 938 & -- & \texttt{all operators pooled} \\
+\texttt{rejection\_rate\_mu\_del} & 53.16 & \% & 190 & -- & \texttt{fraction of generated mutants rejected before execution} \\
+\texttt{rejection\_rate\_mu\_ins} & 64.92 & \% & 191 & -- & \texttt{fraction of generated mutants rejected before execution} \\
+\texttt{rejection\_rate\_mu\_reorder} & 34.55 & \% & 191 & -- & \texttt{fraction of generated mutants rejected before execution} \\
+\texttt{rejection\_rate\_mu\_sub} & 34.88 & \% & 172 & -- & \texttt{fraction of generated mutants rejected before execution} \\
+\texttt{rejection\_rate\_mu\_wrap} & 35.57 & \% & 194 & -- & \texttt{fraction of generated mutants rejected before execution} \\
+\texttt{smt\_guards\_checked} & 128.0 & n & 938 & -- & \texttt{integer guards extracted and solved} \\
+\texttt{smt\_marginal\_rejection\_rate} & 0.0 & \% & 518 & -- & \texttt{extra mutants rejected by Z3 beyond the static binding check} \\
+\texttt{stage\_entering\_binding} & 932.0 & n & 932 & -- & \texttt{candidates entering stage 2} \\
+\texttt{stage\_entering\_compile} & 938.0 & n & 938 & -- & \texttt{candidates entering stage 1} \\
+\texttt{stage\_entering\_smt} & 518.0 & n & 518 & -- & \texttt{candidates entering stage 3} \\
+\texttt{stage\_marginal\_rejection\_binding} & 44.4 & \% & 932 & -- & \texttt{mutants rejected by the static binding check, over those that compiled} \\
+\texttt{stage\_marginal\_rejection\_compile} & 0.64 & \% & 938 & -- & \texttt{mutants failing to compile, over all generated} \\
+\texttt{syntactic\_validity\_mu\_del} & 100.0 & \% & 190 & -- & \texttt{fraction of mutants that compile} \\
+\texttt{syntactic\_validity\_mu\_ins} & 100.00 & \% & 191 & -- & \texttt{fraction of mutants that compile} \\
+\texttt{syntactic\_validity\_mu\_reorder} & 98.95 & \% & 191 & -- & \texttt{fraction of mutants that compile} \\
+\texttt{syntactic\_validity\_mu\_sub} & 100.0 & \% & 172 & -- & \texttt{fraction of mutants that compile} \\
+\texttt{syntactic\_validity\_mu\_wrap} & 97.94 & \% & 194 & -- & \texttt{fraction of mutants that compile} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -1552,21 +1942,20 @@ Metric & Value & Unit & n & 95\% CI & Derivation \\
 \subsection{Artifact Digests}
 \begin{table}[htbp]
 \centering
-\resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{%
-\begin{tabular}{lc}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ll}
 \toprule
 Artifact & SHA-256 (first 16) \\
 \midrule
-`artifacts/corpus.json` & `86ed052f72a0ea41` \\
-`artifacts/filter\_cost.json` & `8f25e566e0d7ff03` \\
-`artifacts/mutation\_results.json` & `88b98c31b41668dc` \\
-`artifacts/repair\_convergence.json` & `2f9c25138804815a` \\
+\texttt{artifacts/corpus.json} & \texttt{86ed052f72a0ea41} \\
+\texttt{artifacts/filter\_cost.json} & \texttt{8f25e566e0d7ff03} \\
+\texttt{artifacts/mutation\_results.json} & \texttt{88b98c31b41668dc} \\
+\texttt{artifacts/repair\_convergence.json} & \texttt{2f9c25138804815a} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 Any reported value can be recomputed from the artifact named beside it. A digest that no longer matches means the artifact changed after the value was recorded, which invalidates the row rather than the artifact.
-
 
 \par\vspace{0.5em}
 \balance

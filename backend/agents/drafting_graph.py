@@ -300,36 +300,47 @@ def planner_node(state: DraftState):
     state["outline"] = DEFAULT_OUTLINE
     return state
 
-def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str, synthesis_content: str) -> str:
-    """Generates rich, topic-specific prose using llm_router if writer model encounters timeout, eliminating placeholder stubs."""
-    from services.llm_router import llm_router
+def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str, synthesis_content: str, is_dry_run: bool = False) -> str:
+    """Generates rich, topic-specific prose using llm_router if writer model encounters timeout, eliminating placeholder stubs.
+
+    is_dry_run=True skips the network call entirely and returns the local
+    template below directly. Before this parameter existed, the dry-run
+    branch in section_writer_node called this function anyway, so "dry run"
+    silently made a real llm_router.generate_content() call for every
+    section -- burning real API quota and, with no client-side timeout on
+    the underlying HTTP call, capable of hanging indefinitely. That is
+    exactly what a "no real network or LLM calls happen" dry run is meant
+    to prevent (see backend/tests/test_council.py's module docstring).
+    """
     clean_synthesis = re.sub(r'\[Director’s Synthesis[^\]]*\]|\[Idowu et al\.[^\]]*\]|Senior Systems Engineer', '', synthesis_content[:2000])
 
-    prompt = (
-        f"{WRITER_SYSTEM_DIRECTIVE}\n\n"
-        f"Write a detailed, exhaustive 2000-3000 word technical academic section for a peer-reviewed journal paper.\n"
-        f"Topic: {topic}\n"
-        f"Section Title: {sec_title}\n"
-        f"Instructions: {instructions}\n"
-        f"Synthesis Context: {clean_synthesis[:1000]}\n\n"
-        f"MANDATORY CHECKLIST before returning — your output MUST contain:\n"
-        f"- [ ] >=2 named subsections at ### level\n"
-        f"- [ ] >=1 LaTeX equation (\\begin{{equation}}...\\end{{equation}})\n"
-        f"- [ ] >=3 [[paper_id]] wikilink citations distributed across paragraphs\n"
-        f"- [ ] If experiments/results section: >=1 \\begin{{tabular}} comparison table\n"
-        f"- [ ] Zero banned phrases (delve, tapestry, crucial role, game-changer, deep dive)\n\n"
-        f"Do NOT include meta-commentary, prompt template text, or repeated introductory fluff. "
-        f"Write at IEEE TKDE / ACM Computing Surveys depth."
-    )
+    if not is_dry_run:
+        from services.llm_router import llm_router
+        prompt = (
+            f"{WRITER_SYSTEM_DIRECTIVE}\n\n"
+            f"Write a detailed, exhaustive 2000-3000 word technical academic section for a peer-reviewed journal paper.\n"
+            f"Topic: {topic}\n"
+            f"Section Title: {sec_title}\n"
+            f"Instructions: {instructions}\n"
+            f"Synthesis Context: {clean_synthesis[:1000]}\n\n"
+            f"MANDATORY CHECKLIST before returning — your output MUST contain:\n"
+            f"- [ ] >=2 named subsections at ### level\n"
+            f"- [ ] >=1 LaTeX equation (\\begin{{equation}}...\\end{{equation}})\n"
+            f"- [ ] >=3 [[paper_id]] wikilink citations distributed across paragraphs\n"
+            f"- [ ] If experiments/results section: >=1 \\begin{{tabular}} comparison table\n"
+            f"- [ ] Zero banned phrases (delve, tapestry, crucial role, game-changer, deep dive)\n\n"
+            f"Do NOT include meta-commentary, prompt template text, or repeated introductory fluff. "
+            f"Write at IEEE TKDE / ACM Computing Surveys depth."
+        )
 
-    try:
-        content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
-        if content and len(content) > 300 and "Addressing " not in content[:50]:
-            if not content.strip().startswith("#"):
-                content = f"## {sec_title}\n\n" + content
-            return content
-    except Exception as e:
-        print(f"Fallback generation note for {sec_title}: {e}")
+        try:
+            content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
+            if content and len(content) > 300 and "Addressing " not in content[:50]:
+                if not content.strip().startswith("#"):
+                    content = f"## {sec_title}\n\n" + content
+                return content
+        except Exception as e:
+            print(f"Fallback generation note for {sec_title}: {e}")
 
     return (
         f"## {sec_title}\n\n"
@@ -372,7 +383,7 @@ def section_writer_node(state: DraftState):
         state["log_callback"]("Drafting", "Senior Research Writer & Publisher", f"Expanding Section {idx+1}/{total_sections}: {clean_sec_title}...")
 
         if state.get("is_dry_run"):
-            section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"])
+            section_drafts[sec_id] = generate_rich_fallback_section(state["topic"], clean_sec_title, sec_instructions, state["synthesis_content"], is_dry_run=True)
             continue
 
         success = False
@@ -445,25 +456,49 @@ def assembler_node(state: DraftState):
 
 def red_team_node(state: DraftState):
     state["log_callback"]("Red-Team", "Adversarial Red-Teamer", "Auditing assembled manuscript for weak baselines and logical gaps...")
+    if state.get("is_dry_run"):
+        state["red_team_critique"] = "[DRY RUN] Red-team audit skipped; no network call made."
+        return state
     red_teamer = dspy.Predict(RedTeamAudit)
     try:
         response = red_teamer(draft=state["draft"][:15000])
         state["red_team_critique"] = response.critique
     except Exception as e:
-        state["red_team_critique"] = f"Red team audit passed with minor notices: {e}"
+        state["red_team_critique"] = f"Red-team audit could not be completed (call failed: {e}); treat this draft as unaudited, not as passing."
     return state
 
 def peer_review_node(state: DraftState):
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "Executing automated peer review audit against conference rubrics...")
+    if state.get("is_dry_run"):
+        peer_review_data = {
+            "schema_valid": True,
+            "overall_decision": "STRONG ACCEPT",
+            "scores": {"novelty": 0, "technical_rigor": 0, "empirical_grounding": 0, "presentation_clarity": 0},
+            "key_strengths": [],
+            "fatal_weaknesses": [],
+            "required_revisions": [],
+            "dry_run": True,
+        }
+        state["peer_review"] = peer_review_data
+        state["iteration"] += 1
+        state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", "[DRY RUN] Peer review skipped; no network call made.", peer_review_data)
+        return state
     reviewer = dspy.Predict(PeerReviewAudit)
 
+    # Fail closed: if the real review call errors or its response doesn't
+    # parse, this must not read as an accepted paper. It previously defaulted
+    # to a fabricated "STRONG ACCEPT" with invented perfect scores and
+    # specific fake strengths ("theoretical framework MAHI", "evaluation
+    # metrics MAES and HIS") -- any LLM/parsing failure silently passed a
+    # paper that was never actually reviewed, and review_routing below used
+    # that fabricated decision to end the revision loop.
     peer_review_data = {
-        "schema_valid": True,
-        "overall_decision": "STRONG ACCEPT",
-        "scores": {"novelty": 9, "technical_rigor": 9, "empirical_grounding": 9, "presentation_clarity": 9},
-        "key_strengths": ["Hierarchical multi-section paper structure", "Original theoretical framework MAHI", "Novel evaluation metrics MAES and HIS"],
-        "fatal_weaknesses": [],
-        "required_revisions": [],
+        "schema_valid": False,
+        "overall_decision": "NEEDS_REVISION",
+        "scores": {},
+        "key_strengths": [],
+        "fatal_weaknesses": ["Automated peer review could not be completed (LLM call failed or its response did not parse)."],
+        "required_revisions": ["Re-run peer review; no valid automated review was obtained for this iteration."],
     }
 
     try:
@@ -480,12 +515,12 @@ def peer_review_node(state: DraftState):
     state["peer_review"] = peer_review_data
     state["iteration"] += 1
 
-    decision = peer_review_data.get("overall_decision", "STRONG ACCEPT")
+    decision = peer_review_data.get("overall_decision", "NEEDS_REVISION")
     state["log_callback"]("PeerReview", "Senior Peer Reviewer & Area Chair", f"Peer Review Decision: {decision}", peer_review_data)
     return state
 
 def review_routing(state: DraftState):
-    decision = state["peer_review"].get("overall_decision", "STRONG ACCEPT")
+    decision = state["peer_review"].get("overall_decision", "NEEDS_REVISION")
     if decision in ["STRONG ACCEPT", "ACCEPT"] or state["iteration"] >= state["max_iterations"]:
         return "end"
     return "rewrite"

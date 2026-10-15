@@ -1,12 +1,16 @@
+import _langsmith_stub  # noqa: F401 -- must run before anything imports langchain_core; see ERR-097
+
 import os
 import re
 import json
+import time
 import asyncio
 import threading
 from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, Response, FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -44,6 +48,8 @@ app.add_middleware(
 # Initialize service classes
 vault_path = os.getenv("VAULT_PATH", "../vault")
 vault_manager = VaultManager(vault_path)
+if os.path.exists(vault_manager.vault_path):
+    app.mount("/vault", StaticFiles(directory=vault_manager.vault_path, html=True), name="vault")
 fact_checker = FactCheckerService(vault_manager)
 orchestrator = CouncilOrchestrator(vault_path)
 pdf_qa = PDFQualityAssurance()
@@ -60,6 +66,31 @@ error_ledger_service = ErrorLedgerService()
 
 from agents.meta_review_council import MetaReviewCouncil
 meta_review_council = MetaReviewCouncil(vault_path)
+
+from services.feynman_service import FeynmanService
+from services.autoresearch_loop import AutonomousResearchHarness
+from services.fx_bridge import FXBridge
+from services.fx_mcp_server import ResearchOSMCPServer
+from services.evomap_autoresearch import IdeaForgeService
+from services.voxcpm_service import VoiceControlParser, VoxCPMAudioService
+from services.ecc_skill_loader import ECCSkillLoader
+from services.academic_voice_linter import AcademicVoiceLinter
+from services.conference_slides_service import ConferenceSlidesService
+from services.diagram_generator import DiagramGeneratorService
+from services.universal_skills import UniversalSkillsService
+
+fx_bridge = FXBridge()
+feynman_service = FeynmanService(vault_manager, fx_bridge=fx_bridge)
+autoresearch_harness = AutonomousResearchHarness(vault_manager)
+fx_mcp_server = ResearchOSMCPServer(vault_manager.vault_path)
+evomap_service = IdeaForgeService(vault_manager)
+voice_control_parser = VoiceControlParser()
+voxcpm_audio_service = VoxCPMAudioService(vault_manager.vault_path)
+ecc_skill_loader = ECCSkillLoader()
+academic_voice_linter = AcademicVoiceLinter()
+conference_slides_service = ConferenceSlidesService(vault_manager.vault_path)
+diagram_generator_service = DiagramGeneratorService(vault_manager.vault_path)
+universal_skills_service = UniversalSkillsService()
 
 # In-memory log store for streaming active research runs and meta-reviews
 # key: project_id, value: asyncio.Queue containing log dicts
@@ -93,6 +124,66 @@ class UserProfileUpdate(BaseModel):
     target_timeline: Optional[str] = None
     submission_goals: Optional[str] = None
     publication_history: Optional[List[Dict[str, Any]]] = None
+
+class FeynmanAuditRequest(BaseModel):
+    draft_filename: str
+    code_path: Optional[str] = None
+
+class FeynmanLitRequest(BaseModel):
+    topic: Optional[str] = "Multi-Agent Systems"
+    paper_names: Optional[List[str]] = None
+
+class FeynmanReviewRequest(BaseModel):
+    draft_filename: str
+    venue: Optional[str] = "IEEEtran"
+
+class FeynmanAutoresearchRequest(BaseModel):
+    draft_filename: str
+    venue: Optional[str] = "IEEEtran"
+    max_iterations: Optional[int] = 3
+
+class FXDispatchRequest(BaseModel):
+    prompt: str
+    context: Optional[str] = None
+    timeout_sec: Optional[int] = 30
+
+class FXMCPCallRequest(BaseModel):
+    tool_name: str
+    arguments: Optional[Dict[str, Any]] = None
+
+class EvoMapForgeRequest(BaseModel):
+    topic: str
+    domain_b: Optional[str] = None
+    count: Optional[int] = 2
+
+class EvoMapPilotRequest(BaseModel):
+    idea: Dict[str, Any]
+
+class VoiceCommandRequest(BaseModel):
+    text: str
+
+class VoiceSynthesizeRequest(BaseModel):
+    text: str
+    persona: Optional[str] = "chairman"
+
+class SlopAuditRequest(BaseModel):
+    text: Optional[str] = None
+    draft_filename: Optional[str] = None
+
+class SlopHumanizeRequest(BaseModel):
+    text: Optional[str] = None
+    draft_filename: Optional[str] = None
+
+class SlideDeckRequest(BaseModel):
+    draft_filename: Optional[str] = None
+    title: Optional[str] = None
+    text: Optional[str] = None
+    author: Optional[str] = "ResearchingOS Autonomous Academic Council"
+    venue: Optional[str] = "IEEEtran / ACM Conference"
+
+class DiagramGenerateRequest(BaseModel):
+    title: Optional[str] = "ResearchingOS Multi-Agent Autonomous Council Pipeline"
+    nodes: Optional[List[Dict[str, str]]] = None
 
 @app.get("/")
 def root_index():
@@ -678,16 +769,6 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
             venue_cycle=profile.cycle if profile else None,
             synthetic=synthetic,
         )
-        decision = release_controller.evaluate(
-            manifest=manifest,
-            fact_audit=fact_audit,
-            bibliography_report=bibliography_report,
-            qa_report={"status": "passed", "errors": []},
-            peer_review=peer_review,
-            synthetic=synthetic,
-        )
-        print("BUILD DECISION STATUS:", decision.status)
-        print("BUILD DECISION ERRORS:", decision.errors)
         pdf_bytes = exporter.compile_pdflatex(
             tex_code,
             bib_code=bib_code,
@@ -703,6 +784,24 @@ def export_venue_pdf(filename: str = Query(...), venue: str = Query("IEEEtran"))
         pdf_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.pdf")
         with open(pdf_path, "wb") as f:
             f.write(pdf_bytes)
+
+        # release_controller.evaluate() is a fail-closed gate; it previously
+        # ran here with a hardcoded {"status": "passed", "errors": []} qa_report
+        # -- passed by construction regardless of the actual PDF, before the
+        # PDF even existed. pdf_qa.inspect_pdf() already implements exactly the
+        # {"status", "errors"} shape this gate expects but was never called
+        # anywhere. Run it on the real compiled PDF now that one exists.
+        qa_report = pdf_qa.inspect_pdf(pdf_path, profile=profile.model_dump() if profile else None)
+        decision = release_controller.evaluate(
+            manifest=manifest,
+            fact_audit=fact_audit,
+            bibliography_report=bibliography_report,
+            qa_report=qa_report,
+            peer_review=peer_review,
+            synthetic=synthetic,
+        )
+        print("BUILD DECISION STATUS:", decision.status)
+        print("BUILD DECISION ERRORS:", decision.errors)
 
         # Execute Checkmate audit
         report = checkmate_verifier.audit_pdf(
@@ -920,7 +1019,8 @@ def run_meta_review_sync(filename: str, target_venue: str, target_length: str, s
             )
 
     try:
-        meta, content = vault_manager.read_markdown("drafts", filename)
+        doc = vault_manager.read_markdown("drafts", filename)
+        meta, content = doc.get("frontmatter", {}), doc.get("content", "")
         result = meta_review_council.run_alignment_cycle(
             draft_content=content,
             target_venue=target_venue,
@@ -1096,10 +1196,228 @@ def get_prime_harness_status():
     from harness.prime_harness import prime_agent_harness
     return {"success": True, **prime_agent_harness.get_harness_status()}
 
+# ---------------------------------------------------------------------------
+# Feynman Research Assistant Endpoints (companion-inc/feynman)
+# ---------------------------------------------------------------------------
+
+@app.post("/api/feynman/audit")
+def feynman_audit_endpoint(req: FeynmanAuditRequest):
+    """Audits manuscript empirical claims against actual experiment code AST."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    try:
+        doc = vault_manager.read_markdown("drafts", draft_name)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Draft {draft_name} not found")
+    content = doc.get("content", "")
+    return feynman_service.audit_paper_against_code(content, code_dir_or_file=req.code_path)
+
+@app.post("/api/feynman/lit")
+def feynman_lit_endpoint(req: FeynmanLitRequest):
+    """Synthesizes consensus, active debates, and open gaps across vault papers."""
+    return feynman_service.synthesize_literature_matrix(topic=req.topic or "", paper_names=req.paper_names)
+
+@app.post("/api/feynman/review")
+def feynman_review_endpoint(req: FeynmanReviewRequest):
+    """Performs simulated peer review triage with [BLOCKER], [MAJOR], [MINOR] tags."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    try:
+        doc = vault_manager.read_markdown("drafts", draft_name)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Draft {draft_name} not found")
+    content = doc.get("content", "")
+    return feynman_service.simulated_peer_review(content, venue=req.venue or "IEEEtran")
+
+@app.post("/api/feynman/autoresearch")
+def feynman_autoresearch_endpoint(req: FeynmanAutoresearchRequest):
+    """Triggers Karpathy-style closed-loop manuscript hill-climbing optimization."""
+    draft_name = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+    return autoresearch_harness.optimize(
+        draft_name, target_venue=req.venue or "IEEEtran", max_iterations=req.max_iterations or 3
+    )
+
+# ---------------------------------------------------------------------------
+# Vercel Labs fx Agent Engine & MCP Endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/api/fx/status")
+def fx_status_endpoint():
+    """Returns Vercel Labs fx engine installation status, execution mode, and capabilities."""
+    return fx_bridge.get_status()
+
+@app.post("/api/fx/dispatch")
+def fx_dispatch_endpoint(req: FXDispatchRequest):
+    """Dispatches an autonomous research query to the fx agent harness."""
+    return fx_bridge.dispatch_research(
+        prompt=req.prompt,
+        context=req.context,
+        timeout_sec=req.timeout_sec or 30,
+    )
+
+@app.get("/api/fx/mcp/tools")
+def fx_mcp_tools_endpoint():
+    """Lists MCP tool definitions exposed by ResearchingOS for external agents."""
+    return {"tools": fx_mcp_server.get_tool_definitions()}
+
+@app.post("/api/fx/mcp/call")
+def fx_mcp_call_endpoint(req: FXMCPCallRequest):
+    """Executes a ResearchingOS MCP tool call."""
+    try:
+        res = fx_mcp_server.call_tool(req.tool_name, req.arguments or {})
+        return {"success": True, "result": res}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+# ---------------------------------------------------------------------------
+# EvoMap/AutoResearch Idea Forge & Pilot Gate Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/evomap/forge")
+def evomap_forge_endpoint(req: EvoMapForgeRequest):
+    """Generates cross-domain hypotheses with Tri-Critic review."""
+    return {"ideas": evomap_service.forge_ideas(topic=req.topic, domain_b=req.domain_b, count=req.count or 2)}
+
+@app.post("/api/evomap/pilot")
+def evomap_pilot_endpoint(req: EvoMapPilotRequest):
+    """Executes pilot validation gate on a candidate research hypothesis."""
+    return evomap_service.run_pilot(req.idea)
+
+@app.get("/api/evomap/negative-results")
+def evomap_negative_results_endpoint(limit: int = Query(default=50, ge=1, le=500)):
+    """Retrieves negative and falsified empirical outcomes ledger."""
+    return {"negative_results": evomap_service.get_negative_results(limit=limit)}
+
+# ---------------------------------------------------------------------------
+# OpenBMB/VoxCPM Speech Synthesis & Voice Control Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/voice/command")
+def voice_command_endpoint(req: VoiceCommandRequest):
+    """Parses natural language speech-to-intent commands for hands-free control."""
+    return voice_control_parser.parse_command(req.text)
+
+@app.post("/api/voice/synthesize")
+def voice_synthesize_endpoint(req: VoiceSynthesizeRequest):
+    """Synthesizes speech audio using selected council persona voice."""
+    return voxcpm_audio_service.synthesize_speech(req.text, persona=req.persona or "chairman")
+
+@app.get("/api/voice/status")
+def voice_status_endpoint():
+    """Returns status of VoxCPM speech synthesis engine and persona voices."""
+    return voxcpm_audio_service.get_engine_status()
+
+# ---------------------------------------------------------------------------
+# affaan-m/ECC Departmental Skills Catalog Endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/api/ecc/skills")
+def ecc_skills_endpoint(
+    dept: Optional[str] = None,
+    query: Optional[str] = None,
+    limit: int = Query(default=100, ge=1, le=300),
+):
+    """Lists departmental skills from affaan-m/ECC catalog."""
+    return {
+        "status": ecc_skill_loader.get_status(),
+        "skills": ecc_skill_loader.list_skills(department=dept, query=query, limit=limit),
+    }
+
+@app.get("/api/ecc/skill/{name}")
+def ecc_skill_detail_endpoint(name: str):
+    """Retrieves complete content and metadata of a specific ECC skill."""
+    skill = ecc_skill_loader.get_skill(name)
+    if not skill:
+        raise HTTPException(status_code=404, detail=f"ECC Skill '{name}' not found")
+    return skill
+
+@app.post("/api/ecc/sync")
+def ecc_sync_endpoint():
+    """Syncs vital core ECC skills directly to workspace .agents/skills/ecc/."""
+    return ecc_skill_loader.sync_core_skills_to_workspace()
+
+# ---------------------------------------------------------------------------
+# Universal Skills, Academic Voice (Stop-Slop), Slides & Diagram Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/slop/audit")
+def slop_audit_endpoint(req: SlopAuditRequest):
+    """Audits text or draft manuscript for AI clichés, staging contrasts, and throat-clearing."""
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return academic_voice_linter.audit_prose(content)
+
+@app.post("/api/slop/humanize")
+def slop_humanize_endpoint(req: SlopHumanizeRequest):
+    """Rewrites text or draft manuscript eliminating AI tells and restoring scholarly voice."""
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return academic_voice_linter.humanize_text(content)
+
+@app.post("/api/slides/generate")
+def slides_generate_endpoint(req: SlideDeckRequest):
+    """Generates a zero-dependency 16:9 fixed-stage HTML slide deck from draft manuscript."""
+    title = req.title or "Conference Slide Presentation"
+    content = req.text
+    if not content and req.draft_filename:
+        filename = req.draft_filename if req.draft_filename.endswith(".md") else f"{req.draft_filename}.md"
+        doc = vault_manager.read_markdown("drafts", filename)
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Draft '{filename}' not found in vault")
+        content = doc.get("content", "")
+        title = doc.get("frontmatter", {}).get("title", filename)
+    if not content:
+        raise HTTPException(status_code=400, detail="Either 'text' or 'draft_filename' must be provided")
+    return conference_slides_service.generate_deck_from_manuscript(
+        draft_title=title,
+        manuscript_text=content,
+        author=req.author or "ResearchingOS Autonomous Academic Council",
+        venue=req.venue or "IEEEtran / ACM Conference",
+    )
+
+@app.post("/api/diagram/generate")
+def diagram_generate_endpoint(req: DiagramGenerateRequest):
+    """Generates an editorial SVG architecture diagram for paper or dashboard."""
+    return diagram_generator_service.generate_pipeline_diagram(
+        title=req.title or "ResearchingOS Multi-Agent Autonomous Council Pipeline",
+        nodes=req.nodes,
+    )
+
+@app.get("/api/skills/universal")
+def universal_skills_endpoint(category: Optional[str] = None):
+    """Lists universally installed skills across UI, design, anti-slop, slides, and diagrams."""
+    return {
+        "summary": universal_skills_service.get_summary(),
+        "skills": universal_skills_service.list_universal_skills(category=category),
+    }
+
+@app.get("/api/skills/universal/{name}")
+def universal_skill_detail_endpoint(name: str):
+    """Retrieves full documentation and guidelines for a specific universally installed skill."""
+    details = universal_skills_service.get_skill_details(name)
+    if not details:
+        raise HTTPException(status_code=404, detail=f"Skill '{name}' not found")
+    return details
+
+
 if __name__ == "__main__":
     import uvicorn
     # Read configuration from environment loaded via python-dotenv
     port = int(os.getenv("PORT", "8000"))
     host = os.getenv("HOST", "127.0.0.1")
+    frontend_port = int(os.getenv("FRONTEND_PORT", "3000"))
     print(f"Starting uvicorn server on http://{host}:{port}")
+    print(f"Frontend (run separately): http://{host}:{frontend_port}")
     uvicorn.run("main:app", host=host, port=port, reload=True)

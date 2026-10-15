@@ -30,6 +30,11 @@
         {
           "decimals": 1,
           "field": "n",
+          "metric": "literature_non_empirical_share"
+        },
+        {
+          "decimals": 1,
+          "field": "n",
           "metric": "literature_open_access_share"
         },
         {
@@ -59,7 +64,7 @@
         }
       ],
       "lines": [
-        540
+        211
       ],
       "literal": "1779.0"
     },
@@ -72,7 +77,7 @@
         }
       ],
       "lines": [
-        541
+        212
       ],
       "literal": "1893.0"
     },
@@ -80,12 +85,17 @@
       "claims": [
         {
           "decimals": 1,
+          "field": "n",
+          "metric": "literature_dedup_screening_loss"
+        },
+        {
+          "decimals": 1,
           "field": "value",
           "metric": "literature_identified_total"
         }
       ],
       "lines": [
-        536
+        207
       ],
       "literal": "2000.0"
     },
@@ -98,7 +108,7 @@
         }
       ],
       "lines": [
-        535
+        206
       ],
       "literal": "29.566"
     },
@@ -111,7 +121,8 @@
         }
       ],
       "lines": [
-        27
+        29,
+        88
       ],
       "literal": "29.57"
     },
@@ -124,12 +135,32 @@
         }
       ],
       "lines": [
-        27,
-        56,
-        60,
-        534
+        29,
+        58,
+        62,
+        76,
+        86,
+        88,
+        92,
+        104,
+        205,
+        231,
+        241
       ],
       "literal": "31.76"
+    },
+    {
+      "claims": [
+        {
+          "decimals": 2,
+          "field": "value",
+          "metric": "literature_non_empirical_share"
+        }
+      ],
+      "lines": [
+        96
+      ],
+      "literal": "68.24"
     },
     {
       "claims": [
@@ -140,9 +171,11 @@
         }
       ],
       "lines": [
-        25,
-        51,
-        539
+        27,
+        53,
+        84,
+        102,
+        210
       ],
       "literal": "68.63"
     },
@@ -155,7 +188,7 @@
         }
       ],
       "lines": [
-        533
+        204
       ],
       "literal": "714.0"
     },
@@ -168,9 +201,10 @@
         }
       ],
       "lines": [
-        55,
-        60,
-        538
+        57,
+        62,
+        102,
+        209
       ],
       "literal": "98.54"
     },
@@ -183,9 +217,9 @@
         }
       ],
       "lines": [
-        25,
-        54,
-        542
+        27,
+        56,
+        213
       ],
       "literal": "0.51"
     },
@@ -219,6 +253,11 @@
         {
           "decimals": 0,
           "field": "n",
+          "metric": "literature_non_empirical_share"
+        },
+        {
+          "decimals": 0,
+          "field": "n",
           "metric": "literature_open_access_share"
         },
         {
@@ -248,19 +287,19 @@
         }
       ],
       "lines": [
-        25,
-        45,
+        27,
         47,
-        533,
-        534,
-        535,
-        536,
-        537,
-        538,
-        539,
-        540,
-        541,
-        542
+        49,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213
       ],
       "literal": "1779"
     },
@@ -273,8 +312,8 @@
         }
       ],
       "lines": [
-        25,
-        44
+        27,
+        46
       ],
       "literal": "1893"
     },
@@ -282,13 +321,18 @@
       "claims": [
         {
           "decimals": 0,
+          "field": "n",
+          "metric": "literature_dedup_screening_loss"
+        },
+        {
+          "decimals": 0,
           "field": "value",
           "metric": "literature_identified_total"
         }
       ],
       "lines": [
-        25,
-        43
+        27,
+        45
       ],
       "literal": "2000"
     },
@@ -301,7 +345,7 @@
         }
       ],
       "lines": [
-        537
+        208
       ],
       "literal": "62.0"
     },
@@ -314,8 +358,10 @@
         }
       ],
       "lines": [
-        25,
-        52
+        27,
+        54,
+        84,
+        102
       ],
       "literal": "714"
     },
@@ -328,9 +374,11 @@
         }
       ],
       "lines": [
-        25,
-        53,
-        60
+        27,
+        55,
+        62,
+        84,
+        102
       ],
       "literal": "62"
     }
