@@ -4,6 +4,8 @@ import os
 import tempfile
 from pathlib import Path
 
+import pytest
+
 import _langsmith_stub  # noqa: F401
 from fastapi.testclient import TestClient
 from main import app
@@ -16,6 +18,8 @@ from services.universal_skills import UniversalSkillsService
 def test_universal_skills_discovery():
     """Verify universal skills service discovers globally installed tools with zero storage duplication."""
     service = UniversalSkillsService()
+    if len(service.list_universal_skills()) <= 10:
+        pytest.skip("Full global skill set (~/.claude/skills) not installed on this machine, e.g. CI runners")
     summary = service.get_summary()
 
     assert summary["zero_storage_duplication"] is True

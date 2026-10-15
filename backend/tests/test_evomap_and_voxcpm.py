@@ -178,7 +178,13 @@ def test_ecc_skill_loader_discovery_and_sync():
     loader = ECCSkillLoader()
     status = loader.get_status()
     assert status["available"] is True
-    assert status["total_skills_discovered"] >= 100
+    # The full 280+ skill corpus only exists on machines with the upstream ECC checkout;
+    # the repo itself ships a curated subset under .agents/skills/ecc.
+    committed_dir = Path(__file__).resolve().parent.parent.parent / ".agents" / "skills" / "ecc"
+    if loader.skills_dir.resolve() == committed_dir.resolve():
+        assert status["total_skills_discovered"] >= 5
+    else:
+        assert status["total_skills_discovered"] >= 100
 
     # Test filtering by department
     eng_skills = loader.list_skills(department="Engineering", limit=20)
