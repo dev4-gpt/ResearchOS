@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { apiFetch } from '../api';
 import { OpenResearchPanel } from './OpenResearchPanel';
+import { ResearchSkillsPanel } from './ResearchSkillsPanel';
+import { VLMResearchPanel } from './VLMResearchPanel';
 
 interface AuditItem {
   claim_text: string;
@@ -85,7 +87,7 @@ interface AutoresearchResult {
 }
 
 export const FeynmanWorkbench: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'openresearch' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'openresearch' | 'research-skills' | 'vlm-research' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
   const [drafts, setDrafts] = useState<string[]>([]);
   const [selectedDraft, setSelectedDraft] = useState<string>('');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
@@ -601,6 +603,8 @@ export const FeynmanWorkbench: React.FC = () => {
           { id: 'review', label: 'Peer Review (/review)', icon: ShieldAlert },
           { id: 'autoresearch', label: 'Autoresearch', icon: Sparkles },
           { id: 'openresearch', label: 'OpenResearch', icon: BookOpen },
+          { id: 'research-skills', label: 'Research Skills', icon: Layers },
+          { id: 'vlm-research', label: 'Blissful Bose · VLM', icon: Sparkles },
           { id: 'fx', label: 'fx Engine', icon: Terminal },
           { id: 'evomap', label: 'Idea Forge', icon: Lightbulb },
           { id: 'voice', label: 'Voice Control', icon: Mic },
@@ -641,6 +645,8 @@ export const FeynmanWorkbench: React.FC = () => {
 
       {/* TAB 1: Paper-to-Code Audit */}
       {activeTab === 'openresearch' && <OpenResearchPanel />}
+      {activeTab === 'research-skills' && <ResearchSkillsPanel />}
+      {activeTab === 'vlm-research' && <VLMResearchPanel />}
       {activeTab === 'audit' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>

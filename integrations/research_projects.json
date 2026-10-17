@@ -1,0 +1,32 @@
+{
+  "vlm-safety": {
+    "title": "Safety alignment for vision-language models",
+    "aliases": ["blissful-bose", "Safety Alignment for VLMs Research"],
+    "repository": "dev4-gpt/blissful-bose",
+    "relative_workspace": "../blissful-bose",
+    "focus": "Evaluate the professor's text/image safety seesaw hypothesis. Use frozen-model measurement to validate evidence before training extensions; v3 code is available and its results are pending.",
+    "question": "Under a controlled intervention, does improving image-conditioned safety reduce text-only safety, or can both improve once prompt, comprehension, judge and benign-utility effects are separated?",
+    "plan_files": [
+      "docs/ANALYSIS_PLAN_MODALITY_SAFETY.md",
+      "reports/VLM safety research gaps.md",
+      "docs/MASTER_PLAN_MODALITY_SAFETY_PAPER.md",
+      "docs/PROJECT_PLAN_CROSS_BENCHMARK_EVALUATION.md",
+      "RESEARCH_METHODOLOGY_AND_VLM_SPEC.md",
+      "docs/VLM_PAPER_EVIDENCE_DOSSIER.md"
+    ],
+    "bundles": ["bundle", "bundle (1)"],
+    "notebooks": ["notebooks/vlm_modality_tradeoff.ipynb", "notebooks/vlm_modality_tradeoff_v2.ipynb", "notebooks/vlm_modality_tradeoff_v3.ipynb"],
+    "refusal_cue_notebook": "notebooks/vlm_modality_tradeoff_v2.ipynb",
+    "pdf_folders": ["presentation/paper_pdfs", "Continual safety via sample based GD"],
+    "external_session": "https://claude.ai/code/session_01QpUBkhjGZjnWDrM78LQATa",
+    "next_steps": [
+      "Review v1/v2 and available v3 code against cross-modal safety literature; distinguish a static modality gap from an intervention-induced seesaw. Treat v3 results as pending until its outputs are available.",
+      "Complete blinded human judge calibration using the existing analysis-plan thresholds; report disagreements and missing labels.",
+      "Freeze a new run manifest with dataset, model, prompt and judge revisions; key label caches by response and rubric hashes.",
+      "Replace E-full with a key-phrase-matched text control, and add read-back/comprehension measurements at the same image cap.",
+      "Add benign controls before interpreting refusal gains as safety gains; retain smoke and pilot runs as separate datasets.",
+      "Run the preregistered scenario-aware analysis only after the judge gate passes; label all new analyses exploratory.",
+      "Use the research council for source-grounded synthesis after primary-paper ingestion; keep unsupported pilot claims out of the manuscript."
+    ]
+  }
+}

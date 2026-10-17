@@ -18,6 +18,13 @@ See [setup and API documentation](docs/openresearch.md).
 
 ## System Architecture
 
+The pipeline also supports 15 pinned research-method skills from three upstream
+collections. See [research skill setup and council mappings](docs/research_skills.md).
+
+The connected [VLM safety research task](docs/vlm_research_pipeline.md) reads the
+existing `dev4-gpt/blissful-bose` workspace, snapshots evidence, and prepares judge
+validation before testing the professor's text/image safety seesaw hypothesis.
+
 ResearchingOS operates a **Dual-Phase Multi-Agent Orchestration Architecture**:
 
 ### Tier 1: Senior Principal Research Author & 7-Agent Council

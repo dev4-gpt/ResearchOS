@@ -4,6 +4,7 @@ import re
 from typing import Dict, Any, List, TypedDict, Optional
 from langgraph.graph import StateGraph, END
 import dspy
+from services.research_skills import ResearchSkillsService
 
 # --- Master Venue Writing Prompt Loader ---
 _MASTER_PROMPT_PATH = os.path.join(
@@ -76,12 +77,14 @@ class WriteSection(dspy.Signature):
 class RedTeamAudit(dspy.Signature):
     """Adversarially audit the full manuscript for weak baselines, circular reasoning, and missing empirical details."""
     draft = dspy.InputField(desc="The assembled manuscript draft.")
+    review_guidance = dspy.InputField(desc="Reviewed research methods subordinate to evidence requirements.")
     critique = dspy.OutputField(desc="A list of adversarial objections and hallucination risks.")
 
 class PeerReviewAudit(dspy.Signature):
     """Evaluate the full manuscript strictly against top-tier conference rubrics (NeurIPS / CVPR / IEEE TPAMI)."""
     draft = dspy.InputField(desc="Full manuscript draft.")
     topic = dspy.InputField(desc="Research topic.")
+    review_guidance = dspy.InputField(desc="Reviewed research methods subordinate to evidence requirements.")
     review = dspy.OutputField(desc="JSON object with: overall_decision (STRONG ACCEPT, ACCEPT, WEAK ACCEPT, REJECT), scores (dict 1-10), key_strengths (list), fatal_weaknesses (list), required_revisions (list).")
 
 # --- LangGraph State ---
@@ -334,7 +337,7 @@ def generate_rich_fallback_section(topic: str, sec_title: str, instructions: str
         )
 
         try:
-            content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.")
+            content = llm_router.generate_content(prompt=prompt, system_instruction="You are a 20-year Senior Research Writer for top-tier IEEE/ACM journals.\n\n" + ResearchSkillsService().guidance_for('Writer'))
             if content and len(content) > 300 and "Addressing " not in content[:50]:
                 if not content.strip().startswith("#"):
                     content = f"## {sec_title}\n\n" + content
@@ -396,7 +399,7 @@ def section_writer_node(state: DraftState):
                     synthesis_content=state["synthesis_content"][:3000],
                     relevant_summaries=state["summaries_text"][:5000],
                     feedback=feedback,
-                    system_directive=WRITER_SYSTEM_DIRECTIVE
+                    system_directive=WRITER_SYSTEM_DIRECTIVE + '\n\n' + ResearchSkillsService().guidance_for('Writer')
                 )
                 out_text = resp.section_markdown.strip()
                 if out_text and "Further empirical details to be expanded" not in out_text and len(out_text) > 120:
@@ -461,7 +464,7 @@ def red_team_node(state: DraftState):
         return state
     red_teamer = dspy.Predict(RedTeamAudit)
     try:
-        response = red_teamer(draft=state["draft"][:15000])
+        response = red_teamer(draft=state["draft"][:15000], review_guidance=ResearchSkillsService().guidance_for('Reviewer2'))
         state["red_team_critique"] = response.critique
     except Exception as e:
         state["red_team_critique"] = f"Red-team audit could not be completed (call failed: {e}); treat this draft as unaudited, not as passing."
@@ -502,7 +505,7 @@ def peer_review_node(state: DraftState):
     }
 
     try:
-        response = reviewer(draft=state["draft"][:15000], topic=state["topic"])
+        response = reviewer(draft=state["draft"][:15000], topic=state["topic"], review_guidance=ResearchSkillsService().guidance_for('PeerReviewer'))
         json_match = re.search(r'\{[\s\S]*\}', response.review)
         if json_match:
             candidate = json.loads(json_match.group(0))

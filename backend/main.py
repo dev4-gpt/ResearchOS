@@ -37,6 +37,10 @@ from domain.models import RunManifest, citation_key
 app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
 from openresearch_api import router as openresearch_router
 app.include_router(openresearch_router)
+from research_skills_api import router as research_skills_router
+app.include_router(research_skills_router)
+from vlm_research_api import router as vlm_research_router
+app.include_router(vlm_research_router)
 
 # Add CORS Middleware to connect with Vite React frontend
 app.add_middleware(

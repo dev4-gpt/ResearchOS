@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "install_root": ".tools/research-skills",
+  "sources": [
+    {
+      "id": "agent-research",
+      "repository": "lingzhi227/agent-research-skills",
+      "revision": "9e6c085d65e313e475e921fdfe795ac11eb7589e",
+      "url": "https://github.com/lingzhi227/agent-research-skills",
+      "license_note": "No repository-wide license found at pinned revision; local reference installation only."
+    },
+    {
+      "id": "academic-research",
+      "repository": "imbad0202/academic-research-skills",
+      "revision": "a3ef8c79d888b90aaaaecce7f42fbc3fd082d5ab",
+      "url": "https://github.com/imbad0202/academic-research-skills",
+      "license_note": "CC-BY-NC-4.0; Copyright 2026 Cheng-I Wu. Noncommercial local reference installation; not relicensed under ResearchingOS MIT."
+    },
+    {
+      "id": "composio",
+      "repository": "ComposioHQ/awesome-claude-skills",
+      "revision": "be2a406907dbc61b73e6827ded415c96139d13a2",
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "license_note": "Per-skill terms: webapp-testing is Apache-2.0; no license supplied with content-research-writer or changelog-generator. Local reference installation only; proprietary document skills excluded."
+    }
+  ],
+  "skills": [
+    {
+      "id": "agent-research:literature-search",
+      "source": "agent-research",
+      "name": "literature-search",
+      "upstream_path": "skills/literature-search",
+      "sha256": "b24c6275a0978aab7149b52374d4c0b96a64da66d678b32187e2538e36aaa3ce",
+      "description": "Search academic literature using Semantic Scholar, arXiv, and OpenAlex APIs. Returns structured JSONL with title, authors, year, venue, abstract, citations, and BibTeX. Use when the user needs to find papers, check related work, or build a bibliography.",
+      "roles": [
+        "Scout"
+      ],
+      "stage": "discovery",
+      "guidance": "Search complementary scholarly queries, deduplicate identifiers, record search dates and inclusion criteria, and distinguish preprints from peer-reviewed papers.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:literature-review",
+      "source": "agent-research",
+      "name": "literature-review",
+      "upstream_path": "skills/literature-review",
+      "sha256": "3751c7f0c7afadc47b05fa4b2735e8d4c25726396fccc02830cfff1fbb4c3750",
+      "description": "Conduct comprehensive literature reviews using multi-perspective dialogue simulation. Generate diverse expert personas, conduct grounded Q&A conversations, and synthesize findings into structured knowledge. Use when starting a new research project or writing a survey section.",
+      "roles": [
+        "Analyst"
+      ],
+      "stage": "synthesis",
+      "guidance": "Synthesize agreements, disagreements and gaps across full source texts. Keep each finding traceable to its original paper; do not mistake a persona consensus for evidence.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:experiment-design",
+      "source": "agent-research",
+      "name": "experiment-design",
+      "upstream_path": "skills/experiment-design",
+      "sha256": "b991b1e92481e969a90a7b4e13fd87acda60e1f6f069a632fde5e114ad868f4b",
+      "description": "Design experiment plans with progressive stages — initial implementation, baseline tuning, creative research, and ablation studies. Plan baselines, datasets, hyperparameter sweeps, and evaluation metrics. Use when planning experiments for a research paper.",
+      "roles": [
+        "Engineer"
+      ],
+      "stage": "methods",
+      "guidance": "Specify hypotheses, datasets, baselines, compute budgets, evaluation metrics, random seeds and ablations before running an experiment. Separate proposed experiments from completed measurements.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:data-analysis",
+      "source": "agent-research",
+      "name": "data-analysis",
+      "upstream_path": "skills/data-analysis",
+      "sha256": "f48980b6245ade6d2c6d620b9e43ecd09c011010a6e167164cc1bb2be5ce7b55",
+      "description": "Generate statistical analysis code with 4-round review. Select appropriate statistical tests, interpret results, and produce analysis reports with p-values, effect sizes, and confidence intervals. Use when analyzing experimental data for a paper.",
+      "roles": [
+        "Statistician",
+        "RigorAuditor"
+      ],
+      "stage": "statistics",
+      "guidance": "Check independence and distributional assumptions before selecting a statistical test. Report effect sizes and confidence intervals alongside p-values; disclose missing data and multiple comparisons.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:citation-management",
+      "source": "agent-research",
+      "name": "citation-management",
+      "upstream_path": "skills/citation-management",
+      "sha256": "1917f02e9336ac7220530c175856805e63424a20fe57c8c7505c0a0e80b2f028",
+      "description": "Manage BibTeX citations for LaTeX papers. Harvest missing citations from a draft using Semantic Scholar, validate cite keys against .bib files, deduplicate entries, and format bibliography. Use when working with references, BibTeX, or citations.",
+      "roles": [
+        "Scout",
+        "CitationExpander"
+      ],
+      "stage": "citations",
+      "guidance": "Resolve each citation against the source corpus, deduplicate bibliographic records, and check missing references and labels. Add only sources that support the associated claim.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:self-review",
+      "source": "agent-research",
+      "name": "self-review",
+      "upstream_path": "skills/self-review",
+      "sha256": "3d093b89d0d5434636adcbc6b66850a4c15b25a6b806fafde972aea65f4aaf73",
+      "description": "Automatically review an academic paper using the NeurIPS review form with three reviewer personas, ensemble scoring, and reflection refinement. Extracts text from PDF, runs structured review, and outputs actionable feedback. Use when the user wants to review a paper before submission or get feedback on a draft.",
+      "roles": [
+        "Reviewer2",
+        "PeerReviewer",
+        "CouncilChair"
+      ],
+      "stage": "review",
+      "guidance": "Review soundness, originality, clarity, reproducibility and limitations separately. Give evidence-linked weaknesses and actionable revisions; simulated reviewer scores are not actual venue acceptance.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:paper-writing-section",
+      "source": "agent-research",
+      "name": "paper-writing-section",
+      "upstream_path": "skills/paper-writing-section",
+      "sha256": "8dbaef61d5844bb7d48335bd6eeeee584107e7034b19201f7325411b460372b6",
+      "description": "Write a specific section of an academic paper (Abstract, Introduction, Background, Related Work, Methods, Experiments, Results, Discussion/Conclusion) with section-specific guidance and two-pass refinement. Use when the user wants to write, draft, or improve a paper section.",
+      "roles": [
+        "Writer"
+      ],
+      "stage": "writing",
+      "guidance": "Gather the existing outline and evidence before drafting a section. First check unsupported numbers, references and mathematical notation; then refine clarity, flow and redundancy.",
+      "mode": "advisory"
+    },
+    {
+      "id": "agent-research:latex-formatting",
+      "source": "agent-research",
+      "name": "latex-formatting",
+      "upstream_path": "skills/latex-formatting",
+      "sha256": "37fd1a6ee4f6b68928c77c490a96232a8cde80ef8d535da9b6f3fd7f1fb05586",
+      "description": "Handle LaTeX formatting, templates, and styling for academic papers. Set up conference templates (ICML, ICLR, NeurIPS, AAAI, ACL), fix formatting issues, manage packages, and ensure venue-specific compliance. Use when the user needs to set up a paper template, fix LaTeX formatting, or prepare for submission.",
+      "roles": [
+        "VenueRectifier"
+      ],
+      "stage": "formatting",
+      "guidance": "Check the configured venue template, anonymity, section structure, labels, references, figures and unresolved placeholders. Use the actual venue profile rather than generic page-count assumptions.",
+      "mode": "advisory"
+    },
+    {
+      "id": "academic-research:deep-research",
+      "source": "academic-research",
+      "name": "deep-research",
+      "upstream_path": "deep-research",
+      "sha256": "d4b056eab3bb520bf7a45aeb3cf16260b532e0d99cec414d9ed9085b1f470948",
+      "description": "Universal deep research agent team. 13-agent pipeline for rigorous academic research on any topic. 8 modes: full research, quick brief, paper review, lit-review, fact-check, three-way literature scan, Socratic guided research dialogue, and systematic review with optional meta-analysis. Covers research question formulation, Socratic mentoring, methodology design, systematic literature search, source verification, cross-source synthesis, risk of bias assessment, meta-analysis, APA 7.0 report compilation, editorial review, devil's advocate challenges, ethics review, and post-research literature monitoring. Triggers on: research, deep research, literature review, systematic review, meta-analysis, PRISMA, evidence synthesis, fact-check, WHY HOW WHAT papers, 3W literature scan, guide my research, help me think through, 研究, 深度研究, 文獻回顧, 文獻探討, 系統性回顧, 後設分析, 事實查核, 三段式文獻掃描, 引導我的研究, 幫我釐清, 幫我想想, 我不確定要研究什麼, 研究方向, 研究主題, 심층 연구, 문헌 조사, 체계적 문헌고찰, 메타분석, 사실 확인, 연구 방향을 잡아줘, 연구 주제 정하는 것을 도와줘, revisión de literatura, metaanálisis",
+      "roles": [
+        "Scout",
+        "Analyst"
+      ],
+      "stage": "discovery",
+      "guidance": "Formulate a bounded research question, document source verification and eligibility decisions, assess evidence quality, and retain contradictory findings and material gaps.",
+      "mode": "advisory"
+    },
+    {
+      "id": "academic-research:academic-paper",
+      "source": "academic-research",
+      "name": "academic-paper",
+      "upstream_path": "academic-paper",
+      "sha256": "8a7bb8ae8bfebefb9e3ea4a11ab2a42c024dd6a27d4ecc04c2865471ab8137b3",
+      "description": "12-agent academic paper writing pipeline. 11 modes (full/plan/outline/revision/revision-coach/abstract/lit-review/format-convert/citation-check/disclosure/rebuttal-audit). 6 paper types, 5 citation formats, bilingual abstracts, LaTeX/DOCX-via-Pandoc/PDF output. Style Calibration + Writing Quality Check + Anti-Patterns with IRON RULE markers. Triggers: write paper, academic paper, guide my paper, parse reviews, I got reviewer comments, revision roadmap, should we push back, conference rebuttal, grant panel response, audit my rebuttal, check my response draft, AI disclosure, check citations, citation check, check my references, verify references, look over the refs, 寫論文, 學術論文, 引導我寫論文, 審查意見, 我收到審查意見, 修訂路線圖, 評估回覆, 檢查引用, 引用檢查, 檢查參考文獻, 核對文獻, 논문 작성, 초록 작성, 논문 수정, 논문 계획을 도와줘, 심사 의견을 받았어, 심사 의견 반영, 답변서 점검, AI 사용 고지, 인용 확인, 인용 형식 검사, enmendar mi artículo, redactar artículo, guía mi artículo, analizar reseñas, auditar mi respuesta, verificar borrador de respuesta, verificar citas, divulgación de IA.",
+      "roles": [
+        "Writer"
+      ],
+      "stage": "writing",
+      "guidance": "Fit the argument to the paper type and venue. Keep drafting separate from integrity checks and verify that revisions address the evidence gaps without inventing results or references.",
+      "mode": "advisory"
+    },
+    {
+      "id": "academic-research:academic-paper-reviewer",
+      "source": "academic-research",
+      "name": "academic-paper-reviewer",
+      "upstream_path": "academic-paper-reviewer",
+      "sha256": "bedfda8a9202456b57cbd6ebc99c58b6db13a75e0110c1be33493d6bad94b536",
+      "description": "Multi-perspective academic paper review with dynamic reviewer personas. Runs a 5-seat, role-separated review panel (Journal-Fit Reviewer + 3 peer-review roles + Devil's Advocate) with field-specific expertise; role separation is not a claim of independent error processes. Supports full review, re-review (verification), quick assessment, methodology focus, Socratic guided, and calibration modes. Triggers on: review paper, peer review, manuscript review, referee report, review my paper, critique paper, simulate review, editorial review, calibrate reviewer, reviewer calibration, measure reviewer accuracy, 審查論文, 論文審查, 模擬審查, 同儕審查, 幫我審這篇, 以審查人角度評估, 審查者校準, 논문 심사, 동료 심사, 모의 심사, 심사자 관점에서 평가, 심사자 보정, revisar artículo, revisión entre pares, revisión de manuscrito, informe de árbitro, revisa mi artículo, criticar artículo, simular revisión, revisión editorial, calibrar revisor.",
+      "roles": [
+        "Reviewer2",
+        "PeerReviewer"
+      ],
+      "stage": "review",
+      "guidance": "Separate venue fit, methods, domain coverage and adversarial critique. Treat reviewer perspectives as correlated model judgments; trace every major objection to manuscript evidence.",
+      "mode": "advisory"
+    },
+    {
+      "id": "academic-research:academic-pipeline",
+      "source": "academic-research",
+      "name": "academic-pipeline",
+      "upstream_path": "academic-pipeline",
+      "sha256": "c2f44e4f94f429120b327f60c275a162a64b3593b7c113972b989b6c98690f45",
+      "description": "Orchestrator for the full academic research pipeline: research -> write -> integrity check -> review -> revise -> re-review -> re-revise -> final integrity check -> finalize. Coordinates deep-research, academic-paper, and academic-paper-reviewer into a seamless 10-stage workflow with mandatory, coverage-bounded integrity checks, two-stage peer review, and auditable quality-assurance artifacts. Triggers on: academic pipeline, research to paper, full paper workflow, paper pipeline, end-to-end paper, research-to-publication, complete paper workflow, 연구부터 논문까지, 연구 주제 설정부터 논문 완성까지, 논문 전체 워크플로, flujo de trabajo académico, investigación a artículo, flujo completo de artículo, pipeline de investigación completa, publicación de investigación, flujo de trabajo completo del artículo.",
+      "roles": [
+        "Chairman",
+        "CouncilChair"
+      ],
+      "stage": "orchestration",
+      "guidance": "Track research, drafting, integrity review, revision and re-review as explicit stages with recorded handoffs. Distinguish completed checks from unverified work; release only through existing integrity gates.",
+      "mode": "advisory"
+    },
+    {
+      "id": "composio:content-research-writer",
+      "source": "composio",
+      "name": "content-research-writer",
+      "upstream_path": "content-research-writer",
+      "sha256": "27eb5c1a0a88a9c1c64f6fcd9c28782e6a6e70d5da43233c4e99ade946f74825",
+      "description": "Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership.",
+      "roles": [
+        "Writer"
+      ],
+      "stage": "writing",
+      "guidance": "Build a coherent outline, preserve the author voice, check section-level flow and substantiate claims. In academic output prioritize restrained prose and verified citations over promotional hooks.",
+      "mode": "advisory"
+    },
+    {
+      "id": "composio:changelog-generator",
+      "source": "composio",
+      "name": "changelog-generator",
+      "upstream_path": "changelog-generator",
+      "sha256": "0fdde1fc7ed062a82fd7ba98057f5d471c5d1905bfe2ddc4eeb213450cb00c18",
+      "description": "Automatically creates user-facing changelogs from git commits by analyzing commit history, categorizing changes, and transforming technical commits into clear, customer-friendly release notes. Turns hours of manual changelog writing into minutes of automated generation.",
+      "roles": [],
+      "stage": "reporting",
+      "guidance": "Summarize research software changes from actual committed history. Keep proposed work separate from shipped behavior and require review before publishing release notes.",
+      "mode": "reference"
+    },
+    {
+      "id": "composio:webapp-testing",
+      "source": "composio",
+      "name": "webapp-testing",
+      "upstream_path": "webapp-testing",
+      "sha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2",
+      "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+      "roles": [],
+      "stage": "verification",
+      "guidance": "Verify visible user behavior and inspect browser errors when testing the research workbench. Use the host-approved browser tools and record observed outcomes rather than assumed success.",
+      "mode": "reference"
+    }
+  ]
+}

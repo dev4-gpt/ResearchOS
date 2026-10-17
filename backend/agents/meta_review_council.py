@@ -15,6 +15,7 @@ from services.vault import VaultManager
 from services.llm_router import llm_router
 from services.venue_profiles import VENUE_PROFILES, SUPPORTED_VENUES
 from services.latex_exporter import LaTeXExporterService
+from services.research_skills import ResearchSkillsService
 
 # Load master venue prompt for reference
 _MASTER_PROMPT_PATH = os.path.join(
@@ -125,6 +126,7 @@ class MetaReviewCouncil:
     def __init__(self, vault_path: str = "../vault"):
         self.vault_manager = VaultManager(vault_path)
         self.exporter = LaTeXExporterService(self.vault_manager)
+        self.research_skills = ResearchSkillsService()
 
     def run_alignment_cycle(
         self,
@@ -211,7 +213,7 @@ class MetaReviewCouncil:
                 )
                 response = llm_router.generate_content(
                     prompt,
-                    system_instruction=persona["instruction"],
+                    system_instruction=persona["instruction"] + '\n\n' + self.research_skills.guidance_for('CitationExpander'),
                     provider=persona["provider"],
                     model=persona["model"],
                 )

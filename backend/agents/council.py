@@ -15,6 +15,7 @@ load_dotenv()
 from google import genai as modern_genai
 from services.search import AcademicSearchService
 from services.vault import VaultManager
+from services.research_skills import ResearchSkillsService
 from services.fact_checker import FactCheckerService
 
 # System personas and configurations - 20-Year Principal Researcher Standards
@@ -149,6 +150,7 @@ class CouncilOrchestrator:
         global legacy_genai
         self.vault = VaultManager(vault_path)
         self.search_service = AcademicSearchService()
+        self.research_skills = ResearchSkillsService()
         self.fact_checker = FactCheckerService(self.vault)
         self.pdf_extractor = PDFExtractionService(self.vault)
         # `memory_file_path` is an injection seam so callers (notably tests) can
@@ -217,6 +219,9 @@ class CouncilOrchestrator:
         # guidance itself should still reach the model; its internal name
         # should not.
         instruction = f"{base_instruction}\n\n{durable_refinement}" if durable_refinement else base_instruction
+        guidance = self.research_skills.guidance_for(agent_key)
+        if guidance:
+            instruction += f"\n\n{guidance}"
 
         time.sleep(1.5)
 
