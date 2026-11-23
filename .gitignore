@@ -19,6 +19,8 @@ env/
 .eggs/
 .uv/
 uv.lock
+# Dependency resolution is source; runtime locks remain private.
+!backend/uv.lock
 
 # === Node / Frontend ===
 node_modules/
