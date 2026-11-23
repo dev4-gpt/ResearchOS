@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FolderOpen, Save, FileText, Check, AlertCircle, Eye, FileEdit, RefreshCw, Download, Sparkles, Target, User, Layers, ShieldCheck, BarChart3, LockKeyhole } from 'lucide-react';
-import { apiFetch } from '../api';
+import { apiFetch, downloadPublisherBundle } from '../api';
 import LinkRenderer from './LinkRenderer';
 import { PDFVisualPreviewModal } from './PDFVisualPreviewModal';
 
@@ -55,7 +55,10 @@ const DocEditor: React.FC = () => {
   // originality and substantive-value gates evaluated before release.
   const [publisherSuiteOpen, setPublisherSuiteOpen] = useState(false);
   const [publisherSuiteLoading, setPublisherSuiteLoading] = useState(false);
-  const [publisherSuiteData, setPublisherSuiteData] = useState<any>(null);
+  const [publisherSuiteResult, setPublisherSuiteResult] = useState<{ jobId: string | null; report: any } | null>(null);
+  const publisherSuiteData = publisherSuiteResult?.report;
+  const publisherBundleJobId = publisherSuiteData?.ready_count && publisherSuiteData?.artifact_manifest_sha256
+    ? publisherSuiteResult?.jobId : null;
   const [publisherSuiteError, setPublisherSuiteError] = useState<string | null>(null);
   const [publisherJobId, setPublisherJobId] = useState<string | null>(null);
   const [publisherJobTargetFilename, setPublisherJobTargetFilename] = useState<string | null>(null);
@@ -162,7 +165,7 @@ const DocEditor: React.FC = () => {
             setPublisherJobId(currentJobId);
             continue;
           }
-          setPublisherSuiteData(job.report || null);
+          setPublisherSuiteResult({ jobId: currentJobId, report: job.report });
           setPublisherSuiteLoading(false);
           await fetchFilesList();
           return;
@@ -198,6 +201,9 @@ const DocEditor: React.FC = () => {
         setSaveStatus('saved');
         if (data.readiness_job?.job_id && triggerReadiness) {
           void pollPublisherJob(data.readiness_job.job_id);
+        } else if (data.readiness_error) {
+          setPublisherSuiteError(data.readiness_error);
+          setPublisherSuiteOpen(true);
         }
         fetchFilesList();
         setTimeout(() => setSaveStatus('idle'), 2500);
@@ -266,7 +272,7 @@ const DocEditor: React.FC = () => {
       if (data.job?.job_id) {
         await pollPublisherJob(data.job.job_id);
       } else {
-        setPublisherSuiteData(data);
+        setPublisherSuiteResult({ jobId: null, report: data });
         setPublisherSuiteLoading(false);
         await fetchFilesList();
       }
@@ -293,7 +299,7 @@ const DocEditor: React.FC = () => {
       if (data.job?.job_id) {
         await pollPublisherJob(data.job.job_id);
       } else {
-        setPublisherSuiteData(data);
+        setPublisherSuiteResult({ jobId: null, report: data });
         setPublisherSuiteLoading(false);
         await fetchFilesList();
       }
@@ -303,24 +309,13 @@ const DocEditor: React.FC = () => {
     }
   };
 
-  const downloadPublisherBundle = async () => {
+  const handlePublisherBundleDownload = async () => {
+    if (!publisherBundleJobId) return;
+    setPublisherSuiteError(null);
     try {
-      const res = await apiFetch('/api/vault/publisher/readiness/bundle');
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.detail || `Bundle download failed (HTTP ${res.status})`);
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
-      anchor.href = url;
-      anchor.download = 'researchingos-publish-ready-bundle.zip';
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-      URL.revokeObjectURL(url);
-    } catch (e: any) {
-      setPublisherSuiteError(e.message || 'Verified bundle download failed.');
+      await downloadPublisherBundle(publisherBundleJobId);
+    } catch (error) {
+      setPublisherSuiteError(error instanceof Error ? error.message : 'Verified bundle download failed.');
       setPublisherSuiteOpen(true);
     }
   };
@@ -722,16 +717,16 @@ const DocEditor: React.FC = () => {
                       <span>{publisherSuiteLoading ? 'Testing all papers…' : 'Test all papers × venues'}</span>
                     </button>
                     <button
-                      onClick={downloadPublisherBundle}
-                      disabled={publisherSuiteLoading || !publisherSuiteData?.ready_count}
+                      onClick={handlePublisherBundleDownload}
+                      disabled={publisherSuiteLoading || !publisherBundleJobId}
                       style={{
-                        background: publisherSuiteData?.ready_count ? 'rgba(16,185,129,0.16)' : 'rgba(255,255,255,0.03)',
-                        color: publisherSuiteData?.ready_count ? '#6ee7b7' : 'var(--text-muted)',
-                        border: `1px solid ${publisherSuiteData?.ready_count ? 'rgba(16,185,129,0.42)' : 'var(--border-color)'}`,
-                        padding: '6px 12px', borderRadius: '7px', cursor: publisherSuiteLoading || !publisherSuiteData?.ready_count ? 'not-allowed' : 'pointer',
+                        background: publisherBundleJobId ? 'rgba(16,185,129,0.16)' : 'rgba(255,255,255,0.03)',
+                        color: publisherBundleJobId ? '#6ee7b7' : 'var(--text-muted)',
+                        border: `1px solid ${publisherBundleJobId ? 'rgba(16,185,129,0.42)' : 'var(--border-color)'}`,
+                        padding: '6px 12px', borderRadius: '7px', cursor: publisherSuiteLoading || !publisherBundleJobId ? 'not-allowed' : 'pointer',
                         fontSize: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px'
                       }}
-                      title={publisherSuiteData?.ready_count ? 'Download only verified publish-ready artifacts' : 'Available after at least one manuscript passes every release gate'}
+                      title={publisherBundleJobId ? 'Download this job’s verified artifacts' : 'Available after a publisher job completes with a verified bundle'}
                     >
                       <Download size={13} />
                       <span>Download verified bundle</span>

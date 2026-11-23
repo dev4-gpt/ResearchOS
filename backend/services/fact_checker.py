@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
 from domain.models import citation_key
@@ -40,7 +41,7 @@ def is_non_metric_number(claim: str) -> bool:
     if re.match(r"^\d{1,2}\.\d{1,2}$", s):
         return True
     if re.match(r"^p\s*[<>=]\s*0?\.\d+", s, re.IGNORECASE):
-        return True
+        return False  # Statistical significance is an empirical claim, not formatting.
     # 'N = 1000' is a sample size, and NUMERIC_PATTERN has an alternation whose
     # only purpose is to find it. Discarding every string containing '=' undid
     # that: the detector went looking for sample sizes and the filter threw them
@@ -74,24 +75,20 @@ class FactCheckerService:
     def __init__(self, vault_manager: Optional[Any] = None):
         self.vault_manager = vault_manager
 
+    def verify_research_engine_run(self, run_path) -> dict:
+        """Engine scores are recomputed; fixture/self-reported results cannot publish."""
+        from pathlib import Path
+        from services.research_engines import verify_run
+        return verify_run(Path(run_path))
+
     def _paper_keys(self) -> set[str]:
         keys: set[str] = set()
         if not self.vault_manager:
             return keys
         for file in self.vault_manager.list_files("papers"):
             filename = file.get("filename", "")
-            metadata = file.get("metadata", {}) or {}
             fn_key = citation_key(filename)
             keys.add(fn_key)
-            for prefix in ["crossref_", "arxiv_", "openalex_", "doi_", "pubmed_"]:
-                if fn_key.startswith(prefix):
-                    keys.add(fn_key[len(prefix):])
-            if metadata.get("id"):
-                meta_id = citation_key(str(metadata["id"]))
-                keys.add(meta_id)
-                for prefix in ["crossref_", "arxiv_", "openalex_", "doi_", "pubmed_"]:
-                    if meta_id.startswith(prefix):
-                        keys.add(meta_id[len(prefix):])
         return keys
 
     def extract_citation_keys(self, content: str) -> List[str]:
@@ -118,15 +115,8 @@ class FactCheckerService:
         unresolved = []  # plausible academic keys not in vault (not a blocking error)
         for key in keys:
             matched = False
-            if not self.vault_manager or key in known:
+            if key in known:
                 matched = True
-            else:
-                core_key = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|europepmc_|pmc_|pmid_|dbsnp_|https?_)", "", key)
-                for k_item in known:
-                    core_known = re.sub(r"^(crossref_|arxiv_|openalex_|doi_|pubmed_|europepmc_|pmc_|pmid_|dbsnp_|https?_)", "", k_item)
-                    if key in k_item or k_item in key or (core_key and (core_key in core_known or core_known in core_key)):
-                        matched = True
-                        break
             if matched:
                 verified.append(key)
             elif self._AUTHOR_YEAR_RE.match(key):
@@ -134,8 +124,8 @@ class FactCheckerService:
                 unresolved.append(key)
             else:
                 broken.append(key)
-        # Score counts unresolved as half-credit (they're valid but not vault-verified)
-        effective_verified = len(verified) + len(unresolved) * 0.5
+        # Plausible spelling is not evidence that a reference exists.
+        effective_verified = len(verified)
         score = 100.0 if not keys else round((effective_verified / len(keys)) * 100, 1)
         return {
             "total_citations": len(keys),
@@ -159,21 +149,16 @@ class FactCheckerService:
         grounded = []
         unverified = []
         if source_records:
-            corpus_by_key = {citation_key(key): text.lower() for key, text in source_records.items()}
-            combined_corpus = " ".join(source_texts).lower()
             paragraphs = re.split(r"\n\s*\n", draft_content)
             for claim in claims:
-                claim_lower = claim.lower()
                 supported = False
                 for paragraph in paragraphs:
                     if claim not in paragraph:
                         continue
                     cited = self.extract_citation_keys(paragraph)
-                    if cited and any(claim_lower in corpus_by_key.get(key, "") for key in cited):
+                    if cited and self._source_match(paragraph, claim, cited, source_records):
                         supported = True
                         break
-                if not supported and claim_lower in combined_corpus:
-                    supported = True
                 # There used to be a third chance here: a claim was accepted if the
                 # paragraph containing it mentioned "table", "benchmark", "result",
                 # "finding", "experiment" -- or a pipe character. That marks a claim
@@ -275,60 +260,60 @@ class FactCheckerService:
 
     @staticmethod
     def _source_match(claim_sentence: str, claim_token: str, cited_keys: List[str], source_records: Dict[str, str]) -> bool:
-        """Check if a cited source supports a quantitative claim.
+        """Conservative quotation support, not a semantic-entailment claim.
 
-        Matches when:
-        1. The exact sentence appears in the source, OR
-        2. The numeric token appears in the cited source within a paragraph or passage
-           that shares topical context/anchor keywords with the claim sentence.
-
-        (Adopted from the icloud-git-corruption branch's rewrite — this is a real
-        improvement over main's plain lowercase substring match: it catches
-        paraphrased claims and rejects numeric coincidences that share no
-        topical context with the source passage.)
+        Shared numbers/keywords cannot prove a paraphrase. Such claims remain
+        blocked for evidence review rather than receiving an automatic pass.
         """
         if not cited_keys or not source_records:
             return False
 
         normalized_sources = {citation_key(key): str(value) for key, value in source_records.items()}
-        lower_sentence = claim_sentence.lower()
-        lower_token = claim_token.lower()
-
-        # Extract numeric core: "47.2%" -> "47.2"
-        num_match = re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", claim_token.replace(",", ""))
-        num_str = num_match.group(0) if num_match else lower_token
-
-        # Extract topical anchor words (alphanumeric, length >= 4, ignoring common stop words)
-        stop_words = {
-            "this", "that", "these", "those", "with", "from", "have", "been", "were", "prior", "work",
-            "paper", "shows", "shown", "reports", "reported", "achieve", "achieves", "achieved", "using",
-            "which", "their", "where", "across", "between", "through", "under", "over", "such", "than",
-            "same", "contrast", "table", "figure", "section", "results", "model", "split", "benchmark"
-        }
-        sentence_words = set(re.findall(r"\b[a-z]{4,}\b", lower_sentence)) - stop_words
-
+        def normalize(text):
+            text = re.sub(r"\[\[[^\]]+\]\]|\\cite\{[^}]+\}", "", text)
+            return re.sub(r"\s+", " ", text).strip().rstrip(".").strip().lower()
+        sentence = normalize(claim_sentence)
+        if not sentence or claim_token.lower() not in sentence:
+            return False
         for cited in cited_keys:
-            cited_key = citation_key(cited)
-            for known_key, source_text in normalized_sources.items():
-                if cited_key == known_key or cited_key in known_key or known_key in cited_key:
-                    source_lower = source_text.lower()
-                    # 1. Exact sentence match
-                    if lower_sentence in source_lower:
-                        return True
-                    # 2. Token match with contextual anchors
-                    if num_str in source_lower or lower_token in source_lower:
-                        chunks = re.split(r"\n\s*\n", source_text)
-                        for chunk in chunks:
-                            chunk_lower = chunk.lower()
-                            if num_str in chunk_lower or lower_token in chunk_lower:
-                                chunk_words = set(re.findall(r"\b[a-z]{4,}\b", chunk_lower))
-                                if not sentence_words or bool(sentence_words & chunk_words):
-                                    return True
+            source = normalized_sources.get(citation_key(cited), "")
+            # Full sentence equality prevents matching a positive fragment in
+            # a negated source sentence ("did not achieve 85% accuracy").
+            passages = re.split(r"(?<=[.!?])\s+|\n+", source)
+            if any(sentence == normalize(passage) for passage in passages):
+                return True
         return False
 
     @staticmethod
     def _claim_id(normalized: str, location: str, category: str) -> str:
         return hashlib.sha256(f"{category}|{location}|{normalized}".encode("utf-8")).hexdigest()[:20]
+
+    @classmethod
+    def _bound_measurement(cls, row: Dict[str, Any], sentence: str) -> bool:
+        """Require an explicit claim binding and verify the underlying artifact.
+
+        Existing loose measurement rows remain useful for inspection, but cannot
+        automatically certify arbitrary prose sharing one of their numbers.
+        """
+        if not row.get("claim_text") or cls._normalize_claim(row["claim_text"]) != cls._normalize_claim(sentence):
+            return False
+        if row.get("synthetic", False) or not row.get("artifact_root"):
+            return False
+        ref = row.get("artifact")
+        expected = row.get("sha256")
+        if not ref or not expected:
+            return False
+        try:
+            root = Path(row["artifact_root"]).resolve()
+            path = (root / ref).resolve()
+            return path.is_relative_to(root) and hashlib.sha256(path.read_bytes()).hexdigest() == expected
+        except (OSError, TypeError, ValueError):
+            return False
+
+    def verify_reproducibility_claim(self, run_directory: Path, arm: str, metric: str, value: float) -> Dict[str, Any]:
+        """Verify a named local measurement; does not certify free-text entailment."""
+        from services.reproducibility import verify_measurement
+        return verify_measurement(run_directory, arm, metric, value)
 
     def extract_claim_evidence_records(
         self,
@@ -394,6 +379,8 @@ class FactCheckerService:
                 measured = False
                 if value is not None and measurement_records:
                     for m in measurement_records:
+                        if strict and not self._bound_measurement(m, sentence):
+                            continue
                         m_val = m.get("value")
                         if m_val is not None:
                             try:
@@ -414,7 +401,7 @@ class FactCheckerService:
                                         matched_artifact_hashes.append(sha)
                             except (ValueError, TypeError):
                                 pass
-                elif value is not None and measurement_values:
+                elif value is not None and measurement_values and not strict:
                     # Legacy path: no structured measurement_records, just bare
                     # values. Falls back to the shared artifact list since there's
                     # no per-record ref/hash to attribute individually.
@@ -460,7 +447,7 @@ class FactCheckerService:
                 if key not in seen:
                     seen.add(key)
                     verified_citations = set(self.validate_citations(paragraph, source_records=source_records)["verified_links"])
-                    source_supported = bool(set(cited_keys) & verified_citations)
+                    source_supported = (not strict and bool(set(cited_keys) & verified_citations))
                     # Branch's stricter gate: an artifact only counts as backing a
                     # "major contribution" claim when the sentence itself uses
                     # contribution language, not merely whenever any measurement
@@ -470,7 +457,7 @@ class FactCheckerService:
                     # of an unrelated measurement. Kept as-is: this is strictly
                     # more conservative than main, which is the right direction
                     # for a fraud-detection gate.
-                    has_artifact = bool(measurement_records) and any(
+                    has_artifact = not strict and bool(measurement_records) and any(
                         term in normalized for term in ("propose", "present", "introduce", "develop", "framework", "architecture", "method", "results", "findings", "demonstrate")
                     )
                     verified = source_supported or (has_artifact and bool(artifact_hashes))
@@ -515,15 +502,13 @@ class FactCheckerService:
                        strict_evidence: bool = False) -> Dict[str, Any]:
         """Audit citations and numeric claims.
 
-        ``measured_values`` carries the values a recorded experiment produced for
-        this draft. A claim this service cannot find in the literature but which
-        an experiment measured is grounded, not unverified: without this the
-        provenance gate and this checker disagree about the same manuscript, and
-        a paper whose numbers all trace to artifacts still reports as blocked.
+        Legacy reports may inspect bare measured values. Strict release checks
+        require explicit claim bindings and artifact integrity; matching a value
+        alone cannot establish support for the sentence that contains it.
         """
         citation_report = self.validate_citations(content, source_records=source_records)
         metric_report = self.validate_numeric_claims(content, source_texts or [], source_records)
-        if measured_values:
+        if measured_values and not strict_evidence:
             metric_report = self._absolve_measured_claims(metric_report, measured_values)
         claim_records = self.extract_claim_evidence_records(
             content,
@@ -544,6 +529,8 @@ class FactCheckerService:
         # Only block on citations that are genuinely malformed/non-existent — NOT plausible author-year keys
         if citation_report["broken_links"]:
             blocking_errors.append("Broken paper citations: " + ", ".join(citation_report["broken_links"]))
+        if strict_evidence and citation_report["unresolved_links"]:
+            blocking_errors.append("Unresolved paper citations: " + ", ".join(citation_report["unresolved_links"]))
         if metric_report["unverified_claims"] and source_records is not None:
             # Only block on unverified metrics when a source corpus was actually provided
             blocking_errors.append("Unverified numeric claims: " + ", ".join(metric_report["unverified_claims"]))

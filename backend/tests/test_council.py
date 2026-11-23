@@ -282,7 +282,7 @@ class TestRunResearchDryRun:
         result = orch.run_research(long_topic, cb)
         # Filenames include prefix like "debate_" or "review_" then the slug
         debate_slug = result["debate_file"].replace("debate_", "").replace(".md", "")
-        draft_slug = result["draft_file"].replace("review_", "").replace(".md", "")
+        draft_slug = result["draft_file"].removeprefix("review_").split("__", 1)[0]
         assert len(debate_slug) <= 50
         assert len(draft_slug) <= 50
 

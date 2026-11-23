@@ -1,6 +1,6 @@
 # ResearchingOS
 
-An open-source, autonomous AI-native academic publishing engine and research operating system. You provide a research topic; a two-tier council of specialized LLM agents and meta-reviewers conducts deep multi-repository literature discovery, executes formal boardroom debates, grounds all empirical facts, and compiles 100% publication-ready LaTeX manuscripts across 12 premier academic venues.
+An open-source, autonomous AI-native academic publishing engine and research operating system. You provide a research topic; a two-tier council of specialized LLM agents and meta-reviewers conducts deep multi-repository literature discovery, executes formal boardroom debates, checks empirical claims against collected evidence and prepares LaTeX manuscripts for human review across 12 academic venue formats. Automated checks do not establish scientific correctness or guarantee publication readiness.
 
 ```
 Topic → Scout → Analyst → [ Engineer | Statistician | Reviewer #2 ] → Boardroom Debate → Chairman → Writer 
@@ -8,6 +8,23 @@ Topic → Scout → Analyst → [ Engineer | Statistician | Reviewer #2 ] → Bo
 ```
 
 ---
+
+## Deployment status
+
+Single-operator hardening adds authenticated API/artifact access, durable research and publisher queues, reconnectable events and isolated production TeX execution. Read the [deployment runbook](docs/production-deployment.md) and [verification record](docs/production-hardening-validation.md) before starting the service. Production configuration fails closed without credentials and HTTPS origins. Explicit loopback development uses `RESEARCHINGOS_ACCESS_MODE=local`; never use that mode behind a proxy. Live provider validation, public HTTPS deployment, and off-host recovery remain incomplete. Local container and restore rehearsals do not satisfy those release gates.
+
+## Research engines
+
+Optional pinned AlphaEvolve and Harness² adapters add algorithm evolution and research-instruction refinement, with bounded CLI workers, read-only Workbench results, and independently recomputed ranking metrics. See [setup, demos, live-run prerequisites and evidence limits](docs/research_engines.md).
+
+Optional [PaperOrchestra writing and review](docs/paperorchestra.md) supports isolated generation and evidence audits. The [connected research workflow](docs/research-production.md) orchestrates discovery, selected experiments and writing with durable stage records. Live execution is opt-in; production release validation and human publication approval remain required.
+
+## Reproducibility Agent
+
+The Feynman Workbench includes a Reproducibility panel for pinned-repository repair
+experiments, containerized validation logs, and evidence reports. A dedicated
+Gemma 4 runner compares plain, lexical, and graph-assisted navigation under equal
+budgets. See [setup, fixture demo, live evaluation, and competition candidate](docs/reproducibility_agent.md).
 
 ## OpenResearch
 

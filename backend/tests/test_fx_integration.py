@@ -18,6 +18,7 @@ def test_fx_bridge_detection_and_status():
 
 def test_fx_dispatch_research_emulated():
     bridge = FXBridge()
+    bridge.mode = 'emulated'
     res = bridge.dispatch_research("Analyze sparse mixture-of-experts routing stability")
     assert res["success"] is True
     assert "engine" in res
@@ -25,6 +26,13 @@ def test_fx_dispatch_research_emulated():
     if res.get("engine") == "emulated_acp_subagent":
         assert len(res.get("key_findings", [])) >= 2
         assert res.get("execution_latency_ms", 0) < 50
+
+
+def test_native_fx_cannot_dispatch_unmetered_requests(monkeypatch):
+    bridge = FXBridge()
+    bridge.mode = 'native'
+    monkeypatch.setattr('services.fx_bridge.subprocess.run', lambda *a, **k: (_ for _ in ()).throw(AssertionError('native provider launched')))
+    assert bridge.dispatch_research('topic')['success'] is False
 
 
 def test_fx_parallel_paper_ingestion():

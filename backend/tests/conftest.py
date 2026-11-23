@@ -100,6 +100,11 @@ def api_client(tmp_path, monkeypatch):
     - GEMINI_API_KEY unset  (forces dry-run mode)
     - VAULT_PATH set to tmp_path
     """
+    import dotenv
+    monkeypatch.setattr(dotenv, 'load_dotenv', lambda *a, **k: False)
+    monkeypatch.setenv('RESEARCHINGOS_ACCESS_MODE', 'local')
+    monkeypatch.setenv('RESEARCHINGOS_JOBS_DB', str(tmp_path / 'jobs.sqlite3'))
+    monkeypatch.setenv('RESEARCHINGOS_PUBLISHER_DB', str(tmp_path / 'publisher.sqlite3'))
     # Remove the API key so the app boots in dry-run mode
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     monkeypatch.delenv("NVIDIA_NIM_API_KEY", raising=False)
@@ -119,4 +124,10 @@ def api_client(tmp_path, monkeypatch):
     )
 
     from fastapi.testclient import TestClient
-    return TestClient(app_module.app)
+    return TestClient(app_module.app, base_url='http://localhost', client=('127.0.0.1', 50000))
+
+
+@pytest.fixture(autouse=True)
+def _explicit_local_unit_test_mode(monkeypatch):
+    # Test-only compatibility for host compiler mocks; auth tests override this explicitly.
+    monkeypatch.setenv('RESEARCHINGOS_ACCESS_MODE', 'local')

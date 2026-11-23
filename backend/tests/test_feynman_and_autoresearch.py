@@ -1,6 +1,7 @@
 """Comprehensive tests for Feynman Research Assistant, Autoresearch Loop, and Semantic Provenance."""
 
 import ast
+import hashlib
 import json
 import tempfile
 from pathlib import Path
@@ -18,7 +19,7 @@ from services.vault import VaultManager
 
 
 def test_semantic_source_match_paraphrased_metric():
-    """Verify that a paraphrased claim is verified when cited source has metric and number."""
+    """A shared number cannot establish that a paraphrase is entailed."""
     checker = FactCheckerService()
     draft = "Prior work reports 28.1% on the benchmark split [[arxiv_2501_02497]]."
     sources = {
@@ -26,8 +27,8 @@ def test_semantic_source_match_paraphrased_metric():
     }
     records = checker.extract_claim_evidence_records(draft, source_records=sources, strict=True)
     assert len(records) >= 1
-    assert records[0]["status"] == "VERIFIED"
-    assert records[0]["verification_method"] == "cited_source_text_match"
+    assert records[0]["status"] == "BLOCKED"
+    assert records[0]["verification_method"] == "no_matching_evidence"
 
 
 def test_semantic_source_match_blocks_hallucinated_metric():
@@ -43,17 +44,23 @@ def test_semantic_source_match_blocks_hallucinated_metric():
     assert records[0]["verification_method"] == "no_matching_evidence"
 
 
-def test_variable_level_experiment_grounding():
+def test_variable_level_experiment_grounding(tmp_path):
     """Verify that only the matching artifact hash is attached to the claim."""
     checker = FactCheckerService()
     draft = "Our architecture achieves 47.2% resolution rate."
+    artifact = tmp_path / "artifacts" / "bench.json"
+    artifact.parent.mkdir()
+    artifact.write_text('{"resolution_rate": 47.2}')
+    expected_hash = hashlib.sha256(artifact.read_bytes()).hexdigest()
     measurements = [
         {
             "metric": "resolution_rate",
             "value": 47.2,
             "unit": "%",
             "artifact": "artifacts/bench.json",
-            "sha256": "aaaa" * 16,
+            "sha256": expected_hash,
+            "artifact_root": str(tmp_path),
+            "claim_text": draft,
         },
         {
             "metric": "other_metric",
@@ -69,7 +76,7 @@ def test_variable_level_experiment_grounding():
     assert len(records) >= 1
     assert records[0]["status"] == "VERIFIED"
     assert records[0]["verification_method"] == "recorded_experiment_measurement"
-    assert records[0]["artifact_sha256"] == ["aaaa" * 16]
+    assert records[0]["artifact_sha256"] == [expected_hash]
 
 
 def test_dynamic_state_graph_remediation_transitions():
@@ -158,7 +165,8 @@ if __name__ == "__main__":
     print("Running test_semantic_source_match_blocks_hallucinated_metric...")
     test_semantic_source_match_blocks_hallucinated_metric()
     print("Running test_variable_level_experiment_grounding...")
-    test_variable_level_experiment_grounding()
+    with tempfile.TemporaryDirectory() as temp:
+        test_variable_level_experiment_grounding(Path(temp))
     print("Running test_dynamic_state_graph_remediation_transitions...")
     test_dynamic_state_graph_remediation_transitions()
     print("Running test_autoresearch_fitness_and_ledger...")

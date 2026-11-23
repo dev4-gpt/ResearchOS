@@ -38,6 +38,7 @@ export default defineConfig({
     host: '127.0.0.1',
     strictPort: true,
     proxy: {
+      '/vault': { target: `http://127.0.0.1:${backendPort}`, changeOrigin: true },
       '/api': {
         target: `http://127.0.0.1:${backendPort}`,
         changeOrigin: true,

@@ -17,7 +17,7 @@ import {
   TerminalSquare,
   Zap,
 } from 'lucide-react';
-import { apiFetch } from '../api';
+import { apiFetch, downloadPublisherBundle } from '../api';
 import { PDFVisualPreviewModal } from './PDFVisualPreviewModal';
 
 interface DraftFile {
@@ -72,6 +72,8 @@ interface ReadinessJob {
   report?: {
     stage_events_path?: string;
     artifact_manifest?: string;
+    artifact_manifest_sha256?: string;
+    ready_count?: number;
     release_note?: string;
   } | null;
   error?: string | null;
@@ -198,7 +200,7 @@ const BacktestLab: React.FC = () => {
   };
 
   const runPublisherReadiness = async () => {
-    if (readinessJob?.status === 'running') return;
+    if (['queued', 'running'].includes(readinessJob?.status || '')) return;
     setError(null);
     try {
       const response = await apiFetch('/api/vault/publisher/readiness', { method: 'POST' });
@@ -206,7 +208,7 @@ const BacktestLab: React.FC = () => {
       const data = await response.json();
       let job: ReadinessJob = data.job;
       setReadinessJob(job);
-      while (job?.status === 'running') {
+      while (['queued', 'running'].includes(job?.status || '')) {
         await new Promise((resolve) => window.setTimeout(resolve, 1200));
         const statusResponse = await apiFetch('/api/vault/publisher/readiness/status?job_id=' + encodeURIComponent(job.job_id));
         if (!statusResponse.ok) throw new Error('Unable to read publisher progress (HTTP ' + statusResponse.status + ')');
@@ -214,9 +216,18 @@ const BacktestLab: React.FC = () => {
         job = statusData.job;
         setReadinessJob(job);
       }
-      if (job?.status === 'failed') throw new Error(job.error || 'Publisher matrix failed.');
+      if (['failed', 'interrupted', 'cancelled'].includes(job?.status || '')) throw new Error(job.error || 'Publisher matrix failed.');
     } catch (runError: any) {
       setError(runError.message || 'The publisher matrix could not complete.');
+    }
+  };
+
+  const handlePublisherBundleDownload = async (jobId: string) => {
+    setError(null);
+    try {
+      await downloadPublisherBundle(jobId);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Verified bundle download failed.');
     }
   };
 
@@ -273,9 +284,9 @@ const BacktestLab: React.FC = () => {
             {running ? <LoaderCircle size={15} className="spin" /> : <Play size={15} fill="currentColor" />}
             {running ? 'Running loop' : 'Run closed loop'}
           </button>
-          <button className="secondary-action" onClick={() => void runPublisherReadiness()} disabled={readinessJob?.status === 'running'}>
-            {readinessJob?.status === 'running' ? <LoaderCircle size={15} className="spin" /> : <ShieldCheck size={15} />}
-            {readinessJob?.status === 'running' ? 'Testing matrix' : 'Run all venue readiness'}
+          <button className="secondary-action" onClick={() => void runPublisherReadiness()} disabled={['queued', 'running'].includes(readinessJob?.status || '')}>
+            {['queued', 'running'].includes(readinessJob?.status || '') ? <LoaderCircle size={15} className="spin" /> : <ShieldCheck size={15} />}
+            {['queued', 'running'].includes(readinessJob?.status || '') ? 'Testing matrix' : 'Run all venue readiness'}
           </button>
         </div>
       </section>
@@ -300,7 +311,11 @@ const BacktestLab: React.FC = () => {
             <span>Evaluator {readinessJob.evaluator_version || 'v2'}</span>
             <span>Stage {humanize(readinessJob.current_stage || 'prepare')}</span>
             {readinessJob.progress?.last_filename && <span>{readinessJob.progress.last_filename} / {readinessJob.progress.last_venue || 'all venues'}</span>}
-            {readinessJob.status === 'completed' && <a href="/api/vault/publisher/readiness/bundle">Download verified bundle</a>}
+            {readinessJob.status === 'completed' && !!readinessJob.report?.ready_count && readinessJob.report.artifact_manifest_sha256 && (
+              <button className="secondary-action" onClick={() => void handlePublisherBundleDownload(readinessJob.job_id)}>
+                Download verified bundle
+              </button>
+            )}
           </div>
           <small>Strict evidence is fail-closed. "Ready" means ready for human review; external submission remains manual.</small>
         </section>

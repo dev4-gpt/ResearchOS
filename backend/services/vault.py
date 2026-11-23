@@ -1,7 +1,12 @@
 import os
 import re
 import tempfile
+import fcntl
 from typing import Dict, List, Any, Optional
+
+class DraftChanged(ValueError):
+    pass
+
 
 class VaultManager:
     def __init__(self, vault_path: str = "../vault"):
@@ -46,7 +51,24 @@ class VaultManager:
             filename += ".md"
         return filename
 
-    def save_markdown(self, category: str, filename: str, content: str, frontmatter: Dict[str, Any] = None) -> str:
+    def save_markdown(self, category: str, filename: str, content: str, frontmatter: Dict[str, Any] = None,
+                      expected=None, *, create_only=False, with_snapshot=False):
+        with open(os.path.join(self.vault_path, '.write.lock'), 'a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            if expected is not None:
+                try:
+                    unchanged = self.read_markdown(category, filename, exact=True) == expected
+                except FileNotFoundError:
+                    unchanged = False
+                if not unchanged:
+                    raise DraftChanged('Document changed while processing; refusing stale overwrite')
+            path = self._save_markdown(category, filename, content, frontmatter, create_only=create_only)
+            if with_snapshot:
+                return path, self.read_markdown(category, os.path.basename(path), exact=True)
+            return path
+
+    def _save_markdown(self, category: str, filename: str, content: str, frontmatter: Dict[str, Any] = None,
+                       *, create_only=False) -> str:
         """Saves a markdown file with optional YAML frontmatter.
 
         Args:
@@ -90,7 +112,11 @@ class VaultManager:
         try:
             with os.fdopen(fd, "w", encoding="utf-8") as f:
                 f.write(file_content)
-            os.replace(tmp_path, file_path)
+            if create_only:
+                os.link(tmp_path, file_path)
+                os.unlink(tmp_path)
+            else:
+                os.replace(tmp_path, file_path)
         except BaseException:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
@@ -98,7 +124,7 @@ class VaultManager:
 
         return file_path
 
-    def read_markdown(self, category: str, filename: str) -> Dict[str, Any]:
+    def read_markdown(self, category: str, filename: str, *, exact=False) -> Dict[str, Any]:
         """Reads a markdown file and parses YAML frontmatter and body."""
         if category not in self.folders:
             raise ValueError(f"Invalid vault category: {category}")
@@ -107,6 +133,8 @@ class VaultManager:
 
         file_path = os.path.join(self.folders[category], filename)
         if not os.path.exists(file_path):
+            if exact:
+                raise FileNotFoundError(file_path)
             found_match = None
             target_clean = filename.replace("review_", "").replace(".md", "").lower()
             try:

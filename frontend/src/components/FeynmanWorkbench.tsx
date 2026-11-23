@@ -18,10 +18,12 @@ import {
   ExternalLink,
   FileText,
 } from 'lucide-react';
-import { apiFetch } from '../api';
+import { apiFetch, apiUrl } from '../api';
 import { OpenResearchPanel } from './OpenResearchPanel';
 import { ResearchSkillsPanel } from './ResearchSkillsPanel';
 import { VLMResearchPanel } from './VLMResearchPanel';
+import { ReproducibilityPanel } from './ReproducibilityPanel';
+import { ResearchEnginesPanel } from './ResearchEnginesPanel';
 
 interface AuditItem {
   claim_text: string;
@@ -87,7 +89,7 @@ interface AutoresearchResult {
 }
 
 export const FeynmanWorkbench: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'openresearch' | 'research-skills' | 'vlm-research' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'lit' | 'review' | 'autoresearch' | 'openresearch' | 'research-skills' | 'vlm-research' | 'reproducibility' | 'research-engines' | 'fx' | 'evomap' | 'voice' | 'ecc' | 'slop' | 'slides' | 'diagram' | 'skills'>('audit');
   const [drafts, setDrafts] = useState<string[]>([]);
   const [selectedDraft, setSelectedDraft] = useState<string>('');
   const [selectedVenue, setSelectedVenue] = useState<string>('IEEEtran');
@@ -603,6 +605,8 @@ export const FeynmanWorkbench: React.FC = () => {
           { id: 'review', label: 'Peer Review (/review)', icon: ShieldAlert },
           { id: 'autoresearch', label: 'Autoresearch', icon: Sparkles },
           { id: 'openresearch', label: 'OpenResearch', icon: BookOpen },
+          { id: 'reproducibility', label: 'Reproducibility', icon: Terminal },
+          { id: 'research-engines', label: 'Research engines', icon: Cpu },
           { id: 'research-skills', label: 'Research Skills', icon: Layers },
           { id: 'vlm-research', label: 'Blissful Bose · VLM', icon: Sparkles },
           { id: 'fx', label: 'fx Engine', icon: Terminal },
@@ -645,6 +649,8 @@ export const FeynmanWorkbench: React.FC = () => {
 
       {/* TAB 1: Paper-to-Code Audit */}
       {activeTab === 'openresearch' && <OpenResearchPanel />}
+      {activeTab === 'reproducibility' && <ReproducibilityPanel />}
+      {activeTab === 'research-engines' && <ResearchEnginesPanel />}
       {activeTab === 'research-skills' && <ResearchSkillsPanel />}
       {activeTab === 'vlm-research' && <VLMResearchPanel />}
       {activeTab === 'audit' && (
@@ -1856,7 +1862,7 @@ export const FeynmanWorkbench: React.FC = () => {
                   </div>
                 </div>
                 <a
-                  href={`http://127.0.0.1:8000${slidesResult.relative_url}`}
+                  href={apiUrl(slidesResult.relative_url)}
                   target="_blank"
                   rel="noreferrer"
                   style={{
@@ -1880,7 +1886,7 @@ export const FeynmanWorkbench: React.FC = () => {
 
               <div style={{ border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '8px', overflow: 'hidden', background: '#000' }}>
                 <iframe
-                  src={`http://127.0.0.1:8000${slidesResult.relative_url}`}
+                  src={apiUrl(slidesResult.relative_url)}
                   style={{ width: '100%', height: '560px', border: 'none' }}
                   title="Conference Slides Preview"
                 />
@@ -1957,7 +1963,7 @@ export const FeynmanWorkbench: React.FC = () => {
                   </div>
                 </div>
                 <a
-                  href={`http://127.0.0.1:8000${diagramResult.relative_url}`}
+                  href={apiUrl(diagramResult.relative_url)}
                   target="_blank"
                   rel="noreferrer"
                   download

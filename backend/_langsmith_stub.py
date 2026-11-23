@@ -66,7 +66,9 @@ if "langsmith" not in sys.modules:
     langsmith_stub = _stub_module("langsmith")
 
     run_helpers_stub = _stub_module("langsmith.run_helpers")
-    setattr(run_helpers_stub, "get_tracing_context", lambda *args, **kwargs: {})
+    setattr(run_helpers_stub, "get_tracing_context", lambda *args, **kwargs: {
+        "parent": None, "project_name": None, "metadata": None, "tags": None, "enabled": False,
+    })
 
     utils_stub = _stub_module("langsmith.utils")
     setattr(utils_stub, "tracing_is_enabled", lambda *args, **kwargs: False)

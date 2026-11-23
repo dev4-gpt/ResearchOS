@@ -78,3 +78,10 @@ scratch/
 # Voice audio cache (generated on demand)
 vault/00_System/voice_cache/*.wav
 vault/00_System/voice_cache/*.aiff
+
+# Local writing inputs/outputs may contain unpublished research.
+runs/paperorchestra/
+runs/research_workflows/
+
+# Private operator job/event database and worker locks
+runs/service/

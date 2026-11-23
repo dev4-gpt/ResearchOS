@@ -1341,6 +1341,7 @@ This empirical synthesis is subject to primary repository indexing limits and pu
         import subprocess
         import shutil
 
+        from services.tex_runtime import isolated, run_tex
         pdflatex_bin = None
         for p in ["/Library/TeX/texbin/pdflatex", "/usr/local/bin/pdflatex", "/usr/bin/pdflatex"]:
             if os.path.exists(p) and os.access(p, os.X_OK):
@@ -1349,6 +1350,9 @@ This empirical synthesis is subject to primary repository indexing limits and pu
 
         if not pdflatex_bin:
             pdflatex_bin = shutil.which("pdflatex")
+
+        if isolated():
+            pdflatex_bin = 'pdflatex'
 
         if not pdflatex_bin:
             print("pdflatex binary not found on local system.")
@@ -1408,8 +1412,8 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                     f.write(bib_code)
 
             try:
-                cmd_pdf = [pdflatex_bin, "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
-                first = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                cmd_pdf = [pdflatex_bin, "-no-shell-escape", "-interaction=nonstopmode", "-output-directory", tmpdir, tex_path]
+                first = run_tex(cmd_pdf, tmpdir, timeout=30)
                 logs = [first.stdout, first.stderr]
                 compile_results = [first]
 
@@ -1423,13 +1427,15 @@ This empirical synthesis is subject to primary repository indexing limits and pu
                     if not bibtex_bin:
                         bibtex_bin = shutil.which("bibtex")
 
+                    if isolated():
+                        bibtex_bin = 'bibtex'
                     if bibtex_bin:
-                        bib_result = subprocess.run([bibtex_bin, "document"], cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                        bib_result = run_tex([bibtex_bin, "document"], tmpdir, timeout=30)
                         logs.extend([bib_result.stdout, bib_result.stderr])
                         compile_results.append(bib_result)
 
-                second = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
-                third = subprocess.run(cmd_pdf, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                second = run_tex(cmd_pdf, tmpdir, timeout=30)
+                third = run_tex(cmd_pdf, tmpdir, timeout=30)
                 compile_results.extend([second, third])
                 logs.extend([second.stdout, second.stderr, third.stdout, third.stderr])
                 self.last_build_log = b"\n".join(logs).decode("utf-8", errors="replace")

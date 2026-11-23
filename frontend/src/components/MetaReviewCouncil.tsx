@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   ArrowRight
 } from 'lucide-react';
-import { apiFetch } from '../api';
+import { apiFetch, apiUrl, submitResearchJob } from '../api';
 
 export interface DraftItem {
   filename: string;
@@ -62,6 +62,9 @@ const MetaReviewCouncil: React.FC<MetaReviewCouncilProps> = ({ onNavigateToPubli
 
   useEffect(() => {
     fetchDrafts();
+    const saved = sessionStorage.getItem('researchingos.meta-job');
+    if (saved) connectJob(saved);
+    return () => sourceRef.current?.close();
   }, []);
 
   useEffect(() => {
@@ -97,6 +100,44 @@ const MetaReviewCouncil: React.FC<MetaReviewCouncilProps> = ({ onNavigateToPubli
     }
   };
 
+  const sourceRef = useRef<EventSource | null>(null);
+  const connectJob = (projId: string) => {
+    sourceRef.current?.close();
+    setIsRunning(true);
+    sessionStorage.setItem('researchingos.meta-job', projId);
+    // Connect to SSE stream
+    const streamUrl = apiUrl(`/api/research/meta-review/stream/${projId}`);
+    const eventSource = new EventSource(streamUrl, { withCredentials: true });
+    sourceRef.current = eventSource;
+
+    eventSource.onmessage = (event) => {
+      try {
+        setErrorMsg(null);
+        const logData = JSON.parse(event.data);
+        setLogs((prev) => [...prev, logData]);
+        if (logData.data && (logData.data.final_words || logData.data.initial_words)) {
+          setStats(prev => ({ ...(prev || {}), ...logData.data }));
+        }
+      } catch (e) {
+        console.error('Error parsing SSE data:', e);
+      }
+    };
+
+    eventSource.addEventListener('end', (event) => {
+      const result = JSON.parse((event as MessageEvent).data);
+      setErrorMsg(result.status === 'completed' ? null : (result.error || `Job ${result.status}`));
+      sessionStorage.removeItem('researchingos.meta-job');
+      eventSource.close();
+      setIsRunning(false);
+      fetchDrafts(); // Refresh metadata after revision
+    });
+
+    eventSource.onerror = (err) => {
+      console.error('SSE Error:', err);
+      setErrorMsg('Connection interrupted. Reconnecting to saved events…');
+    };
+  };
+
   const startMetaReview = async () => {
     if (!selectedDraft) return;
     setIsRunning(true);
@@ -105,51 +146,10 @@ const MetaReviewCouncil: React.FC<MetaReviewCouncilProps> = ({ onNavigateToPubli
     setErrorMsg(null);
 
     try {
-      const res = await apiFetch('/api/research/meta-review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          filename: selectedDraft,
-          target_venue: targetVenue,
-          target_length: targetLength,
-          save_to_vault: true
-        })
+      const { project_id } = await submitResearchJob('/api/research/meta-review', {
+        filename: selectedDraft, target_venue: targetVenue, target_length: targetLength, save_to_vault: true
       });
-
-      if (!res.ok) {
-        throw new Error(`Failed to start Tier 2 meta-review: ${res.statusText}`);
-      }
-
-      const data = await res.json();
-      const projId = data.project_id;
-
-      // Connect to SSE stream
-      const streamUrl = `http://127.0.0.1:8000/api/research/meta-review/stream/${projId}`;
-      const eventSource = new EventSource(streamUrl);
-
-      eventSource.onmessage = (event) => {
-        try {
-          const logData = JSON.parse(event.data);
-          setLogs((prev) => [...prev, logData]);
-          if (logData.data && (logData.data.final_words || logData.data.initial_words)) {
-            setStats(prev => ({ ...(prev || {}), ...logData.data }));
-          }
-        } catch (e) {
-          console.error('Error parsing SSE data:', e);
-        }
-      };
-
-      eventSource.addEventListener('end', () => {
-        eventSource.close();
-        setIsRunning(false);
-        fetchDrafts(); // Refresh metadata after revision
-      });
-
-      eventSource.onerror = (err) => {
-        console.error('SSE Error:', err);
-        eventSource.close();
-        setIsRunning(false);
-      };
+      connectJob(project_id);
 
     } catch (e: any) {
       console.error('Error executing Tier 2 alignment:', e);

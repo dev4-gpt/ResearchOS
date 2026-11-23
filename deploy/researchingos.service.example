@@ -1,0 +1,21 @@
+[Unit]
+Description=ResearchingOS single-operator API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=researchingos
+Group=researchingos
+WorkingDirectory=/srv/researchingos/backend
+EnvironmentFile=/etc/researchingos/researchingos.env
+ExecStart=/srv/researchingos/backend/.venv/bin/uvicorn main:app --host 127.0.0.1 --port 18000 --workers 1 --no-proxy-headers
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillMode=control-group
+UMask=0077
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

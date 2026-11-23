@@ -9,11 +9,14 @@ ready when every required gate passes.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import re
 import os
 import time
+import zipfile
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set
 
 from services.checkmate_verifier import CheckmateVerifierService
@@ -21,9 +24,10 @@ from services.fact_checker import FactCheckerService
 from services.latex_exporter import LaTeXExporterService
 from services.venue_profiles import SUPPORTED_VENUES, VENUE_PROFILES
 from services.backtest_ledger import BacktestLedger
+from services.vault import DraftChanged
 from services.publication_harness import (
     EvaluationStageEvent, PublicationEvaluationConfig, PublicationRunState, PublicationStage,
-    evaluator_source_hash, new_run_id, reproducibility_snapshot, stable_hash, venue_registry_hash,
+    evaluator_source_hash, reproducibility_snapshot, stable_hash, venue_registry_hash,
 )
 from domain.models import citation_key
 
@@ -31,6 +35,8 @@ from domain.models import citation_key
 # New venue profiles automatically enter the all-venue readiness run. Each new
 # profile must still provide an exporter and explicit venue contract to pass.
 DEFAULT_PUBLISHER_VENUES = list(SUPPORTED_VENUES)
+ARTIFACT_MANIFEST = "publisher_readiness_manifest.json"
+LEDGER_FILES = {"stage_events.jsonl": "stage_events.jsonl", "manifest.json": "run_manifest.json"}
 
 PLACEHOLDER_PATTERNS = (
     r"\bTBD\b",
@@ -302,9 +308,10 @@ class PublisherReadinessService:
 
     def run(self, target_filename: Optional[str] = None, venues: Optional[List[str]] = None,
             config: Optional[PublicationEvaluationConfig] = None,
-            progress_callback: Optional[Any] = None, run_id: Optional[str] = None) -> Dict[str, Any]:
+            progress_callback: Optional[Any] = None, run_id: Optional[str] = None,
+            draft_snapshot: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         requested_venues = venues or DEFAULT_PUBLISHER_VENUES
-        test_venues = [venue for venue in requested_venues if venue in VENUE_PROFILES]
+        test_venues = list(dict.fromkeys(venue for venue in requested_venues if venue in VENUE_PROFILES))
         if not test_venues:
             raise ValueError("No supported publication venues were requested.")
 
@@ -314,15 +321,17 @@ class PublisherReadinessService:
         for item in draft_items:
             filename = item["filename"]
             try:
-                document = self.vault_manager.read_markdown("drafts", filename)
+                document = self.vault_manager.read_markdown("drafts", filename, exact=True)
             except Exception:
                 continue
             all_documents[filename] = document.get("content", "")
             all_docs_meta[filename] = document.get("frontmatter", {}) or {}
 
         if target_filename:
-            base = os.path.basename(target_filename.strip().replace(" ", ""))
-            clean = base if base.endswith(".md") else f"{base}.md"
+            clean = self.vault_manager._clean_filename(target_filename)
+            if draft_snapshot is not None:
+                all_documents[clean] = draft_snapshot['content']
+                all_docs_meta[clean] = draft_snapshot['frontmatter']
             selected = [clean] if clean in all_documents else []
         else:
             selected = sorted(all_documents)
@@ -403,8 +412,7 @@ class PublisherReadinessService:
             )
             for filename in selected
         }
-        exports_dir = os.path.join(self.vault_manager.vault_path, "04_Drafts", "exports")
-        os.makedirs(exports_dir, exist_ok=True)
+        run_dir = ledger_context["run_dir"]
 
         results: List[Dict[str, Any]] = []
         artifact_hashes: Dict[str, str] = {}
@@ -508,9 +516,11 @@ class PublisherReadinessService:
             venue_results: Dict[str, Any] = {}
 
             bib_code = self.exporter.generate_bibtex(source_papers, manuscript_content=content)
-            bib_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_references.bib")
-            with open(bib_path, "w", encoding="utf-8") as handle:
+            stem = filename.removesuffix(".md")
+            bib_path = os.path.join(run_dir, f"{stem}_references.bib")
+            with open(bib_path, "x", encoding="utf-8") as handle:
                 handle.write(bib_code)
+            artifact_hashes[bib_path] = hashlib.sha256(bib_code.encode("utf-8")).hexdigest()
             for venue in test_venues:
                 item_result: Dict[str, Any] = {"filename": filename, "title": title, "venue": venue, "compiled": False, "checkmate_passed": False, "layout_passed": False, "publish_ready": False}
                 try:
@@ -537,16 +547,15 @@ class PublisherReadinessService:
                         {"filename": filename, "venue": venue, "pdf_sha256": hashlib.sha256(pdf_bytes).hexdigest()},
                         {"filename": filename, "venue": venue},
                     )
-                    pdf_filename = f"{filename.replace('.md', '')}_{venue}.pdf"
-                    pdf_path = os.path.join(exports_dir, pdf_filename)
-                    with open(pdf_path, "wb") as handle:
+                    pdf_filename = f"{stem}_{venue}.pdf"
+                    pdf_path = os.path.join(run_dir, pdf_filename)
+                    with open(pdf_path, "xb") as handle:
                         handle.write(pdf_bytes)
-                    tex_path = os.path.join(exports_dir, f"{filename.replace('.md', '')}_{venue}.tex")
-                    with open(tex_path, "w", encoding="utf-8") as handle:
+                    tex_path = os.path.join(run_dir, f"{stem}_{venue}.tex")
+                    with open(tex_path, "x", encoding="utf-8") as handle:
                         handle.write(tex_code)
                     artifact_hashes[pdf_path] = hashlib.sha256(pdf_bytes).hexdigest()
                     artifact_hashes[tex_path] = hashlib.sha256(tex_code.encode("utf-8")).hexdigest()
-                    artifact_hashes[bib_path] = hashlib.sha256(bib_code.encode("utf-8")).hexdigest()
                     audit = self.checkmate.audit_pdf(
                         pdf_path,
                         manuscript_markdown=content,
@@ -665,7 +674,12 @@ class PublisherReadinessService:
                 "publisher_tested_venues": ", ".join(test_venues),
                 "publisher_best_venues": ", ".join(ready_venues),
             })
-            self.vault_manager.save_markdown("drafts", filename, content, frontmatter=updated_meta)
+            try:
+                self.vault_manager.save_markdown("drafts", filename, content, frontmatter=updated_meta,
+                                                expected={'content': all_documents[filename], 'frontmatter': meta})
+            except DraftChanged:
+                # The sealed report still applies to the evaluated snapshot.
+                pass
             manuscript_summaries.append({
                 "filename": filename,
                 "title": title,
@@ -792,13 +806,18 @@ class PublisherReadinessService:
                 filename: claim_reports[filename] for filename in sorted(claim_reports)
             },
             "reproducibility_snapshot": snapshot,
+            "ledger_artifact_sha256": {
+                name: hashlib.sha256((Path(run_dir) / name).read_bytes()).hexdigest()
+                for name in LEDGER_FILES
+            },
             "failure_history": failure_history,
             "final_decision": final_decision,
             "results": [compact_manifest_result(result) for result in results],
         }
-        manifest_path = os.path.join(exports_dir, "publisher_readiness_manifest.json")
-        with open(manifest_path, "w", encoding="utf-8") as handle:
-            json.dump(manifest, handle, indent=2, sort_keys=True)
+        manifest_path = os.path.join(run_dir, ARTIFACT_MANIFEST)
+        manifest_bytes = json.dumps(manifest, indent=2, sort_keys=True).encode("utf-8")
+        with open(manifest_path, "xb") as handle:
+            handle.write(manifest_bytes)
 
         return {
             "success": True,
@@ -826,5 +845,48 @@ class PublisherReadinessService:
             "failure_history": failure_history,
             "final_decision": final_decision,
             "artifact_manifest": manifest_path,
+            "artifact_manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
             "release_note": "Ready means formatting, originality, and substantive-value gates passed; human author/journal review is still required.",
         }
+
+    def verified_bundle(self, report: Dict[str, Any]) -> bytes:
+        """Build the archive from the exact bytes verified against the completed report."""
+        run_id = report.get("run_id") or ""
+        if not re.fullmatch(r"backtest-\d{8}T\d{6}Z-[0-9a-f]{8}", run_id):
+            raise ValueError("Invalid publisher run ID")
+        root = self.ledger.root.resolve()
+        run_dir = self.ledger.root / run_id
+
+        def verified_bytes(path: Path, expected_hash: str) -> bytes:
+            if path.parent != run_dir or path.resolve() != root / run_id / path.name:
+                raise ValueError("Artifact is outside the publisher run directory")
+            data = path.read_bytes()
+            if hashlib.sha256(data).hexdigest() != expected_hash:
+                raise ValueError("Publisher artifact hash mismatch")
+            return data
+
+        manifest_bytes = verified_bytes(run_dir / ARTIFACT_MANIFEST, report["artifact_manifest_sha256"])
+        manifest = json.loads(manifest_bytes)
+        if manifest["run_id"] != run_id:
+            raise ValueError("Manifest belongs to a different publisher run")
+
+        artifact_hashes = manifest["reproducibility_snapshot"]["artifact_sha256"]
+        required_paths = {
+            result[key]
+            for result in manifest["results"] if result["publish_ready"]
+            for key in ("pdf_path", "tex_path", "bib_path")
+        }
+        if not required_paths or not required_paths.issubset(artifact_hashes):
+            raise ValueError("Manifest is missing required publisher artifacts")
+
+        archive = io.BytesIO()
+        with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
+            bundle.writestr(ARTIFACT_MANIFEST, manifest_bytes)
+            for name, archive_name in LEDGER_FILES.items():
+                bundle.writestr(archive_name, verified_bytes(run_dir / name, manifest["ledger_artifact_sha256"][name]))
+            for artifact_path, expected_hash in artifact_hashes.items():
+                path = Path(artifact_path)
+                data = verified_bytes(path, expected_hash)
+                if artifact_path in required_paths:
+                    bundle.writestr(path.name, data)
+        return archive.getvalue()

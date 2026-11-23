@@ -5,7 +5,6 @@ import tempfile
 from pathlib import Path
 
 import _langsmith_stub  # noqa: F401
-from fastapi.testclient import TestClient
 from main import app
 from services.academic_voice_linter import AcademicVoiceLinter
 from services.conference_slides_service import ConferenceSlidesService
@@ -117,7 +116,9 @@ def test_diagram_generation():
 
 def test_api_routes():
     """Verify FastAPI endpoints for universal skills, slop audit/humanize, slides, and diagrams."""
-    client = TestClient(app)
+    from fastapi.testclient import TestClient
+
+    client = TestClient(app, base_url='http://localhost', client=('127.0.0.1', 50000))
 
     # 1. Universal Skills API
     res_skills = client.get("/api/skills/universal")

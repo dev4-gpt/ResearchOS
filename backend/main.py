@@ -3,16 +3,24 @@ import _langsmith_stub  # noqa: F401 -- must run before anything imports langcha
 import os
 import re
 import json
+import hashlib
 import time
 import asyncio
 import threading
+import sys
 from typing import Dict, List, Any, Optional
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Query
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Query, Request, Header
+from contextlib import asynccontextmanager
+from pathlib import Path
+from uuid import uuid4
+from services.access_control import OperatorAccess, origins, validate_configuration
+from services.durable_jobs import JobStore, DurableWorker, JobConflict, QueueFull, TERMINAL, run_isolated_job
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, Response, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
 # Load env variables from root or backend folder
@@ -34,22 +42,48 @@ from services.publisher_readiness import PublisherReadinessService
 from services.publisher_jobs import PublisherReadinessJobManager
 from domain.models import RunManifest, citation_key
 
-app = FastAPI(title="ResearchingOS API", description="Backend server for multi-agent academic research council")
+@asynccontextmanager
+async def app_lifespan(app):
+    validate_configuration()
+    job_worker.start()
+    try:
+        publisher_readiness_jobs.boot()
+        yield
+    finally:
+        job_worker.stop()
+        publisher_readiness_jobs.worker.stop()
+
+app = FastAPI(lifespan=app_lifespan, title="ResearchingOS API", description="Backend server for multi-agent academic research council")
 from openresearch_api import router as openresearch_router
 app.include_router(openresearch_router)
 from research_skills_api import router as research_skills_router
 app.include_router(research_skills_router)
 from vlm_research_api import router as vlm_research_router
 app.include_router(vlm_research_router)
+from reproducibility_api import router as reproducibility_router
+app.include_router(reproducibility_router)
+from research_engines_api import router as research_engines_router
+app.include_router(research_engines_router)
+from paperorchestra_api import router as paperorchestra_router
+app.include_router(paperorchestra_router)
 
 # Add CORS Middleware to connect with Vite React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify frontend port. For local, * is fine.
+    allow_origins=origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(OperatorAccess)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=[h.strip() for h in os.getenv(
+    'RESEARCHINGOS_HOSTS', 'localhost,127.0.0.1,[::1]').split(',') if h.strip()])
+
+@app.get('/api/session')
+@app.post('/api/session')
+def operator_session():
+    return {'authenticated': True}
 
 # Initialize service classes
 vault_path = os.getenv("VAULT_PATH", "../vault")
@@ -98,12 +132,20 @@ conference_slides_service = ConferenceSlidesService(vault_manager.vault_path)
 diagram_generator_service = DiagramGeneratorService(vault_manager.vault_path)
 universal_skills_service = UniversalSkillsService()
 
-# In-memory log store for streaming active research runs and meta-reviews
-# key: project_id, value: asyncio.Queue containing log dicts
-log_queues: Dict[str, asyncio.Queue] = {}
+# SQLite is the source of truth; subscriptions never own jobs.
+job_store = JobStore(os.getenv('RESEARCHINGOS_JOBS_DB', str(Path(vault_manager.vault_path).parent / 'runs/service/jobs.sqlite3')))
+def launch_research_job(job_id):
+    seconds = int(os.getenv('RESEARCHINGOS_RESEARCH_JOB_SECONDS', '900'))
+    if not 1 <= seconds <= 1800:
+        raise ValueError('Research job timeout must be 1..1800 seconds')
+    command = [sys.executable, str(Path(__file__).with_name('research_job_worker.py')), job_id, str(seconds)]
+    return run_isolated_job(command, seconds, env={**os.environ, 'RESEARCHINGOS_JOBS_DB': str(job_store.path.resolve())})
+
+
+job_worker = DurableWorker(job_store, None, isolated_handler=launch_research_job)
 
 class ResearchRequest(BaseModel):
-    topic: str
+    topic: str = Field(min_length=1, max_length=4000)
     target_venue: Optional[str] = "IEEEtran"
     target_length: Optional[str] = "short_camera_ready"  # "short_camera_ready" (4p) | "full_journal" (12p)
 
@@ -203,6 +245,17 @@ def root_index():
         "system_design_primer": "https://github.com/donnemartin/system-design-primer"
     }
 
+@app.get('/api/ready')
+def readiness_check():
+    workers = {
+        'research': bool(job_worker.thread and job_worker.thread.is_alive() and not job_worker.stopping.is_set()),
+        'publisher': bool(publisher_readiness_jobs.worker.thread and publisher_readiness_jobs.worker.thread.is_alive()
+                          and not publisher_readiness_jobs.worker.stopping.is_set()),
+    }
+    return JSONResponse(status_code=200 if all(workers.values()) else 503,
+                        content={'ready': all(workers.values()), 'workers': workers})
+
+
 @app.get("/api/health")
 def health_check():
     gemini_key = bool(os.getenv("GEMINI_API_KEY"))
@@ -250,19 +303,26 @@ def read_vault_file(category: str, filename: str):
 @app.post("/api/vault/write")
 def write_vault_file(request: SaveFileRequest):
     """Saves/edits a file in the vault (HITL updates)."""
+    enqueue = request.category == 'drafts' and request.trigger_readiness
     try:
-        path = vault_manager.save_markdown(
-            request.category,
-            request.filename,
-            request.content,
-            request.frontmatter
+        saved = vault_manager.save_markdown(
+            request.category, request.filename, request.content, request.frontmatter, with_snapshot=enqueue,
         )
-        response: Dict[str, Any] = {"status": "success", "saved_path": path}
-        if request.category == "drafts" and request.trigger_readiness:
-            response["readiness_job"] = publisher_readiness_jobs.start(target_filename=request.filename, trigger="draft_save")
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        raise HTTPException(500, 'Vault file could not be saved')
+    if not enqueue:
+        return {'status': 'success', 'saved_path': saved}
+
+    path, snapshot = saved
+    response: Dict[str, Any] = {'status': 'success', 'saved_path': path}
+    try:
+        response['readiness_job'] = publisher_readiness_jobs.start(
+            target_filename=Path(path).name, trigger='draft_save', draft_snapshot=snapshot)
+    except QueueFull:
+        response['readiness_error'] = 'Draft saved. The publisher queue is full. Start readiness again when capacity is available.'
+    except Exception:
+        response['readiness_error'] = 'Draft saved. Publisher queue status could not be confirmed. Check publisher status before retrying.'
+    return response
 
 @app.get("/api/vault/graph")
 def get_vault_graph():
@@ -529,15 +589,17 @@ def run_publisher_readiness_suite(
     copied-prose overlap with sibling drafts, and substantive research value before
     reporting a venue as ready for human review.
     """
+    if wait and os.getenv('RESEARCHINGOS_ACCESS_MODE', 'authenticated') != 'local':
+        raise HTTPException(422, 'Production publisher checks must use the durable queue')
     try:
         if wait:
             return publisher_readiness_service.run(target_filename=filename, venues=venues)
         job = publisher_readiness_jobs.start(target_filename=filename, venues=venues, trigger="manual")
         return JSONResponse(status_code=202, content={"success": True, "job": job})
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+    except QueueFull:
+        raise HTTPException(429, 'Publisher queue is full', headers={'Retry-After': '30'})
+    except Exception:
+        raise HTTPException(500, 'Publisher readiness could not be started')
 
 @app.get("/api/vault/publisher/readiness/status")
 def get_publisher_readiness_status(job_id: Optional[str] = Query(None)):
@@ -548,52 +610,26 @@ def get_publisher_readiness_status(job_id: Optional[str] = Query(None)):
     return {"success": True, "job": job}
 
 @app.get("/api/vault/publisher/readiness/bundle")
-def download_publisher_readiness_bundle():
-    """Downloads only artifacts whose latest readiness matrix marked them publish-ready."""
-    import io
-    import zipfile
+def download_publisher_readiness_bundle(job_id: str = Query(..., min_length=1)):
+    """Download the verified artifacts recorded by a completed publisher job."""
+    job = publisher_readiness_jobs.get(job_id)
+    if not job:
+        raise HTTPException(404, "No publisher readiness job found")
+    if job["status"] != "completed":
+        raise HTTPException(409, "Publisher readiness job has not completed")
 
-    manifest_path = os.path.join(vault_manager.vault_path, "04_Drafts", "exports", "publisher_readiness_manifest.json")
-    if not os.path.exists(manifest_path):
-        raise HTTPException(status_code=404, detail="Run publisher readiness before requesting a verified bundle")
+    report = job["report"] or {}
+    if not report.get("artifact_manifest_sha256"):
+        raise HTTPException(409, "Run publisher readiness again to create a verified bundle for this job")
+    if not report.get("ready_count"):
+        raise HTTPException(409, "No verified publish-ready artifacts are available for this job")
+
     try:
-        with open(manifest_path, "r", encoding="utf-8") as handle:
-            manifest = json.load(handle)
-        ready_results = [result for result in manifest.get("results", []) if result.get("publish_ready")]
-        if not ready_results:
-            raise HTTPException(status_code=409, detail="No verified publish-ready artifacts are available")
-
-        exports_dir = os.path.realpath(os.path.join(vault_manager.vault_path, "04_Drafts", "exports"))
-        archive = io.BytesIO()
-        with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
-            bundle.writestr("publisher_readiness_manifest.json", json.dumps(manifest, indent=2, sort_keys=True))
-            stage_events_path = manifest.get("stage_events_path")
-            if stage_events_path and os.path.exists(stage_events_path):
-                safe_stage_path = os.path.realpath(stage_events_path)
-                runs_root = os.path.realpath(os.path.join(vault_manager.vault_path, "04_Drafts", "backtest_runs"))
-                if safe_stage_path.startswith(runs_root + os.sep):
-                    bundle.write(safe_stage_path, arcname="stage_events.jsonl")
-                    run_manifest_path = os.path.join(os.path.dirname(safe_stage_path), "manifest.json")
-                    if os.path.exists(run_manifest_path):
-                        bundle.write(run_manifest_path, arcname="run_manifest.json")
-            included = set()
-            for result in ready_results:
-                for key in ("pdf_path", "tex_path", "bib_path"):
-                    path = result.get(key)
-                    if not path:
-                        continue
-                    safe_path = os.path.realpath(path)
-                    if not safe_path.startswith(exports_dir + os.sep) or not os.path.exists(safe_path) or safe_path in included:
-                        continue
-                    included.add(safe_path)
-                    bundle.write(safe_path, arcname=os.path.relpath(safe_path, exports_dir))
-        archive.seek(0)
-        headers = {"Content-Disposition": "attachment; filename=researchingos-publish-ready-bundle.zip"}
-        return Response(content=archive.read(), media_type="application/zip", headers=headers)
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        archive = publisher_readiness_jobs.service.verified_bundle(report)
+    except (OSError, KeyError, ValueError, TypeError, RuntimeError):
+        raise HTTPException(409, "Publisher bundle failed integrity verification. Run publisher readiness again.")
+    headers = {"Content-Disposition": "attachment; filename=researchingos-publish-ready-bundle.zip"}
+    return Response(content=archive, media_type="application/zip", headers=headers)
 
 @app.get("/api/vault/export-latex")
 def export_latex(filename: str = "review_systematic_review_meta_taxonomy_of_generative_ai_i.md"):
@@ -885,87 +921,75 @@ def get_harness_state():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-def run_agent_pipeline_sync(topic: str, project_id: str, loop: asyncio.AbstractEventLoop):
-    """Runs the research pipeline synchronously in a separate thread and pushes logs to async queue."""
-    def log_callback(log_data: Dict[str, Any]):
-        # Push log data to queue via thread-safe call
-        asyncio.run_coroutine_threadsafe(
-            log_queues[project_id].put(log_data),
-            loop
-        )
-
+def submit_research_job(kind, payload, key, prepare=None):
     try:
-        orchestrator.run_research(topic, log_callback)
-    except Exception as e:
-        # Push error log
-        import time
-        error_log = {
-            "projectId": project_id,
-            "timestamp": time.time(),
-            "stage": "Error",
-            "agent": "System",
-            "message": f"Execution failed with exception: {str(e)}",
-            "data": {"success": False}
-        }
-        asyncio.run_coroutine_threadsafe(
-            log_queues[project_id].put(error_log),
-            loop
-        )
-    finally:
-        # Push sentinel None to indicate end of stream
-        asyncio.run_coroutine_threadsafe(
-            log_queues[project_id].put(None),
-            loop
-        )
+        job = job_store.submit(kind, payload, key, prepare=prepare)
+    except JobConflict as exc:
+        raise HTTPException(409, str(exc))
+    except QueueFull as exc:
+        raise HTTPException(429, str(exc), headers={'Retry-After': '30'})
+    except FileNotFoundError:
+        raise HTTPException(404, 'Draft not found')
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+    return {'status': job['status'], 'project_id': job['id']}
 
-@app.post("/api/research/start")
-async def start_research(request: ResearchRequest, background_tasks: BackgroundTasks):
-    """Triggers the agent research pipeline and returns a streamable project ID."""
-    import time
-    project_id = f"proj_{int(time.time())}"
 
-    # Initialize async queue for this project
-    log_queues[project_id] = asyncio.Queue()
+@app.post('/api/research/start', status_code=202)
+def start_research(request: ResearchRequest, idempotency_key: str = Header(...)):
+    return submit_research_job('research', request.model_dump(), idempotency_key)
 
-    # Get current event loop to pass to thread
-    loop = asyncio.get_running_loop()
 
-    # Run the orchestrator in a background thread so we don't block FastAPI
-    thread = threading.Thread(
-        target=run_agent_pipeline_sync,
-        args=(request.topic, project_id, loop)
-    )
-    thread.daemon = True
-    thread.start()
+@app.get('/api/research/jobs/{project_id}')
+def research_job_status(project_id: str):
+    job = job_store.get(project_id)
+    if not job:
+        raise HTTPException(404, 'Job not found')
+    return {key: job[key] for key in ('id', 'kind', 'status', 'created', 'updated', 'error')}
 
-    return {"status": "started", "project_id": project_id}
 
-@app.get("/api/research/stream/{project_id}")
-async def stream_research_logs(project_id: str):
-    """Server-Sent Events endpoint streaming real-time agent debate logs."""
-    if project_id not in log_queues:
-        raise HTTPException(status_code=404, detail="Active project stream not found")
+@app.post('/api/research/jobs/{project_id}/cancel')
+def cancel_research_job(project_id: str):
+    if not job_store.get(project_id):
+        raise HTTPException(404, 'Job not found')
+    try:
+        job_store.cancel(project_id)
+    except JobConflict as exc:
+        raise HTTPException(409, str(exc))
+    return research_job_status(project_id)
 
-    async def event_generator():
-        queue = log_queues[project_id]
-        try:
-            while True:
-                log_data = await queue.get()
-                if log_data is None:  # Sentinel reached, end stream
-                    yield "event: end\ndata: EOF\n\n"
-                    break
 
-                # Format SSE chunk
-                # double newline is required to flush the buffer
-                yield f"data: {json.dumps(log_data)}\n\n"
-        except Exception as e:
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
-        finally:
-            # Clean up queue when client disconnects or stream ends
-            if project_id in log_queues:
-                del log_queues[project_id]
+async def durable_stream(project_id, request, after):
+    if not job_store.get(project_id):
+        raise HTTPException(404, 'Job not found')
+    try:
+        cursor = max(after, int(request.headers.get('last-event-id', '0')))
+        if cursor < 0:
+            raise ValueError()
+    except ValueError:
+        raise HTTPException(422, 'Invalid event cursor')
 
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    async def events():
+        nonlocal cursor
+        while not await request.is_disconnected():
+            batch = job_store.events(project_id, cursor)
+            for event in batch:
+                cursor = event['seq']
+                yield f"id: {cursor}\ndata: {event['data']}\n\n"
+            job = job_store.get(project_id)
+            if job['status'] in TERMINAL and not job_store.events(project_id, cursor):
+                yield 'event: end\ndata: ' + json.dumps({'status': job['status'], 'error': job['error']}) + '\n\n'
+                return
+            if not batch:
+                yield ': heartbeat\n\n'
+                await asyncio.sleep(1)
+    return StreamingResponse(events(), media_type='text/event-stream',
+                             headers={'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no'})
+
+
+@app.get('/api/research/stream/{project_id}')
+async def stream_research_logs(project_id: str, request: Request, after: int = 0):
+    return await durable_stream(project_id, request, after)
 
 
 class MetaReviewRequest(BaseModel):
@@ -1008,95 +1032,53 @@ def list_vault_drafts():
     return {"drafts": drafts}
 
 
-def run_meta_review_sync(filename: str, target_venue: str, target_length: str, save_to_vault: bool, project_id: str, loop: asyncio.AbstractEventLoop):
-    def log_callback(stage: str, agent: str, message: str, data: Optional[Dict[str, Any]] = None):
-        log_entry = {
-            "projectId": project_id,
-            "timestamp": int(time.time() * 1000),
-            "stage": stage,
-            "agent": agent,
-            "message": message,
-            "data": data
-        }
-        if project_id in log_queues:
-            asyncio.run_coroutine_threadsafe(
-                log_queues[project_id].put(log_entry),
-                loop
-            )
-
-    try:
-        doc = vault_manager.read_markdown("drafts", filename)
-        meta, content = doc.get("frontmatter", {}), doc.get("content", "")
-        result = meta_review_council.run_alignment_cycle(
-            draft_content=content,
-            target_venue=target_venue,
-            target_length=target_length,
-            log_callback=log_callback,
-            is_dry_run=orchestrator.is_dry_run
-        )
-
-        if save_to_vault and result.get("success"):
-            updated_meta = dict(meta)
-            updated_meta.update({
-                "target_venue": target_venue,
-                "target_length": target_length,
-                "tier_2_meta_reviewed": True,
-                "meta_review_decision": result.get("decision", "STRONG ACCEPT"),
-                "citations_count": result.get("final_citations", 0),
-                "words_count": result.get("final_words", 0)
-            })
-            vault_manager.save_markdown("drafts", filename, result["revised_draft"], frontmatter=updated_meta)
-            log_callback("Storage", "Cross-Venue Publisher & Sanitizer", f"Saved revised release manuscript to vault/04_Drafts/{filename}")
-
-    except Exception as e:
-        log_callback("Error", "Meta-Review Council Chair", f"Tier 2 alignment error: {str(e)}")
-    finally:
-        if project_id in log_queues:
-            asyncio.run_coroutine_threadsafe(
-                log_queues[project_id].put(None),
-                loop
-            )
+def execute_research_job(kind, payload, emit):
+    if kind == 'research':
+        result = orchestrator.run_research(payload['topic'], emit, target_venue=payload.get('target_venue'),
+                                           target_length=payload.get('target_length'))
+        if isinstance(result, dict) and result.get('success') is False:
+            raise RuntimeError('Research pipeline reported failure')
+        return
+    if kind != 'meta-review':
+        raise ValueError('Unknown job kind')
+    def log_callback(stage, agent, message, data=None):
+        emit({'timestamp': int(time.time() * 1000), 'stage': stage,
+              'agent': agent, 'message': message, 'data': data})
+    doc = payload.get('draft_snapshot')
+    if doc is None:
+        raise ValueError('Legacy job has no frozen source draft; resubmit explicitly')
+    result = meta_review_council.run_alignment_cycle(
+        draft_content=doc.get('content', ''), target_venue=payload['target_venue'],
+        target_length=payload['target_length'], log_callback=log_callback,
+        is_dry_run=orchestrator.is_dry_run)
+    if not result.get('success'):
+        raise RuntimeError('Meta-review failed')
+    if payload['save_to_vault']:
+        meta = dict(doc.get('frontmatter', {}))
+        meta.update(target_venue=payload['target_venue'], target_length=payload['target_length'],
+                    tier_2_meta_reviewed=True, meta_review_decision=result.get('decision', 'REVIEW REQUIRED'),
+                    citations_count=result.get('final_citations', 0), words_count=result.get('final_words', 0))
+        stem = Path(payload['filename']).stem[:120]
+        filename = f'{stem}__review_{uuid4().hex}.md'
+        meta.update(source_draft=payload['filename'], source_sha256=hashlib.sha256(doc['content'].encode()).hexdigest())
+        log_callback('Storage', 'Meta-Review', 'Saving a separate revision; publication review remains required')
+        vault_manager.save_markdown('drafts', filename, result['revised_draft'], frontmatter=meta, create_only=True)
+        log_callback('Storage', 'Meta-Review', 'Saved revised draft', {'draftFile': filename})
 
 
-@app.post("/api/research/meta-review")
-async def start_meta_review(request: MetaReviewRequest, background_tasks: BackgroundTasks):
-    """Triggers the Tier 2 Meta-Review and Cross-Venue Alignment Council."""
-    project_id = f"meta_{int(time.time())}"
-    log_queues[project_id] = asyncio.Queue()
-    loop = asyncio.get_running_loop()
+@app.post('/api/research/meta-review', status_code=202)
+def start_meta_review(request: MetaReviewRequest, idempotency_key: str = Header(...)):
+    def snapshot(payload):
+        filename = vault_manager._clean_filename(payload['filename'])
+        return {**payload, 'filename': filename,
+                'draft_snapshot': vault_manager.read_markdown('drafts', filename, exact=True)}
 
-    thread = threading.Thread(
-        target=run_meta_review_sync,
-        args=(request.filename, request.target_venue, request.target_length, request.save_to_vault, project_id, loop)
-    )
-    thread.daemon = True
-    thread.start()
-
-    return {"status": "started", "project_id": project_id}
+    return submit_research_job('meta-review', request.model_dump(), idempotency_key, prepare=snapshot)
 
 
-@app.get("/api/research/meta-review/stream/{project_id}")
-async def stream_meta_review_logs(project_id: str):
-    """Server-Sent Events endpoint streaming real-time Tier 2 meta-review logs."""
-    if project_id not in log_queues:
-        raise HTTPException(status_code=404, detail="Active meta-review stream not found")
-
-    async def event_generator():
-        queue = log_queues[project_id]
-        try:
-            while True:
-                log_data = await queue.get()
-                if log_data is None:
-                    yield "event: end\ndata: EOF\n\n"
-                    break
-                yield f"data: {json.dumps(log_data)}\n\n"
-        except Exception as e:
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
-        finally:
-            if project_id in log_queues:
-                del log_queues[project_id]
-
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+@app.get('/api/research/meta-review/stream/{project_id}')
+async def stream_meta_review_logs(project_id: str, request: Request, after: int = 0):
+    return await durable_stream(project_id, request, after)
 
 from services.o1a_tracker import O1AEvidenceTrackerService
 from services.latex_exporter import VENUE_SPECS
@@ -1426,4 +1408,4 @@ if __name__ == "__main__":
     frontend_port = int(os.getenv("FRONTEND_PORT", "3000"))
     print(f"Starting uvicorn server on http://{host}:{port}")
     print(f"Frontend (run separately): http://{host}:{frontend_port}")
-    uvicorn.run("main:app", host=host, port=port, reload=True)
+    uvicorn.run("main:app", host=host, port=port, reload=False)

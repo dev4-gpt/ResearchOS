@@ -90,51 +90,10 @@ class FXBridge:
         timeout_sec: int = 30,
     ) -> Dict[str, Any]:
         """Dispatches an autonomous research query to the fx agent harness."""
-        if self.mode == "native" and self.binary_path:
-            return self._dispatch_native(prompt, context=context, timeout_sec=timeout_sec)
+        if self.mode == "native":
+            return {"success": False, "engine": "native_fx_zig",
+                    "error": "Native dispatch requires a metered provider integration"}
         return self._dispatch_emulated(prompt, context=context)
-
-    def _dispatch_native(
-        self,
-        prompt: str,
-        context: Optional[str] = None,
-        timeout_sec: int = 30,
-    ) -> Dict[str, Any]:
-        """Executes query through the native fx CLI."""
-        cmd = [self.binary_path, "ask", prompt]
-        env = os.environ.copy()
-        if context:
-            env["FX_RESEARCH_CONTEXT"] = context
-
-        try:
-            res = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=timeout_sec,
-                env=env,
-            )
-            raw_output = res.stdout.strip()
-            return {
-                "success": res.returncode == 0,
-                "engine": "native_fx_zig",
-                "raw_output": raw_output,
-                "summary": raw_output[:300] + "..." if len(raw_output) > 300 else raw_output,
-                "return_code": res.returncode,
-                "error": res.stderr.strip() if res.returncode != 0 else None,
-            }
-        except subprocess.TimeoutExpired:
-            return {
-                "success": False,
-                "engine": "native_fx_zig",
-                "error": f"Execution timed out after {timeout_sec} seconds",
-                "summary": "Timeout waiting for fx subagent response",
-            }
-        except Exception as e:
-            # Fall back to emulated on execution failure
-            emulated_res = self._dispatch_emulated(prompt, context=context)
-            emulated_res["note"] = f"Native run failed ({str(e)}), executed via emulated ACP engine"
-            return emulated_res
 
     def _dispatch_emulated(
         self,

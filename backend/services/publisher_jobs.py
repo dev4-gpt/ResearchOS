@@ -1,144 +1,58 @@
-"""Background orchestration for publisher readiness runs.
-
-The readiness matrix compiles many PDFs, so it must not hold an HTTP request open.
-This manager keeps one run at a time, coalesces duplicate clicks, and queues one
-fresh run when a save arrives while the current run is still compiling.
-"""
-
-from __future__ import annotations
-
-from datetime import datetime, timezone
+"""Durable, bounded publisher queue; every accepted request has its own record."""
 import inspect
+import json
+import os
+from pathlib import Path
 import threading
-import uuid
-from typing import Any, Dict, List, Optional, Tuple
+from services.durable_jobs import JobStore, DurableWorker
 
 
 class PublisherReadinessJobManager:
-    def __init__(self, service: Any):
+    def __init__(self, service, path=None):
         self.service = service
-        self._lock = threading.RLock()
-        self._jobs: Dict[str, Dict[str, Any]] = {}
-        self._active_job_id: Optional[str] = None
-        self._queued_request: Optional[Tuple[Optional[str], Optional[List[str]], str]] = None
+        default = Path(__file__).resolve().parents[2] / 'runs/service/publisher.sqlite3'
+        self.store = JobStore(path or os.getenv('RESEARCHINGOS_PUBLISHER_DB', str(default)))
+        self.worker = DurableWorker(self.store, self._execute)
+        self._lock = threading.Lock()
 
-    @staticmethod
-    def _now() -> str:
-        return datetime.now(timezone.utc).isoformat()
-
-    def _snapshot_locked(self, job_id: str) -> Dict[str, Any]:
-        return dict(self._jobs[job_id])
-
-    def _start_locked(self, target_filename: Optional[str], venues: Optional[List[str]], trigger: str) -> Dict[str, Any]:
-        job_id = f"publisher-{uuid.uuid4().hex[:12]}"
-        self._jobs[job_id] = {
-            "job_id": job_id,
-            "status": "running",
-            "trigger": trigger,
-            "target_filename": target_filename,
-            "started_at": self._now(),
-            "finished_at": None,
-            "error": None,
-            "report": None,
-            "next_job_id": None,
-            "run_id": None,
-            "evaluator_version": None,
-            "config_hash": None,
-            "current_stage": "prepare",
-            "progress": {
-                "drafts_tested": 0, "venues_tested": 0, "matrix_total": 0,
-                "compiled": 0, "blocked": 0, "ready": 0,
-            },
-            "stage_events": [],
-        }
-        self._active_job_id = job_id
-        thread = threading.Thread(
-            target=self._execute,
-            args=(job_id, target_filename, venues, trigger),
-            daemon=True,
-            name=f"publisher-readiness-{job_id}",
-        )
-        thread.start()
-        return self._snapshot_locked(job_id)
-
-    def start(
-        self,
-        target_filename: Optional[str] = None,
-        venues: Optional[List[str]] = None,
-        trigger: str = "manual",
-    ) -> Dict[str, Any]:
+    def boot(self):
         with self._lock:
-            if self._active_job_id:
-                active = self._jobs.get(self._active_job_id)
-                if active and active.get("status") == "running":
-                    self._queued_request = (target_filename, venues, trigger)
-                    response = self._snapshot_locked(self._active_job_id)
-                    response["queued_rerun"] = True
-                    return response
-            return self._start_locked(target_filename, venues, trigger)
+            self.worker.start()
 
-    def _progress_callback(self, job_id: str, event: Dict[str, Any]) -> None:
-        with self._lock:
-            job = self._jobs.get(job_id)
-            if not job:
-                return
-            job["current_stage"] = event.get("stage", job.get("current_stage"))
-            events = list(job.get("stage_events", []))
-            events.append(event)
-            job["stage_events"] = events[-250:]
-            diagnostics = event.get("diagnostics") or {}
-            if diagnostics.get("filename"):
-                job["progress"]["last_filename"] = diagnostics["filename"]
-            if diagnostics.get("venue"):
-                job["progress"]["last_venue"] = diagnostics["venue"]
+    def start(self, target_filename=None, venues=None, trigger='manual', draft_snapshot=None):
+        self.boot()
+        payload = {'target_filename': target_filename, 'venues': venues, 'trigger': trigger}
+        if draft_snapshot is not None:
+            payload['draft_snapshot'] = draft_snapshot
+        job = self.store.submit('publisher', payload)
+        return self.get(job['id'])
 
-    def _execute(
-        self,
-        job_id: str,
-        target_filename: Optional[str],
-        venues: Optional[List[str]],
-        trigger: str,
-    ) -> None:
-        try:
-            callback = lambda event: self._progress_callback(job_id, event)
-            run_method = self.service.run
-            accepts_callback = "progress_callback" in inspect.signature(run_method).parameters
-            if accepts_callback:
-                report = run_method(target_filename=target_filename, venues=venues, progress_callback=callback)
-            else:
-                report = run_method(target_filename=target_filename, venues=venues)
-            with self._lock:
-                self._jobs[job_id].update({
-                    "status": "completed",
-                    "finished_at": self._now(),
-                    "report": report,
-                    "run_id": report.get("run_id"),
-                    "evaluator_version": report.get("evaluator_version"),
-                    "config_hash": report.get("config_hash"),
-                    "current_stage": (report.get("progress") or {}).get("current_stage", "artifact_bundle"),
-                    "progress": report.get("progress") or self._jobs[job_id].get("progress", {}),
-                    "stage_events": report.get("stage_events") or self._jobs[job_id].get("stage_events", []),
-                })
-        except Exception as error:
-            with self._lock:
-                self._jobs[job_id].update({
-                    "status": "failed",
-                    "finished_at": self._now(),
-                    "error": str(error),
-                })
-        finally:
-            with self._lock:
-                if self._active_job_id == job_id:
-                    self._active_job_id = None
-                queued = self._queued_request
-                self._queued_request = None
-                if queued:
-                    next_job = self._start_locked(*queued)
-                    self._jobs[job_id]["next_job_id"] = next_job["job_id"]
+    def _execute(self, kind, payload, emit):
+        args = {k: payload[k] for k in ('target_filename', 'venues')}
+        if 'progress_callback' in inspect.signature(self.service.run).parameters:
+            args['progress_callback'] = emit
+        if 'draft_snapshot' in payload:
+            args['draft_snapshot'] = payload['draft_snapshot']
+        return self.service.run(**args)
 
-    def get(self, job_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        with self._lock:
-            resolved_id = job_id or self._active_job_id
-            if not resolved_id or resolved_id not in self._jobs:
-                return None
-            return self._snapshot_locked(resolved_id)
+    def get(self, job_id=None):
+        if not job_id:
+            with self.store.connect() as db:
+                row = db.execute('SELECT id FROM jobs ORDER BY created DESC LIMIT 1').fetchone()
+                job_id = row['id'] if row else None
+        job = self.store.get(job_id) if job_id else None
+        if not job:
+            return None
+        payload = json.loads(job['payload'])
+        payload.pop('draft_snapshot', None)
+        report = json.loads(job['result']) if job['result'] else None
+        # Read the most recent progress directly, independent of a browser subscription.
+        with self.store.connect() as db:
+            rows = list(db.execute('SELECT data FROM events WHERE job_id=? ORDER BY seq DESC LIMIT 250', (job_id,)))
+        events = [json.loads(r['data']) for r in reversed(rows)]
+        return {'job_id': job_id, 'status': job['status'], **payload,
+                'started_at': job['created'], 'finished_at': job['updated'] if report else None,
+                'error': job['error'], 'report': report, 'stage_events': events,
+                'current_stage': events[-1].get('stage', 'prepare') if events else 'prepare',
+                'progress': (report or {}).get('progress', {}),
+                'run_id': (report or {}).get('run_id'), 'next_job_id': None}

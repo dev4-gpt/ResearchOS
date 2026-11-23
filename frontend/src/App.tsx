@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Terminal,
   Users,
@@ -19,7 +19,7 @@ import BacktestLab from './components/BacktestLab';
 import MetaReviewCouncil from './components/MetaReviewCouncil';
 import { FeynmanWorkbench } from './components/FeynmanWorkbench';
 
-import { apiFetch } from './api';
+import { apiFetch, apiUrl, submitResearchJob } from './api';
 
 export interface AgentLog {
   projectId: string;
@@ -44,6 +44,9 @@ const App: React.FC = () => {
   // Check health on mount
   useEffect(() => {
     fetchHealth();
+    const saved = sessionStorage.getItem('researchingos.research-job');
+    if (saved) { setCurrentView('boardroom'); connectJob(saved); }
+    return () => sourceRef.current?.close();
   }, []);
 
   const fetchHealth = async () => {
@@ -61,6 +64,41 @@ const App: React.FC = () => {
     }
   };
 
+  const sourceRef = useRef<EventSource | null>(null);
+  const connectJob = (projId: string) => {
+    sourceRef.current?.close();
+    setIsResearching(true);
+    sessionStorage.setItem('researchingos.research-job', projId);
+    // Reconnect to durable events through the configured API origin
+    const streamUrl = apiUrl(`/api/research/stream/${projId}`);
+    const eventSource = new EventSource(streamUrl, { withCredentials: true });
+    sourceRef.current = eventSource;
+
+    eventSource.onmessage = (event) => {
+      try {
+        setErrorMsg(null);
+        const logData = JSON.parse(event.data);
+        setLogs((prev) => [...prev, logData]);
+      } catch (e) {
+        console.error('Error parsing SSE data:', e);
+      }
+    };
+
+    eventSource.addEventListener('end', (event) => {
+      const result = JSON.parse((event as MessageEvent).data);
+      setErrorMsg(result.status === 'completed' ? null : (result.error || `Job ${result.status}`));
+      sessionStorage.removeItem('researchingos.research-job');
+      console.log('Research stream finished');
+      eventSource.close();
+      setIsResearching(false);
+    });
+
+    eventSource.onerror = (err) => {
+      console.error('SSE Error:', err);
+      setErrorMsg('Connection interrupted. Reconnecting to the saved job events…');
+    };
+  };
+
   // Launch research query
   const startResearch = async (topicStr: string, venueStr: string = 'IEEEtran', lengthStr: string = 'short_camera_ready') => {
     if (!topicStr.trim()) return;
@@ -71,48 +109,10 @@ const App: React.FC = () => {
     setCurrentView('boardroom'); // Automatically jump to Boardroom to watch the agents debate!
 
     try {
-      const res = await apiFetch('/api/research/start', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          topic: topicStr,
-          target_venue: venueStr,
-          target_length: lengthStr
-        })
+      const { project_id } = await submitResearchJob('/api/research/start', {
+        topic: topicStr, target_venue: venueStr, target_length: lengthStr
       });
-
-      if (!res.ok) {
-        throw new Error(`Failed to start pipeline: ${res.statusText}`);
-      }
-
-      const data = await res.json();
-      const projId = data.project_id;
-
-      // Connect to SSE stream (try direct backend URL first for SSE stream robustness)
-      const streamUrl = `http://127.0.0.1:8000/api/research/stream/${projId}`;
-      const eventSource = new EventSource(streamUrl);
-
-      eventSource.onmessage = (event) => {
-        try {
-          const logData = JSON.parse(event.data);
-          setLogs((prev) => [...prev, logData]);
-        } catch (e) {
-          console.error('Error parsing SSE data:', e);
-        }
-      };
-
-      eventSource.addEventListener('end', () => {
-        console.log('Research stream finished');
-        eventSource.close();
-        setIsResearching(false);
-      });
-
-      eventSource.onerror = (err) => {
-        console.error('SSE Error:', err);
-        eventSource.close();
-        setIsResearching(false);
-        setErrorMsg('Lost connection to research stream. The process may still be running in the background.');
-      };
+      connectJob(project_id);
 
     } catch (e: any) {
       console.error('Failed to start research:', e);

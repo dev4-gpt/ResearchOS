@@ -1,0 +1,14 @@
+name: researchingos_repair
+model: gemma-4-31b-it-qat-w4a16-ct
+description: Evidence-driven repository repair with graph-assisted navigation.
+instruction: !include prompts/system.md
+tools:
+  - name: run_command
+  - name: submit_patch
+  - name: get_status
+  - name: read_file
+  - name: edit_file
+  - name: write_file
+  - name: get_code_neighbors
+  - name: search_similar_code
+  - name: get_code_subgraph

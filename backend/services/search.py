@@ -3,6 +3,7 @@ import httpx
 import xml.etree.ElementTree as ET
 from typing import List, Dict, Any
 import urllib.parse
+import re
 
 _CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "aryamandev777@gmail.com")
 _POLITE_UA = f"ResearchingOS/0.1 (mailto:{_CONTACT_EMAIL})"
@@ -95,9 +96,7 @@ class AcademicSearchService:
         """Fetches specific papers from the arXiv API by their IDs."""
         if not ids:
             return []
-        import re
-        sanitized_ids = [re.sub(r'[^0-9.]', '', idx) for idx in ids]
-        sanitized_ids = [idx for idx in sanitized_ids if idx]
+        sanitized_ids = [idx for idx in ids if re.fullmatch(r'(?:\d{4}\.\d{4,5}|[a-zA-Z.-]+/\d{7})(?:v\d+)?', idx)]
         if not sanitized_ids:
             return []
 
@@ -693,7 +692,7 @@ class AcademicSearchService:
             print(f"Error querying Hugging Face: {e}")
             return []
 
-    def run_combined_search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def run_combined_search(self, query: str, limit: int = 5, tavily_leads=None) -> List[Dict[str, Any]]:
         """Queries scholarly sources and optional OpenResearch retrieval, then ranks via RRF."""
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -720,6 +719,16 @@ class AcademicSearchService:
                 ))
 
         source_results: dict[str, List[Dict[str, Any]]] = {}
+        if tavily_leads:
+            from services.scout_discovery import ScoutDiscovery
+            identifiers = ScoutDiscovery.arxiv_leads(tavily_leads)
+            resolved = self.fetch_arxiv_by_ids(list(identifiers)) if identifiers else []
+            source_results["tavily_arxiv"] = []
+            for paper in resolved:
+                identifier = str(paper.get("id", "")).removeprefix("arxiv:")
+                if identifier in identifiers:
+                    paper["discovery_urls"] = identifiers[identifier]
+                    source_results["tavily_arxiv"].append(paper)
         with ThreadPoolExecutor(max_workers=len(search_fns)) as executor:
             futures = {executor.submit(fn): name for name, fn in search_fns}
             for future in as_completed(futures):
@@ -738,6 +747,8 @@ class AcademicSearchService:
             score = 1.0 / (rank + 1)
             if key in combined:
                 existing = combined[key]
+                if p.get("discovery_urls"):
+                    existing["discovery_urls"] = list(dict.fromkeys(existing.get("discovery_urls", []) + p["discovery_urls"]))
                 if not existing["abstract"] and p["abstract"]:
                     existing["abstract"] = p["abstract"]
                 if not existing["url"] and p["url"]:
@@ -757,6 +768,7 @@ class AcademicSearchService:
             "crossref", "doaj", "plos", "hal", "pubmed", "dblp",
             "github", "huggingface",
             "openresearch_keyword", "openresearch_embedding",
+            "tavily_arxiv",
         ]
         for src in ordered_sources:
             for rank, p in enumerate(source_results.get(src, [])):

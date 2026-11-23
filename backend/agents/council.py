@@ -1,3 +1,5 @@
+from contextvars import copy_context
+from uuid import uuid4
 import os
 import re
 import json
@@ -13,6 +15,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 load_dotenv()
 
 from google import genai as modern_genai
+from services.paid_execution import bounded_execution, current_budget
 from services.search import AcademicSearchService
 from services.vault import VaultManager
 from services.research_skills import ResearchSkillsService
@@ -150,16 +153,14 @@ class CouncilOrchestrator:
         global legacy_genai
         self.vault = VaultManager(vault_path)
         self.search_service = AcademicSearchService()
+        from services.scout_discovery import ScoutDiscovery
+        self.scout_discovery = ScoutDiscovery()
         self.research_skills = ResearchSkillsService()
         self.fact_checker = FactCheckerService(self.vault)
         self.pdf_extractor = PDFExtractionService(self.vault)
-        # `memory_file_path` is an injection seam so callers (notably tests) can
-        # redirect harness telemetry away from the shared durable memory file.
-        # Passing None keeps ContinualMemoryManager's own default path.
-        self.continual_memory = (
-            ContinualMemoryManager()
-            if memory_file_path is None
-            else ContinualMemoryManager(memory_file_path=memory_file_path)
+        # Keep worker telemetry in the selected vault even when its cwd differs.
+        self.continual_memory = ContinualMemoryManager(
+            memory_file_path=memory_file_path or os.path.join(self.vault.vault_path, 'harness_memory.json')
         )
         self.rlm = RLMContextPartitioning()
         self.harness_controller = AutonomousHarnessController()
@@ -272,7 +273,7 @@ class CouncilOrchestrator:
         cost the paper disclosed in its own text was unaddressed, because that
         text never made it past the 1500-character excerpt.
         """
-        project_id = f"project_{int(time.time())}"
+        project_id = f"project_{uuid4().hex}"
         start_time = time.time()
         self.harness_controller.register_task(project_id, topic)
         run_manifest = self.evidence_ledger.create_manifest(
@@ -282,6 +283,8 @@ class CouncilOrchestrator:
         )
 
         def send_log(stage: str, agent: str, message: str, data: Any = None):
+            if budget := current_budget():
+                budget.remaining()
             log_callback({
                 "projectId": project_id,
                 "timestamp": time.time(),
@@ -360,6 +363,7 @@ class CouncilOrchestrator:
             if len(topic.split()) > 5 and not self.is_dry_run:
                 try:
                     send_log("Ingestion", "Senior Scout Researcher", "Analyzing topic to extract academic search queries across core sub-themes...")
+                    planned_queries = self.scout_discovery.plan_queries(topic)
                     extraction_prompt = (
                         f"Extract 3 to 6 clean academic search queries (paper titles or key sub-topic keywords) "
                         f"from the following research domain, to find high-impact literature across databases:\n\n"
@@ -367,14 +371,15 @@ class CouncilOrchestrator:
                         f"Do not include instructions, URLs, or formatting. "
                         f"Return ONLY a JSON list of strings, e.g. [\"Generative AI productivity ROI\", \"AI Jagged Technological Frontier\", \"Enterprise Multi-Agent Collaboration\", \"LLM skill distribution labor impact\"]."
                     )
-                    response_text = self._call_gemini(
-                        "Scout",
-                        extraction_prompt,
-                        system_instruction="You are an academic query extractor. Return only a JSON list of query strings."
-                    )
-                    # Clean up response text
-                    clean_text = response_text.replace("```json", "").replace("```", "").strip()
-                    extracted = json.loads(clean_text)
+                    if planned_queries is None:
+                        response_text = self._call_gemini(
+                            "Scout", extraction_prompt,
+                            system_instruction="You are an academic query extractor. Return only a JSON list of query strings."
+                        )
+                        clean_text = response_text.replace("```json", "").replace("```", "").strip()
+                        extracted = json.loads(clean_text)
+                    else:
+                        extracted = planned_queries
                     if isinstance(extracted, list) and len(extracted) > 0:
                         search_queries = extracted
                         send_log("Ingestion", "Senior Scout Researcher", f"Extracted academic search queries: {search_queries}")
@@ -384,20 +389,29 @@ class CouncilOrchestrator:
             # Perform multi-source queries until max_papers is reached
             papers_by_search = []
             per_query_limit = max(3, max_papers // len(search_queries) + 2)
-            for query in search_queries:
+            for query_index, query in enumerate(search_queries):
                 if len(papers_by_id) + len(papers_by_search) < max_papers:
-                    results = self.search_service.run_combined_search(query, limit=per_query_limit)
+                    leads = self.scout_discovery.search_leads(query) if query_index < 6 and not self.is_dry_run else []
+                    if leads:
+                        results = self.search_service.run_combined_search(query, limit=per_query_limit, tavily_leads=leads)
+                    else:
+                        results = self.search_service.run_combined_search(query, limit=per_query_limit)
                     papers_by_search.extend(results)
 
             # Merge and de-duplicate papers
             all_papers = []
             seen_titles = set()
+            papers_by_title = {}
 
             for p in papers_by_id + papers_by_search:
                 title_key = p["title"].lower().strip()
                 if title_key not in seen_titles:
                     seen_titles.add(title_key)
                     all_papers.append(p)
+                    papers_by_title[title_key] = p
+                elif p.get("discovery_urls"):
+                    existing = papers_by_title[title_key]
+                    existing["discovery_urls"] = list(dict.fromkeys(existing.get("discovery_urls", []) + p["discovery_urls"]))
 
             # Relevance gate: run_combined_search fans out across 12 general
             # and biomedical indexes with no topical filter, so a raw
@@ -528,9 +542,11 @@ class CouncilOrchestrator:
                 "full_pdf_ingested": paper.get("full_pdf_ingested", False),
                 "tags": ["research-paper", topic.replace(" ", "-").lower()]
             }
+            if paper.get("discovery_urls"):
+                frontmatter["discovery_urls"] = paper["discovery_urls"]
 
             # Save to Obsidian Vault 01_Papers
-            filename = f"{paper['id'].replace(':', '_')}.md"
+            filename = f"{paper['id'].replace(':', '_').replace('/', '_')}.md"
             self.vault.save_markdown("papers", filename, note_content, frontmatter)
             extracted_papers_info.append({
                 "id": paper["id"],
@@ -621,7 +637,7 @@ class CouncilOrchestrator:
         }
         with ThreadPoolExecutor(max_workers=3, thread_name_prefix="research-council") as pool:
             futures = {
-                pool.submit(self._call_gemini, agent_key, prompt): result_key
+                pool.submit(copy_context().run, self._call_gemini, agent_key, prompt): result_key
                 for result_key, (agent_key, prompt) in critique_jobs.items()
             }
             for future in as_completed(futures):
@@ -735,7 +751,10 @@ class CouncilOrchestrator:
             "send_log": send_log,
         }
 
-    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25, anchor_arxiv_ids: Optional[List[str]] = None) -> Dict[str, Any]:
+    @bounded_execution
+    def run_research(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25,
+                     anchor_arxiv_ids: Optional[List[str]] = None, *, target_venue=None,
+                     target_length=None) -> Dict[str, Any]:
         """Runs the full multi-agent research and LLM council debate pipeline.
 
         Stages:
@@ -837,10 +856,11 @@ class CouncilOrchestrator:
         # STAGE 7 (Peer Review) is now integrated into the LangGraph cyclic loop.
 
         # Save final paper draft to 04_Drafts in Vault with Fact Check & Peer Review Metadata
-        draft_filename = f"review_{safe_topic_slug}.md"
+        draft_filename = f"review_{safe_topic_slug or 'untitled'}__{project_id.removeprefix('project_')}.md"
         draft_frontmatter = {
             "title": f"Literature Review: {topic}",
             "topic": topic,
+            "research_run_id": project_id,
             "status": "draft",
             "format": "IEEE/ACM markdown",
             "fact_check_score": fact_audit["fact_check_score"],
@@ -850,11 +870,16 @@ class CouncilOrchestrator:
             "synthetic": self.is_dry_run or final_paper_content.startswith("[MOCK RESPONSE"),
             "tags": [topic.replace(" ", "-").lower(), "literature-review", "draft"]
         }
+        if target_venue:
+            draft_frontmatter['target_venue'] = target_venue
+        if target_length:
+            draft_frontmatter['target_length'] = target_length
         self.vault.save_markdown(
             "drafts",
             draft_filename,
             final_paper_content,
-            draft_frontmatter
+            draft_frontmatter,
+            create_only=True,
         )
         self.evidence_ledger.write_json(project_id, "synthesis.json", {"content": synthesis_content})
         self.evidence_ledger.write_json(project_id, "manuscript.json", {"content": final_paper_content, "fact_audit": fact_audit})
@@ -917,6 +942,7 @@ class CouncilOrchestrator:
             "manuscript_content": final_paper_content
         }
 
+    @bounded_execution
     def run_debate_only(self, topic: str, log_callback: Callable[[Dict[str, Any]], None], max_papers: int = 25, anchor_arxiv_ids: Optional[List[str]] = None) -> Dict[str, Any]:
         """Runs Stages 1-4 only (paper discovery, critique, boardroom debate, synthesis)
         and stops after saving to vault/03_Debates.

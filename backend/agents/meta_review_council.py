@@ -11,6 +11,7 @@ import time
 from typing import Dict, Any, List, Optional, Callable
 from pydantic import BaseModel
 
+from services.paid_execution import bounded_execution
 from services.vault import VaultManager
 from services.llm_router import llm_router
 from services.venue_profiles import VENUE_PROFILES, SUPPORTED_VENUES
@@ -128,6 +129,7 @@ class MetaReviewCouncil:
         self.exporter = LaTeXExporterService(self.vault_manager)
         self.research_skills = ResearchSkillsService()
 
+    @bounded_execution
     def run_alignment_cycle(
         self,
         draft_content: str,

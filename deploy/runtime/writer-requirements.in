@@ -1,0 +1,19 @@
+# CLI imports from the pinned PaperOrchestra revision, with headless OpenCV.
+google-genai==2.17.0
+httpx==0.28.1
+joblib
+json_repair
+matplotlib
+numpy
+openai
+opencv-python-headless
+pydantic
+PyMuPDF
+pymupdf4llm==0.0.17
+pyOpenSSL
+pypdf
+python-dotenv
+requests
+rich
+thefuzz
+tqdm

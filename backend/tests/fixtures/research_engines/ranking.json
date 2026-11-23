@@ -1,0 +1,835 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "description": "Hand-authored plumbing fixture; not research evidence or model-performance benchmark.",
+  "tasks": [
+    {
+      "id": "dev-retrieval",
+      "split": "development",
+      "query": "retrieval grounded citations",
+      "documents": [
+        {
+          "id": "d00",
+          "title": "retrieval grounded citations",
+          "abstract": "retrieval grounded citations"
+        },
+        {
+          "id": "d01",
+          "title": "retrieval grounded",
+          "abstract": "retrieval grounded"
+        },
+        {
+          "id": "d02",
+          "title": "retrieval",
+          "abstract": "retrieval"
+        },
+        {
+          "id": "d03",
+          "title": "unrelated archival record 3",
+          "abstract": "unrelated archival record 3"
+        },
+        {
+          "id": "d04",
+          "title": "unrelated archival record 4",
+          "abstract": "unrelated archival record 4"
+        },
+        {
+          "id": "d05",
+          "title": "unrelated archival record 5",
+          "abstract": "unrelated archival record 5"
+        },
+        {
+          "id": "d06",
+          "title": "unrelated archival record 6",
+          "abstract": "unrelated archival record 6"
+        },
+        {
+          "id": "d07",
+          "title": "unrelated archival record 7",
+          "abstract": "unrelated archival record 7"
+        },
+        {
+          "id": "d08",
+          "title": "unrelated archival record 8",
+          "abstract": "unrelated archival record 8"
+        },
+        {
+          "id": "d09",
+          "title": "unrelated archival record 9",
+          "abstract": "unrelated archival record 9"
+        },
+        {
+          "id": "d10",
+          "title": "unrelated archival record 10",
+          "abstract": "unrelated archival record 10"
+        },
+        {
+          "id": "d11",
+          "title": "unrelated archival record 11",
+          "abstract": "unrelated archival record 11"
+        },
+        {
+          "id": "d12",
+          "title": "unrelated archival record 12",
+          "abstract": "unrelated archival record 12"
+        },
+        {
+          "id": "d13",
+          "title": "unrelated archival record 13",
+          "abstract": "unrelated archival record 13"
+        },
+        {
+          "id": "d14",
+          "title": "unrelated archival record 14",
+          "abstract": "unrelated archival record 14"
+        },
+        {
+          "id": "d15",
+          "title": "unrelated archival record 15",
+          "abstract": "unrelated archival record 15"
+        },
+        {
+          "id": "d16",
+          "title": "unrelated archival record 16",
+          "abstract": "unrelated archival record 16"
+        },
+        {
+          "id": "d17",
+          "title": "unrelated archival record 17",
+          "abstract": "unrelated archival record 17"
+        },
+        {
+          "id": "d18",
+          "title": "unrelated archival record 18",
+          "abstract": "unrelated archival record 18"
+        },
+        {
+          "id": "d19",
+          "title": "unrelated archival record 19",
+          "abstract": "unrelated archival record 19"
+        },
+        {
+          "id": "d20",
+          "title": "unrelated archival record 20",
+          "abstract": "unrelated archival record 20"
+        },
+        {
+          "id": "d21",
+          "title": "unrelated archival record 21",
+          "abstract": "unrelated archival record 21"
+        },
+        {
+          "id": "d22",
+          "title": "unrelated archival record 22",
+          "abstract": "unrelated archival record 22"
+        },
+        {
+          "id": "d23",
+          "title": "unrelated archival record 23",
+          "abstract": "unrelated archival record 23"
+        }
+      ],
+      "source_rankings": [
+        [
+          "d23",
+          "d22",
+          "d21",
+          "d20",
+          "d19",
+          "d18",
+          "d17",
+          "d16",
+          "d15",
+          "d14",
+          "d13",
+          "d12",
+          "d11",
+          "d10",
+          "d09",
+          "d08",
+          "d07",
+          "d06",
+          "d05",
+          "d04",
+          "d03",
+          "d02",
+          "d01",
+          "d00"
+        ],
+        [
+          "d08",
+          "d09",
+          "d10",
+          "d11",
+          "d12",
+          "d13",
+          "d14",
+          "d15",
+          "d16",
+          "d17",
+          "d18",
+          "d19",
+          "d20",
+          "d21",
+          "d22",
+          "d23",
+          "d00",
+          "d01",
+          "d02",
+          "d03",
+          "d04",
+          "d05",
+          "d06",
+          "d07"
+        ]
+      ],
+      "labels": {
+        "d00": 3,
+        "d01": 2,
+        "d02": 1,
+        "d03": 0,
+        "d04": 0,
+        "d05": 0,
+        "d06": 0,
+        "d07": 0,
+        "d08": 0,
+        "d09": 0,
+        "d10": 0,
+        "d11": 0,
+        "d12": 0,
+        "d13": 0,
+        "d14": 0,
+        "d15": 0,
+        "d16": 0,
+        "d17": 0,
+        "d18": 0,
+        "d19": 0,
+        "d20": 0,
+        "d21": 0,
+        "d22": 0,
+        "d23": 0
+      }
+    },
+    {
+      "id": "dev-agents",
+      "split": "development",
+      "query": "agents code verification",
+      "documents": [
+        {
+          "id": "d00",
+          "title": "agents code verification",
+          "abstract": "agents code verification"
+        },
+        {
+          "id": "d01",
+          "title": "agents code",
+          "abstract": "agents code"
+        },
+        {
+          "id": "d02",
+          "title": "agents",
+          "abstract": "agents"
+        },
+        {
+          "id": "d03",
+          "title": "unrelated archival record 3",
+          "abstract": "unrelated archival record 3"
+        },
+        {
+          "id": "d04",
+          "title": "unrelated archival record 4",
+          "abstract": "unrelated archival record 4"
+        },
+        {
+          "id": "d05",
+          "title": "unrelated archival record 5",
+          "abstract": "unrelated archival record 5"
+        },
+        {
+          "id": "d06",
+          "title": "unrelated archival record 6",
+          "abstract": "unrelated archival record 6"
+        },
+        {
+          "id": "d07",
+          "title": "unrelated archival record 7",
+          "abstract": "unrelated archival record 7"
+        },
+        {
+          "id": "d08",
+          "title": "unrelated archival record 8",
+          "abstract": "unrelated archival record 8"
+        },
+        {
+          "id": "d09",
+          "title": "unrelated archival record 9",
+          "abstract": "unrelated archival record 9"
+        },
+        {
+          "id": "d10",
+          "title": "unrelated archival record 10",
+          "abstract": "unrelated archival record 10"
+        },
+        {
+          "id": "d11",
+          "title": "unrelated archival record 11",
+          "abstract": "unrelated archival record 11"
+        },
+        {
+          "id": "d12",
+          "title": "unrelated archival record 12",
+          "abstract": "unrelated archival record 12"
+        },
+        {
+          "id": "d13",
+          "title": "unrelated archival record 13",
+          "abstract": "unrelated archival record 13"
+        },
+        {
+          "id": "d14",
+          "title": "unrelated archival record 14",
+          "abstract": "unrelated archival record 14"
+        },
+        {
+          "id": "d15",
+          "title": "unrelated archival record 15",
+          "abstract": "unrelated archival record 15"
+        },
+        {
+          "id": "d16",
+          "title": "unrelated archival record 16",
+          "abstract": "unrelated archival record 16"
+        },
+        {
+          "id": "d17",
+          "title": "unrelated archival record 17",
+          "abstract": "unrelated archival record 17"
+        },
+        {
+          "id": "d18",
+          "title": "unrelated archival record 18",
+          "abstract": "unrelated archival record 18"
+        },
+        {
+          "id": "d19",
+          "title": "unrelated archival record 19",
+          "abstract": "unrelated archival record 19"
+        },
+        {
+          "id": "d20",
+          "title": "unrelated archival record 20",
+          "abstract": "unrelated archival record 20"
+        },
+        {
+          "id": "d21",
+          "title": "unrelated archival record 21",
+          "abstract": "unrelated archival record 21"
+        },
+        {
+          "id": "d22",
+          "title": "unrelated archival record 22",
+          "abstract": "unrelated archival record 22"
+        },
+        {
+          "id": "d23",
+          "title": "unrelated archival record 23",
+          "abstract": "unrelated archival record 23"
+        }
+      ],
+      "source_rankings": [
+        [
+          "d23",
+          "d22",
+          "d21",
+          "d20",
+          "d19",
+          "d18",
+          "d17",
+          "d16",
+          "d15",
+          "d14",
+          "d13",
+          "d12",
+          "d11",
+          "d10",
+          "d09",
+          "d08",
+          "d07",
+          "d06",
+          "d05",
+          "d04",
+          "d03",
+          "d02",
+          "d01",
+          "d00"
+        ],
+        [
+          "d08",
+          "d09",
+          "d10",
+          "d11",
+          "d12",
+          "d13",
+          "d14",
+          "d15",
+          "d16",
+          "d17",
+          "d18",
+          "d19",
+          "d20",
+          "d21",
+          "d22",
+          "d23",
+          "d00",
+          "d01",
+          "d02",
+          "d03",
+          "d04",
+          "d05",
+          "d06",
+          "d07"
+        ]
+      ],
+      "labels": {
+        "d00": 3,
+        "d01": 2,
+        "d02": 1,
+        "d03": 0,
+        "d04": 0,
+        "d05": 0,
+        "d06": 0,
+        "d07": 0,
+        "d08": 0,
+        "d09": 0,
+        "d10": 0,
+        "d11": 0,
+        "d12": 0,
+        "d13": 0,
+        "d14": 0,
+        "d15": 0,
+        "d16": 0,
+        "d17": 0,
+        "d18": 0,
+        "d19": 0,
+        "d20": 0,
+        "d21": 0,
+        "d22": 0,
+        "d23": 0
+      }
+    },
+    {
+      "id": "test-vision",
+      "split": "heldout",
+      "query": "vision language alignment",
+      "documents": [
+        {
+          "id": "d00",
+          "title": "vision language alignment",
+          "abstract": "vision language alignment"
+        },
+        {
+          "id": "d01",
+          "title": "vision language",
+          "abstract": "vision language"
+        },
+        {
+          "id": "d02",
+          "title": "vision",
+          "abstract": "vision"
+        },
+        {
+          "id": "d03",
+          "title": "unrelated archival record 3",
+          "abstract": "unrelated archival record 3"
+        },
+        {
+          "id": "d04",
+          "title": "unrelated archival record 4",
+          "abstract": "unrelated archival record 4"
+        },
+        {
+          "id": "d05",
+          "title": "unrelated archival record 5",
+          "abstract": "unrelated archival record 5"
+        },
+        {
+          "id": "d06",
+          "title": "unrelated archival record 6",
+          "abstract": "unrelated archival record 6"
+        },
+        {
+          "id": "d07",
+          "title": "unrelated archival record 7",
+          "abstract": "unrelated archival record 7"
+        },
+        {
+          "id": "d08",
+          "title": "unrelated archival record 8",
+          "abstract": "unrelated archival record 8"
+        },
+        {
+          "id": "d09",
+          "title": "unrelated archival record 9",
+          "abstract": "unrelated archival record 9"
+        },
+        {
+          "id": "d10",
+          "title": "unrelated archival record 10",
+          "abstract": "unrelated archival record 10"
+        },
+        {
+          "id": "d11",
+          "title": "unrelated archival record 11",
+          "abstract": "unrelated archival record 11"
+        },
+        {
+          "id": "d12",
+          "title": "unrelated archival record 12",
+          "abstract": "unrelated archival record 12"
+        },
+        {
+          "id": "d13",
+          "title": "unrelated archival record 13",
+          "abstract": "unrelated archival record 13"
+        },
+        {
+          "id": "d14",
+          "title": "unrelated archival record 14",
+          "abstract": "unrelated archival record 14"
+        },
+        {
+          "id": "d15",
+          "title": "unrelated archival record 15",
+          "abstract": "unrelated archival record 15"
+        },
+        {
+          "id": "d16",
+          "title": "unrelated archival record 16",
+          "abstract": "unrelated archival record 16"
+        },
+        {
+          "id": "d17",
+          "title": "unrelated archival record 17",
+          "abstract": "unrelated archival record 17"
+        },
+        {
+          "id": "d18",
+          "title": "unrelated archival record 18",
+          "abstract": "unrelated archival record 18"
+        },
+        {
+          "id": "d19",
+          "title": "unrelated archival record 19",
+          "abstract": "unrelated archival record 19"
+        },
+        {
+          "id": "d20",
+          "title": "unrelated archival record 20",
+          "abstract": "unrelated archival record 20"
+        },
+        {
+          "id": "d21",
+          "title": "unrelated archival record 21",
+          "abstract": "unrelated archival record 21"
+        },
+        {
+          "id": "d22",
+          "title": "unrelated archival record 22",
+          "abstract": "unrelated archival record 22"
+        },
+        {
+          "id": "d23",
+          "title": "unrelated archival record 23",
+          "abstract": "unrelated archival record 23"
+        }
+      ],
+      "source_rankings": [
+        [
+          "d23",
+          "d22",
+          "d21",
+          "d20",
+          "d19",
+          "d18",
+          "d17",
+          "d16",
+          "d15",
+          "d14",
+          "d13",
+          "d12",
+          "d11",
+          "d10",
+          "d09",
+          "d08",
+          "d07",
+          "d06",
+          "d05",
+          "d04",
+          "d03",
+          "d02",
+          "d01",
+          "d00"
+        ],
+        [
+          "d08",
+          "d09",
+          "d10",
+          "d11",
+          "d12",
+          "d13",
+          "d14",
+          "d15",
+          "d16",
+          "d17",
+          "d18",
+          "d19",
+          "d20",
+          "d21",
+          "d22",
+          "d23",
+          "d00",
+          "d01",
+          "d02",
+          "d03",
+          "d04",
+          "d05",
+          "d06",
+          "d07"
+        ]
+      ],
+      "labels": {
+        "d00": 3,
+        "d01": 2,
+        "d02": 1,
+        "d03": 0,
+        "d04": 0,
+        "d05": 0,
+        "d06": 0,
+        "d07": 0,
+        "d08": 0,
+        "d09": 0,
+        "d10": 0,
+        "d11": 0,
+        "d12": 0,
+        "d13": 0,
+        "d14": 0,
+        "d15": 0,
+        "d16": 0,
+        "d17": 0,
+        "d18": 0,
+        "d19": 0,
+        "d20": 0,
+        "d21": 0,
+        "d22": 0,
+        "d23": 0
+      }
+    },
+    {
+      "id": "test-memory",
+      "split": "heldout",
+      "query": "memory retrieval agents",
+      "documents": [
+        {
+          "id": "d00",
+          "title": "memory retrieval agents",
+          "abstract": "memory retrieval agents"
+        },
+        {
+          "id": "d01",
+          "title": "memory retrieval",
+          "abstract": "memory retrieval"
+        },
+        {
+          "id": "d02",
+          "title": "memory",
+          "abstract": "memory"
+        },
+        {
+          "id": "d03",
+          "title": "unrelated archival record 3",
+          "abstract": "unrelated archival record 3"
+        },
+        {
+          "id": "d04",
+          "title": "unrelated archival record 4",
+          "abstract": "unrelated archival record 4"
+        },
+        {
+          "id": "d05",
+          "title": "unrelated archival record 5",
+          "abstract": "unrelated archival record 5"
+        },
+        {
+          "id": "d06",
+          "title": "unrelated archival record 6",
+          "abstract": "unrelated archival record 6"
+        },
+        {
+          "id": "d07",
+          "title": "unrelated archival record 7",
+          "abstract": "unrelated archival record 7"
+        },
+        {
+          "id": "d08",
+          "title": "unrelated archival record 8",
+          "abstract": "unrelated archival record 8"
+        },
+        {
+          "id": "d09",
+          "title": "unrelated archival record 9",
+          "abstract": "unrelated archival record 9"
+        },
+        {
+          "id": "d10",
+          "title": "unrelated archival record 10",
+          "abstract": "unrelated archival record 10"
+        },
+        {
+          "id": "d11",
+          "title": "unrelated archival record 11",
+          "abstract": "unrelated archival record 11"
+        },
+        {
+          "id": "d12",
+          "title": "unrelated archival record 12",
+          "abstract": "unrelated archival record 12"
+        },
+        {
+          "id": "d13",
+          "title": "unrelated archival record 13",
+          "abstract": "unrelated archival record 13"
+        },
+        {
+          "id": "d14",
+          "title": "unrelated archival record 14",
+          "abstract": "unrelated archival record 14"
+        },
+        {
+          "id": "d15",
+          "title": "unrelated archival record 15",
+          "abstract": "unrelated archival record 15"
+        },
+        {
+          "id": "d16",
+          "title": "unrelated archival record 16",
+          "abstract": "unrelated archival record 16"
+        },
+        {
+          "id": "d17",
+          "title": "unrelated archival record 17",
+          "abstract": "unrelated archival record 17"
+        },
+        {
+          "id": "d18",
+          "title": "unrelated archival record 18",
+          "abstract": "unrelated archival record 18"
+        },
+        {
+          "id": "d19",
+          "title": "unrelated archival record 19",
+          "abstract": "unrelated archival record 19"
+        },
+        {
+          "id": "d20",
+          "title": "unrelated archival record 20",
+          "abstract": "unrelated archival record 20"
+        },
+        {
+          "id": "d21",
+          "title": "unrelated archival record 21",
+          "abstract": "unrelated archival record 21"
+        },
+        {
+          "id": "d22",
+          "title": "unrelated archival record 22",
+          "abstract": "unrelated archival record 22"
+        },
+        {
+          "id": "d23",
+          "title": "unrelated archival record 23",
+          "abstract": "unrelated archival record 23"
+        }
+      ],
+      "source_rankings": [
+        [
+          "d23",
+          "d22",
+          "d21",
+          "d20",
+          "d19",
+          "d18",
+          "d17",
+          "d16",
+          "d15",
+          "d14",
+          "d13",
+          "d12",
+          "d11",
+          "d10",
+          "d09",
+          "d08",
+          "d07",
+          "d06",
+          "d05",
+          "d04",
+          "d03",
+          "d02",
+          "d01",
+          "d00"
+        ],
+        [
+          "d08",
+          "d09",
+          "d10",
+          "d11",
+          "d12",
+          "d13",
+          "d14",
+          "d15",
+          "d16",
+          "d17",
+          "d18",
+          "d19",
+          "d20",
+          "d21",
+          "d22",
+          "d23",
+          "d00",
+          "d01",
+          "d02",
+          "d03",
+          "d04",
+          "d05",
+          "d06",
+          "d07"
+        ]
+      ],
+      "labels": {
+        "d00": 3,
+        "d01": 2,
+        "d02": 1,
+        "d03": 0,
+        "d04": 0,
+        "d05": 0,
+        "d06": 0,
+        "d07": 0,
+        "d08": 0,
+        "d09": 0,
+        "d10": 0,
+        "d11": 0,
+        "d12": 0,
+        "d13": 0,
+        "d14": 0,
+        "d15": 0,
+        "d16": 0,
+        "d17": 0,
+        "d18": 0,
+        "d19": 0,
+        "d20": 0,
+        "d21": 0,
+        "d22": 0,
+        "d23": 0
+      }
+    }
+  ]
+}
