@@ -1,0 +1,14 @@
+[Unit]
+Description=ResearchingOS operations check (route failures to an approved supervisor)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=researchingos
+Group=researchingos
+WorkingDirectory=/srv/researchingos
+EnvironmentFile=/etc/researchingos/researchingos.env
+ExecStart=/srv/researchingos/backend/.venv/bin/python scripts/monitor_operations.py --url https://research.example
+NoNewPrivileges=true
+UMask=0077
+# Configure OnFailure= in [Unit] for the approved alert handler before acceptance.

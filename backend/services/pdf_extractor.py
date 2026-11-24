@@ -1,14 +1,19 @@
 import io
 import re
 import httpx
+from urllib.parse import urlsplit, urlunsplit
 from typing import Dict, Any, Optional
 from pypdf import PdfReader
 
 class PDFExtractionService:
+    ALLOWED_HOSTS = {'arxiv.org', 'export.arxiv.org', 'pmc.ncbi.nlm.nih.gov', 'europepmc.org'}
+    MAX_PDF_BYTES = 20 * 1024 * 1024
+
     def __init__(self, timeout: float = 20.0):
         self.client = httpx.Client(
             timeout=timeout,
-            follow_redirects=True,
+            follow_redirects=False,
+            trust_env=False,
             headers={"User-Agent": "ResearchingOS/0.1 (Academic PDF Ingestion)"}
         )
 
@@ -17,28 +22,38 @@ class PDFExtractionService:
         if not pdf_url:
             return {"success": False, "error": "No PDF URL provided", "full_text": ""}
 
-        # Normalize arXiv URL if it's an abstract link
-        if "arxiv.org/abs/" in pdf_url:
-            pdf_url = pdf_url.replace("arxiv.org/abs/", "arxiv.org/pdf/")
-        if not pdf_url.endswith(".pdf") and "arxiv.org/pdf/" not in pdf_url:
-            pdf_url += ".pdf"
+        # Paper metadata is untrusted. Never fetch arbitrary hosts, local URLs,
+        # credentials or redirects; unsupported repositories retain abstracts.
+        try:
+            parsed = urlsplit(pdf_url)
+            if (parsed.scheme != 'https' or parsed.hostname not in self.ALLOWED_HOSTS
+                    or parsed.port not in (None, 443) or parsed.username or parsed.password):
+                raise ValueError('Unsupported PDF origin')
+            path = parsed.path
+            if parsed.hostname in {'arxiv.org', 'export.arxiv.org'}:
+                path = path.replace('/abs/', '/pdf/', 1)
+            pdf_url = urlunsplit((parsed.scheme, parsed.netloc, path, parsed.query, ''))
+        except ValueError:
+            return {'success': False, 'error': 'Unsupported PDF origin', 'full_text': ''}
 
         try:
-            response = self.client.get(pdf_url)
-            if response.status_code != 200:
-                return {
-                    "success": False,
-                    "error": f"HTTP status {response.status_code} fetching PDF",
-                    "full_text": ""
-                }
-
-            return self.extract_text_from_bytes(response.content, max_pages=max_pages)
-        except Exception as e:
-            return {"success": False, "error": str(e), "full_text": ""}
+            with self.client.stream('GET', pdf_url) as response:
+                if response.status_code != 200:
+                    return {'success': False, 'error': f'HTTP status {response.status_code} fetching PDF', 'full_text': ''}
+                body = bytearray()
+                for chunk in response.iter_bytes():
+                    body.extend(chunk)
+                    if len(body) > self.MAX_PDF_BYTES:
+                        return {'success': False, 'error': 'PDF exceeds byte limit', 'full_text': ''}
+            return self.extract_text_from_bytes(bytes(body), max_pages=max_pages)
+        except Exception:
+            return {"success": False, "error": 'PDF download failed', "full_text": ""}
 
     def extract_text_from_bytes(self, pdf_bytes: bytes, max_pages: int = 25) -> Dict[str, Any]:
         """Parses PDF bytes into structured markdown sections."""
         try:
+            if len(pdf_bytes) > self.MAX_PDF_BYTES or not 1 <= max_pages <= 100:
+                return {'success': False, 'error': 'PDF input exceeds extraction limits', 'full_text': ''}
             reader = PdfReader(io.BytesIO(pdf_bytes))
             total_pages = len(reader.pages)
             pages_to_read = min(total_pages, max_pages)

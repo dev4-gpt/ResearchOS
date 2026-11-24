@@ -51,3 +51,4 @@ pypdf==6.14.2
 # Test runner
 pytest==9.0.3
 pytest-asyncio==1.4.0
+packaging==26.3

@@ -25,7 +25,21 @@ export function OperatorGate({ children }: { children: ReactNode }) {
       else setMessage('Session cookie was not accepted. Use the configured HTTPS address.');
     } catch { setMessage('Cannot connect to ResearchingOS.'); }
   }
-  if (state === 'ready') return children;
+  async function logout() {
+    try {
+      const response = await apiFetch('/api/session', { method: 'DELETE' });
+      if (!response.ok) throw new Error('Sign-out failed.');
+      // Dispose active streams and job state held by mounted child components.
+      setState('login'); setMessage(''); setPassword('');
+    } catch { setMessage('Could not sign out. Please try again.'); }
+  }
+  if (state === 'ready') return <>
+    <div style={{ position: 'fixed', right: 16, top: 12, zIndex: 1000 }}>
+      <button onClick={() => void logout()}>Sign out</button>
+      {message && <p role="alert">{message}</p>}
+    </div>
+    {children}
+  </>;
   return <main style={{ maxWidth: 440, margin: '15vh auto', padding: 24 }}>
     <h1>ResearchingOS</h1>
     {state === 'loading' ? <p>Checking access…</p> : state === 'login' ?

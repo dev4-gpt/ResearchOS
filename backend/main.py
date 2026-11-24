@@ -14,6 +14,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from uuid import uuid4
 from services.access_control import OperatorAccess, origins, validate_configuration
+from services.request_limits import RequestBodyLimit
 from services.durable_jobs import JobStore, DurableWorker, JobConflict, QueueFull, TERMINAL, run_isolated_job
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -76,6 +77,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(RequestBodyLimit)
 app.add_middleware(OperatorAccess)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=[h.strip() for h in os.getenv(
     'RESEARCHINGOS_HOSTS', 'localhost,127.0.0.1,[::1]').split(',') if h.strip()])
@@ -84,6 +86,11 @@ app.add_middleware(TrustedHostMiddleware, allowed_hosts=[h.strip() for h in os.g
 @app.post('/api/session')
 def operator_session():
     return {'authenticated': True}
+
+
+@app.delete('/api/session')
+def operator_logout():
+    return {'authenticated': False}
 
 # Initialize service classes
 vault_path = os.getenv("VAULT_PATH", "../vault")
@@ -254,6 +261,19 @@ def readiness_check():
     }
     return JSONResponse(status_code=200 if all(workers.values()) else 503,
                         content={'ready': all(workers.values()), 'workers': workers})
+
+
+@app.get('/api/operations')
+def operations_snapshot():
+    from services.operations import snapshot
+    workers = json.loads(readiness_check().body)['workers']
+    return snapshot(
+        {'research': job_store, 'publisher': publisher_readiness_jobs.store},
+        {'vault': vault_manager.vault_path, 'research': job_store.path.parent,
+         'publisher': publisher_readiness_jobs.store.path.parent},
+        workers,
+        backup_receipt=os.getenv('RESEARCHINGOS_BACKUP_RECEIPT'),
+    )
 
 
 @app.get("/api/health")

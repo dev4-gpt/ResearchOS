@@ -50,8 +50,12 @@ class ResearchSkillsService:
                 continue
             status = self._status(skill)
             origin = self.sources[skill['source']]
+            restricted = os.getenv('RESEARCHINGOS_ACCESS_MODE', 'authenticated') != 'local'
+            distribution_allowed = skill.get('distribution_approved') is True
             results.append({**skill, 'status': status,
-                            'active': self.enabled and status == 'verified' and skill['mode'] == 'advisory',
+                            'active': self.enabled and status == 'verified' and skill['mode'] == 'advisory'
+                                      and (not restricted or distribution_allowed),
+                            'distribution_allowed': distribution_allowed,
                             'repository_url': origin['url'], 'revision': origin['revision'],
                             'license_note': origin['license_note'],
                             'upstream_url': f"{origin['url']}/blob/{origin['revision']}/{skill['upstream_path']}/SKILL.md"})
@@ -62,7 +66,8 @@ class ResearchSkillsService:
         if not skill:
             return None
         # Never serve a modified instruction document as the pinned reference.
-        skill['content'] = self._document(skill).read_text() if skill['status'] == 'verified' else None
+        allowed = os.getenv('RESEARCHINGOS_ACCESS_MODE', 'authenticated') == 'local' or skill['distribution_allowed']
+        skill['content'] = self._document(skill).read_text() if skill['status'] == 'verified' and allowed else None
         return skill
 
     def summary(self):

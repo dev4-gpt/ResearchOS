@@ -12,9 +12,18 @@ from services.diagram_generator import DiagramGeneratorService
 from services.universal_skills import UniversalSkillsService
 
 
-def test_universal_skills_discovery():
+def test_universal_skills_discovery(tmp_path):
     """Verify universal skills service discovers globally installed tools with zero storage duplication."""
-    service = UniversalSkillsService()
+    # A clean CI runner has no operator-owned global skills. Exercise discovery
+    # using original synthetic documents rather than depending on this Mac.
+    names = list(UniversalSkillsService.CATEGORY_MAP)[:14] + ['stop-slop', 'frontend-slides', 'diagram-design']
+    for name in names:
+        folder = tmp_path / name
+        folder.mkdir(exist_ok=True)
+        (folder / 'SKILL.md').write_text(
+            '# Synthetic discovery fixture\nOriginal test guidance for checking metadata and file discovery only.\n'
+        )
+    service = UniversalSkillsService(global_path=str(tmp_path))
     summary = service.get_summary()
 
     assert summary["zero_storage_duplication"] is True
@@ -114,11 +123,11 @@ def test_diagram_generation():
         assert "Test Verification Pipeline" in res["svg"]
 
 
-def test_api_routes():
+def test_api_routes(api_client, tmp_path, monkeypatch):
     """Verify FastAPI endpoints for universal skills, slop audit/humanize, slides, and diagrams."""
-    from fastapi.testclient import TestClient
-
-    client = TestClient(app, base_url='http://localhost', client=('127.0.0.1', 50000))
+    import main as app_module
+    monkeypatch.setattr(app_module, 'conference_slides_service', ConferenceSlidesService(str(tmp_path)))
+    client = api_client
 
     # 1. Universal Skills API
     res_skills = client.get("/api/skills/universal")

@@ -83,6 +83,8 @@ class JobStore:
 
     def submit(self, kind, payload, key=None, prepare=None):
         encoded = json.dumps(payload, sort_keys=True, separators=(',', ':'))
+        if len(encoded.encode()) > 1_000_000:
+            raise QueueFull('Job input exceeds the 1 MB admission limit')
         digest = hashlib.sha256((kind + encoded).encode()).hexdigest()
         if key is not None and (not key or len(key) > 200):
             raise ValueError('Idempotency-Key must contain 1..200 characters')
@@ -94,11 +96,18 @@ class JobStore:
                     if old['digest'] != digest:
                         raise JobConflict('Idempotency key already used with different inputs')
                     return dict(old)
+            # Reject new work before mutating inputs or accepting responsibility
+            # when persistent storage is nearly full. Idempotent reads still work.
+            import shutil
+            if shutil.disk_usage(self.path.parent).free < 256 * 1024 * 1024:
+                raise QueueFull('Job storage is low; free disk space before submitting work')
             count = db.execute("SELECT count(*) FROM jobs WHERE status IN ('queued','running')").fetchone()[0]
             if count >= self.capacity:
                 raise QueueFull('Research queue is full')
             if prepare:
                 encoded = json.dumps(prepare(payload), sort_keys=True, separators=(',', ':'))
+                if len(encoded.encode()) > 1_000_000:
+                    raise QueueFull('Prepared job input exceeds the 1 MB admission limit')
             job_id = 'job_' + uuid.uuid4().hex
             now = time.time()
             db.execute('INSERT INTO jobs(id,kind,payload,idem,digest,status,created,updated,error) VALUES (?,?,?,?,?,?,?,?,?)',
@@ -109,6 +118,17 @@ class JobStore:
         with self.connect() as db:
             row = db.execute('SELECT * FROM jobs WHERE id=?', (job_id,)).fetchone()
             return dict(row) if row else None
+
+    def metrics(self):
+        """Aggregate state only: no prompts, payloads, paths or artifact contents."""
+        with self.connect() as db:
+            counts = dict(db.execute('SELECT status,count(*) FROM jobs GROUP BY status'))
+            oldest = db.execute("SELECT min(created) FROM jobs WHERE status='queued'").fetchone()[0]
+            recent_failures = db.execute("SELECT count(*) FROM jobs WHERE status='failed' AND updated>?",
+                                         (time.time() - 3600,)).fetchone()[0]
+        return {'states': counts, 'capacity': self.capacity,
+                'failed_last_hour': recent_failures,
+                'oldest_queued_seconds': max(0, time.time() - oldest) if oldest is not None else 0}
 
     def append(self, job_id, data):
         encoded = json.dumps(data)
@@ -188,12 +208,14 @@ class DurableWorker:
                     self.stopping.wait(0.25)
                     continue
                 try:
+                    logging.getLogger(__name__).info('Job %s started (%s)', job['id'], job['kind'])
                     if self.isolated_handler:
                         result = self.isolated_handler(job['id'])
                     else:
                         result = self.handler(job['kind'], json.loads(job['payload']),
                                      lambda data: self.store.append(job['id'], dict(data, projectId=job['id'])))
                     self.store.finish(job['id'], result=result)
+                    logging.getLogger(__name__).info('Job %s completed', job['id'])
                 except JobExecutionFailure as exc:
                     self.store.finish(job['id'], str(exc))
                 except Exception as exc:
