@@ -24,6 +24,8 @@
 
 ## Completion follow-up
 
+- Follow-up GitHub run https://github.com/dev4-gpt/ResearchOS/actions/runs/45338714994 (`f66a531`): SDK import preflight, frontend and reproducibility passed; backend reached 416 passes/four skips but failed ECC discovery's requirement for 100 locally installed skills. Replaced that machine-specific dependency with nine original temporary source documents, preserving department/detail/sync assertions and adding byte equality/idempotent sync checks. CI later integrity checks remain unexecuted until a successful test step.
+
 - Inspected GitHub run https://github.com/dev4-gpt/ResearchOS/actions/runs/45309065824 for pushed `afc09af`: frontend and reproducibility jobs succeeded; integrity submission/provenance checks passed, but pytest collection failed on missing `openai` and `pymupdf`. Later integrity steps did not run. CI resolved dspy 3.5.0 transitively despite the dspy-ai 3.3.0 compatibility pin. Added direct dspy 3.3.0, openai 2.53.0 and PyMuPDF 1.28.2 requirements plus import preflight. Clean remote verification remains pending the follow-up commit/push.
 
 - Monitor parser/output and response-size protections added with ten passing regression tests. Full backend verification running on the final local tree; no frontend changes since its passing build/tests.

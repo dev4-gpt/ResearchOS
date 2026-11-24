@@ -173,12 +173,27 @@ def test_voxcpm_audio_service_synthesis_and_personas():
         assert res2["cached"] is True
 
 
-def test_ecc_skill_loader_discovery_and_sync():
-    """Verify ECC skill loader discovers 280+ skills and syncs core skills."""
-    loader = ECCSkillLoader()
+def test_ecc_skill_loader_discovery_and_sync(tmp_path):
+    """Discover and sync known fixture skills without operator-installed repos."""
+    source = tmp_path / 'source'
+    names = ['autonomous-loops', 'autonomous-agent-harness', 'agent-eval',
+             'agent-self-evaluation', 'agent-architecture-audit', 'benchmark-methodology',
+             'benchmark-optimization-loop', 'agentic-engineering', 'article-writing']
+    for name in names:
+        folder = source / name
+        folder.mkdir(parents=True)
+        (folder / 'SKILL.md').write_text(
+            f'---\nname: {name}\ndescription: Synthetic tasks for coding agents\n---\n'
+            '# Original discovery fixture\n'
+            'Use this original test document to verify discovery, parsing and copying. '
+            'It contains no upstream instructions and is never executed.\n'
+        )
+    # A directory without SKILL.md must not be counted or discovered.
+    (source / 'not-a-skill').mkdir()
+    loader = ECCSkillLoader(custom_skills_path=str(source))
     status = loader.get_status()
     assert status["available"] is True
-    assert status["total_skills_discovered"] >= 100
+    assert status["total_skills_discovered"] == len(names)
 
     # Test filtering by department
     eng_skills = loader.list_skills(department="Engineering", limit=20)
@@ -199,6 +214,8 @@ def test_ecc_skill_loader_discovery_and_sync():
         dest = Path(tmpdir)
         assert (dest / "agent-eval" / "SKILL.md").exists()
         assert (dest / "autonomous-loops" / "SKILL.md").exists()
+        assert (dest / 'agent-eval/SKILL.md').read_bytes() == (source / 'agent-eval/SKILL.md').read_bytes()
+        assert loader.sync_core_skills_to_workspace(target_dir=tmpdir)['copied_count'] == 0
 
 
 if __name__ == "__main__":
@@ -213,5 +230,6 @@ if __name__ == "__main__":
     print("Running test_voxcpm_audio_service_synthesis_and_personas...")
     test_voxcpm_audio_service_synthesis_and_personas()
     print("Running test_ecc_skill_loader_discovery_and_sync...")
-    test_ecc_skill_loader_discovery_and_sync()
+    with tempfile.TemporaryDirectory() as fixture_dir:
+        test_ecc_skill_loader_discovery_and_sync(Path(fixture_dir))
     print("\nALL 6 EVOMAP, VOXCPM & ECC TESTS PASSED SUCCESSFULLY!")
