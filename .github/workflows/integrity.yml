@@ -94,6 +94,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-ci.txt
 
+      - name: Verify publisher and provider SDK imports
+        run: python -c 'import openai, pymupdf; from openai.types.chat import ChatCompletion'
+
       - name: Submission gate
         run: python scripts/run_submission_gate.py
 

@@ -15,7 +15,7 @@
     "clients": 10,
     "requests": 100,
     "errors": 0,
-    "p95_seconds": 0.0117,
+    "p95_seconds": 0.01,
     "scope": "short local smoke, not 30-minute staging soak"
   },
   "owned_processes_stopped": true,

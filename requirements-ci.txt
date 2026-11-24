@@ -31,10 +31,13 @@ matplotlib==3.11.1
 z3-solver==5.1.0.0
 
 # Imported at module scope by the dry-run tests, which assert these are never
-# actually called. openai arrives transitively via dspy-ai and needs no entry.
+# actually called. Declare imported SDKs explicitly: dspy-ai's compatibility
+# package no longer guarantees that the OpenAI SDK is installed transitively.
 google-genai==2.17.0
 langgraph==1.2.11
 dspy-ai==3.3.0
+dspy==3.3.0
+openai==2.53.0
 
 # Backend service tests
 fastapi==0.136.3
@@ -45,8 +48,9 @@ python-dotenv==1.2.2
 
 # Literature ingestion touched by the vault tests. PyPDF2 is deliberately absent:
 # the scripts that want it fall back to it only when pypdf is missing, and pypdf
-# is here. pymupdf is absent because no test imports it.
+# is here. Publisher layout tests import visual_auditor, which requires PyMuPDF.
 pypdf==6.14.2
+PyMuPDF==1.28.2
 
 # Test runner
 pytest==9.0.3

@@ -24,6 +24,8 @@
 
 ## Completion follow-up
 
+- Inspected GitHub run https://github.com/dev4-gpt/ResearchOS/actions/runs/45309065824 for pushed `afc09af`: frontend and reproducibility jobs succeeded; integrity submission/provenance checks passed, but pytest collection failed on missing `openai` and `pymupdf`. Later integrity steps did not run. CI resolved dspy 3.5.0 transitively despite the dspy-ai 3.3.0 compatibility pin. Added direct dspy 3.3.0, openai 2.53.0 and PyMuPDF 1.28.2 requirements plus import preflight. Clean remote verification remains pending the follow-up commit/push.
+
 - Monitor parser/output and response-size protections added with ten passing regression tests. Full backend verification running on the final local tree; no frontend changes since its passing build/tests.
 - Operator has not selected a deployment destination. Explained API-backed operation needs no application-host GPU. Read-only storage inspection: Mac has 1.8 GiB available; Docker Desktop directory is 26 GB. No files, images, volumes or containers removed.
 - Existing hosting, live workflow inputs/budget, alert and backup/recovery targets remain required; no infrastructure provisioned.

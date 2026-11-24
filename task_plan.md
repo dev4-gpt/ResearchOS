@@ -12,6 +12,8 @@ Goal: execute `production-release-finish-plan.md` and report evidence without tr
 
 ## Constraints / errors
 
+- GitHub run 45309065824 for `afc09af`: frontend and reproducibility jobs passed, including actual frozen installation/source checks. Integrity failed during test collection because CI omitted OpenAI and PyMuPDF imports. Added explicit versions matching the local validated environment, pinned dspy implementation to avoid observed 3.5.0 transitive drift, and added an import preflight. Remote rerun requires a follow-up push.
+
 - Preserve unrelated vault changes; do not reset the original $5 spending ledger or make unauthorized paid calls.
 - Existing Git metadata writes and Docker socket access have been denied in this session. Do not bypass those boundaries.
 - Initial planning files did not exist; created them without replacing other plans.
